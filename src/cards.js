@@ -27,7 +27,22 @@ fetch("./src/cards.json").then(x => x.json()).then(x => {
   CARD_MAP = x;
   CARD_ARRAY = Object.values(x);
 
-  CARDS = draw(cardN(), false, true);
+  let card_params = window.location.search.replace('?','').split(',');
+
+  if (card_params.length > 0) {
+    CARDS = card_params.map(code => {
+      let reversed = code[code.length-1] == "r";
+      if (reversed) {
+        code = code.slice(0, code.length - 1)
+      }
+      let card = CARD_MAP[code];
+      card.upright = !reversed;
+      return card
+    })
+  } else {
+    CARDS = draw(cardN(), false, true);
+  }
+
 
   refreshList(false, true);
 });
@@ -53,6 +68,7 @@ function refreshList(){
     </li>`;
   }).join("");
   showCards();
+  updateURL();
 }
 
 function showCards() {
@@ -63,6 +79,12 @@ function showCards() {
       </div>
     `
   }).join("");
+}
+function cardString() {
+  return CARDS.map(c => c.code + (c.upright ? "" : "r")).join(",")
+}
+function updateURL() {
+  window.history.replaceState({}, '', `${window.location.pathname}?${cardString()}`);
 }
 
 function drawRandom(){
@@ -76,6 +98,7 @@ function changedCard(i, el){
   CARDS[i] = CARD_MAP[el.value]
   CARDS[i].upright = upright;
   showCards();
+  updateURL();
 }
 
 function classy(el, cls, pred) {
@@ -88,6 +111,7 @@ function flippedCard(i, el){
   // showCards();
   el.classList = [upright ? "select-upright" : "select-reversed"];
   el.innerText = upright ? "upright": "reversed";
+  updateURL();
 }
 
 function alwaysReverse(el) {
