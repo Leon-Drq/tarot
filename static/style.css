@@ -147,11 +147,33 @@ input[type=checkbox] {
   display: flex;
   gap: 1em;
 }
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s;
+}
 #cardImages img {
+  /* todo: better flex-width options */
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: -10px;
   width: 527px;
-
+  transition: transform 0.3s;
 }
 
-#cardImages .reversed {
+.reversed img {
   transform: rotate(180deg);
+}
+.reversed {
+  background-color: rgb(255, 197, 197);
+}
+
+.alwaysReverse .reversed img, .reversed:hover img {
+  transform: rotate(0deg) scale(0.9);
+}
+
+footer {
+  opacity: 0.8;
+  font-size: 0.8em;
 }

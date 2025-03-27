@@ -39,7 +39,7 @@
             <button type="button" class="select-reversed">reversed</button>
           </li>
           <li>
-            <select><option>Seven of pentacles</option></select>
+            <select><option>7 of pentacles</option></select>
             <button type="button" class="select-reversed">reversed</button>
           </li>
         </ul>
@@ -60,10 +60,29 @@
           </ul>
         </form>
       </article>
-    </main>
+      <noscript>
+        It appears you have JavaScript disabled! Apologies; this is a static website, so JS is needed for functionality :(
+      </noscript>
       <div id="cardImages">
-        Fool! You haven't written any code to show the cards yet!
+        <div class="card">
+          <img src="cards/Wands01.png">
+        </div>
+        <div class="card">
+          <img src="cards/03-TheEmpress.png" class="reversed">
+        </div>
+        <div class="card">
+          <img src="cards/Pentacles07.png" class="reversed">
+        </div>
       </div>
-    </content>
+    </main>
 
+    <footer>
+      by <a href="https://yunru.se/">Mia</a>
+      · <a href="https://github.com/yunruse/tarot">source code</a>
+      · <a href="https://creativecommons.org/public-domain/cc0/">public domain</a>
+      · <input type="checkbox" onclick="alwaysReverse(this)"> show reversed cards upright in red
+    </footer>
+
+
+  </content>
 </body>

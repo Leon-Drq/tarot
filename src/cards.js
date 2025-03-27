@@ -43,7 +43,7 @@ function refreshList(){
   cardList.innerHTML = CARDS.map((card, i) => {
     let align = card.upright ? "upright" : "reversed";
     return `
-    <li value='${i}'>
+    <li>
       <select selected="${card.code}" onchange="changedCard(${i}, this)">
         ${CARD_ARRAY.map(c => `
           <option value=${c.code} ${c.code == card.code ? "selected" : ""}>${c.name}</option>
@@ -58,8 +58,8 @@ function refreshList(){
 function showCards() {
   cardImages.innerHTML = CARDS.map((card, i) => {
     return `
-      <div>
-        <img src="cards/${card.png}" class='${card.upright ? "" : "reversed"}'>
+      <div class="${card.upright ? "card" : "card reversed"}">
+        <img src="cards/${card.png}">
       </div>
     `
   }).join("");
@@ -78,9 +78,18 @@ function changedCard(i, el){
   showCards();
 }
 
+function classy(el, cls, pred) {
+  pred ? el.classList.add(cls) : el.classList.remove(cls);
+}
+
 function flippedCard(i, el){
   let upright = CARDS[i].upright = !CARDS[i].upright;
-  showCards();
+  classy(cardImages.children[i], "reversed", !upright);
+  // showCards();
   el.classList = [upright ? "select-upright" : "select-reversed"];
   el.innerText = upright ? "upright": "reversed";
+}
+
+function alwaysReverse(el) {
+  classy(cardImages, "alwaysReverse", el.checked);
 }
