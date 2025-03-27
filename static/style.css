@@ -1,0 +1,153 @@
+/* General HTML */
+
+a {
+  color: rgb(255, 122, 209);
+}
+
+a:visited {
+  color: rgb(164, 59, 128);
+}
+
+/* Header */
+
+header p {
+  display: inline;
+  font-size: 1.25em;
+  font-weight: bolder;
+}
+
+header img {
+  display: inline;
+  height: 64px;
+  margin: 0;
+}
+
+body {
+  background-color: #DA047D;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+content {
+  display: inline-block;
+  position: relative;
+  background-color: white;
+  width: 99%;
+  max-width: 90vw;
+  padding: 1em;
+}
+
+/* Segments */
+
+h2 {
+  display: none;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+}
+
+article {
+  position: relative;
+  min-width: 40%;
+  background-color: hsl(320, 100%, 99%);
+  flex-basis: 200px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+article img {
+  margin: none;
+  float: right;
+  transform: translateY(5px);
+}
+
+
+/* Gradienting */
+
+.zune-header {
+  background-image: url(zune.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  display: block;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  max-width: 800px;
+  left: 0;
+}
+
+
+.zune-spacer-mainpage {
+  height: 50vh;
+  max-height: 50vw;
+}
+
+@media (min-width: 800px) {
+  .zune-spacer-mainpage {
+    max-height: 400px;
+  }
+}
+
+.zune-spacer {
+  height: 20vh;
+  max-height: 20vw;
+}
+
+@media (min-width: 800px) {
+  .zune-spacer {
+    max-height: 150px;
+  }
+}
+
+.bottom-right-gradient {
+  display: block;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(340deg, #FD7928 0em, #DA047D 20em);
+}
+
+/* BELOW is tarot specifics. above is yunru.se nonsense */
+
+ul {
+  padding-left: 0.5em;
+}
+
+li {
+  list-style: " ";
+}
+
+input[type=checkbox] {
+  padding-left: 1em
+}
+
+#cardList li select {
+  width: 11.75em;
+}
+#cardList li button {
+  width: 5em;
+}
+
+.select-upright {
+  background-color: silver;
+  border: none;
+}
+.select-reversed {
+  background-color: rgb(255, 197, 197);
+  border: none;
+}
+
+#cardImages {
+  display: flex;
+  gap: 1em;
+}
+
+#cardImages .reversed {
+  transform: rotate(180deg);
+}
