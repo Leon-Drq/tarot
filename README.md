@@ -1,11 +1,12 @@
-# tarot
+# [tarot](https://yunru.se/tarot)
 
-A small little site for drawing Tarot cards – or displaying those you've drawn.
+[![A screenshot of the Tarot site in action](screenshot.png)](https://yunru.se/tarot)
 
-Hopefully a bit easier than reading by eye!
+A small little site for drawing Tarot cards, or quickly sharing those you've drawn.
+Cards can be saved quickly as an image; you can share the URL, too.
 
 ## Credit
 
-This project is CC0. It's not particularly fancy! Use it for whatever you want.
+This project is [public domain under CC0](https://creativecommons.org/public-domain/cc0/); do what you want with it!
 
-The 78-card Rider-Waite Tarot deck was designed by Pamela Colman Smith; scans were sourced from [lucielalles](https://luciellaes.itch.io/rider-waite-smith-tarot-cards-cc0).
+Scans of [Pamela Colman Smith's famous cards](https://en.wikipedia.org/wiki/Rider–Waite_Tarot), as interpreted by Waite and published by Rider (aka the Rider-Waite-Smith deck) were sourced from [lucielalles](https://luciellaes.itch.io/rider-waite-smith-tarot-cards-cc0).
