@@ -1,8 +1,8 @@
 
 function shuffle(arr) {
   var i = arr.length, j, temp;
-  while(--i > 0){
-    j = Math.floor(Math.random()*(i+1));
+  while (--i > 0) {
+    j = Math.floor(Math.random() * (i + 1));
     temp = arr[j];
     arr[j] = arr[i];
     arr[i] = temp;
@@ -28,8 +28,8 @@ fetch("./src/cards.json").then(x => x.json()).then(x => {
   CARD_ARRAY = Object.values(x);
 
   if (window.location.search) {
-    CARDS = window.location.search.replace('?','').split(',').map(code => {
-      let reversed = code[code.length-1] == "r";
+    CARDS = window.location.search.replace('?', '').split(',').map(code => {
+      let reversed = code[code.length - 1] == "r";
       if (reversed) {
         code = code.slice(0, code.length - 1)
       }
@@ -52,7 +52,7 @@ function cardN() {
   return 3;
 }
 
-function refreshList(){
+function refreshList() {
   cardList.innerHTML = CARDS.map((card, i) => {
     let align = card.upright ? "upright" : "reversed";
     return `
@@ -79,19 +79,31 @@ function showCards() {
     `
   }).join("");
 }
-function cardString() {
-  return CARDS.map(c => c.code + (c.upright ? "" : "r")).join(",")
-}
-function updateURL() {
-  window.history.replaceState({}, '', `${window.location.pathname}?${cardString()}`);
+
+function cardCode(card) {
+  if (typeof card === "string") {
+    console.warn(card, 'already a code?')
+    return card
+  }
+  if (typeof card !== "object") {
+    console.warn(card, "not an object!")
+  }
+  return card.code + (card.upright ? "" : "r")
 }
 
-function drawRandom(){
+function cardsString() {
+  return CARDS.map(cardCode).join(",")
+}
+function updateURL() {
+  window.history.replaceState({}, '', `${window.location.pathname}?${cardsString()}`);
+}
+
+function drawRandom() {
   CARDS = draw(cardN(), justMajor.checked, reversedOk.checked)
   refreshList();
 }
 
-function changedCard(i, el){
+function changedCard(i, el) {
   let upright = CARDS[i].upright;
   CARDS[i] = CARD_MAP[el.value]
   CARDS[i].upright = upright;
@@ -103,12 +115,12 @@ function classy(el, cls, pred) {
   pred ? el.classList.add(cls) : el.classList.remove(cls);
 }
 
-function flippedCard(i, el){
+function flippedCard(i, el) {
   let upright = CARDS[i].upright = !CARDS[i].upright;
   classy(cardImages.children[i], "reversed", !upright);
   // showCards();
   el.classList = [upright ? "select-upright" : "select-reversed"];
-  el.innerText = upright ? "upright": "reversed";
+  el.innerText = upright ? "upright" : "reversed";
   updateURL();
 }
 
@@ -123,7 +135,7 @@ function savePNG() {
     link.hidden = true;
     link.href = img;
     // todo: use url!
-    link.download = `tarot ${cardString()}.png`;
+    link.download = `tarot ${cardsString()}.png`;
     link.click();
   });
 }
