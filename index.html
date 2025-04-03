@@ -12,8 +12,9 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/static/icon32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/static/icon16.png">
   <link rel="manifest" href="/static/site.webmanifest">
-  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="src/interpret.js"></script>
   <script src="src/cards.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 
 <body>
@@ -21,7 +22,7 @@
   <content>
     <h1>
       Draw
-      <select id="drawAmount">
+      <select id="drawMode">
         <option value=3>three cards</option>
       </select>
       ...
@@ -32,15 +33,21 @@
         <h3>...from a list</h3>
         <ul id="cardList">
           <li>
-            <select><option>Ace of Wands</option></select>
+            <select>
+              <option>Ace of Wands</option>
+            </select>
             <button type="button" class="select-upright">upright</button>
           </li>
           <li>
-            <select><option>III The High Priestess</option></select>
+            <select>
+              <option>III The High Priestess</option>
+            </select>
             <button type="button" class="select-reversed">reversed</button>
           </li>
           <li>
-            <select><option>7 of pentacles</option></select>
+            <select>
+              <option>7 of pentacles</option>
+            </select>
             <button type="button" class="select-reversed">reversed</button>
           </li>
         </ul>
@@ -62,7 +69,8 @@
         </form>
       </article>
       <noscript>
-        It appears you have JavaScript disabled! Apologies; this is a static website, so JS is needed for functionality :(
+        It appears you have JavaScript disabled! Apologies; this is a static website, so JS is needed for functionality
+        :(
       </noscript>
       <div id="cardImages">
         <div class="card">
@@ -75,6 +83,22 @@
           <img src="cards/Pentacles07.png" class="reversed">
         </div>
       </div>
+
+      <article>
+        <h3>
+          Interpret using
+          <select id="interpSelect" onchange="writeInterpretations()">
+            <option value="rider-waite">Rider-Waite</option>
+            <option value="labyrinthos">Labrynthos</option>
+          </select>:
+        </h3>
+        <ol id="interpretations">
+
+        </ol>
+        <p id="interpDesc">
+
+        </p>
+      </article>
     </main>
 
     <footer>

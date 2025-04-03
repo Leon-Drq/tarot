@@ -46,7 +46,7 @@ fetch("./src/cards.json").then(x => x.json()).then(x => {
 });
 
 function cardN() {
-  switch (drawAmount.value) {
+  switch (drawMode.value) {
     case "3": return 3;
   }
   return 3;
@@ -70,7 +70,6 @@ function refreshList() {
 }
 
 function showCards() {
-  // TODO: https://labyrinthos.co/blogs/tarot-card-meanings-list/six-of-wands-meaning-tarot-card-meanings - style url
   cardImages.innerHTML = CARDS.map((card, i) => {
     return `
       <div class="${card.upright ? "card" : "card reversed"}">
@@ -78,6 +77,7 @@ function showCards() {
       </div>
     `
   }).join("");
+  writeInterpretations();
 }
 
 function cardCode(card) {
@@ -122,6 +122,7 @@ function flippedCard(i, el) {
   el.classList = [upright ? "select-upright" : "select-reversed"];
   el.innerText = upright ? "upright" : "reversed";
   updateURL();
+  writeInterpretations();
 }
 
 function alwaysReverse(el) {
