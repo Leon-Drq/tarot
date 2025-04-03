@@ -70,6 +70,7 @@ function refreshList(){
 }
 
 function showCards() {
+  // TODO: https://labyrinthos.co/blogs/tarot-card-meanings-list/six-of-wands-meaning-tarot-card-meanings - style url
   cardImages.innerHTML = CARDS.map((card, i) => {
     return `
       <div class="${card.upright ? "card" : "card reversed"}">

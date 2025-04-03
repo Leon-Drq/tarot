@@ -115,6 +115,10 @@ article img {
 
 /* BELOW is tarot specifics. above is yunru.se nonsense */
 
+article h3 {
+  margin-top: 0.5em;
+}
+
 ul {
   padding-left: 0.5em;
 }
@@ -162,15 +166,15 @@ input[type=checkbox] {
   transition: transform 0.3s;
 }
 
-.reversed img {
-  transform: rotate(180deg);
+.reversed img, .alwaysReverse .reversed:hover img  {
+  transform: rotate(0deg) scale(0.9);
 }
 .reversed {
   background-color: rgb(255, 197, 197);
 }
 
-.alwaysReverse .reversed img, .reversed:hover img {
-  transform: rotate(0deg) scale(0.9);
+.alwaysReverse .reversed img {
+  transform: rotate(180deg);
 }
 
 footer {
