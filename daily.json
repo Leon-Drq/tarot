@@ -1,29 +1,29 @@
 {
-  "date": "2025-04-10",
+  "date": "2025-04-12",
   "cards": [
     {
-      "code": "w11r",
-      "png": "Wands11.png",
-      "name": "Page of Wands, reversed",
-      "type": "Wands",
-      "upright": false,
-      "interpretation": "hasty, impatient, lacking ideas, tantrums, laziness, boring, unreliable, distracted"
-    },
-    {
-      "code": "w8",
-      "png": "Wands08.png",
-      "name": "8 of Wands",
-      "type": "Wands",
-      "upright": true,
-      "interpretation": "movement, speed, progress, quick decisions, sudden changes, excitement"
-    },
-    {
-      "code": "s13",
-      "png": "Swords13.png",
-      "name": "Queen of Swords",
+      "code": "s7r",
+      "png": "Swords07.png",
+      "name": "7 of Swords, reversed",
       "type": "Swords",
-      "upright": true,
-      "interpretation": "honest, independent, principled, fair, constructive criticism, objective, perceptive"
+      "upright": false,
+      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
+    },
+    {
+      "code": "s13r",
+      "png": "Swords13.png",
+      "name": "Queen of Swords, reversed",
+      "type": "Swords",
+      "upright": false,
+      "interpretation": "pessimistic, malicious, manipulative, harsh, bitter, spiteful, cruel, deceitful, unforgiving"
+    },
+    {
+      "code": "2r",
+      "png": "02-TheHighPriestess.png",
+      "name": "\u2161 The High Priestess, reversed",
+      "type": "MajorArcana",
+      "upright": false,
+      "interpretation": "repressed intuition, hidden motives, superficiality, confusion, cognitive dissonance"
     }
   ]
 }
