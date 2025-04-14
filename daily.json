@@ -1,23 +1,23 @@
 {
-  "date": "2025-04-13",
+  "date": "2025-04-14",
   "cards": [
     {
-      "code": "p4",
-      "name": "4 of Pentacles",
-      "upright": true,
-      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
-    },
-    {
-      "code": "c4",
-      "name": "4 of Cups, reversed",
+      "code": "s11",
+      "name": "Page of Swords, reversed",
       "upright": false,
-      "interpretation": "clarity, awareness, acceptance, choosing happiness, depression, negativity"
+      "interpretation": "scatterbrained, cynical, sarcastic, gossipy, insulting, rude, lack of planning"
     },
     {
-      "code": "c13",
-      "name": "Queen of Cups",
+      "code": "s9",
+      "name": "9 of Swords",
       "upright": true,
-      "interpretation": "compassion, warmth, kindness, intuition, healer, counsellor, supportive"
+      "interpretation": "fear, anxiety, negativity, breaking point, despair, nightmares, isolation"
+    },
+    {
+      "code": "w12",
+      "name": "Knight of Wands, reversed",
+      "upright": false,
+      "interpretation": "arrogant, reckless, impatient, lack of self control, passive, volatile, domineering"
     }
   ]
 }
