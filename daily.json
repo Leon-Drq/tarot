@@ -1,23 +1,23 @@
 {
-  "date": "2025-04-14",
+  "date": "2025-04-15",
   "cards": [
     {
-      "code": "s11",
-      "name": "Page of Swords, reversed",
-      "upright": false,
-      "interpretation": "scatterbrained, cynical, sarcastic, gossipy, insulting, rude, lack of planning"
-    },
-    {
-      "code": "s9",
-      "name": "9 of Swords",
+      "code": "17",
+      "name": "\u2169\u2166 The Star",
       "upright": true,
-      "interpretation": "fear, anxiety, negativity, breaking point, despair, nightmares, isolation"
+      "interpretation": "hope, inspiration, positivity, faith, renewal, healing, rejuvenation"
     },
     {
-      "code": "w12",
-      "name": "Knight of Wands, reversed",
+      "code": "p13",
+      "name": "Queen of Pentacles",
+      "upright": true,
+      "interpretation": "generous, caring, nurturing, homebody, good business sense, practical, comforting, welcoming, sensible, luxurious"
+    },
+    {
+      "code": "w14",
+      "name": "King of Wands, reversed",
       "upright": false,
-      "interpretation": "arrogant, reckless, impatient, lack of self control, passive, volatile, domineering"
+      "interpretation": "forceful, domineering, tyrant, vicious, powerless, ineffective, weak leader"
     }
   ]
 }
