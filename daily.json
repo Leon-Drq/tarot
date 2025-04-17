@@ -1,23 +1,23 @@
 {
-  "date": "2025-04-16",
+  "date": "2025-04-17",
   "cards": [
     {
-      "code": "c5",
-      "name": "5 of Cups",
-      "upright": true,
-      "interpretation": "loss, grief, disappointment, sadness, mourning, discontent, feeling let down"
+      "code": "c10",
+      "name": "10 of Cups, reversed",
+      "upright": false,
+      "interpretation": "unhappy home, separation, domestic conflict, disharmony, isolation"
     },
     {
-      "code": "p10",
-      "name": "10 of Pentacles",
+      "code": "s9",
+      "name": "9 of Swords",
       "upright": true,
-      "interpretation": "legacy, roots, family, ancestry, inheritance, windfall, foundations, privilege, affluence, stability, tradition"
+      "interpretation": "fear, anxiety, negativity, breaking point, despair, nightmares, isolation"
     },
     {
-      "code": "c1",
-      "name": "Ace of Cups",
+      "code": "10",
+      "name": "\u2169 Wheel of Fortune",
       "upright": true,
-      "interpretation": "love, new feelings, emotional awakening, creativity, spirituality, intuition"
+      "interpretation": "change, cycles, fate, decisive moments, luck, fortune, unexpected events"
     }
   ]
 }
