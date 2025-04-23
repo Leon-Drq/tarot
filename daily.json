@@ -1,23 +1,23 @@
 {
-  "date": "2025-04-22",
+  "date": "2025-04-23",
   "cards": [
     {
-      "code": "2",
-      "name": "\u2161 The High Priestess, reversed",
+      "code": "c11",
+      "name": "Page of Cups, reversed",
       "upright": false,
-      "interpretation": "repressed intuition, hidden motives, superficiality, confusion, cognitive dissonance"
+      "interpretation": "emotional vulnerability, immaturity, neglecting inner child, escapism, insecurity"
     },
     {
-      "code": "w4",
-      "name": "4 of Wands",
+      "code": "8",
+      "name": "\u2167 Strength",
       "upright": true,
-      "interpretation": "community, home, celebrations, reunions, parties, gatherings, stability, belonging"
+      "interpretation": "courage, bravery, confidence, compassion, self-confidence, inner power"
     },
     {
-      "code": "15",
-      "name": "\u2169\u2164 The Devil, reversed",
+      "code": "12",
+      "name": "\u2169\u2161 The Hanged Man, reversed",
       "upright": false,
-      "interpretation": "independence, freedom, revelation, release, reclaiming power, reclaiming control"
+      "interpretation": "stalling, disinterest, stagnation, avoiding sacrifice, standstill, apathy"
     }
   ]
 }
