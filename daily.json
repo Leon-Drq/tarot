@@ -1,23 +1,23 @@
 {
-  "date": "2025-04-25",
+  "date": "2025-04-26",
   "cards": [
+    {
+      "code": "s12",
+      "name": "Knight of Swords, reversed",
+      "upright": false,
+      "interpretation": "rude, tactless, forceful, bully, aggressive, vicious, ruthless, arrogant"
+    },
+    {
+      "code": "c2",
+      "name": "2 of Cups",
+      "upright": true,
+      "interpretation": "unity, partnership, attraction, connection, close bonds, joining forces, mutual respect"
+    },
     {
       "code": "p1",
       "name": "Ace of Pentacles, reversed",
       "upright": false,
       "interpretation": "missed chances, scarcity, deficiency, instability, stinginess, bad investments"
-    },
-    {
-      "code": "s11",
-      "name": "Page of Swords, reversed",
-      "upright": false,
-      "interpretation": "scatterbrained, cynical, sarcastic, gossipy, insulting, rude, lack of planning"
-    },
-    {
-      "code": "c4",
-      "name": "4 of Cups",
-      "upright": true,
-      "interpretation": "apathy, contemplation, feeling disconnected, melancholy, boredom, indifference, discontent"
     }
   ]
 }
