@@ -1,23 +1,23 @@
 {
-  "date": "2025-04-27",
+  "date": "2025-04-28",
   "cards": [
     {
-      "code": "p8",
-      "name": "8 of Pentacles",
-      "upright": true,
-      "interpretation": "skill, talent, craftsmanship, quality, high standards, expertise, mastery, commitment, dedication, accomplishment"
+      "code": "w1",
+      "name": "Ace of Wands, reversed",
+      "upright": false,
+      "interpretation": "delays, blocks, lack of passion, lack of energy, hesitancy, creative blocks"
     },
     {
-      "code": "c1",
-      "name": "Ace of Cups",
-      "upright": true,
-      "interpretation": "love, new feelings, emotional awakening, creativity, spirituality, intuition"
+      "code": "p14",
+      "name": "King of Pentacles, reversed",
+      "upright": false,
+      "interpretation": "greed, materialistic, wasteful, chauvanist, poor financial decisions, gambler, exploitative, possessive"
     },
     {
-      "code": "c14",
-      "name": "King of Cups",
+      "code": "p4",
+      "name": "4 of Pentacles",
       "upright": true,
-      "interpretation": "wise, diplomatic, balance between head and heart, devoted, advisor, counsellor"
+      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
     }
   ]
 }
