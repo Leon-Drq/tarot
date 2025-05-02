@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-01",
+  "date": "2025-05-02",
   "cards": [
     {
-      "code": "2",
-      "name": "\u2161 The High Priestess, reversed",
+      "code": "c13",
+      "name": "Queen of Cups, reversed",
       "upright": false,
-      "interpretation": "repressed intuition, hidden motives, superficiality, confusion, cognitive dissonance"
+      "interpretation": "insecurity, giving too much, overly-sensitive, needy, fragile, dependence, martyrdom"
     },
     {
-      "code": "c11",
-      "name": "Page of Cups",
-      "upright": true,
-      "interpretation": "idealism, sensitivity, dreamer, naivete, innocence, inner child, head in the clouds"
+      "code": "w4",
+      "name": "4 of Wands, reversed",
+      "upright": false,
+      "interpretation": "lack of support, instability, feeling unwelcome, transience, lack of roots, home conflict"
     },
     {
-      "code": "s13",
-      "name": "Queen of Swords",
+      "code": "5",
+      "name": "\u2164 The Hierophant",
       "upright": true,
-      "interpretation": "honest, independent, principled, fair, constructive criticism, objective, perceptive"
+      "interpretation": "tradition, social groups, conventionality, conformity, education, knowledge, beliefs"
     }
   ]
 }
