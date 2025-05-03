@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-02",
+  "date": "2025-05-03",
   "cards": [
     {
-      "code": "c13",
-      "name": "Queen of Cups, reversed",
-      "upright": false,
-      "interpretation": "insecurity, giving too much, overly-sensitive, needy, fragile, dependence, martyrdom"
-    },
-    {
-      "code": "w4",
-      "name": "4 of Wands, reversed",
-      "upright": false,
-      "interpretation": "lack of support, instability, feeling unwelcome, transience, lack of roots, home conflict"
-    },
-    {
-      "code": "5",
-      "name": "\u2164 The Hierophant",
+      "code": "s3",
+      "name": "3 of Swords",
       "upright": true,
-      "interpretation": "tradition, social groups, conventionality, conformity, education, knowledge, beliefs"
+      "interpretation": "heartbreak, separation, sadness, grief, sorrow, upset, loss, trauma, tears"
+    },
+    {
+      "code": "w2",
+      "name": "2 of Wands, reversed",
+      "upright": false,
+      "interpretation": "bad planning, overanalyzing, not taking action, playing it safe, avoiding risk"
+    },
+    {
+      "code": "15",
+      "name": "\u2169\u2164 The Devil, reversed",
+      "upright": false,
+      "interpretation": "independence, freedom, revelation, release, reclaiming power, reclaiming control"
     }
   ]
 }
