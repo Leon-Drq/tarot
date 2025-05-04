@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-03",
+  "date": "2025-05-04",
   "cards": [
     {
       "code": "s3",
-      "name": "3 of Swords",
+      "name": "3 of Swords, reversed",
+      "upright": false,
+      "interpretation": "healing, forgiveness, recovery, reconciliation, repressing emotions"
+    },
+    {
+      "code": "16",
+      "name": "\u2169\u2165 The Tower",
       "upright": true,
-      "interpretation": "heartbreak, separation, sadness, grief, sorrow, upset, loss, trauma, tears"
+      "interpretation": "disaster, destruction, upheaval, trauma, sudden change, chaos"
     },
     {
-      "code": "w2",
-      "name": "2 of Wands, reversed",
-      "upright": false,
-      "interpretation": "bad planning, overanalyzing, not taking action, playing it safe, avoiding risk"
-    },
-    {
-      "code": "15",
-      "name": "\u2169\u2164 The Devil, reversed",
-      "upright": false,
-      "interpretation": "independence, freedom, revelation, release, reclaiming power, reclaiming control"
+      "code": "2",
+      "name": "\u2161 The High Priestess",
+      "upright": true,
+      "interpretation": "unconscious, intuition, mystery, spirituality, higher power, inner voice"
     }
   ]
 }
