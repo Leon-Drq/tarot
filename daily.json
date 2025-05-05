@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-04",
+  "date": "2025-05-05",
   "cards": [
     {
-      "code": "s3",
-      "name": "3 of Swords, reversed",
-      "upright": false,
-      "interpretation": "healing, forgiveness, recovery, reconciliation, repressing emotions"
-    },
-    {
-      "code": "16",
-      "name": "\u2169\u2165 The Tower",
-      "upright": true,
-      "interpretation": "disaster, destruction, upheaval, trauma, sudden change, chaos"
-    },
-    {
       "code": "2",
-      "name": "\u2161 The High Priestess",
+      "name": "\u2161 The High Priestess, reversed",
+      "upright": false,
+      "interpretation": "repressed intuition, hidden motives, superficiality, confusion, cognitive dissonance"
+    },
+    {
+      "code": "p4",
+      "name": "4 of Pentacles, reversed",
+      "upright": false,
+      "interpretation": "generosity, giving, spending, openness, financial insecurity, reckless spending"
+    },
+    {
+      "code": "w14",
+      "name": "King of Wands",
       "upright": true,
-      "interpretation": "unconscious, intuition, mystery, spirituality, higher power, inner voice"
+      "interpretation": "leadership, vision, big picture, taking control, daring decisions, boldness, optimism"
     }
   ]
 }
