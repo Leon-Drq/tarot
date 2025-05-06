@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-05",
+  "date": "2025-05-06",
   "cards": [
     {
-      "code": "2",
-      "name": "\u2161 The High Priestess, reversed",
+      "code": "p1",
+      "name": "Ace of Pentacles, reversed",
       "upright": false,
-      "interpretation": "repressed intuition, hidden motives, superficiality, confusion, cognitive dissonance"
+      "interpretation": "missed chances, scarcity, deficiency, instability, stinginess, bad investments"
     },
     {
-      "code": "p4",
-      "name": "4 of Pentacles, reversed",
+      "code": "11",
+      "name": "\u2169\u2160 Justice, reversed",
       "upright": false,
-      "interpretation": "generosity, giving, spending, openness, financial insecurity, reckless spending"
+      "interpretation": "injustice, retribution, dishonesty, corruption, dishonesty, unfairness, avoiding accountability"
     },
     {
-      "code": "w14",
-      "name": "King of Wands",
+      "code": "s6",
+      "name": "6 of Swords",
       "upright": true,
-      "interpretation": "leadership, vision, big picture, taking control, daring decisions, boldness, optimism"
+      "interpretation": "moving on, departure, leaving behind, distance, accepting lessons"
     }
   ]
 }
