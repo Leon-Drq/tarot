@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-08",
+  "date": "2025-05-09",
   "cards": [
     {
-      "code": "c9",
-      "name": "9 of Cups",
-      "upright": true,
-      "interpretation": "wishes coming true, contentment, satisfaction, success, achievements, recognition, pleasure"
-    },
-    {
-      "code": "s8",
-      "name": "8 of Swords",
-      "upright": true,
-      "interpretation": "trapped, restricted, victimised, paralysed, helpless, powerless, imprisonment"
-    },
-    {
-      "code": "s12",
-      "name": "Knight of Swords, reversed",
+      "code": "w4",
+      "name": "4 of Wands, reversed",
       "upright": false,
-      "interpretation": "rude, tactless, forceful, bully, aggressive, vicious, ruthless, arrogant"
+      "interpretation": "lack of support, instability, feeling unwelcome, transience, lack of roots, home conflict"
+    },
+    {
+      "code": "7",
+      "name": "\u2166 The Chariot, reversed",
+      "upright": false,
+      "interpretation": "forceful, no direction, no control, powerless, aggression, obstacles"
+    },
+    {
+      "code": "s7",
+      "name": "7 of Swords, reversed",
+      "upright": false,
+      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
     }
   ]
 }
