@@ -1,6 +1,12 @@
 {
-  "date": "2025-05-11",
+  "date": "2025-05-12",
   "cards": [
+    {
+      "code": "c8",
+      "name": "8 of Cups",
+      "upright": true,
+      "interpretation": "abandonment, walking away, letting go, searching for truth, leaving behind"
+    },
     {
       "code": "p14",
       "name": "King of Pentacles, reversed",
@@ -8,16 +14,10 @@
       "interpretation": "greed, materialistic, wasteful, chauvanist, poor financial decisions, gambler, exploitative, possessive"
     },
     {
-      "code": "16",
-      "name": "\u2169\u2165 The Tower",
-      "upright": true,
-      "interpretation": "disaster, destruction, upheaval, trauma, sudden change, chaos"
-    },
-    {
-      "code": "c10",
-      "name": "10 of Cups",
-      "upright": true,
-      "interpretation": "happiness, homecomings, fulfillment, emotional stability, security, domestic harmony"
+      "code": "c1",
+      "name": "Ace of Cups, reversed",
+      "upright": false,
+      "interpretation": "coldness, emptiness, emotional loss, blocked creativity, feeling unloved, gloominess"
     }
   ]
 }
