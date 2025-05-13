@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-12",
+  "date": "2025-05-13",
   "cards": [
     {
-      "code": "c8",
-      "name": "8 of Cups",
+      "code": "w8",
+      "name": "8 of Wands",
       "upright": true,
-      "interpretation": "abandonment, walking away, letting go, searching for truth, leaving behind"
+      "interpretation": "movement, speed, progress, quick decisions, sudden changes, excitement"
     },
     {
-      "code": "p14",
-      "name": "King of Pentacles, reversed",
+      "code": "s9",
+      "name": "9 of Swords, reversed",
       "upright": false,
-      "interpretation": "greed, materialistic, wasteful, chauvanist, poor financial decisions, gambler, exploitative, possessive"
+      "interpretation": "recovery, learning to cope, facing life, finding help, shame, guilt, mental health issues"
     },
     {
-      "code": "c1",
-      "name": "Ace of Cups, reversed",
+      "code": "2",
+      "name": "\u2161 The High Priestess, reversed",
       "upright": false,
-      "interpretation": "coldness, emptiness, emotional loss, blocked creativity, feeling unloved, gloominess"
+      "interpretation": "repressed intuition, hidden motives, superficiality, confusion, cognitive dissonance"
     }
   ]
 }
