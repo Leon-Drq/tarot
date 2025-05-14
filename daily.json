@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-13",
+  "date": "2025-05-14",
   "cards": [
     {
       "code": "w8",
-      "name": "8 of Wands",
+      "name": "8 of Wands, reversed",
+      "upright": false,
+      "interpretation": "waiting, slowness, chaos, delays, losing momentum, hastiness, being unprepared"
+    },
+    {
+      "code": "4",
+      "name": "\u2163 The Emperor",
       "upright": true,
-      "interpretation": "movement, speed, progress, quick decisions, sudden changes, excitement"
+      "interpretation": "stability, structure, protection, authority, control, practicality, focus, discipline"
     },
     {
-      "code": "s9",
-      "name": "9 of Swords, reversed",
+      "code": "s7",
+      "name": "7 of Swords, reversed",
       "upright": false,
-      "interpretation": "recovery, learning to cope, facing life, finding help, shame, guilt, mental health issues"
-    },
-    {
-      "code": "2",
-      "name": "\u2161 The High Priestess, reversed",
-      "upright": false,
-      "interpretation": "repressed intuition, hidden motives, superficiality, confusion, cognitive dissonance"
+      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
     }
   ]
 }
