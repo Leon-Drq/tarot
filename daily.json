@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-14",
+  "date": "2025-05-15",
   "cards": [
     {
-      "code": "w8",
-      "name": "8 of Wands, reversed",
+      "code": "s10",
+      "name": "10 of Swords, reversed",
       "upright": false,
-      "interpretation": "waiting, slowness, chaos, delays, losing momentum, hastiness, being unprepared"
+      "interpretation": "survival, improvement, healing, lessons learned, despair, relapse"
     },
     {
-      "code": "4",
-      "name": "\u2163 The Emperor",
+      "code": "8",
+      "name": "\u2167 Strength",
       "upright": true,
-      "interpretation": "stability, structure, protection, authority, control, practicality, focus, discipline"
+      "interpretation": "courage, bravery, confidence, compassion, self-confidence, inner power"
     },
     {
-      "code": "s7",
-      "name": "7 of Swords, reversed",
+      "code": "9",
+      "name": "\u2168 The Hermit, reversed",
       "upright": false,
-      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
+      "interpretation": "loneliness, isolation, recluse, being anti-social, rejection, returning to society"
     }
   ]
 }
