@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-15",
+  "date": "2025-05-16",
   "cards": [
     {
-      "code": "s10",
-      "name": "10 of Swords, reversed",
+      "code": "c9",
+      "name": "9 of Cups, reversed",
       "upright": false,
-      "interpretation": "survival, improvement, healing, lessons learned, despair, relapse"
+      "interpretation": "unhappiness, lack of fulfilment, disappointment, underachievement, arrogance, snobbery"
     },
     {
-      "code": "8",
-      "name": "\u2167 Strength",
+      "code": "w13",
+      "name": "Queen of Wands, reversed",
+      "upright": false,
+      "interpretation": "demanding, vengeful, low confidence, jealous, selfish, temperamental, bully"
+    },
+    {
+      "code": "p4",
+      "name": "4 of Pentacles",
       "upright": true,
-      "interpretation": "courage, bravery, confidence, compassion, self-confidence, inner power"
-    },
-    {
-      "code": "9",
-      "name": "\u2168 The Hermit, reversed",
-      "upright": false,
-      "interpretation": "loneliness, isolation, recluse, being anti-social, rejection, returning to society"
+      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
     }
   ]
 }
