@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-16",
+  "date": "2025-05-17",
   "cards": [
     {
-      "code": "c9",
-      "name": "9 of Cups, reversed",
-      "upright": false,
-      "interpretation": "unhappiness, lack of fulfilment, disappointment, underachievement, arrogance, snobbery"
-    },
-    {
-      "code": "w13",
-      "name": "Queen of Wands, reversed",
-      "upright": false,
-      "interpretation": "demanding, vengeful, low confidence, jealous, selfish, temperamental, bully"
-    },
-    {
-      "code": "p4",
-      "name": "4 of Pentacles",
+      "code": "2",
+      "name": "\u2161 The High Priestess",
       "upright": true,
-      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
+      "interpretation": "unconscious, intuition, mystery, spirituality, higher power, inner voice"
+    },
+    {
+      "code": "s4",
+      "name": "4 of Swords",
+      "upright": true,
+      "interpretation": "rest, relaxation, peace, sanctuary, recuperation, self-protection, rejuvenation"
+    },
+    {
+      "code": "p2",
+      "name": "2 of Pentacles",
+      "upright": true,
+      "interpretation": "balancing resources, adaptation, resourcefulness, flexibility, stretching resources"
     }
   ]
 }
