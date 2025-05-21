@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-20",
+  "date": "2025-05-21",
   "cards": [
     {
-      "code": "6",
-      "name": "\u2165 The Lovers",
+      "code": "c4",
+      "name": "4 of Cups",
       "upright": true,
-      "interpretation": "love, unions, partnerships, relationships, choices, romance, balance, unity"
+      "interpretation": "apathy, contemplation, feeling disconnected, melancholy, boredom, indifference, discontent"
     },
     {
-      "code": "c8",
-      "name": "8 of Cups",
+      "code": "c10",
+      "name": "10 of Cups",
       "upright": true,
-      "interpretation": "abandonment, walking away, letting go, searching for truth, leaving behind"
+      "interpretation": "happiness, homecomings, fulfillment, emotional stability, security, domestic harmony"
     },
     {
-      "code": "p12",
-      "name": "Knight of Pentacles, reversed",
+      "code": "s8",
+      "name": "8 of Swords, reversed",
       "upright": false,
-      "interpretation": "workaholic, laziness, dull, boring, no initiative, cheap, irresponsible, gambler, risky investments"
+      "interpretation": "freedom, release, taking control, survivor, facing fears, empowered, surrender"
     }
   ]
 }
