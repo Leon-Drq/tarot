@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-25",
+  "date": "2025-05-26",
   "cards": [
     {
-      "code": "c12",
-      "name": "Knight of Cups, reversed",
+      "code": "w9",
+      "name": "9 of Wands, reversed",
       "upright": false,
-      "interpretation": "disappointment, tantrums, moodiness, turmoil, avoiding conflict, vanity"
+      "interpretation": "stubbornness, rigidity, defensiveness, refusing compromise, giving up"
     },
     {
-      "code": "s1",
-      "name": "Ace of Swords",
+      "code": "s11",
+      "name": "Page of Swords, reversed",
+      "upright": false,
+      "interpretation": "scatterbrained, cynical, sarcastic, gossipy, insulting, rude, lack of planning"
+    },
+    {
+      "code": "3",
+      "name": "\u2162 The Empress",
       "upright": true,
-      "interpretation": "clarity, breakthrough, new idea, concentration, vision, force, focus, truth"
-    },
-    {
-      "code": "7",
-      "name": "\u2166 The Chariot, reversed",
-      "upright": false,
-      "interpretation": "forceful, no direction, no control, powerless, aggression, obstacles"
+      "interpretation": "divine feminine, sensuality, fertility, nurturing, creativity, beauty, abundance, nature"
     }
   ]
 }
