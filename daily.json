@@ -1,5 +1,5 @@
 {
-  "date": "2025-05-28",
+  "date": "2025-05-29",
   "cards": [
     {
       "code": "c4",
@@ -8,16 +8,16 @@
       "interpretation": "apathy, contemplation, feeling disconnected, melancholy, boredom, indifference, discontent"
     },
     {
-      "code": "12",
-      "name": "\u2169\u2161 The Hanged Man",
-      "upright": true,
-      "interpretation": "sacrifice, waiting, uncertainty, lack of direction, perspective, contemplation"
+      "code": "7",
+      "name": "\u2166 The Chariot, reversed",
+      "upright": false,
+      "interpretation": "forceful, no direction, no control, powerless, aggression, obstacles"
     },
     {
-      "code": "w1",
-      "name": "Ace of Wands, reversed",
-      "upright": false,
-      "interpretation": "delays, blocks, lack of passion, lack of energy, hesitancy, creative blocks"
+      "code": "c1",
+      "name": "Ace of Cups",
+      "upright": true,
+      "interpretation": "love, new feelings, emotional awakening, creativity, spirituality, intuition"
     }
   ]
 }
