@@ -1,23 +1,23 @@
 {
-  "date": "2025-05-31",
+  "date": "2025-06-01",
   "cards": [
     {
-      "code": "s5",
-      "name": "5 of Swords",
-      "upright": true,
-      "interpretation": "arguments, disputes, aggression, bullying, intimidation, conflict, hostility, stress"
-    },
-    {
-      "code": "p4",
-      "name": "4 of Pentacles",
-      "upright": true,
-      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
-    },
-    {
-      "code": "w11",
-      "name": "Page of Wands, reversed",
+      "code": "8",
+      "name": "\u2167 Strength, reversed",
       "upright": false,
-      "interpretation": "hasty, impatient, lacking ideas, tantrums, laziness, boring, unreliable, distracted"
+      "interpretation": "self-doubt, weakness, low confidence, inadequacy, cowardice, forcefulness"
+    },
+    {
+      "code": "p10",
+      "name": "10 of Pentacles",
+      "upright": true,
+      "interpretation": "legacy, roots, family, ancestry, inheritance, windfall, foundations, privilege, affluence, stability, tradition"
+    },
+    {
+      "code": "p1",
+      "name": "Ace of Pentacles, reversed",
+      "upright": false,
+      "interpretation": "missed chances, scarcity, deficiency, instability, stinginess, bad investments"
     }
   ]
 }
