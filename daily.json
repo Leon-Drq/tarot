@@ -1,23 +1,23 @@
 {
-  "date": "2025-06-04",
+  "date": "2025-06-05",
   "cards": [
     {
-      "code": "19",
-      "name": "\u2169\u2168 The Sun, reversed",
-      "upright": false,
-      "interpretation": "blocked happiness, excessive enthusiasm, pessimism, unrealistic expectations, conceitedness"
+      "code": "w8",
+      "name": "8 of Wands",
+      "upright": true,
+      "interpretation": "movement, speed, progress, quick decisions, sudden changes, excitement"
     },
     {
-      "code": "c10",
-      "name": "10 of Cups, reversed",
+      "code": "p9",
+      "name": "9 of Pentacles, reversed",
       "upright": false,
-      "interpretation": "unhappy home, separation, domestic conflict, disharmony, isolation"
+      "interpretation": "being guarded, living beyond means, material instability, reckless spending, superficiality"
     },
     {
-      "code": "w6",
-      "name": "6 of Wands, reversed",
+      "code": "c8",
+      "name": "8 of Cups, reversed",
       "upright": false,
-      "interpretation": "failure, lack of recognition, no rewards, lack of achievement"
+      "interpretation": "stagnation, monotony, accepting less, avoidance, fear of change, staying in bad situation"
     }
   ]
 }
