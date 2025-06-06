@@ -1,23 +1,23 @@
 {
-  "date": "2025-06-05",
+  "date": "2025-06-06",
   "cards": [
     {
-      "code": "w8",
-      "name": "8 of Wands",
+      "code": "c4",
+      "name": "4 of Cups",
       "upright": true,
-      "interpretation": "movement, speed, progress, quick decisions, sudden changes, excitement"
+      "interpretation": "apathy, contemplation, feeling disconnected, melancholy, boredom, indifference, discontent"
     },
     {
-      "code": "p9",
-      "name": "9 of Pentacles, reversed",
+      "code": "c6",
+      "name": "6 of Cups, reversed",
       "upright": false,
-      "interpretation": "being guarded, living beyond means, material instability, reckless spending, superficiality"
+      "interpretation": "stuck in past, moving forward, leaving home, independence"
     },
     {
-      "code": "c8",
-      "name": "8 of Cups, reversed",
+      "code": "s2",
+      "name": "2 of Swords, reversed",
       "upright": false,
-      "interpretation": "stagnation, monotony, accepting less, avoidance, fear of change, staying in bad situation"
+      "interpretation": "indecision, hesitancy, anxiety, too much information, no right choice, truth revealed"
     }
   ]
 }
