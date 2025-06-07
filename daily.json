@@ -1,23 +1,23 @@
 {
-  "date": "2025-06-06",
+  "date": "2025-06-07",
   "cards": [
     {
-      "code": "c4",
-      "name": "4 of Cups",
+      "code": "w6",
+      "name": "6 of Wands",
       "upright": true,
-      "interpretation": "apathy, contemplation, feeling disconnected, melancholy, boredom, indifference, discontent"
+      "interpretation": "success, victory, triumph, rewards, recognition, praise, acclaim, pride"
     },
     {
-      "code": "c6",
-      "name": "6 of Cups, reversed",
-      "upright": false,
-      "interpretation": "stuck in past, moving forward, leaving home, independence"
+      "code": "p3",
+      "name": "3 of Pentacles",
+      "upright": true,
+      "interpretation": "teamwork, shared goals, collaboration, apprenticeship, effort, pooling energy"
     },
     {
-      "code": "s2",
-      "name": "2 of Swords, reversed",
+      "code": "w4",
+      "name": "4 of Wands, reversed",
       "upright": false,
-      "interpretation": "indecision, hesitancy, anxiety, too much information, no right choice, truth revealed"
+      "interpretation": "lack of support, instability, feeling unwelcome, transience, lack of roots, home conflict"
     }
   ]
 }
