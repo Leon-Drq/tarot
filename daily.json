@@ -1,23 +1,23 @@
 {
-  "date": "2025-06-08",
+  "date": "2025-06-09",
   "cards": [
     {
-      "code": "c7",
-      "name": "7 of Cups",
+      "code": "17",
+      "name": "\u2169\u2166 The Star",
       "upright": true,
-      "interpretation": "choices, searching for purpose, illusion, fantasy, daydreaming, wishful thinking, indecision"
+      "interpretation": "hope, inspiration, positivity, faith, renewal, healing, rejuvenation"
     },
     {
-      "code": "w5",
-      "name": "5 of Wands, reversed",
-      "upright": false,
-      "interpretation": "end of conflict, cooperation, agreements, truces, harmony, peace, avoiding conflict"
+      "code": "2",
+      "name": "\u2161 The High Priestess",
+      "upright": true,
+      "interpretation": "unconscious, intuition, mystery, spirituality, higher power, inner voice"
     },
     {
-      "code": "c6",
-      "name": "6 of Cups",
+      "code": "p9",
+      "name": "9 of Pentacles",
       "upright": true,
-      "interpretation": "nostalgia, memories, familiarity, healing, comfort, sentimentality, pleasure"
+      "interpretation": "rewarded efforts, success, achievement, independence, leisure, material security, self-sufficiency"
     }
   ]
 }
