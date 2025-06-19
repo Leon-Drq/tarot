@@ -1,23 +1,23 @@
 {
-  "date": "2025-06-18",
+  "date": "2025-06-19",
   "cards": [
     {
-      "code": "14",
-      "name": "\u2169\u2163 Temperance",
-      "upright": true,
-      "interpretation": "balance, peace, patience, moderation, calm, tranquillity, harmony, serenity"
+      "code": "w2",
+      "name": "2 of Wands, reversed",
+      "upright": false,
+      "interpretation": "bad planning, overanalyzing, not taking action, playing it safe, avoiding risk"
     },
     {
-      "code": "c11",
-      "name": "Page of Cups",
-      "upright": true,
-      "interpretation": "idealism, sensitivity, dreamer, naivete, innocence, inner child, head in the clouds"
+      "code": "s2",
+      "name": "2 of Swords, reversed",
+      "upright": false,
+      "interpretation": "indecision, hesitancy, anxiety, too much information, no right choice, truth revealed"
     },
     {
-      "code": "12",
-      "name": "\u2169\u2161 The Hanged Man",
+      "code": "5",
+      "name": "\u2164 The Hierophant",
       "upright": true,
-      "interpretation": "sacrifice, waiting, uncertainty, lack of direction, perspective, contemplation"
+      "interpretation": "tradition, social groups, conventionality, conformity, education, knowledge, beliefs"
     }
   ]
 }
