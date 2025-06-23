@@ -1,23 +1,23 @@
 {
-  "date": "2025-06-22",
+  "date": "2025-06-23",
   "cards": [
     {
-      "code": "p10",
-      "name": "10 of Pentacles",
+      "code": "4",
+      "name": "\u2163 The Emperor",
       "upright": true,
-      "interpretation": "legacy, roots, family, ancestry, inheritance, windfall, foundations, privilege, affluence, stability, tradition"
+      "interpretation": "stability, structure, protection, authority, control, practicality, focus, discipline"
     },
     {
-      "code": "19",
-      "name": "\u2169\u2168 The Sun",
+      "code": "18",
+      "name": "\u2169\u2167 The Moon",
       "upright": true,
-      "interpretation": "happiness, success, optimism, vitality, joy, confidence, happiness, truth"
+      "interpretation": "illusion, intuition, uncertainty, confusion, complexity, secrets, unconscious"
     },
     {
-      "code": "w5",
-      "name": "5 of Wands",
-      "upright": true,
-      "interpretation": "conflict, competition, arguments, aggression, tension, rivals, clashes of ego"
+      "code": "0",
+      "name": "0 The Fool, reversed",
+      "upright": false,
+      "interpretation": "reckless, careless, distracted, naive, foolish, gullible, stale, dull"
     }
   ]
 }
