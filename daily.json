@@ -1,23 +1,23 @@
 {
-  "date": "2025-06-24",
+  "date": "2025-06-25",
   "cards": [
     {
-      "code": "11",
-      "name": "\u2169\u2160 Justice",
+      "code": "5",
+      "name": "\u2164 The Hierophant",
       "upright": true,
-      "interpretation": "justice, karma, consequence, accountability, law, truth, honesty, integrity, cause and effect"
+      "interpretation": "tradition, social groups, conventionality, conformity, education, knowledge, beliefs"
     },
     {
-      "code": "s4",
-      "name": "4 of Swords, reversed",
-      "upright": false,
-      "interpretation": "recovery, awakening, re-entering world, release from isolation, restlessness, burnout"
+      "code": "p7",
+      "name": "7 of Pentacles",
+      "upright": true,
+      "interpretation": "harvest, rewards, results, growth, progress, perseverance, patience, planning"
     },
     {
-      "code": "c3",
-      "name": "3 of Cups, reversed",
+      "code": "c14",
+      "name": "King of Cups, reversed",
       "upright": false,
-      "interpretation": "gossip, scandal, excess, isolation, loneliness, solitude, imbalanced social life"
+      "interpretation": "overwhelmed, anxious, cold, repressed, withdrawn, manipulative, selfish"
     }
   ]
 }
