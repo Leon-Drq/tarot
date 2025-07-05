@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-04",
+  "date": "2025-07-05",
   "cards": [
     {
-      "code": "w10",
-      "name": "10 of Wands",
+      "code": "w12",
+      "name": "Knight of Wands",
       "upright": true,
-      "interpretation": "burden, responsibility, duty, stress, obligation, burning out, struggles"
+      "interpretation": "courageous, energetic, charming, hero, rebellious, hot tempered, free spirit"
     },
     {
-      "code": "c9",
-      "name": "9 of Cups",
+      "code": "s3",
+      "name": "3 of Swords",
       "upright": true,
-      "interpretation": "wishes coming true, contentment, satisfaction, success, achievements, recognition, pleasure"
+      "interpretation": "heartbreak, separation, sadness, grief, sorrow, upset, loss, trauma, tears"
     },
     {
-      "code": "10",
-      "name": "\u2169 Wheel of Fortune, reversed",
+      "code": "s7",
+      "name": "7 of Swords, reversed",
       "upright": false,
-      "interpretation": "bad luck, lack of control, clinging to control, unwelcome changes, delays"
+      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
     }
   ]
 }
