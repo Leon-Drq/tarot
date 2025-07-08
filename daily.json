@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-07",
+  "date": "2025-07-08",
   "cards": [
     {
-      "code": "w4",
-      "name": "4 of Wands",
-      "upright": true,
-      "interpretation": "community, home, celebrations, reunions, parties, gatherings, stability, belonging"
+      "code": "13",
+      "name": "\u2169\u2162 Death, reversed",
+      "upright": false,
+      "interpretation": "fear of change, repeating negative patterns, resisting change, stagnancy, decay"
     },
     {
-      "code": "s3",
-      "name": "3 of Swords",
+      "code": "c12",
+      "name": "Knight of Cups",
       "upright": true,
-      "interpretation": "heartbreak, separation, sadness, grief, sorrow, upset, loss, trauma, tears"
+      "interpretation": "idealist, charming, artistic, graceful, tactful, diplomatic, mediator, negotiator"
     },
     {
-      "code": "p4",
-      "name": "4 of Pentacles",
+      "code": "4",
+      "name": "\u2163 The Emperor",
       "upright": true,
-      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
+      "interpretation": "stability, structure, protection, authority, control, practicality, focus, discipline"
     }
   ]
 }
