@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-10",
+  "date": "2025-07-11",
   "cards": [
     {
-      "code": "w7",
-      "name": "7 of Wands",
-      "upright": true,
-      "interpretation": "protectiveness, standing up for yourself, defending yourself, protecting territory"
+      "code": "s1",
+      "name": "Ace of Swords, reversed",
+      "upright": false,
+      "interpretation": "confusion, miscommunication, hostility, arguments, destruction, brutality"
+    },
+    {
+      "code": "18",
+      "name": "\u2169\u2167 The Moon, reversed",
+      "upright": false,
+      "interpretation": "fear, deception, anxiety, misunderstanding, misinterpretation, clarity, understanding"
     },
     {
       "code": "s8",
-      "name": "8 of Swords",
-      "upright": true,
-      "interpretation": "trapped, restricted, victimised, paralysed, helpless, powerless, imprisonment"
-    },
-    {
-      "code": "20",
-      "name": "\u2169\u2169 Judgement, reversed",
+      "name": "8 of Swords, reversed",
       "upright": false,
-      "interpretation": "self-doubt, lack of self-awareness, failure to learn lessons, self-loathing"
+      "interpretation": "freedom, release, taking control, survivor, facing fears, empowered, surrender"
     }
   ]
 }
