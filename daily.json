@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-11",
+  "date": "2025-07-12",
   "cards": [
     {
-      "code": "s1",
-      "name": "Ace of Swords, reversed",
+      "code": "s9",
+      "name": "9 of Swords, reversed",
       "upright": false,
-      "interpretation": "confusion, miscommunication, hostility, arguments, destruction, brutality"
+      "interpretation": "recovery, learning to cope, facing life, finding help, shame, guilt, mental health issues"
     },
     {
-      "code": "18",
-      "name": "\u2169\u2167 The Moon, reversed",
+      "code": "s14",
+      "name": "King of Swords, reversed",
       "upright": false,
-      "interpretation": "fear, deception, anxiety, misunderstanding, misinterpretation, clarity, understanding"
+      "interpretation": "irrational, dictator, oppressive, inhumane, controlling, cold, ruthless, dishonest"
     },
     {
-      "code": "s8",
-      "name": "8 of Swords, reversed",
-      "upright": false,
-      "interpretation": "freedom, release, taking control, survivor, facing fears, empowered, surrender"
+      "code": "s3",
+      "name": "3 of Swords",
+      "upright": true,
+      "interpretation": "heartbreak, separation, sadness, grief, sorrow, upset, loss, trauma, tears"
     }
   ]
 }
