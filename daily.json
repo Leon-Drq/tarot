@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-14",
+  "date": "2025-07-15",
   "cards": [
     {
-      "code": "c12",
-      "name": "Knight of Cups, reversed",
+      "code": "w2",
+      "name": "2 of Wands, reversed",
       "upright": false,
-      "interpretation": "disappointment, tantrums, moodiness, turmoil, avoiding conflict, vanity"
+      "interpretation": "bad planning, overanalyzing, not taking action, playing it safe, avoiding risk"
     },
     {
-      "code": "16",
-      "name": "\u2169\u2165 The Tower, reversed",
+      "code": "10",
+      "name": "\u2169 Wheel of Fortune, reversed",
       "upright": false,
-      "interpretation": "averting disaster, delaying the inevitable, resisting change"
+      "interpretation": "bad luck, lack of control, clinging to control, unwelcome changes, delays"
     },
     {
-      "code": "13",
-      "name": "\u2169\u2162 Death, reversed",
+      "code": "c9",
+      "name": "9 of Cups, reversed",
       "upright": false,
-      "interpretation": "fear of change, repeating negative patterns, resisting change, stagnancy, decay"
+      "interpretation": "unhappiness, lack of fulfilment, disappointment, underachievement, arrogance, snobbery"
     }
   ]
 }
