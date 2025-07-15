@@ -15,8 +15,11 @@ function writeInterpretations() {
     document.getElementById('interpretations').innerHTML = CARDS.map((card, i) => {
         const R = ", reversed"
         let cardName = card.name;
-        if (!card.upright && !cardName.endsWith(R) ) {
+        if (!card.upright && !cardName.endsWith(R)) {
             cardName += R;
+        }
+        if (card.upright && cardName.endsWith(R)) {
+            cardName = cardName.replace(R, "");
         }
         return `<li>
             <span class='interpCard'><b>${cardName}</b>: ${interp[cardCode(card)]}</span>
