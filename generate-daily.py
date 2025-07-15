@@ -9,8 +9,9 @@ CARDS = list(json.loads(Path('src/cards.json').read_text()).values())
 
 shuffle(CARDS)
 cards = CARDS[:3]
-for c in cards:
-    c['upright'] = random() > 0.5
+for i, c in enumerate(cards):
+    # The first card is traditionally always upright
+    c['upright'] = random() > 0.5 if i else True
     code = c['code']
     if not c['upright']:
         code += 'r'
