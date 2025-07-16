@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-15",
+  "date": "2025-07-16",
   "cards": [
     {
-      "code": "w2",
-      "name": "2 of Wands, reversed",
-      "upright": false,
-      "interpretation": "bad planning, overanalyzing, not taking action, playing it safe, avoiding risk"
+      "code": "15",
+      "name": "\u2169\u2164 The Devil",
+      "upright": true,
+      "interpretation": "oppression, addiction, obsession, dependency, excess, powerlessness, limitations"
     },
     {
-      "code": "10",
-      "name": "\u2169 Wheel of Fortune, reversed",
-      "upright": false,
-      "interpretation": "bad luck, lack of control, clinging to control, unwelcome changes, delays"
+      "code": "w5",
+      "name": "5 of Wands",
+      "upright": true,
+      "interpretation": "conflict, competition, arguments, aggression, tension, rivals, clashes of ego"
     },
     {
-      "code": "c9",
-      "name": "9 of Cups, reversed",
-      "upright": false,
-      "interpretation": "unhappiness, lack of fulfilment, disappointment, underachievement, arrogance, snobbery"
+      "code": "9",
+      "name": "\u2168 The Hermit",
+      "upright": true,
+      "interpretation": "self-reflection, introspection, contemplation, withdrawal, solitude, search for self"
     }
   ]
 }
