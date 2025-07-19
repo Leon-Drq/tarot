@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-18",
+  "date": "2025-07-19",
   "cards": [
     {
-      "code": "5",
-      "name": "\u2164 The Hierophant",
+      "code": "17",
+      "name": "\u2169\u2166 The Star",
       "upright": true,
-      "interpretation": "tradition, social groups, conventionality, conformity, education, knowledge, beliefs"
+      "interpretation": "hope, inspiration, positivity, faith, renewal, healing, rejuvenation"
     },
     {
-      "code": "s2",
-      "name": "2 of Swords, reversed",
-      "upright": false,
-      "interpretation": "indecision, hesitancy, anxiety, too much information, no right choice, truth revealed"
+      "code": "p1",
+      "name": "Ace of Pentacles",
+      "upright": true,
+      "interpretation": "new opportunities, resources, abundance, prosperity, security, stability, manifestation"
     },
     {
-      "code": "c2",
-      "name": "2 of Cups, reversed",
-      "upright": false,
-      "interpretation": "separation, rejection, division, imbalance, tension, bad communication, withdrawal"
+      "code": "s7",
+      "name": "7 of Swords",
+      "upright": true,
+      "interpretation": "lies, trickery, scheming, strategy, resourcefulness, sneakiness, cunning"
     }
   ]
 }
