@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-21",
+  "date": "2025-07-22",
   "cards": [
     {
-      "code": "8",
-      "name": "\u2167 Strength",
+      "code": "c9",
+      "name": "9 of Cups",
       "upright": true,
-      "interpretation": "courage, bravery, confidence, compassion, self-confidence, inner power"
+      "interpretation": "wishes coming true, contentment, satisfaction, success, achievements, recognition, pleasure"
     },
     {
-      "code": "p9",
-      "name": "9 of Pentacles, reversed",
-      "upright": false,
-      "interpretation": "being guarded, living beyond means, material instability, reckless spending, superficiality"
+      "code": "c6",
+      "name": "6 of Cups",
+      "upright": true,
+      "interpretation": "nostalgia, memories, familiarity, healing, comfort, sentimentality, pleasure"
     },
     {
-      "code": "s8",
-      "name": "8 of Swords, reversed",
+      "code": "s7",
+      "name": "7 of Swords, reversed",
       "upright": false,
-      "interpretation": "freedom, release, taking control, survivor, facing fears, empowered, surrender"
+      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
     }
   ]
 }
