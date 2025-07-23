@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-22",
+  "date": "2025-07-23",
   "cards": [
     {
-      "code": "c9",
-      "name": "9 of Cups",
+      "code": "c2",
+      "name": "2 of Cups",
       "upright": true,
-      "interpretation": "wishes coming true, contentment, satisfaction, success, achievements, recognition, pleasure"
+      "interpretation": "unity, partnership, attraction, connection, close bonds, joining forces, mutual respect"
     },
     {
-      "code": "c6",
-      "name": "6 of Cups",
+      "code": "s10",
+      "name": "10 of Swords",
       "upright": true,
-      "interpretation": "nostalgia, memories, familiarity, healing, comfort, sentimentality, pleasure"
+      "interpretation": "ruin, failure, bitterness, collapse, exhaustion, dead end, victimization, betrayal"
     },
     {
-      "code": "s7",
-      "name": "7 of Swords, reversed",
-      "upright": false,
-      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
+      "code": "12",
+      "name": "\u2169\u2161 The Hanged Man",
+      "upright": true,
+      "interpretation": "sacrifice, waiting, uncertainty, lack of direction, perspective, contemplation"
     }
   ]
 }
