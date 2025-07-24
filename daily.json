@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-23",
+  "date": "2025-07-24",
   "cards": [
     {
-      "code": "c2",
-      "name": "2 of Cups",
+      "code": "c5",
+      "name": "5 of Cups",
       "upright": true,
-      "interpretation": "unity, partnership, attraction, connection, close bonds, joining forces, mutual respect"
+      "interpretation": "loss, grief, disappointment, sadness, mourning, discontent, feeling let down"
     },
     {
-      "code": "s10",
-      "name": "10 of Swords",
-      "upright": true,
-      "interpretation": "ruin, failure, bitterness, collapse, exhaustion, dead end, victimization, betrayal"
+      "code": "15",
+      "name": "\u2169\u2164 The Devil, reversed",
+      "upright": false,
+      "interpretation": "independence, freedom, revelation, release, reclaiming power, reclaiming control"
     },
     {
-      "code": "12",
-      "name": "\u2169\u2161 The Hanged Man",
+      "code": "w2",
+      "name": "2 of Wands",
       "upright": true,
-      "interpretation": "sacrifice, waiting, uncertainty, lack of direction, perspective, contemplation"
+      "interpretation": "planning, first steps, making decisions, leaving comfort, taking risks"
     }
   ]
 }
