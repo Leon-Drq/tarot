@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-26",
+  "date": "2025-07-27",
   "cards": [
     {
-      "code": "p9",
-      "name": "9 of Pentacles",
+      "code": "14",
+      "name": "\u2169\u2163 Temperance",
       "upright": true,
-      "interpretation": "rewarded efforts, success, achievement, independence, leisure, material security, self-sufficiency"
+      "interpretation": "balance, peace, patience, moderation, calm, tranquillity, harmony, serenity"
     },
     {
-      "code": "w5",
-      "name": "5 of Wands, reversed",
-      "upright": false,
-      "interpretation": "end of conflict, cooperation, agreements, truces, harmony, peace, avoiding conflict"
+      "code": "5",
+      "name": "\u2164 The Hierophant",
+      "upright": true,
+      "interpretation": "tradition, social groups, conventionality, conformity, education, knowledge, beliefs"
     },
     {
-      "code": "s2",
-      "name": "2 of Swords, reversed",
+      "code": "s8",
+      "name": "8 of Swords, reversed",
       "upright": false,
-      "interpretation": "indecision, hesitancy, anxiety, too much information, no right choice, truth revealed"
+      "interpretation": "freedom, release, taking control, survivor, facing fears, empowered, surrender"
     }
   ]
 }
