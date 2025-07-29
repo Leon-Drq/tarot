@@ -1,23 +1,23 @@
 {
-  "date": "2025-07-28",
+  "date": "2025-07-29",
   "cards": [
     {
-      "code": "p3",
-      "name": "3 of Pentacles",
+      "code": "s5",
+      "name": "5 of Swords",
       "upright": true,
-      "interpretation": "teamwork, shared goals, collaboration, apprenticeship, effort, pooling energy"
+      "interpretation": "arguments, disputes, aggression, bullying, intimidation, conflict, hostility, stress"
     },
     {
-      "code": "12",
-      "name": "\u2169\u2161 The Hanged Man",
+      "code": "8",
+      "name": "\u2167 Strength",
       "upright": true,
-      "interpretation": "sacrifice, waiting, uncertainty, lack of direction, perspective, contemplation"
+      "interpretation": "courage, bravery, confidence, compassion, self-confidence, inner power"
     },
     {
-      "code": "c5",
-      "name": "5 of Cups, reversed",
-      "upright": false,
-      "interpretation": "acceptance, moving on, finding peace, contentment, seeing positives"
+      "code": "w6",
+      "name": "6 of Wands",
+      "upright": true,
+      "interpretation": "success, victory, triumph, rewards, recognition, praise, acclaim, pride"
     }
   ]
 }
