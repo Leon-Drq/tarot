@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-01",
+  "date": "2025-08-02",
   "cards": [
     {
-      "code": "s13",
-      "name": "Queen of Swords",
+      "code": "c13",
+      "name": "Queen of Cups",
       "upright": true,
-      "interpretation": "honest, independent, principled, fair, constructive criticism, objective, perceptive"
+      "interpretation": "compassion, warmth, kindness, intuition, healer, counsellor, supportive"
     },
     {
-      "code": "s3",
-      "name": "3 of Swords",
+      "code": "s9",
+      "name": "9 of Swords",
       "upright": true,
-      "interpretation": "heartbreak, separation, sadness, grief, sorrow, upset, loss, trauma, tears"
+      "interpretation": "fear, anxiety, negativity, breaking point, despair, nightmares, isolation"
     },
     {
-      "code": "c6",
-      "name": "6 of Cups, reversed",
-      "upright": false,
-      "interpretation": "stuck in past, moving forward, leaving home, independence"
+      "code": "s11",
+      "name": "Page of Swords",
+      "upright": true,
+      "interpretation": "curious, witty, chatty, communicative, inspired, vigilant, alert, mental agility"
     }
   ]
 }
