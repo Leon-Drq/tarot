@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-04",
+  "date": "2025-08-05",
   "cards": [
     {
-      "code": "7",
-      "name": "\u2166 The Chariot",
+      "code": "c13",
+      "name": "Queen of Cups",
       "upright": true,
-      "interpretation": "success, ambition, determination, willpower, control, self-discipline, focus"
+      "interpretation": "compassion, warmth, kindness, intuition, healer, counsellor, supportive"
     },
     {
-      "code": "p4",
-      "name": "4 of Pentacles",
-      "upright": true,
-      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
-    },
-    {
-      "code": "p3",
-      "name": "3 of Pentacles, reversed",
+      "code": "w7",
+      "name": "7 of Wands, reversed",
       "upright": false,
-      "interpretation": "lack of cohesion, lack of teamwork, apathy, poor motivation, conflict, ego, competition"
+      "interpretation": "giving up, admitting defeat, yielding, lack of self belief, surrender"
+    },
+    {
+      "code": "w10",
+      "name": "10 of Wands, reversed",
+      "upright": false,
+      "interpretation": "failure to delegate, shouldering too much responsibility, collapse, breakdown"
     }
   ]
 }
