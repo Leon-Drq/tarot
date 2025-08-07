@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-06",
+  "date": "2025-08-07",
   "cards": [
     {
-      "code": "c10",
-      "name": "10 of Cups",
+      "code": "c9",
+      "name": "9 of Cups",
       "upright": true,
-      "interpretation": "happiness, homecomings, fulfillment, emotional stability, security, domestic harmony"
+      "interpretation": "wishes coming true, contentment, satisfaction, success, achievements, recognition, pleasure"
     },
     {
-      "code": "s2",
-      "name": "2 of Swords",
-      "upright": true,
-      "interpretation": "stalemate, difficult choices, stuck in the middle, denial, hidden information"
-    },
-    {
-      "code": "c11",
-      "name": "Page of Cups, reversed",
+      "code": "16",
+      "name": "\u2169\u2165 The Tower, reversed",
       "upright": false,
-      "interpretation": "emotional vulnerability, immaturity, neglecting inner child, escapism, insecurity"
+      "interpretation": "averting disaster, delaying the inevitable, resisting change"
+    },
+    {
+      "code": "w1",
+      "name": "Ace of Wands, reversed",
+      "upright": false,
+      "interpretation": "delays, blocks, lack of passion, lack of energy, hesitancy, creative blocks"
     }
   ]
 }
