@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-10",
+  "date": "2025-08-11",
   "cards": [
     {
-      "code": "p1",
-      "name": "Ace of Pentacles",
+      "code": "12",
+      "name": "\u2169\u2161 The Hanged Man",
       "upright": true,
-      "interpretation": "new opportunities, resources, abundance, prosperity, security, stability, manifestation"
+      "interpretation": "sacrifice, waiting, uncertainty, lack of direction, perspective, contemplation"
     },
     {
-      "code": "w2",
-      "name": "2 of Wands, reversed",
-      "upright": false,
-      "interpretation": "bad planning, overanalyzing, not taking action, playing it safe, avoiding risk"
+      "code": "w11",
+      "name": "Page of Wands",
+      "upright": true,
+      "interpretation": "adventure, excitement, fresh ideas, cheerfulness, energetic, fearless, extroverted"
     },
     {
-      "code": "p3",
-      "name": "3 of Pentacles",
+      "code": "13",
+      "name": "\u2169\u2162 Death",
       "upright": true,
-      "interpretation": "teamwork, shared goals, collaboration, apprenticeship, effort, pooling energy"
+      "interpretation": "transformation, endings, change, transition, letting go, release"
     }
   ]
 }
