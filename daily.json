@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-12",
+  "date": "2025-08-13",
   "cards": [
     {
-      "code": "c12",
-      "name": "Knight of Cups",
+      "code": "w13",
+      "name": "Queen of Wands",
       "upright": true,
-      "interpretation": "idealist, charming, artistic, graceful, tactful, diplomatic, mediator, negotiator"
+      "interpretation": "confident, self-assured, passionate, determined, social, charismatic, vivacious, optimistic"
     },
     {
-      "code": "s14",
-      "name": "King of Swords, reversed",
+      "code": "21",
+      "name": "\u2169\u2169\u2160 The World",
+      "upright": true,
+      "interpretation": "completion, achievement, fulfilment, sense of belonging, wholeness, harmony"
+    },
+    {
+      "code": "s1",
+      "name": "Ace of Swords, reversed",
       "upright": false,
-      "interpretation": "irrational, dictator, oppressive, inhumane, controlling, cold, ruthless, dishonest"
-    },
-    {
-      "code": "s12",
-      "name": "Knight of Swords",
-      "upright": true,
-      "interpretation": "assertive, direct, impatient, intellectual, daring, focused, perfectionist, ambitious"
+      "interpretation": "confusion, miscommunication, hostility, arguments, destruction, brutality"
     }
   ]
 }
