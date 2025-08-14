@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-13",
+  "date": "2025-08-14",
   "cards": [
     {
-      "code": "w13",
-      "name": "Queen of Wands",
+      "code": "6",
+      "name": "\u2165 The Lovers",
       "upright": true,
-      "interpretation": "confident, self-assured, passionate, determined, social, charismatic, vivacious, optimistic"
+      "interpretation": "love, unions, partnerships, relationships, choices, romance, balance, unity"
     },
     {
-      "code": "21",
-      "name": "\u2169\u2169\u2160 The World",
-      "upright": true,
-      "interpretation": "completion, achievement, fulfilment, sense of belonging, wholeness, harmony"
-    },
-    {
-      "code": "s1",
-      "name": "Ace of Swords, reversed",
+      "code": "16",
+      "name": "\u2169\u2165 The Tower, reversed",
       "upright": false,
-      "interpretation": "confusion, miscommunication, hostility, arguments, destruction, brutality"
+      "interpretation": "averting disaster, delaying the inevitable, resisting change"
+    },
+    {
+      "code": "c12",
+      "name": "Knight of Cups, reversed",
+      "upright": false,
+      "interpretation": "disappointment, tantrums, moodiness, turmoil, avoiding conflict, vanity"
     }
   ]
 }
