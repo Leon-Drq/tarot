@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-14",
+  "date": "2025-08-15",
   "cards": [
     {
-      "code": "6",
-      "name": "\u2165 The Lovers",
-      "upright": true,
-      "interpretation": "love, unions, partnerships, relationships, choices, romance, balance, unity"
-    },
-    {
-      "code": "16",
-      "name": "\u2169\u2165 The Tower, reversed",
-      "upright": false,
-      "interpretation": "averting disaster, delaying the inevitable, resisting change"
-    },
-    {
       "code": "c12",
-      "name": "Knight of Cups, reversed",
+      "name": "Knight of Cups",
+      "upright": true,
+      "interpretation": "idealist, charming, artistic, graceful, tactful, diplomatic, mediator, negotiator"
+    },
+    {
+      "code": "c5",
+      "name": "5 of Cups, reversed",
       "upright": false,
-      "interpretation": "disappointment, tantrums, moodiness, turmoil, avoiding conflict, vanity"
+      "interpretation": "acceptance, moving on, finding peace, contentment, seeing positives"
+    },
+    {
+      "code": "s11",
+      "name": "Page of Swords",
+      "upright": true,
+      "interpretation": "curious, witty, chatty, communicative, inspired, vigilant, alert, mental agility"
     }
   ]
 }
