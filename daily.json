@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-15",
+  "date": "2025-08-16",
   "cards": [
     {
-      "code": "c12",
-      "name": "Knight of Cups",
+      "code": "s10",
+      "name": "10 of Swords",
       "upright": true,
-      "interpretation": "idealist, charming, artistic, graceful, tactful, diplomatic, mediator, negotiator"
+      "interpretation": "ruin, failure, bitterness, collapse, exhaustion, dead end, victimization, betrayal"
     },
     {
-      "code": "c5",
-      "name": "5 of Cups, reversed",
+      "code": "s14",
+      "name": "King of Swords",
+      "upright": true,
+      "interpretation": "reason, authority, discipline, integrity, morality, serious, high standards, strict"
+    },
+    {
+      "code": "c4",
+      "name": "4 of Cups, reversed",
       "upright": false,
-      "interpretation": "acceptance, moving on, finding peace, contentment, seeing positives"
-    },
-    {
-      "code": "s11",
-      "name": "Page of Swords",
-      "upright": true,
-      "interpretation": "curious, witty, chatty, communicative, inspired, vigilant, alert, mental agility"
+      "interpretation": "clarity, awareness, acceptance, choosing happiness, depression, negativity"
     }
   ]
 }
