@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-20",
+  "date": "2025-08-21",
   "cards": [
     {
-      "code": "s4",
-      "name": "4 of Swords",
+      "code": "p2",
+      "name": "2 of Pentacles",
       "upright": true,
-      "interpretation": "rest, relaxation, peace, sanctuary, recuperation, self-protection, rejuvenation"
+      "interpretation": "balancing resources, adaptation, resourcefulness, flexibility, stretching resources"
     },
     {
-      "code": "p1",
-      "name": "Ace of Pentacles, reversed",
-      "upright": false,
-      "interpretation": "missed chances, scarcity, deficiency, instability, stinginess, bad investments"
+      "code": "c6",
+      "name": "6 of Cups",
+      "upright": true,
+      "interpretation": "nostalgia, memories, familiarity, healing, comfort, sentimentality, pleasure"
     },
     {
-      "code": "w2",
-      "name": "2 of Wands, reversed",
-      "upright": false,
-      "interpretation": "bad planning, overanalyzing, not taking action, playing it safe, avoiding risk"
+      "code": "5",
+      "name": "\u2164 The Hierophant",
+      "upright": true,
+      "interpretation": "tradition, social groups, conventionality, conformity, education, knowledge, beliefs"
     }
   ]
 }
