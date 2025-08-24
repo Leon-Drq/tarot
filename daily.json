@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-23",
+  "date": "2025-08-24",
   "cards": [
     {
-      "code": "p14",
-      "name": "King of Pentacles",
+      "code": "w13",
+      "name": "Queen of Wands",
       "upright": true,
-      "interpretation": "abundance, prosperity, security, ambitious, safe, kind, patriarchal, protective, businessman, provider, sensual, reliable"
+      "interpretation": "confident, self-assured, passionate, determined, social, charismatic, vivacious, optimistic"
     },
     {
-      "code": "s5",
-      "name": "5 of Swords, reversed",
+      "code": "19",
+      "name": "\u2169\u2168 The Sun, reversed",
       "upright": false,
-      "interpretation": "reconciliation, resolution, compromise, revenge, regret, remorse, cutting losses"
+      "interpretation": "blocked happiness, excessive enthusiasm, pessimism, unrealistic expectations, conceitedness"
     },
     {
-      "code": "s7",
-      "name": "7 of Swords, reversed",
-      "upright": false,
-      "interpretation": "confession, conscience, regret, maliciousness, truth revealed"
+      "code": "p2",
+      "name": "2 of Pentacles",
+      "upright": true,
+      "interpretation": "balancing resources, adaptation, resourcefulness, flexibility, stretching resources"
     }
   ]
 }
