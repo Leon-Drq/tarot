@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-27",
+  "date": "2025-08-28",
   "cards": [
     {
-      "code": "s13",
-      "name": "Queen of Swords",
+      "code": "p4",
+      "name": "4 of Pentacles",
       "upright": true,
-      "interpretation": "honest, independent, principled, fair, constructive criticism, objective, perceptive"
+      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
     },
     {
-      "code": "c1",
-      "name": "Ace of Cups, reversed",
+      "code": "s14",
+      "name": "King of Swords, reversed",
       "upright": false,
-      "interpretation": "coldness, emptiness, emotional loss, blocked creativity, feeling unloved, gloominess"
+      "interpretation": "irrational, dictator, oppressive, inhumane, controlling, cold, ruthless, dishonest"
     },
     {
-      "code": "p11",
-      "name": "Page of Pentacles, reversed",
-      "upright": false,
-      "interpretation": "foolish, immature, irresponsible, lazy, underachiever, procrastinator, missed chances, poor prospects"
+      "code": "1",
+      "name": "\u2160 The Magician",
+      "upright": true,
+      "interpretation": "willpower, desire, being resourceful, skill, ability, concentration, manifestation"
     }
   ]
 }
