@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-28",
+  "date": "2025-08-29",
   "cards": [
     {
-      "code": "p4",
-      "name": "4 of Pentacles",
+      "code": "13",
+      "name": "\u2169\u2162 Death",
       "upright": true,
-      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
+      "interpretation": "transformation, endings, change, transition, letting go, release"
     },
     {
-      "code": "s14",
-      "name": "King of Swords, reversed",
+      "code": "8",
+      "name": "\u2167 Strength, reversed",
       "upright": false,
-      "interpretation": "irrational, dictator, oppressive, inhumane, controlling, cold, ruthless, dishonest"
+      "interpretation": "self-doubt, weakness, low confidence, inadequacy, cowardice, forcefulness"
     },
     {
-      "code": "1",
-      "name": "\u2160 The Magician",
-      "upright": true,
-      "interpretation": "willpower, desire, being resourceful, skill, ability, concentration, manifestation"
+      "code": "9",
+      "name": "\u2168 The Hermit, reversed",
+      "upright": false,
+      "interpretation": "loneliness, isolation, recluse, being anti-social, rejection, returning to society"
     }
   ]
 }
