@@ -1,23 +1,23 @@
 {
-  "date": "2025-08-30",
+  "date": "2025-08-31",
   "cards": [
     {
+      "code": "s13",
+      "name": "Queen of Swords",
+      "upright": true,
+      "interpretation": "honest, independent, principled, fair, constructive criticism, objective, perceptive"
+    },
+    {
+      "code": "1",
+      "name": "\u2160 The Magician",
+      "upright": true,
+      "interpretation": "willpower, desire, being resourceful, skill, ability, concentration, manifestation"
+    },
+    {
       "code": "20",
-      "name": "\u2169\u2169 Judgement",
-      "upright": true,
-      "interpretation": "self-evaluation, awakening, renewal, purpose, reflection, reckoning"
-    },
-    {
-      "code": "p13",
-      "name": "Queen of Pentacles",
-      "upright": true,
-      "interpretation": "generous, caring, nurturing, homebody, good business sense, practical, comforting, welcoming, sensible, luxurious"
-    },
-    {
-      "code": "s9",
-      "name": "9 of Swords, reversed",
+      "name": "\u2169\u2169 Judgement, reversed",
       "upright": false,
-      "interpretation": "recovery, learning to cope, facing life, finding help, shame, guilt, mental health issues"
+      "interpretation": "self-doubt, lack of self-awareness, failure to learn lessons, self-loathing"
     }
   ]
 }
