@@ -1,23 +1,23 @@
 {
-  "date": "2025-09-01",
+  "date": "2025-09-02",
   "cards": [
     {
-      "code": "c10",
-      "name": "10 of Cups",
+      "code": "c13",
+      "name": "Queen of Cups",
       "upright": true,
-      "interpretation": "happiness, homecomings, fulfillment, emotional stability, security, domestic harmony"
+      "interpretation": "compassion, warmth, kindness, intuition, healer, counsellor, supportive"
     },
     {
-      "code": "s12",
-      "name": "Knight of Swords, reversed",
+      "code": "s11",
+      "name": "Page of Swords, reversed",
       "upright": false,
-      "interpretation": "rude, tactless, forceful, bully, aggressive, vicious, ruthless, arrogant"
+      "interpretation": "scatterbrained, cynical, sarcastic, gossipy, insulting, rude, lack of planning"
     },
     {
-      "code": "0",
-      "name": "0 The Fool, reversed",
-      "upright": false,
-      "interpretation": "reckless, careless, distracted, naive, foolish, gullible, stale, dull"
+      "code": "p4",
+      "name": "4 of Pentacles",
+      "upright": true,
+      "interpretation": "possessiveness, insecurity, hoarding, stinginess, stability, security, savings, materialism, wealth, frugality, boundaries, guardedness"
     }
   ]
 }
