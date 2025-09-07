@@ -1,23 +1,23 @@
 {
-  "date": "2025-09-06",
+  "date": "2025-09-07",
   "cards": [
     {
-      "code": "w12",
-      "name": "Knight of Wands",
+      "code": "w11",
+      "name": "Page of Wands",
       "upright": true,
-      "interpretation": "courageous, energetic, charming, hero, rebellious, hot tempered, free spirit"
+      "interpretation": "adventure, excitement, fresh ideas, cheerfulness, energetic, fearless, extroverted"
     },
     {
-      "code": "c7",
-      "name": "7 of Cups",
-      "upright": true,
-      "interpretation": "choices, searching for purpose, illusion, fantasy, daydreaming, wishful thinking, indecision"
-    },
-    {
-      "code": "14",
-      "name": "\u2169\u2163 Temperance, reversed",
+      "code": "p11",
+      "name": "Page of Pentacles, reversed",
       "upright": false,
-      "interpretation": "imbalance, excess, extremes, discord, recklessness, hastiness"
+      "interpretation": "foolish, immature, irresponsible, lazy, underachiever, procrastinator, missed chances, poor prospects"
+    },
+    {
+      "code": "c10",
+      "name": "10 of Cups",
+      "upright": true,
+      "interpretation": "happiness, homecomings, fulfillment, emotional stability, security, domestic harmony"
     }
   ]
 }
