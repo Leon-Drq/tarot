@@ -1,23 +1,23 @@
 {
-  "date": "2025-09-09",
+  "date": "2025-09-10",
   "cards": [
     {
-      "code": "w8",
-      "name": "8 of Wands",
+      "code": "6",
+      "name": "\u2165 The Lovers",
       "upright": true,
-      "interpretation": "movement, speed, progress, quick decisions, sudden changes, excitement"
+      "interpretation": "love, unions, partnerships, relationships, choices, romance, balance, unity"
     },
     {
-      "code": "w1",
-      "name": "Ace of Wands, reversed",
+      "code": "p1",
+      "name": "Ace of Pentacles, reversed",
       "upright": false,
-      "interpretation": "delays, blocks, lack of passion, lack of energy, hesitancy, creative blocks"
+      "interpretation": "missed chances, scarcity, deficiency, instability, stinginess, bad investments"
     },
     {
-      "code": "c11",
-      "name": "Page of Cups, reversed",
-      "upright": false,
-      "interpretation": "emotional vulnerability, immaturity, neglecting inner child, escapism, insecurity"
+      "code": "19",
+      "name": "\u2169\u2168 The Sun",
+      "upright": true,
+      "interpretation": "happiness, success, optimism, vitality, joy, confidence, happiness, truth"
     }
   ]
 }
