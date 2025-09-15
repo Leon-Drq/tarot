@@ -1,23 +1,23 @@
 {
-  "date": "2025-09-14",
+  "date": "2025-09-15",
   "cards": [
     {
-      "code": "20",
-      "name": "\u2169\u2169 Judgement",
+      "code": "w12",
+      "name": "Knight of Wands",
       "upright": true,
-      "interpretation": "self-evaluation, awakening, renewal, purpose, reflection, reckoning"
+      "interpretation": "courageous, energetic, charming, hero, rebellious, hot tempered, free spirit"
     },
     {
-      "code": "s12",
-      "name": "Knight of Swords, reversed",
-      "upright": false,
-      "interpretation": "rude, tactless, forceful, bully, aggressive, vicious, ruthless, arrogant"
+      "code": "21",
+      "name": "\u2169\u2169\u2160 The World",
+      "upright": true,
+      "interpretation": "completion, achievement, fulfilment, sense of belonging, wholeness, harmony"
     },
     {
-      "code": "14",
-      "name": "\u2169\u2163 Temperance",
+      "code": "c10",
+      "name": "10 of Cups",
       "upright": true,
-      "interpretation": "balance, peace, patience, moderation, calm, tranquillity, harmony, serenity"
+      "interpretation": "happiness, homecomings, fulfillment, emotional stability, security, domestic harmony"
     }
   ]
 }
