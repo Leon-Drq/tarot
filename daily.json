@@ -1,23 +1,23 @@
 {
-  "date": "2025-09-15",
+  "date": "2025-09-16",
   "cards": [
     {
-      "code": "w12",
-      "name": "Knight of Wands",
+      "code": "w10",
+      "name": "10 of Wands",
       "upright": true,
-      "interpretation": "courageous, energetic, charming, hero, rebellious, hot tempered, free spirit"
+      "interpretation": "burden, responsibility, duty, stress, obligation, burning out, struggles"
     },
     {
-      "code": "21",
-      "name": "\u2169\u2169\u2160 The World",
-      "upright": true,
-      "interpretation": "completion, achievement, fulfilment, sense of belonging, wholeness, harmony"
+      "code": "s8",
+      "name": "8 of Swords, reversed",
+      "upright": false,
+      "interpretation": "freedom, release, taking control, survivor, facing fears, empowered, surrender"
     },
     {
-      "code": "c10",
-      "name": "10 of Cups",
-      "upright": true,
-      "interpretation": "happiness, homecomings, fulfillment, emotional stability, security, domestic harmony"
+      "code": "16",
+      "name": "\u2169\u2165 The Tower, reversed",
+      "upright": false,
+      "interpretation": "averting disaster, delaying the inevitable, resisting change"
     }
   ]
 }
