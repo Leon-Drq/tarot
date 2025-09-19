@@ -1,23 +1,23 @@
 {
-  "date": "2025-09-18",
+  "date": "2025-09-19",
   "cards": [
     {
-      "code": "19",
-      "name": "\u2169\u2168 The Sun",
+      "code": "w7",
+      "name": "7 of Wands",
       "upright": true,
-      "interpretation": "happiness, success, optimism, vitality, joy, confidence, happiness, truth"
+      "interpretation": "protectiveness, standing up for yourself, defending yourself, protecting territory"
     },
     {
-      "code": "p1",
-      "name": "Ace of Pentacles",
-      "upright": true,
-      "interpretation": "new opportunities, resources, abundance, prosperity, security, stability, manifestation"
+      "code": "p11",
+      "name": "Page of Pentacles, reversed",
+      "upright": false,
+      "interpretation": "foolish, immature, irresponsible, lazy, underachiever, procrastinator, missed chances, poor prospects"
     },
     {
-      "code": "p5",
-      "name": "5 of Pentacles",
+      "code": "c4",
+      "name": "4 of Cups",
       "upright": true,
-      "interpretation": "hardship, loss, isolation, feeling abandoned, adversity, struggle, unemployment, alienation, disgrace"
+      "interpretation": "apathy, contemplation, feeling disconnected, melancholy, boredom, indifference, discontent"
     }
   ]
 }
