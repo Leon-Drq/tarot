@@ -1,23 +1,23 @@
 {
-  "date": "2025-09-19",
+  "date": "2025-09-20",
   "cards": [
     {
-      "code": "w7",
-      "name": "7 of Wands",
+      "code": "1",
+      "name": "\u2160 The Magician",
       "upright": true,
-      "interpretation": "protectiveness, standing up for yourself, defending yourself, protecting territory"
+      "interpretation": "willpower, desire, being resourceful, skill, ability, concentration, manifestation"
     },
     {
-      "code": "p11",
-      "name": "Page of Pentacles, reversed",
+      "code": "5",
+      "name": "\u2164 The Hierophant, reversed",
       "upright": false,
-      "interpretation": "foolish, immature, irresponsible, lazy, underachiever, procrastinator, missed chances, poor prospects"
+      "interpretation": "rebellion, unconventionality, non-conformity, new methods, ignorance"
     },
     {
-      "code": "c4",
-      "name": "4 of Cups",
+      "code": "s4",
+      "name": "4 of Swords",
       "upright": true,
-      "interpretation": "apathy, contemplation, feeling disconnected, melancholy, boredom, indifference, discontent"
+      "interpretation": "rest, relaxation, peace, sanctuary, recuperation, self-protection, rejuvenation"
     }
   ]
 }
