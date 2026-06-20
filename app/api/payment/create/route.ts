@@ -42,6 +42,7 @@ export async function POST(req: Request) {
       productName: product.name,
       amount,
       payType: pay_type,
+      appUrl: new URL(req.url).origin,
     })
   } catch (error) {
     return jsonError(error instanceof Error ? error.message : "支付网关未配置")

@@ -51,12 +51,13 @@ export function createZpayUrl(input: {
   productName: string
   amount: number
   payType: "alipay" | "wxpay"
+  appUrl?: string
 }) {
   if (!isZpayConfigured()) {
     throw new Error("支付网关未配置")
   }
 
-  const appUrl = getAppUrl()
+  const appUrl = input.appUrl || getAppUrl()
   const params: Record<string, string> = {
     pid: getZpayPid(),
     type: input.payType,
