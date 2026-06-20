@@ -1,0 +1,513 @@
+/**
+ * POPTarot API 客户端
+ */
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || ''
+
+// Token 管理
+let accessToken: string | null = null
+
+export function setAccessToken(token: string | null) {
+  accessToken = token
+  if (typeof window !== 'undefined') {
+    if (token) {
+      localStorage.setItem('access_token', token)
+    } else {
+      localStorage.removeItem('access_token')
+    }
+  }
+}
+
+export function getAccessToken(): string | null {
+  if (accessToken) return accessToken
+  if (typeof window !== 'undefined') {
+    accessToken = localStorage.getItem('access_token')
+  }
+  return accessToken
+}
+
+// 通用请求函数
+async function request<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const url = `${API_BASE_URL}${endpoint}`
+  const token = getAccessToken()
+  
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  }
+  
+  if (token) {
+    (headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
+  }
+  
+  const response = await fetch(url, {
+    ...options,
+    headers,
+  })
+  
+  const data = await response.json()
+  
+  if (!response.ok) {
+    throw new Error(data.error || 'Request failed')
+  }
+  
+  return data
+}
+
+// ========== Auth API ==========
+
+export interface User {
+  id: string
+  email: string | null
+  nickname: string
+  avatar_url?: string
+  credits: number
+  is_member: boolean
+  member_type?: string
+  member_expire_at?: string
+  is_partner: boolean
+  referral_code: string
+  is_anonymous?: boolean
+  birthday?: string
+}
+
+export interface LoginResponse {
+  message: string
+  access_token: string
+  user: User
+}
+
+export interface RegisterResponse {
+  message: string
+  access_token: string
+  user: {
+    id: string
+    email: string
+    nickname: string
+    referral_code: string
+  }
+}
+
+export const authApi = {
+  // 登录
+  login: async (email: string, password: string): Promise<LoginResponse> => {
+    return request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    })
+  },
+  
+  // 注册
+  register: async (
+    email: string,
+    password: string,
+    nickname?: string,
+    referralCode?: string
+  ): Promise<RegisterResponse> => {
+    return request('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        password,
+        nickname,
+        referral_code: referralCode,
+      }),
+    })
+  },
+  
+  // 匿名注册
+  registerAnonymous: async (): Promise<LoginResponse> => {
+    return request('/auth/register-anonymous', {
+      method: 'POST',
+      body: JSON.stringify({}),
+    })
+  },
+  
+  // 绑定邮箱（匿名用户转正式用户）
+  bindEmail: async (
+    email: string,
+    password: string,
+    nickname?: string
+  ): Promise<{ message: string; user: { id: string; email: string; nickname: string } }> => {
+    return request('/auth/bind-email', {
+      method: 'POST',
+      body: JSON.stringify({ email, password, nickname }),
+    })
+  },
+  
+  // 获取当前用户信息
+  getCurrentUser: async (): Promise<User> => {
+    return request('/auth/me')
+  },
+}
+
+// ========== Member API ==========
+
+export interface MemberPlan {
+  id: string
+  plan_type: string
+  name: string
+  price: number
+  original_price?: number
+  duration_days: number
+  credits_gift: number
+  description?: string
+  features?: string
+}
+
+export interface MemberStatus {
+  is_member: boolean
+  member_type?: string
+  member_expire_at?: string
+  is_partner: boolean
+  partner_expire_at?: string
+}
+
+export interface PartnerStats {
+  referral_count: number
+  total_orders: number
+  total_amount: number
+  total_commission: number
+}
+
+export const memberApi = {
+  // 获取会员套餐列表（支持多语言）
+  getPlans: async (lang: string = 'zh'): Promise<{ plans: MemberPlan[] }> => {
+    return request(`/member/plans?lang=${lang}`)
+  },
+  
+  // 获取会员状态
+  getStatus: async (): Promise<MemberStatus> => {
+    return request('/member/status')
+  },
+  
+  // 获取合伙人统计
+  getPartnerStats: async (): Promise<PartnerStats> => {
+    return request('/member/partner/stats')
+  },
+}
+
+// ========== Payment API ==========
+
+export interface CreateOrderResponse {
+  order_no: string
+  pay_url: string
+  amount: number
+  product_name: string
+}
+
+export interface OrderStatusResponse {
+  paid: boolean
+  status?: string
+  message?: string
+  order?: {
+    order_no: string
+    trade_no: string
+    amount: number
+    product_name?: string
+    paid_at?: string
+  }
+}
+
+export interface Order {
+  order_no: string
+  product_type: string
+  product_name: string
+  amount: number
+  status: string
+  paid_at?: string
+  created_at: string
+}
+
+export interface Product {
+  type: string
+  name: string
+  price: number
+  days: number
+  credits: number
+  stripe_enabled: boolean
+}
+
+export const paymentApi = {
+  // 获取产品列表
+  getProducts: async (): Promise<{ products: Product[] }> => {
+    return request('/payment/products')
+  },
+  
+  // 创建支付订单
+  createOrder: async (
+    productType: 'member_week' | 'member_month' | 'member_year' | 'partner',
+    payType: 'alipay' | 'wxpay' | 'stripe' = 'alipay'
+  ): Promise<CreateOrderResponse> => {
+    return request('/payment/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        product_type: productType,
+        pay_type: payType,
+      }),
+    })
+  },
+  
+  // 检查订单状态
+  checkStatus: async (orderNo: string): Promise<OrderStatusResponse> => {
+    return request(`/payment/check-status?order_no=${orderNo}`)
+  },
+  
+  // 获取订单列表
+  getOrders: async (): Promise<{ orders: Order[] }> => {
+    return request('/payment/orders')
+  },
+}
+
+// ========== Reading API ==========
+
+export interface CardData {
+  name: string
+  isReversed: boolean
+  meaning: {
+    upright: string
+    reversed: string
+  }
+}
+
+export interface SpreadPosition {
+  name: string
+  nameEn: string
+  nameJa?: string
+  nameKo?: string
+  description: string
+}
+
+export type DeckType = 'major' | 'full'
+
+export interface SpreadConfig {
+  name: string
+  nameEn: string
+  nameJa?: string
+  nameKo?: string
+  cardCount: number
+  icon: string
+  description: string
+  descriptionEn?: string
+  descriptionJa?: string
+  descriptionKo?: string
+  deckType?: DeckType  // 牌组类型: major=大阿尔卡纳22张, full=全部78张
+  positions: SpreadPosition[]
+}
+
+export interface QuestionClassificationResponse {
+  spread_type: string
+  deck_type: DeckType  // AI推荐的牌组类型
+  confidence: number
+  reason: string
+  spread_config: SpreadConfig
+}
+
+export interface CreateReadingResponse {
+  reading_id: string
+  credits_used: number
+  message: string
+}
+
+export interface ReadingRecord {
+  id: string
+  question: string
+  cards: CardData[]
+  interpretation?: string
+  spread_type: string
+  is_ai_analyzed: boolean
+  created_at: string
+}
+
+export interface ReadingHistoryResponse {
+  readings: ReadingRecord[]
+  total: number
+  page: number
+  per_page: number
+  total_pages: number
+}
+
+export const readingApi = {
+  // 分析问题类型，返回推荐的牌阵
+  classifyQuestion: async (
+    question: string,
+    lang: string = 'zh'
+  ): Promise<QuestionClassificationResponse> => {
+    return request('/reading/classify-question', {
+      method: 'POST',
+      body: JSON.stringify({ question, lang }),
+    })
+  },
+  
+  // 获取所有牌阵配置
+  getSpreads: async (lang: string = 'zh'): Promise<{ spreads: Array<SpreadConfig & { type: string }> }> => {
+    return request(`/reading/spreads?lang=${lang}`)
+  },
+
+  // 创建解读记录
+  create: async (
+    question: string,
+    cards: CardData[],
+    spreadType: string = 'three_card'
+  ): Promise<CreateReadingResponse> => {
+    return request('/reading/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        question,
+        cards,
+        spread_type: spreadType,
+      }),
+    })
+  },
+  
+  // AI 解读（流式输出）
+  interpret: async (
+    question: string,
+    cards: any[],
+    isFollowUp: boolean = false,
+    followUpQuestion?: string,
+    previousMessages?: string[],
+    lang?: string,
+    spreadType?: string
+  ): Promise<Response> => {
+    return fetch('/api/reading', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        question,
+        cards,
+        isFollowUp,
+        followUpQuestion,
+        previousMessages,
+        lang: lang || 'zh',
+        spread_type: spreadType || 'three_card',
+      }),
+    })
+  },
+
+  // 保存 AI 解读结果
+  saveInterpretation: async (
+    readingId: string,
+    interpretation: string
+  ): Promise<{ message: string }> => {
+    return request('/reading/save-interpretation', {
+      method: 'POST',
+      body: JSON.stringify({
+        reading_id: readingId,
+        interpretation,
+      }),
+    })
+  },
+  
+  // 获取解读历史
+  getHistory: async (
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<ReadingHistoryResponse> => {
+    return request(`/reading/history?page=${page}&per_page=${perPage}`)
+  },
+  
+  // 获取解读详情
+  getDetail: async (readingId: string): Promise<ReadingRecord> => {
+    return request(`/reading/${readingId}`)
+  },
+  
+  // 删除解读记录
+  delete: async (readingId: string): Promise<{ message: string }> => {
+    return request(`/reading/${readingId}`, {
+      method: 'DELETE',
+    })
+  },
+  
+  // 生成追问建议
+  generateFollowupQuestions: async (
+    question: string,
+    cards: CardData[],
+    history?: Array<{ question: string; content: string }>,
+    lang?: string
+  ): Promise<{ questions: string[] }> => {
+    return request('/reading/generate-followup-questions', {
+      method: 'POST',
+      body: JSON.stringify({
+        question,
+        cards,
+        history,
+        lang: lang || 'zh',
+      }),
+    })
+  },
+}
+
+// ========== User API ==========
+
+export interface UserProfile {
+  id: string
+  email: string
+  nickname: string
+  avatar_url?: string
+  credits: number
+  is_member: boolean
+  member_type?: string
+  member_expire_at?: string
+  is_partner: boolean
+  referral_code: string
+  referral_count: number
+}
+
+export interface CreditHistory {
+  id: string
+  amount: number
+  type: string
+  description: string
+  created_at: string
+}
+
+export interface Referral {
+  id: string
+  invitee_nickname: string
+  invitee_email: string
+  reward_days: number
+  created_at: string
+}
+
+export const userApi = {
+  // 获取用户资料
+  getProfile: async (): Promise<UserProfile> => {
+    return request('/user/profile')
+  },
+  
+  // 更新用户资料
+  updateProfile: async (data: {
+    nickname?: string
+    avatar_url?: string
+    birthday?: string
+  }): Promise<{ message: string }> => {
+    return request('/user/profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  },
+  
+  // 获取积分余额
+  getCredits: async (): Promise<{ credits: number }> => {
+    return request('/user/credits')
+  },
+  
+  // 获取积分历史
+  getCreditsHistory: async (
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<{ history: CreditHistory[]; total: number }> => {
+    return request(`/user/credits/history?page=${page}&per_page=${perPage}`)
+  },
+  
+  // 获取邀请记录
+  getReferrals: async (): Promise<{ referrals: Referral[]; total: number }> => {
+    return request('/user/referrals')
+  },
+}

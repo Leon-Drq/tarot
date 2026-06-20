@@ -1,0 +1,280 @@
+/**
+ * 塔罗牌阵配置
+ * 根据不同问题类型定义对应的牌阵和卡牌数量
+ */
+
+export type SpreadType = 
+  | 'yes_no'           // Yes or No
+  | 'daily_fashion'    // 每日穿搭提示
+  | 'breakup_recovery' // 分手挽回
+  | 'exam_fortune'     // 考试运势
+  | 'shopping_decision'// 购物决策
+  | 'love_connection'  // 桃花正缘
+  | 'relationship'     // 关系预测
+  | 'their_thoughts'   // TA 的想法和态度
+  | 'job_opportunity'  // 求职机会
+  | 'binary_choice'    // 二选一
+  | 'interpersonal'    // 人际关系
+  | 'triple_choice'    // 三选一
+  | 'three_card'       // 默认三牌阵（过去、现在、未来）
+
+export interface SpreadPosition {
+  name: string       // 位置名称
+  nameEn: string     // 英文名称
+  description: string // 描述
+}
+
+export interface SpreadConfig {
+  type: SpreadType
+  name: string
+  nameEn: string
+  cardCount: number
+  icon: string       // 图标/emoji
+  description: string
+  positions: SpreadPosition[]
+  keywords: string[] // 用于匹配用户问题的关键词
+}
+
+/**
+ * 所有牌阵配置
+ */
+export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
+  yes_no: {
+    type: 'yes_no',
+    name: 'Yes or No',
+    nameEn: 'Yes or No',
+    cardCount: 1,
+    icon: '❓',
+    description: '简单明了的是非问题，一张牌给你答案',
+    positions: [
+      { name: '答案', nameEn: 'Answer', description: '正位代表"是"，逆位代表"否"或"需要等待"' }
+    ],
+    keywords: ['是否', '会不会', '能不能', '可不可以', '要不要', '行不行', 'yes', 'no', '是或否']
+  },
+
+  daily_fashion: {
+    type: 'daily_fashion',
+    name: '每日穿搭提示',
+    nameEn: 'Daily Fashion Tips',
+    cardCount: 1,
+    icon: '👗',
+    description: '让塔罗指引你今天的穿搭风格',
+    positions: [
+      { name: '今日风格', nameEn: 'Today\'s Style', description: '今天适合的穿搭风格和颜色' }
+    ],
+    keywords: ['穿什么', '穿搭', '穿衣', '搭配', '衣服', '风格', '今天穿', 'fashion', '造型']
+  },
+
+  breakup_recovery: {
+    type: 'breakup_recovery',
+    name: '分手挽回',
+    nameEn: 'Breakup Recovery',
+    cardCount: 5,
+    icon: '💔',
+    description: '深入分析分手原因，挽回的可能性和建议',
+    positions: [
+      { name: '分手原因', nameEn: 'Reason', description: '导致分手的核心原因' },
+      { name: '你的状态', nameEn: 'Your State', description: '你目前的心理状态' },
+      { name: 'TA的状态', nameEn: 'Their State', description: '对方目前的心理状态' },
+      { name: '挽回建议', nameEn: 'Advice', description: '如何行动的建议' },
+      { name: '未来走向', nameEn: 'Future', description: '关系的未来发展' }
+    ],
+    keywords: ['分手', '挽回', '复合', '前任', '前男友', '前女友', '分开', '离开', '还爱', '回来']
+  },
+
+  exam_fortune: {
+    type: 'exam_fortune',
+    name: '考试运势',
+    nameEn: 'Exam Fortune',
+    cardCount: 4,
+    icon: '📚',
+    description: '预测考试运势，找到复习重点和注意事项',
+    positions: [
+      { name: '当前状态', nameEn: 'Current State', description: '你目前的准备状态' },
+      { name: '优势', nameEn: 'Strength', description: '你的优势和可以发挥的地方' },
+      { name: '注意事项', nameEn: 'Caution', description: '需要特别注意的方面' },
+      { name: '结果预测', nameEn: 'Outcome', description: '考试结果的趋势' }
+    ],
+    keywords: ['考试', '面试', '笔试', '答辩', '考研', '高考', '中考', '期末', '资格证', '驾照', '成绩']
+  },
+
+  shopping_decision: {
+    type: 'shopping_decision',
+    name: '购物决策',
+    nameEn: 'Shopping Decision',
+    cardCount: 3,
+    icon: '🛍️',
+    description: '帮你做出更好的购物决定',
+    positions: [
+      { name: '购买欲望', nameEn: 'Desire', description: '你真正需要它吗？' },
+      { name: '实际价值', nameEn: 'Value', description: '这个购买是否物有所值' },
+      { name: '建议', nameEn: 'Advice', description: '是否应该购买' }
+    ],
+    keywords: ['买', '购买', '购物', '花钱', '消费', '值得', '划算', '下单', '入手']
+  },
+
+  love_connection: {
+    type: 'love_connection',
+    name: '桃花正缘',
+    nameEn: 'Love Connection',
+    cardCount: 4,
+    icon: '🌸',
+    description: '探索你的感情运势和正缘特征',
+    positions: [
+      { name: '桃花运势', nameEn: 'Love Fortune', description: '近期的桃花运如何' },
+      { name: '正缘特征', nameEn: 'Soulmate Traits', description: '你的正缘是什么样的人' },
+      { name: '相遇时机', nameEn: 'Timing', description: '可能的相遇时间和场合' },
+      { name: '行动建议', nameEn: 'Advice', description: '如何增加遇到正缘的机会' }
+    ],
+    keywords: ['桃花', '正缘', '脱单', '单身', '遇到', '另一半', '姻缘', '缘分', '爱情', '恋爱']
+  },
+
+  relationship: {
+    type: 'relationship',
+    name: '关系预测',
+    nameEn: 'Relationship Prediction',
+    cardCount: 5,
+    icon: '💑',
+    description: '全面分析你们的感情关系走向',
+    positions: [
+      { name: '关系现状', nameEn: 'Current State', description: '目前关系的状态' },
+      { name: '你的感受', nameEn: 'Your Feelings', description: '你在这段关系中的真实感受' },
+      { name: 'TA的感受', nameEn: 'Their Feelings', description: '对方在这段关系中的感受' },
+      { name: '挑战', nameEn: 'Challenge', description: '你们需要面对的挑战' },
+      { name: '未来发展', nameEn: 'Future', description: '关系的未来走向' }
+    ],
+    keywords: ['关系', '感情', '在一起', '发展', '未来', '我们', '这段', '走向', '结婚', '长久']
+  },
+
+  their_thoughts: {
+    type: 'their_thoughts',
+    name: 'TA 的想法和态度',
+    nameEn: 'Their Thoughts & Attitude',
+    cardCount: 5,
+    icon: '💭',
+    description: '深入了解对方的内心想法和对你的态度',
+    positions: [
+      { name: '对你的印象', nameEn: 'Impression', description: 'TA对你的整体印象' },
+      { name: '内心想法', nameEn: 'Thoughts', description: 'TA内心真实的想法' },
+      { name: '对你的态度', nameEn: 'Attitude', description: 'TA对你的态度' },
+      { name: '顾虑', nameEn: 'Concerns', description: 'TA的顾虑和担心' },
+      { name: '可能的行动', nameEn: 'Possible Actions', description: 'TA接下来可能的行动' }
+    ],
+    keywords: ['他', '她', 'TA', '对方', '想法', '态度', '喜欢我', '怎么想', '心里', '看我']
+  },
+
+  job_opportunity: {
+    type: 'job_opportunity',
+    name: '求职机会',
+    nameEn: 'Job Opportunity',
+    cardCount: 4,
+    icon: '💼',
+    description: '分析求职运势和工作机会',
+    positions: [
+      { name: '求职运势', nameEn: 'Job Fortune', description: '近期的求职运势' },
+      { name: '你的优势', nameEn: 'Your Strength', description: '你在求职中的优势' },
+      { name: '需要注意', nameEn: 'Caution', description: '求职过程中需要注意的事项' },
+      { name: '机会预测', nameEn: 'Opportunity', description: '工作机会的预测' }
+    ],
+    keywords: ['工作', '求职', '跳槽', '离职', '入职', 'offer', '招聘', '职位', '岗位', '找工作', '换工作']
+  },
+
+  binary_choice: {
+    type: 'binary_choice',
+    name: '二选一',
+    nameEn: 'Binary Choice',
+    cardCount: 2,
+    icon: '⚖️',
+    description: '面对两个选择时，帮你看清每个选项的能量',
+    positions: [
+      { name: '选项A', nameEn: 'Option A', description: '第一个选项的能量和结果' },
+      { name: '选项B', nameEn: 'Option B', description: '第二个选项的能量和结果' }
+    ],
+    keywords: ['选择', '二选一', '还是', '或者', 'A还是B', '哪个', '左右为难', '纠结']
+  },
+
+  interpersonal: {
+    type: 'interpersonal',
+    name: '人际关系',
+    nameEn: 'Interpersonal Relations',
+    cardCount: 5,
+    icon: '🤝',
+    description: '分析人际关系中的问题和改善方向',
+    positions: [
+      { name: '关系现状', nameEn: 'Current State', description: '目前的人际关系状态' },
+      { name: '你的表现', nameEn: 'Your Performance', description: '你在人际关系中的表现' },
+      { name: '对方反馈', nameEn: 'Their Feedback', description: '他人对你的看法' },
+      { name: '问题所在', nameEn: 'Problem', description: '人际关系中存在的问题' },
+      { name: '改善建议', nameEn: 'Improvement', description: '如何改善人际关系' }
+    ],
+    keywords: ['人际', '朋友', '同事', '社交', '相处', '友情', '友谊', '闺蜜', '兄弟', '室友']
+  },
+
+  triple_choice: {
+    type: 'triple_choice',
+    name: '三选一',
+    nameEn: 'Triple Choice',
+    cardCount: 3,
+    icon: '🔮',
+    description: '面对三个选择时，看清每个选项的能量',
+    positions: [
+      { name: '选项A', nameEn: 'Option A', description: '第一个选项的能量和结果' },
+      { name: '选项B', nameEn: 'Option B', description: '第二个选项的能量和结果' },
+      { name: '选项C', nameEn: 'Option C', description: '第三个选项的能量和结果' }
+    ],
+    keywords: ['三选一', '三个选择', '三个方向']
+  },
+
+  three_card: {
+    type: 'three_card',
+    name: '时间之流',
+    nameEn: 'Past Present Future',
+    cardCount: 3,
+    icon: '⏳',
+    description: '经典的三牌阵，从过去、现在、未来三个维度解读',
+    positions: [
+      { name: '过去', nameEn: 'Past', description: '过去发生的事情和影响' },
+      { name: '现在', nameEn: 'Present', description: '当前的状态和处境' },
+      { name: '未来', nameEn: 'Future', description: '未来的趋势和发展' }
+    ],
+    keywords: []  // 作为默认牌阵，不需要关键词匹配
+  }
+}
+
+/**
+ * 获取牌阵配置
+ */
+export function getSpreadConfig(type: SpreadType): SpreadConfig {
+  return SPREAD_CONFIGS[type] || SPREAD_CONFIGS.three_card
+}
+
+/**
+ * 获取所有牌阵列表（用于展示）
+ */
+export function getAllSpreads(): SpreadConfig[] {
+  return Object.values(SPREAD_CONFIGS)
+}
+
+/**
+ * 根据语言获取牌阵名称
+ */
+export function getSpreadName(config: SpreadConfig, lang: string = 'zh'): string {
+  return lang === 'en' ? config.nameEn : config.name
+}
+
+/**
+ * 根据语言获取位置名称
+ */
+export function getPositionName(position: SpreadPosition, lang: string = 'zh'): string {
+  return lang === 'en' ? position.nameEn : position.name
+}
+
+/**
+ * 问题分类结果接口
+ */
+export interface QuestionClassification {
+  spreadType: SpreadType
+  confidence: number  // 0-1 的置信度
+  reason: string      // 分类原因说明
+}
+
