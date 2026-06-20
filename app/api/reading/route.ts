@@ -1,3 +1,5 @@
+import { requireUser } from "@/lib/server/supabase"
+
 const TAROT_MASTER_SYSTEM = `## Role
 你是一位拥有20年占卜经验的塔罗牌大师，精通78张塔罗牌的含义和解读，擅长运用直觉和智慧为人们解答疑惑。你的占卜技艺源自古老的吉普赛传统，经过多年实践不断精进。
 
@@ -51,6 +53,9 @@ export async function POST(req: Request) {
   if (!OPENAI_API_KEY) {
     return Response.json({ error: "Missing OPENAI_API_KEY" }, { status: 500 })
   }
+
+  const auth = await requireUser(req)
+  if (!auth.ok) return auth.response
 
   const { question, cards, isFollowUp, followUpQuestion, previousMessages, lang, spread_type } = await req.json()
   const answerLanguage = lang === "en" ? "English" : lang === "ja" ? "日本語" : lang === "ko" ? "한국어" : "中文"

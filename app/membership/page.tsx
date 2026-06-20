@@ -81,11 +81,25 @@ function MembershipContent() {
   // 检查支付成功回调
   useEffect(() => {
     const paymentStatus = searchParams.get("payment")
+    const orderNo = searchParams.get("order_no")
     if (paymentStatus === "success") {
-      setSuccessMessage("支付成功！会员权益已生效")
-      refreshUser()
-      // 清除 URL 参数
-      router.replace("/membership")
+      async function verifyPayment() {
+        try {
+          if (orderNo) {
+            const status = await paymentApi.checkStatus(orderNo)
+            setSuccessMessage(status.paid ? "支付成功！会员权益已生效" : "支付处理中，稍后会自动生效")
+          } else {
+            setSuccessMessage("支付成功！会员权益正在同步")
+          }
+          await refreshUser()
+        } catch (error) {
+          console.error("Failed to verify payment:", error)
+          setSuccessMessage("支付成功！会员权益正在同步")
+        } finally {
+          router.replace("/membership")
+        }
+      }
+      verifyPayment()
     }
   }, [searchParams, refreshUser, router])
 

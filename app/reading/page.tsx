@@ -108,12 +108,14 @@ export default function ReadingPage() {
     setError("")
 
     try {
+      let hasSession = isLoggedIn
       // 如果未登录，自动创建匿名用户
       if (!isLoggedIn && !isFollowUp) {
         try {
           console.log("[Reading] Creating anonymous user...")
           const anonResult = await authApi.registerAnonymous()
           setAccessToken(anonResult.access_token)
+          hasSession = true
           await refreshUser()
           console.log("[Reading] Anonymous user created:", anonResult.user.nickname)
         } catch (anonError) {
@@ -123,7 +125,7 @@ export default function ReadingPage() {
       }
       
       // 如果是首次解读且用户已登录，先创建解读记录
-      if (!isFollowUp && isLoggedIn && !readingId) {
+      if (!isFollowUp && hasSession && !readingId) {
         try {
           const createResult = await readingApi.create(
             userQuestion,

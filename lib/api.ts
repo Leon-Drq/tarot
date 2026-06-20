@@ -31,7 +31,8 @@ async function request<T>(
   endpoint: string,
   options: RequestInit = {}
 ): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`
+  const apiEndpoint = endpoint.startsWith('/api/') ? endpoint : `/api${endpoint}`
+  const url = `${API_BASE_URL}${apiEndpoint}`
   const token = getAccessToken()
   
   const headers: HeadersInit = {
@@ -373,11 +374,17 @@ export const readingApi = {
     lang?: string,
     spreadType?: string
   ): Promise<Response> => {
+    const token = getAccessToken()
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    }
+    if (token) {
+      ;(headers as Record<string, string>)['Authorization'] = `Bearer ${token}`
+    }
+
     return fetch('/api/reading', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       body: JSON.stringify({
         question,
         cards,

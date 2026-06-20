@@ -393,8 +393,8 @@ export default function DailyReadingPage() {
           <div
             className="w-full max-w-2xl bg-black/30 backdrop-blur-md rounded-2xl p-6 sm:p-8 border border-white/10 transition-all duration-700"
             style={{
-              opacity: phase === 'revealing' ? 0 : 1,
-              transform: phase === 'revealing' ? "translateY(20px)" : "translateY(0)",
+              opacity: 1,
+              transform: "translateY(0)",
             }}
           >
             <div className="flex items-center gap-3 mb-4">
