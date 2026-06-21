@@ -1,17 +1,32 @@
 import type { MetadataRoute } from "next"
-import { seoPages } from "@/lib/seo-pages"
+import { locales, localePath } from "@/lib/locales"
+import { getAllLocalizedSeoPages } from "@/lib/seo-pages"
+import { getCardSlug } from "@/lib/tarot-card-seo"
+import { TAROT_CARDS } from "@/lib/tarot-cards"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 
-const routes = [
+const baseRoutes = [
   { path: "/", priority: 1 },
   { path: "/daily", priority: 0.8 },
   { path: "/daily/reading", priority: 0.7 },
   { path: "/input", priority: 0.8 },
   { path: "/reading", priority: 0.7 },
   { path: "/membership", priority: 0.4 },
-  ...seoPages.map((page) => ({ path: `/${page.slug}`, priority: 0.85 })),
 ]
+
+const seoRoutes = getAllLocalizedSeoPages().map((page) => ({ path: page.path, priority: 0.86 }))
+
+const cardRoutes = TAROT_CARDS.flatMap((card) =>
+  locales.map((locale) => ({
+    path: localePath(locale, `/tarot-card-meanings/${getCardSlug(card)}`),
+    priority: 0.72,
+  })),
+)
+
+const routes = Array.from(
+  new Map([...baseRoutes, ...seoRoutes, ...cardRoutes].map((route) => [route.path, route])).values(),
+)
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()

@@ -1,8 +1,9 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react"
+import { detectLocaleFromAcceptLanguage, isLocale, localeLabels, type Locale } from "@/lib/locales"
 
-export type Language = "zh" | "en" | "ja" | "ko"
+export type Language = Locale
 
 interface LanguageContextType {
   language: Language
@@ -14,10 +15,10 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 // 语言配置
 export const LANGUAGES = {
-  zh: { name: "中文", flag: "🇨🇳" },
-  en: { name: "English", flag: "🇺🇸" },
-  ja: { name: "日本語", flag: "🇯🇵" },
-  ko: { name: "한국어", flag: "🇰🇷" },
+  zh: { name: localeLabels.zh, flag: "🇨🇳" },
+  en: { name: localeLabels.en, flag: "🇺🇸" },
+  ja: { name: localeLabels.ja, flag: "🇯🇵" },
+  ko: { name: localeLabels.ko, flag: "🇰🇷" },
 } as const
 
 // 导入翻译数据
@@ -41,42 +42,22 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       const savedLang = localStorage.getItem("poptarot_language") as Language
       
       // 1. 如果有保存的偏好，直接使用
-      if (savedLang && ["zh", "en", "ja", "ko"].includes(savedLang)) {
+      if (savedLang && isLocale(savedLang)) {
         setLanguageState(savedLang)
         setIsInitialized(true)
         return
       }
 
-      // 2. 如果没有保存的偏好，尝试通过 IP 识别
+      // 2. 如果没有保存的偏好，使用服务端从 Vercel/Cloudflare 地区和 Accept-Language 识别
       try {
-        // 使用 ipapi.co 进行 IP 定位（免费版有频率限制，但对一般应用足够）
-        const response = await fetch("https://ipapi.co/json/")
+        const response = await fetch("/api/i18n/detect", { cache: "no-store" })
         const data = await response.json()
-        const country = data.country_code // 例如 "CN", "US", "JP"
-
-        let detectedLang: Language = "en"
-        if (["CN", "HK", "TW"].includes(country)) detectedLang = "zh"
-        else if (country === "JP") detectedLang = "ja"
-        else if (country === "KR") detectedLang = "ko"
-        else {
-          // 3. 如果 IP 无法确定或不在上述范围，尝试检测浏览器语言
-          const browserLang = navigator.language.toLowerCase()
-          if (browserLang.includes("zh")) detectedLang = "zh"
-          else if (browserLang.includes("ja")) detectedLang = "ja"
-          else if (browserLang.includes("ko")) detectedLang = "ko"
-          else detectedLang = "en"
-        }
-
+        const detectedLang = isLocale(data.locale) ? data.locale : detectLocaleFromAcceptLanguage(navigator.language)
         setLanguageState(detectedLang)
-        // 注意：这里不立即存入 localStorage，给用户手动切换的机会
       } catch (error) {
         console.error("Language detection failed:", error)
         // 4. 兜底逻辑：浏览器语言 -> 英文
-        const browserLang = navigator.language.toLowerCase()
-        if (browserLang.includes("zh")) setLanguageState("zh")
-        else if (browserLang.includes("ja")) setLanguageState("ja")
-        else if (browserLang.includes("ko")) setLanguageState("ko")
-        else setLanguageState("en")
+        setLanguageState(detectLocaleFromAcceptLanguage(navigator.language))
       } finally {
         setIsInitialized(true)
       }
@@ -85,12 +66,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     initLanguage()
   }, [])
 
+  useEffect(() => {
+    document.documentElement.lang = language
+  }, [language])
+
   // 设置语言并保存到 localStorage
   const setLanguage = useCallback((lang: Language) => {
     setLanguageState(lang)
     localStorage.setItem("poptarot_language", lang)
-    // 更新 HTML lang 属性
-    document.documentElement.lang = lang
   }, [])
 
   // 翻译函数
@@ -148,4 +131,3 @@ export function useLanguage() {
   }
   return context
 }
-

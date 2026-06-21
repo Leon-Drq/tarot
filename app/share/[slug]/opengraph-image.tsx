@@ -62,9 +62,9 @@ export default async function Image({ params }: Params) {
           width: "100%",
           height: "100%",
           display: "flex",
-          background: "linear-gradient(135deg, #08030f 0%, #1c0d2f 48%, #36192e 100%)",
+          background: "linear-gradient(135deg, #07030d 0%, #180b28 44%, #30162a 100%)",
           color: "white",
-          padding: 64,
+          padding: 58,
           position: "relative",
           overflow: "hidden",
           fontFamily: "serif",
@@ -81,26 +81,37 @@ export default async function Image({ params }: Params) {
             top: -120,
           }}
         />
-        <div style={{ display: "flex", flexDirection: "column", width: 700, zIndex: 1 }}>
+        <div
+          style={{
+            position: "absolute",
+            left: 38,
+            right: 38,
+            top: 38,
+            bottom: 38,
+            border: "1px solid rgba(243,213,139,0.24)",
+            borderRadius: 34,
+          }}
+        />
+        <div style={{ display: "flex", flexDirection: "column", width: 680, zIndex: 1 }}>
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: 12,
               color: "#f3d58b",
-              fontSize: 26,
+              fontSize: 24,
               letterSpacing: 5,
               textTransform: "uppercase",
             }}
           >
-            POP TAROT
+            POP TAROT · SHARED READING
           </div>
           <div
             style={{
               display: "flex",
-              marginTop: 34,
+              marginTop: 30,
               color: "#ffffff",
-              fontSize: 62,
+              fontSize: 58,
               lineHeight: 1.05,
               fontWeight: 700,
             }}
@@ -112,7 +123,7 @@ export default async function Image({ params }: Params) {
               display: "flex",
               marginTop: 28,
               color: "rgba(255,255,255,0.72)",
-              fontSize: 28,
+              fontSize: 27,
               lineHeight: 1.35,
             }}
           >
@@ -124,7 +135,7 @@ export default async function Image({ params }: Params) {
               alignItems: "center",
               marginTop: "auto",
               color: "#f3d58b",
-              fontSize: 24,
+              fontSize: 23,
             }}
           >
             Free AI tarot reading at poptarot.com
@@ -159,7 +170,7 @@ export default async function Image({ params }: Params) {
                   border: "3px solid rgba(243,213,139,0.78)",
                   borderRadius: 18,
                   overflow: "hidden",
-                  background: "#211330",
+                  background: "linear-gradient(180deg,#2a1840,#12091f)",
                   boxShadow: "0 22px 60px rgba(0,0,0,0.5)",
                 }}
               >

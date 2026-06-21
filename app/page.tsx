@@ -23,7 +23,7 @@ const homeStructuredData = {
       publisher: {
         "@id": `${appUrl}/#organization`,
       },
-      inLanguage: ["en", "zh-CN"],
+      inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR"],
     },
     {
       "@type": "SoftwareApplication",

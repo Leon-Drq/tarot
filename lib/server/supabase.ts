@@ -43,6 +43,22 @@ export function createUserSupabase(token: string) {
   })
 }
 
+export function getSupabaseServiceKey() {
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY
+  if (!key) throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY")
+  return key
+}
+
+export function hasSupabaseServiceKey() {
+  return Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY)
+}
+
+export function createServiceSupabase() {
+  return createClient(getSupabaseUrl(), getSupabaseServiceKey(), {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
+}
+
 export async function callAuthAdmin(payload: {
   action: "create_user" | "update_user"
   user_id?: string

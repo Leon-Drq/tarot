@@ -4,14 +4,16 @@ import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Copy, Crown, Share2 } from "lucide-react"
+import { Copy, Crown, Instagram, LogIn, Share2 } from "lucide-react"
 import type { DrawnCard } from "@/lib/tarot-cards"
 import { getCardName } from "@/lib/tarot-cards"
 import BlurText from "@/components/ui/blur-text"
 import ReactMarkdown from "react-markdown"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
-import { readingApi, getAccessToken, authApi, setAccessToken, type SpreadConfig } from "@/lib/api"
+import { analyticsApi, readingApi, getAccessToken, authApi, setAccessToken, type SpreadConfig } from "@/lib/api"
+import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
+import { getCurrentAttribution } from "@/lib/client-analytics"
 
 interface Message {
   id: string
@@ -44,6 +46,7 @@ export default function ReadingPage() {
   const [shareUrl, setShareUrl] = useState("")
   const [shareStatus, setShareStatus] = useState("")
   const [isCreatingShare, setIsCreatingShare] = useState(false)
+  const [readingCount, setReadingCount] = useState(0)
   const shareCopy =
     {
       zh: {
@@ -53,10 +56,16 @@ export default function ReadingPage() {
         loading: "生成中",
         generated: "分享链接已生成",
         copied: "分享链接已复制",
+        xhs: "小红书文案",
+        instagram: "Instagram 文案",
+        templateCopied: "分享文案已复制",
         failed: "分享失败，请稍后重试",
         memberTitle: "继续深入时再升级",
         memberText: "会员包含无限解读、历史记录、高级牌阵、深度关系/事业报告和分享图。",
         memberButton: "查看会员权益",
+        saveTitle: "保存你的解读历史",
+        saveText: "你已经体验了 {count} 次。登录后可以保存结果、继续查看历史记录。",
+        saveButton: "登录并保存",
       },
       en: {
         title: "SHARE",
@@ -65,10 +74,16 @@ export default function ReadingPage() {
         loading: "Creating",
         generated: "Share link ready",
         copied: "Share link copied",
+        xhs: "Xiaohongshu copy",
+        instagram: "Instagram caption",
+        templateCopied: "Share caption copied",
         failed: "Sharing failed. Please try again.",
         memberTitle: "Upgrade when you want to go deeper",
         memberText: "Members get unlimited readings, saved history, advanced spreads, deep love/career reports, and share images.",
         memberButton: "View membership",
+        saveTitle: "Save your reading history",
+        saveText: "You have tried {count} readings. Log in to save results and keep your history.",
+        saveButton: "Log in to save",
       },
       ja: {
         title: "SHARE",
@@ -77,10 +92,16 @@ export default function ReadingPage() {
         loading: "作成中",
         generated: "共有リンクを作成しました",
         copied: "共有リンクをコピーしました",
+        xhs: "小紅書テキスト",
+        instagram: "Instagramキャプション",
+        templateCopied: "共有テキストをコピーしました",
         failed: "共有に失敗しました。もう一度お試しください。",
         memberTitle: "もっと深く知りたい時にアップグレード",
         memberText: "会員は無制限リーディング、履歴保存、高度なスプレッド、恋愛/仕事の深掘りレポート、共有画像を利用できます。",
         memberButton: "会員特典を見る",
+        saveTitle: "リーディング履歴を保存",
+        saveText: "{count} 回体験しました。ログインすると結果と履歴を保存できます。",
+        saveButton: "ログインして保存",
       },
       ko: {
         title: "SHARE",
@@ -89,10 +110,16 @@ export default function ReadingPage() {
         loading: "생성 중",
         generated: "공유 링크가 생성되었습니다",
         copied: "공유 링크를 복사했습니다",
+        xhs: "샤오홍슈 문구",
+        instagram: "Instagram 캡션",
+        templateCopied: "공유 문구를 복사했습니다",
         failed: "공유에 실패했습니다. 다시 시도해 주세요.",
         memberTitle: "더 깊게 보고 싶을 때 업그레이드",
         memberText: "회원은 무제한 리딩, 기록 저장, 고급 스프레드, 관계/커리어 심층 리포트, 공유 이미지를 이용할 수 있습니다.",
         memberButton: "멤버십 보기",
+        saveTitle: "리딩 기록 저장",
+        saveText: "{count}번 체험했습니다. 로그인하면 결과와 기록을 저장할 수 있습니다.",
+        saveButton: "로그인하고 저장",
       },
     }[language] || {
       title: "SHARE",
@@ -101,11 +128,22 @@ export default function ReadingPage() {
       loading: "Creating",
       generated: "Share link ready",
       copied: "Share link copied",
+      xhs: "Xiaohongshu copy",
+      instagram: "Instagram caption",
+      templateCopied: "Share caption copied",
       failed: "Sharing failed. Please try again.",
       memberTitle: "Upgrade when you want to go deeper",
       memberText: "Members get unlimited readings, saved history, advanced spreads, deep love/career reports, and share images.",
       memberButton: "View membership",
+      saveTitle: "Save your reading history",
+      saveText: "You have tried {count} readings. Log in to save results and keep your history.",
+      saveButton: "Log in to save",
     }
+
+  useEffect(() => {
+    const count = Number(localStorage.getItem("poptarot_reading_count") || "0")
+    setReadingCount(Number.isFinite(count) ? count : 0)
+  }, [])
 
   useEffect(() => {
     const data = sessionStorage.getItem("tarotReading")
@@ -130,11 +168,29 @@ export default function ReadingPage() {
   useEffect(() => {
     if (!isReading && currentStreaming) {
       const cleanContent = currentStreaming
+      const isInitialReading = messages.length === 0
+
+      if (isInitialReading) {
+        const nextCount = Number(localStorage.getItem("poptarot_reading_count") || "0") + 1
+        localStorage.setItem("poptarot_reading_count", String(nextCount))
+        setReadingCount(nextCount)
+        analyticsApi.track("reading_completed", {
+          ...getCurrentAttribution(),
+          locale: language,
+          keyword: question,
+          reading_id: readingId,
+          metadata: {
+            spread_type: spreadType,
+            card_count: drawnCards.length,
+            reading_count: nextCount,
+          },
+        })
+      }
 
       // 添加到消息列表
       const newMessage = {
         id: Date.now().toString(),
-        type: (messages.length === 0 ? "reading" : "followup") as "reading" | "followup",
+        type: (isInitialReading ? "reading" : "followup") as "reading" | "followup",
         content: cleanContent,
         question: currentQuestion || undefined,
       }
@@ -333,6 +389,38 @@ export default function ReadingPage() {
     }, 2000)
   }
 
+  const getCurrentInterpretation = () =>
+    fullInterpretation ||
+    messages.map((message) => message.content).join("\n\n---\n\n") ||
+    currentStreaming
+
+  const ensureShareUrl = async () => {
+    if (shareUrl) return shareUrl
+    if (drawnCards.length === 0) throw new Error("No cards to share")
+
+    const result = await readingApi.createShare({
+      reading_id: readingId || undefined,
+      question,
+      cards: drawnCards,
+      interpretation: getCurrentInterpretation(),
+      spread_type: spreadType,
+    })
+
+    const absoluteUrl = `${window.location.origin}${result.url}`
+    setShareUrl(absoluteUrl)
+    analyticsApi.track("share_created", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: question,
+      reading_id: readingId,
+      share_slug: result.slug,
+      metadata: {
+        spread_type: spreadType,
+      },
+    })
+    return absoluteUrl
+  }
+
   const handleShare = async () => {
     if (isCreatingShare || drawnCards.length === 0) return
 
@@ -340,21 +428,7 @@ export default function ReadingPage() {
     setShareStatus("")
 
     try {
-      const interpretation =
-        fullInterpretation ||
-        messages.map((message) => message.content).join("\n\n---\n\n") ||
-        currentStreaming
-
-      const result = await readingApi.createShare({
-        reading_id: readingId || undefined,
-        question,
-        cards: drawnCards,
-        interpretation,
-        spread_type: spreadType,
-      })
-
-      const absoluteUrl = `${window.location.origin}${result.url}`
-      setShareUrl(absoluteUrl)
+      const absoluteUrl = await ensureShareUrl()
 
       if (navigator.share) {
         await navigator.share({
@@ -369,6 +443,45 @@ export default function ReadingPage() {
       }
     } catch (err) {
       console.error("[Reading] Share failed:", err)
+      setShareStatus(shareCopy.failed)
+    } finally {
+      setIsCreatingShare(false)
+    }
+  }
+
+  const handleCopyShareTemplate = async (platform: ShareTemplatePlatform) => {
+    if (isCreatingShare || drawnCards.length === 0) return
+
+    setIsCreatingShare(true)
+    setShareStatus("")
+
+    try {
+      const absoluteUrl = await ensureShareUrl()
+      const text = createShareTemplate({
+        platform,
+        locale: language,
+        question,
+        cards: drawnCards.map((card) => ({
+          name: getCardName(card, language),
+          isReversed: card.isReversed,
+        })),
+        interpretation: getCurrentInterpretation(),
+        url: absoluteUrl,
+      })
+
+      await navigator.clipboard.writeText(text)
+      analyticsApi.track("share_template_copied", {
+        ...getCurrentAttribution(),
+        locale: language,
+        keyword: question,
+        reading_id: readingId,
+        metadata: {
+          platform,
+        },
+      })
+      setShareStatus(shareCopy.templateCopied)
+    } catch (err) {
+      console.error("[Reading] Share template failed:", err)
       setShareStatus(shareCopy.failed)
     } finally {
       setIsCreatingShare(false)
@@ -509,6 +622,10 @@ export default function ReadingPage() {
       </div>
     </div>
   )
+
+  const shouldShowSavePrompt =
+    showFollowUp && readingCount >= 2 && readingCount <= 3 && (!isLoggedIn || user?.is_anonymous)
+  const shouldShowMemberPrompt = showFollowUp && readingCount >= 4 && !user?.is_member
 
   return (
     <div
@@ -837,7 +954,7 @@ export default function ReadingPage() {
             pointerEvents: showFollowUp ? "auto" : "none",
           }}
         >
-          <div className="grid gap-4 md:grid-cols-[1.05fr_0.95fr]">
+          <div className={`grid gap-4 ${shouldShowSavePrompt || shouldShowMemberPrompt ? "md:grid-cols-[1.05fr_0.95fr]" : ""}`}>
             <div
               className="rounded-lg border border-[#dcb360]/18 bg-white/[0.045] p-5 backdrop-blur-sm"
             >
@@ -871,28 +988,71 @@ export default function ReadingPage() {
                 </div>
               )}
 
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <button
+                  onClick={() => handleCopyShareTemplate("xhs")}
+                  disabled={isCreatingShare || isReading}
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
+                >
+                  <Copy className="h-3.5 w-3.5" />
+                  {shareCopy.xhs}
+                </button>
+                <button
+                  onClick={() => handleCopyShareTemplate("instagram")}
+                  disabled={isCreatingShare || isReading}
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
+                >
+                  <Instagram className="h-3.5 w-3.5" />
+                  {shareCopy.instagram}
+                </button>
+              </div>
+
               {shareStatus && <p className="mt-3 text-xs text-white/45">{shareStatus}</p>}
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5 backdrop-blur-sm">
-              <div className="flex items-start gap-3">
-                <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#dcb360]/12 text-[#f3d58b]">
-                  <Crown className="h-4 w-4" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-white/86 text-sm font-medium">{shareCopy.memberTitle}</p>
-                  <p className="mt-2 text-white/52 text-sm leading-6">
-                    {shareCopy.memberText}
-                  </p>
-                  <Link
-                    href="/membership"
-                    className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#dcb360] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#f3d58b]"
-                  >
-                    {shareCopy.memberButton}
-                  </Link>
+            {shouldShowSavePrompt && (
+              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5 backdrop-blur-sm">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#dcb360]/12 text-[#f3d58b]">
+                    <LogIn className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-white/86 text-sm font-medium">{shareCopy.saveTitle}</p>
+                    <p className="mt-2 text-white/52 text-sm leading-6">
+                      {shareCopy.saveText.replace("{count}", String(readingCount))}
+                    </p>
+                    <Link
+                      href="/auth/login"
+                      className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#dcb360] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#f3d58b]"
+                    >
+                      {shareCopy.saveButton}
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+
+            {shouldShowMemberPrompt && (
+              <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5 backdrop-blur-sm">
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#dcb360]/12 text-[#f3d58b]">
+                    <Crown className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-white/86 text-sm font-medium">{shareCopy.memberTitle}</p>
+                    <p className="mt-2 text-white/52 text-sm leading-6">
+                      {shareCopy.memberText}
+                    </p>
+                    <Link
+                      href="/membership"
+                      className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#dcb360] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#f3d58b]"
+                    >
+                      {shareCopy.memberButton}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

@@ -1,4 +1,6 @@
 import { callFulfillment, verifyZpaySignature, type ZpayNotifyPayload } from "@/lib/server/payments"
+import { createServiceSupabase, hasSupabaseServiceKey } from "@/lib/server/supabase"
+import { trackServerAnalyticsEvent } from "@/lib/server/analytics"
 
 const LEGACY_BACKEND_ROOT = (process.env.LEGACY_SIXYA_BACKEND_ROOT || "https://fenxiao.rayaigc.com").replace(/\/$/, "")
 
@@ -66,6 +68,35 @@ async function handle(req: Request) {
     trade_no: tradeNo,
     provider: "zpay",
     payload,
+  })
+
+  let analyticsUserId: string | null = null
+  const analyticsMetadata: Record<string, unknown> = {
+    order_no: orderNo,
+    trade_no: tradeNo,
+  }
+
+  if (hasSupabaseServiceKey()) {
+    const supabase = createServiceSupabase()
+    const { data: order } = await supabase
+      .from("payment_orders")
+      .select("user_id,product_type,amount,pay_type,status")
+      .eq("order_no", orderNo)
+      .single()
+
+    analyticsUserId = order?.user_id || null
+    analyticsMetadata.product_type = order?.product_type
+    analyticsMetadata.amount = order?.amount
+    analyticsMetadata.pay_type = order?.pay_type
+    analyticsMetadata.status = order?.status
+  }
+
+  await trackServerAnalyticsEvent({
+    event_name: "payment_completed",
+    user_id: analyticsUserId,
+    path: "/api/payment/notify",
+    source: "zpay",
+    metadata: analyticsMetadata,
   })
 
   return text("success")

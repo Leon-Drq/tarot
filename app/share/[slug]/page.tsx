@@ -3,6 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowRight, Sparkles } from "lucide-react"
+import { ShareCopyActions } from "@/components/share/share-copy-actions"
 import { createAnonSupabase } from "@/lib/server/supabase"
 import type { ReadingShare, ReadingShareCard } from "@/lib/api"
 
@@ -180,6 +181,13 @@ export default async function SharePage({ params }: Params) {
                 Unlock More Spreads
               </Link>
             </div>
+
+            <ShareCopyActions
+              question={share.question}
+              cards={share.cards}
+              interpretation={share.interpretation_excerpt}
+              url={`${appUrl}/share/${share.slug}`}
+            />
           </div>
         </div>
       </section>

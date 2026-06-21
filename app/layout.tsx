@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { AuthProvider } from "@/contexts/auth-context"
 import { LanguageProvider } from "@/contexts/language-context"
 import { AudioProvider } from "@/contexts/audio-context"
+import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
 import "./globals.css"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
@@ -109,6 +110,7 @@ export default function RootLayout({
         <AudioProvider>
         <AuthProvider>
         {children}
+        <AnalyticsTracker />
         </AuthProvider>
         </AudioProvider>
         </LanguageProvider>

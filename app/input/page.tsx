@@ -7,8 +7,9 @@ import { CardSpread } from "@/components/tarot/card-spread"
 import { CardSelectionHeader } from "@/components/tarot/card-selection-header"
 import { ShuffleButton } from "@/components/tarot/shuffle-button"
 import { TAROT_CARDS, type DrawnCard } from "@/lib/tarot-cards"
-import { readingApi, type SpreadConfig, type DeckType } from "@/lib/api"
+import { analyticsApi, readingApi, type SpreadConfig, type DeckType } from "@/lib/api"
 import { useLanguage } from "@/contexts/language-context"
+import { getCurrentAttribution } from "@/lib/client-analytics"
 
 type PageState = "dealing" | "input" | "classifying" | "selecting" | "collecting"
 
@@ -47,6 +48,14 @@ function InputContent() {
     hasSubmittedQuestion.current = true
     setPageState("classifying")
     setIsClassifying(true)
+    analyticsApi.track("question_submitted", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: q,
+      metadata: {
+        question_length: q.length,
+      },
+    })
 
     try {
       // 调用问题分类API
@@ -107,6 +116,17 @@ function InputContent() {
         ...card,
         isReversed: Math.random() < 0.5, // 50%概率逆位
       }
+    })
+
+    analyticsApi.track("cards_selected", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: question,
+      metadata: {
+        spread_type: spreadInfo?.type || "three_card",
+        card_count: drawnCards.length,
+        deck_type: spreadInfo?.deckType || "major",
+      },
     })
 
     sessionStorage.setItem(

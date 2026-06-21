@@ -263,6 +263,71 @@ export const paymentApi = {
   },
 }
 
+// ========== Analytics API ==========
+
+export type AnalyticsEventName =
+  | 'page_view'
+  | 'question_submitted'
+  | 'cards_selected'
+  | 'reading_completed'
+  | 'share_created'
+  | 'share_template_copied'
+  | 'payment_started'
+  | 'payment_completed'
+
+export interface AnalyticsSummary {
+  range_days: number
+  totals: {
+    page_views: number
+    sessions: number
+    questions: number
+    cards_selected: number
+    readings_completed: number
+    shares_created: number
+    share_templates_copied: number
+    payment_started: number
+    payment_completed: number
+  }
+  rates: {
+    card_selection_rate: number
+    reading_completion_rate: number
+    payment_start_rate: number
+    payment_conversion_rate: number
+  }
+  top_sources: Array<{ label: string; count: number }>
+  top_keywords: Array<{ label: string; count: number }>
+  daily: Array<{
+    date: string
+    page_view: number
+    question_submitted: number
+    reading_completed: number
+    payment_completed: number
+  }>
+}
+
+export const analyticsApi = {
+  track: async (
+    eventName: AnalyticsEventName,
+    payload: Record<string, unknown> = {}
+  ): Promise<void> => {
+    try {
+      await request('/analytics/event', {
+        method: 'POST',
+        body: JSON.stringify({
+          event_name: eventName,
+          ...payload,
+        }),
+      })
+    } catch (error) {
+      console.warn('[Analytics] track failed:', error)
+    }
+  },
+
+  getSummary: async (days: number = 30): Promise<AnalyticsSummary> => {
+    return request(`/analytics/summary?days=${days}`)
+  },
+}
+
 // ========== Reading API ==========
 
 export interface CardData {

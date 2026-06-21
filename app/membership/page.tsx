@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation"
 import Link from "next/link"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
-import { paymentApi, memberApi, userApi, MemberStatus, UserProfile, Product } from "@/lib/api"
+import { analyticsApi, paymentApi, memberApi, userApi, MemberStatus, UserProfile, Product } from "@/lib/api"
+import { getCurrentAttribution } from "@/lib/client-analytics"
 
 // 预定义的星星位置，避免 hydration 不匹配
 const STAR_POSITIONS = Array.from({ length: 60 }, (_, i) => ({
@@ -194,6 +195,14 @@ function MembershipContent() {
     setError("")
 
     try {
+      analyticsApi.track("payment_started", {
+        ...getCurrentAttribution(),
+        locale: language,
+        metadata: {
+          product_type: selectedPlan,
+          pay_type: payType,
+        },
+      })
       const result = await paymentApi.createOrder(selectedPlan, payType)
       // 跳转到支付页面
       window.location.href = result.pay_url
@@ -215,6 +224,14 @@ function MembershipContent() {
     setError("")
 
     try {
+      analyticsApi.track("payment_started", {
+        ...getCurrentAttribution(),
+        locale: language,
+        metadata: {
+          product_type: "partner",
+          pay_type: payType,
+        },
+      })
       const result = await paymentApi.createOrder("partner", payType)
       window.location.href = result.pay_url
     } catch (err) {
