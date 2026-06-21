@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
+import { Copy, Crown, Share2 } from "lucide-react"
 import type { DrawnCard } from "@/lib/tarot-cards"
 import { getCardName } from "@/lib/tarot-cards"
 import BlurText from "@/components/ui/blur-text"
@@ -39,6 +41,71 @@ export default function ReadingPage() {
   const [isExiting, setIsExiting] = useState(false)
   const [readingId, setReadingId] = useState<string | null>(null)
   const [fullInterpretation, setFullInterpretation] = useState("")
+  const [shareUrl, setShareUrl] = useState("")
+  const [shareStatus, setShareStatus] = useState("")
+  const [isCreatingShare, setIsCreatingShare] = useState(false)
+  const shareCopy =
+    {
+      zh: {
+        title: "SHARE",
+        description: "生成一个公开结果页，分享时会带上牌面图片。",
+        button: "分享",
+        loading: "生成中",
+        generated: "分享链接已生成",
+        copied: "分享链接已复制",
+        failed: "分享失败，请稍后重试",
+        memberTitle: "继续深入时再升级",
+        memberText: "会员包含无限解读、历史记录、高级牌阵、深度关系/事业报告和分享图。",
+        memberButton: "查看会员权益",
+      },
+      en: {
+        title: "SHARE",
+        description: "Create a public result page with card images for social sharing.",
+        button: "Share",
+        loading: "Creating",
+        generated: "Share link ready",
+        copied: "Share link copied",
+        failed: "Sharing failed. Please try again.",
+        memberTitle: "Upgrade when you want to go deeper",
+        memberText: "Members get unlimited readings, saved history, advanced spreads, deep love/career reports, and share images.",
+        memberButton: "View membership",
+      },
+      ja: {
+        title: "SHARE",
+        description: "カード画像つきの公開結果ページを作成します。",
+        button: "共有",
+        loading: "作成中",
+        generated: "共有リンクを作成しました",
+        copied: "共有リンクをコピーしました",
+        failed: "共有に失敗しました。もう一度お試しください。",
+        memberTitle: "もっと深く知りたい時にアップグレード",
+        memberText: "会員は無制限リーディング、履歴保存、高度なスプレッド、恋愛/仕事の深掘りレポート、共有画像を利用できます。",
+        memberButton: "会員特典を見る",
+      },
+      ko: {
+        title: "SHARE",
+        description: "카드 이미지가 포함된 공개 결과 페이지를 만듭니다.",
+        button: "공유",
+        loading: "생성 중",
+        generated: "공유 링크가 생성되었습니다",
+        copied: "공유 링크를 복사했습니다",
+        failed: "공유에 실패했습니다. 다시 시도해 주세요.",
+        memberTitle: "더 깊게 보고 싶을 때 업그레이드",
+        memberText: "회원은 무제한 리딩, 기록 저장, 고급 스프레드, 관계/커리어 심층 리포트, 공유 이미지를 이용할 수 있습니다.",
+        memberButton: "멤버십 보기",
+      },
+    }[language] || {
+      title: "SHARE",
+      description: "Create a public result page with card images for social sharing.",
+      button: "Share",
+      loading: "Creating",
+      generated: "Share link ready",
+      copied: "Share link copied",
+      failed: "Sharing failed. Please try again.",
+      memberTitle: "Upgrade when you want to go deeper",
+      memberText: "Members get unlimited readings, saved history, advanced spreads, deep love/career reports, and share images.",
+      memberButton: "View membership",
+    }
 
   useEffect(() => {
     const data = sessionStorage.getItem("tarotReading")
@@ -264,6 +331,54 @@ export default function ReadingPage() {
       sessionStorage.removeItem("tarotReading")
       router.push("/")
     }, 2000)
+  }
+
+  const handleShare = async () => {
+    if (isCreatingShare || drawnCards.length === 0) return
+
+    setIsCreatingShare(true)
+    setShareStatus("")
+
+    try {
+      const interpretation =
+        fullInterpretation ||
+        messages.map((message) => message.content).join("\n\n---\n\n") ||
+        currentStreaming
+
+      const result = await readingApi.createShare({
+        reading_id: readingId || undefined,
+        question,
+        cards: drawnCards,
+        interpretation,
+        spread_type: spreadType,
+      })
+
+      const absoluteUrl = `${window.location.origin}${result.url}`
+      setShareUrl(absoluteUrl)
+
+      if (navigator.share) {
+        await navigator.share({
+          title: "POPTarot Reading",
+          text: question,
+          url: absoluteUrl,
+        })
+        setShareStatus(shareCopy.generated)
+      } else {
+        await navigator.clipboard.writeText(absoluteUrl)
+        setShareStatus(shareCopy.copied)
+      }
+    } catch (err) {
+      console.error("[Reading] Share failed:", err)
+      setShareStatus(shareCopy.failed)
+    } finally {
+      setIsCreatingShare(false)
+    }
+  }
+
+  const handleCopyShareUrl = async () => {
+    if (!shareUrl) return
+    await navigator.clipboard.writeText(shareUrl)
+    setShareStatus(shareCopy.copied)
   }
 
   // 获取位置标签
@@ -709,6 +824,74 @@ export default function ReadingPage() {
                   {t("common.pressEnter") || "Press Enter to send"}
                 </p>
               )}
+            </div>
+          </div>
+        </div>
+
+        {/* 分享与会员轻转化 */}
+        <div
+          className="mt-8 transition-all duration-700"
+          style={{
+            opacity: showFollowUp ? 1 : 0,
+            transform: showFollowUp ? "translateY(0)" : "translateY(18px)",
+            pointerEvents: showFollowUp ? "auto" : "none",
+          }}
+        >
+          <div className="grid gap-4 md:grid-cols-[1.05fr_0.95fr]">
+            <div
+              className="rounded-lg border border-[#dcb360]/18 bg-white/[0.045] p-5 backdrop-blur-sm"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[#dcb360] text-sm tracking-widest">{shareCopy.title}</p>
+                  <p className="mt-2 text-white/58 text-sm leading-6">
+                    {shareCopy.description}
+                  </p>
+                </div>
+                <button
+                  onClick={handleShare}
+                  disabled={isCreatingShare || isReading}
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dcb360]/40 px-4 py-2 text-sm text-[#f3d58b] transition-colors hover:border-[#f3d58b] hover:bg-[#dcb360]/10 disabled:opacity-45"
+                >
+                  <Share2 className="h-4 w-4" />
+                  {isCreatingShare ? shareCopy.loading : shareCopy.button}
+                </button>
+              </div>
+
+              {shareUrl && (
+                <div className="mt-4 flex items-center gap-2 rounded-lg border border-white/10 bg-black/20 p-2">
+                  <p className="min-w-0 flex-1 truncate text-xs text-white/55">{shareUrl}</p>
+                  <button
+                    onClick={handleCopyShareUrl}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-white/10 text-white/65 transition hover:bg-white/10 hover:text-white"
+                    aria-label="Copy share link"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
+
+              {shareStatus && <p className="mt-3 text-xs text-white/45">{shareStatus}</p>}
+            </div>
+
+            <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5 backdrop-blur-sm">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#dcb360]/12 text-[#f3d58b]">
+                  <Crown className="h-4 w-4" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-white/86 text-sm font-medium">{shareCopy.memberTitle}</p>
+                  <p className="mt-2 text-white/52 text-sm leading-6">
+                    {shareCopy.memberText}
+                  </p>
+                  <Link
+                    href="/membership"
+                    className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#dcb360] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#f3d58b]"
+                  >
+                    {shareCopy.memberButton}
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>

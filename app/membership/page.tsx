@@ -125,6 +125,63 @@ function MembershipContent() {
   }, [isLoggedIn])
 
   const hasPartnerDiscount = invitedCount >= 10
+  const extraBenefitLabels =
+    {
+      zh: {
+        basic: "基础",
+        deep: "深度",
+        sessionOnly: "本次",
+        saved: "保存",
+        basicSpread: "基础",
+        advancedSpread: "高级",
+        deepReports: "深度关系/事业报告",
+        shareImages: "分享图",
+        enhanced: "增强",
+      },
+      en: {
+        basic: "Basic",
+        deep: "Deep",
+        sessionOnly: "Session",
+        saved: "Saved",
+        basicSpread: "Basic",
+        advancedSpread: "Advanced",
+        deepReports: "Love/Career reports",
+        shareImages: "Share images",
+        enhanced: "Enhanced",
+      },
+      ja: {
+        basic: "基本",
+        deep: "深掘り",
+        sessionOnly: "今回のみ",
+        saved: "保存",
+        basicSpread: "基本",
+        advancedSpread: "高度",
+        deepReports: "恋愛/仕事レポート",
+        shareImages: "共有画像",
+        enhanced: "強化",
+      },
+      ko: {
+        basic: "기본",
+        deep: "심층",
+        sessionOnly: "이번 세션",
+        saved: "저장",
+        basicSpread: "기본",
+        advancedSpread: "고급",
+        deepReports: "관계/커리어 리포트",
+        shareImages: "공유 이미지",
+        enhanced: "향상",
+      },
+    }[language] || {
+      basic: "Basic",
+      deep: "Deep",
+      sessionOnly: "Session",
+      saved: "Saved",
+      basicSpread: "Basic",
+      advancedSpread: "Advanced",
+      deepReports: "Love/Career reports",
+      shareImages: "Share images",
+      enhanced: "Enhanced",
+    }
 
   // 购买会员
   const handlePurchase = async () => {
@@ -478,9 +535,11 @@ function MembershipContent() {
           <div className="space-y-3">
             {[
               { label: t("membership.dailyReading"), free: `1 ${t("membership.times")}`, member: t("membership.unlimited") },
-              { label: t("membership.aiInterpretation"), free: t("membership.notAvailable"), member: t("membership.available") },
-              { label: t("membership.historyRecords"), free: t("membership.notAvailable"), member: t("membership.available") },
-              { label: t("membership.exclusiveSpreads"), free: t("membership.notAvailable"), member: t("membership.available") },
+              { label: t("membership.aiInterpretation"), free: extraBenefitLabels.basic, member: extraBenefitLabels.deep },
+              { label: t("membership.historyRecords"), free: extraBenefitLabels.sessionOnly, member: extraBenefitLabels.saved },
+              { label: t("membership.exclusiveSpreads"), free: extraBenefitLabels.basicSpread, member: extraBenefitLabels.advancedSpread },
+              { label: extraBenefitLabels.deepReports, free: t("membership.notAvailable"), member: t("membership.available") },
+              { label: extraBenefitLabels.shareImages, free: extraBenefitLabels.basic, member: extraBenefitLabels.enhanced },
             ].map((item) => (
               <div key={item.label} className="flex items-center justify-between py-2 border-b border-mystic-border/50">
                 <span className="text-mystic-foreground text-sm">{item.label}</span>

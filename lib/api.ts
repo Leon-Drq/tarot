@@ -323,6 +323,23 @@ export interface ReadingRecord {
   created_at: string
 }
 
+export interface ReadingShareCard {
+  id?: number
+  name: string
+  nameEn?: string
+  image?: string
+  isReversed: boolean
+}
+
+export interface ReadingShare {
+  slug: string
+  question: string
+  cards: ReadingShareCard[]
+  spread_type: string
+  interpretation_excerpt: string
+  created_at: string
+}
+
 export interface ReadingHistoryResponse {
   readings: ReadingRecord[]
   total: number
@@ -409,6 +426,25 @@ export const readingApi = {
         interpretation,
       }),
     })
+  },
+
+  // 创建公开分享快照
+  createShare: async (payload: {
+    reading_id?: string
+    question: string
+    cards: unknown[]
+    interpretation?: string
+    spread_type?: string
+  }): Promise<{ slug: string; url: string }> => {
+    return request('/reading/share', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+  },
+
+  // 获取公开分享快照
+  getShare: async (slug: string): Promise<ReadingShare> => {
+    return request(`/reading/share/${slug}`)
   },
   
   // 获取解读历史

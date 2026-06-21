@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useRef } from "react"
-import { useRouter } from "next/navigation"
+import { Suspense, useState, useRef } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
 import { QuestionInput } from "@/components/tarot/question-input"
 import { CardSpread } from "@/components/tarot/card-spread"
 import { CardSelectionHeader } from "@/components/tarot/card-selection-header"
@@ -20,7 +20,7 @@ interface SpreadInfo {
   confidence: number
 }
 
-export default function InputPage() {
+function InputContent() {
   const [pageState, setPageState] = useState<PageState>("dealing")
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([])
   const [question, setQuestion] = useState("")
@@ -29,7 +29,9 @@ export default function InputPage() {
   const [isClassifying, setIsClassifying] = useState(false)
   const hasSubmittedQuestion = useRef(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { t, language } = useLanguage()
+  const initialQuestion = searchParams.get("q") || ""
 
   // 根据牌阵配置获取需要选择的卡牌数量
   const requiredCardCount = spreadInfo?.config.cardCount || 3
@@ -224,7 +226,15 @@ export default function InputPage() {
         </>
       )}
 
-      <QuestionInput visible={pageState === "input"} onSubmit={handleQuestionSubmit} />
+      <QuestionInput visible={pageState === "input"} onSubmit={handleQuestionSubmit} initialQuestion={initialQuestion} />
     </div>
+  )
+}
+
+export default function InputPage() {
+  return (
+    <Suspense fallback={null}>
+      <InputContent />
+    </Suspense>
   )
 }

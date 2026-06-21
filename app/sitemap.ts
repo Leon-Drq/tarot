@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next"
+import { seoPages } from "@/lib/seo-pages"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 
@@ -9,6 +10,7 @@ const routes = [
   { path: "/input", priority: 0.8 },
   { path: "/reading", priority: 0.7 },
   { path: "/membership", priority: 0.4 },
+  ...seoPages.map((page) => ({ path: `/${page.slug}`, priority: 0.85 })),
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {

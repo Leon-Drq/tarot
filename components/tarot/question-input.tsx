@@ -7,11 +7,12 @@ import { translations } from "@/lib/translations"
 interface QuestionInputProps {
   visible?: boolean
   onSubmit?: (question: string) => void
+  initialQuestion?: string
 }
 
-export function QuestionInput({ visible = true, onSubmit }: QuestionInputProps) {
+export function QuestionInput({ visible = true, onSubmit, initialQuestion = "" }: QuestionInputProps) {
   const { t, language } = useLanguage()
-  const [question, setQuestion] = useState("")
+  const [question, setQuestion] = useState(initialQuestion)
   const [hasSubmitted, setHasSubmitted] = useState(false)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
 
@@ -27,6 +28,12 @@ export function QuestionInput({ visible = true, onSubmit }: QuestionInputProps) 
       return () => clearInterval(interval)
     }
   }, [suggestedQuestions.length])
+
+  useEffect(() => {
+    if (initialQuestion && !hasSubmitted) {
+      setQuestion(initialQuestion)
+    }
+  }, [initialQuestion, hasSubmitted])
 
   const handleSubmit = () => {
     if (question.trim() && !hasSubmitted) {
