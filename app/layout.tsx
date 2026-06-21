@@ -7,18 +7,86 @@ import { LanguageProvider } from "@/contexts/language-context"
 import { AudioProvider } from "@/contexts/audio-context"
 import "./globals.css"
 
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
+const siteName = "POPTarot"
+const siteTitle = "POPTarot - Free AI Tarot Reading"
+const siteDescription =
+  "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
+
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 const _cinzel = Cinzel({ subsets: ["latin"], weight: ["400", "500", "600", "700"] })
 const _playfair = Playfair_Display({ subsets: ["latin"], weight: ["400", "500", "600", "700"] })
 
 export const metadata: Metadata = {
-  title: "POPTarot",
-  description: "探索命运的奥秘，体验专业的塔罗牌占卜",
+  metadataBase: new URL(appUrl),
+  applicationName: siteName,
+  title: {
+    default: siteTitle,
+    template: `%s | ${siteName}`,
+  },
+  description: siteDescription,
+  keywords: [
+    "AI tarot reading",
+    "free tarot reading",
+    "online tarot cards",
+    "daily tarot",
+    "love tarot reading",
+    "career tarot reading",
+    "塔罗牌",
+    "免费塔罗",
+    "AI 塔罗",
+    "每日塔罗",
+  ],
+  authors: [{ name: siteName, url: appUrl }],
+  creator: siteName,
+  publisher: siteName,
+  alternates: {
+    canonical: "/",
+  },
   icons: {
-    icon: "/icon_tarot.jpg",
-    apple: "/icon_tarot.jpg",
-    shortcut: "/icon_tarot.jpg",
+    icon: [
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: "/favicon-48x48.png",
+  },
+  manifest: "/manifest.webmanifest",
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName,
+    title: siteTitle,
+    description: siteDescription,
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "POPTarot AI tarot reading",
+      },
+    ],
+    locale: "en_US",
+    alternateLocale: ["zh_CN"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
+    images: ["/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
 }
 
