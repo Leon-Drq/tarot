@@ -230,13 +230,13 @@ function MysticContent() {
       },
       ja: {
         eyebrow: "無料 AI タロット",
-        line: "質問してカードを引き、まず無料で AI リーディングを体験できます。",
+        line: "質問して、まず無料で AI リーディング。",
         daily: "今日の一枚",
         guide: "カードの意味",
       },
       ko: {
         eyebrow: "무료 AI 타로 도구",
-        line: "질문하고 카드를 뽑아 먼저 무료 AI 리딩을 받아보세요.",
+        line: "질문하고 먼저 무료 AI 리딩을 받아보세요.",
         daily: "오늘의 카드",
         guide: "카드 의미",
       },
@@ -284,7 +284,7 @@ function MysticContent() {
           <p className="text-[10px] uppercase tracking-[0.26em] text-mystic-gold-bright/85 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
-          <p className="mx-auto mt-3 max-w-[20rem] break-words text-xs leading-6 text-white/62 sm:max-w-[34rem] sm:text-sm md:text-base">
+          <p className="mx-auto mt-3 max-w-[20rem] break-words text-xs leading-6 text-white/62 [overflow-wrap:anywhere] sm:max-w-[34rem] sm:text-sm md:text-base">
             {heroCopy.line}
           </p>
           <div className="pointer-events-auto mt-3 hidden items-center justify-center gap-2 text-[11px] text-white/58 sm:flex sm:text-xs">
