@@ -7,7 +7,7 @@ import { getCardKeywords, type TarotCardSeoPage } from "@/lib/tarot-card-seo"
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 
 export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
-  const keywords = getCardKeywords(page.card)
+  const keywords = getCardKeywords(page.card, page.locale)
   const meaningsHref = localePath(page.locale, "/tarot-card-meanings")
   const structuredData = {
     "@context": "https://schema.org",

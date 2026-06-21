@@ -105,6 +105,257 @@ function cleanKeywords(value: string) {
   return value.replace(/、/g, " / ")
 }
 
+type KeywordLocale = "en" | "es" | "pt-br"
+type KeywordOrientation = "upright" | "reversed"
+
+const majorKeywordSets: Partial<Record<number, Record<KeywordLocale, Record<KeywordOrientation, string>>>> = {
+  0: {
+    en: { upright: "new beginnings / freedom / trust / adventure", reversed: "recklessness / naivety / poor planning / hesitation" },
+    es: { upright: "nuevos comienzos / libertad / confianza / aventura", reversed: "imprudencia / ingenuidad / mala planificacion / duda" },
+    "pt-br": { upright: "novos comecos / liberdade / confianca / aventura", reversed: "imprudencia / ingenuidade / planejamento fraco / hesitacao" },
+  },
+  1: {
+    en: { upright: "manifestation / willpower / skill / focus", reversed: "manipulation / scattered energy / untapped skill / poor direction" },
+    es: { upright: "manifestacion / voluntad / habilidad / enfoque", reversed: "manipulacion / energia dispersa / habilidad bloqueada / falta de direccion" },
+    "pt-br": { upright: "manifestacao / forca de vontade / habilidade / foco", reversed: "manipulacao / energia dispersa / habilidade bloqueada / falta de direcao" },
+  },
+  2: {
+    en: { upright: "intuition / mystery / inner wisdom / subconscious", reversed: "hidden motives / surface answers / ignored intuition / secrecy" },
+    es: { upright: "intuicion / misterio / sabiduria interior / subconsciente", reversed: "motivos ocultos / respuestas superficiales / intuicion ignorada / secreto" },
+    "pt-br": { upright: "intuicao / misterio / sabedoria interior / subconsciente", reversed: "motivos ocultos / respostas superficiais / intuicao ignorada / segredo" },
+  },
+  3: {
+    en: { upright: "abundance / nurture / creativity / beauty", reversed: "dependency / emptiness / blocked creativity / overprotection" },
+    es: { upright: "abundancia / cuidado / creatividad / belleza", reversed: "dependencia / vacio / creatividad bloqueada / sobreproteccion" },
+    "pt-br": { upright: "abundancia / cuidado / criatividade / beleza", reversed: "dependencia / vazio / criatividade bloqueada / superprotecao" },
+  },
+  4: {
+    en: { upright: "authority / structure / stability / leadership", reversed: "rigidity / control issues / weak discipline / misuse of power" },
+    es: { upright: "autoridad / estructura / estabilidad / liderazgo", reversed: "rigidez / control excesivo / poca disciplina / abuso de poder" },
+    "pt-br": { upright: "autoridade / estrutura / estabilidade / lideranca", reversed: "rigidez / controle excessivo / pouca disciplina / abuso de poder" },
+  },
+  5: {
+    en: { upright: "tradition / belief / teaching / guidance", reversed: "rebellion / personal belief / unconventional path / questioning rules" },
+    es: { upright: "tradicion / creencia / ensenanza / guia", reversed: "rebeldia / creencia personal / camino no convencional / cuestionar reglas" },
+    "pt-br": { upright: "tradicao / crenca / ensino / orientacao", reversed: "rebeldia / crenca pessoal / caminho nao convencional / questionar regras" },
+  },
+  6: {
+    en: { upright: "love / harmony / choice / shared values", reversed: "imbalance / disharmony / difficult choice / value conflict" },
+    es: { upright: "amor / armonia / eleccion / valores compartidos", reversed: "desequilibrio / desarmonia / eleccion dificil / conflicto de valores" },
+    "pt-br": { upright: "amor / harmonia / escolha / valores compartilhados", reversed: "desequilibrio / desarmonia / escolha dificil / conflito de valores" },
+  },
+  7: {
+    en: { upright: "willpower / victory / control / decisive action", reversed: "loss of control / aggression / lack of direction / frustration" },
+    es: { upright: "voluntad / victoria / control / accion decidida", reversed: "perdida de control / agresividad / falta de direccion / frustracion" },
+    "pt-br": { upright: "forca de vontade / vitoria / controle / acao decidida", reversed: "perda de controle / agressividade / falta de direcao / frustracao" },
+  },
+  8: {
+    en: { upright: "courage / patience / inner strength / compassion", reversed: "self-doubt / weakness / insecurity / lost courage" },
+    es: { upright: "valor / paciencia / fuerza interior / compasion", reversed: "duda personal / debilidad / inseguridad / falta de valor" },
+    "pt-br": { upright: "coragem / paciencia / forca interior / compaixao", reversed: "duvida de si / fraqueza / inseguranca / falta de coragem" },
+  },
+  9: {
+    en: { upright: "introspection / solitude / guidance / wisdom", reversed: "isolation / loneliness / withdrawal / lost direction" },
+    es: { upright: "introspeccion / soledad elegida / guia / sabiduria", reversed: "aislamiento / soledad / retraimiento / direccion perdida" },
+    "pt-br": { upright: "introspeccao / solitude / orientacao / sabedoria", reversed: "isolamento / solidao / retraimento / direcao perdida" },
+  },
+  10: {
+    en: { upright: "fate / cycles / change / turning point", reversed: "bad luck / resistance to change / repeated pattern / delay" },
+    es: { upright: "destino / ciclos / cambio / punto de giro", reversed: "mala suerte / resistencia al cambio / patron repetido / demora" },
+    "pt-br": { upright: "destino / ciclos / mudanca / ponto de virada", reversed: "ma sorte / resistencia a mudanca / padrao repetido / atraso" },
+  },
+  11: {
+    en: { upright: "justice / truth / cause and effect / balance", reversed: "unfairness / avoidance / dishonesty / imbalance" },
+    es: { upright: "justicia / verdad / causa y efecto / equilibrio", reversed: "injusticia / evitacion / deshonestidad / desequilibrio" },
+    "pt-br": { upright: "justica / verdade / causa e efeito / equilibrio", reversed: "injustica / evitacao / desonestidade / desequilibrio" },
+  },
+  12: {
+    en: { upright: "surrender / pause / new perspective / letting go", reversed: "delay / resistance / stubbornness / pointless sacrifice" },
+    es: { upright: "rendicion / pausa / nueva perspectiva / soltar", reversed: "demora / resistencia / terquedad / sacrificio inutil" },
+    "pt-br": { upright: "entrega / pausa / nova perspectiva / deixar ir", reversed: "atraso / resistencia / teimosia / sacrificio inutil" },
+  },
+  13: {
+    en: { upright: "ending / transformation / transition / renewal", reversed: "resistance to change / stagnation / inability to let go / delay" },
+    es: { upright: "final / transformacion / transicion / renovacion", reversed: "resistencia al cambio / estancamiento / dificultad para soltar / demora" },
+    "pt-br": { upright: "fim / transformacao / transicao / renovacao", reversed: "resistencia a mudanca / estagnacao / dificuldade de soltar / atraso" },
+  },
+  14: {
+    en: { upright: "balance / moderation / patience / harmony", reversed: "imbalance / excess / impatience / conflict" },
+    es: { upright: "equilibrio / moderacion / paciencia / armonia", reversed: "desequilibrio / exceso / impaciencia / conflicto" },
+    "pt-br": { upright: "equilibrio / moderacao / paciencia / harmonia", reversed: "desequilibrio / excesso / impaciencia / conflito" },
+  },
+  15: {
+    en: { upright: "attachment / temptation / materialism / shadow", reversed: "release / breaking bonds / reclaiming freedom / recovery" },
+    es: { upright: "apego / tentacion / materialismo / sombra", reversed: "liberacion / romper ataduras / recuperar libertad / recuperacion" },
+    "pt-br": { upright: "apego / tentacao / materialismo / sombra", reversed: "libertacao / romper amarras / recuperar liberdade / recuperacao" },
+  },
+  16: {
+    en: { upright: "sudden change / collapse / revelation / awakening", reversed: "avoiding disaster / fear of change / delayed collapse / resistance" },
+    es: { upright: "cambio repentino / derrumbe / revelacion / despertar", reversed: "evitar crisis / miedo al cambio / derrumbe demorado / resistencia" },
+    "pt-br": { upright: "mudanca repentina / colapso / revelacao / despertar", reversed: "evitar crise / medo da mudanca / colapso adiado / resistencia" },
+  },
+  17: {
+    en: { upright: "hope / inspiration / peace / healing", reversed: "despair / lost faith / disconnection / discouragement" },
+    es: { upright: "esperanza / inspiracion / paz / sanacion", reversed: "desesperanza / fe perdida / desconexion / desaliento" },
+    "pt-br": { upright: "esperanca / inspiracao / paz / cura", reversed: "desespero / fe perdida / desconexao / desanimo" },
+  },
+  18: {
+    en: { upright: "illusion / intuition / subconscious / fear", reversed: "released fear / truth revealed / inner clarity / confusion fading" },
+    es: { upright: "ilusion / intuicion / subconsciente / miedo", reversed: "miedo liberado / verdad revelada / claridad interior / confusion que cede" },
+    "pt-br": { upright: "ilusao / intuicao / subconsciente / medo", reversed: "medo liberado / verdade revelada / clareza interior / confusao diminuindo" },
+  },
+  19: {
+    en: { upright: "joy / success / vitality / optimism", reversed: "temporary setback / over-optimism / unclear success / dimmed confidence" },
+    es: { upright: "alegria / exito / vitalidad / optimismo", reversed: "revés temporal / optimismo excesivo / exito poco claro / confianza apagada" },
+    "pt-br": { upright: "alegria / sucesso / vitalidade / otimismo", reversed: "contratempo temporario / otimismo excessivo / sucesso pouco claro / confianca baixa" },
+  },
+  20: {
+    en: { upright: "awakening / rebirth / calling / reflection", reversed: "self-doubt / ignored calling / self-criticism / delay" },
+    es: { upright: "despertar / renacimiento / llamado / reflexion", reversed: "duda personal / llamado ignorado / autocritica / demora" },
+    "pt-br": { upright: "despertar / renascimento / chamado / reflexao", reversed: "duvida de si / chamado ignorado / autocritica / atraso" },
+  },
+  21: {
+    en: { upright: "completion / integration / achievement / wholeness", reversed: "unfinished business / lack of closure / delayed success / loose ends" },
+    es: { upright: "culminacion / integracion / logro / plenitud", reversed: "asunto incompleto / falta de cierre / exito demorado / cabos sueltos" },
+    "pt-br": { upright: "conclusao / integracao / conquista / plenitude", reversed: "assunto inacabado / falta de fechamento / sucesso adiado / pontas soltas" },
+  },
+}
+
+const suitKeywordDomains = {
+  major: {
+    en: "life lesson / turning point / inner pattern",
+    es: "leccion de vida / punto de giro / patron interior",
+    "pt-br": "licao de vida / ponto de virada / padrao interior",
+  },
+  wands: {
+    en: "creative energy / ambition / momentum",
+    es: "energia creativa / ambicion / impulso",
+    "pt-br": "energia criativa / ambicao / movimento",
+  },
+  cups: {
+    en: "emotion / relationship / intuition",
+    es: "emocion / relacion / intuicion",
+    "pt-br": "emocao / relacionamento / intuicao",
+  },
+  pentacles: {
+    en: "work / money / resources / stability",
+    es: "trabajo / dinero / recursos / estabilidad",
+    "pt-br": "trabalho / dinheiro / recursos / estabilidade",
+  },
+  swords: {
+    en: "clarity / communication / decision / tension",
+    es: "claridad / comunicacion / decision / tension",
+    "pt-br": "clareza / comunicacao / decisao / tensao",
+  },
+} satisfies Record<CardSuit, Record<KeywordLocale, string>>
+
+const minorRankKeywords = {
+  ace: {
+    en: { upright: "new opportunity / seed potential / first step", reversed: "missed chance / delay / blocked potential" },
+    es: { upright: "nueva oportunidad / potencial inicial / primer paso", reversed: "oportunidad perdida / demora / potencial bloqueado" },
+    "pt-br": { upright: "nova oportunidade / potencial inicial / primeiro passo", reversed: "chance perdida / atraso / potencial bloqueado" },
+  },
+  two: {
+    en: { upright: "choice / balance / planning / partnership", reversed: "indecision / imbalance / unclear plan / tension" },
+    es: { upright: "eleccion / equilibrio / planificacion / asociacion", reversed: "indecision / desequilibrio / plan poco claro / tension" },
+    "pt-br": { upright: "escolha / equilibrio / planejamento / parceria", reversed: "indecisao / desequilibrio / plano pouco claro / tensao" },
+  },
+  three: {
+    en: { upright: "growth / teamwork / progress / expansion", reversed: "delay / limited vision / weak collaboration" },
+    es: { upright: "crecimiento / trabajo en equipo / progreso / expansion", reversed: "demora / vision limitada / colaboracion debil" },
+    "pt-br": { upright: "crescimento / trabalho em equipe / progresso / expansao", reversed: "atraso / visao limitada / colaboracao fraca" },
+  },
+  four: {
+    en: { upright: "stability / foundation / rest / structure", reversed: "instability / restlessness / delayed celebration" },
+    es: { upright: "estabilidad / base / descanso / estructura", reversed: "inestabilidad / inquietud / celebracion demorada" },
+    "pt-br": { upright: "estabilidade / base / descanso / estrutura", reversed: "instabilidade / inquietacao / celebracao adiada" },
+  },
+  five: {
+    en: { upright: "conflict / challenge / change / pressure", reversed: "avoidance / inner tension / release after conflict" },
+    es: { upright: "conflicto / desafio / cambio / presion", reversed: "evitacion / tension interna / alivio tras conflicto" },
+    "pt-br": { upright: "conflito / desafio / mudanca / pressao", reversed: "evitacao / tensao interna / alivio apos conflito" },
+  },
+  six: {
+    en: { upright: "progress / recognition / healing / transition", reversed: "lack of recognition / private doubt / slow recovery" },
+    es: { upright: "progreso / reconocimiento / sanacion / transicion", reversed: "falta de reconocimiento / duda privada / recuperacion lenta" },
+    "pt-br": { upright: "progresso / reconhecimento / cura / transicao", reversed: "falta de reconhecimento / duvida interna / recuperacao lenta" },
+  },
+  seven: {
+    en: { upright: "defense / strategy / patience / assessment", reversed: "overwhelm / poor strategy / giving up" },
+    es: { upright: "defensa / estrategia / paciencia / evaluacion", reversed: "sobrecarga / mala estrategia / rendirse" },
+    "pt-br": { upright: "defesa / estrategia / paciencia / avaliacao", reversed: "sobrecarga / estrategia fraca / desistir" },
+  },
+  eight: {
+    en: { upright: "momentum / action / movement / message", reversed: "delay / friction / scattered energy" },
+    es: { upright: "impulso / accion / movimiento / mensaje", reversed: "demora / friccion / energia dispersa" },
+    "pt-br": { upright: "movimento / acao / avanco / mensagem", reversed: "atraso / atrito / energia dispersa" },
+  },
+  nine: {
+    en: { upright: "resilience / boundaries / final test / self-reliance", reversed: "fatigue / defensiveness / hard to continue" },
+    es: { upright: "resiliencia / limites / prueba final / autonomia", reversed: "cansancio / defensividad / dificultad para seguir" },
+    "pt-br": { upright: "resiliencia / limites / teste final / autonomia", reversed: "cansaco / defensividade / dificuldade de continuar" },
+  },
+  ten: {
+    en: { upright: "completion / burden / legacy / outcome", reversed: "overload / release / letting go" },
+    es: { upright: "culminacion / carga / legado / resultado", reversed: "sobrecarga / liberacion / soltar" },
+    "pt-br": { upright: "conclusao / carga / legado / resultado", reversed: "sobrecarga / liberacao / deixar ir" },
+  },
+  page: {
+    en: { upright: "curiosity / study / message / new skill", reversed: "immaturity / delay / unfocused learning" },
+    es: { upright: "curiosidad / estudio / mensaje / nueva habilidad", reversed: "inmadurez / demora / aprendizaje disperso" },
+    "pt-br": { upright: "curiosidade / estudo / mensagem / nova habilidade", reversed: "imaturidade / atraso / aprendizado disperso" },
+  },
+  knight: {
+    en: { upright: "movement / pursuit / courage / mission", reversed: "impulsiveness / restlessness / inconsistent action" },
+    es: { upright: "movimiento / busqueda / valor / mision", reversed: "impulsividad / inquietud / accion inconsistente" },
+    "pt-br": { upright: "movimento / busca / coragem / missao", reversed: "impulsividade / inquietacao / acao inconsistente" },
+  },
+  queen: {
+    en: { upright: "maturity / care / intuition / steady leadership", reversed: "dependency / scattered energy / emotional strain" },
+    es: { upright: "madurez / cuidado / intuicion / liderazgo estable", reversed: "dependencia / energia dispersa / tension emocional" },
+    "pt-br": { upright: "maturidade / cuidado / intuicao / lideranca estavel", reversed: "dependencia / energia dispersa / tensao emocional" },
+  },
+  king: {
+    en: { upright: "mastery / authority / strategy / stability", reversed: "control issues / rigidity / imbalanced power" },
+    es: { upright: "maestria / autoridad / estrategia / estabilidad", reversed: "control excesivo / rigidez / poder desequilibrado" },
+    "pt-br": { upright: "maestria / autoridade / estrategia / estabilidade", reversed: "controle excessivo / rigidez / poder desequilibrado" },
+  },
+} satisfies Record<string, Record<KeywordLocale, Record<KeywordOrientation, string>>>
+
+function toKeywordLocale(locale: SeoLocale): KeywordLocale {
+  return locale === "es" || locale === "pt-br" ? locale : "en"
+}
+
+function getMinorRank(card: TarotCard) {
+  const name = card.nameEn.toLowerCase()
+  if (name.startsWith("ace")) return "ace"
+  if (name.startsWith("two")) return "two"
+  if (name.startsWith("three")) return "three"
+  if (name.startsWith("four")) return "four"
+  if (name.startsWith("five")) return "five"
+  if (name.startsWith("six")) return "six"
+  if (name.startsWith("seven")) return "seven"
+  if (name.startsWith("eight")) return "eight"
+  if (name.startsWith("nine")) return "nine"
+  if (name.startsWith("ten")) return "ten"
+  if (name.startsWith("page")) return "page"
+  if (name.startsWith("knight")) return "knight"
+  if (name.startsWith("queen")) return "queen"
+  return "king"
+}
+
+function localizedKeywords(card: TarotCard, locale: SeoLocale, orientation: KeywordOrientation) {
+  if (locale === "zh") return cleanKeywords(card.meaning[orientation])
+
+  const keywordLocale = toKeywordLocale(locale)
+  const major = majorKeywordSets[card.id]?.[keywordLocale]?.[orientation]
+  if (major) return major
+
+  const rank = minorRankKeywords[getMinorRank(card)][keywordLocale][orientation]
+  const suit = suitKeywordDomains[getCardSuit(card)][keywordLocale]
+  return `${rank} / ${suit}`
+}
+
 function cardTone(card: TarotCard) {
   if (card.id <= 21) return "major life pattern"
   if (card.id >= 22 && card.id <= 35) return "creative and motivational signal"
@@ -126,8 +377,8 @@ function localizedCardName(card: TarotCard, locale: SeoLocale) {
 function createDeepSections(card: TarotCard, locale: SeoLocale, theme: string) {
   const englishName = card.nameEn
   const name = localizedCardName(card, locale)
-  const upright = cleanKeywords(card.meaning.upright)
-  const reversed = cleanKeywords(card.meaning.reversed)
+  const upright = localizedKeywords(card, locale, "upright")
+  const reversed = localizedKeywords(card, locale, "reversed")
 
   if (locale === "en") {
     return [
@@ -284,7 +535,7 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
     return [
       {
         question: `What does ${englishName} mean in tarot?`,
-        answer: `${englishName} represents ${cleanKeywords(card.meaning.upright)} when upright, while the reversed meaning can point to ${cleanKeywords(card.meaning.reversed)}.`,
+        answer: `${englishName} represents ${localizedKeywords(card, locale, "upright")} when upright, while the reversed meaning can point to ${localizedKeywords(card, locale, "reversed")}.`,
       },
       {
         question: `Is ${englishName} a yes or no card?`,
@@ -303,8 +554,8 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
       {
         question: isEs ? `¿Qué significa ${englishName} en tarot?` : `O que significa ${englishName} no tarot?`,
         answer: isEs
-          ? `${englishName} en posición normal representa ${cleanKeywords(card.meaning.upright)}; invertida puede señalar ${cleanKeywords(card.meaning.reversed)}.`
-          : `${englishName} na posição normal representa ${cleanKeywords(card.meaning.upright)}; invertida pode indicar ${cleanKeywords(card.meaning.reversed)}.`,
+          ? `${englishName} en posición normal representa ${localizedKeywords(card, locale, "upright")}; invertida puede señalar ${localizedKeywords(card, locale, "reversed")}.`
+          : `${englishName} na posição normal representa ${localizedKeywords(card, locale, "upright")}; invertida pode indicar ${localizedKeywords(card, locale, "reversed")}.`,
       },
       {
         question: isEs ? `¿${englishName} es una carta de sí o no?` : `${englishName} é uma carta de sim ou não?`,
@@ -322,8 +573,8 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
         locale === "zh"
           ? `${name}正位通常指向${cleanKeywords(card.meaning.upright)}，逆位则提示${cleanKeywords(card.meaning.reversed)}。`
           : locale === "ja"
-            ? `${name}の正位置は${cleanKeywords(card.meaning.upright)}、逆位置は${cleanKeywords(card.meaning.reversed)}を示します。`
-            : `${name} 정방향은 ${cleanKeywords(card.meaning.upright)}, 역방향은 ${cleanKeywords(card.meaning.reversed)}를 의미합니다.`,
+            ? `${name}の正位置は${localizedKeywords(card, locale, "upright")}、逆位置は${localizedKeywords(card, locale, "reversed")}を示します。`
+            : `${name} 정방향은 ${localizedKeywords(card, locale, "upright")}, 역방향은 ${localizedKeywords(card, locale, "reversed")}를 의미합니다.`,
     },
     {
       question: locale === "zh" ? `${name}是或否怎么解？` : locale === "ja" ? `${name}は Yes/No でどう読む？` : `${name}는 예/아니오에서 어떻게 읽나요?`,
@@ -494,10 +745,10 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
   }
 }
 
-export function getCardKeywords(card: TarotCard) {
+export function getCardKeywords(card: TarotCard, locale: SeoLocale = "zh") {
   return {
-    upright: cleanKeywords(card.meaning.upright),
-    reversed: cleanKeywords(card.meaning.reversed),
+    upright: localizedKeywords(card, locale, "upright"),
+    reversed: localizedKeywords(card, locale, "reversed"),
   }
 }
 
