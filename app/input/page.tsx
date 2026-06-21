@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState, useRef } from "react"
+import { Suspense, useEffect, useState, useRef } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { QuestionInput } from "@/components/tarot/question-input"
 import { CardSpread } from "@/components/tarot/card-spread"
@@ -33,6 +33,7 @@ function InputContent() {
   const searchParams = useSearchParams()
   const { t, language } = useLanguage()
   const initialQuestion = searchParams.get("q") || ""
+  const autoStart = searchParams.get("auto") === "1"
 
   // 根据牌阵配置获取需要选择的卡牌数量
   const requiredCardCount = spreadInfo?.config.cardCount || 3
@@ -93,6 +94,12 @@ function InputContent() {
     setPageState("selecting")
     }
   }
+
+  useEffect(() => {
+    if (pageState === "input" && autoStart && initialQuestion && !hasSubmittedQuestion.current) {
+      void handleQuestionSubmit(initialQuestion)
+    }
+  }, [pageState, autoStart, initialQuestion])
 
   const handleCardSelect = (cardId: number) => {
     setSelectedCardIds((prev) => {
