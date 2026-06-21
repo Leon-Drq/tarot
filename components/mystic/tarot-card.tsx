@@ -41,7 +41,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
 
   return (
     <div
-      className="absolute left-0 right-0 top-0 z-[5] flex h-[100dvh] items-center justify-center pb-[8rem] sm:pb-0"
+      className="absolute left-0 right-0 top-0 z-[5] flex h-[100dvh] items-center justify-center pt-[3rem] sm:pt-0"
       style={{
         perspective: "1000px",
         opacity: 1,
