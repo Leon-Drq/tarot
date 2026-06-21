@@ -240,9 +240,15 @@
 }
 
 @keyframes rotateCard {
-  0% {
+  0%,
+  22% {
     transform: rotateZ(-15deg) rotateY(0deg);
   }
+  36%,
+  58% {
+    transform: rotateZ(-15deg) rotateY(-180deg);
+  }
+  72%,
   100% {
     transform: rotateZ(-15deg) rotateY(-360deg);
   }
