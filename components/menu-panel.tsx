@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
@@ -73,13 +73,6 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
   const { t } = useLanguage()
   const frontInputRef = useRef<HTMLInputElement>(null)
   const backInputRef = useRef<HTMLInputElement>(null)
-  const [showComingSoon, setShowComingSoon] = useState(false)
-
-  // 显示"敬请期待"提示
-  const handleComingSoon = () => {
-    setShowComingSoon(true)
-    setTimeout(() => setShowComingSoon(false), 2000)
-  }
 
   // 会员类型显示名称（使用翻译）
   const getMemberTypeLabel = (type: string) => {
@@ -216,7 +209,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
 
         {/* 每日运势入口 */}
         <button
-          onClick={handleComingSoon}
+          onClick={() => handleNavigate("/daily-tarot")}
           className="w-full group flex items-center justify-between p-4 mb-6 rounded-lg border border-mystic-gold-muted hover:border-mystic-gold-bright/30 bg-mystic-gold/5 hover:bg-mystic-gold/10 transition-all duration-300 relative overflow-hidden"
         >
           <div className="relative z-10">
@@ -231,19 +224,6 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
           {/* 微光动画效果 */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-mystic-gold/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
         </button>
-
-        {/* 敬请期待提示 */}
-        {showComingSoon && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="bg-mystic-surface border border-mystic-gold-muted rounded-xl px-8 py-6 shadow-2xl animate-in fade-in zoom-in duration-200">
-              <div className="flex flex-col items-center gap-3">
-                <SparklesIcon className="w-8 h-8 text-mystic-gold-bright animate-pulse" />
-                <p className="text-mystic-gold-bright text-lg font-medium tracking-wide">敬请期待</p>
-                <p className="text-white/60 text-sm">Coming Soon</p>
-              </div>
-            </div>
-          </div>
-        )}
 
         <h3 className="text-mystic-foreground text-sm font-medium flex items-center gap-2 mb-6">
           <ImageIcon className="w-4 h-4" />

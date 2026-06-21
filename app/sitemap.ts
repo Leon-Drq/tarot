@@ -3,11 +3,13 @@ import { locales, localePath } from "@/lib/locales"
 import { getAllLocalizedSeoPages } from "@/lib/seo-pages"
 import { getCardSlug } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
+import { trustPages } from "@/lib/trust-pages"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 
 const baseRoutes = [
   { path: "/", priority: 1 },
+  { path: "/daily-tarot", priority: 0.92 },
   { path: "/daily", priority: 0.8 },
   { path: "/daily/reading", priority: 0.7 },
   { path: "/input", priority: 0.8 },
@@ -16,6 +18,7 @@ const baseRoutes = [
 ]
 
 const seoRoutes = getAllLocalizedSeoPages().map((page) => ({ path: page.path, priority: 0.86 }))
+const trustRoutes = trustPages.map((page) => ({ path: `/${page.slug}`, priority: 0.58 }))
 
 const cardRoutes = TAROT_CARDS.flatMap((card) =>
   locales.map((locale) => ({
@@ -25,7 +28,7 @@ const cardRoutes = TAROT_CARDS.flatMap((card) =>
 )
 
 const routes = Array.from(
-  new Map([...baseRoutes, ...seoRoutes, ...cardRoutes].map((route) => [route.path, route])).values(),
+  new Map([...baseRoutes, ...seoRoutes, ...trustRoutes, ...cardRoutes].map((route) => [route.path, route])).values(),
 )
 
 export default function sitemap(): MetadataRoute.Sitemap {

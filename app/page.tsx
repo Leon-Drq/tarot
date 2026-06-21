@@ -20,6 +20,11 @@ const homeStructuredData = {
       url: appUrl,
       description:
         "Free AI tarot readings for love, career, daily guidance, and personal decisions.",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${appUrl}/input?q={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
       publisher: {
         "@id": `${appUrl}/#organization`,
       },

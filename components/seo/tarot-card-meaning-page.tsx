@@ -11,17 +11,32 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const meaningsHref = localePath(page.locale, "/tarot-card-meanings")
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: page.title,
-    description: page.description,
-    image: page.card.image,
-    url: `${appUrl}${page.path}`,
-    inLanguage: page.locale,
-    publisher: {
-      "@type": "Organization",
-      name: "POPTarot",
-      url: appUrl,
-    },
+    "@graph": [
+      {
+        "@type": "Article",
+        headline: page.title,
+        description: page.description,
+        image: page.card.image,
+        url: `${appUrl}${page.path}`,
+        inLanguage: page.locale,
+        publisher: {
+          "@type": "Organization",
+          name: "POPTarot",
+          url: appUrl,
+        },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: page.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.answer,
+          },
+        })),
+      },
+    ],
   }
 
   return (
@@ -84,6 +99,39 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                     <p className="mt-3 text-sm leading-7 text-white/62">{section.body}</p>
                   </article>
                 ))}
+              </div>
+
+              <div className="mt-8 grid gap-4 md:grid-cols-2">
+                {page.deepSections.map((section) => (
+                  <article key={section.heading} className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                    <h2 className="font-serif text-xl text-white">{section.heading}</h2>
+                    <p className="mt-3 text-sm leading-7 text-white/62">{section.body}</p>
+                  </article>
+                ))}
+              </div>
+
+              <div className="mt-8 rounded-lg border border-[#dcb360]/18 bg-[#dcb360]/[0.04] p-5">
+                <h2 className="font-serif text-xl text-white">Common Card Combinations</h2>
+                <div className="mt-4 grid gap-4 md:grid-cols-3">
+                  {page.combinations.map((item) => (
+                    <article key={item.heading}>
+                      <h3 className="text-sm font-medium text-[#f3d58b]">{item.heading}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/62">{item.body}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                <h2 className="font-serif text-xl text-white">FAQ</h2>
+                <div className="mt-4 space-y-4">
+                  {page.faqs.map((faq) => (
+                    <article key={faq.question}>
+                      <h3 className="text-sm font-medium text-white">{faq.question}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/62">{faq.answer}</p>
+                    </article>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">

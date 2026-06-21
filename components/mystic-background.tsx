@@ -95,6 +95,20 @@ function MysticContent() {
 
       <StartButton />
 
+      <div className="absolute bottom-[2.5%] left-1/2 z-30 flex w-[min(92vw,520px)] -translate-x-1/2 items-center justify-center gap-3 text-[11px] text-white/44 sm:bottom-[3.5%] sm:text-xs">
+        <a href="/daily-tarot" className="transition hover:text-mystic-gold-bright">
+          Daily Tarot
+        </a>
+        <span className="h-1 w-1 rounded-full bg-white/24" />
+        <a href="/tarot-card-meanings" className="transition hover:text-mystic-gold-bright">
+          Card Meanings
+        </a>
+        <span className="h-1 w-1 rounded-full bg-white/24" />
+        <a href="/about" className="transition hover:text-mystic-gold-bright">
+          About
+        </a>
+      </div>
+
       {/* Global animations */}
       <MysticAnimations />
 

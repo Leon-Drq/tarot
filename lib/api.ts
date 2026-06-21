@@ -328,6 +328,50 @@ export const analyticsApi = {
   },
 }
 
+// ========== Daily Tarot API ==========
+
+export interface DailyTarotEntry {
+  id?: string
+  entry_date: string
+  card_id: number
+  card_name: string
+  is_reversed: boolean
+  question: string
+  interpretation?: string | null
+  journal?: string | null
+  mood?: string | null
+  streak_count: number
+  reminder_enabled: boolean
+  reminder_email?: string | null
+  reminder_time: string
+  reminder_timezone: string
+}
+
+export const dailyTarotApi = {
+  getToday: async (date?: string): Promise<{ entry: DailyTarotEntry | null; streak_count: number }> => {
+    return request(`/daily-tarot${date ? `?date=${encodeURIComponent(date)}` : ''}`)
+  },
+
+  saveEntry: async (payload: Partial<DailyTarotEntry> & {
+    entry_date: string
+    card_id: number
+    is_reversed: boolean
+    question: string
+  }): Promise<{ entry: DailyTarotEntry }> => {
+    return request('/daily-tarot', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
+  },
+
+  updateEntry: async (payload: Partial<DailyTarotEntry> & { entry_date: string }): Promise<{ entry: DailyTarotEntry }> => {
+    return request('/daily-tarot', {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+    })
+  },
+}
+
 // ========== Reading API ==========
 
 export interface CardData {

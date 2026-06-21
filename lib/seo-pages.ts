@@ -38,25 +38,25 @@ type SeoPageSource = {
 const cta = {
   zh: {
     primary: "免费抽牌",
-    secondary: "查看会员权益",
+    secondary: "每日塔罗",
     questions: "常见问题",
     bottom: "开始你的免费解读",
   },
   en: {
     primary: "Free Reading",
-    secondary: "Unlimited Readings",
+    secondary: "Daily Tarot",
     questions: "Questions",
     bottom: "Draw Your Cards",
   },
   ja: {
     primary: "無料リーディング",
-    secondary: "会員特典を見る",
+    secondary: "毎日のタロット",
     questions: "よくある質問",
     bottom: "カードを引く",
   },
   ko: {
     primary: "무료 리딩",
-    secondary: "멤버십 보기",
+    secondary: "데일리 타로",
     questions: "질문",
     bottom: "카드 뽑기",
   },
@@ -650,6 +650,162 @@ export const seoPageSources: SeoPageSource[] = [
     },
   },
 ]
+
+function makeQuestionSeoPage(input: {
+  slug: string
+  cards: number[]
+  title: string
+  description: string
+  h1: string
+  intent: string
+  question: string
+  sections: SeoPageContent["sections"]
+  faqs: SeoPageContent["faqs"]
+}): SeoPageSource {
+  return {
+    slug: input.slug,
+    cards: input.cards,
+    content: {
+      en: withSharedCta("en", {
+        title: input.title,
+        description: input.description,
+        eyebrow: "Tarot Question",
+        h1: input.h1,
+        intro: `Ask: ${input.question}. Draw cards and receive a free AI tarot reading focused on this exact situation.`,
+        intent: input.intent,
+        ctaQuestion: input.question,
+        sections: input.sections,
+        faqs: input.faqs,
+      }),
+      zh: withSharedCta("zh", {
+        title: input.title,
+        description: input.description,
+        eyebrow: "问题塔罗",
+        h1: input.h1,
+        intro: `围绕这个问题抽牌：${input.question}。AI 会根据你的牌面给出更具体的解读。`,
+        intent: "这是一个面向搜索问题的免费入口，适合先获得答案，再决定是否需要深入追问。",
+        ctaQuestion: input.question,
+        sections: input.sections,
+        faqs: input.faqs,
+      }),
+      ja: withSharedCta("ja", {
+        title: input.title,
+        description: input.description,
+        eyebrow: "Tarot Question",
+        h1: input.h1,
+        intro: `質問「${input.question}」でカードを引き、AI 解釈を受け取れます。`,
+        intent: "検索意図に合わせた無料リーディング入口です。",
+        ctaQuestion: input.question,
+        sections: input.sections,
+        faqs: input.faqs,
+      }),
+      ko: withSharedCta("ko", {
+        title: input.title,
+        description: input.description,
+        eyebrow: "Tarot Question",
+        h1: input.h1,
+        intro: `질문 "${input.question}" 으로 카드를 뽑고 AI 해석을 받아보세요.`,
+        intent: "검색 질문에 맞춘 무료 타로 입구입니다.",
+        ctaQuestion: input.question,
+        sections: input.sections,
+        faqs: input.faqs,
+      }),
+    },
+  }
+}
+
+seoPageSources.push(
+  makeQuestionSeoPage({
+    slug: "will-my-ex-come-back-tarot",
+    cards: [6, 13, 20],
+    title: "Will My Ex Come Back Tarot",
+    description: "Draw tarot cards for a free AI reading about reconciliation, your ex's energy, timing, and what you should do next.",
+    h1: "Will My Ex Come Back Tarot",
+    intent: "Best for breakup clarity, reconciliation signals, emotional timing, and whether reaching out is wise.",
+    question: "Will my ex come back, and what should I understand before I act?",
+    sections: [
+      { heading: "Look for the pattern", body: "A reconciliation reading should show why the relationship broke, what energy remains, and whether both people can choose differently." },
+      { heading: "Timing is not certainty", body: "Cards can point to movement or delay, but your healthiest action matters more than waiting for another person." },
+      { heading: "Ask one follow-up", body: "After the first spread, ask what you can do next rather than repeating the same question for reassurance." },
+    ],
+    faqs: [
+      { question: "Can tarot predict if my ex will return?", answer: "Tarot can explore signals, blocks, and likely dynamics. It should guide your choices, not replace direct communication or self-respect." },
+      { question: "What cards suggest reconciliation?", answer: "Judgement, The Lovers, Two of Cups, Six of Cups, and Temperance can suggest reconnection when supported by the full spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "does-he-love-me-tarot",
+    cards: [6, 37, 44],
+    title: "Does He Love Me Tarot",
+    description: "Ask a free AI tarot reading about his feelings, emotional signals, mixed behavior, and the next step in your connection.",
+    h1: "Does He Love Me Tarot",
+    intent: "Best for reading emotional energy, mixed signals, communication, and whether the connection is mutual.",
+    question: "Does he love me, and what is the real emotional energy between us?",
+    sections: [
+      { heading: "Read feelings and behavior together", body: "A strong love reading compares emotion, action, fear, and consistency instead of treating one card as proof." },
+      { heading: "Notice your own needs", body: "The cards should also reveal what you need in order to feel secure, respected, and clear." },
+      { heading: "Avoid chasing certainty", body: "If the spread shows confusion, ask what conversation or boundary would bring clarity." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if someone loves me?", answer: "It can reveal emotional dynamics and likely feelings, but love also has to be shown through consistent action." },
+      { question: "What if the cards are mixed?", answer: "Mixed cards often mean mixed behavior. Look for the advice card and the pattern across the whole spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "yes-or-no-tarot-love",
+    cards: [1, 6, 11],
+    title: "Yes or No Tarot Love",
+    description: "Get a free yes or no love tarot reading with AI interpretation for crushes, relationships, dating, and reconciliation.",
+    h1: "Yes or No Tarot Love",
+    intent: "Best for simple love questions when you still want context, advice, and the emotional reason behind the answer.",
+    question: "Give me a yes or no love tarot answer with the reason behind it.",
+    sections: [
+      { heading: "Yes or no needs context", body: "Love questions are rarely clean. The answer becomes more useful when the cards explain why the energy leans yes, no, or not yet." },
+      { heading: "Use one clear question", body: "Ask about one person, one relationship, or one decision. Avoid combining several outcomes in a single spread." },
+      { heading: "Let advice lead", body: "Even a yes card should show what to do next; even a no card can show what protects you." },
+    ],
+    faqs: [
+      { question: "Which tarot cards mean yes in love?", answer: "The Lovers, Two of Cups, Ace of Cups, The Sun, and Ten of Cups often lean yes when the surrounding cards support them." },
+      { question: "Can a reversed card still mean yes?", answer: "Yes, but usually with a delay, condition, or inner block that needs attention first." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "career-tarot-reading",
+    cards: [1, 21, 50],
+    title: "Career Tarot Reading",
+    description: "Free AI career tarot reading for job changes, interviews, business timing, money choices, and professional direction.",
+    h1: "Career Tarot Reading",
+    intent: "Best for job changes, interviews, business choices, workplace conflict, and deciding where to focus next.",
+    question: "What should I understand about my career path right now?",
+    sections: [
+      { heading: "Career cards show momentum", body: "A work reading can reveal readiness, hidden resistance, timing, and the resources needed for your next step." },
+      { heading: "Separate fear from signal", body: "Some cards warn you to slow down. Others simply show fear. The whole spread helps tell the difference." },
+      { heading: "Turn insight into action", body: "Use the reading to choose one practical move: apply, prepare, negotiate, wait, or change direction." },
+    ],
+    faqs: [
+      { question: "Can tarot help with career decisions?", answer: "Yes. It is strongest for clarifying motivation, risk, timing, and the next useful action." },
+      { question: "What cards are good for career?", answer: "The Magician, The World, Ace of Pentacles, Three of Pentacles, and King of Pentacles often support career growth." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-quit-my-job-tarot",
+    cards: [12, 16, 63],
+    title: "Should I Quit My Job Tarot",
+    description: "Ask a free AI tarot reading before quitting your job. Explore timing, risk, burnout, money, and the best next step.",
+    h1: "Should I Quit My Job Tarot",
+    intent: "Best for job stress, burnout, toxic workplaces, financial timing, and deciding whether to stay, plan, or leave.",
+    question: "Should I quit my job, and what is the wisest next step?",
+    sections: [
+      { heading: "Do not rush the card answer", body: "This question involves money, identity, stress, and timing. Read the advice card as seriously as the outcome card." },
+      { heading: "Look for burnout versus growth", body: "Some spreads show a job is truly done. Others show exhaustion that needs boundaries, rest, or negotiation first." },
+      { heading: "Build a practical bridge", body: "If the cards support leaving, ask what preparation, savings, or conversation should happen before you move." },
+    ],
+    faqs: [
+      { question: "Can tarot decide if I should quit?", answer: "Tarot can clarify the pattern and risks, but you should combine it with financial planning and real-world options." },
+      { question: "What cards suggest leaving a job?", answer: "The Tower, Death, Eight of Cups, Ten of Wands, and The World can suggest transition when supported by the full spread." },
+    ],
+  }),
+)
 
 export const seoPages = seoPageSources.map((source) => getSeoPage(source.slug, defaultLocale)).filter(Boolean) as SeoPage[]
 
