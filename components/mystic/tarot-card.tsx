@@ -44,9 +44,9 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
       className="absolute inset-0 z-[5] flex items-center justify-center"
       style={{
         perspective: "1000px",
-        opacity: shouldAnimate ? 1 : 0,
-        transform: shouldAnimate ? "scale(1) translateY(0)" : "scale(0.3) translateY(100px)",
-        filter: shouldAnimate ? "blur(0px)" : "blur(10px)",
+        opacity: 1,
+        transform: shouldAnimate ? "scale(1) translateY(0)" : "scale(0.96) translateY(0)",
+        filter: "blur(0px)",
         transition: "opacity 2s cubic-bezier(0.34, 1.56, 0.64, 1), transform 2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 1.5s ease-out",
       }}
     >

@@ -70,7 +70,7 @@ function getRemainingDays(expireAt: string | undefined | null): number {
 export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBackChange, onClose }: MenuPanelProps) {
   const router = useRouter()
   const { user, isLoggedIn, isLoading } = useAuth()
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const frontInputRef = useRef<HTMLInputElement>(null)
   const backInputRef = useRef<HTMLInputElement>(null)
 
@@ -113,14 +113,45 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
   }
 
   const remainingDays = user?.member_expire_at ? getRemainingDays(user.member_expire_at) : 0
+  const menuCopy =
+    {
+      zh: {
+        freeReading: "免费 AI 解读",
+        freeReadingSubtitle: "先提问抽牌，不用先付费",
+        cardMeanings: "牌义大全",
+        trust: "关于与隐私",
+        membershipSubtitle: "深度追问、历史和高级报告",
+      },
+      en: {
+        freeReading: "Free AI Reading",
+        freeReadingSubtitle: "Ask, draw, and read before paying",
+        cardMeanings: "Card Meanings",
+        trust: "About & Privacy",
+        membershipSubtitle: "Deep follow-ups, history, reports",
+      },
+      ja: {
+        freeReading: "無料 AI リーディング",
+        freeReadingSubtitle: "まず質問してカードを引く",
+        cardMeanings: "カードの意味",
+        trust: "About / Privacy",
+        membershipSubtitle: "深い追質問、履歴、高度なレポート",
+      },
+      ko: {
+        freeReading: "무료 AI 리딩",
+        freeReadingSubtitle: "먼저 질문하고 카드를 뽑기",
+        cardMeanings: "카드 의미",
+        trust: "About / Privacy",
+        membershipSubtitle: "심층 질문, 기록, 고급 리포트",
+      },
+    }[language]
 
   return (
     <div
-      className={`absolute top-0 left-0 z-40 h-full w-full sm:w-72 bg-mystic-overlay-strong sm:bg-mystic-overlay backdrop-blur-xl border-r border-mystic-border transform transition-transform duration-300 ease-out ${
+      className={`absolute top-0 left-0 z-40 h-full w-full overflow-y-auto sm:w-72 bg-mystic-overlay-strong sm:bg-mystic-overlay backdrop-blur-xl border-r border-mystic-border transform transition-transform duration-300 ease-out ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
     >
-      <div className="pt-16 sm:pt-24 px-4 sm:px-6">
+      <div className="px-4 pb-8 pt-16 sm:px-6 sm:pt-24">
         {/* 用户区域 */}
         {isLoading ? (
           <div className="p-4 mb-6 rounded-lg border border-mystic-border bg-mystic-surface/50">
@@ -195,22 +226,25 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
           </Link>
         )}
 
-        {/* 会员入口 */}
         <button
-          onClick={() => handleNavigate("/membership")}
-          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-mystic-border hover:border-mystic-foreground/20 bg-mystic-surface/50 hover:bg-mystic-surface transition-all duration-300"
+          onClick={() => handleNavigate("/input")}
+          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-mystic-gold-muted hover:border-mystic-gold-bright/40 bg-mystic-gold/5 hover:bg-mystic-gold/10 transition-all duration-300 relative overflow-hidden"
         >
-          <div>
-            <p className="text-mystic-foreground text-sm tracking-wide">{t("menu.membership")}</p>
-            <p className="text-mystic-foreground-muted text-xs mt-0.5">{t("menu.unlockAllFeatures")}</p>
+          <div className="relative z-10">
+            <div className="flex items-center gap-2">
+              <SparklesIcon className="w-4 h-4 text-mystic-gold-bright" />
+              <p className="text-mystic-gold-bright text-sm tracking-wide font-medium">{menuCopy.freeReading}</p>
+            </div>
+            <p className="text-white/70 text-xs mt-0.5 ml-6">{menuCopy.freeReadingSubtitle}</p>
           </div>
-          <ArrowRightIcon className="w-4 h-4 text-mystic-foreground-muted group-hover:text-mystic-foreground group-hover:translate-x-0.5 transition-all duration-300" />
+          <ArrowRightIcon className="w-4 h-4 text-mystic-gold-muted group-hover:text-mystic-gold-bright group-hover:translate-x-0.5 transition-all duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-mystic-gold/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
         </button>
 
         {/* 每日运势入口 */}
         <button
           onClick={() => handleNavigate("/daily-tarot")}
-          className="w-full group flex items-center justify-between p-4 mb-6 rounded-lg border border-mystic-gold-muted hover:border-mystic-gold-bright/30 bg-mystic-gold/5 hover:bg-mystic-gold/10 transition-all duration-300 relative overflow-hidden"
+          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-mystic-gold-muted hover:border-mystic-gold-bright/30 bg-mystic-gold/5 hover:bg-mystic-gold/10 transition-all duration-300 relative overflow-hidden"
         >
           <div className="relative z-10">
             <div className="flex items-center gap-2">
@@ -220,9 +254,34 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
             <p className="text-white/70 text-xs mt-0.5 ml-6">{t("menu.dailyFortuneSubtitle")}</p>
           </div>
           <ArrowRightIcon className="w-4 h-4 text-mystic-gold-muted group-hover:text-mystic-gold-bright group-hover:translate-x-0.5 transition-all duration-300" />
-          
-          {/* 微光动画效果 */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-mystic-gold/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
+        </button>
+
+        <div className="mb-4 grid grid-cols-2 gap-3">
+          <button
+            onClick={() => handleNavigate("/tarot-card-meanings")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.cardMeanings}
+          </button>
+          <button
+            onClick={() => handleNavigate("/about")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.trust}
+          </button>
+        </div>
+
+        {/* 会员入口 */}
+        <button
+          onClick={() => handleNavigate("/membership")}
+          className="w-full group flex items-center justify-between p-4 mb-6 rounded-lg border border-mystic-border hover:border-mystic-foreground/20 bg-mystic-surface/35 hover:bg-mystic-surface/60 transition-all duration-300"
+        >
+          <div>
+            <p className="text-mystic-foreground text-sm tracking-wide">{t("menu.membership")}</p>
+            <p className="text-mystic-foreground-muted text-xs mt-0.5">{menuCopy.membershipSubtitle}</p>
+          </div>
+          <ArrowRightIcon className="w-4 h-4 text-mystic-foreground-muted group-hover:text-mystic-foreground group-hover:translate-x-0.5 transition-all duration-300" />
         </button>
 
         <h3 className="text-mystic-foreground text-sm font-medium flex items-center gap-2 mb-6">

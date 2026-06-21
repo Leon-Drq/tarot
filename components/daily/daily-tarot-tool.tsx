@@ -253,6 +253,12 @@ export function DailyTarotTool() {
             <p className="text-xs uppercase tracking-[0.18em] text-[#dcb360]">{copy.eyebrow}</p>
             <h1 className="mt-3 font-serif text-3xl leading-tight text-white sm:text-5xl">{copy.title}</h1>
             <p className="mt-4 text-sm leading-7 text-white/62 sm:text-base">{copy.subtitle}</p>
+            <div className="mt-4 inline-flex min-h-9 items-center gap-2 rounded-full border border-[#dcb360]/25 bg-[#dcb360]/10 px-3 text-xs text-[#f3d58b] sm:hidden">
+              <CalendarDays className="h-4 w-4" />
+              <span>
+                {streak} {copy.days} · {copy.streak}
+              </span>
+            </div>
           </div>
           <div className="hidden rounded-lg border border-[#dcb360]/25 bg-[#dcb360]/10 p-4 text-center sm:block">
             <CalendarDays className="mx-auto h-5 w-5 text-[#f3d58b]" />
@@ -336,7 +342,7 @@ export function DailyTarotTool() {
           <button
             onClick={handleSaveJournal}
             disabled={isSaving || !entry}
-            className="mt-4 inline-flex min-h-10 items-center justify-center rounded-full border border-[#dcb360]/35 px-5 text-sm text-[#f3d58b] transition hover:bg-[#dcb360]/10 disabled:opacity-45"
+            className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-full border border-[#dcb360]/35 px-5 text-sm text-[#f3d58b] transition hover:bg-[#dcb360]/10 disabled:opacity-45 sm:w-auto"
           >
             {copy.saveJournal}
           </button>
@@ -375,7 +381,7 @@ export function DailyTarotTool() {
           <button
             onClick={handleSaveReminder}
             disabled={isSaving || (!reminderEmail && reminderEnabled)}
-            className="mt-4 inline-flex min-h-10 items-center justify-center rounded-full border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
+            className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-full border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45 sm:w-auto"
           >
             {copy.saveReminder}
           </button>

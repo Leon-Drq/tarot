@@ -12,9 +12,10 @@ import { OnlineCounter } from "./tarot/online-counter"
 import { MenuButton } from "./menu-button"
 import { MenuPanel } from "./menu-panel"
 import { LanguageSwitcher } from "./language-switcher"
+import { useLanguage } from "@/contexts/language-context"
 
-const DEFAULT_FRONT = "https://klinelife.oss-cn-beijing.aliyuncs.com/tarot/0.png"
-const DEFAULT_BACK = "https://klinelife.oss-cn-beijing.aliyuncs.com/tarot/back1.jpg"
+const DEFAULT_FRONT = "/images/0.png"
+const DEFAULT_BACK = "/images/back1.jpg"
 
 // 单独提取 searchParams 相关逻辑
 function ReferralCapture() {
@@ -31,6 +32,7 @@ function ReferralCapture() {
 }
 
 function MysticContent() {
+  const { language } = useLanguage()
   const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
@@ -46,6 +48,34 @@ function MysticContent() {
   }, [])
 
   if (!mounted) return null
+
+  const heroCopy =
+    {
+      zh: {
+        eyebrow: "免费 AI 塔罗工具",
+        line: "先免费抽牌解读；深度追问、历史保存和报告再升级。",
+        daily: "每日一牌",
+        guide: "牌义大全",
+      },
+      en: {
+        eyebrow: "Free AI Tarot Tool",
+        line: "Ask a question, draw cards, and get your first AI tarot reading free.",
+        daily: "Daily Card",
+        guide: "Card Meanings",
+      },
+      ja: {
+        eyebrow: "無料 AI タロット",
+        line: "質問してカードを引き、まず無料で AI リーディングを体験できます。",
+        daily: "今日の一枚",
+        guide: "カードの意味",
+      },
+      ko: {
+        eyebrow: "무료 AI 타로 도구",
+        line: "질문하고 카드를 뽑아 먼저 무료 AI 리딩을 받아보세요.",
+        daily: "오늘의 카드",
+        guide: "카드 의미",
+      },
+    }[language]
 
   return (
     <div className="fixed inset-0 w-screen h-[100dvh] overflow-hidden bg-mystic-bg">
@@ -81,6 +111,29 @@ function MysticContent() {
 
       {/* 3. Core light effect */}
       <CoreLight />
+
+      <section className="pointer-events-none absolute left-1/2 top-[13%] z-30 w-[min(90vw,680px)] -translate-x-1/2 text-center sm:top-[15%] md:top-[16%]">
+        <p className="text-[10px] uppercase tracking-[0.26em] text-mystic-gold-bright/85 sm:text-xs">
+          {heroCopy.eyebrow}
+        </p>
+        <p className="mx-auto mt-3 max-w-[20rem] break-words text-xs leading-6 text-white/62 sm:max-w-[34rem] sm:text-sm md:text-base">
+          {heroCopy.line}
+        </p>
+        <div className="pointer-events-auto mt-3 flex items-center justify-center gap-2 text-[11px] text-white/58 sm:text-xs">
+          <a
+            href="/daily-tarot"
+            className="rounded-full border border-white/12 bg-black/20 px-3 py-1.5 transition hover:border-mystic-gold/50 hover:text-mystic-gold-bright"
+          >
+            {heroCopy.daily}
+          </a>
+          <a
+            href="/tarot-card-meanings"
+            className="rounded-full border border-white/12 bg-black/20 px-3 py-1.5 transition hover:border-mystic-gold/50 hover:text-mystic-gold-bright"
+          >
+            {heroCopy.guide}
+          </a>
+        </div>
+      </section>
 
       {/* 4. 3D rotating tarot card - use custom images if available */}
       <TarotCard

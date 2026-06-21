@@ -28,7 +28,7 @@ const homeStructuredData = {
       publisher: {
         "@id": `${appUrl}/#organization`,
       },
-      inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR"],
+      inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
     },
     {
       "@type": "SoftwareApplication",
@@ -44,7 +44,7 @@ const homeStructuredData = {
         "@type": "Offer",
         price: "0",
         priceCurrency: "USD",
-        category: "Free trial",
+        category: "Free",
       },
       publisher: {
         "@id": `${appUrl}/#organization`,

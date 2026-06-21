@@ -32,16 +32,16 @@ export const translations = {
     // 菜单面板
     menu: {
       loginRegister: "登录 / 注册",
-      unlockFeatures: "解锁更多功能",
+      unlockFeatures: "保存解读和提醒",
       membership: "会员",
-      unlockAllFeatures: "解锁全部功能",
+      unlockAllFeatures: "深度追问、历史和报告",
       customCards: "自定义卡牌",
       frontImage: "正面图片",
       backImage: "背面图片",
       uploadImage: "上传图片",
       changeImage: "更换图片",
       clear: "清除",
-      dailyFortune: "每日运势",
+      dailyFortune: "每日塔罗",
       dailyFortuneSubtitle: "今日能量启示",
       weekMember: "周卡会员",
       monthMember: "月卡会员",
@@ -391,16 +391,16 @@ export const translations = {
     // Menu Panel
     menu: {
       loginRegister: "Login / Register",
-      unlockFeatures: "Unlock more features",
+      unlockFeatures: "Save readings and reminders",
       membership: "Membership",
-      unlockAllFeatures: "Unlock all features",
+      unlockAllFeatures: "Deep follow-ups, history, reports",
       customCards: "Custom Cards",
       frontImage: "Front Image",
       backImage: "Back Image",
       uploadImage: "Upload Image",
       changeImage: "Change Image",
       clear: "Clear",
-      dailyFortune: "Daily Fortune",
+      dailyFortune: "Daily Tarot",
       dailyFortuneSubtitle: "Today's energy ritual",
       weekMember: "Weekly Member",
       monthMember: "Monthly Member",
@@ -750,15 +750,17 @@ export const translations = {
     // メニューパネル
     menu: {
       loginRegister: "ログイン / 登録",
-      unlockFeatures: "より多くの機能を解除",
+      unlockFeatures: "リーディングと通知を保存",
       membership: "メンバーシップ",
-      unlockAllFeatures: "すべての機能を解除",
+      unlockAllFeatures: "深い追質問、履歴、レポート",
       customCards: "カスタムカード",
       frontImage: "表面画像",
       backImage: "背面画像",
       uploadImage: "画像をアップロード",
       changeImage: "画像を変更",
       clear: "クリア",
+      dailyFortune: "毎日のタロット",
+      dailyFortuneSubtitle: "今日のエネルギー",
       weekMember: "ウィークリー会員",
       monthMember: "マンスリー会員",
       yearMember: "イヤリー会員",
@@ -1090,15 +1092,17 @@ export const translations = {
     // 메뉴 패널
     menu: {
       loginRegister: "로그인 / 회원가입",
-      unlockFeatures: "더 많은 기능 잠금 해제",
+      unlockFeatures: "리딩과 알림 저장",
       membership: "멤버십",
-      unlockAllFeatures: "모든 기능 잠금 해제",
+      unlockAllFeatures: "심층 질문, 기록, 리포트",
       customCards: "커스텀 카드",
       frontImage: "앞면 이미지",
       backImage: "뒷면 이미지",
       uploadImage: "이미지 업로드",
       changeImage: "이미지 변경",
       clear: "삭제",
+      dailyFortune: "데일리 타로",
+      dailyFortuneSubtitle: "오늘의 에너지",
       weekMember: "주간 회원",
       monthMember: "월간 회원",
       yearMember: "연간 회원",
@@ -1400,4 +1404,3 @@ export const translations = {
 
 export type Language = keyof typeof translations
 export type TranslationKey = string
-

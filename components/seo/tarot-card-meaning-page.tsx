@@ -9,6 +9,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const keywords = getCardKeywords(page.card, page.locale)
   const meaningsHref = localePath(page.locale, "/tarot-card-meanings")
+  const cardImage = page.card.image.startsWith("http") ? page.card.image : `${appUrl}${page.card.image}`
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -16,7 +17,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         "@type": "Article",
         headline: page.title,
         description: page.description,
-        image: page.card.image,
+        image: cardImage,
         url: `${appUrl}${page.path}`,
         inLanguage: page.locale,
         publisher: {
@@ -40,7 +41,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   }
 
   return (
-    <main className="min-h-screen bg-[#080310] text-white">
+    <main className="min-h-screen overflow-x-hidden bg-[#080310] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -49,17 +50,17 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
       />
       <section className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_58%_0%,rgba(123,83,178,0.38),transparent_34%),linear-gradient(180deg,#12091f_0%,#080310_100%)]" />
-        <div className="relative mx-auto max-w-6xl px-5 py-8 sm:px-8 lg:px-10">
-          <nav className="flex items-center justify-between">
-            <Link href="/" className="font-serif text-sm tracking-[0.28em] text-white/80">
+        <div className="relative mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 lg:px-10">
+          <nav className="flex w-full max-w-full items-center justify-between gap-3 overflow-hidden">
+            <Link href="/" className="shrink-0 font-serif text-sm tracking-[0.28em] text-white/80">
               POP TAROT
             </Link>
             <Link
               href={meaningsHref}
-              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-white/12 px-4 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:text-[#f3d58b]"
+              className="hidden min-h-10 min-w-0 items-center gap-2 rounded-full border border-white/12 px-4 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:text-[#f3d58b] sm:inline-flex"
             >
-              <ArrowLeft className="h-3.5 w-3.5" />
-              {page.backLabel}
+              <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
+              <span>{page.backLabel}</span>
             </Link>
           </nav>
 
@@ -71,15 +72,15 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
               </div>
             </div>
 
-            <div className="max-w-3xl">
+            <div className="min-w-0 max-w-[21rem] sm:max-w-3xl">
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-[#f3d58b]">
                 <Sparkles className="h-3.5 w-3.5" />
                 {page.eyebrow}
               </div>
-              <h1 className="font-serif text-4xl font-semibold leading-tight tracking-normal text-white sm:text-6xl">
+              <h1 className="break-words font-serif text-3xl font-semibold leading-tight tracking-normal text-white sm:text-6xl">
                 {page.h1}
               </h1>
-              <p className="mt-6 text-base leading-8 text-white/72 sm:text-lg">{page.intro}</p>
+              <p className="mt-6 break-words text-sm leading-7 text-white/72 sm:text-lg sm:leading-8">{page.intro}</p>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-lg border border-[#dcb360]/20 bg-white/[0.04] p-5">
