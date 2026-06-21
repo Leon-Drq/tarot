@@ -34,7 +34,7 @@ export function StartButton() {
   return (
     <button
       onClick={handleClick}
-      className="absolute bottom-[7%] sm:bottom-[9%] md:bottom-[10%] left-1/2 -translate-x-1/2 z-30 group"
+      className="absolute bottom-[calc(env(safe-area-inset-bottom)+4.7rem)] sm:bottom-[9%] md:bottom-[10%] left-1/2 -translate-x-1/2 z-30 group"
     >
       <div className="relative cursor-pointer inline-flex flex-col items-center gap-2">
         <div

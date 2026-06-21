@@ -112,14 +112,14 @@ function MysticContent() {
       {/* 3. Core light effect */}
       <CoreLight />
 
-      <section className="pointer-events-none absolute left-1/2 top-[13%] z-30 w-[min(90vw,680px)] -translate-x-1/2 text-center sm:top-[15%] md:top-[16%]">
+      <section className="pointer-events-none absolute left-1/2 top-[12%] z-30 w-[min(90vw,680px)] -translate-x-1/2 text-center sm:top-[15%] md:top-[16%]">
         <p className="text-[10px] uppercase tracking-[0.26em] text-mystic-gold-bright/85 sm:text-xs">
           {heroCopy.eyebrow}
         </p>
         <p className="mx-auto mt-3 max-w-[20rem] break-words text-xs leading-6 text-white/62 sm:max-w-[34rem] sm:text-sm md:text-base">
           {heroCopy.line}
         </p>
-        <div className="pointer-events-auto mt-3 flex items-center justify-center gap-2 text-[11px] text-white/58 sm:text-xs">
+        <div className="pointer-events-auto mt-3 hidden items-center justify-center gap-2 text-[11px] text-white/58 sm:flex sm:text-xs">
           <a
             href="/daily-tarot"
             className="rounded-full border border-white/12 bg-black/20 px-3 py-1.5 transition hover:border-mystic-gold/50 hover:text-mystic-gold-bright"
@@ -148,7 +148,7 @@ function MysticContent() {
 
       <StartButton />
 
-      <div className="absolute bottom-[2.5%] left-1/2 z-30 flex w-[min(92vw,520px)] -translate-x-1/2 items-center justify-center gap-3 text-[11px] text-white/44 sm:bottom-[3.5%] sm:text-xs">
+      <div className="absolute bottom-[calc(env(safe-area-inset-bottom)+1rem)] left-1/2 z-30 flex w-[min(92vw,520px)] -translate-x-1/2 items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md sm:bottom-[3.5%] sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:text-xs sm:text-white/44 sm:shadow-none sm:backdrop-blur-0">
         <a href="/daily-tarot" className="transition hover:text-mystic-gold-bright">
           Daily Tarot
         </a>

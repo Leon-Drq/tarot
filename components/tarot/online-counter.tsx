@@ -51,7 +51,7 @@ export function OnlineCounter() {
   }
 
   return (
-    <div className="absolute bottom-[15%] sm:bottom-[17%] md:bottom-[19%] left-1/2 -translate-x-1/2 z-20">
+    <div className="absolute bottom-[calc(env(safe-area-inset-bottom)+8.9rem)] sm:bottom-[17%] md:bottom-[19%] left-1/2 -translate-x-1/2 z-20">
       {/* 隐秘低语风格：单行、极简、若隐若现 */}
       <div 
         className="relative inline-flex items-center gap-2 transition-opacity duration-1000"
