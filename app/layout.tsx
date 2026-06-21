@@ -70,7 +70,7 @@ export const metadata: Metadata = {
       },
     ],
     locale: "en_US",
-    alternateLocale: ["zh_CN"],
+    alternateLocale: ["zh_CN", "ja_JP", "ko_KR", "es_ES", "pt_BR"],
   },
   twitter: {
     card: "summary_large_image",
@@ -104,7 +104,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="zh">
+    <html lang="en">
       <body className={`font-sans antialiased`}>
         <LanguageProvider>
         <AudioProvider>

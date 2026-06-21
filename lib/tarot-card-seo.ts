@@ -1,10 +1,10 @@
-import { localePath, type Locale } from "@/lib/locales"
+import { localePath, type Locale, type SeoLocale } from "@/lib/locales"
 import { getCardName, TAROT_CARDS, type TarotCard } from "@/lib/tarot-cards"
 
 export type TarotCardSeoPage = {
   card: TarotCard
   slug: string
-  locale: Locale
+  locale: SeoLocale
   path: string
   title: string
   description: string
@@ -63,7 +63,21 @@ const suitThemes = {
     pentacles: "돈, 일, 몸, 현실 자원",
     swords: "생각, 소통, 갈등, 명확한 판단",
   },
-} satisfies Record<Locale, Record<CardSuit, string>>
+  es: {
+    major: "lecciones de vida, crecimiento espiritual y puntos de giro",
+    wands: "acción, ambición, creatividad e impulso",
+    cups: "emociones, relaciones, intuición y plenitud interior",
+    pentacles: "dinero, trabajo, cuerpo y recursos materiales",
+    swords: "pensamiento, comunicación, conflicto y juicio claro",
+  },
+  "pt-br": {
+    major: "lições de vida, crescimento espiritual e pontos de virada",
+    wands: "ação, ambição, criatividade e movimento",
+    cups: "emoções, relacionamentos, intuição e realização interior",
+    pentacles: "dinheiro, trabalho, corpo e recursos materiais",
+    swords: "pensamento, comunicação, conflito e julgamento claro",
+  },
+} satisfies Record<SeoLocale, Record<CardSuit, string>>
 
 type CardSuit = "major" | "wands" | "cups" | "pentacles" | "swords"
 
@@ -99,9 +113,19 @@ function cardTone(card: TarotCard) {
   return "mental and communicative signal"
 }
 
-function createDeepSections(card: TarotCard, locale: Locale, theme: string) {
+function localizedCardName(card: TarotCard, locale: SeoLocale) {
+  return locale === "zh"
+    ? card.name
+    : locale === "ja"
+      ? card.nameJa || card.nameEn
+      : locale === "ko"
+        ? card.nameKo || card.nameEn
+        : card.nameEn
+}
+
+function createDeepSections(card: TarotCard, locale: SeoLocale, theme: string) {
   const englishName = card.nameEn
-  const name = getCardName(card, locale)
+  const name = localizedCardName(card, locale)
   const upright = cleanKeywords(card.meaning.upright)
   const reversed = cleanKeywords(card.meaning.reversed)
 
@@ -126,6 +150,36 @@ function createDeepSections(card: TarotCard, locale: Locale, theme: string) {
       {
         heading: `Advice from ${englishName}`,
         body: `The advice is to treat this card as a ${cardTone(card)}. Name the energy honestly, choose one action you can control today, and avoid forcing the reading to confirm what you already wanted to hear.`,
+      },
+    ]
+  }
+
+  if (locale === "es" || locale === "pt-br") {
+    const isEs = locale === "es"
+    return [
+      {
+        heading: isEs ? `${englishName} en el amor` : `${englishName} no amor`,
+        body: isEs
+          ? `En lecturas de amor, ${englishName} pide observar el patrón de la relación, no solo buscar un sí o no. En posición normal puede señalar ${upright}; invertida puede mostrar dónde ${reversed} bloquea la claridad emocional.`
+          : `Em leituras de amor, ${englishName} pede observar o padrão da relação, não apenas buscar um sim ou não. Na posição normal pode indicar ${upright}; invertida pode mostrar onde ${reversed} bloqueia a clareza emocional.`,
+      },
+      {
+        heading: isEs ? `${englishName} en carrera` : `${englishName} na carreira`,
+        body: isEs
+          ? `Para trabajo y carrera, ${englishName} apunta a ${theme}. Úsala para pensar en timing, motivación, equipo y el siguiente paso profesional.`
+          : `Para trabalho e carreira, ${englishName} aponta para ${theme}. Use esta carta para pensar em timing, motivação, equipe e o próximo passo profissional.`,
+      },
+      {
+        heading: isEs ? `${englishName} en dinero` : `${englishName} em dinheiro`,
+        body: isEs
+          ? "En preguntas de dinero, esta carta habla más de conducta que de predicción. Observa estabilidad, riesgo y los recursos disponibles."
+          : "Em perguntas sobre dinheiro, esta carta fala mais de comportamento do que de previsão. Observe estabilidade, risco e os recursos disponíveis.",
+      },
+      {
+        heading: isEs ? `${englishName} sí o no` : `${englishName} sim ou não`,
+        body: isEs
+          ? `${englishName} suele ser una respuesta matizada. Normalmente apoya movimiento cuando la pregunta coincide con ${upright}; invertida sugiere esperar o corregir ${reversed}.`
+          : `${englishName} costuma ser uma resposta com nuances. Normalmente apoia movimento quando a pergunta combina com ${upright}; invertida sugere esperar ou corrigir ${reversed}.`,
       },
     ]
   }
@@ -161,8 +215,8 @@ function createDeepSections(card: TarotCard, locale: Locale, theme: string) {
   ]
 }
 
-function createCombinations(card: TarotCard, locale: Locale) {
-  const name = getCardName(card, locale)
+function createCombinations(card: TarotCard, locale: SeoLocale) {
+  const name = localizedCardName(card, locale)
   const englishName = card.nameEn
 
   if (locale === "en") {
@@ -178,6 +232,24 @@ function createCombinations(card: TarotCard, locale: Locale) {
       {
         heading: `${englishName} with Ace cards`,
         body: `Any Ace beside ${englishName} points to a new beginning. Look at the Ace suit to understand whether the fresh start is emotional, practical, mental, or creative.`,
+      },
+    ]
+  }
+
+  if (locale === "es" || locale === "pt-br") {
+    const isEs = locale === "es"
+    return [
+      {
+        heading: isEs ? `${englishName} con The Lovers` : `${englishName} com The Lovers`,
+        body: isEs
+          ? "Esta combinación suele llevar la lectura hacia elecciones de relación, valores, atracción y honestidad emocional."
+          : "Essa combinação costuma levar a leitura para escolhas de relacionamento, valores, atração e honestidade emocional.",
+      },
+      {
+        heading: isEs ? `${englishName} con The Tower` : `${englishName} com The Tower`,
+        body: isEs
+          ? `The Tower intensifica el mensaje y puede mostrar que el patrón de ${englishName} ya no puede ignorarse.`
+          : `The Tower intensifica a mensagem e pode mostrar que o padrão de ${englishName} já não pode ser ignorado.`,
       },
     ]
   }
@@ -204,8 +276,8 @@ function createCombinations(card: TarotCard, locale: Locale) {
   ]
 }
 
-function createCardFaqs(card: TarotCard, locale: Locale) {
-  const name = getCardName(card, locale)
+function createCardFaqs(card: TarotCard, locale: SeoLocale) {
+  const name = localizedCardName(card, locale)
   const englishName = card.nameEn
 
   if (locale === "en") {
@@ -221,6 +293,24 @@ function createCardFaqs(card: TarotCard, locale: Locale) {
       {
         question: `What should I do when I draw ${englishName}?`,
         answer: `Use ${englishName} as a prompt for reflection and action. Notice the pattern it names, then choose one practical next step instead of treating the card as fixed fate.`,
+      },
+    ]
+  }
+
+  if (locale === "es" || locale === "pt-br") {
+    const isEs = locale === "es"
+    return [
+      {
+        question: isEs ? `¿Qué significa ${englishName} en tarot?` : `O que significa ${englishName} no tarot?`,
+        answer: isEs
+          ? `${englishName} en posición normal representa ${cleanKeywords(card.meaning.upright)}; invertida puede señalar ${cleanKeywords(card.meaning.reversed)}.`
+          : `${englishName} na posição normal representa ${cleanKeywords(card.meaning.upright)}; invertida pode indicar ${cleanKeywords(card.meaning.reversed)}.`,
+      },
+      {
+        question: isEs ? `¿${englishName} es una carta de sí o no?` : `${englishName} é uma carta de sim ou não?`,
+        answer: isEs
+          ? "Puede responder sí o no solo cuando se combina orientación, pregunta y cartas cercanas. Normal suele apoyar avanzar; invertida pide ajuste."
+          : "Pode responder sim ou não apenas quando orientação, pergunta e cartas próximas são lidas juntas. Normal apoia avanço; invertida pede ajuste.",
       },
     ]
   }
@@ -247,8 +337,8 @@ function createCardFaqs(card: TarotCard, locale: Locale) {
   ]
 }
 
-export function getTarotCardSeoPage(card: TarotCard, locale: Locale): TarotCardSeoPage {
-  const name = getCardName(card, locale)
+export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCardSeoPage {
+  const name = localizedCardName(card, locale)
   const englishName = card.nameEn
   const slug = getCardSlug(card)
   const theme = suitThemes[locale][getCardSuit(card)]
@@ -338,6 +428,48 @@ export function getTarotCardSeoPage(card: TarotCard, locale: Locale): TarotCardS
         },
       ],
     },
+    es: {
+      title: `${englishName} significado en tarot`,
+      description: `Aprende el significado normal e invertido de ${englishName} en amor, carrera, dinero, tarot diario y lecturas con IA.`,
+      eyebrow: "Significado de tarot",
+      intro: `${englishName} apunta a ${theme}. Una lectura útil depende de tu pregunta, la posición de la carta y si aparece normal o invertida.`,
+      uprightLabel: "Palabras clave normal",
+      reversedLabel: "Palabras clave invertida",
+      tryQuestion: `¿Qué intenta mostrarme ${englishName} ahora?`,
+      ctaLabel: "Empezar lectura con esta carta",
+      backLabel: "Volver a significados",
+      sections: [
+        {
+          heading: "Qué representa esta carta",
+          body: `${englishName} no es una respuesta fija. Es una lente simbólica que dirige la atención hacia ${theme}.`,
+        },
+        {
+          heading: "Cómo leerla en una tirada",
+          body: "En pasado puede describir un patrón; en presente, la energía actual; en consejo, una acción práctica.",
+        },
+      ],
+    },
+    "pt-br": {
+      title: `${englishName} significado no tarot`,
+      description: `Aprenda o significado normal e invertido de ${englishName} no amor, carreira, dinheiro, tarot diário e leituras com IA.`,
+      eyebrow: "Significado de tarot",
+      intro: `${englishName} aponta para ${theme}. Uma leitura útil depende da pergunta, da posição da carta e se ela aparece normal ou invertida.`,
+      uprightLabel: "Palavras-chave normal",
+      reversedLabel: "Palavras-chave invertida",
+      tryQuestion: `O que ${englishName} quer me mostrar agora?`,
+      ctaLabel: "Começar leitura com esta carta",
+      backLabel: "Voltar aos significados",
+      sections: [
+        {
+          heading: "O que esta carta representa",
+          body: `${englishName} não é uma resposta fixa. É uma lente simbólica que chama atenção para ${theme}.`,
+        },
+        {
+          heading: "Como ler em uma tiragem",
+          body: "No passado pode descrever um padrão; no presente, a energia atual; como conselho, uma ação prática.",
+        },
+      ],
+    },
   }[locale]
 
   return {
@@ -369,6 +501,6 @@ export function getCardKeywords(card: TarotCard) {
   }
 }
 
-export function getAllCardSeoPages(locale: Locale) {
+export function getAllCardSeoPages(locale: SeoLocale) {
   return TAROT_CARDS.map((card) => getTarotCardSeoPage(card, locale))
 }

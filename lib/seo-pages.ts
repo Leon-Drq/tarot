@@ -1,4 +1,4 @@
-import { defaultLocale, localePath, locales, type Locale } from "@/lib/locales"
+import { defaultLocale, localePath, seoLocales, type Locale, type SeoLocale } from "@/lib/locales"
 
 export type SeoPageContent = {
   title: string
@@ -24,7 +24,7 @@ export type SeoPageContent = {
 
 export type SeoPage = SeoPageContent & {
   slug: string
-  locale: Locale
+  locale: SeoLocale
   cards: number[]
   path: string
 }
@@ -807,12 +807,69 @@ seoPageSources.push(
   }),
 )
 
+const regionalCta = {
+  es: {
+    primary: "Lectura gratis",
+    secondary: "Tarot diario",
+    questions: "Preguntas",
+    bottom: "Sacar cartas",
+  },
+  "pt-br": {
+    primary: "Leitura grátis",
+    secondary: "Tarot diário",
+    questions: "Perguntas",
+    bottom: "Tirar cartas",
+  },
+} satisfies Record<Exclude<SeoLocale, Locale>, Record<string, string>>
+
+function regionalContent(base: SeoPageContent, locale: Exclude<SeoLocale, Locale>): SeoPageContent {
+  const prefix =
+    locale === "es"
+      ? {
+          eyebrow: "Tarot gratis",
+          intro: "Haz una pregunta clara, elige tus cartas y recibe una lectura de tarot con IA enfocada en tu situación.",
+          intent: "Esta página está pensada como una entrada gratuita: primero obtén claridad, luego decide si necesitas una lectura más profunda.",
+        }
+      : {
+          eyebrow: "Tarot grátis",
+          intro: "Faça uma pergunta clara, escolha suas cartas e receba uma leitura de tarot com IA focada na sua situação.",
+          intent: "Esta página funciona como uma entrada gratuita: primeiro ganhe clareza, depois decida se precisa de uma leitura mais profunda.",
+        }
+
+  return {
+    ...base,
+    title: locale === "es" ? `${base.title} gratis` : `${base.title} grátis`,
+    description:
+      locale === "es"
+        ? `${base.description} Lectura gratuita con IA para amor, carrera, decisiones y orientación diaria.`
+        : `${base.description} Leitura gratuita com IA para amor, carreira, decisões e orientação diária.`,
+    eyebrow: prefix.eyebrow,
+    intro: prefix.intro,
+    intent: prefix.intent,
+    primaryCta: regionalCta[locale].primary,
+    secondaryCta: regionalCta[locale].secondary,
+    questionsTitle: regionalCta[locale].questions,
+    bottomCta: regionalCta[locale].bottom,
+    sections: base.sections.map((section) => ({
+      heading: section.heading,
+      body:
+        locale === "es"
+          ? `${section.body} Usa esta guía como punto de partida y deja que la lectura conecte los símbolos con tu pregunta real.`
+          : `${section.body} Use este guia como ponto de partida e deixe a leitura conectar os símbolos à sua pergunta real.`,
+    })),
+    faqs: base.faqs,
+  }
+}
+
 export const seoPages = seoPageSources.map((source) => getSeoPage(source.slug, defaultLocale)).filter(Boolean) as SeoPage[]
 
-export function getSeoPage(slug: string, locale: Locale = defaultLocale): SeoPage | undefined {
+export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): SeoPage | undefined {
   const source = seoPageSources.find((page) => page.slug === slug)
   if (!source) return undefined
-  const content = source.content[locale] || source.content[defaultLocale]
+  const content =
+    locale === "es" || locale === "pt-br"
+      ? regionalContent(source.content[defaultLocale], locale)
+      : source.content[locale] || source.content[defaultLocale]
   return {
     ...content,
     slug: source.slug,
@@ -824,10 +881,10 @@ export function getSeoPage(slug: string, locale: Locale = defaultLocale): SeoPag
 
 export function getAllLocalizedSeoPages() {
   return seoPageSources.flatMap((source) =>
-    locales.map((locale) => getSeoPage(source.slug, locale)).filter(Boolean),
+    seoLocales.map((locale) => getSeoPage(source.slug, locale)).filter(Boolean),
   ) as SeoPage[]
 }
 
 export function getSeoAlternates(slug: string) {
-  return Object.fromEntries(locales.map((locale) => [locale, localePath(locale, `/${slug}`)]))
+  return Object.fromEntries(seoLocales.map((locale) => [locale, localePath(locale, `/${slug}`)]))
 }

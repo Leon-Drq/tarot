@@ -1,6 +1,8 @@
 export const locales = ["zh", "en", "ja", "ko"] as const
+export const seoLocales = ["zh", "en", "ja", "ko", "es", "pt-br"] as const
 
 export type Locale = (typeof locales)[number]
+export type SeoLocale = (typeof seoLocales)[number]
 
 export const defaultLocale: Locale = "en"
 
@@ -11,18 +13,24 @@ export const localeLabels: Record<Locale, string> = {
   ko: "한국어",
 }
 
-export const localeOpenGraph: Record<Locale, string> = {
+export const localeOpenGraph: Record<SeoLocale, string> = {
   zh: "zh_CN",
   en: "en_US",
   ja: "ja_JP",
   ko: "ko_KR",
+  es: "es_ES",
+  "pt-br": "pt_BR",
 }
 
 export function isLocale(value: string): value is Locale {
   return locales.includes(value as Locale)
 }
 
-export function localePath(locale: Locale, path: string) {
+export function isSeoLocale(value: string): value is SeoLocale {
+  return seoLocales.includes(value as SeoLocale)
+}
+
+export function localePath(locale: SeoLocale, path: string) {
   const normalized = path.startsWith("/") ? path : `/${path}`
   return locale === defaultLocale ? normalized : `/${locale}${normalized}`
 }
@@ -33,6 +41,8 @@ export function detectLocaleFromCountry(country: string | null | undefined): Loc
   if (["CN", "HK", "MO", "TW", "SG"].includes(code)) return "zh"
   if (code === "JP") return "ja"
   if (code === "KR") return "ko"
+  if (["ES", "MX", "AR", "CL", "CO", "PE", "UY", "EC", "VE", "BO", "CR", "DO", "GT", "HN", "NI", "PA", "PY", "SV"].includes(code)) return "en"
+  if (code === "BR") return "en"
   return "en"
 }
 

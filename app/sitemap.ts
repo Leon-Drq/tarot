@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next"
-import { locales, localePath } from "@/lib/locales"
+import { seoLocales, localePath } from "@/lib/locales"
 import { getAllLocalizedSeoPages } from "@/lib/seo-pages"
 import { getCardSlug } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
@@ -21,7 +21,7 @@ const seoRoutes = getAllLocalizedSeoPages().map((page) => ({ path: page.path, pr
 const trustRoutes = trustPages.map((page) => ({ path: `/${page.slug}`, priority: 0.58 }))
 
 const cardRoutes = TAROT_CARDS.flatMap((card) =>
-  locales.map((locale) => ({
+  seoLocales.map((locale) => ({
     path: localePath(locale, `/tarot-card-meanings/${getCardSlug(card)}`),
     priority: 0.72,
   })),
