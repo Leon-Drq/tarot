@@ -1,4 +1,5 @@
 import { defaultLocale, localePath, seoLocales, type Locale, type SeoLocale } from "@/lib/locales"
+import type { SpreadType } from "@/lib/spread-config"
 
 export type SeoPageContent = {
   title: string
@@ -26,12 +27,14 @@ export type SeoPage = SeoPageContent & {
   slug: string
   locale: SeoLocale
   cards: number[]
+  recommendedSpread?: SpreadType
   path: string
 }
 
 type SeoPageSource = {
   slug: string
   cards: number[]
+  recommendedSpread?: SpreadType
   content: Record<Locale, SeoPageContent>
 }
 
@@ -76,6 +79,7 @@ export const seoPageSources: SeoPageSource[] = [
   {
     slug: "free-ai-tarot-reading",
     cards: [0, 2, 17],
+    recommendedSpread: "three_card",
     content: {
       en: withSharedCta("en", {
         title: "Free AI Tarot Reading",
@@ -184,6 +188,7 @@ export const seoPageSources: SeoPageSource[] = [
   {
     slug: "love-tarot-reading",
     cards: [6, 36, 37],
+    recommendedSpread: "relationship",
     content: {
       en: withSharedCta("en", {
         title: "Love Tarot Reading",
@@ -262,6 +267,7 @@ export const seoPageSources: SeoPageSource[] = [
   {
     slug: "reconciliation-tarot-reading",
     cards: [6, 13, 20],
+    recommendedSpread: "breakup_recovery",
     content: {
       en: withSharedCta("en", {
         title: "Reconciliation Tarot Reading",
@@ -340,6 +346,7 @@ export const seoPageSources: SeoPageSource[] = [
   {
     slug: "daily-tarot",
     cards: [19, 10, 14],
+    recommendedSpread: "three_card",
     content: {
       en: withSharedCta("en", {
         title: "Daily Tarot Reading",
@@ -418,6 +425,7 @@ export const seoPageSources: SeoPageSource[] = [
   {
     slug: "yes-or-no-tarot",
     cards: [11, 12, 20],
+    recommendedSpread: "yes_no",
     content: {
       en: withSharedCta("en", {
         title: "Yes or No Tarot",
@@ -496,6 +504,7 @@ export const seoPageSources: SeoPageSource[] = [
   {
     slug: "career-tarot",
     cards: [1, 7, 21],
+    recommendedSpread: "job_opportunity",
     content: {
       en: withSharedCta("en", {
         title: "Career Tarot Reading",
@@ -574,6 +583,7 @@ export const seoPageSources: SeoPageSource[] = [
   {
     slug: "tarot-card-meanings",
     cards: [2, 8, 18],
+    recommendedSpread: "three_card",
     content: {
       en: withSharedCta("en", {
         title: "Tarot Card Meanings",
@@ -654,6 +664,7 @@ export const seoPageSources: SeoPageSource[] = [
 function makeQuestionSeoPage(input: {
   slug: string
   cards: number[]
+  recommendedSpread: SpreadType
   title: string
   description: string
   h1: string
@@ -665,6 +676,7 @@ function makeQuestionSeoPage(input: {
   return {
     slug: input.slug,
     cards: input.cards,
+    recommendedSpread: input.recommendedSpread,
     content: {
       en: withSharedCta("en", {
         title: input.title,
@@ -718,6 +730,7 @@ seoPageSources.push(
   makeQuestionSeoPage({
     slug: "will-my-ex-come-back-tarot",
     cards: [6, 13, 20],
+    recommendedSpread: "breakup_recovery",
     title: "Will My Ex Come Back Tarot",
     description: "Draw tarot cards for a free AI reading about reconciliation, your ex's energy, timing, and what you should do next.",
     h1: "Will My Ex Come Back Tarot",
@@ -736,6 +749,7 @@ seoPageSources.push(
   makeQuestionSeoPage({
     slug: "does-he-love-me-tarot",
     cards: [6, 37, 44],
+    recommendedSpread: "their_thoughts",
     title: "Does He Love Me Tarot",
     description: "Ask a free AI tarot reading about his feelings, emotional signals, mixed behavior, and the next step in your connection.",
     h1: "Does He Love Me Tarot",
@@ -754,6 +768,7 @@ seoPageSources.push(
   makeQuestionSeoPage({
     slug: "yes-or-no-tarot-love",
     cards: [1, 6, 11],
+    recommendedSpread: "yes_no",
     title: "Yes or No Tarot Love",
     description: "Get a free yes or no love tarot reading with AI interpretation for crushes, relationships, dating, and reconciliation.",
     h1: "Yes or No Tarot Love",
@@ -772,6 +787,7 @@ seoPageSources.push(
   makeQuestionSeoPage({
     slug: "career-tarot-reading",
     cards: [1, 21, 50],
+    recommendedSpread: "job_opportunity",
     title: "Career Tarot Reading",
     description: "Free AI career tarot reading for job changes, interviews, business timing, money choices, and professional direction.",
     h1: "Career Tarot Reading",
@@ -790,6 +806,7 @@ seoPageSources.push(
   makeQuestionSeoPage({
     slug: "should-i-quit-my-job-tarot",
     cards: [12, 16, 63],
+    recommendedSpread: "job_opportunity",
     title: "Should I Quit My Job Tarot",
     description: "Ask a free AI tarot reading before quitting your job. Explore timing, risk, burnout, money, and the best next step.",
     h1: "Should I Quit My Job Tarot",
@@ -875,6 +892,7 @@ export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): Seo
     slug: source.slug,
     locale,
     cards: source.cards,
+    recommendedSpread: source.recommendedSpread,
     path: localePath(locale, `/${source.slug}`),
   }
 }

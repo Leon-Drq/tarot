@@ -266,7 +266,7 @@ export default function RevealPage() {
         className="absolute top-0 left-1/2 -translate-x-1/2 w-px transition-all duration-1000"
         style={{
           height: mounted ? "10vh" : "0",
-          background: "linear-gradient(to bottom, transparent, rgba(220, 179, 96, 0.3))",
+          background: "linear-gradient(to bottom, transparent, rgba(191, 182, 255, 0.3))",
         }}
       />
 
@@ -280,11 +280,12 @@ export default function RevealPage() {
       >
         {/* 牌阵类型显示 */}
         {spreadConfig && (
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <span className="text-xl">{spreadConfig.icon}</span>
+          <div className="mb-3 flex items-center justify-center gap-3">
+            <span className="h-px w-8 bg-[#bfb6ff]/35" />
             <span className="text-white/60 text-sm">
               {language === 'en' ? spreadConfig.nameEn : spreadConfig.name}
             </span>
+            <span className="h-px w-8 bg-[#bfb6ff]/35" />
           </div>
         )}
         
@@ -298,7 +299,7 @@ export default function RevealPage() {
 
         {/* 提示文字 */}
         <p
-          className="text-[#dcb360]/80 text-sm mt-6 transition-all duration-500"
+          className="text-[#c9c0ff]/80 text-sm mt-6 transition-all duration-500"
           style={{
             opacity: allFlipped ? 0 : 1,
             transform: allFlipped ? "translateY(-10px)" : "translateY(0)",

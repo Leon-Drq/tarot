@@ -31,6 +31,7 @@ export interface SpreadConfig {
   cardCount: number
   icon: string       // 图标/emoji
   description: string
+  descriptionEn?: string
   positions: SpreadPosition[]
   keywords: string[] // 用于匹配用户问题的关键词
 }
@@ -46,10 +47,11 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 1,
     icon: '❓',
     description: '简单明了的是非问题，一张牌给你答案',
+    descriptionEn: 'A direct one-card spread for a clear yes-or-no question.',
     positions: [
       { name: '答案', nameEn: 'Answer', description: '正位代表"是"，逆位代表"否"或"需要等待"' }
     ],
-    keywords: ['是否', '会不会', '能不能', '可不可以', '要不要', '行不行', 'yes', 'no', '是或否']
+    keywords: ['是否', '会不会', '能不能', '可不可以', '要不要', '行不行', 'yes', 'no', 'yes or no', '是或否']
   },
 
   daily_fashion: {
@@ -59,6 +61,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 1,
     icon: '👗',
     description: '让塔罗指引你今天的穿搭风格',
+    descriptionEn: "A light daily card for style, color, and mood cues.",
     positions: [
       { name: '今日风格', nameEn: 'Today\'s Style', description: '今天适合的穿搭风格和颜色' }
     ],
@@ -72,6 +75,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 5,
     icon: '💔',
     description: '深入分析分手原因，挽回的可能性和建议',
+    descriptionEn: 'A five-card spread for breakup causes, remaining energy, recovery advice, and next direction.',
     positions: [
       { name: '分手原因', nameEn: 'Reason', description: '导致分手的核心原因' },
       { name: '你的状态', nameEn: 'Your State', description: '你目前的心理状态' },
@@ -79,7 +83,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
       { name: '挽回建议', nameEn: 'Advice', description: '如何行动的建议' },
       { name: '未来走向', nameEn: 'Future', description: '关系的未来发展' }
     ],
-    keywords: ['分手', '挽回', '复合', '前任', '前男友', '前女友', '分开', '离开', '还爱', '回来']
+    keywords: ['分手', '挽回', '复合', '前任', '前男友', '前女友', '分开', '离开', '还爱', '回来', 'ex', 'breakup', 'break up', 'come back', 'return', 'reconcile', 'reconciliation', 'get back together']
   },
 
   exam_fortune: {
@@ -89,6 +93,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 4,
     icon: '📚',
     description: '预测考试运势，找到复习重点和注意事项',
+    descriptionEn: 'A study and exam spread for preparation, strengths, cautions, and likely outcome.',
     positions: [
       { name: '当前状态', nameEn: 'Current State', description: '你目前的准备状态' },
       { name: '优势', nameEn: 'Strength', description: '你的优势和可以发挥的地方' },
@@ -105,6 +110,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 3,
     icon: '🛍️',
     description: '帮你做出更好的购物决定',
+    descriptionEn: 'A practical spread for purchase desire, real value, and buying advice.',
     positions: [
       { name: '购买欲望', nameEn: 'Desire', description: '你真正需要它吗？' },
       { name: '实际价值', nameEn: 'Value', description: '这个购买是否物有所值' },
@@ -120,13 +126,14 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 4,
     icon: '🌸',
     description: '探索你的感情运势和正缘特征',
+    descriptionEn: 'A love-potential spread for dating energy, soulmate traits, timing, and advice.',
     positions: [
       { name: '桃花运势', nameEn: 'Love Fortune', description: '近期的桃花运如何' },
       { name: '正缘特征', nameEn: 'Soulmate Traits', description: '你的正缘是什么样的人' },
       { name: '相遇时机', nameEn: 'Timing', description: '可能的相遇时间和场合' },
       { name: '行动建议', nameEn: 'Advice', description: '如何增加遇到正缘的机会' }
     ],
-    keywords: ['桃花', '正缘', '脱单', '单身', '遇到', '另一半', '姻缘', '缘分', '爱情', '恋爱']
+    keywords: ['桃花', '正缘', '脱单', '单身', '遇到', '另一半', '姻缘', '缘分', '爱情', '恋爱', 'single', 'dating', 'crush', 'soulmate', 'new love', 'meet someone']
   },
 
   relationship: {
@@ -136,6 +143,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 5,
     icon: '💑',
     description: '全面分析你们的感情关系走向',
+    descriptionEn: 'A relationship spread for the current bond, both sides, challenges, and likely direction.',
     positions: [
       { name: '关系现状', nameEn: 'Current State', description: '目前关系的状态' },
       { name: '你的感受', nameEn: 'Your Feelings', description: '你在这段关系中的真实感受' },
@@ -143,7 +151,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
       { name: '挑战', nameEn: 'Challenge', description: '你们需要面对的挑战' },
       { name: '未来发展', nameEn: 'Future', description: '关系的未来走向' }
     ],
-    keywords: ['关系', '感情', '在一起', '发展', '未来', '我们', '这段', '走向', '结婚', '长久']
+    keywords: ['关系', '感情', '在一起', '发展', '未来', '我们', '这段', '走向', '结婚', '长久', 'relationship', 'between us', 'together', 'commitment', 'marriage', 'future together']
   },
 
   their_thoughts: {
@@ -153,6 +161,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 5,
     icon: '💭',
     description: '深入了解对方的内心想法和对你的态度',
+    descriptionEn: 'A five-card spread for their impression, thoughts, attitude, concerns, and likely action.',
     positions: [
       { name: '对你的印象', nameEn: 'Impression', description: 'TA对你的整体印象' },
       { name: '内心想法', nameEn: 'Thoughts', description: 'TA内心真实的想法' },
@@ -160,7 +169,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
       { name: '顾虑', nameEn: 'Concerns', description: 'TA的顾虑和担心' },
       { name: '可能的行动', nameEn: 'Possible Actions', description: 'TA接下来可能的行动' }
     ],
-    keywords: ['他', '她', 'TA', '对方', '想法', '态度', '喜欢我', '怎么想', '心里', '看我']
+    keywords: ['他', '她', 'TA', '对方', '想法', '态度', '喜欢我', '怎么想', '心里', '看我', 'does he love', 'does she love', 'he love', 'she love', 'his feelings', 'her feelings', 'feelings for me', 'mixed signals', 'think of me', 'attitude toward me']
   },
 
   job_opportunity: {
@@ -170,13 +179,14 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 4,
     icon: '💼',
     description: '分析求职运势和工作机会',
+    descriptionEn: 'A career spread for opportunities, strengths, cautions, and the next professional opening.',
     positions: [
       { name: '求职运势', nameEn: 'Job Fortune', description: '近期的求职运势' },
       { name: '你的优势', nameEn: 'Your Strength', description: '你在求职中的优势' },
       { name: '需要注意', nameEn: 'Caution', description: '求职过程中需要注意的事项' },
       { name: '机会预测', nameEn: 'Opportunity', description: '工作机会的预测' }
     ],
-    keywords: ['工作', '求职', '跳槽', '离职', '入职', 'offer', '招聘', '职位', '岗位', '找工作', '换工作']
+    keywords: ['工作', '求职', '跳槽', '离职', '入职', 'offer', '招聘', '职位', '岗位', '找工作', '换工作', 'job', 'career', 'work', 'quit', 'resign', 'interview', 'promotion', 'salary', 'business', 'workplace']
   },
 
   binary_choice: {
@@ -186,11 +196,12 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 2,
     icon: '⚖️',
     description: '面对两个选择时，帮你看清每个选项的能量',
+    descriptionEn: 'A two-option spread for comparing the energy and outcome of each choice.',
     positions: [
       { name: '选项A', nameEn: 'Option A', description: '第一个选项的能量和结果' },
       { name: '选项B', nameEn: 'Option B', description: '第二个选项的能量和结果' }
     ],
-    keywords: ['选择', '二选一', '还是', '或者', 'A还是B', '哪个', '左右为难', '纠结']
+    keywords: ['选择', '二选一', '还是', '或者', 'A还是B', '哪个', '左右为难', '纠结', 'choose', 'choice', 'option', 'which one', 'stay or leave', 'a or b']
   },
 
   interpersonal: {
@@ -200,6 +211,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 5,
     icon: '🤝',
     description: '分析人际关系中的问题和改善方向',
+    descriptionEn: 'A social dynamics spread for current tension, your role, feedback, problems, and repair.',
     positions: [
       { name: '关系现状', nameEn: 'Current State', description: '目前的人际关系状态' },
       { name: '你的表现', nameEn: 'Your Performance', description: '你在人际关系中的表现' },
@@ -217,6 +229,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 3,
     icon: '🔮',
     description: '面对三个选择时，看清每个选项的能量',
+    descriptionEn: 'A three-option spread for comparing multiple directions clearly.',
     positions: [
       { name: '选项A', nameEn: 'Option A', description: '第一个选项的能量和结果' },
       { name: '选项B', nameEn: 'Option B', description: '第二个选项的能量和结果' },
@@ -232,6 +245,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     cardCount: 3,
     icon: '⏳',
     description: '经典的三牌阵，从过去、现在、未来三个维度解读',
+    descriptionEn: 'Classic three-card spread, reading from past, present, and future perspectives.',
     positions: [
       { name: '过去', nameEn: 'Past', description: '过去发生的事情和影响' },
       { name: '现在', nameEn: 'Present', description: '当前的状态和处境' },
@@ -277,4 +291,3 @@ export interface QuestionClassification {
   confidence: number  // 0-1 的置信度
   reason: string      // 分类原因说明
 }
-

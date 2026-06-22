@@ -8,6 +8,7 @@ import { CardSelectionHeader } from "@/components/tarot/card-selection-header"
 import { ShuffleButton } from "@/components/tarot/shuffle-button"
 import { TAROT_CARDS, type DrawnCard } from "@/lib/tarot-cards"
 import { analyticsApi, readingApi, type SpreadConfig, type DeckType } from "@/lib/api"
+import { getSpreadConfig, SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
 import { useLanguage } from "@/contexts/language-context"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 
@@ -19,6 +20,21 @@ interface SpreadInfo {
   deckType: DeckType  // 牌组类型
   reason: string
   confidence: number
+}
+
+function isSpreadType(value: string | null): value is SpreadType {
+  return !!value && Object.prototype.hasOwnProperty.call(SPREAD_CONFIGS, value)
+}
+
+function createLocalSpreadInfo(type: SpreadType, reason: string, confidence: number): SpreadInfo {
+  const config = getSpreadConfig(type)
+  return {
+    type,
+    config,
+    deckType: config.cardCount <= 3 ? "major" : "full",
+    reason,
+    confidence,
+  }
 }
 
 function InputContent() {
@@ -34,6 +50,8 @@ function InputContent() {
   const { t, language } = useLanguage()
   const initialQuestion = searchParams.get("q") || ""
   const autoStart = searchParams.get("auto") === "1"
+  const requestedSpread = searchParams.get("spread")
+  const preferredSpreadType = isSpreadType(requestedSpread) ? requestedSpread : null
 
   // 根据牌阵配置获取需要选择的卡牌数量
   const requiredCardCount = spreadInfo?.config.cardCount || 3
@@ -58,9 +76,16 @@ function InputContent() {
       },
     })
 
+    if (preferredSpreadType) {
+      setSpreadInfo(createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92))
+      setIsClassifying(false)
+      setPageState("selecting")
+      return
+    }
+
     try {
       // 调用问题分类API
-      const result = await readingApi.classifyQuestion(q)
+      const result = await readingApi.classifyQuestion(q, language)
       setSpreadInfo({
         type: result.spread_type,
         config: result.spread_config,
@@ -71,27 +96,10 @@ function InputContent() {
     } catch (error) {
       console.error("问题分类失败:", error)
       // 使用默认的三牌阵
-      setSpreadInfo({
-        type: "three_card",
-        config: {
-          name: "时间之流",
-          nameEn: "Past Present Future",
-          cardCount: 3,
-          icon: "⏳",
-          description: "经典的三牌阵，从过去、现在、未来三个维度解读",
-          positions: [
-            { name: "过去", nameEn: "Past", description: "过去发生的事情和影响" },
-            { name: "现在", nameEn: "Present", description: "当前的状态和处境" },
-            { name: "未来", nameEn: "Future", description: "未来的趋势和发展" },
-          ],
-        },
-        deckType: "major",  // 默认使用大阿尔卡纳
-        reason: "使用默认牌阵",
-        confidence: 0.5,
-      })
+      setSpreadInfo(createLocalSpreadInfo("three_card", "使用默认牌阵", 0.5))
     } finally {
       setIsClassifying(false)
-    setPageState("selecting")
+      setPageState("selecting")
     }
   }
 

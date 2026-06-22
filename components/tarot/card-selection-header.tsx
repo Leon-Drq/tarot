@@ -130,11 +130,12 @@ export function CardSelectionHeader({
           visible && !isComplete ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-8 pointer-events-none"
         }`}
       >
-        <div className="flex items-center gap-2">
-          <span className="text-white/50 text-lg">{spreadConfig?.icon || "☁️"}</span>
+        <div className="flex items-center gap-3">
+          <span className="h-px w-8 bg-[#bfb6ff]/45" />
           <h2 className="text-white/80 text-lg font-medium tracking-wide">
             {spreadName}
           </h2>
+          <span className="h-px w-8 bg-[#bfb6ff]/45" />
         </div>
         
         <p className="text-white/40 text-xs text-center max-w-md px-4 leading-relaxed">
@@ -142,12 +143,11 @@ export function CardSelectionHeader({
         </p>
         
         <div className="flex items-center gap-1.5">
-          <span className="text-[#dcb360]/60 text-[10px]">
-            {deckType === 'major' ? '🌟' : '🎴'}
-          </span>
-          <span className="text-[#dcb360]/60 text-[10px] tracking-wider">
+          <span className="h-px w-5 bg-[#bfb6ff]/35" />
+          <span className="text-[#c9c0ff]/65 text-[10px] tracking-wider">
             {deckTypeName}
           </span>
+          <span className="h-px w-5 bg-[#bfb6ff]/35" />
         </div>
 
         {nextPosition && (
@@ -157,7 +157,7 @@ export function CardSelectionHeader({
               en: "Next",
               ja: "次",
               ko: "다음",
-            }[language] || "下一张"}：<span className="text-[#dcb360]">{nextPosition}</span>
+            }[language] || "下一张"}：<span className="text-[#c9c0ff]">{nextPosition}</span>
             <span className="text-white/40 ml-2">({selectedCount + 1}/{totalCards})</span>
           </p>
         )}
@@ -176,7 +176,7 @@ export function CardSelectionHeader({
               en: "Next",
               ja: "次",
               ko: "다음",
-            }[language] || "下一张"}：<span className="text-[#dcb360]">{nextPosition}</span>
+            }[language] || "下一张"}：<span className="text-[#c9c0ff]">{nextPosition}</span>
             <span className="text-white/40 ml-2">({selectedCount + 1}/{totalCards})</span>
           </p>
         )}
