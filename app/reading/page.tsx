@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Copy, Crown, Instagram, LogIn, Share2 } from "lucide-react"
+import { Copy, Instagram, LogIn, Share2 } from "lucide-react"
 import type { DrawnCard } from "@/lib/tarot-cards"
 import { getCardName } from "@/lib/tarot-cards"
 import BlurText from "@/components/ui/blur-text"
@@ -60,9 +60,9 @@ export default function ReadingPage() {
         instagram: "Instagram 文案",
         templateCopied: "分享文案已复制",
         failed: "分享失败，请稍后重试",
-        memberTitle: "继续深入时再升级",
-        memberText: "会员包含无限解读、历史记录、高级牌阵、深度关系/事业报告和分享图。",
-        memberButton: "查看会员权益",
+        memberTitle: "需要深入时再打开进阶功能",
+        memberText: "会员只放在更深层体验里：深度追问、保存历史、高级牌阵和月度报告。",
+        memberButton: "查看进阶功能",
         saveTitle: "保存你的解读历史",
         saveText: "你已经体验了 {count} 次。登录后可以保存结果、继续查看历史记录。",
         saveButton: "登录并保存",
@@ -78,9 +78,9 @@ export default function ReadingPage() {
         instagram: "Instagram caption",
         templateCopied: "Share caption copied",
         failed: "Sharing failed. Please try again.",
-        memberTitle: "Upgrade when you want to go deeper",
-        memberText: "Members get unlimited readings, saved history, advanced spreads, deep love/career reports, and share images.",
-        memberButton: "View membership",
+        memberTitle: "Go deeper only when you need it",
+        memberText: "Membership stays for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
+        memberButton: "View advanced features",
         saveTitle: "Save your reading history",
         saveText: "You have tried {count} readings. Log in to save results and keep your history.",
         saveButton: "Log in to save",
@@ -96,8 +96,8 @@ export default function ReadingPage() {
         instagram: "Instagramキャプション",
         templateCopied: "共有テキストをコピーしました",
         failed: "共有に失敗しました。もう一度お試しください。",
-        memberTitle: "もっと深く知りたい時にアップグレード",
-        memberText: "会員は無制限リーディング、履歴保存、高度なスプレッド、恋愛/仕事の深掘りレポート、共有画像を利用できます。",
+        memberTitle: "必要な時だけ深く読む",
+        memberText: "会員機能は深い追質問、履歴保存、高度なスプレッド、月次レポートのために用意されています。",
         memberButton: "会員特典を見る",
         saveTitle: "リーディング履歴を保存",
         saveText: "{count} 回体験しました。ログインすると結果と履歴を保存できます。",
@@ -114,8 +114,8 @@ export default function ReadingPage() {
         instagram: "Instagram 캡션",
         templateCopied: "공유 문구를 복사했습니다",
         failed: "공유에 실패했습니다. 다시 시도해 주세요.",
-        memberTitle: "더 깊게 보고 싶을 때 업그레이드",
-        memberText: "회원은 무제한 리딩, 기록 저장, 고급 스프레드, 관계/커리어 심층 리포트, 공유 이미지를 이용할 수 있습니다.",
+        memberTitle: "필요할 때만 더 깊게 보기",
+        memberText: "멤버십은 심층 질문, 기록 저장, 고급 스프레드, 월간 리포트에만 배치됩니다.",
         memberButton: "멤버십 보기",
         saveTitle: "리딩 기록 저장",
         saveText: "{count}번 체험했습니다. 로그인하면 결과와 기록을 저장할 수 있습니다.",
@@ -132,13 +132,41 @@ export default function ReadingPage() {
       instagram: "Instagram caption",
       templateCopied: "Share caption copied",
       failed: "Sharing failed. Please try again.",
-      memberTitle: "Upgrade when you want to go deeper",
-      memberText: "Members get unlimited readings, saved history, advanced spreads, deep love/career reports, and share images.",
-      memberButton: "View membership",
+      memberTitle: "Go deeper only when you need it",
+      memberText: "Membership stays for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
+      memberButton: "View advanced features",
       saveTitle: "Save your reading history",
       saveText: "You have tried {count} readings. Log in to save results and keep your history.",
       saveButton: "Log in to save",
     }
+
+  const statusCopy =
+    {
+      zh: {
+        member: "进阶功能已开启",
+        free: "免费 AI 解读可用",
+      },
+      en: {
+        member: "Advanced features active",
+        free: "Free AI reading active",
+      },
+      ja: {
+        member: "高度な機能が有効です",
+        free: "無料 AI リーディング利用中",
+      },
+      ko: {
+        member: "고급 기능 활성화",
+        free: "무료 AI 리딩 사용 가능",
+      },
+    }[language] || {
+      member: "Advanced features active",
+      free: "Free AI reading active",
+    }
+
+  const tx = (key: string, fallback: string) => {
+    const value = t(key)
+    return value === key ? fallback : value
+  }
 
   useEffect(() => {
     const count = Number(localStorage.getItem("poptarot_reading_count") || "0")
@@ -296,7 +324,7 @@ export default function ReadingPage() {
         // 处理积分不足的错误
         if (response.status === 402) {
           const errorData = await response.json().catch(() => ({}))
-          throw new Error(errorData.error || "积分不足，请购买会员或积分")
+          throw new Error(errorData.error || "需要更多深度追问额度")
         }
         throw new Error("Reading failed")
       }
@@ -365,9 +393,9 @@ export default function ReadingPage() {
       console.error("Reading error:", err)
       // 检查是否是积分不足的错误
       if (err instanceof Error && err.message.includes("积分不足")) {
-        setError("积分不足，请购买会员或积分")
+        setError("需要更多深度追问额度")
       } else {
-      setError("解读时发生错误，请重试。")
+        setError("解读时发生错误，请重试。")
       }
     } finally {
       setIsReading(false)
@@ -515,16 +543,16 @@ export default function ReadingPage() {
       <ReactMarkdown
         components={{
           h1: ({ children }) => (
-            <h1 className="text-xl sm:text-2xl text-[#dcb360] font-semibold mt-6 mb-4 first:mt-0">{children}</h1>
+            <h1 className="text-xl sm:text-2xl text-[#c9c0ff] font-semibold mt-6 mb-4 first:mt-0">{children}</h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-lg sm:text-xl text-[#dcb360]/90 font-semibold mt-5 mb-3">{children}</h2>
+            <h2 className="text-lg sm:text-xl text-[#c9c0ff]/90 font-semibold mt-5 mb-3">{children}</h2>
           ),
           h3: ({ children }) => (
-            <h3 className="text-base sm:text-lg text-[#dcb360]/80 font-medium mt-4 mb-2">{children}</h3>
+            <h3 className="text-base sm:text-lg text-[#c9c0ff]/80 font-medium mt-4 mb-2">{children}</h3>
           ),
           p: ({ children }) => <p className="text-white/80 leading-relaxed text-sm sm:text-base mb-3">{children}</p>,
-          strong: ({ children }) => <strong className="text-[#dcb360] font-semibold">{children}</strong>,
+          strong: ({ children }) => <strong className="text-[#c9c0ff] font-semibold">{children}</strong>,
           em: ({ children }) => <em className="text-white/90 italic">{children}</em>,
           ul: ({ children }) => (
             <ul className="list-disc list-inside text-white/80 text-sm sm:text-base mb-3 space-y-1 ml-2">{children}</ul>
@@ -536,7 +564,7 @@ export default function ReadingPage() {
           ),
           li: ({ children }) => <li className="text-white/80">{children}</li>,
           blockquote: ({ children }) => (
-            <blockquote className="border-l-2 border-[#dcb360]/50 pl-4 my-3 text-white/70 italic">
+            <blockquote className="border-l-2 border-[#c9c0ff]/50 pl-4 my-3 text-white/70 italic">
               {children}
             </blockquote>
           ),
@@ -570,10 +598,10 @@ export default function ReadingPage() {
     const baseDelay = isNew ? 50 : 0
 
     const classMap: Record<string, string> = {
-      h1: "text-xl sm:text-2xl text-[#dcb360] font-semibold mt-6 mb-4 first:mt-0",
-      h2: "text-lg sm:text-xl text-[#dcb360]/90 font-semibold mt-5 mb-3",
-      h3: "text-base sm:text-lg text-[#dcb360]/80 font-medium mt-4 mb-2",
-      bold: "text-[#dcb360] font-semibold",
+      h1: "text-xl sm:text-2xl text-[#c9c0ff] font-semibold mt-6 mb-4 first:mt-0",
+      h2: "text-lg sm:text-xl text-[#c9c0ff]/90 font-semibold mt-5 mb-3",
+      h3: "text-base sm:text-lg text-[#c9c0ff]/80 font-medium mt-4 mb-2",
+      bold: "text-[#c9c0ff] font-semibold",
       p: "text-white/80 leading-relaxed text-sm sm:text-base",
     }
 
@@ -593,20 +621,20 @@ export default function ReadingPage() {
   const renderQuestion = (questionText: string) => (
     <div className="my-8">
       <div className="flex items-center justify-center gap-3 mb-4">
-        <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#dcb360]/40" />
-        <div className="w-1 h-1 rounded-full bg-[#dcb360]/60 animate-pulse" />
-        <div className="w-8 h-px bg-[#dcb360]/30" />
-        <div className="w-1 h-1 rounded-full bg-[#dcb360]/60 animate-pulse" />
-        <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#dcb360]/40" />
+        <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#c9c0ff]/40" />
+        <div className="w-1 h-1 rounded-full bg-[#c9c0ff]/60 animate-pulse" />
+        <div className="w-8 h-px bg-[#c9c0ff]/30" />
+        <div className="w-1 h-1 rounded-full bg-[#c9c0ff]/60 animate-pulse" />
+        <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#c9c0ff]/40" />
       </div>
 
       <div className="text-center">
-        <p className="text-[#dcb360]/50 text-xs tracking-widest mb-2">{t("tarot.yourQuestion")}</p>
+        <p className="text-[#c9c0ff]/50 text-xs tracking-widest mb-2">{t("tarot.yourQuestion")}</p>
         <p
           className="text-white/90 text-base sm:text-lg font-light italic max-w-md mx-auto"
           style={{
             fontFamily: "var(--font-serif, serif)",
-            textShadow: "0 0 20px rgba(220, 179, 96, 0.2)",
+            textShadow: "0 0 20px rgba(201, 192, 255, 0.2)",
           }}
         >
           「{questionText}」
@@ -614,11 +642,11 @@ export default function ReadingPage() {
       </div>
 
       <div className="flex items-center justify-center gap-3 mt-4">
-        <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#dcb360]/40" />
-        <div className="w-1 h-1 rounded-full bg-[#dcb360]/60 animate-pulse" />
-        <div className="w-8 h-px bg-[#dcb360]/30" />
-        <div className="w-1 h-1 rounded-full bg-[#dcb360]/60 animate-pulse" />
-        <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#dcb360]/40" />
+        <div className="w-12 h-px bg-gradient-to-r from-transparent to-[#c9c0ff]/40" />
+        <div className="w-1 h-1 rounded-full bg-[#c9c0ff]/60 animate-pulse" />
+        <div className="w-8 h-px bg-[#c9c0ff]/30" />
+        <div className="w-1 h-1 rounded-full bg-[#c9c0ff]/60 animate-pulse" />
+        <div className="w-12 h-px bg-gradient-to-l from-transparent to-[#c9c0ff]/40" />
       </div>
     </div>
   )
@@ -690,7 +718,7 @@ export default function ReadingPage() {
                   textShadow: "0 0 30px rgba(180, 150, 255, 0.5)",
                 }}
               >
-                {t("tarot.newJourney") || "新的旅程即将开始..."}
+                {tx("tarot.newJourney", "新的旅程即将开始...")}
               </p>
             </div>
           </>
@@ -720,7 +748,7 @@ export default function ReadingPage() {
           {/* 显示用户状态 */}
           {isLoggedIn && user && (
             <p className="text-white/30 text-xs mt-2">
-              {user.is_member ? t("membership.unlimitedReading") : `${t("profile.credits")}: ${user.credits}`}
+              {user.is_member ? statusCopy.member : statusCopy.free}
             </p>
           )}
         </div>
@@ -741,7 +769,7 @@ export default function ReadingPage() {
                 style={{
                   width: "80px",
                   height: "136px",
-                  border: "2px solid rgba(220, 179, 96, 0.5)",
+                  border: "2px solid rgba(201, 192, 255, 0.5)",
                   boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
                 }}
               >
@@ -755,7 +783,7 @@ export default function ReadingPage() {
                   }}
                 />
               </div>
-              <p className="text-[#dcb360]/60 text-xs mt-2">{getPositionLabel(index)}</p>
+              <p className="text-[#c9c0ff]/60 text-xs mt-2">{getPositionLabel(index)}</p>
               <p className="text-white/80 text-xs mt-1 text-center">
                 {getCardName(card, language)}
                 <span className="text-white/50 ml-1">{card.isReversed ? t("tarot.reversed").substring(0, 1) : t("tarot.upright").substring(0, 1)}</span>
@@ -777,19 +805,19 @@ export default function ReadingPage() {
             className="p-6 sm:p-8 rounded-2xl"
             style={{
               background: "rgba(26, 16, 48, 0.6)",
-              border: "1px solid rgba(220, 179, 96, 0.2)",
+              border: "1px solid rgba(201, 192, 255, 0.2)",
               backdropFilter: "blur(10px)",
             }}
           >
             <div className="flex items-center justify-center gap-2 mb-6">
               <div
                 className="w-8 h-px"
-                style={{ background: "linear-gradient(to right, transparent, rgba(220, 179, 96, 0.5))" }}
+                style={{ background: "linear-gradient(to right, transparent, rgba(201, 192, 255, 0.5))" }}
               />
-              <h3 className="text-[#dcb360] text-sm tracking-widest">{isReading ? t("common.loading") : t("tarot.interpretation")}</h3>
+              <h3 className="text-[#c9c0ff] text-sm tracking-widest">{isReading ? t("common.loading") : t("tarot.interpretation")}</h3>
               <div
                 className="w-8 h-px"
-                style={{ background: "linear-gradient(to left, transparent, rgba(220, 179, 96, 0.5))" }}
+                style={{ background: "linear-gradient(to left, transparent, rgba(201, 192, 255, 0.5))" }}
               />
             </div>
 
@@ -803,12 +831,12 @@ export default function ReadingPage() {
                 >
                   {t("common.retry")}
                 </button>
-                  {error.includes(t("tarot.noCredits")) && (
+                  {(error.includes(t("tarot.noCredits")) || error.includes("深度追问额度")) && (
                     <button
                       onClick={() => router.push("/membership")}
-                      className="px-6 py-2 rounded-full text-sm bg-[#dcb360] text-[#1a0f30] hover:bg-[#dcb360]/90 transition-colors"
+                      className="px-6 py-2 rounded-full text-sm bg-[#aaa1ff] text-[#110c24] hover:bg-[#c9c0ff] transition-colors"
                     >
-                      {t("membership.upgrade")}
+                      {shareCopy.memberButton}
                     </button>
                   )}
                 </div>
@@ -829,11 +857,11 @@ export default function ReadingPage() {
                   </>
                 )}
 
-                {isReading && <span className="inline-block w-2 h-5 bg-[#dcb360]/80 animate-pulse ml-1" />}
+                {isReading && <span className="inline-block w-2 h-5 bg-[#c9c0ff]/80 animate-pulse ml-1" />}
 
                 {!isReading && messages.length === 0 && !currentStreaming && (
                   <div className="text-white/80 text-sm sm:text-base leading-relaxed flex items-center justify-center">
-                    <span className="inline-block w-2 h-5 bg-[#dcb360]/80 animate-pulse" />
+                    <span className="inline-block w-2 h-5 bg-[#c9c0ff]/80 animate-pulse" />
                   </div>
                 )}
 
@@ -854,7 +882,7 @@ export default function ReadingPage() {
               className="p-6 rounded-2xl"
               style={{
                 background: "rgba(26, 16, 48, 0.4)",
-                border: "1px solid rgba(220, 179, 96, 0.15)",
+                border: "1px solid rgba(201, 192, 255, 0.15)",
                 backdropFilter: "blur(8px)",
               }}
             >
@@ -865,10 +893,10 @@ export default function ReadingPage() {
                 className="relative rounded-xl overflow-hidden mb-4"
                 style={{
                   background: "rgba(15, 5, 24, 0.6)",
-                  border: followUpInput.trim() ? "1px solid rgba(220, 179, 96, 0.5)" : "1px solid rgba(220, 179, 96, 0.25)",
+                  border: followUpInput.trim() ? "1px solid rgba(201, 192, 255, 0.5)" : "1px solid rgba(201, 192, 255, 0.25)",
                   boxShadow: followUpInput.trim() 
-                    ? "inset 0 2px 10px rgba(0,0,0,0.3), 0 0 30px rgba(220, 179, 96, 0.15)" 
-                    : "inset 0 2px 10px rgba(0,0,0,0.3), 0 0 20px rgba(220, 179, 96, 0.05)",
+                    ? "inset 0 2px 10px rgba(0,0,0,0.3), 0 0 30px rgba(201, 192, 255, 0.15)" 
+                    : "inset 0 2px 10px rgba(0,0,0,0.3), 0 0 20px rgba(201, 192, 255, 0.05)",
                   transition: "all 0.3s ease",
                 }}
               >
@@ -896,25 +924,25 @@ export default function ReadingPage() {
                 className="w-full py-4 rounded-xl text-base font-medium tracking-wider transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed"
                 style={{
                   background: followUpInput.trim() 
-                    ? "linear-gradient(135deg, rgba(220, 179, 96, 0.9) 0%, rgba(184, 138, 45, 0.9) 100%)" 
-                    : "rgba(220, 179, 96, 0.2)",
-                  border: followUpInput.trim() ? "1px solid rgba(220, 179, 96, 0.8)" : "1px solid rgba(220, 179, 96, 0.3)",
-                  color: followUpInput.trim() ? "#1a0f30" : "rgba(220, 179, 96, 0.6)",
+                    ? "linear-gradient(135deg, rgba(201, 192, 255, 0.9) 0%, rgba(170, 161, 255, 0.9) 100%)" 
+                    : "rgba(201, 192, 255, 0.2)",
+                  border: followUpInput.trim() ? "1px solid rgba(201, 192, 255, 0.8)" : "1px solid rgba(201, 192, 255, 0.3)",
+                  color: followUpInput.trim() ? "#1a0f30" : "rgba(201, 192, 255, 0.6)",
                   boxShadow: followUpInput.trim() 
-                    ? "0 4px 20px rgba(220, 179, 96, 0.4), 0 0 40px rgba(220, 179, 96, 0.2)" 
+                    ? "0 4px 20px rgba(201, 192, 255, 0.4), 0 0 40px rgba(201, 192, 255, 0.2)" 
                     : "none",
                   transform: followUpInput.trim() ? "scale(1)" : "scale(0.98)",
                 }}
                 onMouseEnter={(e) => {
                   if (followUpInput.trim() && !isReading) {
                     e.currentTarget.style.transform = "scale(1.02)"
-                    e.currentTarget.style.boxShadow = "0 6px 30px rgba(220, 179, 96, 0.5), 0 0 50px rgba(220, 179, 96, 0.3)"
+                    e.currentTarget.style.boxShadow = "0 6px 30px rgba(201, 192, 255, 0.5), 0 0 50px rgba(201, 192, 255, 0.3)"
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (followUpInput.trim()) {
                     e.currentTarget.style.transform = "scale(1)"
-                    e.currentTarget.style.boxShadow = "0 4px 20px rgba(220, 179, 96, 0.4), 0 0 40px rgba(220, 179, 96, 0.2)"
+                    e.currentTarget.style.boxShadow = "0 4px 20px rgba(201, 192, 255, 0.4), 0 0 40px rgba(201, 192, 255, 0.2)"
                   }
                 }}
               >
@@ -938,7 +966,7 @@ export default function ReadingPage() {
               {/* Enter 提示 */}
               {followUpInput.trim() && !isReading && (
                 <p className="text-white/30 text-xs text-center mt-3">
-                  {t("common.pressEnter") || "Press Enter to send"}
+                  {tx("common.pressEnter", "Press Enter to send")}
                 </p>
               )}
             </div>
@@ -956,11 +984,11 @@ export default function ReadingPage() {
         >
           <div className={`grid gap-4 ${shouldShowSavePrompt || shouldShowMemberPrompt ? "md:grid-cols-[1.05fr_0.95fr]" : ""}`}>
             <div
-              className="rounded-lg border border-[#dcb360]/18 bg-white/[0.045] p-5 backdrop-blur-sm"
+              className="rounded-lg border border-[#c9c0ff]/18 bg-white/[0.045] p-5 backdrop-blur-sm"
             >
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-[#dcb360] text-sm tracking-widest">{shareCopy.title}</p>
+                  <p className="text-[#c9c0ff] text-sm tracking-widest">{shareCopy.title}</p>
                   <p className="mt-2 text-white/58 text-sm leading-6">
                     {shareCopy.description}
                   </p>
@@ -968,7 +996,7 @@ export default function ReadingPage() {
                 <button
                   onClick={handleShare}
                   disabled={isCreatingShare || isReading}
-                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dcb360]/40 px-4 py-2 text-sm text-[#f3d58b] transition-colors hover:border-[#f3d58b] hover:bg-[#dcb360]/10 disabled:opacity-45"
+                  className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#c9c0ff]/40 px-4 py-2 text-sm text-[#eeeaff] transition-colors hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10 disabled:opacity-45"
                 >
                   <Share2 className="h-4 w-4" />
                   {isCreatingShare ? shareCopy.loading : shareCopy.button}
@@ -992,7 +1020,7 @@ export default function ReadingPage() {
                 <button
                   onClick={() => handleCopyShareTemplate("xhs")}
                   disabled={isCreatingShare || isReading}
-                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
                 >
                   <Copy className="h-3.5 w-3.5" />
                   {shareCopy.xhs}
@@ -1000,7 +1028,7 @@ export default function ReadingPage() {
                 <button
                   onClick={() => handleCopyShareTemplate("instagram")}
                   disabled={isCreatingShare || isReading}
-                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
                 >
                   <Instagram className="h-3.5 w-3.5" />
                   {shareCopy.instagram}
@@ -1013,7 +1041,7 @@ export default function ReadingPage() {
             {shouldShowSavePrompt && (
               <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5 backdrop-blur-sm">
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#dcb360]/12 text-[#f3d58b]">
+                  <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#c9c0ff]/12 text-[#eeeaff]">
                     <LogIn className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
@@ -1023,7 +1051,7 @@ export default function ReadingPage() {
                     </p>
                     <Link
                       href="/auth/login"
-                      className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#dcb360] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#f3d58b]"
+                      className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#c9c0ff] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#eeeaff]"
                     >
                       {shareCopy.saveButton}
                     </Link>
@@ -1035,8 +1063,8 @@ export default function ReadingPage() {
             {shouldShowMemberPrompt && (
               <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5 backdrop-blur-sm">
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#dcb360]/12 text-[#f3d58b]">
-                    <Crown className="h-4 w-4" />
+                  <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#c9c0ff]/12 text-[#eeeaff]">
+                    <span className="text-[10px] font-semibold tracking-[0.16em]">PRO</span>
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-white/86 text-sm font-medium">{shareCopy.memberTitle}</p>
@@ -1045,7 +1073,7 @@ export default function ReadingPage() {
                     </p>
                     <Link
                       href="/membership"
-                      className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#dcb360] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#f3d58b]"
+                      className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#c9c0ff] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#eeeaff]"
                     >
                       {shareCopy.memberButton}
                     </Link>
@@ -1071,8 +1099,8 @@ export default function ReadingPage() {
             className="px-8 py-3 rounded-full text-sm tracking-wider transition-all duration-300 hover:scale-105 disabled:opacity-30 disabled:cursor-not-allowed"
             style={{
               background: "transparent",
-              border: "1px solid rgba(220, 179, 96, 0.3)",
-              color: "rgba(220, 179, 96, 0.6)",
+              border: "1px solid rgba(201, 192, 255, 0.3)",
+              color: "rgba(201, 192, 255, 0.6)",
             }}
           >
             {t("tarot.newReading")}
@@ -1081,7 +1109,7 @@ export default function ReadingPage() {
           {/* 提示文字 */}
           {!followUpInput.trim() && (
             <p className="text-white/20 text-xs mt-3">
-              {t("tarot.or") || "or"} {t("tarot.continueAsking") || "continue asking questions above"}
+              {tx("tarot.or", "or")} {tx("tarot.continueAsking", "continue asking questions above")}
             </p>
           )}
         </div>
