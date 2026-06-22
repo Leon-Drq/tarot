@@ -28,6 +28,7 @@ const cardIndexCopy = {
   zh: {
     title: "78 张塔罗牌",
     body: "按大阿卡纳和四个花色浏览所有牌义，每张牌都包含正位、逆位、爱情、事业、财运、是或否、建议、组合和 FAQ。",
+    browseLabel: "按类别浏览",
     upright: "正位",
     reversed: "逆位",
     groups: {
@@ -41,6 +42,7 @@ const cardIndexCopy = {
   en: {
     title: "78 Tarot Cards",
     body: "Browse every card by Major Arcana and suit. Each card page covers upright, reversed, love, career, money, yes-or-no, advice, combinations, and FAQ.",
+    browseLabel: "Browse by group",
     upright: "Upright",
     reversed: "Reversed",
     groups: {
@@ -54,6 +56,7 @@ const cardIndexCopy = {
   ja: {
     title: "78 枚のタロットカード",
     body: "大アルカナとスート別にカードを探せます。各カードには正位置、逆位置、恋愛、仕事、金運、Yes/No、助言、組み合わせ、FAQ があります。",
+    browseLabel: "カテゴリ別に見る",
     upright: "正位置",
     reversed: "逆位置",
     groups: {
@@ -67,6 +70,7 @@ const cardIndexCopy = {
   ko: {
     title: "78장 타로 카드",
     body: "메이저 아르카나와 수트별로 모든 카드를 탐색하세요. 각 카드에는 정방향, 역방향, 사랑, 커리어, 돈, 예/아니오, 조언, 조합, FAQ가 있습니다.",
+    browseLabel: "그룹별 보기",
     upright: "정방향",
     reversed: "역방향",
     groups: {
@@ -80,6 +84,7 @@ const cardIndexCopy = {
   es: {
     title: "78 cartas del tarot",
     body: "Explora todas las cartas por Arcanos Mayores y palo. Cada página cubre significado normal, invertido, amor, carrera, dinero, sí o no, consejo, combinaciones y FAQ.",
+    browseLabel: "Explorar por grupo",
     upright: "Normal",
     reversed: "Invertida",
     groups: {
@@ -93,6 +98,7 @@ const cardIndexCopy = {
   "pt-br": {
     title: "78 cartas de tarot",
     body: "Explore todas as cartas por Arcanos Maiores e naipes. Cada página cobre carta em pé, invertida, amor, carreira, dinheiro, sim ou não, conselho, combinações e FAQ.",
+    browseLabel: "Explorar por grupo",
     upright: "Em pé",
     reversed: "Invertida",
     groups: {
@@ -106,6 +112,7 @@ const cardIndexCopy = {
 } satisfies Record<SeoPage["locale"], {
   title: string
   body: string
+  browseLabel: string
   upright: string
   reversed: string
   groups: Record<"major" | "wands" | "cups" | "pentacles" | "swords", string>
@@ -732,6 +739,29 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 name: cardPage.h1,
               })),
             },
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#card-groups`,
+              name: `${cardText.title} groups`,
+              numberOfItems: cardGroups.length,
+              itemListElement: cardGroups.map((group, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "ItemList",
+                  "@id": `${appUrl}${page.path}#card-index-${group.key}`,
+                  name: group.title,
+                  numberOfItems: group.cards.length,
+                  url: `${appUrl}${page.path}#card-index-${group.key}`,
+                  itemListElement: group.cards.map((cardPage, cardIndex) => ({
+                    "@type": "ListItem",
+                    position: cardIndex + 1,
+                    url: `${appUrl}${cardPage.path}`,
+                    name: cardPage.h1,
+                  })),
+                },
+              })),
+            },
           ]
         : []),
     ],
@@ -890,6 +920,25 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 {page.primaryCta}
               </Link>
             </div>
+            <nav
+              aria-label={cardText.browseLabel}
+              className="mb-9 flex flex-wrap gap-2"
+            >
+              {cardGroups
+                .filter((group) => group.cards.length > 0)
+                .map((group) => (
+                  <a
+                    key={group.key}
+                    href={`#card-index-${group.key}`}
+                    className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-sm text-white/66 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] hover:text-white"
+                  >
+                    <span>{group.title}</span>
+                    <span className="rounded-full bg-[#bfb6ff]/10 px-2 py-0.5 text-xs text-[#c9c0ff]/80">
+                      {group.cards.length}
+                    </span>
+                  </a>
+                ))}
+            </nav>
             <div className="space-y-10">
               {cardGroups.map((group) =>
                 group.cards.length > 0 ? (
