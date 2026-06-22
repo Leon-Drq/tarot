@@ -27,6 +27,12 @@ type CardPrompt = {
   spread: SpreadType
 }
 
+type QuestionPath = {
+  title: string
+  body: string
+  href: string
+}
+
 function cardDisplayName(page: TarotCardSeoPage) {
   if (page.locale === "zh") return page.card.name
   if (page.locale === "ja") return page.card.nameJa || page.card.nameEn
@@ -92,12 +98,106 @@ function cardPromptCopy(page: TarotCardSeoPage) {
   }
 }
 
+function questionPathCopy(page: TarotCardSeoPage) {
+  const name = cardDisplayName(page)
+  const path = (slug: string) => localePath(page.locale, `/${slug}`)
+
+  if (page.locale === "zh") {
+    return {
+      eyebrow: "相关问题入口",
+      title: `把${name}放进真实问题里读`,
+      body: "牌义页适合理解符号，问题页适合直接进入对应牌阵。下面这些入口会把用户带到更具体的免费 AI 塔罗解读。",
+      paths: [
+        { title: "前任会回来吗？", body: `${name}可以帮助判断联系、时机、未完成情绪和是否还值得等待。`, href: path("will-my-ex-come-back-tarot") },
+        { title: "他爱我吗？", body: `用${name}观察感情是否只有吸引，还是有稳定行为和真实投入。`, href: path("does-he-love-me-tarot") },
+        { title: "爱情 Yes / No", body: `当你需要快速方向时，把${name}和牌阵里的建议一起看。`, href: path("yes-or-no-tarot-love") },
+        { title: "事业塔罗", body: `用${name}看清职业动力、风险、资源和下一步行动。`, href: path("career-tarot-reading") },
+        { title: "该辞职吗？", body: `${name}可以帮助区分短期疲惫、真正转折和离开前要准备的事。`, href: path("should-i-quit-my-job-tarot") },
+      ] satisfies QuestionPath[],
+    }
+  }
+
+  if (page.locale === "ja") {
+    return {
+      eyebrow: "関連する質問",
+      title: `${name}を具体的な質問で読む`,
+      body: "カードの意味を理解したら、次は質問別ページで実際のスプレッドに進めます。",
+      paths: [
+        { title: "元恋人は戻る？", body: `${name}で連絡、タイミング、未完了の感情、待つべきかを見ます。`, href: path("will-my-ex-come-back-tarot") },
+        { title: "彼は私を愛している？", body: `${name}を、気持ちだけでなく行動や一貫性と一緒に読みます。`, href: path("does-he-love-me-tarot") },
+        { title: "恋愛 Yes / No", body: `${name}を使い、答えだけでなく理由と次の行動を確認します。`, href: path("yes-or-no-tarot-love") },
+        { title: "仕事のタロット", body: `${name}で仕事の方向性、リスク、資源、次の一歩を見ます。`, href: path("career-tarot-reading") },
+        { title: "仕事を辞めるべき？", body: `${name}で疲れ、転機、準備すべき現実的条件を分けて考えます。`, href: path("should-i-quit-my-job-tarot") },
+      ] satisfies QuestionPath[],
+    }
+  }
+
+  if (page.locale === "ko") {
+    return {
+      eyebrow: "관련 질문",
+      title: `${name}를 실제 질문에 적용하기`,
+      body: "카드 의미를 이해했다면, 질문형 페이지에서 바로 맞는 스프레드로 이어갈 수 있습니다.",
+      paths: [
+        { title: "전 애인이 돌아올까?", body: `${name}로 연락, 타이밍, 남은 감정, 기다림의 의미를 봅니다.`, href: path("will-my-ex-come-back-tarot") },
+        { title: "그는 나를 사랑할까?", body: `${name}를 감정뿐 아니라 행동, 일관성, 안정감과 함께 읽습니다.`, href: path("does-he-love-me-tarot") },
+        { title: "연애 Yes / No", body: `${name}로 답뿐 아니라 이유와 건강한 다음 행동을 확인합니다.`, href: path("yes-or-no-tarot-love") },
+        { title: "커리어 타로", body: `${name}로 일의 방향, 리스크, 자원, 다음 행동을 점검합니다.`, href: path("career-tarot-reading") },
+        { title: "퇴사해야 할까?", body: `${name}로 번아웃, 전환 신호, 준비해야 할 현실 조건을 나눠 봅니다.`, href: path("should-i-quit-my-job-tarot") },
+      ] satisfies QuestionPath[],
+    }
+  }
+
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Preguntas relacionadas",
+      title: `Lee ${name} dentro de preguntas reales`,
+      body: "La pagina de significado explica el simbolo. Estas entradas llevan a una tirada gratis enfocada en una pregunta concreta.",
+      paths: [
+        { title: "Will my ex come back?", body: `${name} puede aclarar contacto, timing, cierre y si esperar todavia te ayuda.`, href: path("will-my-ex-come-back-tarot") },
+        { title: "Does he love me?", body: `Usa ${name} para comparar sentimientos, conducta, consistencia y seguridad emocional.`, href: path("does-he-love-me-tarot") },
+        { title: "Yes or no love tarot", body: `Lee ${name} con la razon del si, no o todavia no, no solo como una palabra.`, href: path("yes-or-no-tarot-love") },
+        { title: "Career tarot reading", body: `${name} ayuda a ver direccion laboral, riesgo, recursos y el siguiente paso practico.`, href: path("career-tarot-reading") },
+        { title: "Should I quit my job?", body: `${name} puede separar cansancio temporal, ciclo terminado y preparacion real antes de salir.`, href: path("should-i-quit-my-job-tarot") },
+      ] satisfies QuestionPath[],
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Perguntas relacionadas",
+      title: `Leia ${name} dentro de perguntas reais`,
+      body: "A pagina de significado explica o simbolo. Estes caminhos abrem uma tiragem gratis focada em uma pergunta concreta.",
+      paths: [
+        { title: "Will my ex come back?", body: `${name} pode clarear contato, timing, fechamento e se esperar ainda ajuda.`, href: path("will-my-ex-come-back-tarot") },
+        { title: "Does he love me?", body: `Use ${name} para comparar sentimentos, comportamento, consistencia e seguranca emocional.`, href: path("does-he-love-me-tarot") },
+        { title: "Yes or no love tarot", body: `Leia ${name} com a razao do sim, nao ou ainda nao, nao apenas como uma palavra.`, href: path("yes-or-no-tarot-love") },
+        { title: "Career tarot reading", body: `${name} ajuda a ver direcao profissional, risco, recursos e o proximo passo pratico.`, href: path("career-tarot-reading") },
+        { title: "Should I quit my job?", body: `${name} pode separar cansaco temporario, ciclo encerrado e preparacao real antes de sair.`, href: path("should-i-quit-my-job-tarot") },
+      ] satisfies QuestionPath[],
+    }
+  }
+
+  return {
+    eyebrow: "Related reading paths",
+    title: `Read ${name} in real tarot questions`,
+    body: "The card meaning explains the symbol. These question pages move directly into focused free AI tarot spreads for high-intent situations.",
+    paths: [
+      { title: "Will my ex come back?", body: `${name} can clarify contact, timing, closure, and whether waiting is still helping you.`, href: path("will-my-ex-come-back-tarot") },
+      { title: "Does he love me?", body: `Use ${name} to compare feelings with behavior, consistency, and emotional safety.`, href: path("does-he-love-me-tarot") },
+      { title: "Yes or no love tarot", body: `Read ${name} with the reason behind yes, no, or not yet instead of forcing one word.`, href: path("yes-or-no-tarot-love") },
+      { title: "Career tarot reading", body: `${name} can help reveal career direction, risk, resources, and the next practical move.`, href: path("career-tarot-reading") },
+      { title: "Should I quit my job?", body: `${name} can separate temporary burnout, a completed cycle, and the preparation needed before leaving.`, href: path("should-i-quit-my-job-tarot") },
+    ] satisfies QuestionPath[],
+  }
+}
+
 export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const keywords = getCardKeywords(page.card, page.locale)
   const meaningsHref = localePath(page.locale, "/tarot-card-meanings")
   const cardImage = page.card.image.startsWith("http") ? page.card.image : `${appUrl}${page.card.image}`
   const primaryHref = readingHref(page)
   const promptCopy = cardPromptCopy(page)
+  const questionPaths = questionPathCopy(page)
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -189,6 +289,18 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           position: index + 1,
           name: prompt.question,
           url: `${appUrl}${cardPromptHref(page, prompt)}`,
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#question-paths`,
+        name: questionPaths.title,
+        itemListElement: questionPaths.paths.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.title,
+          description: item.body,
+          url: `${appUrl}${item.href}`,
         })),
       },
     ],
@@ -290,6 +402,24 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                       <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{prompt.label}</p>
                       <p className="mt-3 break-words text-sm leading-6 text-white/72 group-hover:text-white">{prompt.question}</p>
                       <p className="mt-3 text-xs text-[#c9c0ff]/65 group-hover:text-[#e8e3ff]">{promptCopy.action}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{questionPaths.eyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{questionPaths.title}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{questionPaths.body}</p>
+                <div className="mt-5 grid gap-3 md:grid-cols-2">
+                  {questionPaths.paths.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.14] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                    >
+                      <h3 className="break-words text-sm font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
                     </Link>
                   ))}
                 </div>
