@@ -1,4 +1,4 @@
-import { representativeTestimonials, trustLastReviewed } from "@/lib/trust-signals"
+import { editorialTeam, representativeTestimonials, trustLastReviewed } from "@/lib/trust-signals"
 
 export const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 export const siteName = "POPTarot"
@@ -34,6 +34,28 @@ function trustPageJsonLdItems() {
   }))
 }
 
+export function editorialTeamJsonLd() {
+  return {
+    "@type": "Organization",
+    "@id": `${appUrl}/#editorial-team`,
+    name: editorialTeam.name,
+    url: `${appUrl}${editorialTeam.url}`,
+    description: editorialTeam.description,
+    parentOrganization: {
+      "@id": `${appUrl}/#organization`,
+    },
+    publishingPrinciples: `${appUrl}/editorial-policy`,
+    knowsAbout: [
+      "tarot symbolism",
+      "AI tarot reading",
+      "tarot card meanings",
+      "love tarot questions",
+      "career tarot questions",
+      "responsible AI guidance",
+    ],
+  }
+}
+
 export function organizationJsonLd() {
   const data: Record<string, unknown> = {
     "@type": "Organization",
@@ -43,6 +65,10 @@ export function organizationJsonLd() {
     logo: `${appUrl}/icon-512x512.png`,
     image: `${appUrl}/og-image.jpg`,
     description: siteDescription,
+    department: {
+      "@id": `${appUrl}/#editorial-team`,
+    },
+    publishingPrinciples: `${appUrl}/editorial-policy`,
     foundingLocation: {
       "@type": "Place",
       name: "Online",
@@ -120,6 +146,12 @@ export function softwareApplicationJsonLd() {
       "Draw tarot cards online and receive personalized AI interpretations for daily guidance, love, career, and life decisions.",
     brand: {
       "@id": `${appUrl}/#organization`,
+    },
+    maintainer: {
+      "@id": `${appUrl}/#editorial-team`,
+    },
+    reviewedBy: {
+      "@id": `${appUrl}/#editorial-team`,
     },
     offers: {
       "@type": "Offer",

@@ -1,5 +1,21 @@
 export const trustLastReviewed = "2026-06-22"
 
+export const editorialTeam = {
+  name: "POPTarot Editorial Team",
+  role: "AI tarot content review",
+  url: "/editorial-policy",
+  description:
+    "The POPTarot editorial team reviews tarot meanings, question framing, AI prompts, and safety boundaries so readings stay symbolic, practical, and clearly limited.",
+  reviewNote:
+    "AI-assisted tarot guidance is reviewed against tarot symbolism, question context, practical next steps, and clear non-professional boundaries.",
+  standards: [
+    "Tarot symbolism before generic prediction",
+    "Question-aware interpretation",
+    "Practical next step for the reader",
+    "Clear limits around health, legal, financial, psychological, and safety advice",
+  ],
+}
+
 export const editorialProcess = [
   {
     title: "Symbolic first",

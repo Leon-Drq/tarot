@@ -1,10 +1,19 @@
 import Image from "next/image"
 import Link from "next/link"
+import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getAllLocalizedSeoPages, type SeoPage } from "@/lib/seo-pages"
 import { SPREAD_CONFIGS } from "@/lib/spread-config"
 import { getAllCardSeoPages } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
-import { appUrl, organizationJsonLd, softwareApplicationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
+import {
+  appUrl,
+  editorialTeamJsonLd,
+  organizationJsonLd,
+  softwareApplicationJsonLd,
+  trustLinks,
+  websiteJsonLd,
+} from "@/lib/site"
+import { trustLastReviewed } from "@/lib/trust-signals"
 
 const relatedCopy = {
   zh: { title: "相关塔罗入口", body: "继续从一个具体问题开始，直接进入更匹配的牌阵。" },
@@ -232,6 +241,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
     "@context": "https://schema.org",
     "@graph": [
       organizationJsonLd(),
+      editorialTeamJsonLd(),
       websiteJsonLd(),
       softwareApplicationJsonLd(),
       {
@@ -241,8 +251,12 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         name: page.title,
         description: page.description,
         inLanguage: page.locale,
+        dateModified: trustLastReviewed,
         isPartOf: {
           "@id": `${appUrl}/#website`,
+        },
+        reviewedBy: {
+          "@id": `${appUrl}/#editorial-team`,
         },
         publisher: {
           "@id": `${appUrl}/#organization`,
@@ -255,11 +269,15 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         description: page.description,
         url: `${appUrl}${page.path}`,
         inLanguage: page.locale,
+        dateModified: trustLastReviewed,
         mainEntityOfPage: {
           "@id": `${appUrl}${page.path}#webpage`,
         },
         author: {
-          "@id": `${appUrl}/#organization`,
+          "@id": `${appUrl}/#editorial-team`,
+        },
+        reviewedBy: {
+          "@id": `${appUrl}/#editorial-team`,
         },
         publisher: {
           "@id": `${appUrl}/#organization`,
@@ -333,6 +351,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
               </h1>
               <p className="mt-6 max-w-xl text-base leading-8 text-white/72 sm:text-lg">{page.intro}</p>
               <p className="mt-4 max-w-xl text-sm leading-7 text-white/56">{page.intent}</p>
+              <EditorialByline locale={page.locale} className="mt-7 max-w-xl" />
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link

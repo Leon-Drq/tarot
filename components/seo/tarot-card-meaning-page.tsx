@@ -1,8 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
+import { EditorialByline } from "@/components/trust/editorial-byline"
 import { localePath } from "@/lib/locales"
 import { getCardKeywords, type TarotCardSeoPage } from "@/lib/tarot-card-seo"
-import { appUrl, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
+import { appUrl, editorialTeamJsonLd, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
+import { trustLastReviewed } from "@/lib/trust-signals"
 
 function readingHref(page: TarotCardSeoPage) {
   const params = new URLSearchParams({
@@ -26,6 +28,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
     "@context": "https://schema.org",
     "@graph": [
       organizationJsonLd(),
+      editorialTeamJsonLd(),
       websiteJsonLd(),
       {
         "@type": "WebPage",
@@ -34,8 +37,12 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         description: page.description,
         url: `${appUrl}${page.path}`,
         inLanguage: page.locale,
+        dateModified: trustLastReviewed,
         isPartOf: {
           "@id": `${appUrl}/#website`,
+        },
+        reviewedBy: {
+          "@id": `${appUrl}/#editorial-team`,
         },
         publisher: {
           "@id": `${appUrl}/#organization`,
@@ -49,6 +56,16 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         image: cardImage,
         url: `${appUrl}${page.path}`,
         inLanguage: page.locale,
+        dateModified: trustLastReviewed,
+        mainEntityOfPage: {
+          "@id": `${appUrl}${page.path}#webpage`,
+        },
+        author: {
+          "@id": `${appUrl}/#editorial-team`,
+        },
+        reviewedBy: {
+          "@id": `${appUrl}/#editorial-team`,
+        },
         publisher: {
           "@id": `${appUrl}/#organization`,
         },
@@ -131,6 +148,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 {page.h1}
               </h1>
               <p className="mt-6 break-words text-sm leading-7 text-white/72 sm:text-lg sm:leading-8">{page.intro}</p>
+              <EditorialByline locale={page.locale} className="mt-7" />
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div className="rounded-lg border border-[#bfb6ff]/25 bg-white/[0.04] p-5">

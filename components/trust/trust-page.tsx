@@ -1,6 +1,15 @@
 import Link from "next/link"
+import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getRelatedTrustLinks, type TrustPage } from "@/lib/trust-pages"
-import { appUrl, organizationJsonLd, siteName, socialLinks, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/site"
+import {
+  appUrl,
+  editorialTeamJsonLd,
+  organizationJsonLd,
+  siteName,
+  socialLinks,
+  softwareApplicationJsonLd,
+  websiteJsonLd,
+} from "@/lib/site"
 import { editorialProcess, trustHighlights, trustLastReviewed } from "@/lib/trust-signals"
 
 export function TrustPageView({ page }: { page: TrustPage }) {
@@ -9,6 +18,7 @@ export function TrustPageView({ page }: { page: TrustPage }) {
     "@context": "https://schema.org",
     "@graph": [
       organizationJsonLd(),
+      editorialTeamJsonLd(),
       websiteJsonLd(),
       softwareApplicationJsonLd(),
       {
@@ -19,10 +29,10 @@ export function TrustPageView({ page }: { page: TrustPage }) {
         url: `${appUrl}/${page.slug}`,
         dateModified: trustLastReviewed,
         author: {
-          "@id": `${appUrl}/#organization`,
+          "@id": `${appUrl}/#editorial-team`,
         },
         reviewedBy: {
-          "@id": `${appUrl}/#organization`,
+          "@id": `${appUrl}/#editorial-team`,
         },
         isPartOf: {
           "@id": `${appUrl}/#website`,
@@ -146,6 +156,7 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             <h1 className="max-w-3xl font-serif text-4xl font-semibold leading-tight text-white sm:text-6xl">{page.title}</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">{page.intro}</p>
             <p className="mt-6 text-xs uppercase tracking-[0.18em] text-white/38">Last reviewed {trustLastReviewed}</p>
+            <EditorialByline className="mt-8 max-w-3xl" showStandards />
           </div>
         </div>
       </section>

@@ -1,11 +1,14 @@
 import MysticBackground from "@/components/mystic-background"
-import { organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/site"
+import { editorialTeamJsonLd, organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/site"
 
 const homeStructuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
       ...organizationJsonLd(),
+    },
+    {
+      ...editorialTeamJsonLd(),
     },
     {
       ...websiteJsonLd(),
