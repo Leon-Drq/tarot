@@ -352,6 +352,10 @@ export const dailyTarotApi = {
     return request(`/daily-tarot${date ? `?date=${encodeURIComponent(date)}` : ''}`)
   },
 
+  getReminderCapability: async (): Promise<{ email_delivery_enabled: boolean }> => {
+    return request('/daily-tarot/reminder-capability')
+  },
+
   saveEntry: async (payload: Partial<DailyTarotEntry> & {
     entry_date: string
     card_id: number

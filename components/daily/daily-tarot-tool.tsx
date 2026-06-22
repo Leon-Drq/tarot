@@ -142,6 +142,7 @@ export function DailyTarotTool() {
   const [reminderEmail, setReminderEmail] = useState("")
   const [reminderTime, setReminderTime] = useState("08:30")
   const [reminderEnabled, setReminderEnabled] = useState(false)
+  const [emailDeliveryEnabled, setEmailDeliveryEnabled] = useState(true)
   const [streak, setStreak] = useState(0)
   const [shareUrl, setShareUrl] = useState("")
   const [shareStatus, setShareStatus] = useState("")
@@ -227,6 +228,13 @@ export function DailyTarotTool() {
         // Ignore corrupt local cache.
       }
     }
+  }, [])
+
+  useEffect(() => {
+    dailyTarotApi
+      .getReminderCapability()
+      .then((data) => setEmailDeliveryEnabled(Boolean(data.email_delivery_enabled)))
+      .catch(() => setEmailDeliveryEnabled(true))
   }, [])
 
   useEffect(() => {
@@ -415,11 +423,23 @@ export function DailyTarotTool() {
       if (!localEntry) return
 
       saveLocalEntry(localEntry)
-      setStatus(reminderEnabled ? copy.reminderSavedLocal : copy.savedLocal)
+      setStatus(
+        reminderEnabled
+          ? emailDeliveryEnabled
+            ? copy.reminderSavedLocal
+            : copy.reminderSavedPending
+          : copy.savedLocal,
+      )
       const syncedEntry = await syncEntry(localEntry)
       if (syncedEntry) {
         saveLocalEntry(syncedEntry)
-        setStatus(reminderEnabled ? copy.reminderSaved : copy.saved)
+        setStatus(
+          reminderEnabled
+            ? emailDeliveryEnabled
+              ? copy.reminderSaved
+              : copy.reminderSavedPending
+            : copy.saved,
+        )
       }
     } finally {
       setIsSaving(false)
@@ -681,7 +701,9 @@ export function DailyTarotTool() {
               className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#bfb6ff]/55"
             />
           </div>
-          <p className="mt-3 text-xs leading-5 text-white/42">{copy.reminderHelp}</p>
+          <p className="mt-3 text-xs leading-5 text-white/42">
+            {emailDeliveryEnabled ? copy.reminderHelp : copy.reminderUnavailable}
+          </p>
           <label className="mt-4 flex min-h-10 items-center gap-3 text-sm text-white/62">
             <input
               type="checkbox"
