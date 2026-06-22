@@ -162,8 +162,8 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
               </div>
 
               <div className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
-                <h2 className="font-serif text-xl text-white">Common Card Combinations</h2>
-                <div className="mt-4 grid gap-4 md:grid-cols-3">
+                <h2 className="font-serif text-xl text-white">{page.combinationsLabel}</h2>
+                <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                   {page.combinations.map((item) => (
                     <article key={item.heading}>
                       <h3 className="text-sm font-medium text-[#c9c0ff]">{item.heading}</h3>
@@ -174,7 +174,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
               </div>
 
               <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
-                <h2 className="font-serif text-xl text-white">FAQ</h2>
+                <h2 className="font-serif text-xl text-white">{page.faqLabel}</h2>
                 <div className="mt-4 space-y-4">
                   {page.faqs.map((faq) => (
                     <article key={faq.question}>

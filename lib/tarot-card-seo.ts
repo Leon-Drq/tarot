@@ -24,10 +24,12 @@ export type TarotCardSeoPage = {
     heading: string
     body: string
   }>
+  combinationsLabel: string
   combinations: Array<{
     heading: string
     body: string
   }>
+  faqLabel: string
   faqs: Array<{
     question: string
     answer: string
@@ -364,6 +366,77 @@ function cardTone(card: TarotCard) {
   return "mental and communicative signal"
 }
 
+const englishSuitGuidance = {
+  major: {
+    upright: "a larger life lesson is becoming visible, so the card should be read as a turning point rather than a small mood",
+    reversed: "the lesson is still active, but avoidance, fear, or an unfinished inner process may be delaying integration",
+    love: "look for the emotional lesson underneath the relationship, especially repeated choices, values, and growth edges",
+    career: "connect the card to calling, responsibility, timing, and whether the current path still matches the person you are becoming",
+    money: "treat money as part of a bigger life pattern: control, trust, risk, discipline, or a cycle that wants to change",
+    yesNo: "a major card rarely gives a casual answer; it leans yes when you are ready to meet the lesson and no when you are avoiding it",
+    advice: "slow down enough to name the lesson before taking action",
+  },
+  wands: {
+    upright: "motivation, movement, and creative fire are available if you choose a direct next step",
+    reversed: "energy may be scattered, rushed, blocked, or driven by frustration rather than clear desire",
+    love: "watch the pace of attraction, pursuit, chemistry, and whether passion is supported by consistency",
+    career: "focus on initiative, visibility, creative risk, leadership, and whether you are using your energy in the right direction",
+    money: "notice where ambition is helping growth and where impulse spending, speculation, or impatience could burn resources",
+    yesNo: "it often leans yes for action questions when the plan has focus, but reversed cards ask you to slow down first",
+    advice: "choose one bold move, then give it enough structure to last",
+  },
+  cups: {
+    upright: "feelings, intuition, and emotional truth are guiding the reading more than logic alone",
+    reversed: "emotions may be blocked, idealized, avoided, or difficult to express honestly",
+    love: "read the card through emotional availability, mutual care, trust, and the difference between fantasy and real connection",
+    career: "ask whether the work supports your emotional well-being, creative voice, team culture, and sense of meaning",
+    money: "look for emotional spending, generosity, fear of scarcity, or choices that confuse comfort with long-term security",
+    yesNo: "it leans yes when feelings and actions are aligned; reversed, it asks for emotional clarity before a decision",
+    advice: "listen to the feeling, then test it against what people actually do",
+  },
+  pentacles: {
+    upright: "practical resources, money, time, health, or tangible progress are the center of the message",
+    reversed: "the practical base may be unstable, delayed, over-controlled, or disconnected from real-world limits",
+    love: "look at reliability, commitment, shared routines, physical presence, and whether affection is backed by effort",
+    career: "focus on skills, compensation, workload, long-term stability, and the systems that make success repeatable",
+    money: "this suit speaks directly to budgets, assets, debt, savings, value, and whether a plan can work materially",
+    yesNo: "it often leans yes when the resources are real and the timeline is patient; reversed, it warns against weak foundations",
+    advice: "make the next step concrete, measurable, and financially grounded",
+  },
+  swords: {
+    upright: "truth, communication, analysis, and decision-making need to be handled clearly",
+    reversed: "confusion, avoidance, harsh words, overthinking, or missing information may be distorting the answer",
+    love: "pay attention to communication patterns, honesty, boundaries, conflict style, and what has not been said",
+    career: "use the card for decisions, contracts, strategy, interviews, negotiation, and the need for cleaner information",
+    money: "focus on planning, paperwork, risk analysis, legal details, and any story you are telling yourself about security",
+    yesNo: "it leans yes when facts are clear and communication is honest; reversed, it asks for more information before acting",
+    advice: "separate the facts from the fear, then say the cleanest true thing",
+  },
+} satisfies Record<CardSuit, Record<"upright" | "reversed" | "love" | "career" | "money" | "yesNo" | "advice", string>>
+
+function createEnglishCoreSections(card: TarotCard, theme: string) {
+  const englishName = card.nameEn
+  const suit = getCardSuit(card)
+  const guidance = englishSuitGuidance[suit]
+  const upright = localizedKeywords(card, "en", "upright")
+  const reversed = localizedKeywords(card, "en", "reversed")
+
+  return [
+    {
+      heading: `${englishName} Upright Meaning`,
+      body: `Upright, ${englishName} highlights ${upright}. In a real spread, this means ${guidance.upright}. Read it as active energy that can be used consciously, not as a fixed promise.`,
+    },
+    {
+      heading: `${englishName} Reversed Meaning`,
+      body: `Reversed, ${englishName} points toward ${reversed}. The card does not simply become negative; it usually shows where the same theme is blocked, delayed, overdone, or asking for inner correction.`,
+    },
+    {
+      heading: `How to Read ${englishName} in a Spread`,
+      body: `${englishName} belongs to the field of ${theme}. In a past position it can describe the pattern you are carrying; in the present it shows the energy now in motion; as advice it asks you to respond with one grounded action.`,
+    },
+  ]
+}
+
 function localizedCardName(card: TarotCard, locale: SeoLocale) {
   return locale === "zh"
     ? card.name
@@ -381,26 +454,27 @@ function createDeepSections(card: TarotCard, locale: SeoLocale, theme: string) {
   const reversed = localizedKeywords(card, locale, "reversed")
 
   if (locale === "en") {
+    const guidance = englishSuitGuidance[getCardSuit(card)]
     return [
       {
         heading: `${englishName} in Love`,
-        body: `In love readings, ${englishName} asks you to look at the relationship pattern rather than chase a single yes-or-no answer. Upright, it can highlight ${upright}. Reversed, it may show where ${reversed} is blocking emotional clarity.`,
+        body: `In love readings, ${englishName} asks you to ${guidance.love}. Upright, it can highlight ${upright}. Reversed, it may show where ${reversed} is blocking emotional clarity or mutual movement.`,
       },
       {
         heading: `${englishName} in Career`,
-        body: `For work and career, ${englishName} points to ${theme}. It is useful when you are asking about timing, motivation, team dynamics, or whether the next professional step has enough support behind it.`,
+        body: `For work and career, ${englishName} asks you to ${guidance.career}. It is useful when you are asking about timing, motivation, team dynamics, or whether the next professional step has enough support behind it.`,
       },
       {
         heading: `${englishName} for Money`,
-        body: `In money questions, this card is less about prediction and more about behavior. It asks whether your current decisions are aligned with stability, appetite for risk, and the resources already available to you.`,
+        body: `In money questions, ${englishName} asks you to ${guidance.money}. It is less about prediction and more about the behavior, stability, and resource choices shaping the outcome.`,
       },
       {
         heading: `${englishName} Yes or No`,
-        body: `${englishName} is usually a nuanced answer. Upright, it leans toward movement if your question matches ${upright}. Reversed, it suggests waiting, clarifying motives, or fixing the pattern shown by ${reversed}.`,
+        body: `${englishName} is usually a nuanced answer: ${guidance.yesNo}. Upright, it leans toward movement if your question matches ${upright}. Reversed, it suggests waiting, clarifying motives, or fixing the pattern shown by ${reversed}.`,
       },
       {
         heading: `Advice from ${englishName}`,
-        body: `The advice is to treat this card as a ${cardTone(card)}. Name the energy honestly, choose one action you can control today, and avoid forcing the reading to confirm what you already wanted to hear.`,
+        body: `The advice is to ${guidance.advice}. Treat this card as a ${cardTone(card)}: name the energy honestly, choose one action you can control today, and avoid forcing the reading to confirm what you already wanted to hear.`,
       },
     ]
   }
@@ -471,6 +545,14 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
   const englishName = card.nameEn
 
   if (locale === "en") {
+    const partner = {
+      major: { card: "The World", meaning: "completion, integration, and the larger arc of the lesson" },
+      wands: { card: "The Chariot", meaning: "momentum, willpower, and whether action has a clear direction" },
+      cups: { card: "The Moon", meaning: "emotional projection, intuition, and what is still hard to name" },
+      pentacles: { card: "The Emperor", meaning: "structure, commitment, money boundaries, and long-term stability" },
+      swords: { card: "Justice", meaning: "truth, consequences, contracts, and clean decision-making" },
+    }[getCardSuit(card)]
+
     return [
       {
         heading: `${englishName} with The Lovers`,
@@ -483,6 +565,10 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
       {
         heading: `${englishName} with Ace cards`,
         body: `Any Ace beside ${englishName} points to a new beginning. Look at the Ace suit to understand whether the fresh start is emotional, practical, mental, or creative.`,
+      },
+      {
+        heading: `${englishName} with ${partner.card}`,
+        body: `Together, these cards emphasize ${partner.meaning}. Read the pair as a clue about what must be stabilized before the message of ${englishName} can become useful.`,
       },
     ]
   }
@@ -532,14 +618,30 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
   const englishName = card.nameEn
 
   if (locale === "en") {
+    const upright = localizedKeywords(card, locale, "upright")
+    const reversed = localizedKeywords(card, locale, "reversed")
+    const guidance = englishSuitGuidance[getCardSuit(card)]
+
     return [
       {
         question: `What does ${englishName} mean in tarot?`,
-        answer: `${englishName} represents ${localizedKeywords(card, locale, "upright")} when upright, while the reversed meaning can point to ${localizedKeywords(card, locale, "reversed")}.`,
+        answer: `${englishName} represents ${upright} when upright, while the reversed meaning can point to ${reversed}. The exact message depends on the question, position, and surrounding cards.`,
+      },
+      {
+        question: `What does ${englishName} mean upright?`,
+        answer: `Upright, ${englishName} usually shows active energy around ${upright}. It is often a sign to work with the theme directly rather than avoid it.`,
+      },
+      {
+        question: `What does ${englishName} mean reversed?`,
+        answer: `Reversed, ${englishName} does not have to be bad. It often shows a delay, imbalance, private fear, or correction connected to ${reversed}.`,
+      },
+      {
+        question: `What does ${englishName} mean in love?`,
+        answer: `In love readings, ${englishName} asks you to ${guidance.love}. It is strongest when read with both feelings and behavior, not with wishful thinking alone.`,
       },
       {
         question: `Is ${englishName} a yes or no card?`,
-        answer: `${englishName} can answer yes or no only when you read the orientation, question, and nearby cards together. Upright usually supports movement; reversed asks for correction first.`,
+        answer: `${englishName} can answer yes or no only when you read the orientation, question, and nearby cards together. ${guidance.yesNo}.`,
       },
       {
         question: `What should I do when I draw ${englishName}?`,
@@ -605,6 +707,8 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       tryQuestion: `${name}现在想提醒我什么？`,
       ctaLabel: "用这张牌开始解读",
       backLabel: "返回牌义大全",
+      combinationsLabel: "常见牌组组合",
+      faqLabel: "常见问题",
       sections: [
         {
           heading: "这张牌通常代表什么",
@@ -626,15 +730,14 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       tryQuestion: `What is ${englishName} trying to show me now?`,
       ctaLabel: "Start a Reading With This Card",
       backLabel: "Back to Card Meanings",
+      combinationsLabel: "Common Card Combinations",
+      faqLabel: "FAQ",
       sections: [
         {
-          heading: "What this card usually represents",
-          body: `${englishName} is not a fixed answer. It is a symbolic lens that brings attention to ${theme} in your current situation.`,
+          heading: `${englishName} Quick Meaning`,
+          body: `${englishName} is not a fixed answer. It is a symbolic lens that brings attention to ${theme} in your current situation. Use it to name the active pattern before deciding what to do next.`,
         },
-        {
-          heading: "How to read it in a spread",
-          body: "In a past position, it can describe an existing pattern. In a present position, it shows current energy. In an advice position, it becomes a practical prompt.",
-        },
+        ...createEnglishCoreSections(card, theme),
       ],
     },
     ja: {
@@ -647,6 +750,8 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       tryQuestion: `${name}はいま何を示していますか？`,
       ctaLabel: "このカードで占う",
       backLabel: "カード一覧へ戻る",
+      combinationsLabel: "よくあるカードの組み合わせ",
+      faqLabel: "よくある質問",
       sections: [
         {
           heading: "このカードが表すこと",
@@ -668,6 +773,8 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       tryQuestion: `${name} 카드가 지금 보여주는 것은 무엇인가요?`,
       ctaLabel: "이 카드로 리딩 시작",
       backLabel: "카드 의미로 돌아가기",
+      combinationsLabel: "자주 나오는 카드 조합",
+      faqLabel: "질문",
       sections: [
         {
           heading: "이 카드가 나타내는 것",
@@ -689,6 +796,8 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       tryQuestion: `¿Qué intenta mostrarme ${englishName} ahora?`,
       ctaLabel: "Empezar lectura con esta carta",
       backLabel: "Volver a significados",
+      combinationsLabel: "Combinaciones comunes",
+      faqLabel: "Preguntas frecuentes",
       sections: [
         {
           heading: "Qué representa esta carta",
@@ -710,6 +819,8 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       tryQuestion: `O que ${englishName} quer me mostrar agora?`,
       ctaLabel: "Começar leitura com esta carta",
       backLabel: "Voltar aos significados",
+      combinationsLabel: "Combinações comuns",
+      faqLabel: "Perguntas frequentes",
       sections: [
         {
           heading: "O que esta carta representa",
@@ -740,7 +851,9 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
     backLabel: copy.backLabel,
     sections: copy.sections,
     deepSections: createDeepSections(card, locale, theme),
+    combinationsLabel: copy.combinationsLabel,
     combinations: createCombinations(card, locale),
+    faqLabel: copy.faqLabel,
     faqs: createCardFaqs(card, locale),
   }
 }
