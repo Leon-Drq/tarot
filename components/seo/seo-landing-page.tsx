@@ -3,7 +3,7 @@ import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getAllLocalizedSeoPages, type SeoPage } from "@/lib/seo-pages"
 import { SPREAD_CONFIGS } from "@/lib/spread-config"
-import { getAllCardSeoPages } from "@/lib/tarot-card-seo"
+import { getAllCardSeoPages, getCardKeywords, getCardSuit } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
 import {
   appUrl,
@@ -23,6 +23,95 @@ const relatedCopy = {
   es: { title: "Herramientas relacionadas", body: "Continúa con una pregunta concreta y entra en una tirada más adecuada." },
   "pt-br": { title: "Ferramentas relacionadas", body: "Continue com uma pergunta concreta e entre em uma tiragem mais adequada." },
 }
+
+const cardIndexCopy = {
+  zh: {
+    title: "78 张塔罗牌",
+    body: "按大阿卡纳和四个花色浏览所有牌义，每张牌都包含正位、逆位、爱情、事业、财运、是或否、建议、组合和 FAQ。",
+    upright: "正位",
+    reversed: "逆位",
+    groups: {
+      major: "大阿卡纳",
+      wands: "权杖",
+      cups: "圣杯",
+      pentacles: "星币",
+      swords: "宝剑",
+    },
+  },
+  en: {
+    title: "78 Tarot Cards",
+    body: "Browse every card by Major Arcana and suit. Each card page covers upright, reversed, love, career, money, yes-or-no, advice, combinations, and FAQ.",
+    upright: "Upright",
+    reversed: "Reversed",
+    groups: {
+      major: "Major Arcana",
+      wands: "Wands",
+      cups: "Cups",
+      pentacles: "Pentacles",
+      swords: "Swords",
+    },
+  },
+  ja: {
+    title: "78 枚のタロットカード",
+    body: "大アルカナとスート別にカードを探せます。各カードには正位置、逆位置、恋愛、仕事、金運、Yes/No、助言、組み合わせ、FAQ があります。",
+    upright: "正位置",
+    reversed: "逆位置",
+    groups: {
+      major: "大アルカナ",
+      wands: "ワンド",
+      cups: "カップ",
+      pentacles: "ペンタクル",
+      swords: "ソード",
+    },
+  },
+  ko: {
+    title: "78장 타로 카드",
+    body: "메이저 아르카나와 수트별로 모든 카드를 탐색하세요. 각 카드에는 정방향, 역방향, 사랑, 커리어, 돈, 예/아니오, 조언, 조합, FAQ가 있습니다.",
+    upright: "정방향",
+    reversed: "역방향",
+    groups: {
+      major: "메이저 아르카나",
+      wands: "완드",
+      cups: "컵",
+      pentacles: "펜타클",
+      swords: "소드",
+    },
+  },
+  es: {
+    title: "78 cartas del tarot",
+    body: "Explora todas las cartas por Arcanos Mayores y palo. Cada página cubre significado normal, invertido, amor, carrera, dinero, sí o no, consejo, combinaciones y FAQ.",
+    upright: "Normal",
+    reversed: "Invertida",
+    groups: {
+      major: "Arcanos Mayores",
+      wands: "Bastos",
+      cups: "Copas",
+      pentacles: "Pentáculos",
+      swords: "Espadas",
+    },
+  },
+  "pt-br": {
+    title: "78 cartas de tarot",
+    body: "Explore todas as cartas por Arcanos Maiores e naipes. Cada página cobre carta em pé, invertida, amor, carreira, dinheiro, sim ou não, conselho, combinações e FAQ.",
+    upright: "Em pé",
+    reversed: "Invertida",
+    groups: {
+      major: "Arcanos Maiores",
+      wands: "Paus",
+      cups: "Copas",
+      pentacles: "Pentáculos",
+      swords: "Espadas",
+    },
+  },
+} satisfies Record<SeoPage["locale"], {
+  title: string
+  body: string
+  upright: string
+  reversed: string
+  groups: Record<"major" | "wands" | "cups" | "pentacles" | "swords", string>
+}>
+
+const cardIndexGroupOrder = ["major", "wands", "cups", "pentacles", "swords"] as const
 
 function relatedPages(page: SeoPage) {
   const priority = [
@@ -471,9 +560,15 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const primaryHref = readingHref(page)
   const related = relatedPages(page)
   const relatedText = relatedCopy[page.locale]
+  const cardText = cardIndexCopy[page.locale]
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug]
   const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
+  const cardGroups = cardIndexGroupOrder.map((group) => ({
+    key: group,
+    title: cardText.groups[group],
+    cards: cardPages.filter((cardPage) => getCardSuit(cardPage.card) === group),
+  }))
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -551,6 +646,23 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
           },
         })),
       },
+      ...(cardPages.length > 0
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#card-index`,
+              name: cardText.title,
+              description: cardText.body,
+              numberOfItems: cardPages.length,
+              itemListElement: cardPages.map((cardPage, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${appUrl}${cardPage.path}`,
+                name: cardPage.h1,
+              })),
+            },
+          ]
+        : []),
     ],
   }
 
@@ -670,7 +782,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                     <Link
                       key={prompt}
                       href={promptHref(page, prompt)}
-	                      className="group rounded-lg border border-white/10 bg-black/[0.16] px-4 py-3 text-sm leading-6 text-white/68 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] hover:text-white"
+                      className="group rounded-lg border border-white/10 bg-black/[0.16] px-4 py-3 text-sm leading-6 text-white/68 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] hover:text-white"
                     >
                       <span className="block">{prompt}</span>
                       <span className="mt-1 block text-xs text-[#c9c0ff]/62 group-hover:text-[#e8e3ff]">{toolkitCopy.drawPrompt}</span>
@@ -698,27 +810,57 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
       {cardPages.length > 0 && (
         <section className="border-b border-white/10 bg-[#080310]">
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
-            <div className="mb-7 flex items-center justify-between gap-4">
-              <h2 className="font-serif text-2xl text-white">78 Tarot Cards</h2>
+            <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div className="max-w-3xl">
+                <h2 className="font-serif text-2xl text-white sm:text-4xl">{cardText.title}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/60">{cardText.body}</p>
+              </div>
               <Link href={primaryHref} className="text-sm text-[#c9c0ff] hover:text-white">
                 {page.primaryCta}
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-              {cardPages.map((cardPage) => (
-                <Link
-                  key={cardPage.path}
-                  href={cardPage.path}
-                  className="group rounded-lg border border-white/10 bg-white/[0.035] p-3 transition hover:border-[#bfb6ff]/55 hover:bg-white/[0.06]"
-                >
-                  <div className="relative mx-auto aspect-[7/12] w-full max-w-[92px] overflow-hidden rounded-md border border-[#bfb6ff]/30 bg-[#211330]">
-                    <Image src={cardPage.card.image} alt={cardPage.title} fill className="object-cover" sizes="110px" />
-                  </div>
-                  <p className="mt-3 line-clamp-2 text-center text-xs leading-5 text-white/74 group-hover:text-white">
-                    {cardPage.h1}
-                  </p>
-                </Link>
-              ))}
+            <div className="space-y-10">
+              {cardGroups.map((group) =>
+                group.cards.length > 0 ? (
+                  <section key={group.key} aria-labelledby={`card-index-${group.key}`}>
+                    <div className="mb-4 flex items-center gap-3">
+                      <div className="h-px w-8 bg-[#bfb6ff]/45" />
+                      <h3 id={`card-index-${group.key}`} className="font-serif text-xl text-white">
+                        {group.title}
+                      </h3>
+                      <span className="text-xs text-white/36">{group.cards.length}</span>
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                      {group.cards.map((cardPage) => {
+                        const keywords = getCardKeywords(cardPage.card, page.locale)
+
+                        return (
+                          <Link
+                            key={cardPage.path}
+                            href={cardPage.path}
+                            className="group flex min-w-0 gap-4 rounded-lg border border-white/10 bg-white/[0.035] p-3 transition hover:border-[#bfb6ff]/55 hover:bg-white/[0.06]"
+                          >
+                            <div className="relative aspect-[7/12] w-14 shrink-0 overflow-hidden rounded-md border border-[#bfb6ff]/30 bg-[#211330] sm:w-16">
+                              <Image src={cardPage.card.image} alt={cardPage.title} fill className="object-cover" sizes="80px" />
+                            </div>
+                            <div className="min-w-0 flex-1 py-1">
+                              <h4 className="line-clamp-2 text-sm font-medium leading-6 text-white/82 group-hover:text-white">
+                                {cardPage.h1}
+                              </h4>
+                              <p className="mt-2 line-clamp-1 text-xs leading-5 text-[#c9c0ff]/72">
+                                {cardText.upright}: {keywords.upright}
+                              </p>
+                              <p className="line-clamp-1 text-xs leading-5 text-white/44">
+                                {cardText.reversed}: {keywords.reversed}
+                              </p>
+                            </div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  </section>
+                ) : null,
+              )}
             </div>
           </div>
         </section>
