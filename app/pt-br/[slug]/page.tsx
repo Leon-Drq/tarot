@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { SeoLandingPageView } from "@/components/seo/seo-landing-page"
 import { localeOpenGraph } from "@/lib/locales"
-import { getSeoAlternates, getSeoPage, seoPageSources } from "@/lib/seo-pages"
+import { getSeoAlternates, getSeoPage, getSeoStaticParams } from "@/lib/seo-pages"
 
 type Params = {
   params: Promise<{ slug: string }>
@@ -11,7 +11,7 @@ type Params = {
 const locale = "pt-br" as const
 
 export function generateStaticParams() {
-  return seoPageSources.map((page) => ({ slug: page.slug }))
+  return getSeoStaticParams(locale)
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {

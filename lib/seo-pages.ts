@@ -922,6 +922,65 @@ const regionalCta = {
   },
 } satisfies Record<RegionalLocale, Record<string, string>>
 
+export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>>> = {
+  es: {
+    "free-ai-tarot-reading": "lectura-tarot-gratis-ia",
+    "love-tarot-reading": "tarot-amor",
+    "reconciliation-tarot-reading": "tarot-reconciliacion",
+    "daily-tarot": "tarot-diario",
+    "monthly-tarot-report": "informe-mensual-tarot",
+    "yes-or-no-tarot": "tarot-si-o-no",
+    "career-tarot": "tarot-profesional",
+    "tarot-card-meanings": "significados-cartas-tarot",
+    "will-my-ex-come-back-tarot": "mi-ex-volvera-tarot",
+    "does-he-love-me-tarot": "el-me-ama-tarot",
+    "yes-or-no-tarot-love": "tarot-amor-si-o-no",
+    "career-tarot-reading": "lectura-tarot-carrera",
+    "should-i-quit-my-job-tarot": "debo-renunciar-trabajo-tarot",
+  },
+  "pt-br": {
+    "free-ai-tarot-reading": "leitura-tarot-gratis-ia",
+    "love-tarot-reading": "tarot-do-amor",
+    "reconciliation-tarot-reading": "tarot-reconciliacao",
+    "daily-tarot": "tarot-diario",
+    "monthly-tarot-report": "relatorio-mensal-tarot",
+    "yes-or-no-tarot": "tarot-sim-ou-nao",
+    "career-tarot": "tarot-carreira",
+    "tarot-card-meanings": "significados-cartas-tarot",
+    "will-my-ex-come-back-tarot": "meu-ex-vai-voltar-tarot",
+    "does-he-love-me-tarot": "ele-me-ama-tarot",
+    "yes-or-no-tarot-love": "tarot-amor-sim-ou-nao",
+    "career-tarot-reading": "leitura-tarot-carreira",
+    "should-i-quit-my-job-tarot": "devo-pedir-demissao-tarot",
+  },
+}
+
+export function getCanonicalSeoSlug(sourceSlug: string, locale: SeoLocale = defaultLocale) {
+  return localizedSeoSlugs[locale]?.[sourceSlug] || sourceSlug
+}
+
+export function resolveSeoSourceSlug(slug: string, locale: SeoLocale = defaultLocale) {
+  const localizedSlugs = localizedSeoSlugs[locale]
+  const localeMatch = localizedSlugs && Object.entries(localizedSlugs).find(([, localizedSlug]) => localizedSlug === slug)
+  if (localeMatch) return localeMatch[0]
+
+  for (const slugsBySource of Object.values(localizedSeoSlugs)) {
+    const globalMatch = Object.entries(slugsBySource).find(([, localizedSlug]) => localizedSlug === slug)
+    if (globalMatch) return globalMatch[0]
+  }
+
+  return slug
+}
+
+export function getSeoStaticParams(locale: SeoLocale = defaultLocale) {
+  const slugs = seoPageSources.flatMap((source) => {
+    const canonicalSlug = getCanonicalSeoSlug(source.slug, locale)
+    return canonicalSlug === source.slug ? [source.slug] : [canonicalSlug, source.slug]
+  })
+
+  return Array.from(new Set(slugs)).map((slug) => ({ slug }))
+}
+
 function withRegionalCta(locale: RegionalLocale, content: RegionalPageCopy): SeoPageContent {
   return {
     ...content,
@@ -2068,7 +2127,8 @@ function regionalContent(slug: string, base: SeoPageContent, locale: RegionalLoc
 export const seoPages = seoPageSources.map((source) => getSeoPage(source.slug, defaultLocale)).filter(Boolean) as SeoPage[]
 
 export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): SeoPage | undefined {
-  const source = seoPageSources.find((page) => page.slug === slug)
+  const sourceSlug = resolveSeoSourceSlug(slug, locale)
+  const source = seoPageSources.find((page) => page.slug === sourceSlug)
   if (!source) return undefined
   const content =
     locale === "es" || locale === "pt-br"
@@ -2081,7 +2141,7 @@ export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): Seo
     locale,
     cards: source.cards,
     recommendedSpread: source.recommendedSpread,
-    path: localePath(locale, `/${source.slug}`),
+    path: localePath(locale, `/${getCanonicalSeoSlug(source.slug, locale)}`),
   }
 }
 
@@ -2092,5 +2152,9 @@ export function getAllLocalizedSeoPages() {
 }
 
 export function getSeoAlternates(slug: string) {
-  return Object.fromEntries(seoLocales.map((locale) => [locale, localePath(locale, `/${slug}`)]))
+  const sourceSlug = resolveSeoSourceSlug(slug)
+
+  return Object.fromEntries(
+    seoLocales.map((locale) => [locale, localePath(locale, `/${getCanonicalSeoSlug(sourceSlug, locale)}`)]),
+  )
 }
