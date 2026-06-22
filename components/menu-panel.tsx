@@ -107,6 +107,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "免费 AI 解读",
         freeReadingSubtitle: "先提问抽牌，不用先付费",
         cardMeanings: "牌义大全",
+        tarotSpreads: "免费牌阵",
         monthlyReport: "月度报告",
         trust: "关于与隐私",
         reviews: "用户评价",
@@ -117,6 +118,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "Free AI Reading",
         freeReadingSubtitle: "Ask, draw, and read before paying",
         cardMeanings: "Card Meanings",
+        tarotSpreads: "Tarot Spreads",
         monthlyReport: "Monthly Report",
         trust: "About & Privacy",
         reviews: "Reviews",
@@ -127,6 +129,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "無料 AI リーディング",
         freeReadingSubtitle: "まず質問してカードを引く",
         cardMeanings: "カードの意味",
+        tarotSpreads: "Tarot Spreads",
         monthlyReport: "Monthly Report",
         trust: "About / Privacy",
         reviews: "Reviews",
@@ -137,6 +140,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "무료 AI 리딩",
         freeReadingSubtitle: "먼저 질문하고 카드를 뽑기",
         cardMeanings: "카드 의미",
+        tarotSpreads: "Tarot Spreads",
         monthlyReport: "Monthly Report",
         trust: "About / Privacy",
         reviews: "Reviews",
@@ -257,6 +261,12 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
             className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
           >
             {menuCopy.cardMeanings}
+          </button>
+          <button
+            onClick={() => handleNavigate("/tarot-spreads")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.tarotSpreads}
           </button>
           <button
             onClick={() => handleNavigate("/about")}
