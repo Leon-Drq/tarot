@@ -232,6 +232,7 @@ function HomeScrollContent() {
         items: [
           { href: "/daily-tarot", title: "每日塔罗", body: "每日一牌、连续打卡、保存日记。" },
           { href: "/tarot-spreads", title: "免费牌阵", body: "爱情、事业、是/否问题直接匹配牌阵。" },
+          { href: "/tarot-questions", title: "问题入口", body: "前任、爱情、事业和是否问题直接开始。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "适合快速判断，但保留 AI 解释。" },
           { href: "/love-tarot-reading", title: "爱情塔罗", body: "感情、复合、对方想法专项入口。" },
           { href: "/tarot-card-meanings", title: "牌义大全", body: "78 张牌的正位、逆位和场景解读。" },
@@ -269,6 +270,7 @@ function HomeScrollContent() {
         items: [
           { href: "/daily-tarot", title: "Daily Tarot", body: "One card, streaks, journal, and reminders." },
           { href: "/tarot-spreads", title: "Tarot Spreads", body: "Choose yes/no, love, ex, career, and decision spreads." },
+          { href: "/tarot-questions", title: "Tarot Questions", body: "Start from ex, love, yes/no, and career questions." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "A quick answer with the reason behind it." },
           { href: "/love-tarot-reading", title: "Love Tarot", body: "Feelings, reconnection, and relationship clarity." },
           { href: "/tarot-card-meanings", title: "Card Meanings", body: "Upright, reversed, love, career, money, and advice." },
@@ -306,6 +308,7 @@ function HomeScrollContent() {
         items: [
           { href: "/daily-tarot", title: "今日のタロット", body: "一枚引き、記録、リマインダー。" },
           { href: "/tarot-spreads", title: "Tarot Spreads", body: "恋愛、仕事、Yes/No に合うスプレッド。" },
+          { href: "/tarot-questions", title: "質問別タロット", body: "復縁、恋愛、仕事、Yes/No から開始。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "短い答えと理由を確認。" },
           { href: "/love-tarot-reading", title: "恋愛タロット", body: "気持ち、復縁、関係の流れ。" },
           { href: "/tarot-card-meanings", title: "カードの意味", body: "正位置、逆位置、恋愛、仕事、金運。" },
@@ -343,6 +346,7 @@ function HomeScrollContent() {
         items: [
           { href: "/daily-tarot", title: "오늘의 타로", body: "한 장 뽑기, 기록, 알림." },
           { href: "/tarot-spreads", title: "Tarot Spreads", body: "사랑, 커리어, 예/아니오 질문별 스프레드." },
+          { href: "/tarot-questions", title: "질문별 타로", body: "재회, 사랑, 커리어, 예/아니오로 시작." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "빠른 답과 그 이유." },
           { href: "/love-tarot-reading", title: "연애 타로", body: "감정, 재회, 관계 흐름." },
           { href: "/tarot-card-meanings", title: "카드 의미", body: "정방향, 역방향, 사랑, 커리어, 조언." },
@@ -379,7 +383,7 @@ function HomeScrollContent() {
         <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{copy.title}</h2>
         <p className="mt-4 text-sm leading-7 text-white/58 sm:text-base">{copy.body}</p>
       </div>
-      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {copy.items.map((item) => (
           <a
             key={item.href}
