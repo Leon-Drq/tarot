@@ -1,11 +1,42 @@
 import Image from "next/image"
 import Link from "next/link"
-import type { SeoPage } from "@/lib/seo-pages"
+import { getAllLocalizedSeoPages, type SeoPage } from "@/lib/seo-pages"
 import { getAllCardSeoPages } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
-import { trustLinks } from "@/lib/site"
+import { appUrl, organizationJsonLd, softwareApplicationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
 
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
+const relatedCopy = {
+  zh: { title: "相关塔罗入口", body: "继续从一个具体问题开始，直接进入更匹配的牌阵。" },
+  en: { title: "Related Tarot Tools", body: "Keep the next step specific and enter a spread matched to your question." },
+  ja: { title: "関連タロット", body: "次の質問を具体的にし、合うスプレッドへ進みましょう。" },
+  ko: { title: "관련 타로 도구", body: "다음 질문을 구체적으로 정하고 맞는 스프레드로 이동하세요." },
+  es: { title: "Herramientas relacionadas", body: "Continúa con una pregunta concreta y entra en una tirada más adecuada." },
+  "pt-br": { title: "Ferramentas relacionadas", body: "Continue com uma pergunta concreta e entre em uma tiragem mais adequada." },
+}
+
+function relatedPages(page: SeoPage) {
+  const priority = [
+    "free-ai-tarot-reading",
+    "daily-tarot",
+    "love-tarot-reading",
+    "will-my-ex-come-back-tarot",
+    "does-he-love-me-tarot",
+    "yes-or-no-tarot-love",
+    "career-tarot-reading",
+    "should-i-quit-my-job-tarot",
+    "monthly-tarot-report",
+    "tarot-card-meanings",
+  ]
+  const candidates = getAllLocalizedSeoPages().filter((candidate) => candidate.locale === page.locale && candidate.slug !== page.slug)
+
+  return candidates
+    .sort((a, b) => {
+      const aIndex = priority.indexOf(a.slug)
+      const bIndex = priority.indexOf(b.slug)
+      return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex)
+    })
+    .slice(0, 6)
+}
 
 function readingHref(page: SeoPage) {
   const params = new URLSearchParams({
@@ -29,10 +60,15 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
     .filter(Boolean)
   const cardPages = page.slug === "tarot-card-meanings" ? getAllCardSeoPages(page.locale) : []
   const primaryHref = readingHref(page)
+  const related = relatedPages(page)
+  const relatedText = relatedCopy[page.locale]
 
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
+      organizationJsonLd(),
+      websiteJsonLd(),
+      softwareApplicationJsonLd(),
       {
         "@type": "WebPage",
         "@id": `${appUrl}${page.path}#webpage`,
@@ -43,6 +79,44 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         isPartOf: {
           "@id": `${appUrl}/#website`,
         },
+        publisher: {
+          "@id": `${appUrl}/#organization`,
+        },
+      },
+      {
+        "@type": "Article",
+        "@id": `${appUrl}${page.path}#article`,
+        headline: page.title,
+        description: page.description,
+        url: `${appUrl}${page.path}`,
+        inLanguage: page.locale,
+        mainEntityOfPage: {
+          "@id": `${appUrl}${page.path}#webpage`,
+        },
+        author: {
+          "@id": `${appUrl}/#organization`,
+        },
+        publisher: {
+          "@id": `${appUrl}/#organization`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${appUrl}${page.path}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "POPTarot",
+            item: appUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: page.h1,
+            item: `${appUrl}${page.path}`,
+          },
+        ],
       },
       {
         "@type": "FAQPage",
@@ -165,6 +239,30 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                   <p className="mt-3 line-clamp-2 text-center text-xs leading-5 text-white/74 group-hover:text-white">
                     {cardPage.h1}
                   </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {related.length > 0 && (
+        <section className="border-b border-white/10 bg-[#0d0618]">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="mb-7 max-w-2xl">
+              <h2 className="font-serif text-2xl text-white">{relatedText.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">{relatedText.body}</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((item) => (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className="group rounded-lg border border-white/10 bg-white/[0.035] p-5 transition hover:border-[#bfb6ff]/50 hover:bg-white/[0.06]"
+                >
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/80">{item.eyebrow}</p>
+                  <h3 className="mt-3 font-serif text-xl leading-7 text-white group-hover:text-[#f4f0ff]">{item.h1}</h3>
+                  <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/58">{item.intent}</p>
                 </Link>
               ))}
             </div>

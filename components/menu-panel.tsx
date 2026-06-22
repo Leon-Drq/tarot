@@ -119,6 +119,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "免费 AI 解读",
         freeReadingSubtitle: "先提问抽牌，不用先付费",
         cardMeanings: "牌义大全",
+        monthlyReport: "月度报告",
         trust: "关于与隐私",
         reviews: "用户评价",
         examples: "真实案例",
@@ -128,6 +129,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "Free AI Reading",
         freeReadingSubtitle: "Ask, draw, and read before paying",
         cardMeanings: "Card Meanings",
+        monthlyReport: "Monthly Report",
         trust: "About & Privacy",
         reviews: "Reviews",
         examples: "Examples",
@@ -137,6 +139,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "無料 AI リーディング",
         freeReadingSubtitle: "まず質問してカードを引く",
         cardMeanings: "カードの意味",
+        monthlyReport: "Monthly Report",
         trust: "About / Privacy",
         reviews: "Reviews",
         examples: "Examples",
@@ -146,6 +149,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "무료 AI 리딩",
         freeReadingSubtitle: "먼저 질문하고 카드를 뽑기",
         cardMeanings: "카드 의미",
+        monthlyReport: "Monthly Report",
         trust: "About / Privacy",
         reviews: "Reviews",
         examples: "Examples",
@@ -277,6 +281,12 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
             className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
           >
             {menuCopy.trust}
+          </button>
+          <button
+            onClick={() => handleNavigate("/monthly-tarot-report")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.monthlyReport}
           </button>
           <button
             onClick={() => handleNavigate("/reviews")}
