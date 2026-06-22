@@ -3,12 +3,12 @@ import { useMemo } from "react"
 
 interface Star {
   id: number
-  x: number
-  y: number
-  size: number
-  opacity: number
-  duration: number
-  delay: number
+  x: string
+  y: string
+  size: string
+  opacity: string
+  duration: string
+  delay: string
 }
 
 interface StarsLayerProps {
@@ -20,17 +20,24 @@ function seededValue(seed: number) {
   return value - Math.floor(value)
 }
 
+function formatStyleNumber(value: number, precision = 4) {
+  return value.toFixed(precision).replace(/\.?0+$/, "")
+}
+
 export function StarsLayer({ count = 150 }: StarsLayerProps) {
   const stars = useMemo<Star[]>(() => {
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      x: seededValue(i + 1) * 100,
-      y: seededValue(i + 101) * 100,
-      size: seededValue(i + 201) > 0.85 ? 2 : seededValue(i + 301) > 0.5 ? 1.5 : 1,
-      opacity: seededValue(i + 401) * 0.7 + 0.3,
-      duration: seededValue(i + 501) * 3 + 2,
-      delay: seededValue(i + 601) * 5,
-    }))
+    return Array.from({ length: count }, (_, i) => {
+      const size = seededValue(i + 201) > 0.85 ? 2 : seededValue(i + 301) > 0.5 ? 1.5 : 1
+      return {
+        id: i,
+        x: `${formatStyleNumber(seededValue(i + 1) * 100)}%`,
+        y: `${formatStyleNumber(seededValue(i + 101) * 100)}%`,
+        size: `${formatStyleNumber(size, 1)}px`,
+        opacity: formatStyleNumber(seededValue(i + 401) * 0.7 + 0.3),
+        duration: `${formatStyleNumber(seededValue(i + 501) * 3 + 2)}s`,
+        delay: `${formatStyleNumber(seededValue(i + 601) * 5)}s`,
+      }
+    })
   }, [count])
 
   return (
@@ -40,12 +47,12 @@ export function StarsLayer({ count = 150 }: StarsLayerProps) {
           key={star.id}
           className="absolute rounded-full bg-white"
           style={{
-            left: `${star.x}%`,
-            top: `${star.y}%`,
-            width: `${star.size}px`,
-            height: `${star.size}px`,
+            left: star.x,
+            top: star.y,
+            width: star.size,
+            height: star.size,
             opacity: star.opacity,
-            animation: `twinkle ${star.duration}s ease-in-out ${star.delay}s infinite`,
+            animation: `twinkle ${star.duration} ease-in-out ${star.delay} infinite`,
           }}
         />
       ))}

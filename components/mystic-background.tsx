@@ -479,7 +479,7 @@ function MysticContent() {
     }[language]
 
   return (
-    <div className="allow-scroll relative min-h-screen overflow-x-hidden bg-mystic-bg">
+    <div className="allow-scroll relative min-h-screen overflow-x-hidden bg-mystic-bg [--home-hero-content-y:calc(var(--home-hero-focal-y)_+_12.5rem)] [--home-hero-focal-y:clamp(20rem,52svh,30rem)] sm:[--home-hero-content-y:calc(var(--home-hero-focal-y)_+_14rem)] sm:[--home-hero-focal-y:clamp(23rem,56svh,34rem)] md:[--home-hero-content-y:calc(var(--home-hero-focal-y)_+_18rem)] md:[--home-hero-focal-y:clamp(27rem,60svh,40rem)]">
       <div className="fixed inset-0 z-0 pointer-events-none">
         {/* 1. Background gradient */}
         <BackgroundGradient />
@@ -530,7 +530,7 @@ function MysticContent() {
         {/* 4. 3D rotating tarot card - use custom images if available */}
         <div
           data-home-card-scene
-          className="absolute left-0 right-0 top-[52svh] z-20 h-0 overflow-visible sm:top-[56svh] md:top-[60svh]"
+          className="absolute left-0 right-0 top-[var(--home-hero-focal-y)] z-20 h-0 overflow-visible"
         >
           <CoreLight className="pointer-events-none absolute left-0 right-0 top-0 z-0 flex h-0 items-center justify-center" />
           <div className="absolute left-0 right-0 top-0 z-10 -translate-y-1/2 overflow-visible">
@@ -543,7 +543,7 @@ function MysticContent() {
           </div>
         </div>
 
-        <div className="relative z-30 pt-[calc(52svh+12rem)] sm:pt-[calc(56svh+14rem)] md:pt-[calc(60svh+18rem)]">
+        <div className="relative z-30 pt-[var(--home-hero-content-y)]">
           <HomeQuestionForm />
 
           <HomeDailyReturnPanel />
