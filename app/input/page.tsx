@@ -11,6 +11,7 @@ import { analyticsApi, readingApi, type SpreadConfig, type DeckType } from "@/li
 import { getSpreadConfig, SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
 import { useLanguage } from "@/contexts/language-context"
 import { getCurrentAttribution } from "@/lib/client-analytics"
+import { isSeoLocale } from "@/lib/locales"
 
 type PageState = "dealing" | "input" | "classifying" | "selecting" | "collecting"
 
@@ -51,6 +52,8 @@ function InputContent() {
   const initialQuestion = searchParams.get("q") || ""
   const autoStart = searchParams.get("auto") === "1"
   const requestedSpread = searchParams.get("spread")
+  const requestedLocale = searchParams.get("lang") || ""
+  const readingLocale = isSeoLocale(requestedLocale) ? requestedLocale : language
   const preferredSpreadType = isSpreadType(requestedSpread) ? requestedSpread : null
 
   // 根据牌阵配置获取需要选择的卡牌数量
@@ -69,7 +72,7 @@ function InputContent() {
     setIsClassifying(true)
     analyticsApi.track("question_submitted", {
       ...getCurrentAttribution(),
-      locale: language,
+      locale: readingLocale,
       keyword: q,
       metadata: {
         question_length: q.length,
@@ -85,7 +88,7 @@ function InputContent() {
 
     try {
       // 调用问题分类API
-      const result = await readingApi.classifyQuestion(q, language)
+      const result = await readingApi.classifyQuestion(q, readingLocale)
       setSpreadInfo({
         type: result.spread_type,
         config: result.spread_config,
@@ -152,6 +155,7 @@ function InputContent() {
         spreadType: spreadInfo?.type || "three_card",
         spreadConfig: spreadInfo?.config,
         deckType: spreadInfo?.deckType || "major",
+        readingLocale,
       }),
     )
     router.push("/reveal")

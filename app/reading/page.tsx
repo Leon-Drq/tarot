@@ -14,6 +14,7 @@ import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, readingApi, getAccessToken, authApi, setAccessToken, type SpreadConfig } from "@/lib/api"
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import { getCurrentAttribution } from "@/lib/client-analytics"
+import { isSeoLocale } from "@/lib/locales"
 
 interface Message {
   id: string
@@ -28,6 +29,7 @@ export default function ReadingPage() {
   const { t, language } = useLanguage()
   const [drawnCards, setDrawnCards] = useState<DrawnCard[]>([])
   const [question, setQuestion] = useState("")
+  const [readingLocale, setReadingLocale] = useState(language)
   const [spreadType, setSpreadType] = useState("three_card")
   const [spreadConfig, setSpreadConfig] = useState<SpreadConfig | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
@@ -183,13 +185,15 @@ export default function ReadingPage() {
     const parsed = JSON.parse(data)
     setDrawnCards(parsed.drawnCards || [])
     setQuestion(parsed.question || "")
+    const parsedLocale = isSeoLocale(parsed.readingLocale || "") ? parsed.readingLocale : language
+    setReadingLocale(parsedLocale)
     setSpreadType(parsed.spreadType || "three_card")
     setSpreadConfig(parsed.spreadConfig || null)
     setMounted(true)
 
     if (!hasStartedRef.current) {
       hasStartedRef.current = true
-      startReading(parsed.drawnCards, parsed.question, false, "", parsed.spreadType || "three_card")
+      startReading(parsed.drawnCards, parsed.question, false, "", parsed.spreadType || "three_card", parsedLocale)
     }
   }, [router])
 
@@ -204,7 +208,7 @@ export default function ReadingPage() {
         setReadingCount(nextCount)
         analyticsApi.track("reading_completed", {
           ...getCurrentAttribution(),
-          locale: language,
+          locale: readingLocale,
           keyword: question,
           reading_id: readingId,
           metadata: {
@@ -233,7 +237,7 @@ export default function ReadingPage() {
       setCurrentQuestion("")
       setShowFollowUp(true)
     }
-  }, [isReading, currentStreaming, currentQuestion])
+  }, [isReading, currentStreaming, currentQuestion, readingLocale])
 
   // 保存解读结果到后端
   useEffect(() => {
@@ -250,7 +254,14 @@ export default function ReadingPage() {
     saveInterpretation()
   }, [readingId, fullInterpretation, isReading, showFollowUp])
 
-  const startReading = async (cards: DrawnCard[], userQuestion: string, isFollowUp = false, followUpQuestion = "", currentSpreadType = "three_card") => {
+  const startReading = async (
+    cards: DrawnCard[],
+    userQuestion: string,
+    isFollowUp = false,
+    followUpQuestion = "",
+    currentSpreadType = "three_card",
+    currentReadingLocale = readingLocale,
+  ) => {
     if (isReading || cards.length === 0) return
 
     setIsReading(true)
@@ -281,7 +292,7 @@ export default function ReadingPage() {
           const createResult = await readingApi.create(
             userQuestion,
             cards.map(card => ({
-              name: getCardName(card, language),
+              name: getCardName(card, currentReadingLocale),
               isReversed: card.isReversed,
               meaning: card.meaning,
             })),
@@ -309,14 +320,14 @@ export default function ReadingPage() {
       const response = await readingApi.interpret(
         userQuestion,
         cards.map((card) => ({
-          name: getCardName(card, language),
+          name: getCardName(card, currentReadingLocale),
           isReversed: card.isReversed,
           meaning: card.meaning,
         })),
         isFollowUp,
         followUpQuestion,
         messages.map((m) => m.content),
-        language,
+        currentReadingLocale,
         currentSpreadType || spreadType
       )
 
@@ -406,7 +417,7 @@ export default function ReadingPage() {
     if (!questionText.trim() || isReading) return
     setFollowUpInput("")
     setCurrentQuestion(questionText)
-    startReading(drawnCards, question, true, questionText, spreadType)
+    startReading(drawnCards, question, true, questionText, spreadType, readingLocale)
   }
 
   const handleNewReading = () => {
@@ -826,7 +837,7 @@ export default function ReadingPage() {
                 <p>{error}</p>
                 <div className="flex gap-3 justify-center mt-4">
                 <button
-                  onClick={() => startReading(drawnCards, question, false, "", spreadType)}
+                  onClick={() => startReading(drawnCards, question, false, "", spreadType, readingLocale)}
                     className="px-6 py-2 rounded-full text-sm border border-red-400/50 hover:bg-red-400/10 transition-colors"
                 >
                   {t("common.retry")}

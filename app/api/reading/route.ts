@@ -33,15 +33,41 @@ type TarotCardInput = {
   }
 }
 
-function getPositionName(index: number, spreadType?: string) {
+function getAnswerLanguage(lang?: string) {
+  return lang === "en"
+    ? "English"
+    : lang === "ja"
+      ? "日本語"
+      : lang === "ko"
+        ? "한국어"
+        : lang === "es"
+          ? "Spanish"
+          : lang === "pt-br"
+            ? "Brazilian Portuguese"
+            : "中文"
+}
+
+function getPositionName(index: number, spreadType?: string, lang?: string) {
   const positionsBySpread: Record<string, string[]> = {
     one_card: ["核心指引"],
     three_card: ["过去", "现在", "未来"],
     relationship: ["你", "对方", "关系现状", "潜在发展"],
     celtic_cross: ["现状", "挑战", "潜意识", "过去", "目标", "未来", "自我", "环境", "希望/恐惧", "结果"],
   }
+  const englishPositionsBySpread: Record<string, string[]> = {
+    one_card: ["Core guidance"],
+    three_card: ["Past", "Present", "Future"],
+    relationship: ["You", "Them", "Current bond", "Likely direction"],
+    celtic_cross: ["Situation", "Challenge", "Subconscious", "Past", "Goal", "Future", "Self", "Environment", "Hope or fear", "Outcome"],
+  }
 
-  return positionsBySpread[spreadType || "three_card"]?.[index] || `位置${index + 1}`
+  const positions = lang === "zh" || !lang ? positionsBySpread : englishPositionsBySpread
+  return positions[spreadType || "three_card"]?.[index] || (lang === "zh" || !lang ? `位置${index + 1}` : `Position ${index + 1}`)
+}
+
+function orientationName(isReversed: boolean, lang?: string) {
+  if (lang === "zh" || !lang) return isReversed ? "逆位" : "正位"
+  return isReversed ? "reversed" : "upright"
 }
 
 function enqueueSse(controller: ReadableStreamDefaultController<Uint8Array>, payload: unknown) {
@@ -58,7 +84,7 @@ export async function POST(req: Request) {
   if (!auth.ok) return auth.response
 
   const { question, cards, isFollowUp, followUpQuestion, previousMessages, lang, spread_type } = await req.json()
-  const answerLanguage = lang === "en" ? "English" : lang === "ja" ? "日本語" : lang === "ko" ? "한국어" : "中文"
+  const answerLanguage = getAnswerLanguage(lang)
 
   // 构建塔罗解读prompt
   const cardsDescription = (cards as TarotCardInput[])
@@ -67,10 +93,10 @@ export async function POST(req: Request) {
         card,
         index: number,
       ) => {
-        const position = card.position || getPositionName(index, spread_type)
-        const orientation = card.isReversed ? "逆位" : "正位"
+        const position = card.position || getPositionName(index, spread_type, lang)
+        const orientation = orientationName(card.isReversed, lang)
         const meaning = card.isReversed ? card.meaning.reversed : card.meaning.upright
-        return `${position}位置：${card.name}（${orientation}）- ${meaning}`
+        return `${position}: ${card.name} (${orientation}) - ${meaning}`
       },
     )
     .join("\n")

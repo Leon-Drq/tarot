@@ -999,7 +999,7 @@ export function getCardName(card: TarotCard, lang: string = 'zh'): string {
     case 'ko':
       return card.nameKo || card.nameEn
     default:
-      return card.name
+      return card.nameEn
   }
 }
 
