@@ -62,13 +62,13 @@ export function dailyTarotReminderHtml(input: {
 <html>
   <body style="margin:0;background:#080310;color:#f8f4ff;font-family:Inter,Arial,sans-serif;">
     <div style="max-width:560px;margin:0 auto;padding:32px 20px;">
-      <p style="color:#dcb360;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">POPTarot Daily</p>
+      <p style="color:#c9c0ff;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;">POPTarot Daily</p>
       <h1 style="font-family:Georgia,serif;font-size:32px;line-height:1.15;margin:12px 0 16px;">Your daily tarot card is waiting</h1>
       <p style="color:#cfc4dc;font-size:16px;line-height:1.7;margin:0 0 20px;">
         Yesterday's thread continues: your latest card was <strong style="color:#ffffff;">${input.cardName}</strong> (${orientation}).
         Come back for today's free AI tarot reading and keep your ${input.streakCount}-day streak alive.
       </p>
-      <a href="${dailyUrl}" style="display:inline-block;background:#dcb360;color:#14091f;text-decoration:none;border-radius:999px;padding:14px 22px;font-weight:700;font-size:14px;">
+      <a href="${dailyUrl}" style="display:inline-block;background:#c9c0ff;color:#130d24;text-decoration:none;border-radius:10px;padding:14px 22px;font-weight:700;font-size:14px;">
         Draw today's card
       </a>
       <p style="color:#81738f;font-size:12px;line-height:1.6;margin-top:28px;">

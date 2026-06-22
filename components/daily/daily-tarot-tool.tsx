@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
-import { ArrowRight, Bell, BookOpen, CalendarDays, Check, Loader2, Sparkles } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, authApi, dailyTarotApi, readingApi, setAccessToken, type DailyTarotEntry } from "@/lib/api"
@@ -246,23 +246,21 @@ export function DailyTarotTool() {
   const displayName = card ? (language === "zh" ? card.name : language === "ja" ? card.nameJa || card.nameEn : language === "ko" ? card.nameKo || card.nameEn : card.nameEn) : ""
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-6 px-5 py-8 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
-      <section className="rounded-lg border border-white/10 bg-white/[0.035] p-5 sm:p-6">
+    <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-12 pt-6 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
+      <section className="rounded-lg border border-white/10 bg-white/[0.03] p-5 shadow-[0_20px_80px_rgba(0,0,0,0.22)] sm:p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-[#dcb360]">{copy.eyebrow}</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/78">{copy.eyebrow}</p>
             <h1 className="mt-3 font-serif text-3xl leading-tight text-white sm:text-5xl">{copy.title}</h1>
             <p className="mt-4 text-sm leading-7 text-white/62 sm:text-base">{copy.subtitle}</p>
-            <div className="mt-4 inline-flex min-h-9 items-center gap-2 rounded-full border border-[#dcb360]/25 bg-[#dcb360]/10 px-3 text-xs text-[#f3d58b] sm:hidden">
-              <CalendarDays className="h-4 w-4" />
+            <div className="mt-4 inline-flex min-h-9 items-center rounded-full border border-[#bfb6ff]/25 bg-[#bfb6ff]/10 px-3 text-xs text-[#eee9ff] sm:hidden">
               <span>
                 {streak} {copy.days} · {copy.streak}
               </span>
             </div>
           </div>
-          <div className="hidden rounded-lg border border-[#dcb360]/25 bg-[#dcb360]/10 p-4 text-center sm:block">
-            <CalendarDays className="mx-auto h-5 w-5 text-[#f3d58b]" />
-            <p className="mt-2 text-2xl font-semibold text-white">{streak}</p>
+          <div className="hidden min-w-[112px] rounded-lg border border-[#bfb6ff]/22 bg-[#bfb6ff]/10 p-4 text-center sm:block">
+            <p className="text-2xl font-semibold text-white">{streak}</p>
             <p className="text-xs text-white/48">
               {copy.streak} · {copy.days}
             </p>
@@ -271,9 +269,9 @@ export function DailyTarotTool() {
 
         <div className="mt-8 grid gap-5 sm:grid-cols-[220px_1fr]">
           <div className="mx-auto w-full max-w-[220px]">
-            <div className="relative aspect-[7/12] overflow-hidden rounded-xl border border-[#dcb360]/45 bg-[#211330] shadow-2xl shadow-black/45">
+            <div className="relative aspect-[7/12] overflow-hidden rounded-xl border border-[#bfb6ff]/28 bg-[#211330] shadow-2xl shadow-black/45">
               {card && <Image src={card.image} alt={displayName} fill className="object-cover" sizes="240px" priority />}
-              <div className="absolute inset-3 rounded-lg border border-[#f3d58b]/25" />
+              <div className="absolute inset-3 rounded-lg border border-white/18" />
             </div>
           </div>
 
@@ -288,16 +286,15 @@ export function DailyTarotTool() {
             <button
               onClick={handleDraw}
               disabled={isDrawing}
-              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#dcb360] px-6 py-3 text-sm font-medium text-[#14091f] transition hover:bg-[#f3d58b] disabled:opacity-60 sm:w-auto"
+              className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_48%,#9182ef_100%)] px-6 py-3 text-sm font-medium text-[#130d24] shadow-[0_18px_45px_rgba(144,130,239,0.24)] transition hover:brightness-110 disabled:opacity-60 sm:w-auto"
             >
-              {isDrawing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+              {isDrawing && <Loader2 className="h-4 w-4 animate-spin" />}
               {isDrawing ? copy.drawing : copy.draw}
             </button>
 
             <p className="mt-4 text-xs leading-6 text-white/45">{copy.upgrade}</p>
             {status && (
-              <p className="mt-4 inline-flex items-center gap-2 text-sm text-[#dcb360]">
-                <Check className="h-4 w-4" />
+              <p className="mt-4 text-sm text-[#c9c0ff]">
                 {status}
               </p>
             )}
@@ -307,8 +304,7 @@ export function DailyTarotTool() {
 
       <section className="space-y-5">
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <Sparkles className="h-5 w-5 text-[#dcb360]" />
+          <div className="mb-4">
             <h2 className="font-serif text-xl text-white">AI Reading</h2>
           </div>
           <div className="min-h-[168px] text-sm leading-7 text-white/70 sm:text-base">
@@ -321,8 +317,7 @@ export function DailyTarotTool() {
         </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <BookOpen className="h-5 w-5 text-[#dcb360]" />
+          <div className="mb-4">
             <h2 className="font-serif text-xl text-white">Journal</h2>
           </div>
           <div className="grid gap-3 sm:grid-cols-[140px_1fr]">
@@ -330,27 +325,26 @@ export function DailyTarotTool() {
               value={mood}
               onChange={(event) => setMood(event.target.value)}
               placeholder="Mood"
-              className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#dcb360]/55"
+              className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
             />
             <textarea
               value={journal}
               onChange={(event) => setJournal(event.target.value)}
               placeholder={copy.journalPlaceholder}
-              className="min-h-28 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/30 focus:border-[#dcb360]/55"
+              className="min-h-28 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
             />
           </div>
           <button
             onClick={handleSaveJournal}
             disabled={isSaving || !entry}
-            className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-full border border-[#dcb360]/35 px-5 text-sm text-[#f3d58b] transition hover:bg-[#dcb360]/10 disabled:opacity-45 sm:w-auto"
+            className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-[#bfb6ff]/30 px-5 text-sm text-[#eee9ff] transition hover:bg-[#bfb6ff]/10 disabled:opacity-45 sm:w-auto"
           >
             {copy.saveJournal}
           </button>
         </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-          <div className="mb-4 flex items-center gap-3">
-            <Bell className="h-5 w-5 text-[#dcb360]" />
+          <div className="mb-4">
             <h2 className="font-serif text-xl text-white">{copy.reminderTitle}</h2>
           </div>
           <div className="grid gap-3 sm:grid-cols-[1fr_132px]">
@@ -359,14 +353,14 @@ export function DailyTarotTool() {
               value={reminderEmail}
               onChange={(event) => setReminderEmail(event.target.value)}
               placeholder={copy.reminderEmail}
-              className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#dcb360]/55"
+              className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
             />
             <input
               type="time"
               value={reminderTime}
               onChange={(event) => setReminderTime(event.target.value)}
               aria-label={copy.reminderTime}
-              className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#dcb360]/55"
+              className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#bfb6ff]/55"
             />
           </div>
           <label className="mt-4 flex min-h-10 items-center gap-3 text-sm text-white/62">
@@ -374,14 +368,14 @@ export function DailyTarotTool() {
               type="checkbox"
               checked={reminderEnabled}
               onChange={(event) => setReminderEnabled(event.target.checked)}
-              className="h-4 w-4 accent-[#dcb360]"
+              className="h-4 w-4 accent-[#bfb6ff]"
             />
             {copy.reminderToggle}
           </label>
           <button
             onClick={handleSaveReminder}
             disabled={isSaving || (!reminderEmail && reminderEnabled)}
-            className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-full border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45 sm:w-auto"
+            className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45 sm:w-auto"
           >
             {copy.saveReminder}
           </button>
@@ -389,10 +383,9 @@ export function DailyTarotTool() {
 
         <Link
           href="/input?q=What%20do%20I%20most%20need%20to%20understand%20right%20now%3F"
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-white/[0.06] px-6 text-sm text-white/82 transition hover:bg-white/[0.09]"
+          className="inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-white/[0.06] px-6 text-sm text-white/82 transition hover:bg-white/[0.09]"
         >
           {copy.startReading}
-          <ArrowRight className="h-4 w-4" />
         </Link>
       </section>
     </div>

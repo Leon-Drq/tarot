@@ -64,7 +64,7 @@ export default function DailyTarotPage() {
             <ArrowLeft className="h-4 w-4" />
             POP TAROT
           </Link>
-          <Link href="/free-ai-tarot-reading" className="text-sm text-[#dcb360] transition hover:text-[#f3d58b]">
+          <Link href="/free-ai-tarot-reading" className="text-sm text-[#c9c0ff]/85 transition hover:text-white">
             Free AI Tarot
           </Link>
         </div>
