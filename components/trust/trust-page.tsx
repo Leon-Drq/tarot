@@ -42,6 +42,15 @@ export function TrustPageView({ page }: { page: TrustPage }) {
         publisher: {
           "@id": `${appUrl}/#organization`,
         },
+        ...(page.actionLinks
+          ? {
+              potentialAction: page.actionLinks.map((item) => ({
+                "@type": "ReadAction",
+                name: item.title,
+                target: `${appUrl}${item.href}`,
+              })),
+            }
+          : {}),
       },
       {
         "@type": "BreadcrumbList",
@@ -125,6 +134,22 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   abstract: item.interpretation,
                   url: `${appUrl}${item.href}`,
                 },
+              })),
+            },
+          ]
+        : []),
+      ...(page.actionLinks
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}/${page.slug}#next-actions`,
+              name: "Next free tarot actions",
+              itemListElement: page.actionLinks.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: item.title,
+                description: item.body,
+                url: `${appUrl}${item.href}`,
               })),
             },
           ]
@@ -289,6 +314,31 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                     Open this reading
                   </Link>
                 </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {page.actionLinks && (
+          <section className="mt-12 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
+            <div className="max-w-2xl">
+              <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Try the same paths</p>
+              <h2 className="mt-3 font-serif text-2xl text-white">Turn Trust Signals Into a Free Reading</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">
+                These links connect the reviews and examples back to the free product flows people actually use first.
+              </p>
+            </div>
+            <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+              {page.actionLinks.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                >
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{item.label}</p>
+                  <h3 className="mt-3 break-words text-base font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                </Link>
               ))}
             </div>
           </section>

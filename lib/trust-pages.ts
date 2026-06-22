@@ -33,6 +33,12 @@ export type TrustPage = {
     nextStep: string
     href: string
   }>
+  actionLinks?: Array<{
+    label: string
+    title: string
+    body: string
+    href: string
+  }>
   brandAssets?: Array<{
     label: string
     title: string
@@ -190,6 +196,32 @@ export const trustPages: TrustPage[] = [
       { heading: "Card meanings", body: "Readers need card pages that go beyond a keyword list. Upright, reversed, love, career, money, yes/no, advice, combinations, and FAQ make the pages easier to use." },
     ],
     testimonials: representativeTestimonials,
+    actionLinks: [
+      {
+        label: "Daily habit",
+        title: "Try Daily Tarot",
+        body: "Start with one free card, a journal note, and a simple reason to return tomorrow.",
+        href: "/daily-tarot",
+      },
+      {
+        label: "Love clarity",
+        title: "Ask a love question",
+        body: "Use a relationship spread when the question needs feelings, behavior, and next action.",
+        href: "/does-he-love-me-tarot",
+      },
+      {
+        label: "Career decision",
+        title: "Open career tarot",
+        body: "Turn work uncertainty into a practical reading about risk, timing, and preparation.",
+        href: "/career-tarot-reading",
+      },
+      {
+        label: "Card meanings",
+        title: "Browse card meanings",
+        body: "Use upright, reversed, love, career, money, yes/no, advice, combinations, and FAQ pages.",
+        href: "/tarot-card-meanings",
+      },
+    ],
   },
   {
     slug: "tarot-reading-examples",
@@ -270,6 +302,32 @@ export const trustPages: TrustPage[] = [
         question: "Should I quit my job?",
         betterQuestion: "What does my current job situation show about timing, risk, and the wisest next step?",
         note: "This turns the reading into a practical career spread with advice and preparation.",
+      },
+    ],
+    actionLinks: [
+      {
+        label: "Start free",
+        title: "Free AI Tarot Reading",
+        body: "Ask your own question and move directly into a matching free tarot flow.",
+        href: "/free-ai-tarot-reading",
+      },
+      {
+        label: "Question paths",
+        title: "Browse tarot questions",
+        body: "Use long-tail question pages for love, ex, yes/no, career, and quitting-work decisions.",
+        href: "/tarot-questions",
+      },
+      {
+        label: "Daily return",
+        title: "Open Daily Tarot",
+        body: "Use a one-card daily reading when you want a light habit instead of a full spread.",
+        href: "/daily-tarot",
+      },
+      {
+        label: "Learn cards",
+        title: "Card meanings",
+        body: "Compare each example with individual card meanings and related card combinations.",
+        href: "/tarot-card-meanings",
       },
     ],
   },
