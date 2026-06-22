@@ -15,6 +15,7 @@ import { editorialProcess, trustHighlights, trustLastReviewed } from "@/lib/trus
 
 export function TrustPageView({ page }: { page: TrustPage }) {
   const relatedLinks = getRelatedTrustLinks(page.slug)
+  const isOfficialChannelsPage = page.slug === "official-channels"
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -333,6 +334,65 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   </a>
                 </article>
               ))}
+            </div>
+          </section>
+        )}
+
+        {isOfficialChannelsPage && (
+          <section className="mt-12">
+            <div className="max-w-2xl">
+              <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Verified public profiles</p>
+              <h2 className="mt-3 font-serif text-2xl text-white">Official Social Accounts</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">
+                POPTarot only publishes social profiles after the account is active, owned by the project, and points back to poptarot.com.
+              </p>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <article className="rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
+                <p className="text-xs uppercase tracking-[0.16em] text-[#c9c0ff]/75">Canonical website</p>
+                <h3 className="mt-3 text-lg font-medium text-white">poptarot.com</h3>
+                <p className="mt-3 text-sm leading-7 text-white/62">
+                  The website is the primary source for free AI tarot readings, Daily Tarot, card meanings, privacy notes, membership information, and brand verification.
+                </p>
+                <a
+                  href={appUrl}
+                  className="mt-4 inline-flex min-h-10 items-center justify-center rounded-lg border border-[#bfb6ff]/25 px-4 py-2 text-sm text-[#d8d0ff] transition hover:border-[#bfb6ff]/55 hover:bg-[#bfb6ff]/[0.06] hover:text-white"
+                >
+                  Open website
+                </a>
+              </article>
+
+              <article className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+                <p className="text-xs uppercase tracking-[0.16em] text-[#c9c0ff]/75">Social verification</p>
+                {socialLinks.length > 0 ? (
+                  <>
+                    <h3 className="mt-3 text-lg font-medium text-white">Active profiles</h3>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {socialLinks.map((link) => (
+                        <a
+                          key={link.href}
+                          href={link.href}
+                          className="rounded-lg border border-white/10 px-3 py-2 text-sm text-white/66 transition hover:border-[#bfb6ff]/45 hover:text-white"
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {link.label}
+                        </a>
+                      ))}
+                    </div>
+                    <p className="mt-4 text-sm leading-7 text-white/58">
+                      These links are also emitted in Organization structured data as verified sameAs signals.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="mt-3 text-lg font-medium text-white">No public social profile is active yet</h3>
+                    <p className="mt-3 text-sm leading-7 text-white/62">
+                      POPTarot intentionally does not publish placeholder handles. Once a channel is live and verified, it will appear here and in structured data.
+                    </p>
+                  </>
+                )}
+              </article>
             </div>
           </section>
         )}

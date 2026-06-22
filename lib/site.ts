@@ -6,11 +6,24 @@ export const siteTitle = "POPTarot - Free AI Tarot Reading"
 export const siteDescription =
   "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
 
+function verifiedExternalUrl(value: string | undefined) {
+  if (!value) return ""
+  try {
+    const url = new URL(value)
+    if (url.protocol !== "https:") return ""
+    return url.toString()
+  } catch {
+    return ""
+  }
+}
+
 export const socialLinks = [
-  { label: "Instagram", href: process.env.NEXT_PUBLIC_INSTAGRAM_URL },
-  { label: "TikTok", href: process.env.NEXT_PUBLIC_TIKTOK_URL },
-  { label: "X", href: process.env.NEXT_PUBLIC_X_URL },
-  { label: "YouTube", href: process.env.NEXT_PUBLIC_YOUTUBE_URL },
+  { label: "Instagram", href: verifiedExternalUrl(process.env.NEXT_PUBLIC_INSTAGRAM_URL) },
+  { label: "TikTok", href: verifiedExternalUrl(process.env.NEXT_PUBLIC_TIKTOK_URL) },
+  { label: "X", href: verifiedExternalUrl(process.env.NEXT_PUBLIC_X_URL) },
+  { label: "YouTube", href: verifiedExternalUrl(process.env.NEXT_PUBLIC_YOUTUBE_URL) },
+  { label: "Pinterest", href: verifiedExternalUrl(process.env.NEXT_PUBLIC_PINTEREST_URL) },
+  { label: "Facebook", href: verifiedExternalUrl(process.env.NEXT_PUBLIC_FACEBOOK_URL) },
 ].filter((link): link is { label: string; href: string } => Boolean(link.href))
 
 export const trustLinks = [
