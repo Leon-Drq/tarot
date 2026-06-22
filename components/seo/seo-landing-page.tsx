@@ -70,11 +70,40 @@ type QuestionToolkit = {
   body: string
   promptTitle: string
   prompts: string[]
+  spreadTitle?: string
+  spreadBody?: string
+  positionNames?: string[]
   frameTitle: string
   frames: Array<{
     title: string
     body: string
   }>
+}
+
+type ToolkitUiCopy = {
+  recommendedSpread: string
+  card: string
+  drawPrompt: string
+}
+
+const defaultToolkitUiCopy: ToolkitUiCopy = {
+  recommendedSpread: "Recommended spread",
+  card: "Card",
+  drawPrompt: "Draw this question",
+}
+
+const toolkitUiCopy: Partial<Record<SeoPage["locale"], ToolkitUiCopy>> = {
+  en: defaultToolkitUiCopy,
+  es: {
+    recommendedSpread: "Tirada recomendada",
+    card: "Carta",
+    drawPrompt: "Tirar esta pregunta",
+  },
+  "pt-br": {
+    recommendedSpread: "Tiragem recomendada",
+    card: "Carta",
+    drawPrompt: "Tirar esta pergunta",
+  },
 }
 
 const questionToolkits: Record<string, QuestionToolkit> = {
@@ -210,6 +239,214 @@ const questionToolkits: Record<string, QuestionToolkit> = {
   },
 }
 
+const localizedQuestionToolkits: Partial<Record<SeoPage["locale"], Record<string, QuestionToolkit>>> = {
+  en: questionToolkits,
+  es: {
+    "will-my-ex-come-back-tarot": {
+      label: "Tirada de reconciliacion",
+      title: "Lee la pregunta de tu ex sin depender solo de la esperanza",
+      body: "Una buena lectura sobre un ex separa la nostalgia de los cambios reales. Esta tirada mira causa, disposicion, consejo y direccion probable antes de convertir la respuesta en accion.",
+      promptTitle: "Prueba una pregunta mas clara sobre tu ex",
+      prompts: [
+        "Will my ex come back, and what has actually changed?",
+        "Is reaching out to my ex healthy right now?",
+        "What would help me move on with self-respect?",
+      ],
+      spreadTitle: "Recuperacion tras una ruptura",
+      spreadBody: "Una tirada de cinco cartas para entender el motivo de la ruptura, el estado de ambos, el consejo practico y la direccion probable.",
+      positionNames: ["Motivo", "Tu estado", "Su estado", "Consejo", "Futuro"],
+      frameTitle: "Como leer la respuesta",
+      frames: [
+        { title: "Energia de regreso", body: "Busca responsabilidad, comunicacion y voluntad mutua, no solo cartas de nostalgia o deseo." },
+        { title: "Energia de pausa", body: "Cartas de retraso, evitacion o conflicto repetido suelen pedir calma antes de perseguir contacto." },
+        { title: "Tu proximo paso", body: "Convierte el consejo en una accion real: esperar, poner un limite, enviar un mensaje claro o dejar de revisar." },
+      ],
+    },
+    "does-he-love-me-tarot": {
+      label: "Tirada de sentimientos",
+      title: "Separa atraccion, emocion y acciones consistentes",
+      body: "Esta pregunta funciona mejor cuando la lectura compara lo que puede sentir con lo que hace. El amor real tambien se nota en seguridad, respeto y comunicacion.",
+      promptTitle: "Prueba una pregunta mas precisa sobre sentimientos",
+      prompts: [
+        "Does he love me, or is this only attraction?",
+        "What are his true feelings and fears about me?",
+        "What would make this connection emotionally safe for me?",
+      ],
+      spreadTitle: "Sus pensamientos y actitud",
+      spreadBody: "Una tirada de cinco cartas para leer impresion, pensamientos, actitud, preocupaciones y posible accion.",
+      positionNames: ["Impresion", "Pensamientos", "Actitud", "Preocupaciones", "Accion posible"],
+      frameTitle: "Como leer la respuesta",
+      frames: [
+        { title: "Sentimiento mutuo", body: "Copas, Los Enamorados, El Sol o Pentaculos estables apoyan afecto cuando tambien hay accion." },
+        { title: "Senal mixta", body: "La Luna, Siete de Copas o cortes invertidas pueden mostrar incertidumbre, proyeccion o expresion irregular." },
+        { title: "Tu claridad", body: "Lee la carta de consejo como un limite. No importa solo lo que el siente, sino lo que tu necesitas despues." },
+      ],
+    },
+    "yes-or-no-tarot-love": {
+      label: "Tirada si o no",
+      title: "Recibe una respuesta rapida sin perder el motivo",
+      body: "Un si o no de amor debe explicar por que la energia se inclina a si, no o todavia no. La razon importa mas que una palabra forzada.",
+      promptTitle: "Prueba una pregunta si/no mas limpia",
+      prompts: [
+        "Is this connection worth pursuing right now?",
+        "Should I text them today?",
+        "Is reconciliation likely in the near future?",
+      ],
+      spreadTitle: "Si o no",
+      spreadBody: "Una carta directa para una decision clara, con explicacion de la energia detras de la respuesta.",
+      positionNames: ["Respuesta"],
+      frameTitle: "Como leer la respuesta",
+      frames: [
+        { title: "Si", body: "Toma el si como permiso para un paso cuidadoso, no como garantia de que la otra persona hara todo." },
+        { title: "No", body: "Un no puede protegerte. Mira si el bloqueo es tiempo, intencion, disposicion o un patron conocido." },
+        { title: "Todavia no", body: "Todavia no suele indicar informacion faltante, madurez emocional o una condicion que debe cambiar." },
+      ],
+    },
+    "career-tarot-reading": {
+      label: "Tirada profesional",
+      title: "Convierte la incertidumbre laboral en una accion practica",
+      body: "El tarot profesional sirve mas cuando nombra impulso, resistencia, tiempo y siguiente paso. Usa la lectura como reflexion y comparala con opciones reales.",
+      promptTitle: "Prueba una pregunta profesional mas concreta",
+      prompts: [
+        "What should I focus on in my career this month?",
+        "Is this job opportunity aligned with my growth?",
+        "What practical action would move my career forward now?",
+      ],
+      spreadTitle: "Oportunidad laboral",
+      spreadBody: "Una tirada para oportunidades, fortalezas, cautelas y la siguiente apertura profesional.",
+      positionNames: ["Oportunidad", "Fortaleza", "Cuidado", "Proxima apertura"],
+      frameTitle: "Como leer la respuesta",
+      frames: [
+        { title: "Impulso", body: "El Mago, El Mundo, Bastos y Pentaculos pueden mostrar oportunidad cuando tambien existen recursos reales." },
+        { title: "Riesgo", body: "La Torre, El Diablo, Cinco de Pentaculos o Siete de Espadas piden revisar presion, contratos, dinero o confianza." },
+        { title: "Accion", body: "Traduce el consejo en un paso concreto: postular, preparar, negociar, descansar, esperar o cambiar direccion." },
+      ],
+    },
+    "should-i-quit-my-job-tarot": {
+      label: "Tirada de decision laboral",
+      title: "Lee renunciar como decision, no como impulso dramatico",
+      body: "Esta pagina es para cuando quedarse pesa, pero irse tiene consecuencias reales. La tirada separa agotamiento, ciclo completado, riesgo y preparacion.",
+      promptTitle: "Prueba una pregunta laboral mas segura",
+      prompts: [
+        "Should I quit my job or prepare first?",
+        "Is this burnout temporary or a sign to leave?",
+        "What do I need before making my next career move?",
+      ],
+      spreadTitle: "Oportunidad laboral",
+      spreadBody: "Una tirada para revisar presion actual, riesgos, recursos disponibles, tiempo y el siguiente paso mas estable.",
+      positionNames: ["Situacion", "Riesgo", "Recurso", "Tiempo"],
+      frameTitle: "Como leer la respuesta",
+      frames: [
+        { title: "Senal de salida", body: "Muerte, Torre, Ocho de Copas, Mundo o Diez de Bastos apoyan transicion solo si el consejo muestra preparacion." },
+        { title: "Senal de preparacion", body: "Cuatro de Pentaculos, Dos de Bastos o Templanza suelen pedir ahorro, tiempo, limites o un plan puente." },
+        { title: "Chequeo real", body: "Antes de actuar, combina la lectura con dinero, contratos, salud, referencias y alternativas concretas." },
+      ],
+    },
+  },
+  "pt-br": {
+    "will-my-ex-come-back-tarot": {
+      label: "Tiragem de reconciliacao",
+      title: "Leia a pergunta sobre o ex sem depender so de esperanca",
+      body: "Uma boa leitura sobre ex separa nostalgia de mudanca real. Esta tiragem olha causa, disponibilidade, conselho e direcao provavel antes de virar acao.",
+      promptTitle: "Teste uma pergunta mais clara sobre seu ex",
+      prompts: [
+        "Will my ex come back, and what has actually changed?",
+        "Is reaching out to my ex healthy right now?",
+        "What would help me move on with self-respect?",
+      ],
+      spreadTitle: "Recuperacao apos termino",
+      spreadBody: "Uma tiragem de cinco cartas para entender motivo do termino, estado dos dois lados, conselho pratico e direcao provavel.",
+      positionNames: ["Motivo", "Seu estado", "Estado da outra pessoa", "Conselho", "Futuro"],
+      frameTitle: "Como ler a resposta",
+      frames: [
+        { title: "Energia de retorno", body: "Procure responsabilidade, comunicacao e vontade mutua, nao apenas nostalgia ou saudade." },
+        { title: "Energia de pausa", body: "Cartas de atraso, evitacao ou conflito repetido geralmente pedem paz antes de buscar contato." },
+        { title: "Seu proximo passo", body: "Transforme o conselho em uma acao real: esperar, colocar limite, enviar uma mensagem clara ou parar de verificar." },
+      ],
+    },
+    "does-he-love-me-tarot": {
+      label: "Tiragem de sentimentos",
+      title: "Separe atracao, emocao e atitudes consistentes",
+      body: "Essa pergunta funciona melhor quando a leitura compara o que ele pode sentir com o que ele faz. Amor real tambem aparece em seguranca, respeito e comunicacao.",
+      promptTitle: "Teste uma pergunta mais precisa sobre sentimentos",
+      prompts: [
+        "Does he love me, or is this only attraction?",
+        "What are his true feelings and fears about me?",
+        "What would make this connection emotionally safe for me?",
+      ],
+      spreadTitle: "Pensamentos e atitude dele",
+      spreadBody: "Uma tiragem de cinco cartas para ler impressao, pensamentos, atitude, preocupacoes e possivel acao.",
+      positionNames: ["Impressao", "Pensamentos", "Atitude", "Preocupacoes", "Possivel acao"],
+      frameTitle: "Como ler a resposta",
+      frames: [
+        { title: "Sentimento mutuo", body: "Copas, Os Enamorados, O Sol ou Pentaculos estaveis podem apoiar afeto quando tambem ha acao." },
+        { title: "Sinal misto", body: "A Lua, Sete de Copas ou cartas da corte invertidas podem indicar incerteza, projecao ou expressao inconsistente." },
+        { title: "Sua clareza", body: "Leia a carta de conselho como um limite. A resposta nao e so o que ele sente, mas o que voce precisa depois." },
+      ],
+    },
+    "yes-or-no-tarot-love": {
+      label: "Tiragem sim ou nao",
+      title: "Receba uma resposta rapida sem perder o motivo",
+      body: "Um sim ou nao no amor deve explicar por que a energia inclina para sim, nao ou ainda nao. O motivo importa mais do que uma palavra forcada.",
+      promptTitle: "Teste uma pergunta sim/nao mais limpa",
+      prompts: [
+        "Is this connection worth pursuing right now?",
+        "Should I text them today?",
+        "Is reconciliation likely in the near future?",
+      ],
+      spreadTitle: "Sim ou nao",
+      spreadBody: "Uma carta direta para uma decisao clara, com explicacao da energia por tras da resposta.",
+      positionNames: ["Resposta"],
+      frameTitle: "Como ler a resposta",
+      frames: [
+        { title: "Sim", body: "Trate o sim como permissao para um passo cuidadoso, nao como garantia de que a outra pessoa fara tudo." },
+        { title: "Nao", body: "Um nao pode proteger voce. Veja se o bloqueio e tempo, intencao, preparo ou um padrao conhecido." },
+        { title: "Ainda nao", body: "Ainda nao costuma apontar informacao faltando, maturidade emocional ou uma condicao que precisa mudar." },
+      ],
+    },
+    "career-tarot-reading": {
+      label: "Tiragem de carreira",
+      title: "Transforme incerteza profissional em um movimento pratico",
+      body: "Tarot de carreira funciona melhor quando nomeia impulso, resistencia, tempo e proxima acao. Use a leitura como reflexao e compare com opcoes reais.",
+      promptTitle: "Teste uma pergunta de carreira mais concreta",
+      prompts: [
+        "What should I focus on in my career this month?",
+        "Is this job opportunity aligned with my growth?",
+        "What practical action would move my career forward now?",
+      ],
+      spreadTitle: "Oportunidade de trabalho",
+      spreadBody: "Uma tiragem para oportunidades, pontos fortes, cuidados e a proxima abertura profissional.",
+      positionNames: ["Oportunidade", "Forca", "Cuidado", "Proxima abertura"],
+      frameTitle: "Como ler a resposta",
+      frames: [
+        { title: "Impulso", body: "O Mago, O Mundo, Paus e Pentaculos podem mostrar oportunidade quando existem recursos realistas." },
+        { title: "Risco", body: "A Torre, O Diabo, Cinco de Pentaculos ou Sete de Espadas pedem revisar pressao, contratos, dinheiro ou confianca." },
+        { title: "Acao", body: "Traduza o conselho em um passo concreto: aplicar, preparar, negociar, descansar, esperar ou mudar direcao." },
+      ],
+    },
+    "should-i-quit-my-job-tarot": {
+      label: "Tiragem de decisao profissional",
+      title: "Leia a demissao como decisao, nao como impulso dramatico",
+      body: "Esta pagina e para quando ficar pesa, mas sair tem consequencias reais. A tiragem separa esgotamento, ciclo completo, risco e preparacao.",
+      promptTitle: "Teste uma pergunta profissional mais segura",
+      prompts: [
+        "Should I quit my job or prepare first?",
+        "Is this burnout temporary or a sign to leave?",
+        "What do I need before making my next career move?",
+      ],
+      spreadTitle: "Oportunidade de trabalho",
+      spreadBody: "Uma tiragem para revisar pressao atual, riscos, recursos disponiveis, tempo e o proximo passo mais estavel.",
+      positionNames: ["Situacao", "Risco", "Recurso", "Tempo"],
+      frameTitle: "Como ler a resposta",
+      frames: [
+        { title: "Sinal de saida", body: "Morte, Torre, Oito de Copas, Mundo ou Dez de Paus apoiam transicao apenas quando o conselho tambem mostra preparo." },
+        { title: "Sinal de preparo", body: "Quatro de Pentaculos, Dois de Paus ou Temperanca geralmente pedem economia, tempo, limites ou um plano ponte." },
+        { title: "Cheque real", body: "Antes de agir, combine a leitura com dinheiro, contratos, saude, referencias e alternativas concretas." },
+      ],
+    },
+  },
+}
+
 function promptHref(page: SeoPage, prompt: string) {
   const params = new URLSearchParams({
     q: prompt,
@@ -234,7 +471,8 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const primaryHref = readingHref(page)
   const related = relatedPages(page)
   const relatedText = relatedCopy[page.locale]
-  const toolkit = page.locale === "en" ? questionToolkits[page.slug] : undefined
+  const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug]
+  const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
 
   const structuredData = {
@@ -337,7 +575,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
               href={primaryHref}
               className="inline-flex min-h-10 items-center rounded-lg border border-[#bfb6ff]/35 px-4 py-2 text-xs uppercase tracking-[0.16em] text-[#e8e3ff] transition hover:border-[#e8e3ff] hover:bg-white/[0.06]"
             >
-              Start
+              {page.primaryCta}
             </Link>
           </nav>
 
@@ -346,7 +584,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
               <div className="mb-5 inline-flex items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-[#c9c0ff]">
                 {page.eyebrow}
               </div>
-              <h1 className="font-serif text-4xl font-semibold leading-tight tracking-normal text-white sm:text-6xl">
+              <h1 className="max-w-full break-words font-serif text-[2.1rem] font-semibold leading-tight tracking-normal text-white [overflow-wrap:anywhere] sm:text-6xl">
                 {page.h1}
               </h1>
               <p className="mt-6 max-w-xl text-base leading-8 text-white/72 sm:text-lg">{page.intro}</p>
@@ -412,14 +650,14 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
 
             <div className="mt-9 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
               <article className="rounded-lg border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.045] p-5">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">Recommended spread</p>
-                <h3 className="mt-3 font-serif text-2xl text-white">{recommendedSpread.nameEn}</h3>
-                <p className="mt-3 text-sm leading-7 text-white/62">{recommendedSpread.descriptionEn}</p>
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{toolkitCopy.recommendedSpread}</p>
+                <h3 className="mt-3 font-serif text-2xl text-white">{toolkit.spreadTitle || recommendedSpread.nameEn}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/62">{toolkit.spreadBody || recommendedSpread.descriptionEn}</p>
                 <div className="mt-5 grid gap-2 sm:grid-cols-2">
                   {recommendedSpread.positions.map((position, index) => (
                     <div key={position.nameEn} className="rounded-lg border border-white/10 bg-black/[0.18] p-3">
-                      <p className="text-xs uppercase tracking-[0.16em] text-white/38">Card {index + 1}</p>
-                      <p className="mt-1 text-sm font-medium text-white">{position.nameEn}</p>
+                      <p className="text-xs uppercase tracking-[0.16em] text-white/38">{toolkitCopy.card} {index + 1}</p>
+                      <p className="mt-1 text-sm font-medium text-white">{toolkit.positionNames?.[index] || position.nameEn}</p>
                     </div>
                   ))}
                 </div>
@@ -432,10 +670,10 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                     <Link
                       key={prompt}
                       href={promptHref(page, prompt)}
-                      className="group rounded-lg border border-white/10 bg-black/[0.16] px-4 py-3 text-sm leading-6 text-white/68 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] hover:text-white"
+	                      className="group rounded-lg border border-white/10 bg-black/[0.16] px-4 py-3 text-sm leading-6 text-white/68 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] hover:text-white"
                     >
                       <span className="block">{prompt}</span>
-                      <span className="mt-1 block text-xs text-[#c9c0ff]/62 group-hover:text-[#e8e3ff]">Draw this question</span>
+                      <span className="mt-1 block text-xs text-[#c9c0ff]/62 group-hover:text-[#e8e3ff]">{toolkitCopy.drawPrompt}</span>
                     </Link>
                   ))}
                 </div>
