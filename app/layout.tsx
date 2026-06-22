@@ -6,13 +6,8 @@ import { AuthProvider } from "@/contexts/auth-context"
 import { LanguageProvider } from "@/contexts/language-context"
 import { AudioProvider } from "@/contexts/audio-context"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
+import { appUrl, siteDescription, siteName, siteTitle } from "@/lib/site"
 import "./globals.css"
-
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
-const siteName = "POPTarot"
-const siteTitle = "POPTarot - Free AI Tarot Reading"
-const siteDescription =
-  "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })

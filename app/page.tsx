@@ -1,54 +1,17 @@
 import MysticBackground from "@/components/mystic-background"
-
-const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
+import { organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/site"
 
 const homeStructuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
-      "@id": `${appUrl}/#organization`,
-      name: "POPTarot",
-      url: appUrl,
-      logo: `${appUrl}/icon-512x512.png`,
+      ...organizationJsonLd(),
     },
     {
-      "@type": "WebSite",
-      "@id": `${appUrl}/#website`,
-      name: "POPTarot",
-      alternateName: ["POPTarot AI Tarot", "Pop Tarot AI"],
-      url: appUrl,
-      description:
-        "Free AI tarot readings for love, career, daily guidance, and personal decisions.",
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${appUrl}/input?q={search_term_string}`,
-        "query-input": "required name=search_term_string",
-      },
-      publisher: {
-        "@id": `${appUrl}/#organization`,
-      },
-      inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
+      ...websiteJsonLd(),
     },
     {
-      "@type": "SoftwareApplication",
-      "@id": `${appUrl}/#app`,
-      name: "POPTarot",
-      applicationCategory: "LifestyleApplication",
-      operatingSystem: "Web",
-      url: appUrl,
-      image: `${appUrl}/og-image.jpg`,
-      description:
-        "Draw tarot cards online and receive personalized AI interpretations for daily guidance, love, career, and life decisions.",
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-        category: "Free",
-      },
-      publisher: {
-        "@id": `${appUrl}/#organization`,
-      },
+      ...softwareApplicationJsonLd(),
     },
   ],
 }

@@ -123,44 +123,88 @@ function HomeScrollContent() {
         eyebrow: "继续探索",
         title: "每天回来，或直接问一个具体问题",
         body: "免费入口负责起步；牌义、每日塔罗和长尾问题页负责复访与搜索收录。",
+        trustEyebrow: "信任与透明",
+        trustTitle: "先免费体验，也能清楚知道它如何工作",
+        trustBody: "补充阅读编辑说明、AI 解读边界、隐私政策、用户反馈和真实问题案例。",
         items: [
           { href: "/daily-tarot", title: "每日塔罗", body: "每日一牌、连续打卡、保存日记。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "适合快速判断，但保留 AI 解释。" },
           { href: "/love-tarot-reading", title: "爱情塔罗", body: "感情、复合、对方想法专项入口。" },
           { href: "/tarot-card-meanings", title: "牌义大全", body: "78 张牌的正位、逆位和场景解读。" },
         ],
+        trustItems: [
+          { href: "/about", title: "关于" },
+          { href: "/editorial-policy", title: "编辑说明" },
+          { href: "/ai-tarot-disclaimer", title: "AI 声明" },
+          { href: "/privacy", title: "隐私" },
+          { href: "/reviews", title: "用户评价" },
+          { href: "/tarot-reading-examples", title: "真实案例" },
+        ],
       },
       en: {
         eyebrow: "Explore next",
         title: "Come back daily, or ask a precise question",
         body: "Free readings start the loop. Daily tarot, card meanings, and long-tail tools make the site worth revisiting.",
+        trustEyebrow: "Trust and transparency",
+        trustTitle: "Try it free, and see how the guidance is framed",
+        trustBody: "Read the editorial policy, AI disclaimer, privacy notes, representative reviews, and realistic reading examples.",
         items: [
           { href: "/daily-tarot", title: "Daily Tarot", body: "One card, streaks, journal, and reminders." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "A quick answer with the reason behind it." },
           { href: "/love-tarot-reading", title: "Love Tarot", body: "Feelings, reconnection, and relationship clarity." },
           { href: "/tarot-card-meanings", title: "Card Meanings", body: "Upright, reversed, love, career, money, and advice." },
         ],
+        trustItems: [
+          { href: "/about", title: "About" },
+          { href: "/editorial-policy", title: "Editorial" },
+          { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
+          { href: "/privacy", title: "Privacy" },
+          { href: "/reviews", title: "Reviews" },
+          { href: "/tarot-reading-examples", title: "Examples" },
+        ],
       },
       ja: {
         eyebrow: "次に見る",
         title: "毎日の一枚、または具体的な質問へ",
         body: "無料リーディングから始め、毎日・カード意味・質問別ページで継続利用できます。",
+        trustEyebrow: "信頼と透明性",
+        trustTitle: "無料で試し、読み方の前提も確認できます",
+        trustBody: "編集方針、AI 免責、プライバシー、レビュー、質問例を確認できます。",
         items: [
           { href: "/daily-tarot", title: "今日のタロット", body: "一枚引き、記録、リマインダー。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "短い答えと理由を確認。" },
           { href: "/love-tarot-reading", title: "恋愛タロット", body: "気持ち、復縁、関係の流れ。" },
           { href: "/tarot-card-meanings", title: "カードの意味", body: "正位置、逆位置、恋愛、仕事、金運。" },
         ],
+        trustItems: [
+          { href: "/about", title: "About" },
+          { href: "/editorial-policy", title: "Editorial" },
+          { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
+          { href: "/privacy", title: "Privacy" },
+          { href: "/reviews", title: "Reviews" },
+          { href: "/tarot-reading-examples", title: "Examples" },
+        ],
       },
       ko: {
         eyebrow: "다음 탐색",
         title: "매일 돌아오거나 구체적인 질문을 해보세요",
         body: "무료 리딩으로 시작하고, 데일리 타로와 카드 의미 페이지로 다시 방문하게 만듭니다.",
+        trustEyebrow: "신뢰와 투명성",
+        trustTitle: "무료로 시작하고, 해석 기준도 확인하세요",
+        trustBody: "편집 원칙, AI 안내, 개인정보, 리뷰, 실제 질문 예시를 확인할 수 있습니다.",
         items: [
           { href: "/daily-tarot", title: "오늘의 타로", body: "한 장 뽑기, 기록, 알림." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "빠른 답과 그 이유." },
           { href: "/love-tarot-reading", title: "연애 타로", body: "감정, 재회, 관계 흐름." },
           { href: "/tarot-card-meanings", title: "카드 의미", body: "정방향, 역방향, 사랑, 커리어, 조언." },
+        ],
+        trustItems: [
+          { href: "/about", title: "About" },
+          { href: "/editorial-policy", title: "Editorial" },
+          { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
+          { href: "/privacy", title: "Privacy" },
+          { href: "/reviews", title: "Reviews" },
+          { href: "/tarot-reading-examples", title: "Examples" },
         ],
       },
     }[language]
@@ -183,6 +227,26 @@ function HomeScrollContent() {
             <p className="mt-3 text-sm leading-6 text-white/52">{item.body}</p>
           </a>
         ))}
+      </div>
+      <div className="mt-12 border-t border-white/10 pt-8">
+        <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.trustEyebrow}</p>
+        <div className="mt-3 grid gap-5 lg:grid-cols-[1fr_1.25fr] lg:items-end">
+          <div>
+            <h2 className="font-serif text-2xl text-white sm:text-3xl">{copy.trustTitle}</h2>
+            <p className="mt-4 text-sm leading-7 text-white/58">{copy.trustBody}</p>
+          </div>
+          <div className="flex flex-wrap gap-2 lg:justify-end">
+            {copy.trustItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-sm text-white/62 transition hover:border-[#bfb6ff]/45 hover:text-white"
+              >
+                {item.title}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )

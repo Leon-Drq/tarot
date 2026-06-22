@@ -120,6 +120,8 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReadingSubtitle: "先提问抽牌，不用先付费",
         cardMeanings: "牌义大全",
         trust: "关于与隐私",
+        reviews: "用户评价",
+        examples: "真实案例",
         membershipSubtitle: "深度追问、历史和高级报告",
       },
       en: {
@@ -127,6 +129,8 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReadingSubtitle: "Ask, draw, and read before paying",
         cardMeanings: "Card Meanings",
         trust: "About & Privacy",
+        reviews: "Reviews",
+        examples: "Examples",
         membershipSubtitle: "Deep follow-ups, history, reports",
       },
       ja: {
@@ -134,6 +138,8 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReadingSubtitle: "まず質問してカードを引く",
         cardMeanings: "カードの意味",
         trust: "About / Privacy",
+        reviews: "Reviews",
+        examples: "Examples",
         membershipSubtitle: "深い追質問、履歴、高度なレポート",
       },
       ko: {
@@ -141,6 +147,8 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReadingSubtitle: "먼저 질문하고 카드를 뽑기",
         cardMeanings: "카드 의미",
         trust: "About / Privacy",
+        reviews: "Reviews",
+        examples: "Examples",
         membershipSubtitle: "심층 질문, 기록, 고급 리포트",
       },
     }[language]
@@ -269,6 +277,18 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
             className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
           >
             {menuCopy.trust}
+          </button>
+          <button
+            onClick={() => handleNavigate("/reviews")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.reviews}
+          </button>
+          <button
+            onClick={() => handleNavigate("/tarot-reading-examples")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.examples}
           </button>
         </div>
 

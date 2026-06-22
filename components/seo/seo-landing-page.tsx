@@ -3,6 +3,7 @@ import Link from "next/link"
 import type { SeoPage } from "@/lib/seo-pages"
 import { getAllCardSeoPages } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
+import { trustLinks } from "@/lib/site"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 
@@ -192,6 +193,17 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
             >
               {page.bottomCta}
             </Link>
+          </div>
+          <div className="mt-8 flex flex-wrap justify-center gap-2 border-t border-white/10 pt-8">
+            {trustLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-lg border border-white/10 px-3 py-2 text-sm text-white/56 transition hover:border-[#bfb6ff]/45 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
