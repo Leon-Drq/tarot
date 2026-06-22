@@ -24,6 +24,29 @@ export const trustLinks = [
   { label: "Reading Examples", href: "/tarot-reading-examples" },
 ]
 
+const coreToolLinks = [
+  { label: "Free AI Tarot Reading", href: "/free-ai-tarot-reading", type: "WebPage" },
+  { label: "Daily Tarot", href: "/daily-tarot", type: "WebApplication" },
+  { label: "Free Tarot Spreads", href: "/tarot-spreads", type: "CollectionPage" },
+  { label: "Tarot Card Meanings", href: "/tarot-card-meanings", type: "CollectionPage" },
+  { label: "Yes or No Tarot", href: "/yes-or-no-tarot", type: "WebPage" },
+  { label: "Love Tarot Reading", href: "/love-tarot-reading", type: "WebPage" },
+  { label: "Career Tarot Reading", href: "/career-tarot-reading", type: "WebPage" },
+]
+
+function coreToolJsonLdItems() {
+  return coreToolLinks.map((link) => ({
+    "@type": link.type,
+    "@id": `${appUrl}${link.href}#webpage`,
+    name: link.label,
+    url: `${appUrl}${link.href}`,
+    isAccessibleForFree: true,
+    isPartOf: {
+      "@id": `${appUrl}/#website`,
+    },
+  }))
+}
+
 function trustPageJsonLdItems() {
   return trustLinks.map((link) => ({
     "@type": "WebPage",
@@ -110,6 +133,7 @@ export function organizationJsonLd() {
     knowsAbout: [
       "AI tarot reading",
       "tarot card meanings",
+      "free tarot spreads",
       "daily tarot",
       "love tarot",
       "career tarot",
@@ -160,7 +184,7 @@ export function websiteJsonLd() {
       "@id": `${appUrl}/#organization`,
     },
     inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
-    hasPart: trustPageJsonLdItems(),
+    hasPart: [...coreToolJsonLdItems(), ...trustPageJsonLdItems()],
   }
 }
 
@@ -196,6 +220,7 @@ export function softwareApplicationJsonLd() {
     featureList: [
       "Free AI tarot reading",
       "Daily tarot card",
+      "Free tarot spreads",
       "Tarot card meanings",
       "Love tarot reading",
       "Career tarot reading",

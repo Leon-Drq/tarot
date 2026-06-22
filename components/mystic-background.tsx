@@ -231,6 +231,7 @@ function HomeScrollContent() {
         trustBody: "补充阅读编辑说明、AI 解读边界、隐私政策、用户反馈和真实问题案例。",
         items: [
           { href: "/daily-tarot", title: "每日塔罗", body: "每日一牌、连续打卡、保存日记。" },
+          { href: "/tarot-spreads", title: "免费牌阵", body: "爱情、事业、是/否问题直接匹配牌阵。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "适合快速判断，但保留 AI 解释。" },
           { href: "/love-tarot-reading", title: "爱情塔罗", body: "感情、复合、对方想法专项入口。" },
           { href: "/tarot-card-meanings", title: "牌义大全", body: "78 张牌的正位、逆位和场景解读。" },
@@ -267,6 +268,7 @@ function HomeScrollContent() {
         trustBody: "Read the editorial policy, AI disclaimer, privacy notes, representative reviews, and realistic reading examples.",
         items: [
           { href: "/daily-tarot", title: "Daily Tarot", body: "One card, streaks, journal, and reminders." },
+          { href: "/tarot-spreads", title: "Tarot Spreads", body: "Choose yes/no, love, ex, career, and decision spreads." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "A quick answer with the reason behind it." },
           { href: "/love-tarot-reading", title: "Love Tarot", body: "Feelings, reconnection, and relationship clarity." },
           { href: "/tarot-card-meanings", title: "Card Meanings", body: "Upright, reversed, love, career, money, and advice." },
@@ -303,6 +305,7 @@ function HomeScrollContent() {
         trustBody: "編集方針、AI 免責、プライバシー、レビュー、質問例を確認できます。",
         items: [
           { href: "/daily-tarot", title: "今日のタロット", body: "一枚引き、記録、リマインダー。" },
+          { href: "/tarot-spreads", title: "Tarot Spreads", body: "恋愛、仕事、Yes/No に合うスプレッド。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "短い答えと理由を確認。" },
           { href: "/love-tarot-reading", title: "恋愛タロット", body: "気持ち、復縁、関係の流れ。" },
           { href: "/tarot-card-meanings", title: "カードの意味", body: "正位置、逆位置、恋愛、仕事、金運。" },
@@ -339,6 +342,7 @@ function HomeScrollContent() {
         trustBody: "편집 원칙, AI 안내, 개인정보, 리뷰, 실제 질문 예시를 확인할 수 있습니다.",
         items: [
           { href: "/daily-tarot", title: "오늘의 타로", body: "한 장 뽑기, 기록, 알림." },
+          { href: "/tarot-spreads", title: "Tarot Spreads", body: "사랑, 커리어, 예/아니오 질문별 스프레드." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "빠른 답과 그 이유." },
           { href: "/love-tarot-reading", title: "연애 타로", body: "감정, 재회, 관계 흐름." },
           { href: "/tarot-card-meanings", title: "카드 의미", body: "정방향, 역방향, 사랑, 커리어, 조언." },
@@ -375,7 +379,7 @@ function HomeScrollContent() {
         <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{copy.title}</h2>
         <p className="mt-4 text-sm leading-7 text-white/58 sm:text-base">{copy.body}</p>
       </div>
-      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {copy.items.map((item) => (
           <a
             key={item.href}
@@ -541,6 +545,10 @@ function MysticContent() {
         <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
           <a href="/daily-tarot" className="transition hover:text-white">
             Daily Tarot
+          </a>
+          <span className="h-1 w-1 rounded-full bg-white/24" />
+          <a href="/tarot-spreads" className="transition hover:text-white">
+            Spreads
           </a>
           <span className="h-1 w-1 rounded-full bg-white/24" />
           <a href="/tarot-card-meanings" className="transition hover:text-white">
