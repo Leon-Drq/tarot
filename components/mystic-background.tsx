@@ -405,7 +405,10 @@ function MysticContent() {
         {/* 3. Core light effect */}
         <CoreLight />
 
-        <section className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[8rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]">
+        <section
+          data-home-hero-copy
+          className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[8rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]"
+        >
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
@@ -415,7 +418,7 @@ function MysticContent() {
         </section>
 
         {/* 4. 3D rotating tarot card - use custom images if available */}
-        <div className="relative z-20 mt-36 sm:mt-16 md:mt-[4.5rem] lg:mt-20">
+        <div data-home-card-scene className="relative z-20 mt-48 sm:mt-20 md:mt-[4.5rem] lg:mt-20">
           <TarotCard
             frontImage={customFront || DEFAULT_FRONT}
             backImage={customBack || DEFAULT_BACK}
