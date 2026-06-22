@@ -6,7 +6,7 @@ import { getCardKeywords, getCardSlug, getCardSuit, type TarotCardSeoPage } from
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
 import type { SpreadType } from "@/lib/spread-config"
 import { TAROT_CARDS, type TarotCard } from "@/lib/tarot-cards"
-import { trustLastReviewed } from "@/lib/trust-signals"
+import { trustHighlights, trustLastReviewed } from "@/lib/trust-signals"
 
 function readingHref(page: TarotCardSeoPage) {
   const params = new URLSearchParams({
@@ -188,11 +188,67 @@ function questionPathCopy(page: TarotCardSeoPage) {
     paths: [
       { title: "Will my ex come back?", body: `${name} can clarify contact, timing, closure, and whether waiting is still helping you.`, href: path("will-my-ex-come-back-tarot") },
       { title: "Does he love me?", body: `Use ${name} to compare feelings with behavior, consistency, and emotional safety.`, href: path("does-he-love-me-tarot") },
+      { title: "Is he thinking about me?", body: `${name} can help separate private attention, silence, and whether thought is likely to become action.`, href: path("is-he-thinking-about-me-tarot") },
+      { title: "Should I text him?", body: `Use ${name} to check timing, intention, and whether a message would protect your clarity.`, href: path("should-i-text-him-tarot") },
       { title: "Yes or no love tarot", body: `Read ${name} with the reason behind yes, no, or not yet instead of forcing one word.`, href: path("yes-or-no-tarot-love") },
+      { title: "When will I find love?", body: `${name} can turn love timing into readiness, dating energy, and one practical next step.`, href: path("when-will-i-find-love-tarot") },
       { title: "Career tarot reading", body: `${name} can help reveal career direction, risk, resources, and the next practical move.`, href: path("career-tarot-reading") },
       { title: "Should I quit my job?", body: `${name} can separate temporary burnout, a completed cycle, and the preparation needed before leaving.`, href: path("should-i-quit-my-job-tarot") },
     ] satisfies QuestionPath[],
   }
+}
+
+function trustHighlightCopy(page: TarotCardSeoPage) {
+  if (page.locale === "zh") return { eyebrow: "为什么先免费读", title: "先理解牌义，再决定是否深入", action: "阅读信任说明" }
+  if (page.locale === "ja") return { eyebrow: "無料で始める理由", title: "意味を理解してから深く読む", action: "信頼ページを見る" }
+  if (page.locale === "ko") return { eyebrow: "무료로 먼저 읽기", title: "카드 의미를 이해한 뒤 더 깊게 보기", action: "신뢰 안내 보기" }
+  if (page.locale === "es") return { eyebrow: "Por qué empezar gratis", title: "Entiende la carta antes de profundizar", action: "Ver páginas de confianza" }
+  if (page.locale === "pt-br") return { eyebrow: "Por que começar grátis", title: "Entenda a carta antes de aprofundar", action: "Ver páginas de confiança" }
+  return { eyebrow: "Why start free", title: "Understand the card before you go deeper", action: "Read trust pages" }
+}
+
+function trustHighlightItems(page: TarotCardSeoPage) {
+  if (page.locale === "zh") {
+    return [
+      { title: "先免费", body: "第一次解读、每日塔罗、牌义和搜索入口都应该先提供真实价值。" },
+      { title: "会员放后面", body: "会员只用于历史保存、深度追问、高级牌阵和更长报告。" },
+      { title: "负责的 AI", body: "AI 用来围绕牌面和问题做反思式解读，不把结果包装成确定预言。" },
+    ]
+  }
+
+  if (page.locale === "ja") {
+    return [
+      { title: "まず無料", body: "初回リーディング、毎日のタロット、カード意味、検索ページは無料で役立つ形にしています。" },
+      { title: "会員機能は後で", body: "会員機能は履歴保存、深い追質問、高度なスプレッド、長いレポート向けです。" },
+      { title: "責任ある AI", body: "AI はカードと質問に沿った内省の補助であり、確定した予言として扱いません。" },
+    ]
+  }
+
+  if (page.locale === "ko") {
+    return [
+      { title: "무료 먼저", body: "첫 리딩, 데일리 타로, 카드 의미, 검색 페이지는 결제 전에도 유용하도록 설계했습니다." },
+      { title: "멤버십은 이후", body: "멤버십은 기록 저장, 깊은 후속 질문, 고급 스프레드, 긴 리포트에 사용됩니다." },
+      { title: "책임 있는 AI", body: "AI는 카드와 질문을 바탕으로 성찰을 돕는 도구이며 확정 예언으로 제공하지 않습니다." },
+    ]
+  }
+
+  if (page.locale === "es") {
+    return [
+      { title: "Gratis primero", body: "La primera lectura, el tarot diario, los significados y las páginas de búsqueda deben ser útiles sin pago." },
+      { title: "Membresía después", body: "La membresía queda para historial guardado, seguimientos profundos, tiradas avanzadas e informes largos." },
+      { title: "IA responsable", body: "La IA adapta la interpretación a cartas y preguntas, sin presentar resultados garantizados." },
+    ]
+  }
+
+  if (page.locale === "pt-br") {
+    return [
+      { title: "Grátis primeiro", body: "A primeira leitura, o tarot diário, os significados e as páginas de busca precisam ser úteis sem pagamento." },
+      { title: "Assinatura depois", body: "A assinatura fica para histórico salvo, perguntas profundas, tiragens avançadas e relatórios longos." },
+      { title: "IA responsável", body: "A IA adapta a interpretação às cartas e perguntas, sem tratar resultados como garantidos." },
+    ]
+  }
+
+  return trustHighlights
 }
 
 type RelatedCardLink = {
@@ -349,6 +405,8 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const questionPaths = questionPathCopy(page)
   const relatedCopy = relatedCardCopy(page)
   const relatedCards = createRelatedCardLinks(page)
+  const trustCopy = trustHighlightCopy(page)
+  const trustItems = trustHighlightItems(page)
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -363,6 +421,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         url: `${appUrl}${page.path}`,
         inLanguage: page.locale,
         dateModified: trustLastReviewed,
+        isAccessibleForFree: true,
         isPartOf: {
           "@id": `${appUrl}/#website`,
         },
@@ -371,6 +430,11 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         },
         publisher: {
           "@id": `${appUrl}/#organization`,
+        },
+        potentialAction: {
+          "@type": "ReadAction",
+          name: "Start free AI tarot reading",
+          target: `${appUrl}${primaryHref}`,
         },
       },
       {
@@ -382,6 +446,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         url: `${appUrl}${page.path}`,
         inLanguage: page.locale,
         dateModified: trustLastReviewed,
+        isAccessibleForFree: true,
         mainEntityOfPage: {
           "@id": `${appUrl}${page.path}#webpage`,
         },
@@ -584,6 +649,24 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                       <h3 className="break-words text-sm font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
                       <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
                     </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.035] p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{trustCopy.eyebrow}</p>
+                <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                  <h2 className="max-w-2xl font-serif text-2xl leading-tight text-white">{trustCopy.title}</h2>
+                  <Link href="/about" className="text-sm text-[#c9c0ff] transition hover:text-white">
+                    {trustCopy.action}
+                  </Link>
+                </div>
+                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                  {trustItems.map((item) => (
+                    <article key={item.title} className="rounded-lg border border-white/10 bg-black/[0.14] p-4">
+                      <h3 className="text-sm font-medium text-white">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                    </article>
                   ))}
                 </div>
               </div>
