@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
   if (error) {
     if (error.message.includes("insufficient_credits")) {
-      return jsonError("积分不足，请购买会员或积分", 402)
+      return jsonError("需要更多深度追问额度", 402)
     }
     return jsonError(error.message)
   }

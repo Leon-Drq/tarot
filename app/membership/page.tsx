@@ -131,6 +131,7 @@ function MembershipContent() {
       zh: {
         basic: "基础",
         deep: "深度",
+        dailyAdvanced: "进阶",
         sessionOnly: "本次",
         saved: "保存",
         basicSpread: "基础",
@@ -142,6 +143,7 @@ function MembershipContent() {
       en: {
         basic: "Basic",
         deep: "Deep",
+        dailyAdvanced: "Advanced",
         sessionOnly: "Session",
         saved: "Saved",
         basicSpread: "Basic",
@@ -153,6 +155,7 @@ function MembershipContent() {
       ja: {
         basic: "基本",
         deep: "深掘り",
+        dailyAdvanced: "高度",
         sessionOnly: "今回のみ",
         saved: "保存",
         basicSpread: "基本",
@@ -164,6 +167,7 @@ function MembershipContent() {
       ko: {
         basic: "기본",
         deep: "심층",
+        dailyAdvanced: "고급",
         sessionOnly: "이번 세션",
         saved: "저장",
         basicSpread: "기본",
@@ -175,6 +179,7 @@ function MembershipContent() {
     }[language] || {
       basic: "Basic",
       deep: "Deep",
+      dailyAdvanced: "Advanced",
       sessionOnly: "Session",
       saved: "Saved",
       basicSpread: "Basic",
@@ -551,7 +556,7 @@ function MembershipContent() {
           <p className="text-mystic-foreground-muted text-xs tracking-wide uppercase">{t("membership.memberBenefits")}</p>
           <div className="space-y-3">
             {[
-              { label: t("membership.dailyReading"), free: `1 ${t("membership.times")}`, member: t("membership.unlimited") },
+              { label: t("membership.dailyReading"), free: `1 ${t("membership.times")}`, member: extraBenefitLabels.dailyAdvanced },
               { label: t("membership.aiInterpretation"), free: extraBenefitLabels.basic, member: extraBenefitLabels.deep },
               { label: t("membership.historyRecords"), free: extraBenefitLabels.sessionOnly, member: extraBenefitLabels.saved },
               { label: t("membership.exclusiveSpreads"), free: extraBenefitLabels.basicSpread, member: extraBenefitLabels.advancedSpread },

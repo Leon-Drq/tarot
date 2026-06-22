@@ -99,14 +99,14 @@ export const seoPageSources: SeoPageSource[] = [
             body: "Open questions work best. Ask what you need to notice, what energy surrounds a choice, or what action would help you move forward.",
           },
           {
-            heading: "When to upgrade",
-            body: "Membership is useful after the first reading if you want unlimited follow-up questions, saved history, advanced spreads, and deeper reports.",
+            heading: "When advanced features help",
+            body: "Membership is useful after the first reading when you want deeper follow-up questions, saved history, advanced spreads, and longer monthly reports.",
           },
         ],
         faqs: [
           {
             question: "Is the first AI tarot reading free?",
-            answer: "Yes. You can start a reading without paying first. Membership adds unlimited use, saved history, and deeper reports.",
+            answer: "Yes. You can start a reading without paying first. Membership is reserved for deeper follow-ups, saved history, advanced spreads, and longer reports.",
           },
           {
             question: "Do I need to log in before drawing cards?",
@@ -139,7 +139,7 @@ export const seoPageSources: SeoPageSource[] = [
         faqs: [
           {
             question: "第一次 AI 塔罗解读免费吗？",
-            answer: "是的。你可以先免费开始，不需要先付费。会员主要提供无限次数、历史记录和深度报告。",
+            answer: "是的。你可以先免费开始，不需要先付费。会员主要用于深度追问、历史保存、高级牌阵和更完整的报告。",
           },
           {
             question: "抽牌前必须登录吗？",
@@ -158,10 +158,10 @@ export const seoPageSources: SeoPageSource[] = [
         sections: [
           { heading: "無料リーディングの流れ", body: "質問を入力し、カードを選び、カードの位置と向きに合わせた解釈を読みます。" },
           { heading: "よい質問の作り方", body: "相手をコントロールする質問より、自分が理解すべきことや次の一歩を聞くと読みやすくなります。" },
-          { heading: "アップグレードのタイミング", body: "無制限リーディング、履歴保存、高度なスプレッド、深い恋愛/仕事レポートが必要な時に会員が役立ちます。" },
+          { heading: "高度な機能が役立つ時", body: "深い追質問、履歴保存、高度なスプレッド、月次レポートが必要な時に会員機能が役立ちます。" },
         ],
         faqs: [
-          { question: "最初の AI タロットは無料ですか？", answer: "はい。まず無料で始められます。会員は無制限利用や履歴保存を追加します。" },
+          { question: "最初の AI タロットは無料ですか？", answer: "はい。まず無料で始められます。会員機能は深い追質問、履歴保存、高度なスプレッド、長いレポート向けです。" },
           { question: "カードを引く前にログインが必要ですか？", answer: "いいえ。先に体験し、結果を保存したい時にログインできます。" },
         ],
       }),
@@ -176,10 +176,10 @@ export const seoPageSources: SeoPageSource[] = [
         sections: [
           { heading: "무료 리딩 방식", body: "질문을 입력하고 카드를 고른 뒤, 카드 위치와 정/역방향을 반영한 해석을 읽습니다." },
           { heading: "좋은 질문", body: "상대의 선택을 단정하기보다 내가 알아차릴 점, 현재 에너지, 다음 행동을 묻는 질문이 좋습니다." },
-          { heading: "업그레이드 시점", body: "무제한 리딩, 기록 저장, 고급 스프레드, 깊은 관계/커리어 리포트가 필요할 때 멤버십이 유용합니다." },
+          { heading: "고급 기능이 필요한 때", body: "심층 질문, 기록 저장, 고급 스프레드, 월간 리포트가 필요할 때 멤버십 기능이 유용합니다." },
         ],
         faqs: [
-          { question: "첫 AI 타로 리딩은 무료인가요?", answer: "네. 먼저 무료로 시작할 수 있습니다. 멤버십은 무제한 사용과 기록 저장을 제공합니다." },
+          { question: "첫 AI 타로 리딩은 무료인가요?", answer: "네. 먼저 무료로 시작할 수 있습니다. 멤버십은 심층 질문, 기록 저장, 고급 스프레드, 긴 리포트에 사용됩니다." },
           { question: "카드를 뽑기 전에 로그인이 필요한가요?", answer: "아니요. 먼저 체험하고 결과를 저장하고 싶을 때 로그인하면 됩니다." },
         ],
       }),
