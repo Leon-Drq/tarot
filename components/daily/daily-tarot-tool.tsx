@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
-import { Loader2, Share2 } from "lucide-react"
+import { CalendarPlus, Loader2, Share2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, authApi, dailyTarotApi, readingApi, setAccessToken, type DailyTarotEntry } from "@/lib/api"
@@ -44,6 +44,72 @@ function normalizeReminderEmail(value: string) {
 function isValidReminderEmail(value: string) {
   const email = normalizeReminderEmail(value)
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+function padCalendarNumber(value: number) {
+  return String(value).padStart(2, "0")
+}
+
+function escapeCalendarText(value: string) {
+  return value.replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;")
+}
+
+function formatCalendarDateTime(date: Date, utc = false) {
+  const source = utc
+    ? {
+        year: date.getUTCFullYear(),
+        month: date.getUTCMonth() + 1,
+        day: date.getUTCDate(),
+        hour: date.getUTCHours(),
+        minute: date.getUTCMinutes(),
+        second: date.getUTCSeconds(),
+      }
+    : {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+        second: date.getSeconds(),
+      }
+
+  return `${source.year}${padCalendarNumber(source.month)}${padCalendarNumber(source.day)}T${padCalendarNumber(source.hour)}${padCalendarNumber(source.minute)}${padCalendarNumber(source.second)}${utc ? "Z" : ""}`
+}
+
+function getReminderStartDate(time: string) {
+  const [rawHour, rawMinute] = time.split(":")
+  const hour = Number(rawHour)
+  const minute = Number(rawMinute)
+  const next = new Date()
+  next.setHours(Number.isFinite(hour) ? hour : 8, Number.isFinite(minute) ? minute : 30, 0, 0)
+  if (next.getTime() < Date.now() - 60_000) next.setDate(next.getDate() + 1)
+  return next
+}
+
+function createDailyReminderCalendar(input: { time: string; summary: string; description: string }) {
+  const timezone = getTimezone()
+  const safeTimezone = timezone.replace(/[^A-Za-z0-9_-]/g, "-")
+  const start = getReminderStartDate(input.time)
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//POPTarot//Daily Tarot//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "X-WR-CALNAME:POPTarot Daily Tarot",
+    "BEGIN:VEVENT",
+    `UID:poptarot-daily-tarot-${input.time.replace(/[^0-9]/g, "")}-${safeTimezone}@poptarot.com`,
+    `DTSTAMP:${formatCalendarDateTime(new Date(), true)}`,
+    `DTSTART:${formatCalendarDateTime(start)}`,
+    "DURATION:PT10M",
+    "RRULE:FREQ=DAILY",
+    `SUMMARY:${escapeCalendarText(input.summary)}`,
+    `DESCRIPTION:${escapeCalendarText(input.description)}`,
+    "URL:https://poptarot.com/daily-tarot",
+    "END:VEVENT",
+    "END:VCALENDAR",
+  ]
+  return `${lines.join("\r\n")}\r\n`
 }
 
 function localDailyKey(dateKey: string) {
@@ -146,6 +212,7 @@ export function DailyTarotTool() {
   const [streak, setStreak] = useState(0)
   const [shareUrl, setShareUrl] = useState("")
   const [shareStatus, setShareStatus] = useState("")
+  const [calendarStatus, setCalendarStatus] = useState("")
   const [isCreatingShare, setIsCreatingShare] = useState(false)
   const [isDrawing, setIsDrawing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
@@ -446,6 +513,23 @@ export function DailyTarotTool() {
     }
   }
 
+  const handleDownloadCalendarReminder = () => {
+    const calendar = createDailyReminderCalendar({
+      time: reminderTime,
+      summary: copy.calendarReminderSummary,
+      description: copy.calendarReminderDescription,
+    })
+    const url = URL.createObjectURL(new Blob([calendar], { type: "text/calendar;charset=utf-8" }))
+    const link = document.createElement("a")
+    link.href = url
+    link.download = "poptarot-daily-tarot.ics"
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000)
+    setCalendarStatus(copy.calendarReminderSaved)
+  }
+
   const ensureShareUrl = async () => {
     if (shareUrl) return shareUrl
     if (!card || !interpretation) throw new Error("No daily reading to share")
@@ -713,13 +797,23 @@ export function DailyTarotTool() {
             />
             {copy.reminderToggle}
           </label>
-          <button
-            onClick={handleSaveReminder}
-            disabled={isSaving || (!reminderEmail && reminderEnabled)}
-            className="mt-4 inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45 sm:w-auto"
-          >
-            {copy.saveReminder}
-          </button>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <button
+              onClick={handleSaveReminder}
+              disabled={isSaving || (!reminderEmail && reminderEnabled)}
+              className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
+            >
+              {copy.saveReminder}
+            </button>
+            <button
+              onClick={handleDownloadCalendarReminder}
+              className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-[#bfb6ff]/28 bg-[#bfb6ff]/[0.06] px-5 text-sm text-[#eee9ff] transition hover:bg-[#bfb6ff]/12"
+            >
+              <CalendarPlus className="h-4 w-4" />
+              {copy.calendarReminder}
+            </button>
+          </div>
+          {calendarStatus && <p className="mt-3 text-xs text-white/45">{calendarStatus}</p>}
         </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
