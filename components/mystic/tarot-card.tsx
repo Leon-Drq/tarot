@@ -41,7 +41,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
 
   return (
     <div
-      className="pointer-events-none relative z-[5] mx-auto mt-[14rem] flex h-[19rem] w-full items-center justify-center sm:mt-48 sm:h-[min(42svh,22rem)] sm:min-h-[20rem] md:mt-32 md:h-[min(52svh,29rem)] md:min-h-[25rem] lg:mt-28"
+      className="pointer-events-none relative z-[5] mx-auto flex h-[20rem] w-full items-center justify-center sm:h-[min(46svh,24rem)] sm:min-h-[21rem] md:h-[min(54svh,30rem)] md:min-h-[26rem]"
       style={{
         perspective: "1000px",
         opacity: 1,
@@ -145,13 +145,13 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
             onLoad={() => setIsBackLoaded(true)}
             sizes="(max-width: 768px) 50vw, 220px"
           />
-          <div className="absolute inset-0 rounded-lg md:rounded-xl border-2 md:border-4 border-amber-700/30 pointer-events-none" />
+          <div className="absolute inset-0 rounded-lg md:rounded-xl border-2 border-[#c9c0ff]/20 md:border-4 pointer-events-none" />
 
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,215,100,0.5) 0%, rgba(212,175,55,0.2) 25%, transparent 50%, rgba(212,175,55,0.2) 75%, rgba(255,215,100,0.4) 100%)",
+                "linear-gradient(135deg, rgba(235,232,255,0.46) 0%, rgba(170,161,255,0.2) 25%, transparent 50%, rgba(170,161,255,0.18) 75%, rgba(235,232,255,0.34) 100%)",
               mixBlendMode: "overlay",
               animation: "holoShimmer 3.5s ease-in-out infinite",
             }}
@@ -160,7 +160,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: "radial-gradient(ellipse at 20% 10%, rgba(255,223,120,0.7) 0%, transparent 45%)",
+              background: "radial-gradient(ellipse at 20% 10%, rgba(235,232,255,0.6) 0%, transparent 45%)",
               mixBlendMode: "screen",
             }}
           />
@@ -173,7 +173,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
                 width: "250%",
                 height: "120px",
                 background:
-                  "linear-gradient(90deg, transparent 0%, rgba(255,215,100,0.4) 20%, rgba(255,255,255,0.7) 50%, rgba(255,215,100,0.4) 80%, transparent 100%)",
+                  "linear-gradient(90deg, transparent 0%, rgba(190,182,255,0.34) 20%, rgba(255,255,255,0.68) 50%, rgba(190,182,255,0.34) 80%, transparent 100%)",
                 filter: "blur(20px)",
                 animation: "shineSwipe 9s ease-in-out infinite 2s",
               }}
@@ -188,7 +188,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
                 width: "100%",
                 height: "300%",
                 background:
-                  "linear-gradient(180deg, transparent 0%, rgba(255,215,100,0.3) 45%, rgba(255,255,255,0.5) 50%, rgba(255,215,100,0.3) 55%, transparent 100%)",
+                  "linear-gradient(180deg, transparent 0%, rgba(190,182,255,0.28) 45%, rgba(255,255,255,0.48) 50%, rgba(190,182,255,0.28) 55%, transparent 100%)",
                 filter: "blur(25px)",
                 animation: "shineSwipeVertical 11s ease-in-out infinite 4s",
               }}

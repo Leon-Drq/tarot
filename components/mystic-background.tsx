@@ -76,7 +76,7 @@ function HomeQuestionForm() {
   return (
     <form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto mt-12 w-[min(90vw,460px)] sm:mt-12 md:w-[min(68vw,560px)] lg:w-[min(52vw,620px)]"
+      className="relative z-30 mx-auto mt-12 w-[calc(100vw_-_3rem)] max-w-[460px] sm:mt-14 md:max-w-[560px] lg:max-w-[620px]"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
@@ -99,7 +99,7 @@ function HomeQuestionForm() {
       >
         <span>{copy.action}</span>
       </button>
-      <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
+      <div className="mt-3 hidden gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex md:flex-wrap md:justify-center md:overflow-visible md:pb-0">
         {copy.examples.map((example) => (
           <button
             key={example}
@@ -368,7 +368,7 @@ function MysticContent() {
     }[language]
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-mystic-bg">
+    <div className="allow-scroll relative min-h-screen overflow-x-hidden bg-mystic-bg">
       <div className="fixed inset-0 z-0 pointer-events-none">
         {/* 1. Background gradient */}
         <BackgroundGradient />
@@ -378,12 +378,12 @@ function MysticContent() {
       </div>
 
       {/* Header Area - 确保所有元素垂直居中对齐 */}
-      <header className="absolute top-4 left-0 right-0 sm:top-6 md:top-8 z-50 flex items-center justify-between px-4 sm:px-6 md:px-8 pointer-events-none">
+      <header className="absolute top-4 left-0 right-0 sm:top-6 md:top-7 z-50 flex items-center justify-between px-4 sm:px-6 md:px-8 pointer-events-none">
         <div className="flex-1 flex justify-start pointer-events-auto">
           <MenuButton isOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
         </div>
         
-        <h1 className="font-serif text-lg sm:text-2xl md:text-4xl lg:text-5xl font-semibold tracking-[0.12em] sm:tracking-[0.2em] md:tracking-[0.3em] text-mystic-foreground drop-shadow-[0_0_15px_var(--mystic-glow)] whitespace-nowrap pointer-events-auto">
+        <h1 className="font-serif text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[0.12em] sm:tracking-[0.18em] md:tracking-[0.24em] text-mystic-foreground drop-shadow-[0_0_15px_var(--mystic-glow)] whitespace-nowrap pointer-events-auto">
           POP TAROT
         </h1>
 
@@ -401,26 +401,28 @@ function MysticContent() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="relative min-h-[112svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+5.5rem)] md:min-h-[118svh] md:pb-24">
+      <div className="relative min-h-[112svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+5.5rem)] md:min-h-[116svh] md:pb-28">
         {/* 3. Core light effect */}
         <CoreLight />
 
-        <section className="pointer-events-none relative z-30 mx-auto w-[min(90vw,680px)] pt-[8.25rem] text-center sm:pt-[9rem] md:pt-[9.75rem] lg:pt-[10.25rem]">
+        <section className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[8rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]">
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
-          <p className="mx-auto mt-3 max-w-[20rem] break-words text-xs leading-6 text-white/62 [overflow-wrap:anywhere] sm:max-w-[34rem] sm:text-sm md:text-base">
+          <p className="mx-auto mt-3 max-w-[20rem] break-words text-xs leading-6 text-white/58 [overflow-wrap:anywhere] sm:max-w-[34rem] sm:text-sm md:text-base">
             {heroCopy.line}
           </p>
         </section>
 
         {/* 4. 3D rotating tarot card - use custom images if available */}
-        <TarotCard
-          frontImage={customFront || DEFAULT_FRONT}
-          backImage={customBack || DEFAULT_BACK}
-          tiltAngle={-15}
-          rotationDuration={12}
-        />
+        <div className="relative z-20 mt-14 sm:mt-16 md:mt-[4.5rem] lg:mt-20">
+          <TarotCard
+            frontImage={customFront || DEFAULT_FRONT}
+            backImage={customBack || DEFAULT_BACK}
+            tiltAngle={-15}
+            rotationDuration={12}
+          />
+        </div>
 
         <HomeQuestionForm />
 

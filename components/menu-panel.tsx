@@ -37,12 +37,6 @@ const UserIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-const CrownIcon = ({ className }: { className?: string }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z" />
-  </svg>
-)
-
 interface MenuPanelProps {
   isOpen: boolean
   frontImage: string | null
@@ -185,8 +179,8 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
                   )}
                 </div>
                 {user.is_member && (
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-mystic-gold-bright rounded-full flex items-center justify-center shadow-[0_0_8px_rgba(255,215,100,0.5)]">
-                    <CrownIcon className="w-2.5 h-2.5 text-black" />
+                  <div className="absolute -top-1 -right-1 h-4 min-w-[1rem] rounded-full border border-[#c9c0ff]/45 bg-[#aaa1ff]/85 px-1 text-[8px] font-medium leading-4 text-[#110c24] shadow-[0_0_10px_rgba(170,161,255,0.22)]">
+                    PRO
                   </div>
                 )}
               </div>
@@ -198,7 +192,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
                 </p>
                 {user.is_member ? (
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="text-mystic-gold-bright text-xs font-medium">
+                    <span className="text-[#c9c0ff] text-xs font-medium">
                       {getMemberTypeLabel(user.member_type || "")}
                     </span>
                     <span className="text-mystic-foreground-muted text-xs">·</span>

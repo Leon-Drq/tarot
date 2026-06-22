@@ -46,7 +46,7 @@ export function StartButton() {
         />
 
         <span
-          className="rounded-full border border-mystic-gold/45 bg-black/25 px-7 py-3 text-sm sm:text-lg md:text-xl tracking-[0.08em] sm:tracking-[0.15em] text-mystic-foreground whitespace-nowrap transition-all duration-300 group-hover:border-mystic-gold group-hover:bg-mystic-gold/10 group-hover:drop-shadow-[0_0_10px_var(--mystic-glow-strong)]"
+          className="rounded-full border border-[#c9c0ff]/42 bg-black/25 px-7 py-3 text-sm sm:text-lg md:text-xl tracking-[0.08em] sm:tracking-[0.15em] text-mystic-foreground whitespace-nowrap transition-all duration-300 group-hover:border-[#eeeaff]/70 group-hover:bg-[#aaa1ff]/10 group-hover:drop-shadow-[0_0_12px_rgba(170,161,255,0.35)]"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {freeLabel}

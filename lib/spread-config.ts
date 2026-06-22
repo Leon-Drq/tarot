@@ -29,7 +29,7 @@ export interface SpreadConfig {
   name: string
   nameEn: string
   cardCount: number
-  icon: string       // 图标/emoji
+  icon: string       // Compact label for UI badges
   description: string
   descriptionEn?: string
   positions: SpreadPosition[]
@@ -45,7 +45,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: 'Yes or No',
     nameEn: 'Yes or No',
     cardCount: 1,
-    icon: '❓',
+    icon: 'YN',
     description: '简单明了的是非问题，一张牌给你答案',
     descriptionEn: 'A direct one-card spread for a clear yes-or-no question.',
     positions: [
@@ -59,7 +59,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '每日穿搭提示',
     nameEn: 'Daily Fashion Tips',
     cardCount: 1,
-    icon: '👗',
+    icon: 'STYLE',
     description: '让塔罗指引你今天的穿搭风格',
     descriptionEn: "A light daily card for style, color, and mood cues.",
     positions: [
@@ -73,7 +73,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '分手挽回',
     nameEn: 'Breakup Recovery',
     cardCount: 5,
-    icon: '💔',
+    icon: 'BR',
     description: '深入分析分手原因，挽回的可能性和建议',
     descriptionEn: 'A five-card spread for breakup causes, remaining energy, recovery advice, and next direction.',
     positions: [
@@ -91,7 +91,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '考试运势',
     nameEn: 'Exam Fortune',
     cardCount: 4,
-    icon: '📚',
+    icon: 'EXAM',
     description: '预测考试运势，找到复习重点和注意事项',
     descriptionEn: 'A study and exam spread for preparation, strengths, cautions, and likely outcome.',
     positions: [
@@ -108,7 +108,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '购物决策',
     nameEn: 'Shopping Decision',
     cardCount: 3,
-    icon: '🛍️',
+    icon: 'BUY',
     description: '帮你做出更好的购物决定',
     descriptionEn: 'A practical spread for purchase desire, real value, and buying advice.',
     positions: [
@@ -124,7 +124,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '桃花正缘',
     nameEn: 'Love Connection',
     cardCount: 4,
-    icon: '🌸',
+    icon: 'LOVE',
     description: '探索你的感情运势和正缘特征',
     descriptionEn: 'A love-potential spread for dating energy, soulmate traits, timing, and advice.',
     positions: [
@@ -141,7 +141,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '关系预测',
     nameEn: 'Relationship Prediction',
     cardCount: 5,
-    icon: '💑',
+    icon: 'REL',
     description: '全面分析你们的感情关系走向',
     descriptionEn: 'A relationship spread for the current bond, both sides, challenges, and likely direction.',
     positions: [
@@ -159,7 +159,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: 'TA 的想法和态度',
     nameEn: 'Their Thoughts & Attitude',
     cardCount: 5,
-    icon: '💭',
+    icon: 'MIND',
     description: '深入了解对方的内心想法和对你的态度',
     descriptionEn: 'A five-card spread for their impression, thoughts, attitude, concerns, and likely action.',
     positions: [
@@ -177,7 +177,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '求职机会',
     nameEn: 'Job Opportunity',
     cardCount: 4,
-    icon: '💼',
+    icon: 'JOB',
     description: '分析求职运势和工作机会',
     descriptionEn: 'A career spread for opportunities, strengths, cautions, and the next professional opening.',
     positions: [
@@ -194,7 +194,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '二选一',
     nameEn: 'Binary Choice',
     cardCount: 2,
-    icon: '⚖️',
+    icon: 'A/B',
     description: '面对两个选择时，帮你看清每个选项的能量',
     descriptionEn: 'A two-option spread for comparing the energy and outcome of each choice.',
     positions: [
@@ -209,7 +209,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '人际关系',
     nameEn: 'Interpersonal Relations',
     cardCount: 5,
-    icon: '🤝',
+    icon: 'SOC',
     description: '分析人际关系中的问题和改善方向',
     descriptionEn: 'A social dynamics spread for current tension, your role, feedback, problems, and repair.',
     positions: [
@@ -227,7 +227,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '三选一',
     nameEn: 'Triple Choice',
     cardCount: 3,
-    icon: '🔮',
+    icon: 'A/B/C',
     description: '面对三个选择时，看清每个选项的能量',
     descriptionEn: 'A three-option spread for comparing multiple directions clearly.',
     positions: [
@@ -243,7 +243,7 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
     name: '时间之流',
     nameEn: 'Past Present Future',
     cardCount: 3,
-    icon: '⏳',
+    icon: '3',
     description: '经典的三牌阵，从过去、现在、未来三个维度解读',
     descriptionEn: 'Classic three-card spread, reading from past, present, and future perspectives.',
     positions: [
