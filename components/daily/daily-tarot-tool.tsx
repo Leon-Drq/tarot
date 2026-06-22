@@ -233,7 +233,7 @@ export function DailyTarotTool() {
   useEffect(() => {
     dailyTarotApi
       .getReminderCapability()
-      .then((data) => setEmailDeliveryEnabled(Boolean(data.email_delivery_enabled)))
+      .then((data) => setEmailDeliveryEnabled(Boolean(data.scheduled_delivery_enabled ?? data.email_delivery_enabled)))
       .catch(() => setEmailDeliveryEnabled(true))
   }, [])
 

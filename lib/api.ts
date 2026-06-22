@@ -347,12 +347,22 @@ export interface DailyTarotEntry {
   reminder_timezone: string
 }
 
+export interface DailyReminderCapability {
+  email_delivery_enabled: boolean
+  scheduled_delivery_enabled?: boolean
+  email_provider_configured?: boolean
+  service_database_configured?: boolean
+  cron_authorization_configured?: boolean
+  cron_path_configured?: boolean
+  missing_capabilities?: string[]
+}
+
 export const dailyTarotApi = {
   getToday: async (date?: string): Promise<{ entry: DailyTarotEntry | null; streak_count: number }> => {
     return request(`/daily-tarot${date ? `?date=${encodeURIComponent(date)}` : ''}`)
   },
 
-  getReminderCapability: async (): Promise<{ email_delivery_enabled: boolean }> => {
+  getReminderCapability: async (): Promise<DailyReminderCapability> => {
     return request('/daily-tarot/reminder-capability')
   },
 
