@@ -324,11 +324,11 @@ function MysticContent() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="relative min-h-[100svh] overflow-hidden pb-[calc(env(safe-area-inset-bottom)+1.5rem)] md:min-h-[132dvh] md:pb-0">
+      <div className="relative min-h-[100svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+4rem)] md:min-h-[132dvh] md:overflow-hidden md:pb-0">
         {/* 3. Core light effect */}
         <CoreLight />
 
-        <section className="pointer-events-none relative z-30 mx-auto w-[min(90vw,680px)] pt-[8.25rem] text-center sm:pt-[9rem] md:absolute md:left-1/2 md:top-[16%] md:-translate-x-1/2 md:pt-0">
+        <section className="pointer-events-none relative z-30 mx-auto w-[min(90vw,680px)] pt-[8.25rem] text-center sm:pt-[9rem] md:absolute md:left-1/2 md:top-[14%] md:-translate-x-1/2 md:pt-0">
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
