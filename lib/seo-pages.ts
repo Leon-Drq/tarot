@@ -903,6 +903,9 @@ seoPageSources.push(
   }),
 )
 
+type RegionalLocale = Exclude<SeoLocale, Locale>
+type RegionalPageCopy = Omit<SeoPageContent, "primaryCta" | "secondaryCta" | "questionsTitle" | "bottomCta">
+
 const regionalCta = {
   es: {
     primary: "Lectura gratis",
@@ -916,9 +919,497 @@ const regionalCta = {
     questions: "Perguntas",
     bottom: "Tirar cartas",
   },
-} satisfies Record<Exclude<SeoLocale, Locale>, Record<string, string>>
+} satisfies Record<RegionalLocale, Record<string, string>>
 
-function regionalContent(base: SeoPageContent, locale: Exclude<SeoLocale, Locale>): SeoPageContent {
+function withRegionalCta(locale: RegionalLocale, content: RegionalPageCopy): SeoPageContent {
+  return {
+    ...content,
+    primaryCta: regionalCta[locale].primary,
+    secondaryCta: regionalCta[locale].secondary,
+    questionsTitle: regionalCta[locale].questions,
+    bottomCta: regionalCta[locale].bottom,
+  }
+}
+
+const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPageCopy>>> = {
+  es: {
+    "free-ai-tarot-reading": {
+      title: "Lectura de tarot gratis con IA",
+      description: "Saca cartas online y recibe una lectura de tarot gratis con IA para amor, trabajo, decisiones y guía diaria.",
+      eyebrow: "Tarot online gratis",
+      h1: "Lectura de tarot gratis con IA",
+      intro: "Escribe una pregunta clara, elige tus cartas y recibe una interpretación enfocada en tu situación, sin crear una cuenta antes.",
+      intent: "Una primera lectura rápida para obtener claridad práctica antes de decidir si quieres una tirada más profunda.",
+      ctaQuestion: "¿Qué necesito entender con más claridad ahora?",
+      sections: [
+        { heading: "Cómo funciona la lectura gratis", body: "Haz una pregunta sincera, saca tus cartas y lee una interpretación que une la posición de cada carta con tu contexto real." },
+        { heading: "Qué tipo de pregunta hacer", body: "Funcionan mejor las preguntas abiertas: qué debo notar, qué energía rodea esta decisión o qué paso me ayuda a avanzar." },
+        { heading: "Cuándo conviene profundizar", body: "La membresía tiene sentido cuando quieres preguntas de seguimiento, historial guardado, tiradas avanzadas e informes más largos." },
+      ],
+      faqs: [
+        { question: "¿La primera lectura de tarot con IA es gratis?", answer: "Sí. Puedes empezar sin pagar. La membresía añade uso ampliado, historial guardado y reportes más profundos." },
+        { question: "¿Necesito iniciar sesión para sacar cartas?", answer: "No. Puedes comenzar primero y entrar más tarde si quieres guardar resultados o continuar la lectura." },
+      ],
+    },
+    "love-tarot-reading": {
+      title: "Lectura de tarot del amor",
+      description: "Pregunta por una relación, una persona especial, una ruptura o una reconciliación y recibe una lectura de tarot del amor con IA.",
+      eyebrow: "Guía sentimental",
+      h1: "Lectura de tarot del amor",
+      intro: "Usa esta lectura cuando necesites mirar con calma una conexión, señales mixtas, una ruptura o el patrón emocional entre dos personas.",
+      intent: "Ideal para sentimientos, comunicación, compromiso, reconciliación, tiempos de la relación y próximos pasos.",
+      ctaQuestion: "¿Cuál es la energía real entre nosotros ahora?",
+      sections: [
+        { heading: "Pregunta por la conexión", body: "Una buena lectura de amor deja espacio para los matices y pregunta qué revela la relación, no solo si todo será sí o no." },
+        { heading: "Lee el patrón completo", body: "La tirada observa atracción, miedo, comunicación, tiempo y la elección que sí está bajo tu control." },
+        { heading: "Usa el seguimiento con cuidado", body: "Después de la primera respuesta, haz una pregunta precisa en lugar de repetir lo mismo para buscar seguridad." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decir si alguien me ama?", answer: "Puede explorar señales emocionales y dinámicas de relación, pero debe usarse como guía, no como control sobre otra persona." },
+        { question: "¿Cuál es una buena pregunta de tarot del amor?", answer: "Prueba: ¿qué energía hay entre nosotros? ¿Qué debo comprender antes de actuar?" },
+      ],
+    },
+    "reconciliation-tarot-reading": {
+      title: "Tarot de reconciliación",
+      description: "Consulta sobre tu ex, la energía después de una ruptura, el contacto y si una reconciliación sería sana o realista.",
+      eyebrow: "Ruptura y regreso",
+      h1: "Tarot de reconciliación",
+      intro: "Esta lectura ayuda a ver qué terminó, qué energía sigue viva y qué tendría que cambiar antes de volver a acercarse.",
+      intent: "Ideal para contacto con un ex, claridad tras la ruptura, segundas oportunidades, disculpas y límites.",
+      ctaQuestion: "¿Qué debo entender antes de volver a contactar?",
+      sections: [
+        { heading: "Distingue nostalgia de señal", body: "Extrañar a alguien no siempre significa que la relación esté lista para volver. Las cartas pueden mostrar si algo cambió de verdad." },
+        { heading: "Busca cambios de conducta", body: "La reconciliación necesita más que sentimientos: responsabilidad, comunicación, límites y un momento adecuado." },
+        { heading: "Elige primero tu paz", body: "La respuesta útil no es solo si vuelve, sino qué decisión protege tu dignidad, tu calma y tu crecimiento." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede predecir si mi ex volverá?", answer: "Puede mostrar energía actual, bloqueos y tendencias, pero una reconciliación depende de decisiones reales de ambas personas." },
+        { question: "¿Qué preguntar sobre una reconciliación?", answer: "Pregunta qué cambió, qué aún necesita sanar y qué límite debes mantener antes de volver a hablar." },
+      ],
+    },
+    "daily-tarot": {
+      title: "Tarot diario gratis",
+      description: "Saca una carta diaria para conocer la energía de hoy, una guía práctica y el tema que merece tu atención.",
+      eyebrow: "Energía de hoy",
+      h1: "Tarot diario gratis",
+      intro: "El tarot diario te da un tema claro para el día y te ayuda a notar la emoción, elección u oportunidad que conviene atender.",
+      intent: "Úsalo por la mañana para enfocarte, a mitad del día para reajustar o por la noche para reflexionar.",
+      ctaQuestion: "¿Qué energía debe guiarme hoy?",
+      sections: [
+        { heading: "Mantén la pregunta simple", body: "El tarot diario funciona mejor con preguntas pequeñas, concretas y cercanas al momento presente." },
+        { heading: "Convierte la carta en acción", body: "Después de leer la carta, elige una acción pequeña que aplique el consejo en tu día real." },
+        { heading: "Observa patrones", body: "Con historial guardado puedes ver cartas repetidas, estados de ánimo y temas que vuelven con el tiempo." },
+      ],
+      faqs: [
+        { question: "¿Puedo hacer una lectura diaria todos los días?", answer: "Sí, si te ayuda a reflexionar. Mantén la pregunta simple y evita repetir la misma inquietud muchas veces." },
+        { question: "¿Una sola carta es suficiente?", answer: "Para un chequeo rápido, sí. Para una situación compleja, una tirada de tres cartas suele dar más contexto." },
+      ],
+    },
+    "monthly-tarot-report": {
+      title: "Informe mensual de tarot",
+      description: "Empieza con un chequeo mensual gratis y desbloquea informes más profundos con historial, cartas repetidas y notas personales.",
+      eyebrow: "Reflexión mensual",
+      h1: "Informe mensual de tarot",
+      intro: "Un informe mensual convierte lecturas sueltas en un patrón más claro: cartas repetidas, temas de amor, señales profesionales y foco del próximo mes.",
+      intent: "Empieza con una lectura mensual gratis. La membresía sirve para historial guardado, seguimientos, tiradas avanzadas e informes largos.",
+      ctaQuestion: "¿Qué tema debe guiar mi próximo mes?",
+      sections: [
+        { heading: "Empieza con un chequeo gratis", body: "Haz una pregunta mensual clara para recibir un tema inicial antes de decidir si necesitas un análisis más profundo." },
+        { heading: "El historial da profundidad", body: "Un informe fuerte nace de cartas repetidas, preguntas antiguas, notas y patrones en amor, carrera y lecturas diarias." },
+        { heading: "Mantén clara la membresía", body: "La herramienta gratis debe ser útil por sí sola; la membresía añade profundidad, memoria y continuidad." },
+      ],
+      faqs: [
+        { question: "¿El informe mensual de tarot es gratis?", answer: "Puedes empezar con un chequeo mensual gratis. Los informes largos basados en historial son una función de membresía." },
+        { question: "¿Qué debe incluir un informe mensual?", answer: "Tema del mes, cartas repetidas, señales de amor y trabajo, consejo práctico y una acción prioritaria." },
+      ],
+    },
+    "yes-or-no-tarot": {
+      title: "Tarot sí o no",
+      description: "Usa el tarot sí o no para una decisión rápida con una explicación de IA sobre la energía detrás de la respuesta.",
+      eyebrow: "Lectura de decisión",
+      h1: "Tarot sí o no",
+      intro: "Una lectura sí o no sirve cuando necesitas una señal rápida, pero la explicación detrás de la respuesta es lo más importante.",
+      intent: "Ideal para decisiones claras: contactar, esperar, aceptar, rechazar, continuar o cambiar de rumbo.",
+      ctaQuestion: "¿Debo avanzar con esta decisión?",
+      sections: [
+        { heading: "Haz una pregunta limpia", body: "La pregunta debe ser específica y tener un marco de tiempo para que la respuesta se conecte con una acción real." },
+        { heading: "Lee la razón", body: "La carta puede mostrar impulso, resistencia, información oculta o la necesidad de paciencia." },
+        { heading: "No repitas demasiado", body: "Si el resultado incomoda, pregunta qué debes entender a continuación en lugar de sacar otra carta igual." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede responder sí o no?", answer: "Puede dar una dirección, pero la explicación y las condiciones importan más que una palabra aislada." },
+        { question: "¿Qué hago después de la respuesta?", answer: "Úsala como reflexión y compárala con datos reales, responsabilidades y riesgos concretos." },
+      ],
+    },
+    "career-tarot": {
+      title: "Lectura de tarot profesional",
+      description: "Pregunta por trabajo, dinero, dirección, cambios laborales, proyectos creativos o tiempos profesionales.",
+      eyebrow: "Trabajo y dirección",
+      h1: "Lectura de tarot profesional",
+      intro: "El tarot profesional ayuda a examinar dirección, motivación, tiempos y patrones invisibles alrededor de una decisión laboral o económica.",
+      intent: "Ideal para cambios de empleo, entrevistas, proyectos, conflictos laborales, negocios y dirección a largo plazo.",
+      ctaQuestion: "¿Qué debo entender sobre mi camino profesional ahora?",
+      sections: [
+        { heading: "Aclara la decisión", body: "Las lecturas de carrera funcionan mejor cuando se conectan con una decisión concreta: quedarte, moverte, negociar o esperar." },
+        { heading: "Separa miedo de señal", body: "Las cartas pueden ayudarte a distinguir una cautela útil de una duda que solo te paraliza." },
+        { heading: "Usa tiradas más profundas", body: "Una gran transición necesita mirar obstáculos, recursos, tiempos y posibles resultados." },
+      ],
+      faqs: [
+        { question: "¿El tarot ayuda en decisiones de carrera?", answer: "Puede ayudarte a reflexionar sobre motivación, riesgo, tiempos y próximos pasos." },
+        { question: "¿Qué pregunta profesional funciona bien?", answer: "Prueba: ¿qué bloquea mi crecimiento? ¿En qué debo enfocarme este mes?" },
+      ],
+    },
+    "tarot-card-meanings": {
+      title: "Significados de las cartas del tarot",
+      description: "Aprende los significados de cartas al derecho e invertidas y luego saca una tirada con interpretación personalizada de IA.",
+      eyebrow: "Significados de cartas",
+      h1: "Significados de las cartas del tarot",
+      intro: "Los significados del tarot forman un lenguaje de símbolos. Cada carta cambia según la pregunta, la posición y si aparece al derecho o invertida.",
+      intent: "Usa esta guía como punto de partida y deja que una lectura completa conecte los símbolos con tu situación.",
+      ctaQuestion: "¿Qué mensaje tienen estas cartas para mí?",
+      sections: [
+        { heading: "Cartas al derecho e invertidas", body: "El derecho muestra la energía activa de la carta. La inversión puede señalar retraso, bloqueo, desequilibrio o trabajo interno." },
+        { heading: "La posición cambia el sentido", body: "La misma carta se lee distinto en pasado, presente, obstáculo, consejo o resultado." },
+        { heading: "La tirada cuenta una historia", body: "Una buena lectura conecta las cartas entre sí en vez de tratarlas como definiciones aisladas." },
+      ],
+      faqs: [
+        { question: "¿Las cartas invertidas son malas?", answer: "No necesariamente. Pueden mostrar energía bloqueada, demora, ajuste interno o una parte privada del proceso." },
+        { question: "¿Los principiantes deben memorizar todo?", answer: "Los significados ayudan, pero el contexto pesa más. Empieza con palabras clave y lee la tirada completa." },
+      ],
+    },
+    "will-my-ex-come-back-tarot": {
+      title: "Tarot: ¿mi ex volverá?",
+      description: "Saca cartas para una lectura gratis con IA sobre reconciliación, energía de tu ex, tiempos y qué hacer después.",
+      eyebrow: "Pregunta de tarot",
+      h1: "Tarot: ¿mi ex volverá?",
+      intro: "Pregunta si tu ex podría volver y qué debes comprender antes de actuar. La lectura mira señales, bloqueos y el paso más sano para ti.",
+      intent: "Ideal para claridad después de una ruptura, señales de reconciliación, tiempos emocionales y si conviene contactar.",
+      ctaQuestion: "¿Mi ex volverá y qué debo entender antes de actuar?",
+      sections: [
+        { heading: "Mira el patrón", body: "Una lectura de reconciliación debe mostrar por qué se rompió la relación, qué energía queda y si ambos podrían elegir distinto." },
+        { heading: "El tiempo no es certeza", body: "Las cartas pueden señalar movimiento o demora, pero tu acción más sana importa más que quedarte esperando." },
+        { heading: "Haz un solo seguimiento", body: "Después de la primera tirada, pregunta qué puedes hacer ahora en lugar de repetir lo mismo por ansiedad." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede predecir si mi ex regresa?", answer: "Puede explorar señales, bloqueos y dinámicas probables. Debe guiar tus decisiones, no reemplazar comunicación directa ni autoestima." },
+        { question: "¿Qué cartas sugieren reconciliación?", answer: "El Juicio, Los Enamorados, Dos de Copas, Seis de Copas y La Templanza pueden sugerir reconexión si el conjunto lo apoya." },
+      ],
+    },
+    "does-he-love-me-tarot": {
+      title: "Tarot: ¿él me ama?",
+      description: "Pregunta gratis al tarot con IA sobre sus sentimientos, señales mixtas, comunicación y el próximo paso en la conexión.",
+      eyebrow: "Pregunta de amor",
+      h1: "Tarot: ¿él me ama?",
+      intro: "Saca cartas para mirar sus sentimientos, la coherencia entre emoción y conducta, y lo que tú necesitas para sentirte clara.",
+      intent: "Ideal para energía emocional, señales mixtas, comunicación y si la conexión es realmente mutua.",
+      ctaQuestion: "¿Él me ama y cuál es la energía emocional real entre nosotros?",
+      sections: [
+        { heading: "Lee sentimientos y conducta juntos", body: "Una carta no es prueba absoluta. La lectura compara emoción, acción, miedo y consistencia." },
+        { heading: "Observa tus necesidades", body: "Las cartas también deben mostrar qué necesitas para sentir seguridad, respeto y claridad." },
+        { heading: "No persigas certeza", body: "Si la tirada muestra confusión, pregunta qué conversación o límite puede traer claridad." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decir si alguien me ama?", answer: "Puede revelar dinámicas emocionales y sentimientos probables, pero el amor también debe verse en acciones consistentes." },
+        { question: "¿Qué pasa si las cartas son mixtas?", answer: "A menudo reflejan conducta mixta. Mira la carta de consejo y el patrón de toda la tirada." },
+      ],
+    },
+    "yes-or-no-tarot-love": {
+      title: "Tarot del amor sí o no",
+      description: "Obtén una lectura gratis de amor sí o no con IA para citas, relaciones, atracción y reconciliación.",
+      eyebrow: "Decisión amorosa",
+      h1: "Tarot del amor sí o no",
+      intro: "Haz una pregunta amorosa simple y recibe una respuesta con contexto, consejo y la razón emocional detrás del sí, no o todavía no.",
+      intent: "Ideal para preguntas de amor simples cuando también necesitas contexto, consejo y una explicación de la energía.",
+      ctaQuestion: "Dame una respuesta de amor sí o no y la razón detrás.",
+      sections: [
+        { heading: "Sí o no necesita contexto", body: "Las preguntas de amor rara vez son limpias. La explicación muestra por qué la energía inclina hacia sí, no o aún no." },
+        { heading: "Usa una pregunta clara", body: "Pregunta por una persona, una relación o una decisión. No combines varios resultados en una sola tirada." },
+        { heading: "Deja que el consejo mande", body: "Incluso un sí debe mostrar el próximo paso; incluso un no puede indicar qué te protege." },
+      ],
+      faqs: [
+        { question: "¿Qué cartas significan sí en amor?", answer: "Los Enamorados, Dos de Copas, As de Copas, El Sol y Diez de Copas suelen inclinar a sí cuando el contexto acompaña." },
+        { question: "¿Una carta invertida puede ser sí?", answer: "Sí, pero normalmente con una demora, condición o bloqueo interno que debe atenderse primero." },
+      ],
+    },
+    "career-tarot-reading": {
+      title: "Lectura de tarot para carrera",
+      description: "Lectura gratis con IA para cambios de empleo, entrevistas, negocios, dinero y dirección profesional.",
+      eyebrow: "Pregunta profesional",
+      h1: "Lectura de tarot para carrera",
+      intro: "Pregunta por tu camino profesional y recibe una lectura centrada en impulso, bloqueos, recursos y el siguiente movimiento práctico.",
+      intent: "Ideal para cambios laborales, entrevistas, decisiones de negocio, conflictos de trabajo y dónde enfocarte ahora.",
+      ctaQuestion: "¿Qué debo entender sobre mi carrera en este momento?",
+      sections: [
+        { heading: "Las cartas muestran impulso", body: "Una lectura laboral puede revelar preparación, resistencia oculta, tiempos y recursos necesarios para avanzar." },
+        { heading: "Separa miedo de señal", body: "Algunas cartas piden frenar; otras solo muestran miedo. La tirada completa ayuda a distinguirlo." },
+        { heading: "Convierte la claridad en acción", body: "Elige un movimiento práctico: postular, prepararte, negociar, esperar o cambiar de dirección." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede ayudar con decisiones laborales?", answer: "Sí. Es más fuerte para aclarar motivación, riesgo, tiempos y la próxima acción útil." },
+        { question: "¿Qué cartas son buenas para carrera?", answer: "El Mago, El Mundo, As de Oros, Tres de Oros y Rey de Oros suelen apoyar crecimiento profesional." },
+      ],
+    },
+    "should-i-quit-my-job-tarot": {
+      title: "Tarot: ¿debo renunciar a mi trabajo?",
+      description: "Pregunta antes de renunciar. Explora tiempos, riesgo, agotamiento, dinero y el siguiente paso más sabio.",
+      eyebrow: "Decisión laboral",
+      h1: "Tarot: ¿debo renunciar a mi trabajo?",
+      intro: "Esta lectura ayuda a mirar si estás ante una transición real, un agotamiento temporal o una decisión que requiere preparación.",
+      intent: "Ideal para estrés laboral, burnout, ambientes tóxicos, tiempos financieros y decidir si quedarte, planear o salir.",
+      ctaQuestion: "¿Debo renunciar a mi trabajo y cuál es el siguiente paso más sabio?",
+      sections: [
+        { heading: "No te apresures con la respuesta", body: "La pregunta toca dinero, identidad, estrés y tiempo. Lee la carta de consejo con tanta seriedad como la de resultado." },
+        { heading: "Distingue burnout de crecimiento", body: "Algunas tiradas muestran que un trabajo ya terminó. Otras muestran cansancio que pide límites, descanso o negociación." },
+        { heading: "Construye un puente práctico", body: "Si las cartas apoyan salir, pregunta qué preparación, ahorro o conversación debe ocurrir antes." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decidir si debo renunciar?", answer: "Puede aclarar patrones y riesgos, pero debes combinarlo con planificación financiera y opciones reales." },
+        { question: "¿Qué cartas sugieren dejar un trabajo?", answer: "La Torre, La Muerte, Ocho de Copas, Diez de Bastos y El Mundo pueden sugerir transición si la tirada lo confirma." },
+      ],
+    },
+  },
+  "pt-br": {
+    "free-ai-tarot-reading": {
+      title: "Leitura de tarot grátis com IA",
+      description: "Tire cartas online e receba uma leitura de tarot grátis com IA para amor, carreira, decisões e orientação diária.",
+      eyebrow: "Tarot online grátis",
+      h1: "Leitura de tarot grátis com IA",
+      intro: "Escreva uma pergunta clara, escolha suas cartas e receba uma interpretação focada na sua situação, sem criar conta antes.",
+      intent: "Uma primeira leitura rápida para obter clareza prática antes de decidir se precisa de uma tiragem mais profunda.",
+      ctaQuestion: "O que eu mais preciso entender agora?",
+      sections: [
+        { heading: "Como funciona a leitura grátis", body: "Faça uma pergunta sincera, tire suas cartas e leia uma interpretação que conecta posição, carta e contexto real." },
+        { heading: "Que pergunta fazer", body: "Perguntas abertas funcionam melhor: o que devo perceber, que energia envolve esta escolha ou qual passo ajuda a avançar." },
+        { heading: "Quando aprofundar", body: "A assinatura faz sentido quando você quer perguntas de acompanhamento, histórico salvo, tiragens avançadas e relatórios mais longos." },
+      ],
+      faqs: [
+        { question: "A primeira leitura de tarot com IA é grátis?", answer: "Sim. Você pode começar sem pagar. A assinatura adiciona uso ampliado, histórico salvo e relatórios mais profundos." },
+        { question: "Preciso entrar na conta antes de tirar cartas?", answer: "Não. Você pode começar primeiro e entrar depois se quiser salvar resultados ou continuar a leitura." },
+      ],
+    },
+    "love-tarot-reading": {
+      title: "Leitura de tarot do amor",
+      description: "Pergunte sobre relacionamento, paixão, término ou reconciliação e receba uma leitura de tarot do amor com IA.",
+      eyebrow: "Guia amoroso",
+      h1: "Leitura de tarot do amor",
+      intro: "Use esta leitura quando precisar olhar com calma para uma conexão, sinais confusos, uma ruptura ou o padrão emocional entre duas pessoas.",
+      intent: "Ideal para sentimentos, comunicação, compromisso, reconciliação, tempo do relacionamento e próximos passos.",
+      ctaQuestion: "Qual é a energia real entre nós agora?",
+      sections: [
+        { heading: "Pergunte sobre a conexão", body: "Uma boa leitura de amor deixa espaço para nuances e pergunta o que a relação revela, não apenas se tudo será sim ou não." },
+        { heading: "Leia o padrão completo", body: "A tiragem observa atração, medo, comunicação, tempo e a escolha que está sob seu controle." },
+        { heading: "Use o acompanhamento com cuidado", body: "Depois da primeira resposta, faça uma pergunta precisa em vez de repetir a mesma coisa por insegurança." },
+      ],
+      faqs: [
+        { question: "O tarot pode dizer se alguém me ama?", answer: "Pode explorar sinais emocionais e dinâmicas de relação, mas deve ser guia, não controle sobre outra pessoa." },
+        { question: "Qual é uma boa pergunta de tarot do amor?", answer: "Tente: qual é a energia entre nós? O que devo entender antes de agir?" },
+      ],
+    },
+    "reconciliation-tarot-reading": {
+      title: "Tarot de reconciliação",
+      description: "Pergunte sobre ex, energia após o término, contato e se uma reconciliação seria saudável ou realista.",
+      eyebrow: "Término e retorno",
+      h1: "Tarot de reconciliação",
+      intro: "Esta leitura ajuda a ver o que terminou, que energia ainda existe e o que teria que mudar antes de uma reaproximação.",
+      intent: "Ideal para contato com ex, clareza após término, segundas chances, pedido de desculpas e limites.",
+      ctaQuestion: "O que devo entender antes de voltar a falar?",
+      sections: [
+        { heading: "Separe saudade de sinal", body: "Sentir falta não significa que a relação esteja pronta para voltar. As cartas podem mostrar se algo realmente mudou." },
+        { heading: "Procure mudança de comportamento", body: "Reconciliação precisa de mais do que sentimento: responsabilidade, comunicação, limites e momento adequado." },
+        { heading: "Escolha sua paz primeiro", body: "A resposta útil não é só se a pessoa volta, mas que decisão protege sua dignidade, calma e crescimento." },
+      ],
+      faqs: [
+        { question: "O tarot pode prever se meu ex vai voltar?", answer: "Pode mostrar energia atual, bloqueios e tendências, mas a reconciliação depende de escolhas reais das duas pessoas." },
+        { question: "O que perguntar sobre reconciliação?", answer: "Pergunte o que mudou, o que ainda precisa curar e que limite manter antes de falar de novo." },
+      ],
+    },
+    "daily-tarot": {
+      title: "Tarot diário grátis",
+      description: "Tire uma carta diária para conhecer a energia de hoje, uma orientação prática e o tema que merece atenção.",
+      eyebrow: "Energia de hoje",
+      h1: "Tarot diário grátis",
+      intro: "O tarot diário dá um tema claro para o dia e ajuda você a perceber a emoção, escolha ou oportunidade que merece atenção.",
+      intent: "Use de manhã para focar, no meio do dia para reajustar ou à noite para refletir sobre o que o dia ensinou.",
+      ctaQuestion: "Que energia deve me guiar hoje?",
+      sections: [
+        { heading: "Mantenha simples", body: "O tarot diário funciona melhor com perguntas pequenas, concretas e próximas do momento presente." },
+        { heading: "Transforme a carta em ação", body: "Depois de ler a carta, escolha uma pequena ação que aplique o conselho no seu dia real." },
+        { heading: "Observe padrões", body: "Com histórico salvo você pode ver cartas repetidas, humores e temas que voltam com o tempo." },
+      ],
+      faqs: [
+        { question: "Posso fazer uma leitura diária todos os dias?", answer: "Sim, se isso ajudar você a refletir. Mantenha a pergunta simples e evite repetir a mesma questão muitas vezes." },
+        { question: "Uma carta só é suficiente?", answer: "Para um check-in rápido, sim. Para uma situação complexa, uma tiragem de três cartas costuma dar mais contexto." },
+      ],
+    },
+    "monthly-tarot-report": {
+      title: "Relatório mensal de tarot",
+      description: "Comece com um check-in mensal grátis e desbloqueie relatórios mais profundos com histórico, cartas repetidas e notas pessoais.",
+      eyebrow: "Reflexão mensal",
+      h1: "Relatório mensal de tarot",
+      intro: "Um relatório mensal transforma leituras soltas em um padrão mais claro: cartas repetidas, temas de amor, sinais profissionais e foco do próximo mês.",
+      intent: "Comece com uma leitura mensal grátis. A assinatura serve para histórico salvo, acompanhamentos, tiragens avançadas e relatórios longos.",
+      ctaQuestion: "Que tema deve guiar meu próximo mês?",
+      sections: [
+        { heading: "Comece com um check-in grátis", body: "Faça uma pergunta mensal clara para receber um tema inicial antes de decidir se precisa de uma análise mais profunda." },
+        { heading: "O histórico dá profundidade", body: "Um relatório forte nasce de cartas repetidas, perguntas antigas, notas e padrões em amor, carreira e leituras diárias." },
+        { heading: "Deixe a assinatura clara", body: "A ferramenta grátis deve ser útil sozinha; a assinatura adiciona profundidade, memória e continuidade." },
+      ],
+      faqs: [
+        { question: "O relatório mensal de tarot é grátis?", answer: "Você pode começar com um check-in mensal grátis. Relatórios longos baseados em histórico são função de assinatura." },
+        { question: "O que deve entrar em um relatório mensal?", answer: "Tema do mês, cartas repetidas, sinais de amor e trabalho, conselho prático e uma ação prioritária." },
+      ],
+    },
+    "yes-or-no-tarot": {
+      title: "Tarot sim ou não",
+      description: "Use o tarot sim ou não para uma decisão rápida com explicação de IA sobre a energia por trás da resposta.",
+      eyebrow: "Leitura de decisão",
+      h1: "Tarot sim ou não",
+      intro: "Uma leitura sim ou não ajuda quando você precisa de um sinal rápido, mas a explicação por trás da resposta é o mais importante.",
+      intent: "Ideal para decisões claras: falar, esperar, aceitar, recusar, continuar ou mudar de direção.",
+      ctaQuestion: "Devo avançar com esta decisão?",
+      sections: [
+        { heading: "Faça uma pergunta limpa", body: "A pergunta deve ser específica e ter um prazo para que a resposta se conecte a uma ação real." },
+        { heading: "Leia o motivo", body: "A carta pode mostrar impulso, resistência, informação oculta ou necessidade de paciência." },
+        { heading: "Não repita demais", body: "Se o resultado incomodar, pergunte o que entender em seguida em vez de tirar outra carta igual." },
+      ],
+      faqs: [
+        { question: "O tarot pode responder sim ou não?", answer: "Pode dar uma direção, mas a explicação e as condições importam mais do que uma palavra isolada." },
+        { question: "O que faço depois da resposta?", answer: "Use como reflexão e compare com fatos reais, responsabilidades e riscos concretos." },
+      ],
+    },
+    "career-tarot": {
+      title: "Leitura de tarot profissional",
+      description: "Pergunte sobre trabalho, dinheiro, direção, mudanças de emprego, projetos criativos ou tempo profissional.",
+      eyebrow: "Trabalho e direção",
+      h1: "Leitura de tarot profissional",
+      intro: "O tarot profissional ajuda a examinar direção, motivação, tempo e padrões invisíveis em uma decisão de trabalho ou dinheiro.",
+      intent: "Ideal para mudanças de emprego, entrevistas, projetos, conflitos no trabalho, negócios e direção de longo prazo.",
+      ctaQuestion: "O que devo entender sobre meu caminho profissional agora?",
+      sections: [
+        { heading: "Clareie a decisão", body: "Leituras de carreira funcionam melhor quando estão ligadas a uma decisão concreta: ficar, mudar, negociar ou esperar." },
+        { heading: "Separe medo de sinal", body: "As cartas podem ajudar a distinguir uma cautela útil de uma dúvida que só paralisa." },
+        { heading: "Use tiragens mais profundas", body: "Uma grande transição precisa olhar obstáculos, recursos, tempo e possíveis resultados." },
+      ],
+      faqs: [
+        { question: "O tarot ajuda em decisões de carreira?", answer: "Pode ajudar você a refletir sobre motivação, risco, tempo e próximos passos." },
+        { question: "Que pergunta profissional funciona bem?", answer: "Tente: o que bloqueia meu crescimento? Em que devo focar este mês?" },
+      ],
+    },
+    "tarot-card-meanings": {
+      title: "Significados das cartas de tarot",
+      description: "Aprenda significados de cartas em pé e invertidas e depois tire uma leitura com interpretação personalizada de IA.",
+      eyebrow: "Significados das cartas",
+      h1: "Significados das cartas de tarot",
+      intro: "Os significados do tarot formam uma linguagem de símbolos. Cada carta muda conforme a pergunta, a posição e se aparece em pé ou invertida.",
+      intent: "Use este guia como ponto de partida e deixe uma leitura completa conectar os símbolos à sua situação.",
+      ctaQuestion: "Que mensagem estas cartas têm para mim?",
+      sections: [
+        { heading: "Cartas em pé e invertidas", body: "A carta em pé mostra a energia ativa. A invertida pode indicar atraso, bloqueio, desequilíbrio ou trabalho interno." },
+        { heading: "A posição muda o sentido", body: "A mesma carta é lida de forma diferente em passado, presente, obstáculo, conselho ou resultado." },
+        { heading: "A tiragem conta uma história", body: "Uma boa leitura conecta as cartas entre si em vez de tratá-las como definições isoladas." },
+      ],
+      faqs: [
+        { question: "Cartas invertidas são ruins?", answer: "Não necessariamente. Podem mostrar energia bloqueada, atraso, ajuste interno ou uma parte privada do processo." },
+        { question: "Iniciantes precisam memorizar tudo?", answer: "Os significados ajudam, mas o contexto pesa mais. Comece por palavras-chave e leia a tiragem completa." },
+      ],
+    },
+    "will-my-ex-come-back-tarot": {
+      title: "Tarot: meu ex vai voltar?",
+      description: "Tire cartas para uma leitura grátis com IA sobre reconciliação, energia do ex, tempo e o que fazer depois.",
+      eyebrow: "Pergunta de tarot",
+      h1: "Tarot: meu ex vai voltar?",
+      intro: "Pergunte se seu ex pode voltar e o que você deve compreender antes de agir. A leitura observa sinais, bloqueios e o passo mais saudável.",
+      intent: "Ideal para clareza após término, sinais de reconciliação, tempo emocional e se vale a pena entrar em contato.",
+      ctaQuestion: "Meu ex vai voltar e o que devo entender antes de agir?",
+      sections: [
+        { heading: "Observe o padrão", body: "Uma leitura de reconciliação deve mostrar por que a relação terminou, que energia resta e se ambos poderiam escolher diferente." },
+        { heading: "Tempo não é certeza", body: "As cartas podem indicar movimento ou demora, mas sua ação mais saudável importa mais do que ficar esperando." },
+        { heading: "Faça só um acompanhamento", body: "Depois da primeira tiragem, pergunte o que você pode fazer agora em vez de repetir a mesma pergunta por ansiedade." },
+      ],
+      faqs: [
+        { question: "O tarot pode prever se meu ex volta?", answer: "Pode explorar sinais, bloqueios e dinâmicas prováveis. Deve guiar suas escolhas, não substituir comunicação direta nem autoestima." },
+        { question: "Que cartas sugerem reconciliação?", answer: "O Julgamento, Os Enamorados, Dois de Copas, Seis de Copas e A Temperança podem sugerir reconexão quando o conjunto apoia." },
+      ],
+    },
+    "does-he-love-me-tarot": {
+      title: "Tarot: ele me ama?",
+      description: "Pergunte grátis ao tarot com IA sobre sentimentos, sinais confusos, comunicação e o próximo passo na conexão.",
+      eyebrow: "Pergunta de amor",
+      h1: "Tarot: ele me ama?",
+      intro: "Tire cartas para olhar sentimentos, coerência entre emoção e comportamento, e o que você precisa para se sentir clara.",
+      intent: "Ideal para energia emocional, sinais confusos, comunicação e se a conexão é realmente mútua.",
+      ctaQuestion: "Ele me ama e qual é a energia emocional real entre nós?",
+      sections: [
+        { heading: "Leia sentimentos e comportamento juntos", body: "Uma carta não é prova absoluta. A leitura compara emoção, ação, medo e consistência." },
+        { heading: "Observe suas necessidades", body: "As cartas também devem mostrar o que você precisa para sentir segurança, respeito e clareza." },
+        { heading: "Não persiga certeza", body: "Se a tiragem mostrar confusão, pergunte que conversa ou limite pode trazer clareza." },
+      ],
+      faqs: [
+        { question: "O tarot pode dizer se alguém me ama?", answer: "Pode revelar dinâmicas emocionais e sentimentos prováveis, mas amor também precisa aparecer em ações consistentes." },
+        { question: "E se as cartas forem mistas?", answer: "Muitas vezes refletem comportamento misto. Observe a carta de conselho e o padrão da tiragem inteira." },
+      ],
+    },
+    "yes-or-no-tarot-love": {
+      title: "Tarot do amor sim ou não",
+      description: "Receba uma leitura grátis de amor sim ou não com IA para encontros, relacionamento, atração e reconciliação.",
+      eyebrow: "Decisão amorosa",
+      h1: "Tarot do amor sim ou não",
+      intro: "Faça uma pergunta amorosa simples e receba uma resposta com contexto, conselho e a razão emocional por trás do sim, não ou ainda não.",
+      intent: "Ideal para perguntas simples de amor quando você também precisa de contexto, conselho e explicação da energia.",
+      ctaQuestion: "Dê uma resposta de amor sim ou não e o motivo por trás.",
+      sections: [
+        { heading: "Sim ou não precisa de contexto", body: "Perguntas de amor raramente são limpas. A explicação mostra por que a energia inclina para sim, não ou ainda não." },
+        { heading: "Use uma pergunta clara", body: "Pergunte sobre uma pessoa, uma relação ou uma decisão. Não misture vários resultados em uma só tiragem." },
+        { heading: "Deixe o conselho liderar", body: "Até um sim deve mostrar o próximo passo; até um não pode revelar o que protege você." },
+      ],
+      faqs: [
+        { question: "Que cartas significam sim no amor?", answer: "Os Enamorados, Dois de Copas, Ás de Copas, O Sol e Dez de Copas costumam inclinar para sim quando o contexto apoia." },
+        { question: "Uma carta invertida pode ser sim?", answer: "Sim, mas normalmente com atraso, condição ou bloqueio interno que precisa de atenção primeiro." },
+      ],
+    },
+    "career-tarot-reading": {
+      title: "Leitura de tarot para carreira",
+      description: "Leitura grátis com IA para mudança de emprego, entrevistas, negócios, dinheiro e direção profissional.",
+      eyebrow: "Pergunta profissional",
+      h1: "Leitura de tarot para carreira",
+      intro: "Pergunte sobre seu caminho profissional e receba uma leitura centrada em impulso, bloqueios, recursos e próximo movimento prático.",
+      intent: "Ideal para mudanças de trabalho, entrevistas, decisões de negócio, conflitos profissionais e onde focar agora.",
+      ctaQuestion: "O que devo entender sobre minha carreira neste momento?",
+      sections: [
+        { heading: "As cartas mostram impulso", body: "Uma leitura de trabalho pode revelar preparo, resistência oculta, tempo e recursos necessários para avançar." },
+        { heading: "Separe medo de sinal", body: "Algumas cartas pedem pausa; outras só mostram medo. A tiragem completa ajuda a diferenciar." },
+        { heading: "Transforme clareza em ação", body: "Escolha um movimento prático: candidatar-se, preparar-se, negociar, esperar ou mudar de direção." },
+      ],
+      faqs: [
+        { question: "O tarot pode ajudar em decisões de trabalho?", answer: "Sim. Ele é mais forte para clarear motivação, risco, tempo e a próxima ação útil." },
+        { question: "Que cartas são boas para carreira?", answer: "O Mago, O Mundo, Ás de Ouros, Três de Ouros e Rei de Ouros costumam apoiar crescimento profissional." },
+      ],
+    },
+    "should-i-quit-my-job-tarot": {
+      title: "Tarot: devo pedir demissão?",
+      description: "Pergunte antes de sair do emprego. Explore tempo, risco, burnout, dinheiro e o próximo passo mais sábio.",
+      eyebrow: "Decisão profissional",
+      h1: "Tarot: devo pedir demissão?",
+      intro: "Esta leitura ajuda a olhar se você vive uma transição real, um esgotamento temporário ou uma decisão que exige preparação.",
+      intent: "Ideal para estresse no trabalho, burnout, ambientes tóxicos, tempo financeiro e decidir se fica, planeja ou sai.",
+      ctaQuestion: "Devo pedir demissão e qual é o próximo passo mais sábio?",
+      sections: [
+        { heading: "Não se apresse com a resposta", body: "A pergunta envolve dinheiro, identidade, estresse e tempo. Leia a carta de conselho com a mesma seriedade da carta de resultado." },
+        { heading: "Separe burnout de crescimento", body: "Algumas tiragens mostram que o trabalho acabou. Outras mostram cansaço que pede limites, descanso ou negociação." },
+        { heading: "Construa uma ponte prática", body: "Se as cartas apoiam sair, pergunte que preparação, reserva financeira ou conversa deve acontecer antes." },
+      ],
+      faqs: [
+        { question: "O tarot pode decidir se devo pedir demissão?", answer: "Pode clarear padrões e riscos, mas você deve combinar isso com planejamento financeiro e opções reais." },
+        { question: "Que cartas sugerem sair de um trabalho?", answer: "A Torre, A Morte, Oito de Copas, Dez de Paus e O Mundo podem sugerir transição quando a tiragem confirma." },
+      ],
+    },
+  },
+}
+
+function regionalContent(slug: string, base: SeoPageContent, locale: RegionalLocale): SeoPageContent {
+  const localized = regionalSeoCopy[locale][slug]
+  if (localized) return withRegionalCta(locale, localized)
+
   const prefix =
     locale === "es"
       ? {
@@ -964,7 +1455,7 @@ export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): Seo
   if (!source) return undefined
   const content =
     locale === "es" || locale === "pt-br"
-      ? regionalContent(source.content[defaultLocale], locale)
+      ? regionalContent(source.slug, source.content[defaultLocale], locale)
       : source.content[locale] || source.content[defaultLocale]
   return {
     ...content,
