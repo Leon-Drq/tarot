@@ -1600,6 +1600,393 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
   },
 }
 
+const regionalQuestionSeoEnhancements: Record<RegionalLocale, Record<string, SeoContentEnhancement>> = {
+  es: {
+    "will-my-ex-come-back-tarot": {
+      sections: [
+        {
+          heading: "Cuándo usar esta pregunta",
+          body: "Úsala cuando quieras separar señales reales de reconciliación de la soledad, la esperanza o el impulso de revisar otra vez sus redes.",
+        },
+        {
+          heading: "Qué debe aclarar la tirada",
+          body: "Las cartas más útiles muestran qué vínculo sigue vivo, qué terminó por una razón, qué cambió y si contactar sanaría o desestabilizaría.",
+        },
+        {
+          heading: "Cómo actuar con la respuesta",
+          body: "Si la lectura inclina al regreso, busca responsabilidad y buen momento. Si inclina a no o todavía no, protege tu paz en vez de quedarte esperando.",
+        },
+        {
+          heading: "Mejor pregunta de seguimiento",
+          body: "Después de la primera respuesta, pregunta: ¿qué límite o conversación me ayuda a avanzar con amor propio?",
+        },
+      ],
+      faqs: [
+        {
+          question: "¿Esta lectura sobre mi ex es gratis?",
+          answer: "Sí. Puedes empezar esta pregunta como una lectura gratis con IA. La membresía queda para seguimientos profundos, historial guardado e informes largos.",
+        },
+        {
+          question: "¿Qué significa si la respuesta es todavía no?",
+          answer: "Todavía no suele indicar que el tiempo, la conducta o la disponibilidad emocional siguen sin resolverse. Pregunta qué debe cambiar antes de contactar.",
+        },
+        {
+          question: "¿Debo preguntar lo mismo mañana?",
+          answer: "Evita repetir la misma pregunta por ansiedad. Espera a que algo cambie o pregunta por tu próximo paso.",
+        },
+        {
+          question: "¿Qué tirada conviene para una pregunta sobre un ex?",
+          answer: "Una tirada de recuperación tras ruptura es mejor que una sola carta porque puede mostrar causa, energía restante, consejo y dirección probable.",
+        },
+      ],
+    },
+    "does-he-love-me-tarot": {
+      sections: [
+        {
+          heading: "Cuándo usar esta pregunta",
+          body: "Úsala cuando sus palabras, atención, distancia o señales mixtas te dejan sin saber si el afecto es mutuo y consistente.",
+        },
+        {
+          heading: "Qué debe aclarar la tirada",
+          body: "Una buena lectura separa atracción, disponibilidad emocional, miedo, conducta y tu propia necesidad de seguridad y claridad.",
+        },
+        {
+          heading: "Cómo actuar con la respuesta",
+          body: "Si las cartas muestran amor sin acción, mira qué bloquea la expresión. Si muestran confusión, prioriza una conversación o un límite.",
+        },
+        {
+          heading: "Mejor pregunta de seguimiento",
+          body: "Después de la primera respuesta, pregunta: ¿qué me ayudaría a saber si esta conexión es emocionalmente segura para mí?",
+        },
+      ],
+      faqs: [
+        {
+          question: "¿Esta lectura de amor es gratis?",
+          answer: "Sí. La primera lectura puede empezar gratis. Las preguntas profundas de seguimiento y el historial guardado son funciones de membresía.",
+        },
+        {
+          question: "¿El tarot puede leer sus sentimientos reales?",
+          answer: "El tarot puede reflejar dinámicas emocionales y señales probables, pero el amor real también necesita conducta consistente, comunicación y respeto.",
+        },
+        {
+          question: "¿Qué cartas sugieren amor mutuo?",
+          answer: "Los Enamorados, Dos de Copas, As de Copas, Diez de Copas y El Sol suelen apoyar afecto mutuo cuando las cartas cercanas coinciden.",
+        },
+        {
+          question: "¿Qué pasa si las cartas salen mixtas?",
+          answer: "Las cartas mixtas suelen reflejar conducta mixta. Lee con cuidado la carta de consejo y pregunta qué claridad o límite necesitas.",
+        },
+      ],
+    },
+    "yes-or-no-tarot-love": {
+      sections: [
+        {
+          heading: "Cuándo usar esta pregunta",
+          body: "Usa esta página cuando necesites una señal rápida sobre escribir, salir con alguien, esperar, reconectar o seguir invirtiendo energía.",
+        },
+        {
+          heading: "Qué debe aclarar la tirada",
+          body: "Una buena lectura de amor sí o no explica si la energía inclina a sí, no o todavía no, y por qué.",
+        },
+        {
+          heading: "Cómo actuar con la respuesta",
+          body: "Toma el sí como permiso para actuar con cuidado, el no como protección y el todavía no como petición de paciencia o más información.",
+        },
+        {
+          heading: "Mejor pregunta de seguimiento",
+          body: "Después del sí o no, pregunta: ¿cuál es la acción más sana para mí en esta conexión?",
+        },
+      ],
+      faqs: [
+        {
+          question: "¿El tarot del amor sí o no es gratis?",
+          answer: "Sí. Puedes empezar esta lectura gratis y usar la membresía después para seguimientos más profundos o historial guardado.",
+        },
+        {
+          question: "¿El tarot de amor puede responder tal vez?",
+          answer: "Sí. En preguntas de relación, tal vez o todavía no puede ser más honesto que forzar un sí o no.",
+        },
+        {
+          question: "¿Una carta basta para amor sí o no?",
+          answer: "Una carta sirve como señal rápida, pero una tirada pequeña da mejor contexto sobre sentimientos, bloqueos, consejo y tiempo.",
+        },
+        {
+          question: "¿Qué hago si la respuesta es no?",
+          answer: "Lee la razón antes de reaccionar. Un no puede señalar protección, mal momento, intenciones mezcladas o una dirección mejor para tu energía.",
+        },
+      ],
+    },
+    "career-tarot-reading": {
+      sections: [
+        {
+          heading: "Cuándo usar esta pregunta",
+          body: "Pregunta al tarot profesional cuando estás evaluando cambio de empleo, entrevista, proyecto, negociación, negocio o dirección laboral.",
+        },
+        {
+          heading: "Qué debe aclarar la tirada",
+          body: "Las cartas deben separar motivación de miedo, mostrar dónde hay impulso y revelar qué recurso o habilidad necesita atención.",
+        },
+        {
+          heading: "Cómo actuar con la respuesta",
+          body: "Convierte la lectura en un paso concreto: actualizar tu CV, preparar una conversación, negociar, esperar, postular o probar un paso pequeño.",
+        },
+        {
+          heading: "Mejor pregunta de seguimiento",
+          body: "Después de la lectura profesional, pregunta: ¿qué acción práctica crearía más progreso en las próximas dos semanas?",
+        },
+      ],
+      faqs: [
+        {
+          question: "¿Esta lectura de tarot profesional es gratis?",
+          answer: "Sí. Puedes empezar con una lectura gratis con IA. La membresía es para seguimientos profundos, historial, tiradas avanzadas e informes.",
+        },
+        {
+          question: "¿El tarot puede predecir una oferta de trabajo?",
+          answer: "Puede mostrar impulso, encaje, obstáculos y dinámicas probables, pero el resultado depende también de preparación, mercado y decisiones reales.",
+        },
+        {
+          question: "¿Qué tirada sirve para carrera?",
+          answer: "Una tirada de oportunidad laboral funciona bien porque examina preparación, obstáculos, recursos, tiempo y el próximo movimiento práctico.",
+        },
+        {
+          question: "¿Puedo usar tarot para decisiones de dinero?",
+          answer: "Úsalo para reflexionar, no como consejo financiero. Combina la lectura con presupuesto, plazos, contratos y alternativas realistas.",
+        },
+      ],
+    },
+    "should-i-quit-my-job-tarot": {
+      sections: [
+        {
+          heading: "Cuándo usar esta pregunta",
+          body: "Úsala cuando burnout, conflicto, aburrimiento, presión económica o una nueva oportunidad hacen difícil quedarte pero riesgoso irte.",
+        },
+        {
+          heading: "Qué debe aclarar la tirada",
+          body: "La lectura debe distinguir cansancio temporal de ciclo terminado, y mostrar si conviene planear, poner límites, negociar o salir.",
+        },
+        {
+          heading: "Cómo actuar con la respuesta",
+          body: "No renuncies por una sola carta. Usa la lectura para decidir qué preparación real necesitas antes de quedarte, hablar o irte.",
+        },
+        {
+          heading: "Mejor pregunta de seguimiento",
+          body: "Después de la respuesta, pregunta: ¿qué debo preparar para que mi próximo paso profesional sea estable y respetuoso conmigo?",
+        },
+      ],
+      faqs: [
+        {
+          question: "¿Esta lectura sobre renunciar es gratis?",
+          answer: "Sí. Puedes empezar esta lectura de decisión laboral gratis. La membresía añade seguimientos profundos, historial, tiradas avanzadas e informes.",
+        },
+        {
+          question: "¿El tarot puede decirme que renuncie de inmediato?",
+          answer: "Puede mostrar energía fuerte de transición, pero antes conviene revisar dinero, contratos, salud, referencias y opciones realistas.",
+        },
+        {
+          question: "¿Qué pasa si las cartas muestran burnout?",
+          answer: "Las cartas de burnout pueden pedir descanso, límites, apoyo o una salida planificada. La carta de consejo importa más que una carta dramática.",
+        },
+        {
+          question: "¿Qué tirada sirve antes de renunciar?",
+          answer: "Usa una tirada profesional que revise presión actual, riesgos ocultos, recursos disponibles, tiempo y el siguiente paso más seguro.",
+        },
+      ],
+    },
+  },
+  "pt-br": {
+    "will-my-ex-come-back-tarot": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use quando quiser separar sinais reais de reconciliação de solidão, esperança ou vontade de olhar as redes da pessoa de novo.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "As cartas mais úteis mostram o que ainda conecta vocês, o que terminou por um motivo, o que mudou e se o contato curaria ou desestabilizaria.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Se a leitura inclinar para retorno, procure responsabilidade e bom momento. Se inclinar para não ou ainda não, proteja sua paz em vez de esperar parada.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da primeira resposta, pergunte: que limite ou conversa me ajuda a seguir em frente com amor-próprio?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Esta leitura sobre meu ex é grátis?",
+          answer: "Sim. Você pode começar esta pergunta como leitura grátis com IA. A assinatura fica para acompanhamentos profundos, histórico salvo e relatórios longos.",
+        },
+        {
+          question: "O que significa se a resposta for ainda não?",
+          answer: "Ainda não costuma indicar que tempo, comportamento ou disponibilidade emocional seguem sem resolução. Pergunte o que precisa mudar antes do contato.",
+        },
+        {
+          question: "Devo perguntar a mesma coisa amanhã?",
+          answer: "Evite repetir a mesma pergunta por ansiedade. Espere algo mudar ou pergunte sobre seu próximo passo.",
+        },
+        {
+          question: "Que tiragem combina com pergunta sobre ex?",
+          answer: "Uma tiragem de recuperação pós-término é melhor que uma carta só porque mostra causa, energia restante, conselho e direção provável.",
+        },
+      ],
+    },
+    "does-he-love-me-tarot": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use quando palavras, atenção, distância ou sinais confusos deixam você sem saber se o afeto é mútuo e consistente.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "Uma boa leitura separa atração, disponibilidade emocional, medo, comportamento e sua própria necessidade de segurança e clareza.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Se as cartas mostram amor sem ação, veja o que bloqueia a expressão. Se mostram confusão, priorize uma conversa ou limite.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da primeira resposta, pergunte: o que me ajudaria a saber se esta conexão é emocionalmente segura para mim?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Esta leitura de amor é grátis?",
+          answer: "Sim. A primeira leitura pode começar grátis. Perguntas profundas de acompanhamento e histórico salvo são funções de assinatura.",
+        },
+        {
+          question: "O tarot pode ler os sentimentos reais dele?",
+          answer: "O tarot pode refletir dinâmicas emocionais e sinais prováveis, mas amor real também precisa de comportamento consistente, comunicação e respeito.",
+        },
+        {
+          question: "Que cartas sugerem amor mútuo?",
+          answer: "Os Enamorados, Dois de Copas, Ás de Copas, Dez de Copas e O Sol costumam apoiar afeto mútuo quando as cartas ao redor concordam.",
+        },
+        {
+          question: "E se as cartas forem misturadas?",
+          answer: "Cartas misturadas costumam refletir comportamento misto. Leia a carta de conselho com cuidado e pergunte que clareza ou limite é necessário.",
+        },
+      ],
+    },
+    "yes-or-no-tarot-love": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use esta página quando precisar de um sinal rápido sobre mandar mensagem, sair com alguém, esperar, reconectar ou continuar investindo energia.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "Uma boa leitura de amor sim ou não explica se a energia inclina para sim, não ou ainda não, e por quê.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Tome o sim como permissão para agir com cuidado, o não como proteção e o ainda não como pedido de paciência ou mais informação.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois do sim ou não, pergunte: qual é a ação mais saudável para mim nesta conexão?",
+        },
+      ],
+      faqs: [
+        {
+          question: "O tarot do amor sim ou não é grátis?",
+          answer: "Sim. Você pode começar esta leitura grátis e usar a assinatura depois para acompanhamentos mais profundos ou histórico salvo.",
+        },
+        {
+          question: "O tarot de amor pode responder talvez?",
+          answer: "Sim. Em perguntas de relacionamento, talvez ou ainda não pode ser mais honesto do que forçar um sim ou não.",
+        },
+        {
+          question: "Uma carta basta para amor sim ou não?",
+          answer: "Uma carta serve como sinal rápido, mas uma tiragem pequena dá melhor contexto sobre sentimentos, bloqueios, conselho e tempo.",
+        },
+        {
+          question: "O que faço se a resposta for não?",
+          answer: "Leia o motivo antes de reagir. Um não pode indicar proteção, mau momento, intenções misturadas ou uma direção melhor para sua energia.",
+        },
+      ],
+    },
+    "career-tarot-reading": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Pergunte ao tarot profissional quando estiver avaliando troca de emprego, entrevista, projeto, negociação, negócio ou direção de carreira.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "As cartas devem separar motivação de medo, mostrar onde há impulso e revelar que recurso ou habilidade precisa de atenção.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Transforme a leitura em um passo concreto: atualizar currículo, preparar uma conversa, negociar, esperar, candidatar-se ou testar um passo menor.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da leitura profissional, pergunte: que ação prática criaria mais progresso nas próximas duas semanas?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Esta leitura de tarot profissional é grátis?",
+          answer: "Sim. Você pode começar com uma leitura grátis com IA. A assinatura serve para acompanhamentos profundos, histórico, tiragens avançadas e relatórios.",
+        },
+        {
+          question: "O tarot pode prever uma proposta de emprego?",
+          answer: "Pode mostrar impulso, encaixe, obstáculos e dinâmicas prováveis, mas o resultado também depende de preparação, mercado e decisões reais.",
+        },
+        {
+          question: "Que tiragem serve para carreira?",
+          answer: "Uma tiragem de oportunidade profissional funciona bem porque examina preparo, obstáculos, recursos, tempo e próximo movimento prático.",
+        },
+        {
+          question: "Posso usar tarot para decisões de dinheiro?",
+          answer: "Use para reflexão, não como conselho financeiro. Combine a leitura com orçamento, prazos, contratos e alternativas realistas.",
+        },
+      ],
+    },
+    "should-i-quit-my-job-tarot": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use quando burnout, conflito, tédio, pressão financeira ou uma nova oportunidade tornam difícil ficar, mas arriscado sair.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "A leitura deve distinguir cansaço temporário de ciclo encerrado e mostrar se convém planejar, colocar limites, negociar ou sair.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Não peça demissão por uma carta só. Use a leitura para decidir que preparação real precisa antes de ficar, conversar ou sair.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da resposta, pergunte: o que devo preparar para que meu próximo passo profissional seja estável e respeitoso comigo?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Esta leitura sobre pedir demissão é grátis?",
+          answer: "Sim. Você pode começar esta leitura de decisão profissional grátis. A assinatura adiciona acompanhamentos profundos, histórico, tiragens avançadas e relatórios.",
+        },
+        {
+          question: "O tarot pode dizer para eu pedir demissão agora?",
+          answer: "Pode mostrar energia forte de transição, mas antes convém revisar dinheiro, contratos, saúde, referências e opções realistas.",
+        },
+        {
+          question: "E se as cartas mostrarem burnout?",
+          answer: "Cartas de burnout podem pedir descanso, limites, apoio ou saída planejada. A carta de conselho importa mais que uma carta dramática.",
+        },
+        {
+          question: "Que tiragem serve antes de pedir demissão?",
+          answer: "Use uma tiragem profissional que revise pressão atual, riscos ocultos, recursos disponíveis, tempo e próximo passo mais seguro.",
+        },
+      ],
+    },
+  },
+}
+
 function dedupeSections(sections: SeoPageContent["sections"]) {
   const seen = new Set<string>()
   return sections.filter((section) => {
@@ -1621,9 +2008,12 @@ function dedupeFaqs(faqs: SeoPageContent["faqs"]) {
 }
 
 function enhanceSeoContent(slug: string, locale: SeoLocale, content: SeoPageContent): SeoPageContent {
-  if (locale !== "en") return content
-
-  const enhancement = questionSeoEnhancements[slug]
+  const enhancement =
+    locale === "en"
+      ? questionSeoEnhancements[slug]
+      : locale === "es" || locale === "pt-br"
+        ? regionalQuestionSeoEnhancements[locale][slug]
+        : undefined
   if (!enhancement) return content
 
   return {
