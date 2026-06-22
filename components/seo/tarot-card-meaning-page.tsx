@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { localePath } from "@/lib/locales"
+import { getSeoPage } from "@/lib/seo-pages"
 import { getCardKeywords, getCardSlug, getCardSuit, type TarotCardSeoPage } from "@/lib/tarot-card-seo"
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
 import type { SpreadType } from "@/lib/spread-config"
@@ -104,7 +105,7 @@ function cardPromptCopy(page: TarotCardSeoPage) {
 
 function questionPathCopy(page: TarotCardSeoPage) {
   const name = cardDisplayName(page)
-  const path = (slug: string) => localePath(page.locale, `/${slug}`)
+  const path = (slug: string) => getSeoPage(slug, page.locale)?.path || localePath(page.locale, `/${slug}`)
 
   if (page.locale === "zh") {
     return {
@@ -157,11 +158,14 @@ function questionPathCopy(page: TarotCardSeoPage) {
       title: `Lee ${name} dentro de preguntas reales`,
       body: "La pagina de significado explica el simbolo. Estas entradas llevan a una tirada gratis enfocada en una pregunta concreta.",
       paths: [
-        { title: "Will my ex come back?", body: `${name} puede aclarar contacto, timing, cierre y si esperar todavia te ayuda.`, href: path("will-my-ex-come-back-tarot") },
-        { title: "Does he love me?", body: `Usa ${name} para comparar sentimientos, conducta, consistencia y seguridad emocional.`, href: path("does-he-love-me-tarot") },
-        { title: "Yes or no love tarot", body: `Lee ${name} con la razon del si, no o todavia no, no solo como una palabra.`, href: path("yes-or-no-tarot-love") },
-        { title: "Career tarot reading", body: `${name} ayuda a ver direccion laboral, riesgo, recursos y el siguiente paso practico.`, href: path("career-tarot-reading") },
-        { title: "Should I quit my job?", body: `${name} puede separar cansancio temporal, ciclo terminado y preparacion real antes de salir.`, href: path("should-i-quit-my-job-tarot") },
+        { title: "Mi ex volvera?", body: `${name} puede aclarar contacto, timing, cierre y si esperar todavia te ayuda.`, href: path("will-my-ex-come-back-tarot") },
+        { title: "El me ama?", body: `Usa ${name} para comparar sentimientos, conducta, consistencia y seguridad emocional.`, href: path("does-he-love-me-tarot") },
+        { title: "Esta pensando en mi?", body: `${name} ayuda a distinguir atencion privada, silencio y si un pensamiento puede volverse accion.`, href: path("is-he-thinking-about-me-tarot") },
+        { title: "Deberia escribirle?", body: `Usa ${name} para revisar timing, intencion y si escribir protege tu claridad.`, href: path("should-i-text-him-tarot") },
+        { title: "Tarot del amor si o no", body: `Lee ${name} con la razon del si, no o todavia no, no solo como una palabra.`, href: path("yes-or-no-tarot-love") },
+        { title: "Cuando encontrare el amor?", body: `${name} convierte el timing amoroso en preparacion, energia de citas y un siguiente paso concreto.`, href: path("when-will-i-find-love-tarot") },
+        { title: "Lectura de tarot para carrera", body: `${name} ayuda a ver direccion laboral, riesgo, recursos y el siguiente paso practico.`, href: path("career-tarot-reading") },
+        { title: "Deberia renunciar a mi trabajo?", body: `${name} puede separar cansancio temporal, ciclo terminado y preparacion real antes de salir.`, href: path("should-i-quit-my-job-tarot") },
       ] satisfies QuestionPath[],
     }
   }
@@ -172,11 +176,14 @@ function questionPathCopy(page: TarotCardSeoPage) {
       title: `Leia ${name} dentro de perguntas reais`,
       body: "A pagina de significado explica o simbolo. Estes caminhos abrem uma tiragem gratis focada em uma pergunta concreta.",
       paths: [
-        { title: "Will my ex come back?", body: `${name} pode clarear contato, timing, fechamento e se esperar ainda ajuda.`, href: path("will-my-ex-come-back-tarot") },
-        { title: "Does he love me?", body: `Use ${name} para comparar sentimentos, comportamento, consistencia e seguranca emocional.`, href: path("does-he-love-me-tarot") },
-        { title: "Yes or no love tarot", body: `Leia ${name} com a razao do sim, nao ou ainda nao, nao apenas como uma palavra.`, href: path("yes-or-no-tarot-love") },
-        { title: "Career tarot reading", body: `${name} ajuda a ver direcao profissional, risco, recursos e o proximo passo pratico.`, href: path("career-tarot-reading") },
-        { title: "Should I quit my job?", body: `${name} pode separar cansaco temporario, ciclo encerrado e preparacao real antes de sair.`, href: path("should-i-quit-my-job-tarot") },
+        { title: "Meu ex vai voltar?", body: `${name} pode clarear contato, timing, fechamento e se esperar ainda ajuda.`, href: path("will-my-ex-come-back-tarot") },
+        { title: "Ele me ama?", body: `Use ${name} para comparar sentimentos, comportamento, consistencia e seguranca emocional.`, href: path("does-he-love-me-tarot") },
+        { title: "Ele esta pensando em mim?", body: `${name} ajuda a separar atencao privada, silencio e se pensamento pode virar acao.`, href: path("is-he-thinking-about-me-tarot") },
+        { title: "Devo mandar mensagem?", body: `Use ${name} para revisar timing, intencao e se mandar mensagem protege sua clareza.`, href: path("should-i-text-him-tarot") },
+        { title: "Tarot do amor sim ou nao", body: `Leia ${name} com a razao do sim, nao ou ainda nao, nao apenas como uma palavra.`, href: path("yes-or-no-tarot-love") },
+        { title: "Quando vou encontrar amor?", body: `${name} transforma timing amoroso em prontidao, energia de encontros e um proximo passo concreto.`, href: path("when-will-i-find-love-tarot") },
+        { title: "Leitura de tarot para carreira", body: `${name} ajuda a ver direcao profissional, risco, recursos e o proximo passo pratico.`, href: path("career-tarot-reading") },
+        { title: "Devo pedir demissao?", body: `${name} pode separar cansaco temporario, ciclo encerrado e preparacao real antes de sair.`, href: path("should-i-quit-my-job-tarot") },
       ] satisfies QuestionPath[],
     }
   }

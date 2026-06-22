@@ -11,10 +11,15 @@ const baseRoutes = [
   { path: "/", priority: 1 },
   { path: "/daily-tarot", priority: 0.92 },
   { path: "/tarot-spreads", priority: 0.88 },
-  { path: "/tarot-questions", priority: 0.87 },
   { path: "/input", priority: 0.8 },
   { path: "/reading", priority: 0.7 },
   { path: "/membership", priority: 0.4 },
+]
+
+const questionHubRoutes = [
+  { path: "/tarot-questions", priority: 0.87 },
+  { path: "/es/preguntas-tarot", priority: 0.84 },
+  { path: "/pt-br/perguntas-tarot", priority: 0.84 },
 ]
 
 const seoRoutes = getAllLocalizedSeoPages().map((page) => ({ path: page.path, priority: 0.86 }))
@@ -28,7 +33,12 @@ const cardRoutes = TAROT_CARDS.flatMap((card) =>
 )
 
 const routes = Array.from(
-  new Map([...baseRoutes, ...seoRoutes, ...trustRoutes, ...cardRoutes].map((route) => [route.path, route])).values(),
+  new Map(
+    [...baseRoutes, ...questionHubRoutes, ...seoRoutes, ...trustRoutes, ...cardRoutes].map((route) => [
+      route.path,
+      route,
+    ]),
+  ).values(),
 )
 
 export default function sitemap(): MetadataRoute.Sitemap {
