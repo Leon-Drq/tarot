@@ -905,6 +905,7 @@ seoPageSources.push(
 
 type RegionalLocale = Exclude<SeoLocale, Locale>
 type RegionalPageCopy = Omit<SeoPageContent, "primaryCta" | "secondaryCta" | "questionsTitle" | "bottomCta">
+type SeoContentEnhancement = Pick<SeoPageContent, "sections" | "faqs">
 
 const regionalCta = {
   es: {
@@ -1406,6 +1407,232 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
   },
 }
 
+const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
+  "will-my-ex-come-back-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when you are trying to separate genuine reconnection signals from loneliness, hope, or the urge to check their social media again.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The most useful cards show what still connects you, what ended for a reason, what has changed, and whether contact would be healing or destabilizing.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the reading leans toward return, still look for accountability and timing. If it leans no or not yet, use the answer to protect your peace instead of waiting in place.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what boundary or conversation would help me move forward with self-respect?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this ex tarot reading free?",
+        answer: "Yes. You can start this question as a free AI tarot reading. Membership is only needed for deeper follow-ups, saved history, and longer reports.",
+      },
+      {
+        question: "What if the answer is not yet?",
+        answer: "Not yet usually means timing, behavior, or emotional readiness is still unresolved. Ask what needs to change before contact would be healthy.",
+      },
+      {
+        question: "Should I ask again tomorrow?",
+        answer: "Avoid repeating the same question for reassurance. Wait until something changes, or ask a different question about your next step.",
+      },
+      {
+        question: "What spread is best for an ex question?",
+        answer: "A breakup recovery or relationship spread is stronger than one card because it can show cause, remaining energy, advice, and likely direction.",
+      },
+    ],
+  },
+  "does-he-love-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when someone's words, attention, distance, or mixed signals leave you unsure whether affection is mutual and consistent.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "A useful love reading separates attraction, emotional availability, fear, behavior, and your own need for safety and clarity.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards show love without action, look for what blocks expression. If they show confusion, prioritize a conversation or boundary over guessing.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what would help me know whether this connection is emotionally safe for me?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this love tarot reading free?",
+        answer: "Yes. The first reading can be started for free. Deep follow-up questions and saved reading history are membership features.",
+      },
+      {
+        question: "Can tarot read his true feelings?",
+        answer: "Tarot can reflect emotional dynamics and likely signals, but real love also needs consistent behavior, communication, and respect.",
+      },
+      {
+        question: "What cards suggest love is mutual?",
+        answer: "The Lovers, Two of Cups, Ace of Cups, Ten of Cups, and The Sun often support mutual affection when the surrounding cards agree.",
+      },
+      {
+        question: "What if I get mixed cards?",
+        answer: "Mixed cards often mirror mixed behavior. Read the advice card carefully and ask what clarity or boundary is needed next.",
+      },
+    ],
+  },
+  "yes-or-no-tarot-love": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Use this page when you need a quick love signal about texting, dating, waiting, reconnecting, or choosing whether to keep investing energy.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "A good yes or no love reading should explain whether the energy is yes, no, or not yet, and why the answer is leaning that way.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "Treat yes as permission to act thoughtfully, no as protection, and not yet as a request for patience, timing, or more information.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the yes or no answer, ask: what is the healthiest next action for me in this connection?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is yes or no love tarot free?",
+        answer: "Yes. You can start this yes or no love reading for free and use membership later for deeper follow-ups or saved history.",
+      },
+      {
+        question: "Can love tarot answer with maybe?",
+        answer: "Yes. In relationship questions, maybe or not yet can be more honest than a forced yes or no because timing and readiness matter.",
+      },
+      {
+        question: "Should I use one card for yes or no love?",
+        answer: "One card can work for a quick signal, but a small spread gives better context about feelings, blocks, advice, and timing.",
+      },
+      {
+        question: "What if the answer is no?",
+        answer: "Read the reason before reacting. A no can point to protection, poor timing, mixed intentions, or a better direction for your energy.",
+      },
+    ],
+  },
+  "career-tarot-reading": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask a career tarot question when you are weighing a job change, interview, project, negotiation, business idea, or professional direction.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The cards should separate motivation from fear, show where momentum exists, and reveal the resource or skill that needs attention next.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "Turn the reading into one concrete move: update your resume, prepare for a conversation, negotiate, wait, apply, or test a smaller step first.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first career reading, ask: what practical action would create the most progress in the next two weeks?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this career tarot reading free?",
+        answer: "Yes. You can begin with a free AI career tarot reading. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot predict a job offer?",
+        answer: "Tarot can show momentum, fit, obstacles, and likely dynamics, but job outcomes still depend on preparation, market conditions, and real decisions.",
+      },
+      {
+        question: "What spread is best for career questions?",
+        answer: "A job opportunity spread works well because it can examine readiness, obstacles, resources, timing, and the next practical move.",
+      },
+      {
+        question: "Should I use tarot for money decisions?",
+        answer: "Use tarot for reflection, not as financial advice. Pair the reading with budgets, timelines, contracts, and realistic alternatives.",
+      },
+    ],
+  },
+  "should-i-quit-my-job-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when burnout, conflict, boredom, money pressure, or a new opportunity makes staying feel difficult but leaving feels risky.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should distinguish temporary exhaustion from a completed cycle, and show whether planning, boundaries, negotiation, or departure is wiser.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "Do not quit from one card alone. Use the reading to decide what real-world preparation is needed before you stay, speak up, or leave.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what needs to be prepared so my next career move is stable and self-respecting?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this quit my job tarot reading free?",
+        answer: "Yes. You can start this job decision reading for free. Membership adds deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot tell me to quit immediately?",
+        answer: "Tarot can show strong transition energy, but you should still check money, contracts, health, references, and realistic options before acting.",
+      },
+      {
+        question: "What if the cards show burnout?",
+        answer: "Burnout cards may point to rest, boundaries, support, or a planned exit. The advice card matters more than a dramatic outcome card.",
+      },
+      {
+        question: "What spread is best before quitting?",
+        answer: "Use a career or job opportunity spread that checks current pressure, hidden risks, available resources, timing, and the next safest step.",
+      },
+    ],
+  },
+}
+
+function dedupeSections(sections: SeoPageContent["sections"]) {
+  const seen = new Set<string>()
+  return sections.filter((section) => {
+    const key = section.heading.toLowerCase()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
+function dedupeFaqs(faqs: SeoPageContent["faqs"]) {
+  const seen = new Set<string>()
+  return faqs.filter((faq) => {
+    const key = faq.question.toLowerCase()
+    if (seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
+function enhanceSeoContent(slug: string, locale: SeoLocale, content: SeoPageContent): SeoPageContent {
+  if (locale !== "en") return content
+
+  const enhancement = questionSeoEnhancements[slug]
+  if (!enhancement) return content
+
+  return {
+    ...content,
+    sections: dedupeSections([...content.sections, ...enhancement.sections]),
+    faqs: dedupeFaqs([...content.faqs, ...enhancement.faqs]),
+  }
+}
+
 function regionalContent(slug: string, base: SeoPageContent, locale: RegionalLocale): SeoPageContent {
   const localized = regionalSeoCopy[locale][slug]
   if (localized) return withRegionalCta(locale, localized)
@@ -1457,8 +1684,9 @@ export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): Seo
     locale === "es" || locale === "pt-br"
       ? regionalContent(source.slug, source.content[defaultLocale], locale)
       : source.content[locale] || source.content[defaultLocale]
+  const enhancedContent = enhanceSeoContent(source.slug, locale, content)
   return {
-    ...content,
+    ...enhancedContent,
     slug: source.slug,
     locale,
     cards: source.cards,
