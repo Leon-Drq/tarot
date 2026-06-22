@@ -231,13 +231,13 @@ function InputContent() {
             className="absolute inset-0 z-10 transition-all duration-500 opacity-100"
             style={{
               background:
-                "radial-gradient(ellipse at 50% 30%, rgba(90, 60, 133, 0.95) 0%, rgba(36, 20, 56, 0.98) 50%, rgba(15, 5, 24, 1) 100%)",
+                "radial-gradient(ellipse at 50% 24%, rgba(101, 80, 176, 0.9) 0%, rgba(31, 18, 53, 0.98) 50%, rgba(8, 3, 16, 1) 100%)",
               backdropFilter: "blur(12px)",
             }}
           />
           <div className="relative z-20 flex flex-col items-center justify-center gap-6">
             <div className="animate-pulse">
-              <svg width="60" height="60" viewBox="0 0 60 60" className="text-mystic-gold/60 animate-spin">
+              <svg width="60" height="60" viewBox="0 0 60 60" className="animate-spin text-[#c9c0ff]/70">
                 <circle cx="30" cy="30" r="25" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="50 100" />
               </svg>
             </div>
