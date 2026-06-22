@@ -399,11 +399,11 @@ export function DailyTarotTool() {
       if (!localEntry) return
 
       saveLocalEntry(localEntry)
-      setStatus(copy.savedLocal)
+      setStatus(reminderEnabled ? copy.reminderSavedLocal : copy.savedLocal)
       const syncedEntry = await syncEntry(localEntry)
       if (syncedEntry) {
         saveLocalEntry(syncedEntry)
-        setStatus(copy.saved)
+        setStatus(reminderEnabled ? copy.reminderSaved : copy.saved)
       }
     } finally {
       setIsSaving(false)
@@ -665,6 +665,7 @@ export function DailyTarotTool() {
               className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#bfb6ff]/55"
             />
           </div>
+          <p className="mt-3 text-xs leading-5 text-white/42">{copy.reminderHelp}</p>
           <label className="mt-4 flex min-h-10 items-center gap-3 text-sm text-white/62">
             <input
               type="checkbox"
