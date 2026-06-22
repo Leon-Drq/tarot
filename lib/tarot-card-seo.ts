@@ -435,6 +435,14 @@ function createEnglishCoreSections(card: TarotCard, theme: string) {
       heading: `How to Read ${englishName} in a Spread`,
       body: `${englishName} belongs to the field of ${theme}. In a past position it can describe the pattern you are carrying; in the present it shows the energy now in motion; as advice it asks you to respond with one grounded action.`,
     },
+    {
+      heading: `When ${englishName} Appears`,
+      body: `Treat ${englishName} as a ${cardTone(card)} that deserves attention before you rush to the outcome. The card is most useful when you connect it to the exact question, the spread position, and the concrete choice in front of you.`,
+    },
+    {
+      heading: `Common Mistake With ${englishName}`,
+      body: `The common mistake is reading ${englishName} as a single verdict. It works better as a diagnostic: what is active, what is blocked, what needs support, and what action would make the symbolism practical.`,
+    },
   ]
 }
 
@@ -711,6 +719,14 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
       {
         question: `What should I do when I draw ${englishName}?`,
         answer: `Use ${englishName} as a prompt for reflection and action. Notice the pattern it names, then choose one practical next step instead of treating the card as fixed fate.`,
+      },
+      {
+        question: `What does ${englishName} mean for career and money?`,
+        answer: `For career, ${englishName} asks you to ${guidance.career}. For money, it asks you to ${guidance.money}. Read both through real resources, timing, and what you can control next.`,
+      },
+      {
+        question: `What is the best advice from ${englishName}?`,
+        answer: `The best advice is to ${guidance.advice}. Let the card clarify the pattern, then turn that insight into one grounded action rather than another round of reassurance.`,
       },
     ]
   }
