@@ -76,7 +76,7 @@ function HomeQuestionForm() {
   return (
     <form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto mt-1 w-[min(90vw,460px)] md:absolute md:bottom-[6.5rem] md:left-1/2 md:mt-0 md:w-[min(72vw,620px)] md:-translate-x-1/2"
+      className="relative z-30 mx-auto mt-6 w-[min(90vw,460px)] md:absolute md:bottom-[6.5rem] md:left-1/2 md:mt-0 md:w-[min(72vw,620px)] md:-translate-x-1/2"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/38 md:text-xs">
         {copy.label}
