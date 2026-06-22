@@ -41,7 +41,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
 
   return (
     <div
-      className="pointer-events-none relative z-[5] mx-auto flex h-[18rem] w-full items-center justify-center sm:h-[min(46svh,24rem)] sm:min-h-[21rem] md:h-[min(54svh,30rem)] md:min-h-[26rem]"
+      className="pointer-events-none relative z-[5] mx-auto flex h-[16.75rem] w-full items-center justify-center sm:h-[min(46svh,24rem)] sm:min-h-[21rem] md:h-[min(54svh,30rem)] md:min-h-[26rem]"
       style={{
         perspective: "1000px",
         opacity: 1,
@@ -51,7 +51,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
       }}
     >
       <div
-        className="relative h-[16.25rem] w-[9.5rem] sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
+        className="relative h-[15rem] w-[8.75rem] sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
         style={{
           transformStyle: "preserve-3d",
           transform: `rotateZ(${tiltAngle}deg)`,
@@ -74,7 +74,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
             className="object-cover"
             priority
             onLoad={() => setIsFrontLoaded(true)}
-            sizes="(max-width: 768px) 50vw, 220px"
+            sizes="(max-width: 768px) 45vw, 220px"
           />
           <div className="absolute inset-0 rounded-lg md:rounded-xl border-2 md:border-4 border-white/20 pointer-events-none" />
 
@@ -143,7 +143,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
             className="object-cover"
             priority
             onLoad={() => setIsBackLoaded(true)}
-            sizes="(max-width: 768px) 50vw, 220px"
+            sizes="(max-width: 768px) 45vw, 220px"
           />
           <div className="absolute inset-0 rounded-lg md:rounded-xl border-2 border-[#c9c0ff]/20 md:border-4 pointer-events-none" />
 
@@ -200,8 +200,8 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
       <div
         className="absolute rounded-xl md:rounded-2xl"
         style={{
-          width: "clamp(188px, 46vw, 320px)",
-          height: "clamp(296px, 72vw, 520px)",
+          width: "clamp(172px, 42vw, 320px)",
+          height: "clamp(270px, 66vw, 520px)",
           background: "radial-gradient(ellipse, rgba(162, 137, 255, 0.3) 0%, transparent 70%)",
           filter: "blur(30px)",
           transform: `rotateZ(${tiltAngle}deg)`,
