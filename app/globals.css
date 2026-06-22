@@ -187,6 +187,45 @@
   }
 }
 
+@layer components {
+  .home-hero-stage {
+    --home-hero-focal-y: clamp(20rem, 52vh, 30rem);
+    --home-hero-content-y: calc(var(--home-hero-focal-y) + 12.5rem);
+  }
+
+  @supports (height: 100svh) {
+    .home-hero-stage {
+      --home-hero-focal-y: clamp(20rem, 52svh, 30rem);
+    }
+  }
+
+  @media (min-width: 640px) {
+    .home-hero-stage {
+      --home-hero-focal-y: clamp(23rem, 56vh, 34rem);
+      --home-hero-content-y: calc(var(--home-hero-focal-y) + 14rem);
+    }
+
+    @supports (height: 100svh) {
+      .home-hero-stage {
+        --home-hero-focal-y: clamp(23rem, 56svh, 34rem);
+      }
+    }
+  }
+
+  @media (min-width: 768px) {
+    .home-hero-stage {
+      --home-hero-focal-y: clamp(27rem, 60vh, 40rem);
+      --home-hero-content-y: calc(var(--home-hero-focal-y) + 18rem);
+    }
+
+    @supports (height: 100svh) {
+      .home-hero-stage {
+        --home-hero-focal-y: clamp(27rem, 60svh, 40rem);
+      }
+    }
+  }
+}
+
 /* Add scrollbar-hide utility class */
 .scrollbar-hide {
   -ms-overflow-style: none;

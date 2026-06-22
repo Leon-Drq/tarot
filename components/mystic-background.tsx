@@ -479,7 +479,7 @@ function MysticContent() {
     }[language]
 
   return (
-    <div className="allow-scroll relative min-h-screen overflow-x-hidden bg-mystic-bg [--home-hero-content-y:calc(var(--home-hero-focal-y)_+_12.5rem)] [--home-hero-focal-y:clamp(20rem,52svh,30rem)] sm:[--home-hero-content-y:calc(var(--home-hero-focal-y)_+_14rem)] sm:[--home-hero-focal-y:clamp(23rem,56svh,34rem)] md:[--home-hero-content-y:calc(var(--home-hero-focal-y)_+_18rem)] md:[--home-hero-focal-y:clamp(27rem,60svh,40rem)]">
+    <div className="allow-scroll home-hero-stage relative min-h-screen overflow-x-hidden bg-mystic-bg">
       <div className="fixed inset-0 z-0 pointer-events-none">
         {/* 1. Background gradient */}
         <BackgroundGradient />
@@ -533,7 +533,10 @@ function MysticContent() {
           className="absolute left-0 right-0 top-[var(--home-hero-focal-y)] z-20 h-0 overflow-visible"
         >
           <CoreLight className="pointer-events-none absolute left-0 right-0 top-0 z-0 flex h-0 items-center justify-center" />
-          <div className="absolute left-0 right-0 top-0 z-10 -translate-y-1/2 overflow-visible">
+          <div
+            data-home-card-anchor
+            className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2 overflow-visible"
+          >
             <TarotCard
               frontImage={customFront || DEFAULT_FRONT}
               backImage={customBack || DEFAULT_BACK}
