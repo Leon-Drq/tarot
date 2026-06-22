@@ -42,6 +42,125 @@ function cardDisplayName(page: TarotCardSeoPage) {
   return page.card.nameEn
 }
 
+function cardPageGuideCopy(page: TarotCardSeoPage) {
+  const name = cardDisplayName(page)
+
+  if (page.locale === "zh") {
+    return {
+      navTitle: "本页内容",
+      summaryEyebrow: "快速答案",
+      summaryTitle: `${name}怎么解`,
+      summaryIntro: "先看正逆位和常见问题场景，再用下面的免费入口把牌义放进真实问题里。",
+      coreLabel: "核心牌义",
+      promptsLabel: "免费解读",
+      questionsLabel: "问题入口",
+      relatedLabel: "相关牌",
+    }
+  }
+
+  if (page.locale === "ja") {
+    return {
+      navTitle: "このページ",
+      summaryEyebrow: "クイック回答",
+      summaryTitle: `${name}の読み方`,
+      summaryIntro: "正逆とよくある質問テーマを先に確認し、その後で無料リーディングに進めます。",
+      coreLabel: "基本の意味",
+      promptsLabel: "無料リーディング",
+      questionsLabel: "質問別",
+      relatedLabel: "関連カード",
+    }
+  }
+
+  if (page.locale === "ko") {
+    return {
+      navTitle: "페이지 내용",
+      summaryEyebrow: "빠른 해석",
+      summaryTitle: `${name} 해석 요약`,
+      summaryIntro: "정/역방향과 자주 묻는 질문 상황을 먼저 보고, 아래 무료 리딩으로 실제 질문에 적용하세요.",
+      coreLabel: "핵심 의미",
+      promptsLabel: "무료 리딩",
+      questionsLabel: "질문 경로",
+      relatedLabel: "관련 카드",
+    }
+  }
+
+  if (page.locale === "es") {
+    return {
+      navTitle: "En esta página",
+      summaryEyebrow: "Respuesta rápida",
+      summaryTitle: `Cómo leer ${name}`,
+      summaryIntro: "Empieza con la posición normal, invertida y los temas de búsqueda más comunes; después prueba la carta en una lectura gratis.",
+      coreLabel: "Significado base",
+      promptsLabel: "Lectura gratis",
+      questionsLabel: "Preguntas",
+      relatedLabel: "Cartas relacionadas",
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      navTitle: "Nesta página",
+      summaryEyebrow: "Resposta rápida",
+      summaryTitle: `Como ler ${name}`,
+      summaryIntro: "Comece pela posição normal, invertida e temas de busca comuns; depois teste a carta em uma leitura grátis.",
+      coreLabel: "Significado base",
+      promptsLabel: "Leitura grátis",
+      questionsLabel: "Perguntas",
+      relatedLabel: "Cartas relacionadas",
+    }
+  }
+
+  return {
+    navTitle: "On this page",
+    summaryEyebrow: "Quick answer",
+    summaryTitle: `${name} meaning at a glance`,
+    summaryIntro: "Start with upright, reversed, and high-intent search contexts, then try the card in a free AI tarot reading.",
+    coreLabel: "Core meaning",
+    promptsLabel: "Free reading",
+    questionsLabel: "Question paths",
+    relatedLabel: "Related cards",
+  }
+}
+
+function deepSectionAnchorId(page: TarotCardSeoPage, index: number) {
+  if (page.locale === "en" || page.locale === "es" || page.locale === "pt-br") {
+    return ["love", "career", "money", "yes-or-no", "advice"][index] || `context-${index + 1}`
+  }
+
+  return ["love", "career-money", "yes-or-no"][index] || `context-${index + 1}`
+}
+
+function cardQuickAnswerRows(page: TarotCardSeoPage, keywords: ReturnType<typeof getCardKeywords>) {
+  return [
+    { id: "upright", label: page.uprightLabel, body: keywords.upright },
+    { id: "reversed", label: page.reversedLabel, body: keywords.reversed },
+    ...page.deepSections.map((section, index) => ({
+      id: deepSectionAnchorId(page, index),
+      label: section.heading,
+      body: section.body,
+    })),
+  ]
+}
+
+function cardPageNavItems(page: TarotCardSeoPage) {
+  const copy = cardPageGuideCopy(page)
+
+  return [
+    { href: "#upright", label: page.uprightLabel },
+    { href: "#reversed", label: page.reversedLabel },
+    { href: "#core-meaning", label: copy.coreLabel },
+    ...page.deepSections.map((section, index) => ({
+      href: `#${deepSectionAnchorId(page, index)}`,
+      label: section.heading,
+    })),
+    { href: "#combinations", label: page.combinationsLabel },
+    { href: "#try-reading", label: copy.promptsLabel },
+    { href: "#question-paths", label: copy.questionsLabel },
+    { href: "#related-cards", label: copy.relatedLabel },
+    { href: "#faq", label: page.faqLabel },
+  ]
+}
+
 function cardPromptHref(page: TarotCardSeoPage, prompt: CardPrompt) {
   const params = new URLSearchParams({
     q: prompt.question,
@@ -414,6 +533,9 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const relatedCards = createRelatedCardLinks(page)
   const trustCopy = trustHighlightCopy(page)
   const trustItems = trustHighlightItems(page)
+  const guideCopy = cardPageGuideCopy(page)
+  const navItems = cardPageNavItems(page)
+  const quickRows = cardQuickAnswerRows(page, keywords)
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -582,18 +704,50 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
               <p className="mt-6 break-words text-sm leading-7 text-white/72 sm:text-lg sm:leading-8">{page.intro}</p>
               <EditorialByline locale={page.locale} className="mt-7" />
 
+              <nav
+                aria-label={guideCopy.navTitle}
+                className="mt-7 rounded-lg border border-white/10 bg-white/[0.035] p-4"
+              >
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{guideCopy.navTitle}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {navItems.map((item) => (
+                    <a
+                      key={`${item.href}-${item.label}`}
+                      href={item.href}
+                      className="rounded-lg border border-white/10 px-3 py-2 text-xs text-white/62 transition hover:border-[#bfb6ff]/45 hover:text-white"
+                    >
+                      {item.label}
+                    </a>
+                  ))}
+                </div>
+              </nav>
+
+              <section id="quick-answer" className="mt-6 scroll-mt-24 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.035] p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{guideCopy.summaryEyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{guideCopy.summaryTitle}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{guideCopy.summaryIntro}</p>
+                <dl className="mt-4 divide-y divide-white/10">
+                  {quickRows.map((row) => (
+                    <div key={row.id} className="grid gap-2 py-3 sm:grid-cols-[150px_1fr]">
+                      <dt className="text-xs font-medium uppercase tracking-[0.14em] text-[#c9c0ff]/72">{row.label}</dt>
+                      <dd className="text-sm leading-6 text-white/64">{row.body}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </section>
+
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
-                <div className="rounded-lg border border-[#bfb6ff]/25 bg-white/[0.04] p-5">
+                <div id="upright" className="scroll-mt-24 rounded-lg border border-[#bfb6ff]/25 bg-white/[0.04] p-5">
                   <h2 className="text-sm uppercase tracking-[0.16em] text-[#c9c0ff]">{page.uprightLabel}</h2>
                   <p className="mt-3 text-sm leading-7 text-white/70">{keywords.upright}</p>
                 </div>
-                <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+                <div id="reversed" className="scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.035] p-5">
                   <h2 className="text-sm uppercase tracking-[0.16em] text-white/55">{page.reversedLabel}</h2>
                   <p className="mt-3 text-sm leading-7 text-white/62">{keywords.reversed}</p>
                 </div>
               </div>
 
-              <div className="mt-8 grid gap-4 md:grid-cols-2">
+              <div id="core-meaning" className="mt-8 grid scroll-mt-24 gap-4 md:grid-cols-2">
                 {page.sections.map((section) => (
                   <article key={section.heading} className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
                     <h2 className="font-serif text-xl text-white">{section.heading}</h2>
@@ -603,15 +757,19 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
               </div>
 
               <div className="mt-8 grid gap-4 md:grid-cols-2">
-                {page.deepSections.map((section) => (
-                  <article key={section.heading} className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                {page.deepSections.map((section, index) => (
+                  <article
+                    key={section.heading}
+                    id={deepSectionAnchorId(page, index)}
+                    className="scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5"
+                  >
                     <h2 className="font-serif text-xl text-white">{section.heading}</h2>
                     <p className="mt-3 text-sm leading-7 text-white/62">{section.body}</p>
                   </article>
                 ))}
               </div>
 
-              <div className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
+              <div id="combinations" className="mt-8 scroll-mt-24 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
                 <h2 className="font-serif text-xl text-white">{page.combinationsLabel}</h2>
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                   {page.combinations.map((item) => (
@@ -623,7 +781,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 </div>
               </div>
 
-              <div className="mt-8 rounded-lg border border-[#bfb6ff]/22 bg-[#bfb6ff]/[0.045] p-5">
+              <div id="try-reading" className="mt-8 scroll-mt-24 rounded-lg border border-[#bfb6ff]/22 bg-[#bfb6ff]/[0.045] p-5">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{promptCopy.eyebrow}</p>
                 <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{promptCopy.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/62">{promptCopy.body}</p>
@@ -642,7 +800,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 </div>
               </div>
 
-              <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+              <div id="question-paths" className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{questionPaths.eyebrow}</p>
                 <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{questionPaths.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/62">{questionPaths.body}</p>
@@ -678,7 +836,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 </div>
               </div>
 
-              <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+              <div id="related-cards" className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{relatedCopy.eyebrow}</p>
                 <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{relatedCopy.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/62">{relatedCopy.body}</p>
@@ -697,7 +855,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 </div>
               </div>
 
-              <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+              <div id="faq" className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5">
                 <h2 className="font-serif text-xl text-white">{page.faqLabel}</h2>
                 <div className="mt-4 space-y-4">
                   {page.faqs.map((faq) => (
