@@ -140,6 +140,19 @@ function HomeScrollContent() {
           { href: "/reviews", title: "用户评价" },
           { href: "/tarot-reading-examples", title: "真实案例" },
         ],
+        feedbackEyebrow: "读者反馈",
+        feedbackTitle: "好的免费解读，应该先让人更清楚",
+        feedbackBody: "这些是我们优化产品时参考的代表性体验：快速、具体、不过度承诺，并且能给出下一步。",
+        feedbackItems: [
+          { title: "每日塔罗", body: "每日一牌比泛泛的运势更容易坚持，因为它只给今天一个重点。" },
+          { title: "爱情问题", body: "感情解读不只回答是或否，而是解释能观察什么、接下来怎么问。" },
+          { title: "事业选择", body: "事业牌阵帮助区分短期疲惫和真正需要制定离开计划的信号。" },
+        ],
+        assuranceItems: [
+          { title: "免费优先", body: "第一次解读、每日塔罗、牌义和问题页都先提供免费价值。" },
+          { title: "会员后置", body: "会员主要用于深度追问、历史保存、高级牌阵和长期报告。" },
+          { title: "边界清楚", body: "AI 塔罗是反思工具，不替代医疗、法律、财务或安全建议。" },
+        ],
       },
       en: {
         eyebrow: "Explore next",
@@ -161,6 +174,19 @@ function HomeScrollContent() {
           { href: "/privacy", title: "Privacy" },
           { href: "/reviews", title: "Reviews" },
           { href: "/tarot-reading-examples", title: "Examples" },
+        ],
+        feedbackEyebrow: "Reader feedback",
+        feedbackTitle: "A good free reading should make the next step clearer",
+        feedbackBody: "These representative patterns describe the experience we optimize for: fast, specific, grounded, and easy to return to.",
+        feedbackItems: [
+          { title: "Daily tarot", body: "One daily card is easier to keep using because it gives a single focus instead of vague horoscope text." },
+          { title: "Love questions", body: "Relationship readings should explain what can be observed next, not only force a yes or no answer." },
+          { title: "Career choices", body: "Career spreads help separate temporary burnout from a real signal to build a practical exit plan." },
+        ],
+        assuranceItems: [
+          { title: "Free first", body: "The first reading, daily tarot, card meanings, and question pages are designed to be useful without payment." },
+          { title: "Membership second", body: "Paid features are reserved for deeper follow-ups, saved history, advanced spreads, and longer reports." },
+          { title: "Clear limits", body: "AI tarot is reflective guidance, not medical, legal, financial, psychological, or safety advice." },
         ],
       },
       ja: {
@@ -184,6 +210,19 @@ function HomeScrollContent() {
           { href: "/reviews", title: "Reviews" },
           { href: "/tarot-reading-examples", title: "Examples" },
         ],
+        feedbackEyebrow: "読者の声",
+        feedbackTitle: "よい無料リーディングは、次の一歩を少し明確にします",
+        feedbackBody: "私たちは、速く、具体的で、過度に断定せず、また戻ってきやすい体験を目指しています。",
+        feedbackItems: [
+          { title: "毎日のタロット", body: "一枚だけのカードは、今日の焦点を絞りやすく、続けやすい形式です。" },
+          { title: "恋愛の質問", body: "恋愛リーディングは Yes/No だけでなく、観察すべき行動を示します。" },
+          { title: "仕事の選択", body: "仕事のスプレッドは、一時的な疲れと計画すべき転機を分けて考えます。" },
+        ],
+        assuranceItems: [
+          { title: "まず無料", body: "初回リーディング、毎日の一枚、カード意味、質問ページは無料で使えます。" },
+          { title: "会員は後から", body: "会員機能は深い追質問、履歴保存、高度なスプレッド、長いレポート向けです。" },
+          { title: "限界を明確に", body: "AI タロットは内省の補助であり、専門的な助言の代わりではありません。" },
+        ],
       },
       ko: {
         eyebrow: "다음 탐색",
@@ -205,6 +244,19 @@ function HomeScrollContent() {
           { href: "/privacy", title: "Privacy" },
           { href: "/reviews", title: "Reviews" },
           { href: "/tarot-reading-examples", title: "Examples" },
+        ],
+        feedbackEyebrow: "사용자 피드백",
+        feedbackTitle: "좋은 무료 리딩은 다음 행동을 더 분명하게 만듭니다",
+        feedbackBody: "빠르고, 구체적이며, 과장하지 않고, 다시 돌아오기 쉬운 경험을 기준으로 제품을 다듬고 있습니다.",
+        feedbackItems: [
+          { title: "데일리 타로", body: "하루 한 장은 막연한 운세보다 오늘의 초점을 하나로 잡기 쉽습니다." },
+          { title: "연애 질문", body: "관계 리딩은 예/아니오뿐 아니라 다음에 관찰할 행동을 설명해야 합니다." },
+          { title: "커리어 선택", body: "커리어 스프레드는 일시적 번아웃과 실제 전환 신호를 구분하는 데 도움을 줍니다." },
+        ],
+        assuranceItems: [
+          { title: "무료 우선", body: "첫 리딩, 데일리 타로, 카드 의미, 질문 페이지는 결제 없이 유용하게 설계되어 있습니다." },
+          { title: "멤버십은 이후", body: "유료 기능은 심층 후속 질문, 기록 저장, 고급 스프레드, 긴 리포트에 집중합니다." },
+          { title: "명확한 한계", body: "AI 타로는 성찰을 돕는 도구이며 전문 조언을 대체하지 않습니다." },
         ],
       },
     }[language]
@@ -246,6 +298,31 @@ function HomeScrollContent() {
               </a>
             ))}
           </div>
+        </div>
+      </div>
+      <div className="mt-12 border-t border-white/10 pt-8">
+        <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.feedbackEyebrow}</p>
+        <div className="mt-3 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+          <div>
+            <h2 className="font-serif text-2xl text-white sm:text-3xl">{copy.feedbackTitle}</h2>
+            <p className="mt-4 text-sm leading-7 text-white/58">{copy.feedbackBody}</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+            {copy.feedbackItems.map((item) => (
+              <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-4">
+                <h3 className="text-sm font-medium text-white">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+        <div className="mt-6 grid gap-3 md:grid-cols-3">
+          {copy.assuranceItems.map((item) => (
+            <article key={item.title} className="rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4">
+              <h3 className="text-sm font-medium text-[#eeeaff]">{item.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-white/56">{item.body}</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>

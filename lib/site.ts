@@ -22,6 +22,18 @@ export const trustLinks = [
   { label: "Reading Examples", href: "/tarot-reading-examples" },
 ]
 
+function trustPageJsonLdItems() {
+  return trustLinks.map((link) => ({
+    "@type": "WebPage",
+    "@id": `${appUrl}${link.href}#webpage`,
+    name: link.label,
+    url: `${appUrl}${link.href}`,
+    isPartOf: {
+      "@id": `${appUrl}/#website`,
+    },
+  }))
+}
+
 export function organizationJsonLd() {
   const data: Record<string, unknown> = {
     "@type": "Organization",
@@ -35,6 +47,9 @@ export function organizationJsonLd() {
       "@type": "Place",
       name: "Online",
     },
+    mainEntityOfPage: {
+      "@id": `${appUrl}/about#webpage`,
+    },
     knowsAbout: [
       "AI tarot reading",
       "tarot card meanings",
@@ -42,6 +57,20 @@ export function organizationJsonLd() {
       "love tarot",
       "career tarot",
       "yes or no tarot",
+    ],
+    subjectOf: [
+      {
+        "@id": `${appUrl}/editorial-policy#webpage`,
+      },
+      {
+        "@id": `${appUrl}/ai-tarot-disclaimer#webpage`,
+      },
+      {
+        "@id": `${appUrl}/reviews#webpage`,
+      },
+      {
+        "@id": `${appUrl}/tarot-reading-examples#webpage`,
+      },
     ],
   }
 
@@ -73,6 +102,7 @@ export function websiteJsonLd() {
       "@id": `${appUrl}/#organization`,
     },
     inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
+    hasPart: trustPageJsonLdItems(),
   }
 }
 
@@ -88,6 +118,9 @@ export function softwareApplicationJsonLd() {
     image: `${appUrl}/og-image.jpg`,
     description:
       "Draw tarot cards online and receive personalized AI interpretations for daily guidance, love, career, and life decisions.",
+    brand: {
+      "@id": `${appUrl}/#organization`,
+    },
     offers: {
       "@type": "Offer",
       price: "0",
@@ -105,6 +138,21 @@ export function softwareApplicationJsonLd() {
       "Yes or no tarot",
       "Saved history for members",
       "Advanced spreads for members",
+    ],
+    audience: {
+      "@type": "Audience",
+      audienceType: "People seeking reflective tarot guidance for love, career, daily decisions, and personal clarity",
+    },
+    subjectOf: [
+      {
+        "@id": `${appUrl}/reviews#webpage`,
+      },
+      {
+        "@id": `${appUrl}/tarot-reading-examples#webpage`,
+      },
+      {
+        "@id": `${appUrl}/ai-tarot-disclaimer#webpage`,
+      },
     ],
     review: representativeTestimonials.map((item) => ({
       "@type": "Review",
