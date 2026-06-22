@@ -60,7 +60,7 @@ export function QuestionInput({ visible = true, onSubmit, initialQuestion = "" }
             }}
           />
 
-          <div className="relative z-20 flex w-full max-w-2xl translate-y-0 flex-col items-center justify-center gap-5 overflow-visible px-5 py-[calc(env(safe-area-inset-top)+2rem)] opacity-100 transition-all delay-300 duration-700 sm:gap-6 sm:px-6 md:gap-7">
+          <div className="absolute inset-0 z-20 flex translate-y-0 flex-col items-center justify-center gap-5 overflow-visible px-5 py-[calc(env(safe-area-inset-top)+2rem)] opacity-100 transition-all delay-300 duration-700 sm:gap-6 sm:px-6 md:gap-7">
             <div className="flex flex-col items-center gap-3 text-center">
               <p 
                 className="text-xs uppercase text-[#c9c0ff]/68 md:text-sm" 
@@ -82,7 +82,7 @@ export function QuestionInput({ visible = true, onSubmit, initialQuestion = "" }
               </h1>
             </div>
 
-            <div className="relative flex h-16 w-full max-w-2xl items-center justify-center overflow-hidden">
+            <div className="relative flex h-16 w-[18rem] max-w-[calc(100vw-2.5rem)] items-center justify-center overflow-hidden sm:w-full sm:max-w-xl">
               <button
                 type="button"
                 key={currentQuestionIndex}
@@ -95,7 +95,7 @@ export function QuestionInput({ visible = true, onSubmit, initialQuestion = "" }
               </button>
             </div>
 
-            <div className="w-full max-w-xl relative">
+            <div className="relative w-[18rem] max-w-[calc(100vw-2.5rem)] sm:w-full sm:max-w-xl">
               <div 
                 className="absolute -inset-1 rounded-lg opacity-45 blur-xl transition-opacity duration-500"
                 style={{
@@ -120,7 +120,7 @@ export function QuestionInput({ visible = true, onSubmit, initialQuestion = "" }
             <button
               onClick={handleSubmit}
               disabled={!question.trim() || hasSubmitted}
-              className="group relative w-full max-w-xl cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
+              className="group relative w-[18rem] max-w-[calc(100vw-2.5rem)] cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 sm:w-full sm:max-w-xl"
             >
               <div className="relative flex min-h-12 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_48%,#8172e8_100%)] px-6 py-3 text-[#120c22] shadow-[0_18px_45px_rgba(129,114,232,0.26)] transition duration-300 group-hover:brightness-110">
                 <div className="flex items-center">
