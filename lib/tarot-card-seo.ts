@@ -109,6 +109,7 @@ function cleanKeywords(value: string) {
 
 type KeywordLocale = "en" | "es" | "pt-br"
 type KeywordOrientation = "upright" | "reversed"
+type RegionalCardLocale = Extract<SeoLocale, "es" | "pt-br">
 
 const majorKeywordSets: Partial<Record<number, Record<KeywordLocale, Record<KeywordOrientation, string>>>> = {
   0: {
@@ -437,6 +438,44 @@ function createEnglishCoreSections(card: TarotCard, theme: string) {
   ]
 }
 
+function createRegionalCoreSections(card: TarotCard, locale: RegionalCardLocale, theme: string) {
+  const englishName = card.nameEn
+  const upright = localizedKeywords(card, locale, "upright")
+  const reversed = localizedKeywords(card, locale, "reversed")
+
+  if (locale === "es") {
+    return [
+      {
+        heading: `${englishName} significado normal`,
+        body: `En posición normal, ${englishName} destaca ${upright}. En una tirada real, esta energía se lee dentro de ${theme}, la posición de la carta y la pregunta concreta que estás haciendo.`,
+      },
+      {
+        heading: `${englishName} significado invertido`,
+        body: `Invertida, ${englishName} apunta a ${reversed}. No significa automáticamente algo negativo; suele mostrar un bloqueo, retraso, exceso o ajuste interno que necesita atención.`,
+      },
+      {
+        heading: `Cómo interpretar ${englishName} en una tirada`,
+        body: `En pasado puede mostrar un patrón que ya traes; en presente, la energía activa; como consejo, una acción práctica. Lee la carta junto a las cartas cercanas antes de sacar una conclusión.`,
+      },
+    ]
+  }
+
+  return [
+    {
+      heading: `${englishName} significado normal`,
+      body: `Na posição normal, ${englishName} destaca ${upright}. Em uma tiragem real, essa energia deve ser lida dentro de ${theme}, da posição da carta e da pergunta concreta que você fez.`,
+    },
+    {
+      heading: `${englishName} significado invertido`,
+      body: `Invertida, ${englishName} aponta para ${reversed}. Isso não significa automaticamente algo ruim; costuma mostrar bloqueio, atraso, excesso ou ajuste interno que precisa de atenção.`,
+    },
+    {
+      heading: `Como interpretar ${englishName} em uma tiragem`,
+      body: `No passado pode mostrar um padrão que você já carrega; no presente, a energia ativa; como conselho, uma ação prática. Leia a carta junto das cartas próximas antes de concluir.`,
+    },
+  ]
+}
+
 function localizedCardName(card: TarotCard, locale: SeoLocale) {
   return locale === "zh"
     ? card.name
@@ -505,6 +544,12 @@ function createDeepSections(card: TarotCard, locale: SeoLocale, theme: string) {
         body: isEs
           ? `${englishName} suele ser una respuesta matizada. Normalmente apoya movimiento cuando la pregunta coincide con ${upright}; invertida sugiere esperar o corregir ${reversed}.`
           : `${englishName} costuma ser uma resposta com nuances. Normalmente apoia movimento quando a pergunta combina com ${upright}; invertida sugere esperar ou corrigir ${reversed}.`,
+      },
+      {
+        heading: isEs ? `Consejo de ${englishName}` : `Conselho de ${englishName}`,
+        body: isEs
+          ? `El consejo es convertir el símbolo en una acción concreta. Nombra el patrón, mira qué parte puedes controlar hoy y evita usar la carta solo para confirmar lo que ya querías oír.`
+          : `O conselho é transformar o símbolo em uma ação concreta. Nomeie o padrão, veja o que você pode controlar hoje e evite usar a carta apenas para confirmar o que já queria ouvir.`,
       },
     ]
   }
@@ -575,6 +620,14 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
 
   if (locale === "es" || locale === "pt-br") {
     const isEs = locale === "es"
+    const partner = {
+      major: { card: "The World", es: "cierre, integración y el arco completo de la lección", pt: "conclusão, integração e o arco completo da lição" },
+      wands: { card: "The Chariot", es: "impulso, voluntad y dirección de la acción", pt: "movimento, vontade e direção da ação" },
+      cups: { card: "The Moon", es: "proyección emocional, intuición y lo que aún no está claro", pt: "projeção emocional, intuição e o que ainda não está claro" },
+      pentacles: { card: "The Emperor", es: "estructura, compromiso, límites materiales y estabilidad", pt: "estrutura, compromisso, limites materiais e estabilidade" },
+      swords: { card: "Justice", es: "verdad, consecuencias, acuerdos y decisiones claras", pt: "verdade, consequências, acordos e decisões claras" },
+    }[getCardSuit(card)]
+
     return [
       {
         heading: isEs ? `${englishName} con The Lovers` : `${englishName} com The Lovers`,
@@ -587,6 +640,18 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
         body: isEs
           ? `The Tower intensifica el mensaje y puede mostrar que el patrón de ${englishName} ya no puede ignorarse.`
           : `The Tower intensifica a mensagem e pode mostrar que o padrão de ${englishName} já não pode ser ignorado.`,
+      },
+      {
+        heading: isEs ? `${englishName} con Ases` : `${englishName} com Ases`,
+        body: isEs
+          ? `Cualquier As junto a ${englishName} señala un inicio. Mira el palo del As para saber si el comienzo es emocional, práctico, mental o creativo.`
+          : `Qualquer Ás junto de ${englishName} aponta para um início. Veja o naipe do Ás para entender se o começo é emocional, prático, mental ou criativo.`,
+      },
+      {
+        heading: isEs ? `${englishName} con ${partner.card}` : `${englishName} com ${partner.card}`,
+        body: isEs
+          ? `Juntas, estas cartas enfatizan ${partner.es}. Usa la combinación para ver qué debe estabilizarse antes de aplicar el mensaje de ${englishName}.`
+          : `Juntas, estas cartas enfatizam ${partner.pt}. Use a combinação para ver o que precisa ser estabilizado antes de aplicar a mensagem de ${englishName}.`,
       },
     ]
   }
@@ -652,18 +717,45 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
 
   if (locale === "es" || locale === "pt-br") {
     const isEs = locale === "es"
+    const upright = localizedKeywords(card, locale, "upright")
+    const reversed = localizedKeywords(card, locale, "reversed")
+
     return [
       {
         question: isEs ? `¿Qué significa ${englishName} en tarot?` : `O que significa ${englishName} no tarot?`,
         answer: isEs
-          ? `${englishName} en posición normal representa ${localizedKeywords(card, locale, "upright")}; invertida puede señalar ${localizedKeywords(card, locale, "reversed")}.`
-          : `${englishName} na posição normal representa ${localizedKeywords(card, locale, "upright")}; invertida pode indicar ${localizedKeywords(card, locale, "reversed")}.`,
+          ? `${englishName} en posición normal representa ${upright}; invertida puede señalar ${reversed}. El mensaje exacto depende de la pregunta, la posición y las cartas cercanas.`
+          : `${englishName} na posição normal representa ${upright}; invertida pode indicar ${reversed}. A mensagem exata depende da pergunta, da posição e das cartas próximas.`,
+      },
+      {
+        question: isEs ? `¿Qué significa ${englishName} en posición normal?` : `O que significa ${englishName} na posição normal?`,
+        answer: isEs
+          ? `En posición normal, ${englishName} suele mostrar una energía activa relacionada con ${upright}. Es una invitación a trabajar el tema de forma consciente.`
+          : `Na posição normal, ${englishName} costuma mostrar uma energia ativa ligada a ${upright}. É um convite para trabalhar o tema de forma consciente.`,
+      },
+      {
+        question: isEs ? `¿Qué significa ${englishName} invertida?` : `O que significa ${englishName} invertida?`,
+        answer: isEs
+          ? `Invertida, ${englishName} puede mostrar retraso, desequilibrio, miedo privado o una corrección conectada con ${reversed}.`
+          : `Invertida, ${englishName} pode mostrar atraso, desequilíbrio, medo interno ou uma correção ligada a ${reversed}.`,
+      },
+      {
+        question: isEs ? `¿Qué significa ${englishName} en el amor?` : `O que significa ${englishName} no amor?`,
+        answer: isEs
+          ? `En amor, ${englishName} se lee mejor junto con conducta real, comunicación y disponibilidad emocional, no solo como deseo o fantasía.`
+          : `No amor, ${englishName} funciona melhor quando lida junto com comportamento real, comunicação e disponibilidade emocional, não apenas desejo ou fantasia.`,
       },
       {
         question: isEs ? `¿${englishName} es una carta de sí o no?` : `${englishName} é uma carta de sim ou não?`,
         answer: isEs
           ? "Puede responder sí o no solo cuando se combina orientación, pregunta y cartas cercanas. Normal suele apoyar avanzar; invertida pide ajuste."
           : "Pode responder sim ou não apenas quando orientação, pergunta e cartas próximas são lidas juntas. Normal apoia avanço; invertida pede ajuste.",
+      },
+      {
+        question: isEs ? `¿Qué debo hacer si saco ${englishName}?` : `O que devo fazer quando tiro ${englishName}?`,
+        answer: isEs
+          ? `Úsala como una señal de reflexión y acción. Observa el patrón que nombra la carta y elige un siguiente paso práctico en lugar de tratarla como destino fijo.`
+          : `Use como um sinal de reflexão e ação. Observe o padrão que a carta nomeia e escolha um próximo passo prático em vez de tratá-la como destino fixo.`,
       },
     ]
   }
@@ -800,13 +892,10 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       faqLabel: "Preguntas frecuentes",
       sections: [
         {
-          heading: "Qué representa esta carta",
-          body: `${englishName} no es una respuesta fija. Es una lente simbólica que dirige la atención hacia ${theme}.`,
+          heading: `${englishName} significado rápido`,
+          body: `${englishName} no es una respuesta fija. Es una lente simbólica que dirige la atención hacia ${theme}. Úsala para nombrar el patrón activo antes de decidir qué hacer.`,
         },
-        {
-          heading: "Cómo leerla en una tirada",
-          body: "En pasado puede describir un patrón; en presente, la energía actual; en consejo, una acción práctica.",
-        },
+        ...createRegionalCoreSections(card, "es", theme),
       ],
     },
     "pt-br": {
@@ -823,13 +912,10 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
       faqLabel: "Perguntas frequentes",
       sections: [
         {
-          heading: "O que esta carta representa",
-          body: `${englishName} não é uma resposta fixa. É uma lente simbólica que chama atenção para ${theme}.`,
+          heading: `${englishName} significado rápido`,
+          body: `${englishName} não é uma resposta fixa. É uma lente simbólica que chama atenção para ${theme}. Use para nomear o padrão ativo antes de decidir o que fazer.`,
         },
-        {
-          heading: "Como ler em uma tiragem",
-          body: "No passado pode descrever um padrão; no presente, a energia atual; como conselho, uma ação prática.",
-        },
+        ...createRegionalCoreSections(card, "pt-br", theme),
       ],
     },
   }[locale]
