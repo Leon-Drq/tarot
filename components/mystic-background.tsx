@@ -76,7 +76,7 @@ function HomeQuestionForm() {
   return (
     <form
       onSubmit={submitQuestion}
-      className="absolute bottom-[calc(env(safe-area-inset-bottom)+4.55rem)] left-1/2 z-30 w-[min(90vw,460px)] -translate-x-1/2 md:bottom-[6.5rem] md:w-[min(72vw,620px)]"
+      className="relative z-30 mx-auto mt-1 w-[min(90vw,460px)] md:absolute md:bottom-[6.5rem] md:left-1/2 md:mt-0 md:w-[min(72vw,620px)] md:-translate-x-1/2"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/38 md:text-xs">
         {copy.label}
@@ -260,11 +260,11 @@ function MysticContent() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="relative min-h-[118dvh] overflow-hidden md:min-h-[132dvh]">
+      <div className="relative min-h-[100svh] overflow-hidden pb-[calc(env(safe-area-inset-bottom)+1.5rem)] md:min-h-[132dvh] md:pb-0">
         {/* 3. Core light effect */}
         <CoreLight />
 
-        <section className="pointer-events-none absolute left-1/2 top-[12%] z-30 w-[min(90vw,680px)] -translate-x-1/2 text-center sm:top-[15%] md:top-[16%]">
+        <section className="pointer-events-none relative z-30 mx-auto w-[min(90vw,680px)] pt-[8.25rem] text-center sm:pt-[9rem] md:absolute md:left-1/2 md:top-[16%] md:-translate-x-1/2 md:pt-0">
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
@@ -283,7 +283,7 @@ function MysticContent() {
 
         <HomeQuestionForm />
 
-        <div className="absolute bottom-[calc(env(safe-area-inset-bottom)+1rem)] left-1/2 z-30 flex w-[min(92vw,520px)] -translate-x-1/2 items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md sm:bottom-[3.5%] sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:text-xs sm:text-white/44 sm:shadow-none sm:backdrop-blur-0">
+        <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:absolute md:bottom-[3.5%] md:left-1/2 md:mt-0 md:-translate-x-1/2 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
           <a href="/daily-tarot" className="transition hover:text-white">
             Daily Tarot
           </a>
