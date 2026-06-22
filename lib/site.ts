@@ -90,6 +90,31 @@ export function organizationJsonLd() {
     legalName: siteName,
     alternateName: ["POPTarot AI Tarot", "Pop Tarot AI"],
     url: appUrl,
+    identifier: [
+      {
+        "@type": "PropertyValue",
+        propertyID: "domain",
+        value: "poptarot.com",
+        url: appUrl,
+      },
+      {
+        "@type": "PropertyValue",
+        propertyID: "canonical-logo",
+        value: `${appUrl}/icon-512x512.png`,
+        url: `${appUrl}/brand-assets`,
+      },
+    ],
+    brand: {
+      "@type": "Brand",
+      "@id": `${appUrl}/#brand`,
+      name: siteName,
+      alternateName: ["POPTarot AI Tarot", "Pop Tarot AI"],
+      url: appUrl,
+      logo: {
+        "@id": `${appUrl}/#logo`,
+      },
+      slogan: "Free AI tarot readings for clearer questions and daily guidance",
+    },
     logo: {
       "@type": "ImageObject",
       "@id": `${appUrl}/#logo`,
@@ -129,8 +154,10 @@ export function organizationJsonLd() {
       "@type": "ContactPoint",
       contactType: "brand verification and product support",
       url: `${appUrl}/official-channels`,
+      areaServed: "Worldwide",
       availableLanguage: ["en", "zh", "ja", "ko", "es", "pt-BR"],
     },
+    knowsLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
     knowsAbout: [
       "AI tarot reading",
       "tarot card meanings",
@@ -144,6 +171,12 @@ export function organizationJsonLd() {
     ],
     subjectOf: [
       {
+        "@id": `${appUrl}/official-channels#webpage`,
+      },
+      {
+        "@id": `${appUrl}/brand-assets#webpage`,
+      },
+      {
         "@id": `${appUrl}/editorial-policy#webpage`,
       },
       {
@@ -156,6 +189,15 @@ export function organizationJsonLd() {
         "@id": `${appUrl}/tarot-reading-examples#webpage`,
       },
     ],
+    makesOffer: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      itemOffered: {
+        "@id": `${appUrl}/#app`,
+      },
+    },
   }
 
   if (socialLinks.length > 0) {
@@ -174,6 +216,13 @@ export function websiteJsonLd() {
     url: appUrl,
     description:
       "Free AI tarot readings for love, career, daily guidance, and personal decisions.",
+    image: {
+      "@id": `${appUrl}/#brand-image`,
+    },
+    thumbnailUrl: `${appUrl}/icon-512x512.png`,
+    about: {
+      "@id": `${appUrl}/#brand`,
+    },
     potentialAction: {
       "@type": "SearchAction",
       target: `${appUrl}/input?q={search_term_string}`,

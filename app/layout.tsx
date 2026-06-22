@@ -37,6 +37,20 @@ export const metadata: Metadata = {
   authors: [{ name: siteName, url: appUrl }],
   creator: siteName,
   publisher: siteName,
+  category: "lifestyle",
+  classification: "AI tarot reading web application",
+  appleWebApp: {
+    capable: true,
+    title: siteName,
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+    date: false,
+    address: false,
+    email: false,
+    url: false,
+  },
   alternates: {
     canonical: "/",
   },
@@ -83,6 +97,11 @@ export const metadata: Metadata = {
       "max-snippet": -1,
       "max-video-preview": -1,
     },
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+    "msapplication-TileColor": "#160B2E",
+    "msapplication-TileImage": "/icon-192x192.png",
   },
 }
 
