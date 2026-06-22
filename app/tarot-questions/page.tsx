@@ -17,7 +17,7 @@ type QuestionEntry = {
 
 const title = "Tarot Questions"
 const description =
-  "Choose a tarot question for love, ex reconciliation, yes-or-no answers, career, and job decisions, then start a free AI tarot spread."
+  "Choose a tarot question for love, ex reconciliation, texting, yes-or-no answers, career, and job decisions, then start a free AI tarot spread."
 
 const questionEntries: QuestionEntry[] = [
   {
@@ -34,6 +34,22 @@ const questionEntries: QuestionEntry[] = [
     query: "Does he love me, and what is the real emotional energy between us?",
     intent: "For mixed signals, emotional consistency, and whether the connection is mutual.",
     spread: "their_thoughts",
+    group: "Love",
+  },
+  {
+    slug: "is-he-thinking-about-me-tarot",
+    title: "Is he thinking about me?",
+    query: "Is he thinking about me, and what is the real energy behind his silence?",
+    intent: "For silence, delayed replies, no-contact periods, and whether thoughts may become action.",
+    spread: "their_thoughts",
+    group: "Love",
+  },
+  {
+    slug: "when-will-i-find-love-tarot",
+    title: "When will I find love?",
+    query: "When will I find love, and what should I open myself to next?",
+    intent: "For single readers, dating fatigue, soulmate timing, and the pattern that needs to shift first.",
+    spread: "love_connection",
     group: "Love",
   },
   {
@@ -61,8 +77,9 @@ const questionEntries: QuestionEntry[] = [
     group: "Career",
   },
   {
-    title: "Should I text them today?",
-    query: "Should I text them today, and what should I consider first?",
+    slug: "should-i-text-him-tarot",
+    title: "Should I text him today?",
+    query: "Should I text him today, and what should I consider first?",
     intent: "For quick contact decisions where the answer needs one clear next action.",
     spread: "yes_no",
     group: "Fast clarity",

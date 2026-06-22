@@ -901,6 +901,63 @@ seoPageSources.push(
       { question: "What cards suggest leaving a job?", answer: "The Tower, Death, Eight of Cups, Ten of Wands, and The World can suggest transition when supported by the full spread." },
     ],
   }),
+  makeQuestionSeoPage({
+    slug: "is-he-thinking-about-me-tarot",
+    cards: [2, 6, 18],
+    recommendedSpread: "their_thoughts",
+    title: "Is He Thinking About Me Tarot",
+    description: "Ask a free AI tarot reading about whether he is thinking about you, what his feelings show, and what action is healthiest next.",
+    h1: "Is He Thinking About Me Tarot",
+    intent: "Best for mixed signals, silence, no-contact periods, crushes, and understanding whether attention is emotional, casual, or unresolved.",
+    question: "Is he thinking about me, and what is the real energy behind his silence?",
+    sections: [
+      { heading: "Read thoughts with behavior", body: "A card can suggest attention, but the full spread should compare thoughts, feelings, fears, and whether those thoughts become real action." },
+      { heading: "Silence has different meanings", body: "No contact can mean processing, avoidance, pride, confusion, or simply moving on. The reading should separate hope from evidence." },
+      { heading: "Return to your clarity", body: "The most useful answer should show what you can do next without waiting indefinitely for a message." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if he is thinking about me?", answer: "Tarot can reflect emotional signals, attention, and likely mental energy, but thoughts matter most when they connect to respectful action." },
+      { question: "What cards suggest he is thinking about me?", answer: "The High Priestess, Page of Cups, Six of Cups, The Lovers, and The Moon can suggest inner focus or unresolved feeling when supported by the spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-text-him-tarot",
+    cards: [1, 11, 14],
+    recommendedSpread: "yes_no",
+    title: "Should I Text Him Tarot",
+    description: "Use a free yes or no AI tarot reading before texting him. Check timing, intention, emotional safety, and the best next step.",
+    h1: "Should I Text Him Tarot",
+    intent: "Best for deciding whether to send a message today, wait, set a boundary, or choose a calmer way to reopen contact.",
+    question: "Should I text him today, and what should I consider before I send it?",
+    sections: [
+      { heading: "Texting is about timing and intention", body: "A yes-or-no answer is most useful when it also shows whether the message comes from clarity, anxiety, care, or pressure." },
+      { heading: "Look for the cost of contact", body: "The spread should show whether texting would open healthy communication or restart an old loop." },
+      { heading: "Make the answer practical", body: "If the cards lean yes, write one clear message. If they lean no or not yet, choose the boundary or pause that protects your peace." },
+    ],
+    faqs: [
+      { question: "Can tarot answer whether I should text him?", answer: "Yes, it can give a quick direction and the reason behind it. Use the answer as reflection, not as pressure to ignore your boundaries." },
+      { question: "What cards suggest I should wait before texting?", answer: "The Hanged Man, Four of Swords, Temperance, The Moon, or reversed communication cards can suggest waiting, clarifying intention, or protecting your energy." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "when-will-i-find-love-tarot",
+    cards: [3, 10, 17],
+    recommendedSpread: "love_connection",
+    title: "When Will I Find Love Tarot",
+    description: "Draw a free AI tarot reading about finding love, timing, dating energy, soulmate traits, and what helps you become ready.",
+    h1: "When Will I Find Love Tarot",
+    intent: "Best for single readers, dating fatigue, soulmate timing, opening to love, and understanding what pattern needs to shift first.",
+    question: "When will I find love, and what should I open myself to next?",
+    sections: [
+      { heading: "Love timing is also readiness", body: "A timing reading should not only predict when love appears; it should show what energy, choices, and openness make love easier to recognize." },
+      { heading: "Look for the pattern before the person", body: "The cards can reveal whether the next relationship is blocked by old expectations, fear, unavailable people, or a need to widen your world." },
+      { heading: "Use the answer as movement", body: "Translate the reading into one dating or self-trust action instead of waiting passively for fate." },
+    ],
+    faqs: [
+      { question: "Can tarot predict when I will find love?", answer: "Tarot can show timing themes and readiness signals, but the most useful answer also points to the choices that make connection possible." },
+      { question: "What cards suggest new love is coming?", answer: "Ace of Cups, The Lovers, The Star, Two of Cups, The Empress, and Wheel of Fortune can suggest new love when the surrounding cards support openness." },
+    ],
+  }),
 )
 
 type RegionalLocale = Exclude<SeoLocale, Locale>
@@ -1654,6 +1711,120 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       {
         question: "What spread is best before quitting?",
         answer: "Use a career or job opportunity spread that checks current pressure, hidden risks, available resources, timing, and the next safest step.",
+      },
+    ],
+  },
+  "is-he-thinking-about-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when silence, delayed replies, no contact, or a sudden change in attention makes you wonder whether the connection is still alive.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The cards should separate mental attention, emotional attachment, fear, avoidance, and likely action instead of turning one sign into proof.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the reading shows thought without action, do not wait in place. Let the advice card show whether to pause, ask directly, or refocus on yourself.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what would help me feel clear even if he does not message first?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this thinking about me tarot reading free?",
+        answer: "Yes. You can start this question as a free AI tarot reading. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Does thinking about me mean he will contact me?",
+        answer: "Not always. A reading can show mental energy without action, so look for communication, courage, and consistency cards in the full spread.",
+      },
+      {
+        question: "What if the cards show he misses me but stays silent?",
+        answer: "That often points to pride, fear, unresolved conflict, or emotional avoidance. The advice card should show whether contact would help or hurt.",
+      },
+      {
+        question: "What spread is best for this question?",
+        answer: "A thoughts and attitude spread works well because it compares impression, thoughts, attitude, concerns, and possible action.",
+      },
+    ],
+  },
+  "should-i-text-him-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this before sending a message you might regret, especially after silence, conflict, a breakup, or mixed signals.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should show whether texting now supports clear communication or comes from anxiety, pressure, loneliness, or unfinished attachment.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the answer leans yes, keep the message simple and honest. If it leans no or not yet, use the pause to protect dignity and timing.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the answer, ask: what message, boundary, or silence would respect both my feelings and the situation?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this should I text him tarot reading free?",
+        answer: "Yes. You can start the yes-or-no reading for free. Membership is only for deeper follow-ups, saved history, and advanced spreads.",
+      },
+      {
+        question: "Can tarot tell me the best time to text?",
+        answer: "Tarot can show readiness, pressure, and timing themes, but you should also consider real context, boundaries, and whether the message is necessary.",
+      },
+      {
+        question: "What if the answer is not yet?",
+        answer: "Not yet usually means the timing, intention, or emotional state needs to settle first. Wait until the message can be clear and grounded.",
+      },
+      {
+        question: "Should I ask about the exact wording?",
+        answer: "A useful follow-up is: what tone would create the healthiest communication? Then keep the actual message brief and respectful.",
+      },
+    ],
+  },
+  "when-will-i-find-love-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when you feel ready for love, tired of dating, or unsure whether the next relationship needs a different pattern from the last one.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "A love timing spread should show readiness, blocks, where connection may appear, what traits matter, and what action opens the path.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "Use the timing as a theme, not a countdown. The best reading gives you one way to become more available to the love you want.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first reading, ask: what pattern should I release so healthier love can meet me?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this when will I find love tarot reading free?",
+        answer: "Yes. You can start this love timing reading for free. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot give an exact date for love?",
+        answer: "Tarot is better at timing themes than exact dates. It can show season, readiness, delay, or the kind of action that changes timing.",
+      },
+      {
+        question: "What spread is best for finding love?",
+        answer: "A love connection spread works well because it looks at dating energy, soulmate traits, timing, and advice together.",
+      },
+      {
+        question: "What if the cards show a delay?",
+        answer: "A delay can point to healing, old expectations, limited social openings, or choosing unavailable people. The advice card shows what can shift.",
       },
     ],
   },

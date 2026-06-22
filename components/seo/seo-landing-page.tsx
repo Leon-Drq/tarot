@@ -127,7 +127,10 @@ function relatedPages(page: SeoPage) {
     "love-tarot-reading",
     "will-my-ex-come-back-tarot",
     "does-he-love-me-tarot",
+    "is-he-thinking-about-me-tarot",
+    "should-i-text-him-tarot",
     "yes-or-no-tarot-love",
+    "when-will-i-find-love-tarot",
     "career-tarot-reading",
     "should-i-quit-my-job-tarot",
     "monthly-tarot-report",
@@ -260,6 +263,32 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       },
     ],
   },
+  "is-he-thinking-about-me-tarot": {
+    label: "Thoughts and attitude spread",
+    title: "Read silence without turning it into certainty",
+    body: "This question is useful when no contact or mixed signals make you wonder what is happening internally. The spread compares thoughts with concerns and likely action.",
+    promptTitle: "Try a sharper thoughts question",
+    prompts: [
+      "Is he thinking about me, and what is blocking action?",
+      "Does he miss me or just remember the past?",
+      "What would help me feel clear without waiting for him?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Mental attention",
+        body: "High Priestess, Moon, Six of Cups, or Pages can show private thought, but look for action cards before assuming contact.",
+      },
+      {
+        title: "Avoidance",
+        body: "Four of Swords, Seven of Swords, or reversed court cards can show withdrawal, pride, fear, or inconsistent expression.",
+      },
+      {
+        title: "Your dignity",
+        body: "The advice card should help you stop reading silence as your only source of clarity.",
+      },
+    ],
+  },
   "yes-or-no-tarot-love": {
     label: "Yes or no spread",
     title: "Get a quick answer without losing the reason",
@@ -286,6 +315,32 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       },
     ],
   },
+  "should-i-text-him-tarot": {
+    label: "Contact decision spread",
+    title: "Check the timing before you press send",
+    body: "This yes-or-no reading keeps the focus on timing, intention, and emotional safety so a message becomes a clear choice instead of an anxious reflex.",
+    promptTitle: "Try a cleaner texting question",
+    prompts: [
+      "Should I text him today, or should I wait?",
+      "What intention is behind my urge to message him?",
+      "What kind of message would protect my peace?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Text now",
+        body: "Clear Wands, Magician, or balanced Cups can support a direct message when the advice card also shows grounded intention.",
+      },
+      {
+        title: "Wait",
+        body: "Temperance, Hanged Man, Four of Swords, or Moon energy often asks for timing, calm, or more information first.",
+      },
+      {
+        title: "One message",
+        body: "If you do text, let the reading shape one brief message, not a chain of reassurance-seeking follow-ups.",
+      },
+    ],
+  },
   "career-tarot-reading": {
     label: "Career spread",
     title: "Turn career uncertainty into one practical move",
@@ -309,6 +364,32 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       {
         title: "Action",
         body: "Translate the advice card into a concrete step: apply, prepare, negotiate, rest, wait, or change direction.",
+      },
+    ],
+  },
+  "when-will-i-find-love-tarot": {
+    label: "Love timing spread",
+    title: "Read timing as readiness, not a countdown",
+    body: "This love timing reading looks at openness, dating energy, likely meeting conditions, and the pattern that needs to shift before healthier love can land.",
+    promptTitle: "Try a sharper love timing question",
+    prompts: [
+      "When will I find love, and what should I open to?",
+      "What blocks me from meeting healthier love?",
+      "What kind of relationship is trying to enter my life next?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Readiness",
+        body: "Empress, Star, Ace of Cups, and Two of Cups can support openness when the advice card shows real movement too.",
+      },
+      {
+        title: "Timing",
+        body: "Wheel, Temperance, and seasonal cards are better read as timing themes than exact dates.",
+      },
+      {
+        title: "New pattern",
+        body: "The strongest answer names what changes in your choices, spaces, or standards before love becomes easier to meet.",
       },
     ],
   },
