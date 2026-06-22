@@ -37,6 +37,15 @@ function getTimezone() {
   }
 }
 
+function normalizeReminderEmail(value: string) {
+  return value.trim().toLowerCase()
+}
+
+function isValidReminderEmail(value: string) {
+  const email = normalizeReminderEmail(value)
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
 function localDailyKey(dateKey: string) {
   return `poptarot_daily_${dateKey}`
 }
@@ -389,11 +398,18 @@ export function DailyTarotTool() {
 
   const handleSaveReminder = async () => {
     if (!dateKey) return
+    const normalizedEmail = normalizeReminderEmail(reminderEmail)
+    if (reminderEnabled && !isValidReminderEmail(normalizedEmail)) {
+      setStatus(copy.reminderEmailInvalid)
+      return
+    }
+
     setIsSaving(true)
     try {
+      setReminderEmail(reminderEnabled ? normalizedEmail : "")
       const localEntry = createLocalEntry({
         reminderEnabled,
-        reminderEmail,
+        reminderEmail: reminderEnabled ? normalizedEmail : null,
         reminderTime,
       })
       if (!localEntry) return

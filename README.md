@@ -29,8 +29,12 @@ OPENAI_MODEL=gpt-5.2
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_publishable_or_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_for_cron_jobs
 SUPABASE_FUNCTIONS_URL=your_supabase_functions_url
 POPTAROT_FULFILLMENT_SECRET=server_to_edge_function_secret
+CRON_SECRET=shared_secret_for_vercel_cron_authorization
+RESEND_API_KEY=your_resend_api_key_for_daily_tarot_reminders
+RESEND_FROM_EMAIL="POPTarot <daily@poptarot.com>"
 ZPAY_PID=your_zpay_pid
 ZPAY_KEY=your_zpay_key
 ZPAY_API_URL=https://zpayz.cn/submit.php
@@ -38,6 +42,8 @@ ZPAY_QUERY_URL=https://zpayz.cn/api.php
 ```
 
 Stripe variables are optional until the Stripe payment flow is implemented.
+
+Daily Tarot email reminders require `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET`, and `RESEND_API_KEY` in the Production environment. Without them, users can still save local reminders and daily journal entries, but scheduled reminder emails cannot be delivered.
 
 ## Scripts
 

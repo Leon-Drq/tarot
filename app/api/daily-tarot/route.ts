@@ -12,6 +12,18 @@ function bool(value: unknown) {
   return typeof value === "boolean" ? value : false
 }
 
+function reminderEmail(value: unknown) {
+  const email = text(value, 320)
+  if (!email) return null
+  const normalized = email.toLowerCase()
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized) ? normalized : null
+}
+
+function reminderTime(value: unknown) {
+  const time = text(value, 16)
+  return /^([01]?\d|2[0-3]):[0-5]\d$/.test(time || "") ? time : "08:30"
+}
+
 function todayKey() {
   return new Date().toISOString().slice(0, 10)
 }
@@ -75,6 +87,9 @@ export async function POST(req: Request) {
     .maybeSingle()
 
   const streakCount = Number(previous?.streak_count || 0) + 1
+  const reminderEnabled = bool(record.reminder_enabled)
+  const normalizedReminderEmail = reminderEmail(record.reminder_email)
+  if (reminderEnabled && !normalizedReminderEmail) return jsonError("A valid reminder email is required")
 
   const payload = {
     user_id: auth.user.id,
@@ -87,9 +102,9 @@ export async function POST(req: Request) {
     journal: text(record.journal, 2000),
     mood: text(record.mood, 80),
     streak_count: streakCount,
-    reminder_enabled: bool(record.reminder_enabled),
-    reminder_email: text(record.reminder_email, 320),
-    reminder_time: text(record.reminder_time, 16) || "08:30",
+    reminder_enabled: reminderEnabled,
+    reminder_email: reminderEnabled ? normalizedReminderEmail : null,
+    reminder_time: reminderTime(record.reminder_time),
     reminder_timezone: text(record.reminder_timezone, 80) || "UTC",
     source: "daily-tarot",
   }
@@ -117,9 +132,15 @@ export async function PATCH(req: Request) {
 
   if ("journal" in record) patch.journal = text(record.journal, 2000)
   if ("mood" in record) patch.mood = text(record.mood, 80)
-  if ("reminder_enabled" in record) patch.reminder_enabled = bool(record.reminder_enabled)
-  if ("reminder_email" in record) patch.reminder_email = text(record.reminder_email, 320)
-  if ("reminder_time" in record) patch.reminder_time = text(record.reminder_time, 16) || "08:30"
+  if ("reminder_enabled" in record || "reminder_email" in record) {
+    const enabled = "reminder_enabled" in record ? bool(record.reminder_enabled) : undefined
+    const normalizedEmail = reminderEmail(record.reminder_email)
+    if (enabled === true && !normalizedEmail) return jsonError("A valid reminder email is required")
+    if (enabled !== undefined) patch.reminder_enabled = enabled
+    if (enabled === false) patch.reminder_email = null
+    if (normalizedEmail) patch.reminder_email = normalizedEmail
+  }
+  if ("reminder_time" in record) patch.reminder_time = reminderTime(record.reminder_time)
   if ("reminder_timezone" in record) patch.reminder_timezone = text(record.reminder_timezone, 80) || "UTC"
 
   if (Object.keys(patch).length === 0) return jsonError("No content to update")
