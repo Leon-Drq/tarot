@@ -1,4 +1,5 @@
 import { createServiceSupabase, hasSupabaseServiceKey, jsonError, jsonResponse } from "@/lib/server/supabase"
+import { dailyReminderUnsubscribeUrl } from "@/lib/server/daily-reminder-unsubscribe"
 import { dailyTarotReminderHtml, hasEmailProvider, sendEmail } from "@/lib/server/email"
 
 type ReminderRow = {
@@ -101,6 +102,7 @@ export async function GET(req: Request) {
           cardName: row.card_name,
           isReversed: row.is_reversed,
           streakCount: row.streak_count,
+          unsubscribeUrl: dailyReminderUnsubscribeUrl(appUrl, row.user_id),
         }),
         idempotencyKey: `daily-tarot-reminder-${row.user_id}-${date}`,
       })

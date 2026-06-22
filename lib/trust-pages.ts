@@ -92,7 +92,7 @@ export const trustPages: TrustPage[] = [
       { heading: "Reading data", body: "Questions, selected cards, interpretations, and journal entries may be saved when you choose to use account or history features." },
       { heading: "Anonymous first use", body: "The free reading flow is designed to work before account creation. Account features are used when you want saved history, journal entries, reminders, or membership benefits." },
       { heading: "Analytics", body: "We track aggregate events such as page views, question submissions, reading completion, share actions, and payment conversion to improve the site." },
-      { heading: "Daily reminders", body: "If you add an email reminder for daily tarot, the reminder address, time, and timezone are used to send that reminder and manage delivery status." },
+      { heading: "Daily reminders", body: "If you add an email reminder for daily tarot, the reminder address, time, and timezone are used to send that reminder and manage delivery status. Each reminder email includes a link to turn off Daily Tarot reminders." },
       { heading: "Payments", body: "Payments are processed through configured payment providers. POPTarot stores order status and membership entitlement information, not full card details." },
     ],
   },

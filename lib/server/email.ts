@@ -54,9 +54,11 @@ export function dailyTarotReminderHtml(input: {
   cardName: string
   isReversed: boolean
   streakCount: number
+  unsubscribeUrl?: string
 }) {
   const orientation = input.isReversed ? "reversed" : "upright"
   const dailyUrl = `${input.appUrl.replace(/\/$/, "")}/daily-tarot`
+  const unsubscribeUrl = input.unsubscribeUrl || `${dailyUrl}?reminder=preferences`
 
   return `<!doctype html>
 <html>
@@ -72,7 +74,9 @@ export function dailyTarotReminderHtml(input: {
         Draw today's card
       </a>
       <p style="color:#81738f;font-size:12px;line-height:1.6;margin-top:28px;">
-        You are receiving this because you enabled Daily Tarot reminders in POPTarot. Open Daily Tarot to update reminder preferences.
+        You are receiving this because you enabled Daily Tarot reminders in POPTarot.
+        Open Daily Tarot to update reminder preferences, or
+        <a href="${unsubscribeUrl}" style="color:#c9c0ff;text-decoration:underline;">turn off these reminders</a>.
       </p>
     </div>
   </body>
