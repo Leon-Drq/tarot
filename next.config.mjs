@@ -6,6 +6,20 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url))
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   outputFileTracingRoot: projectRoot,
+  async redirects() {
+    return [
+      {
+        source: "/daily",
+        destination: "/daily-tarot",
+        permanent: true,
+      },
+      {
+        source: "/daily/reading",
+        destination: "/daily-tarot",
+        permanent: true,
+      },
+    ]
+  },
   turbopack: {
     root: projectRoot,
   },

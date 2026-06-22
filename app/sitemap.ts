@@ -10,8 +10,6 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 const baseRoutes = [
   { path: "/", priority: 1 },
   { path: "/daily-tarot", priority: 0.92 },
-  { path: "/daily", priority: 0.8 },
-  { path: "/daily/reading", priority: 0.7 },
   { path: "/input", priority: 0.8 },
   { path: "/reading", priority: 0.7 },
   { path: "/membership", priority: 0.4 },
