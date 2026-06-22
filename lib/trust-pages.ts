@@ -33,6 +33,15 @@ export type TrustPage = {
     nextStep: string
     href: string
   }>
+  brandAssets?: Array<{
+    label: string
+    title: string
+    description: string
+    src: string
+    width: number
+    height: number
+    href: string
+  }>
 }
 
 export const trustPages: TrustPage[] = [
@@ -81,6 +90,60 @@ export const trustPages: TrustPage[] = [
       { heading: "Safe link checks", body: "Be careful with copied links, payment requests, or messages that do not point back to poptarot.com. Official product and policy links should resolve under this domain." },
       { heading: "Membership boundary", body: "The free reading flow stays available before payment. Membership belongs to saved history, deeper follow-ups, advanced spreads, and long-form reports." },
       { heading: "How updates appear", body: "When official accounts, support inboxes, or new public channels are launched, they will be added here first and then reflected in site-wide structured data." },
+    ],
+  },
+  {
+    slug: "brand-assets",
+    type: "CollectionPage",
+    title: "POPTarot Brand Assets",
+    description: "Official POPTarot logo, app icon, favicon, and social sharing image for brand verification and media previews.",
+    eyebrow: "Brand Assets",
+    intro: "These are the canonical POPTarot visual assets used by poptarot.com, structured data, app metadata, social previews, and saved-home-screen icons.",
+    sections: [
+      { heading: "Canonical logo", body: "The primary POPTarot logo signal is the 512 x 512 icon used in Organization structured data and app manifests." },
+      { heading: "Search and preview consistency", body: "The favicon, apple touch icon, app icon, and Open Graph image point back to the same brand identity so search engines and social previews read one consistent source." },
+      { heading: "Official source", body: "Use only assets hosted under poptarot.com for brand verification. New public channels should link back to this page or the official channels page." },
+      { heading: "Free-first positioning", body: "POPTarot should be described as a free AI tarot tool first. Membership is for deeper follow-ups, saved history, advanced spreads, and longer reports." },
+      { heading: "AI tarot boundary", body: "Brand descriptions should keep readings framed as reflective guidance, not professional medical, legal, financial, psychological, or safety advice." },
+      { heading: "Update policy", body: "When icons or sharing images change, this page, metadata, manifest, and Organization schema should be updated together." },
+    ],
+    brandAssets: [
+      {
+        label: "Logo",
+        title: "512 x 512 app logo",
+        description: "Primary image used in Organization structured data and installable app metadata.",
+        src: "/icon-512x512.png",
+        width: 512,
+        height: 512,
+        href: "/icon-512x512.png",
+      },
+      {
+        label: "App icon",
+        title: "192 x 192 app icon",
+        description: "Compact icon used for web app manifests and smaller app surfaces.",
+        src: "/icon-192x192.png",
+        width: 192,
+        height: 192,
+        href: "/icon-192x192.png",
+      },
+      {
+        label: "Apple",
+        title: "Apple touch icon",
+        description: "Home-screen icon for iOS and mobile browser save actions.",
+        src: "/apple-touch-icon.png",
+        width: 180,
+        height: 180,
+        href: "/apple-touch-icon.png",
+      },
+      {
+        label: "Preview",
+        title: "Open Graph share image",
+        description: "Default image for social sharing, rich previews, and brand context.",
+        src: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        href: "/og-image.jpg",
+      },
     ],
   },
   {

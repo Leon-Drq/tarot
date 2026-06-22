@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getRelatedTrustLinks, type TrustPage } from "@/lib/trust-pages"
@@ -122,6 +123,28 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   about: item.question,
                   abstract: item.interpretation,
                   url: `${appUrl}${item.href}`,
+                },
+              })),
+            },
+          ]
+        : []),
+      ...(page.brandAssets
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}/${page.slug}#brand-assets`,
+              name: "Official POPTarot brand assets",
+              itemListElement: page.brandAssets.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "ImageObject",
+                  name: item.title,
+                  description: item.description,
+                  url: `${appUrl}${item.href}`,
+                  contentUrl: `${appUrl}${item.href}`,
+                  width: item.width,
+                  height: item.height,
                 },
               })),
             },
@@ -264,6 +287,50 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   >
                     Open this reading
                   </Link>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {page.brandAssets && (
+          <section className="mt-12">
+            <div className="max-w-2xl">
+              <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Official assets</p>
+              <h2 className="mt-3 font-serif text-2xl text-white">Logo, Icons, and Sharing Image</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">
+                These files are the public visual sources referenced by POPTarot metadata, manifest, and structured data.
+              </p>
+            </div>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              {page.brandAssets.map((item) => (
+                <article key={item.href} className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+                  <div className="flex items-center gap-4">
+                    <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-[#12091f]">
+                      <Image
+                        src={item.src}
+                        alt={item.title}
+                        width={item.width}
+                        height={item.height}
+                        className="h-full w-full object-contain"
+                        sizes="80px"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs uppercase tracking-[0.16em] text-[#c9c0ff]/75">{item.label}</p>
+                      <h3 className="mt-2 text-base font-medium text-white">{item.title}</h3>
+                      <p className="mt-1 text-xs text-white/42">
+                        {item.width} x {item.height}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-white/62">{item.description}</p>
+                  <a
+                    href={item.href}
+                    className="mt-4 inline-flex min-h-10 items-center justify-center rounded-lg border border-[#bfb6ff]/25 px-4 py-2 text-sm text-[#d8d0ff] transition hover:border-[#bfb6ff]/55 hover:bg-[#bfb6ff]/[0.06] hover:text-white"
+                  >
+                    Open asset
+                  </a>
                 </article>
               ))}
             </div>

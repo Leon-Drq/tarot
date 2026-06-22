@@ -16,6 +16,7 @@ export const socialLinks = [
 export const trustLinks = [
   { label: "About", href: "/about" },
   { label: "Official Channels", href: "/official-channels" },
+  { label: "Brand Assets", href: "/brand-assets" },
   { label: "Editorial Policy", href: "/editorial-policy" },
   { label: "AI Disclaimer", href: "/ai-tarot-disclaimer" },
   { label: "Privacy", href: "/privacy" },
@@ -62,9 +63,32 @@ export function organizationJsonLd() {
     "@type": "Organization",
     "@id": `${appUrl}/#organization`,
     name: siteName,
+    legalName: siteName,
+    alternateName: ["POPTarot AI Tarot", "Pop Tarot AI"],
     url: appUrl,
-    logo: `${appUrl}/icon-512x512.png`,
-    image: `${appUrl}/og-image.jpg`,
+    logo: {
+      "@type": "ImageObject",
+      "@id": `${appUrl}/#logo`,
+      url: `${appUrl}/icon-512x512.png`,
+      contentUrl: `${appUrl}/icon-512x512.png`,
+      width: 512,
+      height: 512,
+      caption: "POPTarot logo",
+    },
+    image: [
+      {
+        "@type": "ImageObject",
+        "@id": `${appUrl}/#brand-image`,
+        url: `${appUrl}/og-image.jpg`,
+        contentUrl: `${appUrl}/og-image.jpg`,
+        width: 1200,
+        height: 630,
+        caption: "POPTarot free AI tarot reading",
+      },
+      {
+        "@id": `${appUrl}/#logo`,
+      },
+    ],
     description: siteDescription,
     department: {
       "@id": `${appUrl}/#editorial-team`,
