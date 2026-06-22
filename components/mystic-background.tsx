@@ -529,7 +529,7 @@ function MysticContent() {
         </section>
 
         {/* 4. 3D rotating tarot card - use custom images if available */}
-        <div data-home-card-scene className="relative z-20 mt-[clamp(15rem,32svh,19rem)] sm:mt-36 md:mt-40 lg:mt-44">
+        <div data-home-card-scene className="relative z-20 mt-[clamp(17rem,38svh,23rem)] sm:mt-44 md:mt-52 lg:mt-56">
           <TarotCard
             frontImage={customFront || DEFAULT_FRONT}
             backImage={customBack || DEFAULT_BACK}
