@@ -181,12 +181,14 @@ type ToolkitUiCopy = {
   recommendedSpread: string
   card: string
   drawPrompt: string
+  startSpread: string
 }
 
 const defaultToolkitUiCopy: ToolkitUiCopy = {
   recommendedSpread: "Recommended spread",
   card: "Card",
   drawPrompt: "Draw this question",
+  startSpread: "Start this spread free",
 }
 
 const toolkitUiCopy: Partial<Record<SeoPage["locale"], ToolkitUiCopy>> = {
@@ -195,11 +197,13 @@ const toolkitUiCopy: Partial<Record<SeoPage["locale"], ToolkitUiCopy>> = {
     recommendedSpread: "Tirada recomendada",
     card: "Carta",
     drawPrompt: "Tirar esta pregunta",
+    startSpread: "Empezar gratis",
   },
   "pt-br": {
     recommendedSpread: "Tiragem recomendada",
     card: "Carta",
     drawPrompt: "Tirar esta pergunta",
+    startSpread: "Comecar gratis",
   },
 }
 
@@ -672,6 +676,11 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         publisher: {
           "@id": `${appUrl}/#organization`,
         },
+        potentialAction: {
+          "@type": "ReadAction",
+          name: "Start free AI tarot reading",
+          target: `${appUrl}${primaryHref}`,
+        },
       },
       {
         "@type": "Article",
@@ -760,6 +769,23 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                     name: cardPage.h1,
                   })),
                 },
+              })),
+            },
+          ]
+        : []),
+      ...(recommendedSpread
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#recommended-spread`,
+              name: recommendedSpread.nameEn,
+              description: recommendedSpread.descriptionEn || recommendedSpread.description,
+              numberOfItems: recommendedSpread.positions.length,
+              itemListElement: recommendedSpread.positions.map((position, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: position.nameEn,
+                description: position.description,
               })),
             },
           ]
@@ -874,6 +900,12 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                     </div>
                   ))}
                 </div>
+                <Link
+                  href={primaryHref}
+                  className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_50%,#8f80ee_100%)] px-4 py-2 text-sm font-medium text-[#120c22] shadow-[0_14px_34px_rgba(143,128,238,0.2)] transition hover:brightness-110"
+                >
+                  {toolkitCopy.startSpread}
+                </Link>
               </article>
 
               <article className="rounded-lg border border-white/10 bg-white/[0.035] p-5">

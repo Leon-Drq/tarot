@@ -530,18 +530,20 @@ function MysticContent() {
         {/* 4. 3D rotating tarot card - use custom images if available */}
         <div
           data-home-card-scene
-          className="absolute left-0 right-0 top-[52svh] z-20 -translate-y-1/2 overflow-visible"
+          className="absolute left-0 right-0 top-[52svh] z-20 h-0 overflow-visible sm:top-[56svh] md:top-[60svh]"
         >
-          <CoreLight className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center" />
-          <TarotCard
-            frontImage={customFront || DEFAULT_FRONT}
-            backImage={customBack || DEFAULT_BACK}
-            tiltAngle={-15}
-            rotationDuration={12}
-          />
+          <CoreLight className="pointer-events-none absolute left-0 right-0 top-0 z-0 flex h-0 items-center justify-center" />
+          <div className="absolute left-0 right-0 top-0 z-10 -translate-y-1/2 overflow-visible">
+            <TarotCard
+              frontImage={customFront || DEFAULT_FRONT}
+              backImage={customBack || DEFAULT_BACK}
+              tiltAngle={-15}
+              rotationDuration={12}
+            />
+          </div>
         </div>
 
-        <div className="relative z-30 pt-[calc(52svh+12rem)] sm:pt-[calc(52svh+14rem)] md:pt-[calc(52svh+18rem)]">
+        <div className="relative z-30 pt-[calc(52svh+12rem)] sm:pt-[calc(56svh+14rem)] md:pt-[calc(60svh+18rem)]">
           <HomeQuestionForm />
 
           <HomeDailyReturnPanel />
