@@ -46,7 +46,15 @@ function cardLabel(card: ReadingShareCard) {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
   const share = await getShare(slug)
-  if (!share) notFound()
+  if (!share) {
+    return {
+      title: "Tarot Reading Not Found",
+      robots: { index: false, follow: false },
+      alternates: {
+        canonical: `/share/${slug}`,
+      },
+    }
+  }
 
   const title = `${share.question.slice(0, 72)} | POPTarot`
   const description =
