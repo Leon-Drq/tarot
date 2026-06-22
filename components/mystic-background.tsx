@@ -76,7 +76,7 @@ function HomeQuestionForm() {
   return (
     <form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto mt-8 w-[min(90vw,460px)] sm:mt-10 md:mt-12 md:w-[min(68vw,560px)] lg:w-[min(52vw,620px)]"
+      className="relative z-30 mx-auto mt-12 w-[min(90vw,460px)] sm:mt-12 md:w-[min(68vw,560px)] lg:w-[min(52vw,620px)]"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
@@ -324,7 +324,7 @@ function MysticContent() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="relative min-h-[100svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+3.5rem)] md:min-h-[112svh] md:pb-20">
+      <div className="relative min-h-[112svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+5.5rem)] md:min-h-[118svh] md:pb-24">
         {/* 3. Core light effect */}
         <CoreLight />
 
@@ -347,7 +347,7 @@ function MysticContent() {
 
         <HomeQuestionForm />
 
-        <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-7 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
+        <div className="relative z-30 mx-auto mt-6 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-8 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
           <a href="/daily-tarot" className="transition hover:text-white">
             Daily Tarot
           </a>
