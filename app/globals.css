@@ -189,38 +189,32 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-focal-y: clamp(20rem, 52vh, 30rem);
-    --home-hero-content-y: calc(var(--home-hero-focal-y) + 12.5rem);
-  }
-
-  @supports (height: 100svh) {
-    .home-hero-stage {
-      --home-hero-focal-y: clamp(20rem, 52svh, 30rem);
-    }
+    --home-hero-focal-y: clamp(20rem, calc(13rem + 34vw), 22.75rem);
+    --home-hero-content-y: calc(var(--home-hero-focal-y) + 3.25rem);
   }
 
   @media (min-width: 640px) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(23rem, 56vh, 34rem);
-      --home-hero-content-y: calc(var(--home-hero-focal-y) + 14rem);
+      --home-hero-focal-y: clamp(23rem, 54vh, 32rem);
+      --home-hero-content-y: calc(var(--home-hero-focal-y) + 4.5rem);
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: clamp(23rem, 56svh, 34rem);
+        --home-hero-focal-y: clamp(23rem, 54svh, 32rem);
       }
     }
   }
 
   @media (min-width: 768px) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(27rem, 60vh, 40rem);
-      --home-hero-content-y: calc(var(--home-hero-focal-y) + 18rem);
+      --home-hero-focal-y: clamp(26rem, 58vh, 36rem);
+      --home-hero-content-y: calc(var(--home-hero-focal-y) + 5.25rem);
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: clamp(27rem, 60svh, 40rem);
+        --home-hero-focal-y: clamp(26rem, 58svh, 36rem);
       }
     }
   }

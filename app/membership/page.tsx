@@ -188,6 +188,78 @@ function MembershipContent() {
       shareImages: "Share images",
       enhanced: "Enhanced",
     }
+  const membershipBoundary =
+    {
+      zh: {
+        eyebrow: "先免费使用",
+        title: "会员不是开始塔罗的门槛",
+        body: "POPTarot 的第一目标是免费 AI 塔罗工具。你可以先完成免费解读、每日一牌和牌义查询；会员只在你需要更深追问、长期保存和月度总结时出现。",
+        freeCta: "开始免费解读",
+        dailyCta: "每日塔罗",
+        upgradeTitle: "适合升级的场景",
+        items: [
+          "深度追问：围绕同一个问题继续追问，而不是反复重新开始。",
+          "历史保存：把重要解读、日记和关系/事业线索长期留存。",
+          "高级牌阵：用于复合、事业转折、重大选择和复杂关系。",
+          "月度报告：把重复出现的牌、日记主题和行动建议整理成月报。",
+        ],
+      },
+      en: {
+        eyebrow: "Free first",
+        title: "Membership is not the starting gate",
+        body: "POPTarot should work as a free AI tarot tool before anyone pays. Start with a free reading, Daily Tarot, and card meanings; upgrade only when you need deeper follow-ups, saved history, advanced spreads, or monthly reports.",
+        freeCta: "Start Free Reading",
+        dailyCta: "Daily Tarot",
+        upgradeTitle: "Upgrade when you need",
+        items: [
+          "Deeper follow-ups: continue one question instead of restarting the same reading.",
+          "Saved history: keep important readings, journals, relationship signals, and career patterns.",
+          "Advanced spreads: use richer layouts for reconciliation, career turns, major choices, and complex relationships.",
+          "Monthly reports: summarize repeated cards, journal themes, and next actions into a longer member report.",
+        ],
+      },
+      ja: {
+        eyebrow: "まず無料",
+        title: "会員登録は最初の入口ではありません",
+        body: "POPTarot は、支払い前に無料 AI タロットとして役立つことを優先します。無料リーディング、毎日のタロット、カード意味から始め、深い追質問、履歴保存、高度なスプレッド、月次レポートが必要な時だけアップグレードできます。",
+        freeCta: "無料で始める",
+        dailyCta: "毎日のタロット",
+        upgradeTitle: "アップグレードが役立つ時",
+        items: [
+          "深い追質問: 同じテーマを最初からやり直さずに続けて整理する。",
+          "履歴保存: 重要なリーディング、日記、恋愛や仕事のパターンを残す。",
+          "高度なスプレッド: 復縁、仕事の転機、大きな選択、複雑な関係に使う。",
+          "月次レポート: 繰り返し出るカード、日記テーマ、次の行動をまとめる。",
+        ],
+      },
+      ko: {
+        eyebrow: "무료 먼저",
+        title: "멤버십은 시작 조건이 아닙니다",
+        body: "POPTarot은 결제 전에도 무료 AI 타로 도구로 충분히 유용해야 합니다. 무료 리딩, 데일리 타로, 카드 의미부터 시작하고, 심층 질문, 기록 저장, 고급 스프레드, 월간 리포트가 필요할 때만 업그레이드하세요.",
+        freeCta: "무료 리딩 시작",
+        dailyCta: "데일리 타로",
+        upgradeTitle: "업그레이드가 필요한 순간",
+        items: [
+          "심층 후속 질문: 같은 질문을 처음부터 반복하지 않고 이어서 정리합니다.",
+          "기록 저장: 중요한 리딩, 저널, 관계와 커리어 패턴을 보관합니다.",
+          "고급 스프레드: 재회, 커리어 전환, 큰 선택, 복잡한 관계에 사용합니다.",
+          "월간 리포트: 반복 카드, 저널 주제, 다음 행동을 긴 리포트로 정리합니다.",
+        ],
+      },
+    }[language] || {
+      eyebrow: "Free first",
+      title: "Membership is not the starting gate",
+      body: "POPTarot should work as a free AI tarot tool before anyone pays. Start with a free reading, Daily Tarot, and card meanings; upgrade only when you need deeper follow-ups, saved history, advanced spreads, or monthly reports.",
+      freeCta: "Start Free Reading",
+      dailyCta: "Daily Tarot",
+      upgradeTitle: "Upgrade when you need",
+      items: [
+        "Deeper follow-ups: continue one question instead of restarting the same reading.",
+        "Saved history: keep important readings, journals, relationship signals, and career patterns.",
+        "Advanced spreads: use richer layouts for reconciliation, career turns, major choices, and complex relationships.",
+        "Monthly reports: summarize repeated cards, journal themes, and next actions into a longer member report.",
+      ],
+    }
 
   // 购买会员
   const handlePurchase = async () => {
@@ -289,6 +361,40 @@ function MembershipContent() {
             {error}
           </div>
         )}
+
+        {/* Free-first boundary */}
+        <section className="rounded-xl border border-mystic-foreground/20 bg-mystic-surface/45 p-5 sm:p-6">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-mystic-foreground-muted">{membershipBoundary.eyebrow}</p>
+          <h2 className="mt-3 font-serif text-2xl leading-tight text-mystic-foreground sm:text-3xl">
+            {membershipBoundary.title}
+          </h2>
+          <p className="mt-4 text-sm leading-7 text-mystic-foreground-muted">{membershipBoundary.body}</p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2">
+            <Link
+              href="/free-ai-tarot-reading"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-mystic-foreground px-4 py-2.5 text-sm font-medium text-mystic-bg transition hover:bg-mystic-foreground/90"
+            >
+              {membershipBoundary.freeCta}
+            </Link>
+            <Link
+              href="/daily-tarot"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-mystic-border px-4 py-2.5 text-sm text-mystic-foreground transition hover:border-mystic-foreground/35 hover:bg-mystic-surface"
+            >
+              {membershipBoundary.dailyCta}
+            </Link>
+          </div>
+          <div className="mt-5 border-t border-mystic-border pt-5">
+            <p className="text-xs uppercase tracking-[0.18em] text-mystic-foreground-muted">{membershipBoundary.upgradeTitle}</p>
+            <ul className="mt-3 space-y-2">
+              {membershipBoundary.items.map((item) => (
+                <li key={item} className="flex gap-3 text-sm leading-6 text-mystic-foreground-muted">
+                  <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-mystic-foreground/60" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
         {/* Status */}
         <div className="text-center space-y-1">
