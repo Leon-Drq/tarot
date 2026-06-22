@@ -2,9 +2,10 @@ import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { localePath } from "@/lib/locales"
-import { getCardKeywords, type TarotCardSeoPage } from "@/lib/tarot-card-seo"
+import { getCardKeywords, getCardSlug, getCardSuit, type TarotCardSeoPage } from "@/lib/tarot-card-seo"
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
 import type { SpreadType } from "@/lib/spread-config"
+import { TAROT_CARDS, type TarotCard } from "@/lib/tarot-cards"
 import { trustLastReviewed } from "@/lib/trust-signals"
 
 function readingHref(page: TarotCardSeoPage) {
@@ -66,6 +67,7 @@ function cardPromptCopy(page: TarotCardSeoPage) {
       prompts: [
         { label: "Amor", question: `Que significa ${name} para mi vida amorosa ahora?`, spread: "relationship" },
         { label: "Carrera", question: `Como puedo usar la energia de ${name} en mi carrera esta semana?`, spread: "job_opportunity" },
+        { label: "Dinero", question: `Que debo entender sobre ${name} y mi decision de dinero ahora?`, spread: "shopping_decision" },
         { label: "Si o no", question: `${name} sugiere si o no para mi decision actual?`, spread: "yes_no" },
       ] satisfies CardPrompt[],
     }
@@ -80,6 +82,7 @@ function cardPromptCopy(page: TarotCardSeoPage) {
       prompts: [
         { label: "Amor", question: `O que ${name} significa para minha vida amorosa agora?`, spread: "relationship" },
         { label: "Carreira", question: `Como posso usar a energia de ${name} na minha carreira esta semana?`, spread: "job_opportunity" },
+        { label: "Dinheiro", question: `O que preciso entender sobre ${name} e minha escolha de dinheiro agora?`, spread: "shopping_decision" },
         { label: "Sim ou nao", question: `${name} sugere sim ou nao para minha decisao atual?`, spread: "yes_no" },
       ] satisfies CardPrompt[],
     }
@@ -93,6 +96,7 @@ function cardPromptCopy(page: TarotCardSeoPage) {
     prompts: [
       { label: "Love", question: `What does ${name} mean for my love life right now?`, spread: "relationship" },
       { label: "Career", question: `How should I use ${name} energy in my career this week?`, spread: "job_opportunity" },
+      { label: "Money", question: `What does ${name} suggest about my money choice right now?`, spread: "shopping_decision" },
       { label: "Yes or no", question: `Is ${name} a yes or no for my current decision?`, spread: "yes_no" },
     ] satisfies CardPrompt[],
   }
@@ -191,6 +195,151 @@ function questionPathCopy(page: TarotCardSeoPage) {
   }
 }
 
+type RelatedCardLink = {
+  title: string
+  body: string
+  href: string
+  card: TarotCard
+}
+
+function cardNameForLocale(card: TarotCard, page: TarotCardSeoPage) {
+  if (page.locale === "zh") return card.name
+  if (page.locale === "ja") return card.nameJa || card.nameEn
+  if (page.locale === "ko") return card.nameKo || card.nameEn
+  return card.nameEn
+}
+
+function relatedCardCopy(page: TarotCardSeoPage) {
+  const name = cardDisplayName(page)
+
+  if (page.locale === "zh") {
+    return {
+      eyebrow: "相关牌义",
+      title: `继续比较${name}的相邻牌`,
+      body: "相邻牌和同花色牌能帮助你看清同一主题在爱情、事业、财运、是或否问题里的变化。",
+      action: "打开牌义",
+    }
+  }
+
+  if (page.locale === "ja") {
+    return {
+      eyebrow: "関連カード",
+      title: `${name}と近いカードを比べる`,
+      body: "近いカードや同じスートのカードを見ると、恋愛、仕事、お金、Yes/No の読み方の違いが分かります。",
+      action: "意味を開く",
+    }
+  }
+
+  if (page.locale === "ko") {
+    return {
+      eyebrow: "관련 카드",
+      title: `${name}와 가까운 카드를 비교하기`,
+      body: "가까운 카드와 같은 수트의 카드를 함께 보면 사랑, 커리어, 돈, 예/아니오 해석의 차이가 더 선명해집니다.",
+      action: "카드 의미 보기",
+    }
+  }
+
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Cartas relacionadas",
+      title: `Compara ${name} con cartas cercanas`,
+      body: "Las cartas cercanas y del mismo palo ayudan a ver cómo cambia el tema en amor, carrera, dinero y preguntas de sí o no.",
+      action: "Abrir significado",
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Cartas relacionadas",
+      title: `Compare ${name} com cartas próximas`,
+      body: "Cartas próximas e do mesmo naipe ajudam a ver como o tema muda no amor, carreira, dinheiro e perguntas de sim ou não.",
+      action: "Abrir significado",
+    }
+  }
+
+  return {
+    eyebrow: "Related card meanings",
+    title: `Compare ${name} with nearby tarot cards`,
+    body: "Nearby cards and same-suit cards help you see how the theme changes across love, career, money, and yes-or-no readings.",
+    action: "Open meaning",
+  }
+}
+
+function relatedCardBody(page: TarotCardSeoPage, relatedName: string) {
+  const currentName = cardDisplayName(page)
+
+  if (page.locale === "zh") {
+    return `比较${currentName}与${relatedName}，看同一主题在正位、逆位和具体问题中如何变化。`
+  }
+
+  if (page.locale === "ja") {
+    return `${currentName}と${relatedName}を比べ、正逆や質問ごとの違いを確認します。`
+  }
+
+  if (page.locale === "ko") {
+    return `${currentName}와 ${relatedName}를 비교해 정/역방향과 질문별 차이를 확인합니다.`
+  }
+
+  if (page.locale === "es") {
+    return `Compara ${currentName} con ${relatedName} para ver diferencias en posición normal, invertida y preguntas concretas.`
+  }
+
+  if (page.locale === "pt-br") {
+    return `Compare ${currentName} com ${relatedName} para ver diferenças na posição normal, invertida e em perguntas concretas.`
+  }
+
+  return `Compare ${currentName} with ${relatedName} across upright, reversed, love, career, money, and yes-or-no meanings.`
+}
+
+function createRelatedCardLinks(page: TarotCardSeoPage): RelatedCardLink[] {
+  const currentIndex = TAROT_CARDS.findIndex((card) => card.id === page.card.id)
+  const suit = getCardSuit(page.card)
+  const sameSuitCards = TAROT_CARDS.filter((card) => card.id !== page.card.id && getCardSuit(card) === suit)
+  const sameSuitStart = sameSuitCards.findIndex((card) => card.id > page.card.id)
+  const rotatedSameSuit =
+    sameSuitStart === -1 ? sameSuitCards : [...sameSuitCards.slice(sameSuitStart), ...sameSuitCards.slice(0, sameSuitStart)]
+  const partnerId = {
+    major: 21,
+    wands: 7,
+    cups: 18,
+    pentacles: 4,
+    swords: 11,
+  }[suit]
+
+  const candidates = [
+    TAROT_CARDS[currentIndex - 1],
+    TAROT_CARDS[currentIndex + 1],
+    ...rotatedSameSuit.slice(0, 3),
+    TAROT_CARDS.find((card) => card.id === partnerId),
+  ]
+
+  const seen = new Set<number>()
+  return candidates
+    .filter((card): card is TarotCard => card !== undefined && card.id !== page.card.id)
+    .filter((card) => {
+      if (seen.has(card.id)) return false
+      seen.add(card.id)
+      return true
+    })
+    .slice(0, 4)
+    .map((card) => {
+      const name = cardNameForLocale(card, page)
+      return {
+        card,
+        title:
+          page.locale === "zh"
+            ? `${name}牌义`
+            : page.locale === "ja"
+              ? `${name}の意味`
+              : page.locale === "ko"
+                ? `${name} 의미`
+                : `${card.nameEn} Tarot Meaning`,
+        body: relatedCardBody(page, name),
+        href: localePath(page.locale, `/tarot-card-meanings/${getCardSlug(card)}`),
+      }
+    })
+}
+
 export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const keywords = getCardKeywords(page.card, page.locale)
   const meaningsHref = localePath(page.locale, "/tarot-card-meanings")
@@ -198,6 +347,8 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const primaryHref = readingHref(page)
   const promptCopy = cardPromptCopy(page)
   const questionPaths = questionPathCopy(page)
+  const relatedCopy = relatedCardCopy(page)
+  const relatedCards = createRelatedCardLinks(page)
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -303,6 +454,18 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           url: `${appUrl}${item.href}`,
         })),
       },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#related-card-meanings`,
+        name: relatedCopy.title,
+        itemListElement: relatedCards.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.title,
+          description: item.body,
+          url: `${appUrl}${item.href}`,
+        })),
+      },
     ],
   }
 
@@ -392,7 +555,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{promptCopy.eyebrow}</p>
                 <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{promptCopy.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/62">{promptCopy.body}</p>
-                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                   {promptCopy.prompts.map((prompt) => (
                     <Link
                       key={prompt.question}
@@ -420,6 +583,25 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                     >
                       <h3 className="break-words text-sm font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
                       <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{relatedCopy.eyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{relatedCopy.title}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{relatedCopy.body}</p>
+                <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                  {relatedCards.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.14] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                    >
+                      <h3 className="break-words text-sm font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                      <p className="mt-3 text-xs text-[#c9c0ff]/65 group-hover:text-[#e8e3ff]">{relatedCopy.action}</p>
                     </Link>
                   ))}
                 </div>
