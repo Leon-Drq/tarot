@@ -76,13 +76,13 @@ function HomeQuestionForm() {
   return (
     <form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto mt-6 w-[min(90vw,460px)] md:absolute md:bottom-[6.5rem] md:left-1/2 md:mt-0 md:w-[min(72vw,620px)] md:-translate-x-1/2"
+      className="relative z-30 mx-auto mt-8 w-[min(90vw,460px)] sm:mt-10 md:mt-12 md:w-[min(68vw,560px)] lg:w-[min(52vw,620px)]"
     >
-      <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/38 md:text-xs">
+      <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
       </p>
-      <div className="group relative rounded-lg border border-white/14 bg-black/34 p-1 shadow-[0_18px_60px_rgba(0,0,0,0.32)] backdrop-blur-md transition focus-within:border-[#bfb6ff]/65">
-        <div className="pointer-events-none absolute -inset-1 rounded-lg bg-[#bfb6ff]/10 opacity-0 blur-xl transition group-focus-within:opacity-100" />
+      <div className="group relative rounded-lg border border-white/14 bg-black/38 p-1 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-md transition focus-within:border-[#aaa1ff]/65">
+        <div className="pointer-events-none absolute -inset-1 rounded-lg bg-[#aaa1ff]/10 opacity-0 blur-xl transition group-focus-within:opacity-100" />
         <div className="relative flex items-center">
           <input
             value={question}
@@ -95,7 +95,7 @@ function HomeQuestionForm() {
       <button
         type="submit"
         aria-label={copy.action}
-        className="mt-2 inline-flex h-10 w-full items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_48%,#9182ef_100%)] text-sm font-medium text-[#130d24] shadow-[0_18px_45px_rgba(144,130,239,0.26)] transition hover:brightness-110 md:h-11"
+        className="mt-2 inline-flex h-10 w-full items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f5f2ff_0%,#b7adff_42%,#6d63d8_100%)] text-sm font-medium text-[#0c0920] shadow-[0_18px_45px_rgba(109,99,216,0.28)] transition hover:brightness-110 md:h-11"
       >
         <span>{copy.action}</span>
       </button>
@@ -105,7 +105,7 @@ function HomeQuestionForm() {
             key={example}
             type="button"
             onClick={() => setQuestion(example)}
-            className="shrink-0 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-[11px] text-white/58 transition hover:border-[#bfb6ff]/45 hover:text-white"
+            className="shrink-0 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-[11px] text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
           >
             {example}
           </button>
@@ -324,11 +324,11 @@ function MysticContent() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="relative min-h-[100svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+4rem)] md:min-h-[132dvh] md:overflow-hidden md:pb-0">
+      <div className="relative min-h-[100svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+3.5rem)] md:min-h-[112svh] md:pb-20">
         {/* 3. Core light effect */}
         <CoreLight />
 
-        <section className="pointer-events-none relative z-30 mx-auto w-[min(90vw,680px)] pt-[8.25rem] text-center sm:pt-[9rem] md:absolute md:left-1/2 md:top-[14%] md:-translate-x-1/2 md:pt-0">
+        <section className="pointer-events-none relative z-30 mx-auto w-[min(90vw,680px)] pt-[8.25rem] text-center sm:pt-[9rem] md:pt-[9.75rem] lg:pt-[10.25rem]">
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
@@ -347,7 +347,7 @@ function MysticContent() {
 
         <HomeQuestionForm />
 
-        <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:absolute md:bottom-[3.5%] md:left-1/2 md:mt-0 md:-translate-x-1/2 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
+        <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-7 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
           <a href="/daily-tarot" className="transition hover:text-white">
             Daily Tarot
           </a>

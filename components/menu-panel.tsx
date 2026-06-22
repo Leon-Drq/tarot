@@ -43,12 +43,6 @@ const CrownIcon = ({ className }: { className?: string }) => (
   </svg>
 )
 
-const SparklesIcon = ({ className }: { className?: string }) => (
-  <svg className={className} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.456-2.455L18 2.25l.259 1.036a3.375 3.375 0 002.455 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.455zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
-  </svg>
-)
-
 interface MenuPanelProps {
   isOpen: boolean
   frontImage: string | null
@@ -240,33 +234,27 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
 
         <button
           onClick={() => handleNavigate("/input")}
-          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-mystic-gold-muted hover:border-mystic-gold-bright/40 bg-mystic-gold/5 hover:bg-mystic-gold/10 transition-all duration-300 relative overflow-hidden"
+          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-[#aaa1ff]/25 hover:border-[#c8c2ff]/45 bg-[#aaa1ff]/[0.06] hover:bg-[#aaa1ff]/[0.1] transition-all duration-300 relative overflow-hidden"
         >
           <div className="relative z-10">
-            <div className="flex items-center gap-2">
-              <SparklesIcon className="w-4 h-4 text-mystic-gold-bright" />
-              <p className="text-mystic-gold-bright text-sm tracking-wide font-medium">{menuCopy.freeReading}</p>
-            </div>
-            <p className="text-white/70 text-xs mt-0.5 ml-6">{menuCopy.freeReadingSubtitle}</p>
+            <p className="text-[#eeeaff] text-sm tracking-wide font-medium">{menuCopy.freeReading}</p>
+            <p className="text-white/70 text-xs mt-0.5">{menuCopy.freeReadingSubtitle}</p>
           </div>
-          <ArrowRightIcon className="w-4 h-4 text-mystic-gold-muted group-hover:text-mystic-gold-bright group-hover:translate-x-0.5 transition-all duration-300" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-mystic-gold/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
+          <ArrowRightIcon className="w-4 h-4 text-[#b8aeff]/65 group-hover:text-[#eeeaff] group-hover:translate-x-0.5 transition-all duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#aaa1ff]/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
         </button>
 
         {/* 每日运势入口 */}
         <button
           onClick={() => handleNavigate("/daily-tarot")}
-          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-mystic-gold-muted hover:border-mystic-gold-bright/30 bg-mystic-gold/5 hover:bg-mystic-gold/10 transition-all duration-300 relative overflow-hidden"
+          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-[#aaa1ff]/20 hover:border-[#c8c2ff]/40 bg-white/[0.035] hover:bg-[#aaa1ff]/[0.08] transition-all duration-300 relative overflow-hidden"
         >
           <div className="relative z-10">
-            <div className="flex items-center gap-2">
-              <SparklesIcon className="w-4 h-4 text-mystic-gold-bright" />
-              <p className="text-mystic-gold-bright text-sm tracking-wide font-medium">{t("menu.dailyFortune")}</p>
-            </div>
-            <p className="text-white/70 text-xs mt-0.5 ml-6">{t("menu.dailyFortuneSubtitle")}</p>
+            <p className="text-[#eeeaff] text-sm tracking-wide font-medium">{t("menu.dailyFortune")}</p>
+            <p className="text-white/70 text-xs mt-0.5">{t("menu.dailyFortuneSubtitle")}</p>
           </div>
-          <ArrowRightIcon className="w-4 h-4 text-mystic-gold-muted group-hover:text-mystic-gold-bright group-hover:translate-x-0.5 transition-all duration-300" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-mystic-gold/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
+          <ArrowRightIcon className="w-4 h-4 text-[#b8aeff]/60 group-hover:text-[#eeeaff] group-hover:translate-x-0.5 transition-all duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#aaa1ff]/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
         </button>
 
         <div className="mb-4 grid grid-cols-2 gap-3">

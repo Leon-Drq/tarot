@@ -18,6 +18,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
   const page = getSeoPage(slug, locale)
   if (!page) return {}
+  const ogImage = `/api/og/seo?locale=${page.locale}&slug=${page.slug}`
 
   return {
     title: page.title,
@@ -37,12 +38,18 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       locale: localeOpenGraph[page.locale],
       images: [
         {
-          url: "/og-image.jpg",
+          url: ogImage,
           width: 1200,
           height: 630,
           alt: page.title,
         },
       ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${page.title} | POPTarot`,
+      description: page.description,
+      images: [ogImage],
     },
   }
 }

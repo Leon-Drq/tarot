@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import { useLanguage, LANGUAGES, type Language } from "@/contexts/language-context"
-import { Globe, ChevronDown } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage()
@@ -23,13 +23,12 @@ export function LanguageSwitcher() {
           rounded-full transition-all duration-300 backdrop-blur-md border 
           ${
             isOpen
-              ? "bg-black/40 border-mystic-gold/50 text-mystic-gold-bright shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+              ? "bg-black/42 border-[#aaa1ff]/45 text-white shadow-[0_0_18px_rgba(170,161,255,0.18)]"
               : "bg-black/20 border-white/10 text-white/60 hover:bg-black/30 hover:text-white/90 hover:border-white/20"
           }
         `}
         aria-label="Change language"
       >
-        <Globe className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform duration-500 ${isOpen ? "rotate-180" : "group-hover:rotate-12"}`} />
         <span className="text-xs sm:text-sm font-medium tracking-wide font-sans">
           {LANGUAGES[language].name}
         </span>
@@ -47,7 +46,7 @@ export function LanguageSwitcher() {
           />
 
           {/* 语言选择菜单 */}
-          <div className="absolute right-0 mt-2 w-36 sm:w-40 bg-[#0f0518]/90 backdrop-blur-xl border border-mystic-gold/20 rounded-xl shadow-[0_4px_20px_rgba(0,0,0,0.5)] overflow-hidden z-50 animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200">
+          <div className="absolute right-0 mt-2 w-32 sm:w-36 bg-[#0f0518]/90 backdrop-blur-xl border border-[#aaa1ff]/20 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.5)] overflow-hidden z-50 animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200">
             <div className="py-1">
               {(Object.keys(LANGUAGES) as Language[]).map((lang) => (
                 <button
@@ -58,22 +57,19 @@ export function LanguageSwitcher() {
                     group relative
                     ${
                       language === lang
-                        ? "text-mystic-gold-bright bg-white/10"
+                        ? "text-white bg-white/10"
                         : "text-white/60 hover:text-white/90 hover:bg-white/5"
                     }
                   `}
                 >
                   {language === lang && (
-                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-mystic-gold-bright shadow-[2px_0_10px_rgba(255,215,100,0.3)]" />
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#aaa1ff] shadow-[2px_0_10px_rgba(170,161,255,0.22)]" />
                   )}
-                  <span className="text-sm sm:text-base leading-none opacity-80 group-hover:opacity-100 transition-opacity">
-                    {LANGUAGES[lang].flag}
-                  </span>
                   <span className="text-xs sm:text-sm font-medium tracking-wide">
                     {LANGUAGES[lang].name}
                   </span>
                   {language === lang && (
-                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-mystic-gold-bright shadow-[0_0_8px_#ffd764]" />
+                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-[#aaa1ff] shadow-[0_0_8px_rgba(170,161,255,0.45)]" />
                   )}
                 </button>
               ))}
@@ -84,4 +80,3 @@ export function LanguageSwitcher() {
     </div>
   )
 }
-
