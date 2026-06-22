@@ -11,6 +11,7 @@ import { MenuButton } from "./menu-button"
 import { MenuPanel } from "./menu-panel"
 import { LanguageSwitcher } from "./language-switcher"
 import { useLanguage } from "@/contexts/language-context"
+import { getLocalDateKey } from "@/lib/daily-tarot"
 
 const DEFAULT_FRONT = "/images/0.png"
 const DEFAULT_BACK = "/images/back1.jpg"
@@ -99,7 +100,7 @@ function HomeQuestionForm() {
       >
         <span>{copy.action}</span>
       </button>
-      <div className="mt-3 hidden gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex md:flex-wrap md:justify-center md:overflow-visible md:pb-0">
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:overflow-visible md:pb-0">
         {copy.examples.map((example) => (
           <button
             key={example}
@@ -112,6 +113,108 @@ function HomeQuestionForm() {
         ))}
       </div>
     </form>
+  )
+}
+
+function HomeDailyReturnPanel() {
+  const { language } = useLanguage()
+  const [hasDailyEntry, setHasDailyEntry] = useState(false)
+  const [streak, setStreak] = useState(0)
+
+  useEffect(() => {
+    const today = getLocalDateKey()
+    const raw = localStorage.getItem(`poptarot_daily_${today}`)
+    if (!raw) return
+    try {
+      const parsed = JSON.parse(raw) as { interpretation?: string | null; streak_count?: number | null }
+      setHasDailyEntry(Boolean(parsed.interpretation))
+      setStreak(Number(parsed.streak_count || 0))
+    } catch {
+      // Ignore corrupt local daily tarot cache.
+    }
+  }, [])
+
+  const copy =
+    {
+      zh: {
+        eyebrow: "每日复访",
+        titleReady: "今天的每日塔罗还没抽",
+        titleDone: "今天的每日牌已保存",
+        bodyReady: "每天一张免费牌，保留连续打卡和日记，比一次性解读更容易形成回访。",
+        bodyDone: "明天回来继续打卡；也可以补一条日记，记录这张牌今天是否应验在情绪或行动上。",
+        primary: "打开每日塔罗",
+        secondary: "查看牌义",
+        streak: "连续",
+        days: "天",
+      },
+      en: {
+        eyebrow: "Daily return",
+        titleReady: "Today's Daily Tarot is waiting",
+        titleDone: "Today's daily card is saved",
+        bodyReady: "One free card each day keeps the habit light: draw, read, journal, and return tomorrow.",
+        bodyDone: "Come back tomorrow to keep the streak, or add a short journal note while today's card is still fresh.",
+        primary: "Open Daily Tarot",
+        secondary: "Learn card meanings",
+        streak: "Streak",
+        days: "days",
+      },
+      ja: {
+        eyebrow: "毎日の入口",
+        titleReady: "今日のタロットを引けます",
+        titleDone: "今日のカードを保存済み",
+        bodyReady: "毎日一枚だけなら続けやすく、記録と振り返りでまた戻ってこられます。",
+        bodyDone: "明日また戻って連続記録を続けるか、今日のカードに短いメモを残しましょう。",
+        primary: "毎日のタロットへ",
+        secondary: "カードの意味",
+        streak: "連続",
+        days: "日",
+      },
+      ko: {
+        eyebrow: "매일 돌아오기",
+        titleReady: "오늘의 데일리 타로가 기다려요",
+        titleDone: "오늘의 카드가 저장됐어요",
+        bodyReady: "하루 한 장 무료 카드로 가볍게 시작하고, 기록과 저널로 다시 돌아오세요.",
+        bodyDone: "내일 다시 돌아와 연속 기록을 이어가거나, 오늘 카드에 짧은 저널을 남겨보세요.",
+        primary: "데일리 타로 열기",
+        secondary: "카드 의미 보기",
+        streak: "연속",
+        days: "일",
+      },
+    }[language]
+
+  return (
+    <div className="relative z-30 mx-auto mt-5 w-[calc(100vw_-_3rem)] max-w-[620px] rounded-lg border border-white/10 bg-black/28 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.26)] backdrop-blur-md sm:mt-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">{copy.eyebrow}</p>
+          <h2 className="mt-2 text-base font-medium leading-snug text-white sm:text-lg">
+            {hasDailyEntry ? copy.titleDone : copy.titleReady}
+          </h2>
+          <p className="mt-2 text-xs leading-6 text-white/54 sm:text-sm">
+            {hasDailyEntry ? copy.bodyDone : copy.bodyReady}
+          </p>
+        </div>
+        <div className="flex shrink-0 flex-col gap-2 sm:w-[168px]">
+          {streak > 0 && (
+            <div className="rounded-lg border border-[#bfb6ff]/22 bg-[#bfb6ff]/[0.08] px-3 py-2 text-center text-xs text-[#eeeaff]">
+              {copy.streak} {streak} {copy.days}
+            </div>
+          )}
+          <a
+            href="/daily-tarot"
+            className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_50%,#8f80ee_100%)] px-4 text-sm font-medium text-[#120c22] shadow-[0_14px_35px_rgba(143,128,238,0.22)] transition hover:brightness-110"
+          >
+            {copy.primary}
+          </a>
+          <a
+            href="/tarot-card-meanings"
+            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-4 text-sm text-white/68 transition hover:border-[#bfb6ff]/35 hover:text-white"
+          >
+            {copy.secondary}
+          </a>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -433,7 +536,9 @@ function MysticContent() {
 
         <HomeQuestionForm />
 
-        <div className="relative z-30 mx-auto mt-6 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-8 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
+        <HomeDailyReturnPanel />
+
+        <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
           <a href="/daily-tarot" className="transition hover:text-white">
             Daily Tarot
           </a>
