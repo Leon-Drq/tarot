@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { appUrl, siteName, trustLinks } from "@/lib/site"
+import { representativeTestimonials } from "@/lib/trust-signals"
 
 export type TrustPage = {
   slug: string
@@ -34,10 +35,11 @@ export const trustPages: TrustPage[] = [
     intro: "POPTarot is a free AI tarot tool built for people who want fast, reflective, and practical guidance without losing the symbolic richness of tarot.",
     sections: [
       { heading: "What we build", body: "We turn tarot spreads into an interactive AI reading flow: ask a question, draw cards, receive an interpretation, and save what matters." },
-      { heading: "Who edits POPTarot", body: "The product is maintained as an AI-assisted tarot tool with editorial review for card meanings, page structure, disclaimers, and user-facing guidance." },
+      { heading: "Who edits POPTarot", body: "The product is maintained as an AI-assisted tarot tool with editorial review for card meanings, SEO page structure, responsible-use language, and user-facing guidance." },
       { heading: "Our point of view", body: "Tarot should support reflection, emotional clarity, and better questions. It should not replace professional, medical, legal, or financial advice." },
       { heading: "Why free first", body: "The first experience should be useful before anyone pays. Membership is reserved for deeper follow-ups, saved history, advanced spreads, and long-form reports." },
       { heading: "Official channels", body: "poptarot.com is the source of truth for product pages, readings, privacy guidance, and policy updates. Official social profiles are linked here when active." },
+      { heading: "What we verify", body: "We check that core pages explain free access, membership boundaries, AI limitations, privacy expectations, and practical next steps without overstating certainty." },
     ],
   },
   {
@@ -52,6 +54,7 @@ export const trustPages: TrustPage[] = [
       { heading: "AI readings", body: "AI interpretations use your question, selected cards, spread positions, and card orientation. They are generated as reflective guidance, not deterministic predictions." },
       { heading: "Human-readable standards", body: "We avoid presenting tarot as certainty. Pages should explain symbols in plain language, state limitations clearly, and keep calls to action focused on free reading first." },
       { heading: "Updates", body: "We expand pages when search data, user questions, or product analytics show that people need clearer explanations." },
+      { heading: "Localization standards", body: "English is the primary SEO language for card meanings and question pages. Spanish and Brazilian Portuguese pages are localized for regional search intent instead of direct machine-style copies." },
     ],
   },
   {
@@ -65,6 +68,7 @@ export const trustPages: TrustPage[] = [
       { heading: "Not professional advice", body: "Do not use tarot readings as a substitute for medical, legal, financial, psychological, or safety-related professional help." },
       { heading: "Your agency matters", body: "A useful reading should return attention to what you can observe, choose, communicate, or prepare." },
       { heading: "Sensitive situations", body: "If a situation involves harm, coercion, crisis, or urgent decisions, prioritize real-world support and trusted people around you." },
+      { heading: "Follow-up questions", body: "Follow-ups are meant to clarify a pattern or next step. Repeating the same question many times can increase anxiety rather than insight." },
     ],
   },
   {
@@ -76,7 +80,9 @@ export const trustPages: TrustPage[] = [
     intro: "We collect only what is needed to provide readings, save your history, improve the product, and process membership payments.",
     sections: [
       { heading: "Reading data", body: "Questions, selected cards, interpretations, and journal entries may be saved when you choose to use account or history features." },
+      { heading: "Anonymous first use", body: "The free reading flow is designed to work before account creation. Account features are used when you want saved history, journal entries, reminders, or membership benefits." },
       { heading: "Analytics", body: "We track aggregate events such as page views, question submissions, reading completion, share actions, and payment conversion to improve the site." },
+      { heading: "Daily reminders", body: "If you add an email reminder for daily tarot, the reminder address, time, and timezone are used to send that reminder and manage delivery status." },
       { heading: "Payments", body: "Payments are processed through configured payment providers. POPTarot stores order status and membership entitlement information, not full card details." },
     ],
   },
@@ -88,27 +94,13 @@ export const trustPages: TrustPage[] = [
     eyebrow: "Reviews",
     intro: "These representative testimonials show the product experience we are optimizing for: clear, quick, reflective, and easy to return to.",
     sections: [
+      { heading: "How to read these reviews", body: "Reviews shown here are representative product feedback, written to describe the user experience we optimize for. They should not be read as guaranteed outcomes from any tarot reading." },
       { heading: "Daily tarot", body: "The daily card feels useful because it gives one clear focus instead of overwhelming me with a huge spread." },
       { heading: "Love readings", body: "The relationship answers are calmer than generic yes/no tools. I liked that the advice told me what I could actually do next." },
       { heading: "Career readings", body: "The career spread helped me separate burnout from a real signal that I needed to make a plan." },
+      { heading: "Card meanings", body: "Readers need card pages that go beyond a keyword list. Upright, reversed, love, career, money, yes/no, advice, combinations, and FAQ make the pages easier to use." },
     ],
-    testimonials: [
-      {
-        title: "Daily tarot",
-        quote: "The daily card gives me one thing to pay attention to instead of a vague horoscope.",
-        context: "Representative feedback from the daily tarot workflow",
-      },
-      {
-        title: "Love reading",
-        quote: "It did not just say yes or no. It explained what I could actually observe and ask next.",
-        context: "Representative feedback from relationship readings",
-      },
-      {
-        title: "Career reading",
-        quote: "The spread helped me separate burnout from a real signal that I needed a practical exit plan.",
-        context: "Representative feedback from career questions",
-      },
-    ],
+    testimonials: representativeTestimonials,
   },
   {
     slug: "tarot-reading-examples",

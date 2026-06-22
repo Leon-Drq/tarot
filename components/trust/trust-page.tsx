@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { getRelatedTrustLinks, type TrustPage } from "@/lib/trust-pages"
 import { appUrl, organizationJsonLd, siteName, socialLinks, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/site"
+import { editorialProcess, trustHighlights, trustLastReviewed } from "@/lib/trust-signals"
 
 export function TrustPageView({ page }: { page: TrustPage }) {
   const relatedLinks = getRelatedTrustLinks(page.slug)
@@ -16,6 +17,13 @@ export function TrustPageView({ page }: { page: TrustPage }) {
         name: page.title,
         description: page.description,
         url: `${appUrl}/${page.slug}`,
+        dateModified: trustLastReviewed,
+        author: {
+          "@id": `${appUrl}/#organization`,
+        },
+        reviewedBy: {
+          "@id": `${appUrl}/#organization`,
+        },
         isPartOf: {
           "@id": `${appUrl}/#website`,
         },
@@ -54,6 +62,8 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   "@type": "Review",
                   name: item.title,
                   reviewBody: item.quote,
+                  reviewAspect: item.title,
+                  datePublished: trustLastReviewed,
                   author: {
                     "@type": "Person",
                     name: "POPTarot reader",
@@ -115,6 +125,7 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             </div>
             <h1 className="max-w-3xl font-serif text-4xl font-semibold leading-tight text-white sm:text-6xl">{page.title}</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg">{page.intro}</p>
+            <p className="mt-6 text-xs uppercase tracking-[0.18em] text-white/38">Last reviewed {trustLastReviewed}</p>
           </div>
         </div>
       </section>
@@ -129,6 +140,34 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             </article>
           ))}
         </div>
+
+        <section className="mt-12 grid gap-4 lg:grid-cols-[0.78fr_1.22fr]">
+          <div className="rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
+            <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Product stance</p>
+            <h2 className="mt-3 font-serif text-2xl text-white">Trust Signals</h2>
+            <div className="mt-5 space-y-4">
+              {trustHighlights.map((item) => (
+                <article key={item.title}>
+                  <h3 className="text-sm font-medium text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/62">{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+            <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Editorial process</p>
+            <h2 className="mt-3 font-serif text-2xl text-white">How POPTarot Keeps Readings Grounded</h2>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              {editorialProcess.map((item) => (
+                <article key={item.title} className="min-w-0">
+                  <h3 className="text-sm font-medium text-white">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/62">{item.body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {page.testimonials && (
           <section className="mt-12">

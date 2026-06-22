@@ -1,3 +1,5 @@
+import { representativeTestimonials, trustLastReviewed } from "@/lib/trust-signals"
+
 export const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 export const siteName = "POPTarot"
 export const siteTitle = "POPTarot - Free AI Tarot Reading"
@@ -27,6 +29,20 @@ export function organizationJsonLd() {
     name: siteName,
     url: appUrl,
     logo: `${appUrl}/icon-512x512.png`,
+    image: `${appUrl}/og-image.jpg`,
+    description: siteDescription,
+    foundingLocation: {
+      "@type": "Place",
+      name: "Online",
+    },
+    knowsAbout: [
+      "AI tarot reading",
+      "tarot card meanings",
+      "daily tarot",
+      "love tarot",
+      "career tarot",
+      "yes or no tarot",
+    ],
   }
 
   if (socialLinks.length > 0) {
@@ -53,6 +69,9 @@ export function websiteJsonLd() {
     publisher: {
       "@id": `${appUrl}/#organization`,
     },
+    copyrightHolder: {
+      "@id": `${appUrl}/#organization`,
+    },
     inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
   }
 }
@@ -63,6 +82,7 @@ export function softwareApplicationJsonLd() {
     "@id": `${appUrl}/#app`,
     name: siteName,
     applicationCategory: "LifestyleApplication",
+    applicationSubCategory: "AI tarot reading",
     operatingSystem: "Web",
     url: appUrl,
     image: `${appUrl}/og-image.jpg`,
@@ -74,6 +94,31 @@ export function softwareApplicationJsonLd() {
       priceCurrency: "USD",
       category: "Free",
     },
+    isAccessibleForFree: true,
+    dateModified: trustLastReviewed,
+    featureList: [
+      "Free AI tarot reading",
+      "Daily tarot card",
+      "Tarot card meanings",
+      "Love tarot reading",
+      "Career tarot reading",
+      "Yes or no tarot",
+      "Saved history for members",
+      "Advanced spreads for members",
+    ],
+    review: representativeTestimonials.map((item) => ({
+      "@type": "Review",
+      name: item.title,
+      reviewBody: item.quote,
+      reviewAspect: item.title,
+      author: {
+        "@type": "Person",
+        name: "POPTarot reader",
+      },
+      itemReviewed: {
+        "@id": `${appUrl}/#app`,
+      },
+    })),
     publisher: {
       "@id": `${appUrl}/#organization`,
     },
