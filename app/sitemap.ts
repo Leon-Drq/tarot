@@ -10,10 +10,15 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 const baseRoutes = [
   { path: "/", priority: 1 },
   { path: "/daily-tarot", priority: 0.92 },
-  { path: "/tarot-spreads", priority: 0.88 },
   { path: "/input", priority: 0.8 },
   { path: "/reading", priority: 0.7 },
   { path: "/membership", priority: 0.4 },
+]
+
+const spreadHubRoutes = [
+  { path: "/tarot-spreads", priority: 0.88 },
+  { path: "/es/tiradas-tarot", priority: 0.82 },
+  { path: "/pt-br/tiragens-tarot", priority: 0.82 },
 ]
 
 const questionHubRoutes = [
@@ -34,7 +39,7 @@ const cardRoutes = TAROT_CARDS.flatMap((card) =>
 
 const routes = Array.from(
   new Map(
-    [...baseRoutes, ...questionHubRoutes, ...seoRoutes, ...trustRoutes, ...cardRoutes].map((route) => [
+    [...baseRoutes, ...spreadHubRoutes, ...questionHubRoutes, ...seoRoutes, ...trustRoutes, ...cardRoutes].map((route) => [
       route.path,
       route,
     ]),

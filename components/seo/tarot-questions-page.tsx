@@ -6,6 +6,7 @@ import { appUrl, editorialTeamJsonLd, organizationJsonLd, siteName, websiteJsonL
 import { getSeoPage } from "@/lib/seo-pages"
 import { SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
 import { trustLastReviewed } from "@/lib/trust-signals"
+import { getTarotSpreadHubPath } from "@/components/seo/tarot-spreads-page"
 
 type TarotQuestionHubLocale = Extract<SeoLocale, "en" | "es" | "pt-br">
 type QuestionGroup = "love" | "career" | "fast"
@@ -209,7 +210,7 @@ const copyByLocale = {
     title: "Preguntas de tarot",
     description:
       "Elige una pregunta de tarot sobre amor, ex, mensajes, respuestas si o no, carrera y trabajo, y empieza una tirada gratis con IA.",
-    headerLink: "/tarot-spreads",
+    headerLink: "/es/tiradas-tarot",
     headerLinkLabel: "Tiradas de tarot",
     eyebrow: "Selector de preguntas",
     heading: "Preguntas de tarot",
@@ -352,7 +353,7 @@ const copyByLocale = {
     title: "Perguntas de tarot",
     description:
       "Escolha uma pergunta de tarot sobre amor, ex, mensagens, respostas sim ou nao, carreira e trabalho, e comece uma tiragem gratuita com IA.",
-    headerLink: "/tarot-spreads",
+    headerLink: "/pt-br/tiragens-tarot",
     headerLinkLabel: "Tiragens de tarot",
     eyebrow: "Seletor de perguntas",
     heading: "Perguntas de tarot",
@@ -496,7 +497,7 @@ function getQuestionHubCopy(locale: TarotQuestionHubLocale) {
 }
 
 function guideHref(entry: QuestionEntry, locale: TarotQuestionHubLocale) {
-  if (!entry.slug) return "/tarot-spreads"
+  if (!entry.slug) return getTarotSpreadHubPath(locale)
   return getSeoPage(entry.slug, locale)?.path || `/${entry.slug}`
 }
 
