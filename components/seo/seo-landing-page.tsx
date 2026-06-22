@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { getAllLocalizedSeoPages, type SeoPage } from "@/lib/seo-pages"
+import { SPREAD_CONFIGS } from "@/lib/spread-config"
 import { getAllCardSeoPages } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
 import { appUrl, organizationJsonLd, softwareApplicationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
@@ -54,6 +55,168 @@ function readingHref(page: SeoPage) {
   return `/input?${params.toString()}`
 }
 
+type QuestionToolkit = {
+  label: string
+  title: string
+  body: string
+  promptTitle: string
+  prompts: string[]
+  frameTitle: string
+  frames: Array<{
+    title: string
+    body: string
+  }>
+}
+
+const questionToolkits: Record<string, QuestionToolkit> = {
+  "will-my-ex-come-back-tarot": {
+    label: "Reconciliation spread",
+    title: "Read the return question with more than hope",
+    body: "A useful ex reading should separate remaining attachment from changed behavior. The spread below keeps the first answer grounded in cause, readiness, advice, and likely direction.",
+    promptTitle: "Try a sharper ex question",
+    prompts: [
+      "Will my ex come back, and what has actually changed?",
+      "Is reaching out to my ex healthy right now?",
+      "What would help me move on with self-respect?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Return energy",
+        body: "Look for cards that show accountability, communication, and mutual willingness, not only nostalgia or longing.",
+      },
+      {
+        title: "Pause energy",
+        body: "Heavy delay, avoidance, or repeated conflict cards usually ask you to protect peace before chasing contact.",
+      },
+      {
+        title: "Your next step",
+        body: "The advice card should become one real action: wait, set a boundary, send one clear message, or stop checking.",
+      },
+    ],
+  },
+  "does-he-love-me-tarot": {
+    label: "Feelings spread",
+    title: "Separate attraction, emotion, and consistent action",
+    body: "This question works best when the reading compares what he may feel with how he behaves. Real love has to show up in safety, respect, and communication.",
+    promptTitle: "Try a sharper feelings question",
+    prompts: [
+      "Does he love me, or is this only attraction?",
+      "What are his true feelings and fears about me?",
+      "What would make this connection emotionally safe for me?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Mutual feeling",
+        body: "Cups, Lovers, Sun, or steady Pentacles can support affection when the surrounding cards show action too.",
+      },
+      {
+        title: "Mixed signal",
+        body: "Moon, Seven of Cups, or reversed court cards often point to uncertainty, projection, or inconsistent expression.",
+      },
+      {
+        title: "Your clarity",
+        body: "Read the advice card as a boundary check. The answer is not only what he feels, but what you need next.",
+      },
+    ],
+  },
+  "yes-or-no-tarot-love": {
+    label: "Yes or no spread",
+    title: "Get a quick answer without losing the reason",
+    body: "A love yes-or-no reading should explain why the energy leans yes, no, or not yet. The reason matters more than forcing a one-word answer.",
+    promptTitle: "Try a cleaner yes-or-no question",
+    prompts: [
+      "Is this connection worth pursuing right now?",
+      "Should I text them today?",
+      "Is reconciliation likely in the near future?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Yes",
+        body: "Treat yes as permission for a thoughtful step, not a guarantee that the other person will do all the work.",
+      },
+      {
+        title: "No",
+        body: "A no can be protective. Read whether the block is timing, intention, readiness, or a pattern you already know.",
+      },
+      {
+        title: "Not yet",
+        body: "Not yet usually points to missing information, emotional readiness, or a condition that needs to change first.",
+      },
+    ],
+  },
+  "career-tarot-reading": {
+    label: "Career spread",
+    title: "Turn career uncertainty into one practical move",
+    body: "Career tarot is strongest when it names momentum, resistance, timing, and the next action. Use the spread as a reflection tool, then test it against real options.",
+    promptTitle: "Try a sharper career question",
+    prompts: [
+      "What should I focus on in my career this month?",
+      "Is this job opportunity aligned with my growth?",
+      "What practical action would move my career forward now?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Momentum",
+        body: "Magician, World, Wands, and Pentacles can show opportunity when they are paired with realistic resources.",
+      },
+      {
+        title: "Risk",
+        body: "Tower, Devil, Five of Pentacles, or Seven of Swords ask you to examine pressure, contracts, money, or trust.",
+      },
+      {
+        title: "Action",
+        body: "Translate the advice card into a concrete step: apply, prepare, negotiate, rest, wait, or change direction.",
+      },
+    ],
+  },
+  "should-i-quit-my-job-tarot": {
+    label: "Job decision spread",
+    title: "Read quitting as a decision, not a dramatic impulse",
+    body: "This page is for the moment when staying feels heavy but leaving has real consequences. The spread should separate burnout, completed cycles, risk, and preparation.",
+    promptTitle: "Try a safer job-decision question",
+    prompts: [
+      "Should I quit my job or prepare first?",
+      "Is this burnout temporary or a sign to leave?",
+      "What do I need before making my next career move?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Leave signal",
+        body: "Death, Tower, Eight of Cups, World, or Ten of Wands can support transition when the advice card also shows readiness.",
+      },
+      {
+        title: "Prepare signal",
+        body: "Four of Pentacles, Two of Wands, or Temperance usually ask for savings, timing, boundaries, or a bridge plan.",
+      },
+      {
+        title: "Reality check",
+        body: "Before acting, pair the reading with money, contracts, health, references, and concrete alternatives.",
+      },
+    ],
+  },
+}
+
+function promptHref(page: SeoPage, prompt: string) {
+  const params = new URLSearchParams({
+    q: prompt,
+    auto: "1",
+    utm_source: "seo",
+    utm_medium: "question_prompt",
+    utm_campaign: page.slug,
+  })
+
+  if (page.recommendedSpread) {
+    params.set("spread", page.recommendedSpread)
+  }
+
+  return `/input?${params.toString()}`
+}
+
 export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const cards = page.cards
     .map((id) => TAROT_CARDS.find((card) => card.id === id))
@@ -62,6 +225,8 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const primaryHref = readingHref(page)
   const related = relatedPages(page)
   const relatedText = relatedCopy[page.locale]
+  const toolkit = page.locale === "en" ? questionToolkits[page.slug] : undefined
+  const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -216,6 +381,62 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
           ))}
         </div>
       </section>
+
+      {toolkit && recommendedSpread && (
+        <section className="border-b border-white/10 bg-[#080310]">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="max-w-3xl">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{toolkit.label}</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">{toolkit.title}</h2>
+              <p className="mt-4 text-sm leading-7 text-white/62 sm:text-base">{toolkit.body}</p>
+            </div>
+
+            <div className="mt-9 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+              <article className="rounded-lg border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.045] p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">Recommended spread</p>
+                <h3 className="mt-3 font-serif text-2xl text-white">{recommendedSpread.nameEn}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/62">{recommendedSpread.descriptionEn}</p>
+                <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                  {recommendedSpread.positions.map((position, index) => (
+                    <div key={position.nameEn} className="rounded-lg border border-white/10 bg-black/[0.18] p-3">
+                      <p className="text-xs uppercase tracking-[0.16em] text-white/38">Card {index + 1}</p>
+                      <p className="mt-1 text-sm font-medium text-white">{position.nameEn}</p>
+                    </div>
+                  ))}
+                </div>
+              </article>
+
+              <article className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{toolkit.promptTitle}</p>
+                <div className="mt-5 grid gap-3">
+                  {toolkit.prompts.map((prompt) => (
+                    <Link
+                      key={prompt}
+                      href={promptHref(page, prompt)}
+                      className="group rounded-lg border border-white/10 bg-black/[0.16] px-4 py-3 text-sm leading-6 text-white/68 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] hover:text-white"
+                    >
+                      <span className="block">{prompt}</span>
+                      <span className="mt-1 block text-xs text-[#c9c0ff]/62 group-hover:text-[#e8e3ff]">Draw this question</span>
+                    </Link>
+                  ))}
+                </div>
+              </article>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="font-serif text-2xl text-white">{toolkit.frameTitle}</h3>
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                {toolkit.frames.map((frame) => (
+                  <article key={frame.title} className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                    <h4 className="text-base font-medium text-white">{frame.title}</h4>
+                    <p className="mt-3 text-sm leading-7 text-white/60">{frame.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {cardPages.length > 0 && (
         <section className="border-b border-white/10 bg-[#080310]">
