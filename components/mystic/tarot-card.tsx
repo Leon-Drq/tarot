@@ -41,7 +41,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
 
   return (
     <div
-      className="pointer-events-none relative z-[5] mx-auto mt-[7.75rem] flex h-[min(38dvh,20rem)] min-h-[17rem] w-full items-center justify-center sm:mt-32 sm:h-[min(42dvh,22rem)] sm:min-h-[19rem] md:mt-24 md:h-[min(52dvh,29rem)] md:min-h-[25rem] lg:mt-20"
+      className="pointer-events-none relative z-[5] mx-auto mt-[11rem] flex h-[19rem] w-full items-center justify-center sm:mt-36 sm:h-[min(42svh,22rem)] sm:min-h-[20rem] md:mt-24 md:h-[min(52svh,29rem)] md:min-h-[25rem] lg:mt-20"
       style={{
         perspective: "1000px",
         opacity: 1,
@@ -51,10 +51,8 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
       }}
     >
       <div
-        className="relative"
+        className="relative h-[17.75rem] w-[10.375rem] sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
         style={{
-          width: "clamp(176px, 34vw, 270px)",
-          height: "clamp(296px, 57vw, 466px)",
           transformStyle: "preserve-3d",
           transform: `rotateZ(${tiltAngle}deg)`,
           animation: shouldAnimate ? `rotateCard ${rotationDuration}s linear infinite` : "none",
@@ -202,8 +200,8 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
       <div
         className="absolute rounded-xl md:rounded-2xl"
         style={{
-          width: "clamp(204px, 40vw, 320px)",
-          height: "clamp(320px, 62vw, 520px)",
+          width: "clamp(188px, 46vw, 320px)",
+          height: "clamp(296px, 72vw, 520px)",
           background: "radial-gradient(ellipse, rgba(162, 137, 255, 0.3) 0%, transparent 70%)",
           filter: "blur(30px)",
           transform: `rotateZ(${tiltAngle}deg)`,
