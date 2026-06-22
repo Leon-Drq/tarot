@@ -68,6 +68,22 @@ export const trustPages: TrustPage[] = [
     ],
   },
   {
+    slug: "official-channels",
+    type: "WebPage",
+    title: "Official POPTarot Channels",
+    description: "Verify official POPTarot links, brand channels, product support paths, and safe ways to recognize poptarot.com.",
+    eyebrow: "Official Channels",
+    intro: "poptarot.com is the source of truth for POPTarot product pages, free readings, daily tarot, privacy guidance, and membership information.",
+    sections: [
+      { heading: "Primary website", body: "The canonical POPTarot experience is hosted at poptarot.com. Use this domain for free AI tarot readings, daily tarot, card meanings, and official policy pages." },
+      { heading: "Social profiles", body: "Official social profiles are listed on this page and in structured data only after they are active and verified. We do not publish placeholder social links." },
+      { heading: "Brand verification", body: "Search engines and users can check the same brand signals across About, Editorial Policy, AI Disclaimer, Privacy, Reviews, Reading Examples, and this official channels page." },
+      { heading: "Safe link checks", body: "Be careful with copied links, payment requests, or messages that do not point back to poptarot.com. Official product and policy links should resolve under this domain." },
+      { heading: "Membership boundary", body: "The free reading flow stays available before payment. Membership belongs to saved history, deeper follow-ups, advanced spreads, and long-form reports." },
+      { heading: "How updates appear", body: "When official accounts, support inboxes, or new public channels are launched, they will be added here first and then reflected in site-wide structured data." },
+    ],
+  },
+  {
     slug: "ai-tarot-disclaimer",
     type: "WebPage",
     title: "AI Tarot Disclaimer",

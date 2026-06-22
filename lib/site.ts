@@ -15,6 +15,7 @@ export const socialLinks = [
 
 export const trustLinks = [
   { label: "About", href: "/about" },
+  { label: "Official Channels", href: "/official-channels" },
   { label: "Editorial Policy", href: "/editorial-policy" },
   { label: "AI Disclaimer", href: "/ai-tarot-disclaimer" },
   { label: "Privacy", href: "/privacy" },
@@ -76,6 +77,12 @@ export function organizationJsonLd() {
     mainEntityOfPage: {
       "@id": `${appUrl}/about#webpage`,
     },
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "brand verification and product support",
+      url: `${appUrl}/official-channels`,
+      availableLanguage: ["en", "zh", "ja", "ko", "es", "pt-BR"],
+    },
     knowsAbout: [
       "AI tarot reading",
       "tarot card meanings",
@@ -83,6 +90,7 @@ export function organizationJsonLd() {
       "love tarot",
       "career tarot",
       "yes or no tarot",
+      "official tarot reading channels",
     ],
     subjectOf: [
       {

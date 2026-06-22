@@ -76,7 +76,7 @@ function HomeQuestionForm() {
   return (
     <form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto mt-12 w-[calc(100vw_-_3rem)] max-w-[460px] sm:mt-14 md:max-w-[560px] lg:max-w-[620px]"
+      className="relative z-30 mx-auto mt-16 w-[calc(100vw_-_3rem)] max-w-[460px] sm:mt-20 md:mt-24 md:max-w-[560px] lg:max-w-[620px]"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
@@ -134,6 +134,7 @@ function HomeScrollContent() {
         ],
         trustItems: [
           { href: "/about", title: "关于" },
+          { href: "/official-channels", title: "官方渠道" },
           { href: "/editorial-policy", title: "编辑说明" },
           { href: "/ai-tarot-disclaimer", title: "AI 声明" },
           { href: "/privacy", title: "隐私" },
@@ -169,6 +170,7 @@ function HomeScrollContent() {
         ],
         trustItems: [
           { href: "/about", title: "About" },
+          { href: "/official-channels", title: "Official" },
           { href: "/editorial-policy", title: "Editorial" },
           { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
           { href: "/privacy", title: "Privacy" },
@@ -204,6 +206,7 @@ function HomeScrollContent() {
         ],
         trustItems: [
           { href: "/about", title: "About" },
+          { href: "/official-channels", title: "Official" },
           { href: "/editorial-policy", title: "Editorial" },
           { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
           { href: "/privacy", title: "Privacy" },
@@ -239,6 +242,7 @@ function HomeScrollContent() {
         ],
         trustItems: [
           { href: "/about", title: "About" },
+          { href: "/official-channels", title: "Official" },
           { href: "/editorial-policy", title: "Editorial" },
           { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
           { href: "/privacy", title: "Privacy" },
@@ -401,7 +405,7 @@ function MysticContent() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="relative min-h-[134svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+5.5rem)] sm:min-h-[118svh] md:min-h-[116svh] md:pb-28">
+      <div className="relative min-h-[140svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+6rem)] sm:min-h-[118svh] md:min-h-[116svh] md:pb-28">
         {/* 3. Core light effect */}
         <CoreLight />
 
@@ -418,7 +422,7 @@ function MysticContent() {
         </section>
 
         {/* 4. 3D rotating tarot card - use custom images if available */}
-        <div data-home-card-scene className="relative z-20 mt-48 sm:mt-20 md:mt-[4.5rem] lg:mt-20">
+        <div data-home-card-scene className="relative z-20 mt-56 sm:mt-24 md:mt-28 lg:mt-32">
           <TarotCard
             frontImage={customFront || DEFAULT_FRONT}
             backImage={customBack || DEFAULT_BACK}
