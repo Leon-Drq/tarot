@@ -2,14 +2,23 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { ShareCopyActions } from "@/components/share/share-copy-actions"
 import { createAnonSupabase } from "@/lib/server/supabase"
+import {
+  editorialTeamJsonLd,
+  organizationJsonLd,
+  softwareApplicationJsonLd,
+  trustLinks,
+  websiteJsonLd,
+} from "@/lib/site"
 import type { ReadingShare, ReadingShareCard } from "@/lib/api"
 
 export const dynamic = "force-dynamic"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
+const freeReadingHref = "/input?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
+const dailyTarotHref = "/daily-tarot?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
 
 type Params = {
   params: Promise<{ slug: string }>
@@ -81,20 +90,77 @@ export default async function SharePage({ params }: Params) {
   const { slug } = await params
   const share = await getShare(slug)
   if (!share) notFound()
+  const description = share.interpretation_excerpt || "A shared AI tarot reading from POPTarot."
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    name: share.question,
-    url: `${appUrl}/share/${share.slug}`,
-    image: `${appUrl}/share/${share.slug}/opengraph-image`,
-    datePublished: share.created_at,
-    text: share.interpretation_excerpt,
-    publisher: {
-      "@type": "Organization",
-      name: "POPTarot",
-      url: appUrl,
-    },
+    "@graph": [
+      organizationJsonLd(),
+      editorialTeamJsonLd(),
+      websiteJsonLd(),
+      softwareApplicationJsonLd(),
+      {
+        "@type": "WebPage",
+        "@id": `${appUrl}/share/${share.slug}#webpage`,
+        url: `${appUrl}/share/${share.slug}`,
+        name: share.question,
+        description,
+        isPartOf: {
+          "@id": `${appUrl}/#website`,
+        },
+        primaryImageOfPage: `${appUrl}/share/${share.slug}/opengraph-image`,
+        breadcrumb: {
+          "@id": `${appUrl}/share/${share.slug}#breadcrumb`,
+        },
+        mainEntity: {
+          "@id": `${appUrl}/share/${share.slug}#reading`,
+        },
+      },
+      {
+        "@type": "CreativeWork",
+        "@id": `${appUrl}/share/${share.slug}#reading`,
+        name: share.question,
+        url: `${appUrl}/share/${share.slug}`,
+        image: `${appUrl}/share/${share.slug}/opengraph-image`,
+        datePublished: share.created_at,
+        text: share.interpretation_excerpt,
+        isAccessibleForFree: true,
+        about: ["AI tarot reading", "free tarot reading", "reflective tarot guidance"],
+        author: {
+          "@id": `${appUrl}/#organization`,
+        },
+        creator: {
+          "@id": `${appUrl}/#app`,
+        },
+        publisher: {
+          "@id": `${appUrl}/#organization`,
+        },
+        reviewedBy: {
+          "@id": `${appUrl}/#editorial-team`,
+        },
+        mainEntityOfPage: {
+          "@id": `${appUrl}/share/${share.slug}#webpage`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${appUrl}/share/${share.slug}#breadcrumb`,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "POPTarot",
+            item: appUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Shared Tarot Reading",
+            item: `${appUrl}/share/${share.slug}`,
+          },
+        ],
+      },
+    ],
   }
 
   return (
@@ -106,35 +172,37 @@ export default async function SharePage({ params }: Params) {
         }}
       />
       <section className="relative overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(116,76,169,0.45),transparent_35%),linear-gradient(180deg,#14081f_0%,#08030f_100%)]" />
-        <div className="relative mx-auto flex min-h-screen max-w-5xl flex-col px-5 py-8 sm:px-8">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-10%,rgba(127,112,220,0.35),transparent_36%),linear-gradient(180deg,#12091e_0%,#08030f_100%)]" />
+        <div className="relative mx-auto flex min-h-[100dvh] max-w-5xl flex-col px-5 py-8 sm:px-8">
           <nav className="flex items-center justify-between">
             <Link href="/" className="font-serif text-sm tracking-[0.28em] text-white/75">
               POP TAROT
             </Link>
             <Link
-              href="/input"
-              className="inline-flex items-center gap-2 rounded-full border border-[#dcb360]/40 px-4 py-2 text-xs uppercase tracking-[0.14em] text-[#f3d58b] transition hover:border-[#f3d58b] hover:bg-[#dcb360]/10"
+              href={freeReadingHref}
+              className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-[#c9c0ff]/30 px-4 py-2 text-xs uppercase tracking-[0.14em] text-[#eeeaff] transition hover:border-[#c9c0ff]/65 hover:bg-[#c9c0ff]/10"
             >
               Draw Cards
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </nav>
 
-          <div className="flex flex-1 flex-col justify-center py-12">
-            <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-[#f3d58b]">
-              <Sparkles className="h-3.5 w-3.5" />
-              Shared Reading
+          <div className="flex flex-1 flex-col justify-center py-10 sm:py-14">
+            <div className="mb-5 inline-flex w-fit items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-[#c9c0ff]">
+              Shared AI tarot reading
             </div>
 
             <h1 className="max-w-3xl font-serif text-3xl font-semibold leading-tight tracking-normal text-white sm:text-5xl">
               {share.question}
             </h1>
+            <p className="mt-4 max-w-2xl text-sm leading-7 text-white/58 sm:text-base">
+              A public POPTarot reading for reflection. Start with the same free flow, then return for a daily card or save deeper follow-ups later.
+            </p>
 
-            <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
+            <div className="mt-9 flex flex-wrap justify-center gap-4 sm:mt-10 sm:gap-6">
               {share.cards.slice(0, 5).map((card, index) => (
-                <div key={`${card.id || card.name}-${index}`} className="flex w-[92px] flex-col items-center sm:w-[132px]">
-                  <div className="relative aspect-[7/12] w-full overflow-hidden rounded-lg border border-[#dcb360]/50 bg-[#211330] shadow-2xl shadow-black/35">
+                <div key={`${card.id || card.name}-${index}`} className="flex w-[88px] flex-col items-center sm:w-[132px]">
+                  <div className="relative aspect-[7/12] w-full overflow-hidden rounded-lg border border-[#c9c0ff]/35 bg-[#171022] shadow-2xl shadow-black/35">
                     {card.image ? (
                       <Image
                         src={card.image}
@@ -149,17 +217,17 @@ export default async function SharePage({ params }: Params) {
                         {cardLabel(card)}
                       </div>
                     )}
-                    <div className="absolute inset-2 rounded border border-[#f3d58b]/25" />
+                    <div className="absolute inset-2 rounded border border-[#eeeaff]/18" />
                   </div>
                   <p className="mt-3 line-clamp-2 text-center text-xs text-white/70">{cardLabel(card)}</p>
-                  <p className="mt-1 text-[11px] text-[#dcb360]/70">{card.isReversed ? "Reversed" : "Upright"}</p>
+                  <p className="mt-1 text-[11px] text-[#c9c0ff]/70">{card.isReversed ? "Reversed" : "Upright"}</p>
                 </div>
               ))}
             </div>
 
             {share.interpretation_excerpt && (
               <article className="mx-auto mt-12 max-w-3xl rounded-lg border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-                <h2 className="font-serif text-2xl text-[#f3d58b]">AI Interpretation</h2>
+                <h2 className="font-serif text-2xl text-[#eeeaff]">AI Interpretation</h2>
                 <p className="mt-4 whitespace-pre-wrap text-sm leading-8 text-white/72 sm:text-base">
                   {share.interpretation_excerpt}
                 </p>
@@ -168,15 +236,15 @@ export default async function SharePage({ params }: Params) {
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
-                href="/input"
-                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#dcb360] px-7 py-3 text-sm font-medium text-[#14091f] transition hover:bg-[#f3d58b]"
+                href={freeReadingHref}
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f5f2ff_0%,#b7adff_44%,#6d63d8_100%)] px-7 py-3 text-sm font-medium text-[#0c0920] shadow-[0_18px_45px_rgba(109,99,216,0.28)] transition hover:brightness-110 sm:w-auto"
               >
                 Start Your Free Reading
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/daily-tarot"
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 px-7 py-3 text-sm text-white/72 transition hover:border-white/32 hover:bg-white/[0.05]"
+                href={dailyTarotHref}
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-white/14 px-7 py-3 text-sm text-white/72 transition hover:border-[#c9c0ff]/40 hover:bg-white/[0.05] sm:w-auto"
               >
                 Try Daily Tarot
               </Link>
@@ -188,6 +256,21 @@ export default async function SharePage({ params }: Params) {
               interpretation={share.interpretation_excerpt}
               url={`${appUrl}/share/${share.slug}`}
             />
+
+            <div className="mx-auto mt-9 grid w-full max-w-3xl grid-cols-2 gap-2 sm:grid-cols-3">
+              {trustLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-center text-xs text-white/58 transition hover:border-[#c9c0ff]/40 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <p className="mx-auto mt-5 max-w-2xl text-center text-xs leading-6 text-white/42">
+              AI tarot is symbolic guidance for reflection, not medical, legal, financial, psychological, or safety advice.
+            </p>
           </div>
         </div>
       </section>

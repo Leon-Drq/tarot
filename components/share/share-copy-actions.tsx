@@ -71,14 +71,14 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       <div className="grid w-full max-w-md gap-2 sm:grid-cols-2">
         <button
           onClick={() => handleCopy("xhs")}
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:bg-white/[0.05] hover:text-white"
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
         >
           <Copy className="h-3.5 w-3.5" />
           {copy.xhs}
         </button>
         <button
           onClick={() => handleCopy("instagram")}
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#dcb360]/45 hover:bg-white/[0.05] hover:text-white"
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
         >
           <Instagram className="h-3.5 w-3.5" />
           {copy.instagram}
