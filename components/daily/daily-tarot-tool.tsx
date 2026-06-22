@@ -47,6 +47,16 @@ function getPreviousDateKey(dateKey: string) {
   return getLocalDateKey(date)
 }
 
+function getRecentDateKeys(dateKey: string, count = 7) {
+  const [year, month, day] = dateKey.split("-").map(Number)
+  const date = new Date(year, month - 1, day)
+  return Array.from({ length: count }, (_, index) => {
+    const item = new Date(date)
+    item.setDate(date.getDate() - index)
+    return getLocalDateKey(item)
+  })
+}
+
 function readLocalEntry(dateKey: string): DailyTarotEntry | null {
   if (typeof window === "undefined") return null
   const value = localStorage.getItem(localDailyKey(dateKey))
@@ -56,6 +66,12 @@ function readLocalEntry(dateKey: string): DailyTarotEntry | null {
   } catch {
     return null
   }
+}
+
+function readRecentLocalEntries(dateKey: string) {
+  return getRecentDateKeys(dateKey)
+    .map(readLocalEntry)
+    .filter((item): item is DailyTarotEntry => Boolean(item))
 }
 
 function cardFromEntry(entry: DailyTarotEntry): DrawnCard | null {
@@ -109,6 +125,7 @@ export function DailyTarotTool() {
   const [dateKey, setDateKey] = useState("")
   const [card, setCard] = useState<DrawnCard | null>(null)
   const [entry, setEntry] = useState<DailyTarotEntry | null>(null)
+  const [recentEntries, setRecentEntries] = useState<DailyTarotEntry[]>([])
   const [interpretation, setInterpretation] = useState("")
   const [journal, setJournal] = useState("")
   const [mood, setMood] = useState("")
@@ -125,6 +142,7 @@ export function DailyTarotTool() {
     setDateKey(today)
     const seededCard = getDailyCard(today, getSeed())
     setCard(seededCard)
+    setRecentEntries(readRecentLocalEntries(today))
 
     const localEntry = localStorage.getItem(localDailyKey(today))
     if (localEntry) {
@@ -182,6 +200,7 @@ export function DailyTarotTool() {
     localStorage.setItem(localDailyKey(nextEntry.entry_date), JSON.stringify(nextEntry))
     setEntry(nextEntry)
     setStreak(nextEntry.streak_count)
+    setRecentEntries(readRecentLocalEntries(nextEntry.entry_date))
   }
 
   const createLocalEntry = (input: {
@@ -335,7 +354,10 @@ export function DailyTarotTool() {
     }
   }
 
-  const displayName = card ? (language === "zh" ? card.name : language === "ja" ? card.nameJa || card.nameEn : language === "ko" ? card.nameKo || card.nameEn : card.nameEn) : ""
+  const localizedCardName = (item: DrawnCard) =>
+    language === "zh" ? item.name : language === "ja" ? item.nameJa || item.nameEn : language === "ko" ? item.nameKo || item.nameEn : item.nameEn
+
+  const displayName = card ? localizedCardName(card) : ""
 
   return (
     <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-12 pt-6 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
@@ -471,6 +493,44 @@ export function DailyTarotTool() {
           >
             {copy.saveReminder}
           </button>
+        </article>
+
+        <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h2 className="font-serif text-xl text-white">{copy.recentTitle}</h2>
+            {recentEntries.length > 0 && (
+              <span className="rounded-full border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.07] px-3 py-1 text-xs text-[#d8d0ff]">
+                {recentEntries.length}/7
+              </span>
+            )}
+          </div>
+          {recentEntries.length > 0 ? (
+            <div className="space-y-3">
+              {recentEntries.map((recent) => {
+                const recentCard = cardFromEntry(recent)
+                const recentName = recentCard ? localizedCardName(recentCard) : recent.card_name
+                const recentNote = recent.journal || recent.interpretation || copy.recentNoNote
+                return (
+                  <article key={recent.entry_date} className="rounded-lg border border-white/10 bg-black/18 p-4">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-xs uppercase tracking-[0.14em] text-white/38">{recent.entry_date}</p>
+                        <h3 className="mt-1 truncate text-sm font-medium text-white">
+                          {recentName} · {recent.is_reversed ? "Reversed" : "Upright"}
+                        </h3>
+                      </div>
+                      <span className="shrink-0 rounded-full border border-white/10 px-2.5 py-1 text-xs text-white/52">
+                        {recent.streak_count} {copy.days}
+                      </span>
+                    </div>
+                    <p className="mt-3 line-clamp-2 text-sm leading-6 text-white/56">{recentNote}</p>
+                  </article>
+                )
+              })}
+            </div>
+          ) : (
+            <p className="text-sm leading-7 text-white/42">{copy.recentEmpty}</p>
+          )}
         </article>
 
         <Link
