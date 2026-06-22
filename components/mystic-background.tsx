@@ -401,7 +401,7 @@ function MysticContent() {
         onClose={() => setMenuOpen(false)}
       />
 
-      <div className="relative min-h-[112svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+5.5rem)] md:min-h-[116svh] md:pb-28">
+      <div className="relative min-h-[134svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+5.5rem)] sm:min-h-[118svh] md:min-h-[116svh] md:pb-28">
         {/* 3. Core light effect */}
         <CoreLight />
 
@@ -415,7 +415,7 @@ function MysticContent() {
         </section>
 
         {/* 4. 3D rotating tarot card - use custom images if available */}
-        <div className="relative z-20 mt-14 sm:mt-16 md:mt-[4.5rem] lg:mt-20">
+        <div className="relative z-20 mt-36 sm:mt-16 md:mt-[4.5rem] lg:mt-20">
           <TarotCard
             frontImage={customFront || DEFAULT_FRONT}
             backImage={customBack || DEFAULT_BACK}
