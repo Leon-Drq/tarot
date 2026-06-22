@@ -4,12 +4,14 @@ import { EditorialByline } from "@/components/trust/editorial-byline"
 import { localePath } from "@/lib/locales"
 import { getCardKeywords, type TarotCardSeoPage } from "@/lib/tarot-card-seo"
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
+import type { SpreadType } from "@/lib/spread-config"
 import { trustLastReviewed } from "@/lib/trust-signals"
 
 function readingHref(page: TarotCardSeoPage) {
   const params = new URLSearchParams({
     q: page.tryQuestion,
     auto: "1",
+    lang: page.locale,
     spread: "three_card",
     utm_source: "seo",
     utm_medium: "card_meaning",
@@ -19,11 +21,83 @@ function readingHref(page: TarotCardSeoPage) {
   return `/input?${params.toString()}`
 }
 
+type CardPrompt = {
+  label: string
+  question: string
+  spread: SpreadType
+}
+
+function cardDisplayName(page: TarotCardSeoPage) {
+  if (page.locale === "zh") return page.card.name
+  if (page.locale === "ja") return page.card.nameJa || page.card.nameEn
+  if (page.locale === "ko") return page.card.nameKo || page.card.nameEn
+  return page.card.nameEn
+}
+
+function cardPromptHref(page: TarotCardSeoPage, prompt: CardPrompt) {
+  const params = new URLSearchParams({
+    q: prompt.question,
+    auto: "1",
+    lang: page.locale,
+    spread: prompt.spread,
+    utm_source: "seo",
+    utm_medium: "card_prompt",
+    utm_campaign: page.slug,
+  })
+
+  return `/input?${params.toString()}`
+}
+
+function cardPromptCopy(page: TarotCardSeoPage) {
+  const name = cardDisplayName(page)
+
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Preguntas para probar",
+      title: `Usa ${name} en una lectura gratis`,
+      body: "Convierte el significado de la carta en una pregunta concreta. Cada enlace abre una lectura de IA gratuita con una tirada adecuada.",
+      action: "Tirar esta pregunta",
+      prompts: [
+        { label: "Amor", question: `Que significa ${name} para mi vida amorosa ahora?`, spread: "relationship" },
+        { label: "Carrera", question: `Como puedo usar la energia de ${name} en mi carrera esta semana?`, spread: "job_opportunity" },
+        { label: "Si o no", question: `${name} sugiere si o no para mi decision actual?`, spread: "yes_no" },
+      ] satisfies CardPrompt[],
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Perguntas para testar",
+      title: `Use ${name} em uma leitura gratis`,
+      body: "Transforme o significado da carta em uma pergunta concreta. Cada link abre uma leitura de IA gratuita com uma tiragem adequada.",
+      action: "Tirar esta pergunta",
+      prompts: [
+        { label: "Amor", question: `O que ${name} significa para minha vida amorosa agora?`, spread: "relationship" },
+        { label: "Carreira", question: `Como posso usar a energia de ${name} na minha carreira esta semana?`, spread: "job_opportunity" },
+        { label: "Sim ou nao", question: `${name} sugere sim ou nao para minha decisao atual?`, spread: "yes_no" },
+      ] satisfies CardPrompt[],
+    }
+  }
+
+  return {
+    eyebrow: "Try the meaning",
+    title: `Use ${name} in a free AI reading`,
+    body: "Turn the card meaning into a concrete question. Each prompt opens a free AI tarot reading with a matching spread.",
+    action: "Draw this question",
+    prompts: [
+      { label: "Love", question: `What does ${name} mean for my love life right now?`, spread: "relationship" },
+      { label: "Career", question: `How should I use ${name} energy in my career this week?`, spread: "job_opportunity" },
+      { label: "Yes or no", question: `Is ${name} a yes or no for my current decision?`, spread: "yes_no" },
+    ] satisfies CardPrompt[],
+  }
+}
+
 export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const keywords = getCardKeywords(page.card, page.locale)
   const meaningsHref = localePath(page.locale, "/tarot-card-meanings")
   const cardImage = page.card.image.startsWith("http") ? page.card.image : `${appUrl}${page.card.image}`
   const primaryHref = readingHref(page)
+  const promptCopy = cardPromptCopy(page)
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -104,6 +178,17 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
             "@type": "Answer",
             text: faq.answer,
           },
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#reading-prompts`,
+        name: promptCopy.title,
+        itemListElement: promptCopy.prompts.map((prompt, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: prompt.question,
+          url: `${appUrl}${cardPromptHref(page, prompt)}`,
         })),
       },
     ],
@@ -187,6 +272,25 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                       <h3 className="text-sm font-medium text-[#c9c0ff]">{item.heading}</h3>
                       <p className="mt-2 text-sm leading-6 text-white/62">{item.body}</p>
                     </article>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-8 rounded-lg border border-[#bfb6ff]/22 bg-[#bfb6ff]/[0.045] p-5">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{promptCopy.eyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{promptCopy.title}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{promptCopy.body}</p>
+                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                  {promptCopy.prompts.map((prompt) => (
+                    <Link
+                      key={prompt.question}
+                      href={cardPromptHref(page, prompt)}
+                      className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                    >
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{prompt.label}</p>
+                      <p className="mt-3 break-words text-sm leading-6 text-white/72 group-hover:text-white">{prompt.question}</p>
+                      <p className="mt-3 text-xs text-[#c9c0ff]/65 group-hover:text-[#e8e3ff]">{promptCopy.action}</p>
+                    </Link>
                   ))}
                 </div>
               </div>
