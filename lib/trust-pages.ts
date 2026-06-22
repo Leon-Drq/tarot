@@ -23,6 +23,16 @@ export type TrustPage = {
     betterQuestion: string
     note: string
   }>
+  readingExamples?: Array<{
+    label: string
+    title: string
+    question: string
+    spread: string
+    cards: string
+    interpretation: string
+    nextStep: string
+    href: string
+  }>
 }
 
 export const trustPages: TrustPage[] = [
@@ -106,13 +116,65 @@ export const trustPages: TrustPage[] = [
     slug: "tarot-reading-examples",
     type: "WebPage",
     title: "Tarot Reading Examples",
-    description: "Realistic examples of love, career, yes/no, and daily tarot questions with the kind of guidance POPTarot provides.",
+    description: "Realistic tarot reading examples for love, reconciliation, career, daily guidance, and yes/no questions with sample cards and next steps.",
     eyebrow: "Examples",
-    intro: "Good tarot questions are specific enough to guide a spread, but open enough to reveal context, patterns, and useful action.",
+    intro: "These realistic sample readings show how POPTarot turns a question, spread, cards, and card meanings into grounded guidance without pretending the cards guarantee an outcome.",
     sections: [
-      { heading: "Love example", body: "Question: Does he love me? Better version: What is the real emotional energy between us, and what should I understand before I act?" },
-      { heading: "Career example", body: "Question: Should I quit? Better version: What does my current job situation show about timing, risk, and the wisest next step?" },
-      { heading: "Daily example", body: "Question: What guidance do I need today? This works well for a one-card reading because it invites focus rather than prediction." },
+      { heading: "Question first", body: "Each example starts with the real thing people type: love uncertainty, an ex, a job choice, a daily focus, or a yes/no decision." },
+      { heading: "Cards in context", body: "The same card can read differently depending on the spread position, question, and whether the answer needs emotional clarity or practical action." },
+      { heading: "Action over certainty", body: "A useful reading should end with one next step the reader can observe, prepare, communicate, or choose." },
+    ],
+    readingExamples: [
+      {
+        label: "Love",
+        title: "Does he love me?",
+        question: "Does he love me, or am I reading too much into mixed signals?",
+        spread: "Relationship spread",
+        cards: "The Lovers, Two of Cups, Nine of Swords",
+        interpretation: "The connection has genuine attraction and mutual resonance, but the Nine of Swords shows anxiety filling the gaps where direct communication is missing. The cards do not prove a private feeling; they show that the relationship needs clearer signals before you build a conclusion.",
+        nextStep: "Look for consistent behavior over a full week, then ask one calm question instead of testing him indirectly.",
+        href: "/does-he-love-me-tarot",
+      },
+      {
+        label: "Reconciliation",
+        title: "Will my ex come back?",
+        question: "Will my ex come back, and would reconnecting actually be healthy?",
+        spread: "Reconciliation spread",
+        cards: "Six of Cups, Judgment, Four of Cups",
+        interpretation: "The Six of Cups shows nostalgia and unfinished emotion, while Judgment suggests a chance to review what happened honestly. Four of Cups warns that one person may still be closed off or emotionally tired. The reading points to possible contact, not automatic repair.",
+        nextStep: "Before reaching out, write down what would need to change for the relationship to feel different this time.",
+        href: "/will-my-ex-come-back-tarot",
+      },
+      {
+        label: "Career",
+        title: "Should I quit my job?",
+        question: "Should I quit my job now, or wait until I have a clearer plan?",
+        spread: "Career decision spread",
+        cards: "Eight of Swords, Ace of Pentacles, Temperance",
+        interpretation: "Eight of Swords reflects feeling trapped, but Ace of Pentacles says a practical opportunity can be built. Temperance argues against an impulsive exit. This is less about staying forever and more about creating a staged transition.",
+        nextStep: "Set a two-week plan: update your resume, price your expenses, and test one concrete opportunity before resigning.",
+        href: "/should-i-quit-my-job-tarot",
+      },
+      {
+        label: "Daily",
+        title: "What do I need today?",
+        question: "What guidance do I need today?",
+        spread: "Daily one-card reading",
+        cards: "The Hermit",
+        interpretation: "The Hermit asks for quiet focus, fewer outside opinions, and one honest look at what you already know. It is a good daily card for research, reflection, and choosing a slower but wiser pace.",
+        nextStep: "Protect one uninterrupted block of time and use it for the decision you have been avoiding.",
+        href: "/daily-tarot",
+      },
+      {
+        label: "Yes / No",
+        title: "Yes or no tarot love",
+        question: "Should I text first?",
+        spread: "Yes/no love spread",
+        cards: "Page of Cups, Two of Swords, Queen of Swords",
+        interpretation: "The answer leans yes, but only if the message is emotionally honest and not designed to force reassurance. Two of Swords shows hesitation; Queen of Swords says your words should be simple, direct, and self-respecting.",
+        nextStep: "Send one clear message, then let the response show you whether the energy is mutual.",
+        href: "/yes-or-no-tarot-love",
+      },
     ],
     examples: [
       {

@@ -97,6 +97,26 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             },
           ]
         : []),
+      ...(page.readingExamples
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}/${page.slug}#sample-readings`,
+              name: "Sample tarot readings",
+              itemListElement: page.readingExamples.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "CreativeWork",
+                  name: item.title,
+                  about: item.question,
+                  abstract: item.interpretation,
+                  url: `${appUrl}${item.href}`,
+                },
+              })),
+            },
+          ]
+        : []),
     ],
   }
 
@@ -192,6 +212,47 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   <p className="text-sm text-white/45">Original: {item.question}</p>
                   <h3 className="mt-3 text-lg font-medium text-white">{item.betterQuestion}</h3>
                   <p className="mt-3 text-sm leading-7 text-white/62">{item.note}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {page.readingExamples && (
+          <section className="mt-12">
+            <div className="max-w-2xl">
+              <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Sample readings</p>
+              <h2 className="mt-3 font-serif text-2xl text-white">How POPTarot Frames Real-World Tarot Questions</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">
+                These examples are representative scenarios, not private user records. They show the level of context a useful AI tarot reading should provide.
+              </p>
+            </div>
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+              {page.readingExamples.map((item) => (
+                <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="rounded-full border border-[#bfb6ff]/25 bg-[#bfb6ff]/[0.07] px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]">
+                      {item.label}
+                    </span>
+                    <span className="text-xs text-white/42">{item.spread}</span>
+                  </div>
+                  <h3 className="mt-4 font-serif text-2xl text-white">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 text-white/72">{item.question}</p>
+                  <div className="mt-4 rounded-lg border border-white/10 bg-black/20 p-4">
+                    <p className="text-xs uppercase tracking-[0.16em] text-white/38">Cards</p>
+                    <p className="mt-2 text-sm leading-6 text-[#eeeaff]">{item.cards}</p>
+                  </div>
+                  <p className="mt-4 text-sm leading-7 text-white/62">{item.interpretation}</p>
+                  <div className="mt-4 border-t border-white/10 pt-4">
+                    <p className="text-xs uppercase tracking-[0.16em] text-white/38">Next step</p>
+                    <p className="mt-2 text-sm leading-7 text-white/68">{item.nextStep}</p>
+                  </div>
+                  <Link
+                    href={item.href}
+                    className="mt-5 inline-flex min-h-11 items-center justify-center rounded-lg border border-[#bfb6ff]/25 px-4 py-2 text-sm text-[#d8d0ff] transition hover:border-[#bfb6ff]/55 hover:bg-[#bfb6ff]/[0.06] hover:text-white"
+                  >
+                    Open this reading
+                  </Link>
                 </article>
               ))}
             </div>
