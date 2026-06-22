@@ -175,10 +175,10 @@ export default async function SharePage({ params }: Params) {
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
-                href="/membership"
+                href="/daily-tarot"
                 className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/14 px-7 py-3 text-sm text-white/72 transition hover:border-white/32 hover:bg-white/[0.05]"
               >
-                Unlock More Spreads
+                Try Daily Tarot
               </Link>
             </div>
 

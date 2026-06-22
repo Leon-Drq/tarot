@@ -3,11 +3,12 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
-import { Loader2 } from "lucide-react"
+import { Loader2, Share2 } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, authApi, dailyTarotApi, readingApi, setAccessToken, type DailyTarotEntry } from "@/lib/api"
 import { getCurrentAttribution } from "@/lib/client-analytics"
+import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import {
   createFallbackDailyInterpretation,
   dailyTarotQuestion,
@@ -133,9 +134,64 @@ export function DailyTarotTool() {
   const [reminderTime, setReminderTime] = useState("08:30")
   const [reminderEnabled, setReminderEnabled] = useState(false)
   const [streak, setStreak] = useState(0)
+  const [shareUrl, setShareUrl] = useState("")
+  const [shareStatus, setShareStatus] = useState("")
+  const [isCreatingShare, setIsCreatingShare] = useState(false)
   const [isDrawing, setIsDrawing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [status, setStatus] = useState("")
+
+  const shareCopy =
+    {
+      zh: {
+        title: "分享今日牌",
+        description: "把今日牌和 AI 摘录生成公开链接，或复制成社媒文案。",
+        button: "分享",
+        loading: "生成中",
+        copied: "链接已复制",
+        generated: "分享链接已生成",
+        failed: "分享失败，请稍后再试",
+        xhs: "复制小红书文案",
+        instagram: "复制 Instagram 文案",
+        templateCopied: "分享文案已复制",
+      },
+      en: {
+        title: "Share Today's Card",
+        description: "Turn your daily card and AI insight into a public link or a social caption.",
+        button: "Share",
+        loading: "Creating",
+        copied: "Share link copied",
+        generated: "Share link ready",
+        failed: "Share failed. Please try again.",
+        xhs: "Copy Xiaohongshu",
+        instagram: "Copy Instagram",
+        templateCopied: "Share caption copied",
+      },
+      ja: {
+        title: "今日のカードを共有",
+        description: "今日のカードと AI 解釈から共有リンクや投稿文を作れます。",
+        button: "共有",
+        loading: "作成中",
+        copied: "リンクをコピーしました",
+        generated: "共有リンクを作成しました",
+        failed: "共有に失敗しました。もう一度お試しください。",
+        xhs: "小紅書テキストをコピー",
+        instagram: "Instagramをコピー",
+        templateCopied: "投稿文をコピーしました",
+      },
+      ko: {
+        title: "오늘의 카드 공유",
+        description: "오늘의 카드와 AI 해석으로 공유 링크나 소셜 문구를 만들 수 있습니다.",
+        button: "공유",
+        loading: "생성 중",
+        copied: "공유 링크 복사됨",
+        generated: "공유 링크 생성됨",
+        failed: "공유에 실패했습니다. 다시 시도해주세요.",
+        xhs: "샤오홍슈 문구 복사",
+        instagram: "Instagram 복사",
+        templateCopied: "공유 문구 복사됨",
+      },
+    }[language]
 
   useEffect(() => {
     const today = getLocalDateKey()
@@ -354,6 +410,98 @@ export function DailyTarotTool() {
     }
   }
 
+  const ensureShareUrl = async () => {
+    if (shareUrl) return shareUrl
+    if (!card || !interpretation) throw new Error("No daily reading to share")
+
+    const ready = await ensureUser()
+    if (!ready) throw new Error("Unable to prepare sharing")
+
+    const result = await readingApi.createShare({
+      question: dailyTarotQuestion,
+      cards: [card],
+      interpretation,
+      spread_type: "one_card",
+    })
+
+    const absoluteUrl = `${window.location.origin}${result.url}`
+    setShareUrl(absoluteUrl)
+    analyticsApi.track("share_created", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      share_slug: result.slug,
+      metadata: {
+        surface: "daily-tarot",
+        spread_type: "one_card",
+      },
+    })
+    return absoluteUrl
+  }
+
+  const handleShare = async () => {
+    if (isCreatingShare || !card || !interpretation) return
+    setIsCreatingShare(true)
+    setShareStatus("")
+
+    try {
+      const absoluteUrl = await ensureShareUrl()
+      if (navigator.share) {
+        await navigator.share({
+          title: "POPTarot Daily Tarot",
+          text: dailyTarotQuestion,
+          url: absoluteUrl,
+        })
+        setShareStatus(shareCopy.generated)
+      } else {
+        await navigator.clipboard.writeText(absoluteUrl)
+        setShareStatus(shareCopy.copied)
+      }
+    } catch {
+      setShareStatus(shareCopy.failed)
+    } finally {
+      setIsCreatingShare(false)
+    }
+  }
+
+  const handleCopyShareTemplate = async (platform: ShareTemplatePlatform) => {
+    if (isCreatingShare || !card || !interpretation) return
+    setIsCreatingShare(true)
+    setShareStatus("")
+
+    try {
+      const absoluteUrl = await ensureShareUrl()
+      const text = createShareTemplate({
+        platform,
+        locale: language,
+        question: dailyTarotQuestion,
+        cards: [
+          {
+            name: localizedCardName(card),
+            isReversed: card.isReversed,
+          },
+        ],
+        interpretation,
+        url: absoluteUrl,
+      })
+      await navigator.clipboard.writeText(text)
+      analyticsApi.track("share_template_copied", {
+        ...getCurrentAttribution(),
+        locale: language,
+        keyword: "daily tarot",
+        metadata: {
+          platform,
+          surface: "daily-tarot",
+        },
+      })
+      setShareStatus(shareCopy.templateCopied)
+    } catch {
+      setShareStatus(shareCopy.failed)
+    } finally {
+      setIsCreatingShare(false)
+    }
+  }
+
   const localizedCardName = (item: DrawnCard) =>
     language === "zh" ? item.name : language === "ja" ? item.nameJa || item.nameEn : language === "ko" ? item.nameKo || item.nameEn : item.nameEn
 
@@ -428,6 +576,46 @@ export function DailyTarotTool() {
               </p>
             )}
           </div>
+          {interpretation && card && (
+            <div className="mt-5 rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.035] p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <h3 className="text-sm font-medium text-white">{shareCopy.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-white/56">{shareCopy.description}</p>
+                </div>
+                <button
+                  onClick={handleShare}
+                  disabled={isCreatingShare || isDrawing}
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#bfb6ff]/30 px-4 py-2 text-sm text-[#eee9ff] transition hover:bg-[#bfb6ff]/10 disabled:opacity-45"
+                >
+                  {isCreatingShare ? <Loader2 className="h-4 w-4 animate-spin" /> : <Share2 className="h-4 w-4" />}
+                  {isCreatingShare ? shareCopy.loading : shareCopy.button}
+                </button>
+              </div>
+              {shareUrl && (
+                <div className="mt-4 rounded-lg border border-white/10 bg-black/20 px-3 py-2">
+                  <p className="truncate text-xs text-white/52">{shareUrl}</p>
+                </div>
+              )}
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <button
+                  onClick={() => handleCopyShareTemplate("xhs")}
+                  disabled={isCreatingShare || isDrawing}
+                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-3 py-2 text-xs text-white/66 transition hover:border-[#bfb6ff]/35 hover:bg-white/[0.045] disabled:opacity-45"
+                >
+                  {shareCopy.xhs}
+                </button>
+                <button
+                  onClick={() => handleCopyShareTemplate("instagram")}
+                  disabled={isCreatingShare || isDrawing}
+                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-3 py-2 text-xs text-white/66 transition hover:border-[#bfb6ff]/35 hover:bg-white/[0.045] disabled:opacity-45"
+                >
+                  {shareCopy.instagram}
+                </button>
+              </div>
+              {shareStatus && <p className="mt-3 text-xs text-white/45">{shareStatus}</p>}
+            </div>
+          )}
         </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
