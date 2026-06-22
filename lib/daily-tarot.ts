@@ -46,19 +46,19 @@ export function getDailyCard(dateKey: string, seed: string): DrawnCard {
 }
 
 export function createFallbackDailyInterpretation(card: DrawnCard, locale: Locale) {
-  const orientation = card.isReversed ? card.meaning.reversed : card.meaning.upright
   const name = locale === "zh" ? card.name : locale === "ja" ? card.nameJa || card.nameEn : locale === "ko" ? card.nameKo || card.nameEn : card.nameEn
 
   if (locale === "zh") {
+    const orientation = card.isReversed ? card.meaning.reversed : card.meaning.upright
     return `今天的牌是${name}${card.isReversed ? "逆位" : "正位"}。关键词是：${orientation}。把它当作一个温和提醒：先看清自己真正能掌控的部分，再做下一步。`
   }
   if (locale === "ja") {
-    return `今日のカードは${name}${card.isReversed ? "逆位置" : "正位置"}です。キーワードは ${orientation}。今日は、急いで結論を出すより、自分が動かせる一歩に意識を向けてみてください。`
+    return `今日のカードは${name}${card.isReversed ? "逆位置" : "正位置"}です。今日は、急いで結論を出すより、自分が動かせる一歩に意識を向けてみてください。`
   }
   if (locale === "ko") {
-    return `오늘의 카드는 ${name} ${card.isReversed ? "역방향" : "정방향"}입니다. 키워드는 ${orientation}. 오늘은 결론을 서두르기보다 내가 선택할 수 있는 한 가지 행동에 집중해 보세요.`
+    return `오늘의 카드는 ${name} ${card.isReversed ? "역방향" : "정방향"}입니다. 오늘은 결론을 서두르기보다 내가 선택할 수 있는 한 가지 행동에 집중해 보세요.`
   }
-  return `Today's card is ${name} ${card.isReversed ? "reversed" : "upright"}. Its key theme is ${orientation}. Let it be a practical reminder: notice what is actually within your control, then choose one clear next step.`
+  return `Today's card is ${name} ${card.isReversed ? "reversed" : "upright"}. Let it be a practical reminder: notice what is actually within your control, then choose one clear next step.`
 }
 
 export function getDailyTarotCopy(locale: Locale) {
@@ -71,6 +71,7 @@ export function getDailyTarotCopy(locale: Locale) {
         draw: "抽取今日牌",
         drawing: "正在解读今日能量...",
         saved: "已保存",
+        savedLocal: "已保存在此设备",
         saveJournal: "保存日记",
         journalPlaceholder: "写下今天的感受、事件或你想提醒未来自己的话。",
         reminderTitle: "每日提醒",
@@ -90,6 +91,7 @@ export function getDailyTarotCopy(locale: Locale) {
         draw: "Draw Today's Card",
         drawing: "Reading today's energy...",
         saved: "Saved",
+        savedLocal: "Saved on this device",
         saveJournal: "Save Journal",
         journalPlaceholder: "Write what happened today, how the card landed, or what you want to remember.",
         reminderTitle: "Daily Reminder",
@@ -109,6 +111,7 @@ export function getDailyTarotCopy(locale: Locale) {
         draw: "今日のカードを引く",
         drawing: "今日の流れを読んでいます...",
         saved: "保存しました",
+        savedLocal: "この端末に保存しました",
         saveJournal: "日記を保存",
         journalPlaceholder: "今日の出来事、カードを読んで感じたことを書きましょう。",
         reminderTitle: "毎日のリマインダー",
@@ -128,6 +131,7 @@ export function getDailyTarotCopy(locale: Locale) {
         draw: "오늘의 카드 뽑기",
         drawing: "오늘의 에너지를 읽는 중...",
         saved: "저장됨",
+        savedLocal: "이 기기에 저장됨",
         saveJournal: "저널 저장",
         journalPlaceholder: "오늘의 일, 카드가 준 느낌, 기억하고 싶은 내용을 적어보세요.",
         reminderTitle: "매일 알림",

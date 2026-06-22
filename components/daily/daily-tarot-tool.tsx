@@ -15,7 +15,7 @@ import {
   getDailyTarotCopy,
   getLocalDateKey,
 } from "@/lib/daily-tarot"
-import type { DrawnCard } from "@/lib/tarot-cards"
+import { getCardById, type DrawnCard } from "@/lib/tarot-cards"
 
 const storageKey = "poptarot_daily_seed"
 
@@ -33,6 +33,37 @@ function getTimezone() {
     return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"
   } catch {
     return "UTC"
+  }
+}
+
+function localDailyKey(dateKey: string) {
+  return `poptarot_daily_${dateKey}`
+}
+
+function getPreviousDateKey(dateKey: string) {
+  const [year, month, day] = dateKey.split("-").map(Number)
+  const date = new Date(year, month - 1, day)
+  date.setDate(date.getDate() - 1)
+  return getLocalDateKey(date)
+}
+
+function readLocalEntry(dateKey: string): DailyTarotEntry | null {
+  if (typeof window === "undefined") return null
+  const value = localStorage.getItem(localDailyKey(dateKey))
+  if (!value) return null
+  try {
+    return JSON.parse(value) as DailyTarotEntry
+  } catch {
+    return null
+  }
+}
+
+function cardFromEntry(entry: DailyTarotEntry): DrawnCard | null {
+  const savedCard = getCardById(entry.card_id)
+  if (!savedCard) return null
+  return {
+    ...savedCard,
+    isReversed: Boolean(entry.is_reversed),
   }
 }
 
@@ -92,13 +123,15 @@ export function DailyTarotTool() {
   useEffect(() => {
     const today = getLocalDateKey()
     setDateKey(today)
-    const seededCard = getDailyCard(today, user?.id || getSeed())
+    const seededCard = getDailyCard(today, getSeed())
     setCard(seededCard)
 
-    const localEntry = localStorage.getItem(`poptarot_daily_${today}`)
+    const localEntry = localStorage.getItem(localDailyKey(today))
     if (localEntry) {
       try {
         const parsed = JSON.parse(localEntry) as DailyTarotEntry
+        const savedCard = cardFromEntry(parsed)
+        if (savedCard) setCard(savedCard)
         setEntry(parsed)
         setInterpretation(parsed.interpretation || "")
         setJournal(parsed.journal || "")
@@ -111,7 +144,7 @@ export function DailyTarotTool() {
         // Ignore corrupt local cache.
       }
     }
-  }, [user?.id])
+  }, [])
 
   useEffect(() => {
     if (!isLoggedIn || !dateKey) return
@@ -120,6 +153,8 @@ export function DailyTarotTool() {
       .then((data) => {
         setStreak(data.streak_count || 0)
         if (!data.entry) return
+        const savedCard = cardFromEntry(data.entry)
+        if (savedCard) setCard(savedCard)
         setEntry(data.entry)
         setInterpretation(data.entry.interpretation || "")
         setJournal(data.entry.journal || "")
@@ -132,16 +167,77 @@ export function DailyTarotTool() {
   }, [dateKey, isLoggedIn])
 
   const ensureUser = async () => {
-    if (isLoggedIn) return
-    const response = await authApi.registerAnonymous()
-    setAccessToken(response.access_token)
-    await refreshUser()
+    if (isLoggedIn) return true
+    try {
+      const response = await authApi.registerAnonymous()
+      setAccessToken(response.access_token)
+      await refreshUser()
+      return true
+    } catch {
+      return false
+    }
   }
 
   const saveLocalEntry = (nextEntry: DailyTarotEntry) => {
-    localStorage.setItem(`poptarot_daily_${nextEntry.entry_date}`, JSON.stringify(nextEntry))
+    localStorage.setItem(localDailyKey(nextEntry.entry_date), JSON.stringify(nextEntry))
     setEntry(nextEntry)
     setStreak(nextEntry.streak_count)
+  }
+
+  const createLocalEntry = (input: {
+    interpretation?: string
+    journal?: string | null
+    mood?: string | null
+    reminderEnabled?: boolean
+    reminderEmail?: string | null
+    reminderTime?: string
+  }): DailyTarotEntry | null => {
+    if (!card || !dateKey) return null
+    const existing = entry || readLocalEntry(dateKey)
+    const previous = readLocalEntry(getPreviousDateKey(dateKey))
+    const nextStreak = existing?.streak_count || Number(previous?.streak_count || 0) + 1
+
+    return {
+      ...existing,
+      entry_date: dateKey,
+      card_id: card.id,
+      card_name: card.nameEn,
+      is_reversed: card.isReversed,
+      question: dailyTarotQuestion,
+      interpretation: input.interpretation ?? existing?.interpretation ?? interpretation,
+      journal: input.journal ?? existing?.journal ?? journal,
+      mood: input.mood ?? existing?.mood ?? mood,
+      streak_count: nextStreak,
+      reminder_enabled: input.reminderEnabled ?? existing?.reminder_enabled ?? reminderEnabled,
+      reminder_email: input.reminderEmail ?? existing?.reminder_email ?? reminderEmail,
+      reminder_time: input.reminderTime ?? existing?.reminder_time ?? reminderTime,
+      reminder_timezone: getTimezone(),
+    }
+  }
+
+  const syncEntry = async (nextEntry: DailyTarotEntry) => {
+    const ready = await ensureUser()
+    if (!ready) return null
+
+    try {
+      const result = await dailyTarotApi.saveEntry({
+        entry_date: nextEntry.entry_date,
+        card_id: nextEntry.card_id,
+        card_name: nextEntry.card_name,
+        is_reversed: nextEntry.is_reversed,
+        question: nextEntry.question,
+        interpretation: nextEntry.interpretation,
+        journal: nextEntry.journal,
+        mood: nextEntry.mood,
+        reminder_enabled: nextEntry.reminder_enabled,
+        reminder_email: nextEntry.reminder_email,
+        reminder_time: nextEntry.reminder_time,
+        reminder_timezone: nextEntry.reminder_timezone,
+      })
+      return result.entry
+    } catch {
+      return null
+    }
   }
 
   const handleDraw = async () => {
@@ -151,7 +247,6 @@ export function DailyTarotTool() {
     setInterpretation("")
 
     try {
-      await ensureUser()
       analyticsApi.track("question_submitted", {
         ...getCurrentAttribution(),
         locale: language,
@@ -169,21 +264,21 @@ export function DailyTarotTool() {
         setInterpretation(fullText)
       }
 
-      const result = await dailyTarotApi.saveEntry({
-        entry_date: dateKey,
-        card_id: card.id,
-        card_name: card.nameEn,
-        is_reversed: card.isReversed,
-        question: dailyTarotQuestion,
+      const localEntry = createLocalEntry({
         interpretation: fullText,
-        reminder_enabled: reminderEnabled,
-        reminder_email: reminderEmail,
-        reminder_time: reminderTime,
-        reminder_timezone: getTimezone(),
+        reminderEnabled,
+        reminderEmail,
+        reminderTime,
       })
+      if (!localEntry) return
 
-      saveLocalEntry(result.entry)
-      setStatus(copy.saved)
+      saveLocalEntry(localEntry)
+      setStatus(copy.savedLocal)
+      const syncedEntry = await syncEntry(localEntry)
+      if (syncedEntry) {
+        saveLocalEntry(syncedEntry)
+        setStatus(copy.saved)
+      }
       analyticsApi.track("reading_completed", {
         ...getCurrentAttribution(),
         locale: language,
@@ -199,14 +294,19 @@ export function DailyTarotTool() {
     if (!dateKey) return
     setIsSaving(true)
     try {
-      await ensureUser()
-      const result = await dailyTarotApi.updateEntry({
-        entry_date: dateKey,
+      const localEntry = createLocalEntry({
         journal,
         mood,
       })
-      saveLocalEntry(result.entry)
-      setStatus(copy.saved)
+      if (!localEntry) return
+
+      saveLocalEntry(localEntry)
+      setStatus(copy.savedLocal)
+      const syncedEntry = await syncEntry(localEntry)
+      if (syncedEntry) {
+        saveLocalEntry(syncedEntry)
+        setStatus(copy.saved)
+      }
     } finally {
       setIsSaving(false)
     }
@@ -216,28 +316,20 @@ export function DailyTarotTool() {
     if (!dateKey) return
     setIsSaving(true)
     try {
-      await ensureUser()
-      const result = entry
-        ? await dailyTarotApi.updateEntry({
-            entry_date: dateKey,
-            reminder_enabled: reminderEnabled,
-            reminder_email: reminderEmail,
-            reminder_time: reminderTime,
-            reminder_timezone: getTimezone(),
-          })
-        : await dailyTarotApi.saveEntry({
-            entry_date: dateKey,
-            card_id: card?.id || 0,
-            card_name: card?.nameEn || "The Fool",
-            is_reversed: card?.isReversed || false,
-            question: dailyTarotQuestion,
-            reminder_enabled: reminderEnabled,
-            reminder_email: reminderEmail,
-            reminder_time: reminderTime,
-            reminder_timezone: getTimezone(),
-          })
-      saveLocalEntry(result.entry)
-      setStatus(copy.saved)
+      const localEntry = createLocalEntry({
+        reminderEnabled,
+        reminderEmail,
+        reminderTime,
+      })
+      if (!localEntry) return
+
+      saveLocalEntry(localEntry)
+      setStatus(copy.savedLocal)
+      const syncedEntry = await syncEntry(localEntry)
+      if (syncedEntry) {
+        saveLocalEntry(syncedEntry)
+        setStatus(copy.saved)
+      }
     } finally {
       setIsSaving(false)
     }
