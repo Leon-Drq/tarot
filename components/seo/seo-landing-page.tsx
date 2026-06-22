@@ -327,6 +327,35 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       },
     ],
   },
+  "monthly-tarot-report": {
+    label: "Monthly pattern spread",
+    title: "Turn one free check-in into a useful monthly pattern",
+    body: "A monthly tarot report should start simple, then become deeper only when saved readings, repeated cards, journal notes, and follow-up themes give it real context.",
+    promptTitle: "Try a monthly check-in question",
+    prompts: [
+      "What theme should guide my next month?",
+      "What pattern from this month should I carry forward?",
+      "What should I release before the next month begins?",
+    ],
+    spreadTitle: "Monthly check-in spread",
+    spreadBody: "A three-card spread for the month's core theme, what to release, and the next practical focus.",
+    positionNames: ["Theme", "Release", "Focus"],
+    frameTitle: "How to use the report",
+    frames: [
+      {
+        title: "Free check-in",
+        body: "Use the first reading to name the month's theme before deciding whether deeper history is needed.",
+      },
+      {
+        title: "Saved pattern",
+        body: "Membership becomes useful when repeated cards, old questions, and journal notes can be compared across time.",
+      },
+      {
+        title: "Next month action",
+        body: "The report should end with one practical commitment, not a dramatic prediction.",
+      },
+    ],
+  },
 }
 
 const localizedQuestionToolkits: Partial<Record<SeoPage["locale"], Record<string, QuestionToolkit>>> = {
@@ -432,6 +461,26 @@ const localizedQuestionToolkits: Partial<Record<SeoPage["locale"], Record<string
         { title: "Chequeo real", body: "Antes de actuar, combina la lectura con dinero, contratos, salud, referencias y alternativas concretas." },
       ],
     },
+    "monthly-tarot-report": {
+      label: "Tirada de patron mensual",
+      title: "Convierte un chequeo gratis en un patron mensual util",
+      body: "Un informe mensual debe empezar simple y volverse mas profundo solo cuando el historial, las cartas repetidas, las notas y los seguimientos dan contexto real.",
+      promptTitle: "Prueba una pregunta mensual",
+      prompts: [
+        "Que tema debe guiar mi proximo mes?",
+        "Que patron de este mes deberia llevar conmigo?",
+        "Que debo soltar antes de que empiece el proximo mes?",
+      ],
+      spreadTitle: "Tirada de chequeo mensual",
+      spreadBody: "Una tirada de tres cartas para el tema central del mes, lo que conviene soltar y el enfoque practico siguiente.",
+      positionNames: ["Tema", "Soltar", "Enfoque"],
+      frameTitle: "Como usar el informe",
+      frames: [
+        { title: "Chequeo gratis", body: "Usa la primera lectura para nombrar el tema del mes antes de decidir si necesitas historial mas profundo." },
+        { title: "Patron guardado", body: "La membresia tiene sentido cuando cartas repetidas, preguntas antiguas y notas pueden compararse con el tiempo." },
+        { title: "Accion del proximo mes", body: "El informe debe terminar con un compromiso practico, no con una prediccion dramatica." },
+      ],
+    },
   },
   "pt-br": {
     "will-my-ex-come-back-tarot": {
@@ -532,6 +581,26 @@ const localizedQuestionToolkits: Partial<Record<SeoPage["locale"], Record<string
         { title: "Sinal de saida", body: "Morte, Torre, Oito de Copas, Mundo ou Dez de Paus apoiam transicao apenas quando o conselho tambem mostra preparo." },
         { title: "Sinal de preparo", body: "Quatro de Pentaculos, Dois de Paus ou Temperanca geralmente pedem economia, tempo, limites ou um plano ponte." },
         { title: "Cheque real", body: "Antes de agir, combine a leitura com dinheiro, contratos, saude, referencias e alternativas concretas." },
+      ],
+    },
+    "monthly-tarot-report": {
+      label: "Tiragem de padrao mensal",
+      title: "Transforme um check-in gratis em um padrao mensal util",
+      body: "Um relatorio mensal deve comecar simples e ficar mais profundo apenas quando historico, cartas repetidas, notas e acompanhamentos dao contexto real.",
+      promptTitle: "Teste uma pergunta mensal",
+      prompts: [
+        "Que tema deve guiar meu proximo mes?",
+        "Que padrao deste mes devo levar comigo?",
+        "O que devo soltar antes do proximo mes comecar?",
+      ],
+      spreadTitle: "Tiragem de check-in mensal",
+      spreadBody: "Uma tiragem de tres cartas para o tema central do mes, o que soltar e o proximo foco pratico.",
+      positionNames: ["Tema", "Soltar", "Foco"],
+      frameTitle: "Como usar o relatorio",
+      frames: [
+        { title: "Check-in gratis", body: "Use a primeira leitura para nomear o tema do mes antes de decidir se precisa de historico mais profundo." },
+        { title: "Padrao salvo", body: "A assinatura faz sentido quando cartas repetidas, perguntas antigas e notas podem ser comparadas ao longo do tempo." },
+        { title: "Acao do proximo mes", body: "O relatorio deve terminar com um compromisso pratico, nao com uma predicao dramatica." },
       ],
     },
   },
