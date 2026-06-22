@@ -208,7 +208,7 @@ export function DailyTarotTool() {
   const [reminderEmail, setReminderEmail] = useState("")
   const [reminderTime, setReminderTime] = useState("08:30")
   const [reminderEnabled, setReminderEnabled] = useState(false)
-  const [emailDeliveryEnabled, setEmailDeliveryEnabled] = useState(true)
+  const [emailDeliveryEnabled, setEmailDeliveryEnabled] = useState(false)
   const [streak, setStreak] = useState(0)
   const [shareUrl, setShareUrl] = useState("")
   const [shareStatus, setShareStatus] = useState("")
@@ -300,8 +300,8 @@ export function DailyTarotTool() {
   useEffect(() => {
     dailyTarotApi
       .getReminderCapability()
-      .then((data) => setEmailDeliveryEnabled(Boolean(data.scheduled_delivery_enabled ?? data.email_delivery_enabled)))
-      .catch(() => setEmailDeliveryEnabled(true))
+      .then((data) => setEmailDeliveryEnabled(Boolean(data.can_send_email_reminders ?? data.scheduled_delivery_enabled ?? data.email_delivery_enabled)))
+      .catch(() => setEmailDeliveryEnabled(false))
   }, [])
 
   useEffect(() => {
@@ -626,6 +626,8 @@ export function DailyTarotTool() {
     language === "zh" ? item.name : language === "ja" ? item.nameJa || item.nameEn : language === "ko" ? item.nameKo || item.nameEn : item.nameEn
 
   const displayName = card ? localizedCardName(card) : ""
+  const reminderModeTitle = emailDeliveryEnabled ? copy.emailReminderReadyTitle : copy.calendarFallbackTitle
+  const reminderModeBody = emailDeliveryEnabled ? copy.reminderHelp : copy.calendarFallbackBody
 
   return (
     <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-12 pt-6 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
@@ -769,6 +771,10 @@ export function DailyTarotTool() {
           <div className="mb-4">
             <h2 className="font-serif text-xl text-white">{copy.reminderTitle}</h2>
           </div>
+          <div className="mb-4 rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.045] p-4">
+            <p className="text-sm font-medium text-[#f2edff]">{reminderModeTitle}</p>
+            <p className="mt-2 text-xs leading-5 text-white/52">{reminderModeBody}</p>
+          </div>
           <div className="grid gap-3 sm:grid-cols-[1fr_132px]">
             <input
               type="email"
@@ -785,9 +791,6 @@ export function DailyTarotTool() {
               className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#bfb6ff]/55"
             />
           </div>
-          <p className="mt-3 text-xs leading-5 text-white/42">
-            {emailDeliveryEnabled ? copy.reminderHelp : copy.reminderUnavailable}
-          </p>
           <label className="mt-4 flex min-h-10 items-center gap-3 text-sm text-white/62">
             <input
               type="checkbox"
@@ -801,13 +804,21 @@ export function DailyTarotTool() {
             <button
               onClick={handleSaveReminder}
               disabled={isSaving || (!reminderEmail && reminderEnabled)}
-              className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
+              className={`inline-flex min-h-10 w-full items-center justify-center rounded-lg px-5 text-sm transition disabled:opacity-45 ${
+                emailDeliveryEnabled
+                  ? "border border-white/14 text-white/72 hover:bg-white/[0.05]"
+                  : "order-2 border border-white/12 text-white/56 hover:bg-white/[0.04]"
+              }`}
             >
               {copy.saveReminder}
             </button>
             <button
               onClick={handleDownloadCalendarReminder}
-              className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-[#bfb6ff]/28 bg-[#bfb6ff]/[0.06] px-5 text-sm text-[#eee9ff] transition hover:bg-[#bfb6ff]/12"
+              className={`inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg px-5 text-sm transition ${
+                emailDeliveryEnabled
+                  ? "border border-[#bfb6ff]/28 bg-[#bfb6ff]/[0.06] text-[#eee9ff] hover:bg-[#bfb6ff]/12"
+                  : "order-1 border border-[#c9c0ff]/40 bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] text-[#130d24] shadow-[0_16px_42px_rgba(146,132,239,0.22)] hover:brightness-110"
+              }`}
             >
               <CalendarPlus className="h-4 w-4" />
               {copy.calendarReminder}

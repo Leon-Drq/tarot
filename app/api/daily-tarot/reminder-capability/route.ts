@@ -16,6 +16,9 @@ export async function GET() {
     {
       email_delivery_enabled: emailProviderConfigured && serviceDatabaseConfigured,
       scheduled_delivery_enabled: scheduledDeliveryEnabled,
+      can_send_email_reminders: scheduledDeliveryEnabled,
+      calendar_reminder_available: true,
+      setup_required: !scheduledDeliveryEnabled,
       email_provider_configured: emailProviderConfigured,
       service_database_configured: serviceDatabaseConfigured,
       cron_authorization_configured: cronSecretConfigured,

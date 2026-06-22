@@ -349,6 +349,9 @@ export interface DailyTarotEntry {
 
 export interface DailyReminderCapability {
   email_delivery_enabled: boolean
+  can_send_email_reminders?: boolean
+  calendar_reminder_available?: boolean
+  setup_required?: boolean
   scheduled_delivery_enabled?: boolean
   email_provider_configured?: boolean
   service_database_configured?: boolean
