@@ -77,7 +77,7 @@ function HomeQuestionForm() {
   return (
     <form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto mt-16 w-[calc(100vw_-_3rem)] max-w-[460px] sm:mt-20 md:mt-24 md:max-w-[560px] lg:max-w-[620px]"
+      className="relative z-30 mx-auto w-[calc(100vw_-_3rem)] max-w-[460px] md:max-w-[560px] lg:max-w-[620px]"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
@@ -446,21 +446,17 @@ function HomeScrollContent() {
 
 function MysticContent() {
   const { language } = useLanguage()
-  const [mounted, setMounted] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [customFront, setCustomFront] = useState<string | null>(null)
   const [customBack, setCustomBack] = useState<string | null>(null)
 
   useEffect(() => {
-    setMounted(true)
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
-
-  if (!mounted) return null
 
   const heroCopy =
     {
@@ -507,16 +503,18 @@ function MysticContent() {
         </div>
       </header>
 
-      <MenuPanel
-        isOpen={menuOpen}
-        frontImage={customFront}
-        backImage={customBack}
-        onFrontChange={setCustomFront}
-        onBackChange={setCustomBack}
-        onClose={() => setMenuOpen(false)}
-      />
+      {menuOpen && (
+        <MenuPanel
+          isOpen={menuOpen}
+          frontImage={customFront}
+          backImage={customBack}
+          onFrontChange={setCustomFront}
+          onBackChange={setCustomBack}
+          onClose={() => setMenuOpen(false)}
+        />
+      )}
 
-      <div className="relative min-h-[152svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+6rem)] sm:min-h-[128svh] md:min-h-[124svh] md:pb-28">
+      <div className="relative min-h-[142svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+6rem)] sm:min-h-[132svh] md:min-h-[124svh] md:pb-28">
         <section
           data-home-hero-copy
           className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[8rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]"
@@ -530,7 +528,10 @@ function MysticContent() {
         </section>
 
         {/* 4. 3D rotating tarot card - use custom images if available */}
-        <div data-home-card-scene className="relative z-20 mt-[clamp(20rem,46svh,28rem)] overflow-visible sm:mt-56 md:mt-64 lg:mt-72">
+        <div
+          data-home-card-scene
+          className="absolute left-0 right-0 top-[52svh] z-20 -translate-y-1/2 overflow-visible"
+        >
           <CoreLight className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center" />
           <TarotCard
             frontImage={customFront || DEFAULT_FRONT}
@@ -540,26 +541,28 @@ function MysticContent() {
           />
         </div>
 
-        <HomeQuestionForm />
+        <div className="relative z-30 pt-[calc(52svh+12rem)] sm:pt-[calc(52svh+14rem)] md:pt-[calc(52svh+18rem)]">
+          <HomeQuestionForm />
 
-        <HomeDailyReturnPanel />
+          <HomeDailyReturnPanel />
 
-        <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
-          <a href="/daily-tarot" className="transition hover:text-white">
-            Daily Tarot
-          </a>
-          <span className="h-1 w-1 rounded-full bg-white/24" />
-          <a href="/tarot-spreads" className="transition hover:text-white">
-            Spreads
-          </a>
-          <span className="h-1 w-1 rounded-full bg-white/24" />
-          <a href="/tarot-card-meanings" className="transition hover:text-white">
-            Card Meanings
-          </a>
-          <span className="h-1 w-1 rounded-full bg-white/24" />
-          <a href="/about" className="transition hover:text-white">
-            About
-          </a>
+          <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
+            <a href="/daily-tarot" className="transition hover:text-white">
+              Daily Tarot
+            </a>
+            <span className="h-1 w-1 rounded-full bg-white/24" />
+            <a href="/tarot-spreads" className="transition hover:text-white">
+              Spreads
+            </a>
+            <span className="h-1 w-1 rounded-full bg-white/24" />
+            <a href="/tarot-card-meanings" className="transition hover:text-white">
+              Card Meanings
+            </a>
+            <span className="h-1 w-1 rounded-full bg-white/24" />
+            <a href="/about" className="transition hover:text-white">
+              About
+            </a>
+          </div>
         </div>
       </div>
 

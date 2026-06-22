@@ -15,16 +15,21 @@ interface StarsLayerProps {
   count?: number
 }
 
+function seededValue(seed: number) {
+  const value = Math.sin(seed * 12.9898) * 43758.5453
+  return value - Math.floor(value)
+}
+
 export function StarsLayer({ count = 150 }: StarsLayerProps) {
   const stars = useMemo<Star[]>(() => {
     return Array.from({ length: count }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() > 0.85 ? 2 : Math.random() > 0.5 ? 1.5 : 1,
-      opacity: Math.random() * 0.7 + 0.3,
-      duration: Math.random() * 3 + 2,
-      delay: Math.random() * 5,
+      x: seededValue(i + 1) * 100,
+      y: seededValue(i + 101) * 100,
+      size: seededValue(i + 201) > 0.85 ? 2 : seededValue(i + 301) > 0.5 ? 1.5 : 1,
+      opacity: seededValue(i + 401) * 0.7 + 0.3,
+      duration: seededValue(i + 501) * 3 + 2,
+      delay: seededValue(i + 601) * 5,
     }))
   }, [count])
 

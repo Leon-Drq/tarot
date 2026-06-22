@@ -32,9 +32,9 @@ type AllTranslations = Record<Language, Translations>
 const translationsData: AllTranslations = translations
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  // 从 localStorage 读取保存的语言，默认为中文
-  const [language, setLanguageState] = useState<Language>("zh")
-  const [isInitialized, setIsInitialized] = useState(false)
+  // Render immediately in English so static HTML contains crawlable content.
+  // Saved or detected preferences are applied after hydration.
+  const [language, setLanguageState] = useState<Language>("en")
 
   // 初始化语言设置
   useEffect(() => {
@@ -44,7 +44,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
       // 1. 如果有保存的偏好，直接使用
       if (savedLang && isLocale(savedLang)) {
         setLanguageState(savedLang)
-        setIsInitialized(true)
         return
       }
 
@@ -58,8 +57,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
         console.error("Language detection failed:", error)
         // 4. 兜底逻辑：浏览器语言 -> 英文
         setLanguageState(detectLocaleFromAcceptLanguage(navigator.language))
-      } finally {
-        setIsInitialized(true)
       }
     }
 
@@ -115,11 +112,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }),
     [language, setLanguage, t]
   )
-
-  // 等待初始化完成
-  if (!isInitialized) {
-    return null
-  }
 
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>
 }
