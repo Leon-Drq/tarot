@@ -210,6 +210,39 @@ const toolkitUiCopy: Partial<Record<SeoPage["locale"], ToolkitUiCopy>> = {
   },
 }
 
+const stickyCtaCopy = {
+  zh: {
+    eyebrow: "免费问题牌阵",
+    primary: "开始抽牌",
+    secondary: "每日塔罗",
+  },
+  en: {
+    eyebrow: "Free question spread",
+    primary: "Start free",
+    secondary: "Daily",
+  },
+  ja: {
+    eyebrow: "無料の質問スプレッド",
+    primary: "無料で始める",
+    secondary: "毎日",
+  },
+  ko: {
+    eyebrow: "무료 질문 스프레드",
+    primary: "무료 시작",
+    secondary: "데일리",
+  },
+  es: {
+    eyebrow: "Tirada gratis",
+    primary: "Empezar",
+    secondary: "Diario",
+  },
+  "pt-br": {
+    eyebrow: "Tiragem gratis",
+    primary: "Comecar",
+    secondary: "Diario",
+  },
+} satisfies Record<SeoPage["locale"], { eyebrow: string; primary: string; secondary: string }>
+
 const questionToolkits: Record<string, QuestionToolkit> = {
   "will-my-ex-come-back-tarot": {
     label: "Reconciliation spread",
@@ -846,6 +879,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const cardText = cardIndexCopy[page.locale]
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug]
   const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
+  const stickyCopy = stickyCtaCopy[page.locale]
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
   const cardGroups = cardIndexGroupOrder.map((group) => ({
     key: group,
@@ -995,13 +1029,41 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   }
 
   return (
-    <main className="min-h-screen bg-[#080310] text-white">
+    <main className={`min-h-screen bg-[#080310] text-white ${toolkit ? "pb-[calc(env(safe-area-inset-bottom)+5.75rem)] sm:pb-0" : ""}`}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
+
+      {toolkit && (
+        <div
+          data-question-sticky-cta
+          className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#090411]/92 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_50px_rgba(0,0,0,0.42)] backdrop-blur-xl sm:hidden"
+        >
+          <div className="mx-auto flex max-w-md items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">
+                {stickyCopy.eyebrow}
+              </p>
+              <p className="mt-1 truncate text-xs text-white/52">{toolkit.label}</p>
+            </div>
+            <Link
+              href="/daily-tarot"
+              className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-white/12 px-3 text-xs text-white/70 transition hover:border-white/30 hover:text-white"
+            >
+              {stickyCopy.secondary}
+            </Link>
+            <Link
+              href={primaryHref}
+              className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-xs font-medium text-[#120c22] shadow-[0_12px_30px_rgba(146,132,239,0.24)] transition hover:brightness-110"
+            >
+              {stickyCopy.primary}
+            </Link>
+          </div>
+        </div>
+      )}
 
       <section className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(123,83,178,0.42),transparent_36%),linear-gradient(180deg,#12091f_0%,#080310_100%)]" />
