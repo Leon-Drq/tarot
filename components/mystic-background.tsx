@@ -259,6 +259,25 @@ function HomeScrollContent() {
           { title: "会员后置", body: "会员主要用于深度追问、历史保存、高级牌阵和长期报告。" },
           { title: "边界清楚", body: "AI 塔罗是反思工具，不替代医疗、法律、财务或安全建议。" },
         ],
+        growthEyebrow: "免费使用路径",
+        growthTitle: "先把第一次体验、复访和搜索入口串起来",
+        growthBody: "现在最重要的不是催用户升级，而是让免费体验足够顺：先抽牌，再每日回来，再从具体问题继续深入。",
+        growthItems: [
+          { title: "第一次免费解读", body: "首页直接输入真实问题，先获得一次 AI 解读，不把会员放在第一步。", href: "/free-ai-tarot-reading" },
+          { title: "每日一牌复访", body: "每日塔罗保留连续打卡、日记和日历提醒，让用户明天有理由回来。", href: "/daily-tarot" },
+          { title: "具体问题入口", body: "前任、爱情、事业和是否问题直接进入匹配牌阵，比普通文章更容易转化。", href: "/tarot-questions" },
+          { title: "牌义和信任资产", body: "牌义页、About、AI 声明、评价和案例负责让 Google 与用户更信任品牌。", href: "/about" },
+        ],
+        questionEyebrow: "高意图问题",
+        questionTitle: "从用户真正会搜索的问题开始",
+        questionBody: "这些入口不是泛博客，而是直接把问题带进对应牌阵，适合免费获客、分享和后续深度追问。",
+        questionItems: [
+          { href: "/will-my-ex-come-back-tarot", title: "Will my ex come back?", body: "复合、联系、时机和是否还值得等待。" },
+          { href: "/does-he-love-me-tarot", title: "Does he love me?", body: "用行为、一致性和情绪安全感一起判断。" },
+          { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "快速方向，但解释为什么是 yes、no 或 not yet。" },
+          { href: "/career-tarot-reading", title: "Career tarot reading", body: "职业方向、压力、风险、资源和下一步。" },
+          { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "区分短期疲惫、真正转折和离开前准备。" },
+        ],
       },
       en: {
         eyebrow: "Explore next",
@@ -296,6 +315,25 @@ function HomeScrollContent() {
           { title: "Free first", body: "The first reading, daily tarot, card meanings, and question pages are designed to be useful without payment." },
           { title: "Membership second", body: "Paid features are reserved for deeper follow-ups, saved history, advanced spreads, and longer reports." },
           { title: "Clear limits", body: "AI tarot is reflective guidance, not medical, legal, financial, psychological, or safety advice." },
+        ],
+        growthEyebrow: "Free growth path",
+        growthTitle: "Connect the first reading, daily return, and search intent",
+        growthBody: "The priority is not pushing a paid plan early. The free loop should feel complete enough to earn indexing, sharing, and a second visit.",
+        growthItems: [
+          { title: "First free reading", body: "Ask one real question from the homepage and get an AI interpretation before any membership decision.", href: "/free-ai-tarot-reading" },
+          { title: "Daily one-card return", body: "Daily Tarot adds streaks, journal notes, and calendar reminders so tomorrow has a clear reason to come back.", href: "/daily-tarot" },
+          { title: "Question-led entries", body: "Ex, love, yes-or-no, and career pages open the right spread instead of behaving like generic blog posts.", href: "/tarot-questions" },
+          { title: "Meanings and trust", body: "Card meanings, About, AI disclaimer, reviews, and examples help both readers and Google trust the brand.", href: "/about" },
+        ],
+        questionEyebrow: "High-intent questions",
+        questionTitle: "Start from the questions people actually search",
+        questionBody: "These pages are built as free tool entry points: the question opens a matching spread, then deeper follow-ups and saved history can come later.",
+        questionItems: [
+          { href: "/will-my-ex-come-back-tarot", title: "Will my ex come back?", body: "Reconciliation, contact, timing, closure, and whether waiting still helps." },
+          { href: "/does-he-love-me-tarot", title: "Does he love me?", body: "Compare feelings with behavior, consistency, and emotional safety." },
+          { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "A quick direction with the reason behind yes, no, or not yet." },
+          { href: "/career-tarot-reading", title: "Career tarot reading", body: "Career direction, pressure, risk, resources, and the next practical move." },
+          { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "Separate temporary burnout from a real transition signal and preparation." },
         ],
       },
       ja: {
@@ -335,6 +373,25 @@ function HomeScrollContent() {
           { title: "会員は後から", body: "会員機能は深い追質問、履歴保存、高度なスプレッド、長いレポート向けです。" },
           { title: "限界を明確に", body: "AI タロットは内省の補助であり、専門的な助言の代わりではありません。" },
         ],
+        growthEyebrow: "無料の導線",
+        growthTitle: "初回体験、毎日の再訪、検索意図をつなぐ",
+        growthBody: "最初に会員を強く出すより、無料体験だけで役に立ち、また戻ってこられる流れを作ります。",
+        growthItems: [
+          { title: "初回無料リーディング", body: "ホームで質問し、会員登録の前に AI 解釈を受け取れます。", href: "/free-ai-tarot-reading" },
+          { title: "毎日の一枚", body: "連続記録、日記、カレンダーリマインダーで翌日も戻りやすくします。", href: "/daily-tarot" },
+          { title: "質問別の入口", body: "復縁、恋愛、Yes/No、仕事の質問から対応するスプレッドへ進めます。", href: "/tarot-questions" },
+          { title: "カード意味と信頼", body: "カード意味、About、AI 免責、レビュー、例でブランドの信頼を補強します。", href: "/about" },
+        ],
+        questionEyebrow: "検索される質問",
+        questionTitle: "実際の悩みからリーディングを始める",
+        questionBody: "質問ページはブログではなく、無料ツールへの入口です。質問に合うスプレッドへ直接つながります。",
+        questionItems: [
+          { href: "/will-my-ex-come-back-tarot", title: "Will my ex come back?", body: "復縁、連絡、タイミング、待つ意味を確認。" },
+          { href: "/does-he-love-me-tarot", title: "Does he love me?", body: "気持ちだけでなく行動と一貫性も見る。" },
+          { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "Yes、No、Not yet の理由まで確認。" },
+          { href: "/career-tarot-reading", title: "Career tarot reading", body: "仕事の方向性、負荷、リスク、次の一歩。" },
+          { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "疲れと本当の転機、退職前の準備を分ける。" },
+        ],
       },
       ko: {
         eyebrow: "다음 탐색",
@@ -373,6 +430,25 @@ function HomeScrollContent() {
           { title: "멤버십은 이후", body: "유료 기능은 심층 후속 질문, 기록 저장, 고급 스프레드, 긴 리포트에 집중합니다." },
           { title: "명확한 한계", body: "AI 타로는 성찰을 돕는 도구이며 전문 조언을 대체하지 않습니다." },
         ],
+        growthEyebrow: "무료 사용 흐름",
+        growthTitle: "첫 리딩, 매일 재방문, 검색 의도를 연결합니다",
+        growthBody: "초반부터 유료 전환을 밀기보다 무료 경험 자체가 충분히 유용하고 다시 올 이유가 있어야 합니다.",
+        growthItems: [
+          { title: "첫 무료 리딩", body: "홈에서 실제 질문을 입력하고 멤버십 전에 AI 해석을 받아봅니다.", href: "/free-ai-tarot-reading" },
+          { title: "매일 한 장", body: "연속 기록, 저널, 캘린더 알림으로 내일 다시 올 이유를 만듭니다.", href: "/daily-tarot" },
+          { title: "질문별 진입", body: "재회, 사랑, Yes/No, 커리어 질문에서 맞는 스프레드로 바로 이동합니다.", href: "/tarot-questions" },
+          { title: "카드 의미와 신뢰", body: "카드 의미, About, AI 안내, 리뷰, 사례로 브랜드 신뢰를 보강합니다.", href: "/about" },
+        ],
+        questionEyebrow: "검색 의도 질문",
+        questionTitle: "사람들이 실제로 검색하는 질문에서 시작",
+        questionBody: "이 페이지들은 일반 블로그가 아니라 무료 도구 입구입니다. 질문에 맞는 스프레드로 바로 이어집니다.",
+        questionItems: [
+          { href: "/will-my-ex-come-back-tarot", title: "Will my ex come back?", body: "재회, 연락, 타이밍, 기다림의 의미를 확인." },
+          { href: "/does-he-love-me-tarot", title: "Does he love me?", body: "감정과 행동, 일관성, 정서적 안전감을 함께 봅니다." },
+          { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "Yes, no, not yet 뒤의 이유까지 확인합니다." },
+          { href: "/career-tarot-reading", title: "Career tarot reading", body: "일의 방향, 압박, 리스크, 다음 실천 단계." },
+          { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "번아웃과 실제 전환 신호, 퇴사 전 준비를 구분." },
+        ],
       },
     }[language]
 
@@ -382,6 +458,49 @@ function HomeScrollContent() {
         <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.eyebrow}</p>
         <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{copy.title}</h2>
         <p className="mt-4 text-sm leading-7 text-white/58 sm:text-base">{copy.body}</p>
+      </div>
+      <div data-home-growth-path className="mt-8 border-y border-white/10 py-8">
+        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.growthEyebrow}</p>
+            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.growthTitle}</h2>
+            <p className="mt-4 text-sm leading-7 text-white/58">{copy.growthBody}</p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {copy.growthItems.map((item, index) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="group rounded-md border border-white/10 bg-black/22 p-4 backdrop-blur-sm transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+              >
+                <p className="text-[10px] uppercase tracking-[0.18em] text-white/34">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-2 break-words text-base font-medium leading-snug text-white">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/54">{item.body}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div data-home-question-paths className="mt-8">
+        <div className="max-w-2xl">
+          <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.questionEyebrow}</p>
+          <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.questionTitle}</h2>
+          <p className="mt-4 text-sm leading-7 text-white/58">{copy.questionBody}</p>
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {copy.questionItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="group min-w-0 rounded-md border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.07]"
+            >
+              <h3 className="break-words text-sm font-medium leading-snug text-[#f1edff]">{item.title}</h3>
+              <p className="mt-2 text-xs leading-5 text-white/52">{item.body}</p>
+            </a>
+          ))}
+        </div>
       </div>
       <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {copy.items.map((item) => (

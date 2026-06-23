@@ -35,6 +35,34 @@ const homeFreePaths = [
   },
 ]
 
+const homeQuestionPaths = [
+  {
+    title: "Will my ex come back tarot",
+    description: "A reconciliation-focused tarot entry that opens the right spread for contact, timing, closure, and next steps.",
+    href: "/will-my-ex-come-back-tarot",
+  },
+  {
+    title: "Does he love me tarot",
+    description: "A love-intent tarot entry for comparing feelings, behavior, consistency, and emotional safety.",
+    href: "/does-he-love-me-tarot",
+  },
+  {
+    title: "Yes or no tarot love",
+    description: "A quick love decision page that explains the reason behind yes, no, or not yet.",
+    href: "/yes-or-no-tarot-love",
+  },
+  {
+    title: "Career tarot reading",
+    description: "A career tarot path for direction, work pressure, risk, resources, and the next practical move.",
+    href: "/career-tarot-reading",
+  },
+  {
+    title: "Should I quit my job tarot",
+    description: "A job decision tarot page that separates temporary burnout from a real transition signal.",
+    href: "/should-i-quit-my-job-tarot",
+  },
+]
+
 const homeStructuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -58,7 +86,7 @@ const homeStructuredData = {
       url: appUrl,
       dateModified: trustLastReviewed,
       isAccessibleForFree: true,
-      inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR"],
+      inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
       about: {
         "@id": `${appUrl}/#app`,
       },
@@ -85,6 +113,18 @@ const homeStructuredData = {
       "@id": `${appUrl}/#free-tarot-paths`,
       name: "Free tarot paths on POPTarot",
       itemListElement: homeFreePaths.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.title,
+        description: item.description,
+        url: `${appUrl}${item.href}`,
+      })),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/#high-intent-tarot-questions`,
+      name: "High-intent free tarot question paths",
+      itemListElement: homeQuestionPaths.map((item, index) => ({
         "@type": "ListItem",
         position: index + 1,
         name: item.title,
