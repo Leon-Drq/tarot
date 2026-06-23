@@ -362,7 +362,7 @@ export interface DailyReminderCapability {
 }
 
 export const dailyTarotApi = {
-  getToday: async (date?: string): Promise<{ entry: DailyTarotEntry | null; streak_count: number }> => {
+  getToday: async (date?: string): Promise<{ entry: DailyTarotEntry | null; streak_count: number; recent_entries?: DailyTarotEntry[] }> => {
     return request(`/daily-tarot${date ? `?date=${encodeURIComponent(date)}` : ''}`)
   },
 
@@ -375,7 +375,7 @@ export const dailyTarotApi = {
     card_id: number
     is_reversed: boolean
     question: string
-  }): Promise<{ entry: DailyTarotEntry }> => {
+  }): Promise<{ entry: DailyTarotEntry; recent_entries?: DailyTarotEntry[] }> => {
     return request('/daily-tarot', {
       method: 'POST',
       body: JSON.stringify(payload),

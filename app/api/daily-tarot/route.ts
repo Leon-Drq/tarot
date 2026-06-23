@@ -28,16 +28,60 @@ function todayKey() {
   return new Date().toISOString().slice(0, 10)
 }
 
-async function getCurrentStreak(supabase: SupabaseClient, userId: string) {
+function previousDateKey(dateKey: string) {
+  const date = new Date(`${dateKey}T00:00:00.000Z`)
+  date.setUTCDate(date.getUTCDate() - 1)
+  return date.toISOString().slice(0, 10)
+}
+
+async function getCurrentStreak(supabase: SupabaseClient, userId: string, dateKey: string) {
   const { data } = await supabase
     .from("daily_tarot_entries")
     .select("entry_date,streak_count")
     .eq("user_id", userId)
+    .lte("entry_date", dateKey)
     .order("entry_date", { ascending: false })
     .limit(1)
     .maybeSingle()
 
-  return Number(data?.streak_count || 0)
+  if (!data?.entry_date) return 0
+  if (data.entry_date === dateKey || data.entry_date === previousDateKey(dateKey)) {
+    return Number(data.streak_count || 0)
+  }
+  return 0
+}
+
+async function getRecentEntries(supabase: SupabaseClient, userId: string, dateKey: string) {
+  const { data, error } = await supabase
+    .from("daily_tarot_entries")
+    .select("*")
+    .eq("user_id", userId)
+    .lte("entry_date", dateKey)
+    .order("entry_date", { ascending: false })
+    .limit(7)
+
+  if (error) return []
+  return data || []
+}
+
+async function getEntryStreakForSave(supabase: SupabaseClient, userId: string, entryDate: string) {
+  const { data: existing } = await supabase
+    .from("daily_tarot_entries")
+    .select("streak_count")
+    .eq("user_id", userId)
+    .eq("entry_date", entryDate)
+    .maybeSingle()
+
+  if (existing?.streak_count) return Number(existing.streak_count)
+
+  const { data: previous } = await supabase
+    .from("daily_tarot_entries")
+    .select("streak_count")
+    .eq("user_id", userId)
+    .eq("entry_date", previousDateKey(entryDate))
+    .maybeSingle()
+
+  return Number(previous?.streak_count || 0) + 1
 }
 
 export async function GET(req: Request) {
@@ -58,7 +102,8 @@ export async function GET(req: Request) {
 
   return jsonResponse({
     entry: data || null,
-    streak_count: data?.streak_count || (await getCurrentStreak(auth.supabase, auth.user.id)),
+    streak_count: data?.streak_count || (await getCurrentStreak(auth.supabase, auth.user.id, date)),
+    recent_entries: await getRecentEntries(auth.supabase, auth.user.id, date),
   })
 }
 
@@ -75,18 +120,7 @@ export async function POST(req: Request) {
   const card = TAROT_CARDS.find((item) => item.id === cardId)
   if (!card) return jsonError("Invalid tarot card")
 
-  const previousDate = new Date(`${entryDate}T00:00:00.000Z`)
-  previousDate.setUTCDate(previousDate.getUTCDate() - 1)
-  const previousKey = previousDate.toISOString().slice(0, 10)
-
-  const { data: previous } = await auth.supabase
-    .from("daily_tarot_entries")
-    .select("streak_count")
-    .eq("user_id", auth.user.id)
-    .eq("entry_date", previousKey)
-    .maybeSingle()
-
-  const streakCount = Number(previous?.streak_count || 0) + 1
+  const streakCount = await getEntryStreakForSave(auth.supabase, auth.user.id, entryDate)
   const reminderEnabled = bool(record.reminder_enabled)
   const normalizedReminderEmail = reminderEmail(record.reminder_email)
   if (reminderEnabled && !normalizedReminderEmail) return jsonError("A valid reminder email is required")
@@ -116,7 +150,10 @@ export async function POST(req: Request) {
     .single()
 
   if (error) return jsonError(error.message)
-  return jsonResponse({ entry: data })
+  return jsonResponse({
+    entry: data,
+    recent_entries: await getRecentEntries(auth.supabase, auth.user.id, entryDate),
+  })
 }
 
 export async function PATCH(req: Request) {

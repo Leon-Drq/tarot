@@ -574,6 +574,9 @@ export function DailyTarotTool() {
       .getToday(dateKey)
       .then((data) => {
         setStreak(data.streak_count || 0)
+        if (Array.isArray(data.recent_entries)) {
+          setRecentEntries(data.recent_entries.length > 0 ? data.recent_entries : readRecentLocalEntries(dateKey))
+        }
         if (!data.entry) return
         const savedCard = cardFromEntry(data.entry)
         if (savedCard) setCard(savedCard)
@@ -660,6 +663,9 @@ export function DailyTarotTool() {
         reminder_time: nextEntry.reminder_time,
         reminder_timezone: nextEntry.reminder_timezone,
       })
+      if (Array.isArray(result.recent_entries)) {
+        setRecentEntries(result.recent_entries.length > 0 ? result.recent_entries : readRecentLocalEntries(nextEntry.entry_date))
+      }
       return result.entry
     } catch {
       return null
