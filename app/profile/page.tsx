@@ -74,6 +74,34 @@ export default function ProfilePage() {
     }
     return labels[type] || t("profile.freeUser")
   }
+
+  const historyGateCopy =
+    {
+      zh: {
+        title: "历史记录是会员功能",
+        body: "免费解读可以直接使用；当你需要保存结果、回看反复出现的牌和长期主题时，再升级会员。",
+        button: "升级保存历史",
+      },
+      en: {
+        title: "History is a member feature",
+        body: "Free readings stay available. Upgrade only when you want to save results and revisit repeated cards, moods, and long-term themes.",
+        button: "Upgrade to save history",
+      },
+      ja: {
+        title: "履歴はメンバー機能です",
+        body: "無料リーディングはそのまま使えます。結果を保存し、繰り返し出るカードや長期テーマを見返したい時だけアップグレードしてください。",
+        button: "履歴保存をアップグレード",
+      },
+      ko: {
+        title: "기록은 멤버십 기능입니다",
+        body: "무료 리딩은 그대로 사용할 수 있습니다. 결과를 저장하고 반복되는 카드와 장기 흐름을 보고 싶을 때만 업그레이드하세요.",
+        button: "기록 저장 업그레이드",
+      },
+    }[language] || {
+      title: "History is a member feature",
+      body: "Free readings stay available. Upgrade only when you want to save results and revisit repeated cards, moods, and long-term themes.",
+      button: "Upgrade to save history",
+    }
   
   const [activeTab, setActiveTab] = useState<Tab>("profile")
   const [nickname, setNickname] = useState("")
@@ -107,7 +135,7 @@ export default function ProfilePage() {
   // 加载历史记录
   useEffect(() => {
     async function loadHistory() {
-      if (activeTab === "history" && isLoggedIn) {
+      if (activeTab === "history" && isLoggedIn && user?.is_member) {
         setLoadingHistory(true)
         try {
           const result = await readingApi.getHistory(1, 20)
@@ -117,10 +145,13 @@ export default function ProfilePage() {
         } finally {
           setLoadingHistory(false)
         }
+      } else if (activeTab === "history" && user && !user.is_member) {
+        setReadings([])
+        setLoadingHistory(false)
       }
     }
     loadHistory()
-  }, [activeTab, isLoggedIn])
+  }, [activeTab, isLoggedIn, user])
 
   const handleSaveProfile = async () => {
     if (!nickname.trim()) {
@@ -573,7 +604,28 @@ export default function ProfilePage() {
           {/* History Tab Content */}
           {activeTab === "history" && (
             <div className="space-y-4 animate-fade-in-up">
-              {loadingHistory ? (
+              {!user.is_member ? (
+                <div className="rounded-[1.75rem] border border-[#dcb360]/20 bg-[#dcb360]/[0.06] p-6 text-center">
+                  <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-full border border-[#dcb360]/25 bg-[#dcb360]/10 text-[#dcb360]">
+                    <CrownIcon className="h-6 w-6" />
+                  </div>
+                  <h2
+                    className="text-lg text-white/90"
+                    style={{ fontFamily: "var(--font-serif, serif)" }}
+                  >
+                    {historyGateCopy.title}
+                  </h2>
+                  <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-white/54">
+                    {historyGateCopy.body}
+                  </p>
+                  <button
+                    onClick={() => router.push("/membership")}
+                    className="mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-[#c9c0ff] px-5 py-2 text-sm font-medium text-[#160d28] transition hover:bg-[#eeeaff]"
+                  >
+                    {historyGateCopy.button}
+                  </button>
+                </div>
+              ) : loadingHistory ? (
                 <div className="flex flex-col items-center justify-center py-20 space-y-4">
                   <div className="w-8 h-8 border-2 border-[#dcb360]/30 border-t-[#dcb360] rounded-full animate-spin" />
                   <p className="text-white/20 text-xs tracking-widest uppercase">Fetching Records...</p>
@@ -653,4 +705,3 @@ export default function ProfilePage() {
     </div>
   )
 }
-

@@ -76,13 +76,37 @@ const files = {
     path: "lib/server/daily-reminder-rpc.ts",
     source: read("lib/server/daily-reminder-rpc.ts"),
   },
+  memberGate: {
+    path: "lib/server/member-gate.ts",
+    source: read("lib/server/member-gate.ts"),
+  },
   readingRoute: {
     path: "app/api/reading/route.ts",
     source: read("app/api/reading/route.ts"),
   },
+  readingCreateRoute: {
+    path: "app/api/reading/create/route.ts",
+    source: read("app/api/reading/create/route.ts"),
+  },
+  readingHistoryRoute: {
+    path: "app/api/reading/history/route.ts",
+    source: read("app/api/reading/history/route.ts"),
+  },
+  readingDetailRoute: {
+    path: "app/api/reading/[id]/route.ts",
+    source: read("app/api/reading/[id]/route.ts"),
+  },
+  readingSaveRoute: {
+    path: "app/api/reading/save-interpretation/route.ts",
+    source: read("app/api/reading/save-interpretation/route.ts"),
+  },
   readingPage: {
     path: "app/reading/page.tsx",
     source: read("app/reading/page.tsx"),
+  },
+  profilePage: {
+    path: "app/profile/page.tsx",
+    source: read("app/profile/page.tsx"),
   },
   sharePage: {
     path: "app/share/[slug]/page.tsx",
@@ -375,20 +399,32 @@ for (const [file, needle, label] of publicShareConversionCoverage) {
 }
 
 const freeFirstReadingCoverage = [
+  [files.memberGate, "export async function requireMemberAccess", "shared server member gate"],
+  [files.memberGate, "Saved reading history is a membership feature", "history membership response copy"],
+  [files.memberGate, "Deeper follow-up questions are a membership feature", "follow-up membership response copy"],
   [files.readingRoute, "if (isFollowUp)", "follow-up-only auth gate"],
   [files.readingRoute, "const auth = await requireUser(req)", "follow-up auth check"],
   [files.readingRoute, "if (!auth.ok) return auth.response", "follow-up unauthorized response"],
-  [files.readingRoute, "getProfile(auth.supabase, auth.user)", "follow-up profile lookup"],
-  [files.readingRoute, "isMemberActive(profile) || isPartnerActive(profile)", "follow-up membership gate"],
-  [files.readingRoute, "followUpUpgradeMessage(lang)", "localized follow-up upgrade response"],
-  [files.readingPage, "if (!isLoggedIn && !isFollowUp)", "anonymous first reading attempt"],
-  [files.readingPage, "Failed to create anonymous user", "guest fallback when anonymous auth fails"],
+  [files.readingRoute, "requireMemberAccess(auth.supabase, auth.user, \"followup\", lang)", "follow-up membership gate"],
+  [files.readingCreateRoute, "requireMemberAccess(auth.supabase, auth.user, \"history\", lang)", "history create membership gate"],
+  [files.readingHistoryRoute, "requireMemberAccess(auth.supabase, auth.user, \"history\")", "history list membership gate"],
+  [files.readingHistoryRoute, ".eq(\"user_id\", auth.user.id)", "history list current-user filter"],
+  [files.readingDetailRoute, "requireMemberAccess(auth.supabase, auth.user, \"history\")", "history detail membership gate"],
+  [files.readingDetailRoute, ".eq(\"user_id\", auth.user.id)", "history detail current-user filter"],
+  [files.readingSaveRoute, "requireMemberAccess(auth.supabase, auth.user, \"history\", lang)", "history save membership gate"],
+  [files.readingSaveRoute, ".eq(\"user_id\", auth.user.id)", "history save current-user filter"],
+  [files.readingPage, "user?.is_member && !readingId", "member-only reading history creation"],
+  [files.readingPage, "Creating anonymous share session", "share-only anonymous session"],
+  [files.readingPage, "share_session_only", "share session analytics signal"],
   [files.readingPage, "fallback_share", "free reading fallback share URL"],
   [files.readingPage, "fallback: true", "free reading fallback share analytics metadata"],
   [files.readingPage, "share_template_copied", "free reading fallback share compatible analytics event"],
   [files.readingPage, "Log in to create a public result page", "free reading share fallback copy"],
   [files.readingPage, "Log in to continue with deeper follow-up questions", "follow-up login boundary copy"],
   [files.readingPage, "isUpgradeErrorMessage(error)", "follow-up upgrade CTA detection"],
+  [files.readingPage, "Upgrade to save history", "history-save membership prompt"],
+  [files.profilePage, "History is a member feature", "profile history member gate copy"],
+  [files.profilePage, "activeTab === \"history\" && isLoggedIn && user?.is_member", "profile history member-only fetch"],
   [files.readingPage, "Membership stays for deeper follow-ups", "membership boundary copy"],
 ]
 

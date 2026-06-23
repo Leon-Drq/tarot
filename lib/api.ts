@@ -271,6 +271,7 @@ export type AnalyticsEventName =
   | 'cards_selected'
   | 'reading_completed'
   | 'share_created'
+  | 'share_session_only'
   | 'share_template_copied'
   | 'payment_started'
   | 'payment_completed'
@@ -498,7 +499,8 @@ export const readingApi = {
   create: async (
     question: string,
     cards: CardData[],
-    spreadType: string = 'three_card'
+    spreadType: string = 'three_card',
+    lang?: string
   ): Promise<CreateReadingResponse> => {
     return request('/reading/create', {
       method: 'POST',
@@ -506,6 +508,7 @@ export const readingApi = {
         question,
         cards,
         spread_type: spreadType,
+        lang,
       }),
     })
   },
@@ -546,13 +549,15 @@ export const readingApi = {
   // 保存 AI 解读结果
   saveInterpretation: async (
     readingId: string,
-    interpretation: string
+    interpretation: string,
+    lang?: string
   ): Promise<{ message: string }> => {
     return request('/reading/save-interpretation', {
       method: 'POST',
       body: JSON.stringify({
         reading_id: readingId,
         interpretation,
+        lang,
       }),
     })
   },

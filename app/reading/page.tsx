@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Copy, Instagram, LogIn, Share2 } from "lucide-react"
+import { Archive, Copy, Instagram, Share2 } from "lucide-react"
 import type { DrawnCard } from "@/lib/tarot-cards"
 import { getCardName } from "@/lib/tarot-cards"
 import BlurText from "@/components/ui/blur-text"
@@ -67,9 +67,9 @@ export default function ReadingPage() {
         memberTitle: "需要深入时再打开进阶功能",
         memberText: "会员只放在更深层体验里：深度追问、保存历史、高级牌阵和月度报告。",
         memberButton: "查看进阶功能",
-        saveTitle: "保存你的解读历史",
-        saveText: "你已经体验了 {count} 次。登录后可以保存结果、继续查看历史记录。",
-        saveButton: "登录并保存",
+        saveTitle: "需要留存时再升级",
+        saveText: "你已经体验了 {count} 次。会员可以保存解读历史，回看反复出现的牌和主题。",
+        saveButton: "升级保存历史",
       },
       en: {
         title: "SHARE",
@@ -87,9 +87,9 @@ export default function ReadingPage() {
         memberTitle: "Go deeper only when you need it",
         memberText: "Membership stays for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
         memberButton: "View advanced features",
-        saveTitle: "Save your reading history",
-        saveText: "You have tried {count} readings. Log in to save results and keep your history.",
-        saveButton: "Log in to save",
+        saveTitle: "Save history when it matters",
+        saveText: "You have tried {count} readings. Members can save reading history and revisit repeated cards and themes.",
+        saveButton: "Upgrade to save history",
       },
       ja: {
         title: "SHARE",
@@ -107,9 +107,9 @@ export default function ReadingPage() {
         memberTitle: "必要な時だけ深く読む",
         memberText: "会員機能は深い追質問、履歴保存、高度なスプレッド、月次レポートのために用意されています。",
         memberButton: "会員特典を見る",
-        saveTitle: "リーディング履歴を保存",
-        saveText: "{count} 回体験しました。ログインすると結果と履歴を保存できます。",
-        saveButton: "ログインして保存",
+        saveTitle: "必要な時だけ履歴を保存",
+        saveText: "{count} 回体験しました。会員は履歴を保存し、繰り返し出るカードやテーマを見返せます。",
+        saveButton: "履歴保存をアップグレード",
       },
       ko: {
         title: "SHARE",
@@ -127,9 +127,9 @@ export default function ReadingPage() {
         memberTitle: "필요할 때만 더 깊게 보기",
         memberText: "멤버십은 심층 질문, 기록 저장, 고급 스프레드, 월간 리포트에만 배치됩니다.",
         memberButton: "멤버십 보기",
-        saveTitle: "리딩 기록 저장",
-        saveText: "{count}번 체험했습니다. 로그인하면 결과와 기록을 저장할 수 있습니다.",
-        saveButton: "로그인하고 저장",
+        saveTitle: "필요할 때 기록 저장",
+        saveText: "{count}번 체험했습니다. 멤버는 리딩 기록과 반복되는 카드, 주제를 다시 볼 수 있습니다.",
+        saveButton: "기록 저장 업그레이드",
       },
     }[language] || {
       title: "SHARE",
@@ -147,9 +147,9 @@ export default function ReadingPage() {
       memberTitle: "Go deeper only when you need it",
       memberText: "Membership stays for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
       memberButton: "View advanced features",
-      saveTitle: "Save your reading history",
-      saveText: "You have tried {count} readings. Log in to save results and keep your history.",
-      saveButton: "Log in to save",
+      saveTitle: "Save history when it matters",
+      saveText: "You have tried {count} readings. Members can save reading history and revisit repeated cards and themes.",
+      saveButton: "Upgrade to save history",
     }
 
   const statusCopy =
@@ -295,7 +295,7 @@ export default function ReadingPage() {
     async function saveInterpretation() {
       if (readingId && fullInterpretation && !isReading && showFollowUp) {
         try {
-          await readingApi.saveInterpretation(readingId, fullInterpretation)
+          await readingApi.saveInterpretation(readingId, fullInterpretation, readingLocale)
           console.log("[Reading] Interpretation saved")
         } catch (err) {
           console.error("[Reading] Failed to save interpretation:", err)
@@ -322,31 +322,16 @@ export default function ReadingPage() {
     setError("")
 
     try {
-      let hasSession = isLoggedIn
-      // 如果未登录，自动创建匿名用户
-      if (!isLoggedIn && !isFollowUp) {
-        try {
-          console.log("[Reading] Creating anonymous user...")
-          const anonResult = await authApi.registerAnonymous()
-          setAccessToken(anonResult.access_token)
-          hasSession = true
-          await refreshUser()
-          console.log("[Reading] Anonymous user created:", anonResult.user.nickname)
-        } catch (anonError) {
-          console.error("[Reading] Failed to create anonymous user:", anonError)
-          // 如果匿名注册失败，仍然允许继续（降级处理）
-        }
-      }
-      
       const readingCards = buildReadingCards(cards, currentReadingLocale, currentSpreadConfig)
 
-      // 如果是首次解读且用户已登录，先创建解读记录
-      if (!isFollowUp && hasSession && !readingId) {
+      // 免费首读不强制保存历史；会员才创建可回看的解读记录。
+      if (!isFollowUp && isLoggedIn && user?.is_member && !readingId) {
         try {
           const createResult = await readingApi.create(
             userQuestion,
             readingCards,
-            currentSpreadType || spreadType
+            currentSpreadType || spreadType,
+            currentReadingLocale
           )
           setReadingId(createResult.reading_id)
           
@@ -355,14 +340,7 @@ export default function ReadingPage() {
             refreshUser()
           }
         } catch (apiError) {
-          // 如果是积分不足，显示错误并跳转
-          if (apiError instanceof Error && apiError.message.includes("积分不足")) {
-            setError(t("tarot.noCredits"))
-            setIsReading(false)
-            return
-          }
-          // 其他错误继续执行（允许游客体验）
-          console.warn("[Reading] API error, continuing as guest:", apiError)
+          console.warn("[Reading] History save skipped, continuing with free reading:", apiError)
         }
       }
 
@@ -521,6 +499,23 @@ export default function ReadingPage() {
     })
   }
 
+  const ensureShareSession = async () => {
+    if (getAccessToken()) return
+
+    console.log("[Reading] Creating anonymous share session...")
+    const anonResult = await authApi.registerAnonymous()
+    setAccessToken(anonResult.access_token)
+    await refreshUser()
+    analyticsApi.track("share_session_only", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: question,
+      metadata: {
+        spread_type: spreadType,
+      },
+    })
+  }
+
   const shareFallbackCaption = async (platform: ShareTemplatePlatform, preferNativeShare: boolean) => {
     const fallbackUrl = getFallbackShareUrl()
     const text = buildShareCaption(platform, fallbackUrl)
@@ -544,6 +539,7 @@ export default function ReadingPage() {
   const ensureShareUrl = async () => {
     if (shareUrl) return shareUrl
     if (drawnCards.length === 0) throw new Error("No cards to share")
+    await ensureShareSession()
 
     const result = await readingApi.createShare({
       reading_id: readingId || undefined,
@@ -771,7 +767,7 @@ export default function ReadingPage() {
   )
 
   const shouldShowSavePrompt =
-    showFollowUp && readingCount >= 2 && readingCount <= 3 && (!isLoggedIn || user?.is_anonymous)
+    showFollowUp && readingCount >= 2 && readingCount <= 3 && !user?.is_member
   const shouldShowMemberPrompt = showFollowUp && readingCount >= 4 && !user?.is_member
 
   return (
@@ -1161,7 +1157,7 @@ export default function ReadingPage() {
               <div className="rounded-lg border border-white/10 bg-white/[0.035] p-5 backdrop-blur-sm">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5 flex h-9 w-9 items-center justify-center rounded-full bg-[#c9c0ff]/12 text-[#eeeaff]">
-                    <LogIn className="h-4 w-4" />
+                    <Archive className="h-4 w-4" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-white/86 text-sm font-medium">{shareCopy.saveTitle}</p>
@@ -1169,7 +1165,7 @@ export default function ReadingPage() {
                       {shareCopy.saveText.replace("{count}", String(readingCount))}
                     </p>
                     <Link
-                      href="/auth/login"
+                      href="/membership"
                       className="mt-4 inline-flex min-h-10 items-center rounded-full bg-[#c9c0ff] px-4 py-2 text-sm font-medium text-[#1a0f30] transition hover:bg-[#eeeaff]"
                     >
                       {shareCopy.saveButton}

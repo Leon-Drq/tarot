@@ -1,10 +1,14 @@
+import { requireMemberAccess } from "@/lib/server/member-gate"
 import { jsonError, jsonResponse, requireUser } from "@/lib/server/supabase"
 
 export async function POST(req: Request) {
   const auth = await requireUser(req)
   if (!auth.ok) return auth.response
 
-  const { question, cards, spread_type } = await req.json()
+  const { question, cards, spread_type, lang } = await req.json()
+  const member = await requireMemberAccess(auth.supabase, auth.user, "history", lang)
+  if (!member.ok) return member.response
+
   const { data, error } = await auth.supabase.rpc("create_tarot_reading", {
     p_question: question || "寻求指引",
     p_cards: cards || [],

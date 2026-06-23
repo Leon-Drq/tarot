@@ -7,6 +7,7 @@ const eventNames = new Set([
   "cards_selected",
   "reading_completed",
   "share_created",
+  "share_session_only",
   "share_template_copied",
   "payment_started",
   "payment_completed",
