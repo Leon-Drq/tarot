@@ -1,6 +1,7 @@
 "use client"
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react"
+import { usePathname } from "next/navigation"
 import { detectLocaleFromAcceptLanguage, isLocale, localeLabels, type Locale } from "@/lib/locales"
 
 export type Language = Locale
@@ -15,10 +16,10 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 // 语言配置
 export const LANGUAGES = {
-  zh: { name: localeLabels.zh, flag: "🇨🇳" },
-  en: { name: localeLabels.en, flag: "🇺🇸" },
-  ja: { name: localeLabels.ja, flag: "🇯🇵" },
-  ko: { name: localeLabels.ko, flag: "🇰🇷" },
+  zh: { name: localeLabels.zh },
+  en: { name: localeLabels.en },
+  ja: { name: localeLabels.ja },
+  ko: { name: localeLabels.ko },
 } as const
 
 // 导入翻译数据
@@ -31,7 +32,24 @@ type AllTranslations = Record<Language, Translations>
 // 翻译数据
 const translationsData: AllTranslations = translations
 
+function htmlLangForPath(pathname: string | null, language: Language) {
+  const segment = pathname?.split("/").filter(Boolean)[0]
+  if (segment === "es") return "es"
+  if (segment === "pt-br") return "pt-BR"
+  if (segment === "zh") return "zh-CN"
+  if (segment === "ja") return "ja-JP"
+  if (segment === "ko") return "ko-KR"
+
+  return {
+    zh: "zh-CN",
+    en: "en",
+    ja: "ja-JP",
+    ko: "ko-KR",
+  }[language]
+}
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname()
   // Render immediately in English so static HTML contains crawlable content.
   // Saved or detected preferences are applied after hydration.
   const [language, setLanguageState] = useState<Language>("en")
@@ -64,8 +82,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   useEffect(() => {
-    document.documentElement.lang = language
-  }, [language])
+    document.documentElement.lang = htmlLangForPath(pathname, language)
+  }, [language, pathname])
 
   // 设置语言并保存到 localStorage
   const setLanguage = useCallback((lang: Language) => {
