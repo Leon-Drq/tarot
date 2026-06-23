@@ -48,6 +48,64 @@ const coreToolLinks = [
   { label: "Career Tarot Reading", href: "/career-tarot-reading", type: "WebPage" },
 ]
 
+export const highIntentQuestionLinks = [
+  {
+    title: "Will my ex come back tarot",
+    description: "A reconciliation-focused tarot entry that opens the right spread for contact, timing, closure, and next steps.",
+    href: "/will-my-ex-come-back-tarot",
+  },
+  {
+    title: "Does he love me tarot",
+    description: "A love-intent tarot entry for comparing feelings, behavior, consistency, and emotional safety.",
+    href: "/does-he-love-me-tarot",
+  },
+  {
+    title: "Yes or no tarot love",
+    description: "A quick love decision page that explains the reason behind yes, no, or not yet.",
+    href: "/yes-or-no-tarot-love",
+  },
+  {
+    title: "Career tarot reading",
+    description: "A career tarot path for direction, work pressure, risk, resources, and the next practical move.",
+    href: "/career-tarot-reading",
+  },
+  {
+    title: "Should I quit my job tarot",
+    description: "A job decision tarot page that separates temporary burnout from a real transition signal.",
+    href: "/should-i-quit-my-job-tarot",
+  },
+  {
+    title: "What does he think of me tarot",
+    description: "A perception-focused love tarot entry for mixed signals, silence, private thoughts, and possible next actions.",
+    href: "/what-does-he-think-of-me-tarot",
+  },
+  {
+    title: "Will he contact me tarot",
+    description: "A contact-focused tarot path for no-contact periods, delayed replies, breakup silence, and healthy boundaries.",
+    href: "/will-he-contact-me-tarot",
+  },
+  {
+    title: "Is this relationship over tarot",
+    description: "A relationship clarity page for distance, repeated conflict, breakup signals, and whether repair is realistic.",
+    href: "/is-this-relationship-over-tarot",
+  },
+  {
+    title: "Will I get the job tarot",
+    description: "A job outcome tarot entry for interviews, pending offers, applications, promotion chances, and practical follow-up.",
+    href: "/will-i-get-the-job-tarot",
+  },
+  {
+    title: "Should I take this job tarot",
+    description: "A career decision tarot page for comparing salary, culture fit, stability, risk, growth, and negotiation.",
+    href: "/should-i-take-this-job-tarot",
+  },
+  {
+    title: "Will I be successful tarot",
+    description: "A goal-focused tarot entry for projects, exams, launches, creative work, and the next controllable action.",
+    href: "/will-i-be-successful-tarot",
+  },
+]
+
 function coreToolJsonLdItems() {
   return coreToolLinks.map((link) => ({
     "@type": link.type,
@@ -55,6 +113,21 @@ function coreToolJsonLdItems() {
     name: link.label,
     url: `${appUrl}${link.href}`,
     isAccessibleForFree: true,
+    isPartOf: {
+      "@id": `${appUrl}/#website`,
+    },
+  }))
+}
+
+function highIntentQuestionJsonLdItems() {
+  return highIntentQuestionLinks.map((link) => ({
+    "@type": "WebPage",
+    "@id": `${appUrl}${link.href}#webpage`,
+    name: link.title,
+    description: link.description,
+    url: `${appUrl}${link.href}`,
+    isAccessibleForFree: true,
+    about: ["AI tarot reading", "free tarot question", "tarot spread"],
     isPartOf: {
       "@id": `${appUrl}/#website`,
     },
@@ -248,7 +321,7 @@ export function websiteJsonLd() {
       "@id": `${appUrl}/#organization`,
     },
     inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
-    hasPart: [...coreToolJsonLdItems(), ...trustPageJsonLdItems()],
+    hasPart: [...coreToolJsonLdItems(), ...highIntentQuestionJsonLdItems(), ...trustPageJsonLdItems()],
   }
 }
 
