@@ -664,7 +664,7 @@ function MysticContent() {
       <div className="relative min-h-[142svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+6rem)] sm:min-h-[132svh] md:min-h-[124svh] md:pb-28">
         <section
           data-home-hero-copy
-          className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[8rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]"
+          className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[6.5rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]"
         >
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
@@ -691,7 +691,8 @@ function MysticContent() {
             <CoreLight className="pointer-events-none absolute left-0 top-0 z-0 flex h-0 w-0 items-center justify-center" />
             <div
               data-home-card-anchor
-              className="absolute left-0 top-0 z-10 flex h-[15rem] w-[8.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-visible sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
+              className="absolute left-0 top-0 z-10 flex h-[15rem] w-[8.75rem] items-center justify-center overflow-visible sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
+              style={{ transform: "translate(-50%, calc(-50% - var(--home-card-optical-lift, 0px)))" }}
             >
               <TarotCard
                 frontImage={customFront || DEFAULT_FRONT}
