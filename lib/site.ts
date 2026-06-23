@@ -146,6 +146,10 @@ function trustPageJsonLdItems() {
   }))
 }
 
+function uniqueBySchemaId(items: Array<Record<string, unknown>>) {
+  return Array.from(new Map(items.map((item) => [String(item["@id"] || JSON.stringify(item)), item])).values())
+}
+
 export function editorialTeamJsonLd() {
   return {
     "@type": "Organization",
@@ -321,7 +325,7 @@ export function websiteJsonLd() {
       "@id": `${appUrl}/#organization`,
     },
     inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
-    hasPart: [...coreToolJsonLdItems(), ...highIntentQuestionJsonLdItems(), ...trustPageJsonLdItems()],
+    hasPart: uniqueBySchemaId([...coreToolJsonLdItems(), ...highIntentQuestionJsonLdItems(), ...trustPageJsonLdItems()]),
   }
 }
 
