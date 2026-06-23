@@ -2,12 +2,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getAllLocalizedSeoPages, type SeoPage } from "@/lib/seo-pages"
-import { SPREAD_CONFIGS } from "@/lib/spread-config"
+import { SPREAD_CONFIGS, type SpreadConfig } from "@/lib/spread-config"
 import { getAllCardSeoPages, getCardKeywords, getCardSuit } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
 import {
   appUrl,
   editorialTeamJsonLd,
+  highIntentQuestionLinks,
   organizationJsonLd,
   softwareApplicationJsonLd,
   trustLinks,
@@ -242,6 +243,135 @@ const stickyCtaCopy = {
     secondary: "Diario",
   },
 } satisfies Record<SeoPage["locale"], { eyebrow: string; primary: string; secondary: string }>
+
+const highIntentQuestionSlugs = new Set(highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")))
+
+const fallbackQuestionToolkitCopy = {
+  zh: {
+    label: "推荐牌阵",
+    title: (pageTitle: string) => `用匹配牌阵解读${pageTitle}`,
+    body: (spreadName: string) => `这不是普通文章入口。点击后会把你的问题直接带入${spreadName}，减少重新输入和选错牌阵的步骤。`,
+    promptTitle: "直接试这几个问法",
+    promptTwo: "我现在最需要先看清什么？",
+    promptThree: "下一步最稳妥的行动是什么？",
+    spreadBody: (spreadName: string) => `${spreadName}会把问题拆成具体牌位，让答案更接近真实处境。`,
+    frameTitle: "如何使用这个答案",
+    frames: [
+      { title: "先看主题", body: "第一层不是预测结果，而是看这件事现在最核心的能量和阻碍。" },
+      { title: "再看行动", body: "把建议牌翻译成一个现实动作：等待、沟通、准备、离开或继续观察。" },
+      { title: "最后看边界", body: "如果答案让你焦虑，先问什么能保护你的清晰，而不是反复追问同一件事。" },
+    ],
+  },
+  en: {
+    label: "Matched spread",
+    title: (pageTitle: string) => `Start ${pageTitle} with the right spread`,
+    body: (spreadName: string) => `This page is built to convert the question into a ${spreadName} reading, so you do not have to retype the prompt or choose a layout from scratch.`,
+    promptTitle: "Try these ready-to-draw questions",
+    promptTwo: "What should I understand before I act?",
+    promptThree: "What is the healthiest next step I can control?",
+    spreadBody: (spreadName: string) => `${spreadName} breaks the question into card positions, making the first free answer easier to use than a generic reading.`,
+    frameTitle: "How to use the answer",
+    frames: [
+      { title: "Read the signal", body: "Start with the main energy and obstacle instead of treating the spread as a fixed prediction." },
+      { title: "Translate advice", body: "Turn the advice card into one concrete action: wait, message, prepare, set a boundary, or move forward." },
+      { title: "Protect clarity", body: "If the answer makes you anxious, ask what protects your judgment instead of repeating the same question." },
+    ],
+  },
+  ja: {
+    label: "おすすめスプレッド",
+    title: (pageTitle: string) => `${pageTitle}を合うスプレッドで読む`,
+    body: (spreadName: string) => `このページは、質問をそのまま${spreadName}へつなげる入口です。質問を入れ直したり、スプレッドを選び直す必要を減らします。`,
+    promptTitle: "すぐ試せる質問",
+    promptTwo: "行動する前に何を理解すべき？",
+    promptThree: "自分が動かせる次の一歩は？",
+    spreadBody: (spreadName: string) => `${spreadName}は質問をカード位置に分け、一般的なリーディングより具体的に読みやすくします。`,
+    frameTitle: "答えの使い方",
+    frames: [
+      { title: "サインを見る", body: "結果を急がず、今の主なエネルギーと障害を確認します。" },
+      { title: "助言を行動へ", body: "待つ、伝える、準備する、境界線を引く、進むなど、一つの行動にします。" },
+      { title: "冷静さを守る", body: "不安が強い時は同じ質問を繰り返さず、判断を守る方法を確認します。" },
+    ],
+  },
+  ko: {
+    label: "추천 스프레드",
+    title: (pageTitle: string) => `${pageTitle}를 맞는 스프레드로 시작하기`,
+    body: (spreadName: string) => `이 페이지는 질문을 바로 ${spreadName} 리딩으로 연결해, 다시 입력하거나 배열을 고르는 과정을 줄입니다.`,
+    promptTitle: "바로 뽑아볼 질문",
+    promptTwo: "행동하기 전에 무엇을 이해해야 할까요?",
+    promptThree: "내가 조절할 수 있는 가장 건강한 다음 단계는?",
+    spreadBody: (spreadName: string) => `${spreadName}는 질문을 카드 위치로 나눠 일반 리딩보다 첫 답을 더 구체적으로 사용할 수 있게 합니다.`,
+    frameTitle: "답을 사용하는 법",
+    frames: [
+      { title: "신호 읽기", body: "고정된 예언보다 현재의 핵심 에너지와 장애물을 먼저 봅니다." },
+      { title: "조언을 행동으로", body: "기다리기, 메시지 보내기, 준비하기, 경계 세우기, 앞으로 가기 중 하나로 옮깁니다." },
+      { title: "명료함 지키기", body: "불안하다면 같은 질문을 반복하기보다 판단을 지키는 방법을 물어보세요." },
+    ],
+  },
+  es: {
+    label: "Tirada adecuada",
+    title: (pageTitle: string) => `Empieza ${pageTitle} con la tirada correcta`,
+    body: (spreadName: string) => `Esta pagina convierte la pregunta en una lectura de ${spreadName}, sin volver a escribir ni elegir una tirada desde cero.`,
+    promptTitle: "Preguntas listas para tirar",
+    promptTwo: "Que debo entender antes de actuar?",
+    promptThree: "Cual es el siguiente paso mas sano que puedo controlar?",
+    spreadBody: (spreadName: string) => `${spreadName} divide la pregunta en posiciones de cartas para que la primera lectura gratis sea mas util que una lectura generica.`,
+    frameTitle: "Como usar la respuesta",
+    frames: [
+      { title: "Lee la senal", body: "Empieza por la energia principal y el bloqueo, no por tratar la tirada como una prediccion fija." },
+      { title: "Traduce el consejo", body: "Convierte la carta de consejo en una accion: esperar, escribir, preparar, poner limite o avanzar." },
+      { title: "Protege claridad", body: "Si la respuesta aumenta la ansiedad, pregunta que protege tu juicio en vez de repetir lo mismo." },
+    ],
+  },
+  "pt-br": {
+    label: "Tiragem adequada",
+    title: (pageTitle: string) => `Comece ${pageTitle} com a tiragem certa`,
+    body: (spreadName: string) => `Esta pagina transforma a pergunta em uma leitura de ${spreadName}, sem redigitar nem escolher uma tiragem do zero.`,
+    promptTitle: "Perguntas prontas para tirar",
+    promptTwo: "O que devo entender antes de agir?",
+    promptThree: "Qual e o proximo passo mais saudavel que posso controlar?",
+    spreadBody: (spreadName: string) => `${spreadName} divide a pergunta em posicoes de cartas para que a primeira leitura gratis seja mais util que uma leitura generica.`,
+    frameTitle: "Como usar a resposta",
+    frames: [
+      { title: "Leia o sinal", body: "Comece pela energia principal e pelo bloqueio, nao por tratar a tiragem como predicao fixa." },
+      { title: "Traduza o conselho", body: "Transforme a carta de conselho em uma acao: esperar, escrever, preparar, colocar limite ou avancar." },
+      { title: "Proteja clareza", body: "Se a resposta aumentar ansiedade, pergunte o que protege seu julgamento em vez de repetir a mesma pergunta." },
+    ],
+  },
+} satisfies Record<SeoPage["locale"], {
+  label: string
+  title: (pageTitle: string) => string
+  body: (spreadName: string) => string
+  promptTitle: string
+  promptTwo: string
+  promptThree: string
+  spreadBody: (spreadName: string) => string
+  frameTitle: string
+  frames: Array<{ title: string; body: string }>
+}>
+
+function spreadNameForLocale(spread: SpreadConfig, locale: SeoPage["locale"]) {
+  return locale === "zh" ? spread.name : spread.nameEn
+}
+
+function createFallbackQuestionToolkit(page: SeoPage, recommendedSpread: SpreadConfig | undefined): QuestionToolkit | undefined {
+  if (!recommendedSpread || !highIntentQuestionSlugs.has(page.slug)) return undefined
+
+  const copy = fallbackQuestionToolkitCopy[page.locale]
+  const spreadName = spreadNameForLocale(recommendedSpread, page.locale)
+
+  return {
+    label: copy.label,
+    title: copy.title(page.h1),
+    body: copy.body(spreadName),
+    promptTitle: copy.promptTitle,
+    prompts: [page.ctaQuestion, copy.promptTwo, copy.promptThree],
+    spreadTitle: spreadName,
+    spreadBody: copy.spreadBody(spreadName),
+    positionNames: recommendedSpread.positions.map((position) => (page.locale === "zh" ? position.name : position.nameEn)),
+    frameTitle: copy.frameTitle,
+    frames: copy.frames,
+  }
+}
 
 const questionToolkits: Record<string, QuestionToolkit> = {
   "will-my-ex-come-back-tarot": {
@@ -877,10 +1007,10 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const related = relatedPages(page)
   const relatedText = relatedCopy[page.locale]
   const cardText = cardIndexCopy[page.locale]
-  const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug]
   const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
   const stickyCopy = stickyCtaCopy[page.locale]
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
+  const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug] || createFallbackQuestionToolkit(page, recommendedSpread)
   const cardGroups = cardIndexGroupOrder.map((group) => ({
     key: group,
     title: cardText.groups[group],
@@ -1021,6 +1151,39 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 position: index + 1,
                 name: position.nameEn,
                 description: position.description,
+              })),
+            },
+          ]
+        : []),
+      ...(toolkit
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#ready-question-prompts`,
+              name: toolkit.promptTitle,
+              numberOfItems: toolkit.prompts.length,
+              itemListElement: toolkit.prompts.map((prompt, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: prompt,
+                url: `${appUrl}${promptHref(page, prompt)}`,
+              })),
+            },
+          ]
+        : []),
+      ...(toolkit && recommendedSpread
+        ? [
+            {
+              "@type": "HowTo",
+              "@id": `${appUrl}${page.path}#how-to-use-answer`,
+              name: toolkit.frameTitle,
+              description: toolkit.body,
+              totalTime: "PT3M",
+              step: toolkit.frames.map((frame, index) => ({
+                "@type": "HowToStep",
+                position: index + 1,
+                name: frame.title,
+                text: frame.body,
               })),
             },
           ]
