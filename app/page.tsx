@@ -61,6 +61,36 @@ const homeQuestionPaths = [
     description: "A job decision tarot page that separates temporary burnout from a real transition signal.",
     href: "/should-i-quit-my-job-tarot",
   },
+  {
+    title: "What does he think of me tarot",
+    description: "A perception-focused love tarot entry for mixed signals, silence, private thoughts, and possible next actions.",
+    href: "/what-does-he-think-of-me-tarot",
+  },
+  {
+    title: "Will he contact me tarot",
+    description: "A contact-focused tarot path for no-contact periods, delayed replies, breakup silence, and healthy boundaries.",
+    href: "/will-he-contact-me-tarot",
+  },
+  {
+    title: "Is this relationship over tarot",
+    description: "A relationship clarity page for distance, repeated conflict, breakup signals, and whether repair is realistic.",
+    href: "/is-this-relationship-over-tarot",
+  },
+  {
+    title: "Will I get the job tarot",
+    description: "A job outcome tarot entry for interviews, pending offers, applications, promotion chances, and practical follow-up.",
+    href: "/will-i-get-the-job-tarot",
+  },
+  {
+    title: "Should I take this job tarot",
+    description: "A career decision tarot page for comparing salary, culture fit, stability, risk, growth, and negotiation.",
+    href: "/should-i-take-this-job-tarot",
+  },
+  {
+    title: "Will I be successful tarot",
+    description: "A goal-focused tarot entry for projects, exams, launches, creative work, and the next controllable action.",
+    href: "/will-i-be-successful-tarot",
+  },
 ]
 
 const homeStructuredData = {

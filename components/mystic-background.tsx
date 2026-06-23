@@ -277,6 +277,12 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "快速方向，但解释为什么是 yes、no 或 not yet。" },
           { href: "/career-tarot-reading", title: "Career tarot reading", body: "职业方向、压力、风险、资源和下一步。" },
           { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "区分短期疲惫、真正转折和离开前准备。" },
+          { href: "/what-does-he-think-of-me-tarot", title: "What does he think of me?", body: "暧昧、沉默、私人想法和下一步行动线索。" },
+          { href: "/will-he-contact-me-tarot", title: "Will he contact me?", body: "断联、迟迟不回、分手沉默和边界感。" },
+          { href: "/is-this-relationship-over-tarot", title: "Is this relationship over?", body: "关系疏远、反复冲突、修复可能和止损信号。" },
+          { href: "/will-i-get-the-job-tarot", title: "Will I get the job?", body: "面试、offer、晋升机会和现实跟进动作。" },
+          { href: "/should-i-take-this-job-tarot", title: "Should I take this job?", body: "薪资、文化、稳定性、成长和谈判空间。" },
+          { href: "/will-i-be-successful-tarot", title: "Will I be successful?", body: "项目、考试、发布、创作和下一步可控行动。" },
         ],
       },
       en: {
@@ -334,6 +340,12 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "A quick direction with the reason behind yes, no, or not yet." },
           { href: "/career-tarot-reading", title: "Career tarot reading", body: "Career direction, pressure, risk, resources, and the next practical move." },
           { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "Separate temporary burnout from a real transition signal and preparation." },
+          { href: "/what-does-he-think-of-me-tarot", title: "What does he think of me?", body: "Mixed signals, silence, private thoughts, and possible next actions." },
+          { href: "/will-he-contact-me-tarot", title: "Will he contact me?", body: "No-contact periods, delayed replies, breakup silence, and healthy boundaries." },
+          { href: "/is-this-relationship-over-tarot", title: "Is this relationship over?", body: "Distance, repeated conflict, repair potential, and when to stop chasing." },
+          { href: "/will-i-get-the-job-tarot", title: "Will I get the job?", body: "Interviews, offers, applications, promotion chances, and follow-up." },
+          { href: "/should-i-take-this-job-tarot", title: "Should I take this job?", body: "Salary, culture fit, stability, risk, growth, and negotiation." },
+          { href: "/will-i-be-successful-tarot", title: "Will I be successful?", body: "Projects, exams, launches, creative work, and the next controllable action." },
         ],
       },
       ja: {
@@ -391,6 +403,12 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "Yes、No、Not yet の理由まで確認。" },
           { href: "/career-tarot-reading", title: "Career tarot reading", body: "仕事の方向性、負荷、リスク、次の一歩。" },
           { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "疲れと本当の転機、退職前の準備を分ける。" },
+          { href: "/what-does-he-think-of-me-tarot", title: "What does he think of me?", body: "曖昧な態度、沈黙、本音、次の行動を見る。" },
+          { href: "/will-he-contact-me-tarot", title: "Will he contact me?", body: "連絡待ち、返信遅れ、別れ後の沈黙、境界線。" },
+          { href: "/is-this-relationship-over-tarot", title: "Is this relationship over?", body: "距離、衝突、修復の可能性、手放すサイン。" },
+          { href: "/will-i-get-the-job-tarot", title: "Will I get the job?", body: "面接、オファー、応募、昇進、フォローアップ。" },
+          { href: "/should-i-take-this-job-tarot", title: "Should I take this job?", body: "給与、文化、安定性、成長、交渉材料。" },
+          { href: "/will-i-be-successful-tarot", title: "Will I be successful?", body: "試験、企画、公開、創作、次に動かせる一歩。" },
         ],
       },
       ko: {
@@ -448,6 +466,12 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "Yes, no, not yet 뒤의 이유까지 확인합니다." },
           { href: "/career-tarot-reading", title: "Career tarot reading", body: "일의 방향, 압박, 리스크, 다음 실천 단계." },
           { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "번아웃과 실제 전환 신호, 퇴사 전 준비를 구분." },
+          { href: "/what-does-he-think-of-me-tarot", title: "What does he think of me?", body: "애매한 신호, 침묵, 속마음, 다음 행동 가능성." },
+          { href: "/will-he-contact-me-tarot", title: "Will he contact me?", body: "무연락, 늦은 답장, 이별 후 침묵, 건강한 경계." },
+          { href: "/is-this-relationship-over-tarot", title: "Is this relationship over?", body: "거리감, 반복 갈등, 회복 가능성, 놓아야 할 신호." },
+          { href: "/will-i-get-the-job-tarot", title: "Will I get the job?", body: "면접, 오퍼, 지원, 승진 가능성, 후속 행동." },
+          { href: "/should-i-take-this-job-tarot", title: "Should I take this job?", body: "연봉, 문화, 안정성, 성장, 협상 포인트." },
+          { href: "/will-i-be-successful-tarot", title: "Will I be successful?", body: "프로젝트, 시험, 출시, 창작, 다음 실천 단계." },
         ],
       },
     }[language]
@@ -489,7 +513,7 @@ function HomeScrollContent() {
           <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.questionTitle}</h2>
           <p className="mt-4 text-sm leading-7 text-white/58">{copy.questionBody}</p>
         </div>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {copy.questionItems.map((item) => (
             <a
               key={item.href}
