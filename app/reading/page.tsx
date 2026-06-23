@@ -165,6 +165,14 @@ export default function ReadingPage() {
       free: "Free AI reading active",
     }
 
+  const followUpLoginCopy =
+    {
+      zh: "登录后可以继续深度追问，并保存这次解读历史。",
+      en: "Log in to continue with deeper follow-up questions and save this reading.",
+      ja: "深い追質問と履歴保存を続けるにはログインしてください。",
+      ko: "심층 후속 질문과 기록 저장을 계속하려면 로그인하세요.",
+    }[language] || "Log in to continue with deeper follow-up questions and save this reading."
+
   const tx = (key: string, fallback: string) => {
     const value = t(key)
     return value === key ? fallback : value
@@ -349,6 +357,9 @@ export default function ReadingPage() {
           const errorData = await response.json().catch(() => ({}))
           throw new Error(errorData.error || "需要更多深度追问额度")
         }
+        if (response.status === 401 && isFollowUp) {
+          throw new Error(followUpLoginCopy)
+        }
         throw new Error("Reading failed")
       }
 
@@ -417,6 +428,8 @@ export default function ReadingPage() {
       // 检查是否是积分不足的错误
       if (err instanceof Error && err.message.includes("积分不足")) {
         setError("需要更多深度追问额度")
+      } else if (err instanceof Error && err.message === followUpLoginCopy) {
+        setError(err.message)
       } else {
         setError("解读时发生错误，请重试。")
       }

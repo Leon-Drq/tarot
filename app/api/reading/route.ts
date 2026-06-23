@@ -80,10 +80,12 @@ export async function POST(req: Request) {
     return Response.json({ error: "Missing OPENAI_API_KEY" }, { status: 500 })
   }
 
-  const auth = await requireUser(req)
-  if (!auth.ok) return auth.response
-
   const { question, cards, isFollowUp, followUpQuestion, previousMessages, lang, spread_type } = await req.json()
+  if (isFollowUp) {
+    const auth = await requireUser(req)
+    if (!auth.ok) return auth.response
+  }
+
   const answerLanguage = getAnswerLanguage(lang)
 
   // 构建塔罗解读prompt

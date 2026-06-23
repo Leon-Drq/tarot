@@ -68,6 +68,14 @@ const files = {
     path: "lib/server/daily-reminder-unsubscribe.ts",
     source: read("lib/server/daily-reminder-unsubscribe.ts"),
   },
+  readingRoute: {
+    path: "app/api/reading/route.ts",
+    source: read("app/api/reading/route.ts"),
+  },
+  readingPage: {
+    path: "app/reading/page.tsx",
+    source: read("app/reading/page.tsx"),
+  },
 }
 
 const cardCoverage = [
@@ -290,6 +298,20 @@ const dailyReminderCoverage = [
 ]
 
 for (const [file, needle, label] of dailyReminderCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+const freeFirstReadingCoverage = [
+  [files.readingRoute, "if (isFollowUp)", "follow-up-only auth gate"],
+  [files.readingRoute, "const auth = await requireUser(req)", "follow-up auth check"],
+  [files.readingRoute, "if (!auth.ok) return auth.response", "follow-up unauthorized response"],
+  [files.readingPage, "if (!isLoggedIn && !isFollowUp)", "anonymous first reading attempt"],
+  [files.readingPage, "Failed to create anonymous user", "guest fallback when anonymous auth fails"],
+  [files.readingPage, "Log in to continue with deeper follow-up questions", "follow-up login boundary copy"],
+  [files.readingPage, "Membership stays for deeper follow-ups", "membership boundary copy"],
+]
+
+for (const [file, needle, label] of freeFirstReadingCoverage) {
   assertIncludes(file, needle, label)
 }
 
