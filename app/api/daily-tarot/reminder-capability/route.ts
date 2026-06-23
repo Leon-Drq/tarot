@@ -1,18 +1,21 @@
 import { hasEmailProvider } from "@/lib/server/email"
-import { checkDailyReminderDatabaseAccess, hasReminderCronSecret } from "@/lib/server/daily-reminder-rpc"
-import { hasSupabaseServiceKey } from "@/lib/server/supabase"
+import {
+  checkDailyReminderDatabaseAccess,
+  checkDailyReminderUnsubscribeAccess,
+  hasReminderCronSecret,
+} from "@/lib/server/daily-reminder-rpc"
 
 export async function GET() {
   const emailProviderConfigured = hasEmailProvider()
   const cronSecretConfigured = hasReminderCronSecret()
-  const unsubscribeConfigured = hasSupabaseServiceKey()
   const serviceDatabaseConfigured = await checkDailyReminderDatabaseAccess()
+  const unsubscribeConfigured = await checkDailyReminderUnsubscribeAccess()
   const scheduledDeliveryEnabled = emailProviderConfigured && serviceDatabaseConfigured && cronSecretConfigured && unsubscribeConfigured
   const missingCapabilities = [
     !emailProviderConfigured ? "email_provider" : null,
     !serviceDatabaseConfigured ? "service_database" : null,
     !cronSecretConfigured ? "cron_authorization" : null,
-    !unsubscribeConfigured ? "unsubscribe_service_key" : null,
+    !unsubscribeConfigured ? "unsubscribe_rpc" : null,
   ].filter((item): item is string => Boolean(item))
 
   return Response.json(

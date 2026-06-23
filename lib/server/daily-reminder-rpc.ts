@@ -38,6 +38,23 @@ export async function checkDailyReminderDatabaseAccess() {
   }
 }
 
+export async function checkDailyReminderUnsubscribeAccess() {
+  const secret = cronSecret()
+  if (!secret) return false
+
+  try {
+    const { data, error } = await createAnonSupabase().rpc("disable_daily_tarot_reminders", {
+      p_secret: secret,
+      p_user_id: "00000000-0000-0000-0000-000000000000",
+    })
+
+    if (error) return false
+    return typeof data === "number"
+  } catch {
+    return false
+  }
+}
+
 export async function listDailyReminderCandidates(limit = 2000) {
   const secret = cronSecret()
   if (!secret) throw new Error("Missing CRON_SECRET")
@@ -76,4 +93,17 @@ export async function markDailyReminderFailed(entryId: string, errorMessage: str
   })
 
   if (error) throw new Error(error.message)
+}
+
+export async function disableDailyReminders(userId: string) {
+  const secret = cronSecret()
+  if (!secret) throw new Error("Missing CRON_SECRET")
+
+  const { data, error } = await createAnonSupabase().rpc("disable_daily_tarot_reminders", {
+    p_secret: secret,
+    p_user_id: userId,
+  })
+
+  if (error) throw new Error(error.message)
+  return typeof data === "number" ? data : Number(data || 0)
 }

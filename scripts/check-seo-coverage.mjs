@@ -72,6 +72,10 @@ const files = {
     path: "lib/server/daily-reminder-unsubscribe.ts",
     source: read("lib/server/daily-reminder-unsubscribe.ts"),
   },
+  reminderRpc: {
+    path: "lib/server/daily-reminder-rpc.ts",
+    source: read("lib/server/daily-reminder-rpc.ts"),
+  },
   readingRoute: {
     path: "app/api/reading/route.ts",
     source: read("app/api/reading/route.ts"),
@@ -297,10 +301,11 @@ const dailyReminderCoverage = [
   [files.reminderCron, "dailyReminderUnsubscribeUrl", "cron unsubscribe URL"],
   [files.reminderCron, "idempotencyKey", "cron email idempotency"],
   [files.reminderCapability, "unsubscribe_configured", "reminder unsubscribe capability"],
-  [files.reminderCapability, "hasSupabaseServiceKey", "reminder service key capability check"],
-  [files.reminderCapability, "unsubscribe_service_key", "reminder missing unsubscribe capability"],
+  [files.reminderCapability, "checkDailyReminderUnsubscribeAccess", "reminder unsubscribe RPC capability check"],
+  [files.reminderCapability, "unsubscribe_rpc", "reminder missing unsubscribe RPC capability"],
   [files.reminderUnsubscribe, "verifyDailyReminderUnsubscribeToken", "unsubscribe token verification"],
-  [files.reminderUnsubscribe, "reminder_enabled: false", "unsubscribe disables reminders"],
+  [files.reminderUnsubscribe, "disableDailyReminders", "unsubscribe disables reminders through RPC"],
+  [files.reminderRpc, "disable_daily_tarot_reminders", "unsubscribe RPC helper"],
   [files.reminderUnsubscribeToken, "DAILY_TAROT_UNSUBSCRIBE_SECRET", "dedicated unsubscribe secret"],
   [files.reminderUnsubscribeToken, "timingSafeEqual", "safe unsubscribe token comparison"],
 ]

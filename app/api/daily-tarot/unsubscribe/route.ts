@@ -1,5 +1,7 @@
 import { verifyDailyReminderUnsubscribeToken } from "@/lib/server/daily-reminder-unsubscribe"
-import { createServiceSupabase, hasSupabaseServiceKey } from "@/lib/server/supabase"
+import { disableDailyReminders, hasReminderCronSecret } from "@/lib/server/daily-reminder-rpc"
+
+const userIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
 function htmlResponse(title: string, body: string, status = 200) {
   return new Response(
@@ -30,7 +32,7 @@ export async function GET(req: Request) {
   const userId = url.searchParams.get("u") || ""
   const token = url.searchParams.get("t") || ""
 
-  if (!userId || !token) {
+  if (!userId || !token || !userIdPattern.test(userId)) {
     return htmlResponse("Invalid unsubscribe link", "This reminder link is missing required information.", 400)
   }
 
@@ -45,23 +47,17 @@ export async function GET(req: Request) {
     return htmlResponse("Invalid unsubscribe link", "This reminder link is expired or could not be verified.", 400)
   }
 
-  if (!hasSupabaseServiceKey()) {
+  if (!hasReminderCronSecret()) {
     return htmlResponse("Reminder settings unavailable", "Please open Daily Tarot and update your reminder preferences there.", 503)
   }
 
-  const supabase = createServiceSupabase()
-  const { data, error } = await supabase
-    .from("daily_tarot_entries")
-    .update({ reminder_enabled: false })
-    .eq("user_id", userId)
-    .eq("reminder_enabled", true)
-    .select("id")
-
-  if (error) {
+  let count = 0
+  try {
+    count = await disableDailyReminders(userId)
+  } catch {
     return htmlResponse("Could not turn off reminders", "Please open Daily Tarot and update your reminder preferences there.", 500)
   }
 
-  const count = data?.length || 0
   const body =
     count > 0
       ? "Daily Tarot email reminders have been turned off for this account. You can turn them back on from Daily Tarot anytime."
