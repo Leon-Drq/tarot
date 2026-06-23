@@ -25,6 +25,39 @@ const relatedCopy = {
   "pt-br": { title: "Ferramentas relacionadas", body: "Continue com uma pergunta concreta e entre em uma tiragem mais adequada." },
 }
 
+const questionClusterCopy = {
+  zh: {
+    title: "同主题问题",
+    body: "如果这个问题还不够精确，可以从相邻问题进入更匹配的免费牌阵。",
+    action: "打开问题页",
+  },
+  en: {
+    title: "Related Tarot Questions",
+    body: "If this question is close but not exact, use a nearby long-tail question to open a more precise free spread.",
+    action: "Open question",
+  },
+  ja: {
+    title: "関連する質問",
+    body: "今の質問に近い入口から、より合う無料スプレッドへ進めます。",
+    action: "質問を見る",
+  },
+  ko: {
+    title: "관련 질문",
+    body: "지금 질문과 가까운 롱테일 질문에서 더 정확한 무료 스프레드로 이동하세요.",
+    action: "질문 열기",
+  },
+  es: {
+    title: "Preguntas relacionadas",
+    body: "Si esta pregunta se acerca pero no es exacta, abre una pregunta cercana con una tirada gratis más precisa.",
+    action: "Abrir pregunta",
+  },
+  "pt-br": {
+    title: "Perguntas relacionadas",
+    body: "Se esta pergunta chega perto mas nao e exata, abra uma pergunta proxima com uma tiragem gratis mais precisa.",
+    action: "Abrir pergunta",
+  },
+} satisfies Record<SeoPage["locale"], { title: string; body: string; action: string }>
+
 const cardIndexCopy = {
   zh: {
     title: "78 张塔罗牌",
@@ -125,15 +158,7 @@ function relatedPages(page: SeoPage) {
   const priority = [
     "free-ai-tarot-reading",
     "daily-tarot",
-    "love-tarot-reading",
-    "will-my-ex-come-back-tarot",
-    "does-he-love-me-tarot",
-    "is-he-thinking-about-me-tarot",
-    "should-i-text-him-tarot",
-    "yes-or-no-tarot-love",
-    "when-will-i-find-love-tarot",
-    "career-tarot-reading",
-    "should-i-quit-my-job-tarot",
+    ...highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")),
     "monthly-tarot-report",
     "tarot-card-meanings",
   ]
@@ -146,6 +171,133 @@ function relatedPages(page: SeoPage) {
       return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex)
     })
     .slice(0, 6)
+}
+
+const relatedQuestionClusters: Record<string, string[]> = {
+  "will-my-ex-come-back-tarot": [
+    "will-we-get-back-together-tarot",
+    "will-he-contact-me-tarot",
+    "is-this-relationship-over-tarot",
+    "should-i-text-him-tarot",
+  ],
+  "will-we-get-back-together-tarot": [
+    "will-my-ex-come-back-tarot",
+    "is-this-relationship-over-tarot",
+    "will-he-contact-me-tarot",
+    "what-are-his-intentions-tarot",
+  ],
+  "will-he-contact-me-tarot": [
+    "should-i-text-him-tarot",
+    "is-he-thinking-about-me-tarot",
+    "will-my-ex-come-back-tarot",
+    "what-does-he-think-of-me-tarot",
+  ],
+  "should-i-text-him-tarot": [
+    "will-he-contact-me-tarot",
+    "is-he-thinking-about-me-tarot",
+    "what-are-his-intentions-tarot",
+    "yes-or-no-tarot-love",
+  ],
+  "does-he-love-me-tarot": [
+    "what-are-his-intentions-tarot",
+    "what-does-he-think-of-me-tarot",
+    "is-he-thinking-about-me-tarot",
+    "is-he-my-soulmate-tarot",
+  ],
+  "what-are-his-intentions-tarot": [
+    "does-he-love-me-tarot",
+    "what-does-he-think-of-me-tarot",
+    "is-he-thinking-about-me-tarot",
+    "yes-or-no-tarot-love",
+  ],
+  "what-does-he-think-of-me-tarot": [
+    "what-are-his-intentions-tarot",
+    "does-he-love-me-tarot",
+    "is-he-thinking-about-me-tarot",
+    "will-he-contact-me-tarot",
+  ],
+  "is-he-thinking-about-me-tarot": [
+    "will-he-contact-me-tarot",
+    "what-does-he-think-of-me-tarot",
+    "does-he-love-me-tarot",
+    "should-i-text-him-tarot",
+  ],
+  "is-he-my-soulmate-tarot": [
+    "does-he-love-me-tarot",
+    "when-will-i-find-love-tarot",
+    "what-are-his-intentions-tarot",
+    "yes-or-no-tarot-love",
+  ],
+  "when-will-i-find-love-tarot": [
+    "is-he-my-soulmate-tarot",
+    "does-he-love-me-tarot",
+    "yes-or-no-tarot-love",
+    "daily-tarot",
+  ],
+  "yes-or-no-tarot-love": [
+    "should-i-text-him-tarot",
+    "does-he-love-me-tarot",
+    "what-are-his-intentions-tarot",
+    "is-this-relationship-over-tarot",
+  ],
+  "is-this-relationship-over-tarot": [
+    "will-we-get-back-together-tarot",
+    "will-my-ex-come-back-tarot",
+    "will-he-contact-me-tarot",
+    "yes-or-no-tarot-love",
+  ],
+  "career-tarot-reading": [
+    "will-i-get-the-job-tarot",
+    "should-i-take-this-job-tarot",
+    "should-i-quit-my-job-tarot",
+    "money-tarot-reading",
+  ],
+  "will-i-get-the-job-tarot": [
+    "career-tarot-reading",
+    "should-i-take-this-job-tarot",
+    "will-i-be-successful-tarot",
+    "money-tarot-reading",
+  ],
+  "should-i-take-this-job-tarot": [
+    "career-tarot-reading",
+    "will-i-get-the-job-tarot",
+    "should-i-quit-my-job-tarot",
+    "money-tarot-reading",
+  ],
+  "should-i-quit-my-job-tarot": [
+    "career-tarot-reading",
+    "should-i-take-this-job-tarot",
+    "money-tarot-reading",
+    "will-i-be-successful-tarot",
+  ],
+  "will-i-be-successful-tarot": [
+    "career-tarot-reading",
+    "will-i-get-the-job-tarot",
+    "money-tarot-reading",
+    "monthly-tarot-report",
+  ],
+  "money-tarot-reading": [
+    "career-tarot-reading",
+    "should-i-take-this-job-tarot",
+    "will-i-be-successful-tarot",
+    "should-i-quit-my-job-tarot",
+  ],
+}
+
+function questionClusterPages(page: SeoPage) {
+  const slugs = relatedQuestionClusters[page.slug] || []
+  if (slugs.length === 0) return []
+
+  const localizedPages = getAllLocalizedSeoPages().filter((candidate) => candidate.locale === page.locale)
+  const bySlug = new Map(localizedPages.map((candidate) => [candidate.slug, candidate]))
+
+  const pages: SeoPage[] = []
+  for (const slug of slugs) {
+    const candidate = bySlug.get(slug)
+    if (candidate && candidate.slug !== page.slug) pages.push(candidate)
+  }
+
+  return pages
 }
 
 function readingHref(page: SeoPage) {
@@ -1004,8 +1156,11 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
     .filter(Boolean)
   const cardPages = page.slug === "tarot-card-meanings" ? getAllCardSeoPages(page.locale) : []
   const primaryHref = readingHref(page)
-  const related = relatedPages(page)
+  const clusterRelated = questionClusterPages(page)
+  const clusterRelatedSlugs = new Set(clusterRelated.map((item) => item.slug))
+  const related = relatedPages(page).filter((item) => !clusterRelatedSlugs.has(item.slug))
   const relatedText = relatedCopy[page.locale]
+  const clusterText = questionClusterCopy[page.locale]
   const cardText = cardIndexCopy[page.locale]
   const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
   const stickyCopy = stickyCtaCopy[page.locale]
@@ -1167,6 +1322,29 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 position: index + 1,
                 name: prompt,
                 url: `${appUrl}${promptHref(page, prompt)}`,
+              })),
+            },
+          ]
+        : []),
+      ...(clusterRelated.length > 0
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#related-question-cluster`,
+              name: clusterText.title,
+              description: clusterText.body,
+              numberOfItems: clusterRelated.length,
+              itemListElement: clusterRelated.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "WebPage",
+                  "@id": `${appUrl}${item.path}#webpage`,
+                  name: item.h1,
+                  description: item.intent,
+                  url: `${appUrl}${item.path}`,
+                  isAccessibleForFree: true,
+                },
               })),
             },
           ]
@@ -1439,6 +1617,34 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                   </section>
                 ) : null,
               )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {clusterRelated.length > 0 && (
+        <section data-question-cluster className="border-b border-white/10 bg-[#0b0415]">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="mb-7 max-w-2xl">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{toolkit?.label || page.eyebrow}</p>
+              <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{clusterText.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">{clusterText.body}</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {clusterRelated.map((item) => (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  className="group flex min-h-[11rem] flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/50 hover:bg-white/[0.06]"
+                >
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/74">{item.eyebrow}</p>
+                  <h3 className="mt-3 text-base font-medium leading-6 text-white group-hover:text-[#f4f0ff]">
+                    {item.h1}
+                  </h3>
+                  <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/56">{item.intent}</p>
+                  <span className="mt-auto pt-4 text-xs text-[#c9c0ff]/72 group-hover:text-[#eeeaff]">{clusterText.action}</span>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
