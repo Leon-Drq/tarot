@@ -174,6 +174,36 @@ function relatedPages(page: SeoPage) {
 }
 
 const relatedQuestionClusters: Record<string, string[]> = {
+  "daily-love-tarot": [
+    "daily-mood-tarot",
+    "does-he-love-me-tarot",
+    "yes-or-no-tarot-love",
+    "daily-action-tarot",
+  ],
+  "daily-career-tarot": [
+    "daily-action-tarot",
+    "career-tarot-reading",
+    "should-i-quit-my-job-tarot",
+    "daily-yes-or-no-tarot",
+  ],
+  "daily-yes-or-no-tarot": [
+    "daily-action-tarot",
+    "yes-or-no-tarot-love",
+    "daily-love-tarot",
+    "daily-career-tarot",
+  ],
+  "daily-mood-tarot": [
+    "daily-love-tarot",
+    "daily-action-tarot",
+    "how-does-he-feel-about-me-tarot",
+    "daily-yes-or-no-tarot",
+  ],
+  "daily-action-tarot": [
+    "daily-yes-or-no-tarot",
+    "daily-career-tarot",
+    "daily-love-tarot",
+    "will-i-be-successful-tarot",
+  ],
   "will-my-ex-come-back-tarot": [
     "will-he-come-back-tarot",
     "does-my-ex-miss-me-tarot",

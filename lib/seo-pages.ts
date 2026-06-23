@@ -35,7 +35,8 @@ type SeoPageSource = {
   slug: string
   cards: number[]
   recommendedSpread?: SpreadType
-  content: Record<Locale, SeoPageContent>
+  locales?: SeoLocale[]
+  content: Record<"en", SeoPageContent> & Partial<Record<Locale, SeoPageContent>>
 }
 
 const cta = {
@@ -72,6 +73,40 @@ function withSharedCta(locale: Locale, content: Omit<SeoPageContent, "primaryCta
     secondaryCta: cta[locale].secondary,
     questionsTitle: cta[locale].questions,
     bottomCta: cta[locale].bottom,
+  }
+}
+
+function makeDailyIntentSeoPage(input: {
+  slug: string
+  cards: number[]
+  recommendedSpread: SpreadType
+  title: string
+  description: string
+  h1: string
+  ctaQuestion: string
+  intro: string
+  intent: string
+  sections: SeoPageContent["sections"]
+  faqs: SeoPageContent["faqs"]
+}): SeoPageSource {
+  return {
+    slug: input.slug,
+    cards: input.cards,
+    recommendedSpread: input.recommendedSpread,
+    locales: ["en"],
+    content: {
+      en: withSharedCta("en", {
+        title: input.title,
+        description: input.description,
+        eyebrow: "Daily Tarot Prompt",
+        h1: input.h1,
+        intro: input.intro,
+        intent: input.intent,
+        ctaQuestion: input.ctaQuestion,
+        sections: input.sections,
+        faqs: input.faqs,
+      }),
+    },
   }
 }
 
@@ -422,6 +457,206 @@ export const seoPageSources: SeoPageSource[] = [
       }),
     },
   },
+  makeDailyIntentSeoPage({
+    slug: "daily-love-tarot",
+    cards: [6, 17, 2],
+    recommendedSpread: "love_connection",
+    title: "Daily Love Tarot Reading",
+    description:
+      "Start a free daily love tarot reading for today's relationship energy, feelings, timing, and one grounded next step.",
+    h1: "Daily Love Tarot Reading",
+    ctaQuestion: "What should I understand about love today?",
+    intro:
+      "Daily love tarot turns one card into a relationship check-in: what emotion is active, what deserves patience, and what action would keep love clearer today.",
+    intent:
+      "Best for a morning relationship focus, a crush, mixed signals, reconciliation anxiety, or a simple question about how to move through love today.",
+    sections: [
+      {
+        heading: "Keep the question close to today",
+        body: "Daily love tarot is not about forcing a full relationship outcome. It works best when you ask what to notice, how to communicate, or what emotional pattern needs care today.",
+      },
+      {
+        heading: "Use the spread for context",
+        body: "The love spread can separate attraction, timing, readiness, and advice so the answer becomes more useful than a single daily card keyword.",
+      },
+      {
+        heading: "Return tomorrow with a note",
+        body: "Save a journal note after the reading. Repeated love themes become clearer when you compare the card with what actually happened.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is daily love tarot free?",
+        answer:
+          "Yes. You can start this daily love tarot reading for free. Membership is reserved for deeper follow-ups, saved history, advanced spreads, and longer reports.",
+      },
+      {
+        question: "What should I ask in a daily love tarot reading?",
+        answer:
+          "Ask what to understand about love today, what energy surrounds a connection, or what action would protect emotional clarity.",
+      },
+    ],
+  }),
+  makeDailyIntentSeoPage({
+    slug: "daily-career-tarot",
+    cards: [1, 7, 10],
+    recommendedSpread: "job_opportunity",
+    title: "Daily Career Tarot Reading",
+    description:
+      "Start a free daily career tarot reading for work focus, opportunities, pressure, timing, and the next practical move.",
+    h1: "Daily Career Tarot Reading",
+    ctaQuestion: "What should I focus on in my career today?",
+    intro:
+      "Daily career tarot turns the day into one useful work signal: what to prepare, where to focus, what to avoid, and what action creates momentum.",
+    intent:
+      "Best for work stress, job search energy, interviews, business decisions, creative projects, and choosing one practical priority for today.",
+    sections: [
+      {
+        heading: "Make the answer practical",
+        body: "A useful daily career reading should point to a next action: write, prepare, ask, wait, negotiate, organize, or protect your energy.",
+      },
+      {
+        heading: "Read pressure and opportunity together",
+        body: "Career cards often show both momentum and friction. The spread helps distinguish temporary stress from a real signal to change direction.",
+      },
+      {
+        heading: "Track repeated work themes",
+        body: "If the same cards or themes return, journal them. Repetition can reveal workload, confidence, timing, or resource patterns.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Can daily career tarot help with work decisions?",
+        answer:
+          "It can help you reflect on momentum, pressure, resources, and the next practical step. It should be paired with real-world facts, not used as career advice by itself.",
+      },
+      {
+        question: "Is this career tarot reading free?",
+        answer:
+          "Yes. The first reading can start free. Membership is for deeper follow-ups, saved history, advanced spreads, and longer career reports.",
+      },
+    ],
+  }),
+  makeDailyIntentSeoPage({
+    slug: "daily-yes-or-no-tarot",
+    cards: [11, 14, 20],
+    recommendedSpread: "yes_no",
+    title: "Daily Yes or No Tarot",
+    description:
+      "Ask a free daily yes-or-no tarot question and get a quick direction with the reason behind yes, no, or not yet.",
+    h1: "Daily Yes or No Tarot",
+    ctaQuestion: "Is this the right move for me today?",
+    intro:
+      "Daily yes-or-no tarot is for one simple choice today. The goal is not just a one-word answer, but the reason behind the direction.",
+    intent:
+      "Best when the decision is immediate and specific: send the message, make the call, wait, try again, accept, decline, or take one small step.",
+    sections: [
+      {
+        heading: "Ask one clean question",
+        body: "Yes-or-no tarot works best when the question can realistically move today. Avoid asking several outcomes at once.",
+      },
+      {
+        heading: "Read the reason, not just the label",
+        body: "The useful part is why the answer leans yes, no, or not yet. That reason tells you how to act with more clarity.",
+      },
+      {
+        heading: "Use it as a small decision tool",
+        body: "For big legal, medical, financial, or safety choices, use tarot only as reflection and rely on qualified advice and practical facts.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is a daily yes-or-no tarot answer reliable?",
+        answer:
+          "It is best used as reflective guidance. Let the reading clarify the energy and your next step, not replace judgment or real-world information.",
+      },
+      {
+        question: "What is a good daily yes-or-no question?",
+        answer:
+          "Try a specific question like: should I send this message today, should I wait, or is this the right move for me today?",
+      },
+    ],
+  }),
+  makeDailyIntentSeoPage({
+    slug: "daily-mood-tarot",
+    cards: [18, 2, 9],
+    recommendedSpread: "three_card",
+    title: "Daily Mood Tarot Reading",
+    description:
+      "Start a free daily mood tarot reading to understand today's emotional pattern, what triggered it, and what would help.",
+    h1: "Daily Mood Tarot Reading",
+    ctaQuestion: "What is my emotional pattern today, and what would help?",
+    intro:
+      "Daily mood tarot helps you name the emotional weather of the day without turning it into a fixed prediction.",
+    intent:
+      "Best for anxiety, uncertainty, low energy, emotional overload, or a quiet check-in when you want to understand yourself before acting.",
+    sections: [
+      {
+        heading: "Name the mood without becoming it",
+        body: "A mood reading can show what is active emotionally while still leaving room for choice, rest, communication, and grounding.",
+      },
+      {
+        heading: "Look for the useful trigger",
+        body: "The cards can point to a fear, need, boundary, memory, or pressure that is shaping the day more than you realized.",
+      },
+      {
+        heading: "Journal one sentence",
+        body: "Write one short note after the reading. Daily mood patterns become more useful when you compare them across several days.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Can tarot read my mood?",
+        answer:
+          "Tarot can help you reflect on emotional patterns and possible triggers. It is not a mental health diagnosis or treatment.",
+      },
+      {
+        question: "What should I ask for a daily mood reading?",
+        answer:
+          "Ask what emotion is most active today, what it needs, and what one action would help you feel more grounded.",
+      },
+    ],
+  }),
+  makeDailyIntentSeoPage({
+    slug: "daily-action-tarot",
+    cards: [1, 7, 19],
+    recommendedSpread: "three_card",
+    title: "Daily Action Tarot Reading",
+    description:
+      "Start a free daily action tarot reading and turn today's card into one grounded next step for love, work, or personal clarity.",
+    h1: "Daily Action Tarot Reading",
+    ctaQuestion: "What is the most grounded action I can take today?",
+    intro:
+      "Daily action tarot keeps the reading useful by ending with a clear next step instead of leaving the card as a vague mood.",
+    intent:
+      "Best when you already feel the theme of the day but need help choosing what to do with it in a practical, low-pressure way.",
+    sections: [
+      {
+        heading: "Make the action small enough to do",
+        body: "The best daily action is concrete: send one message, write one note, prepare one thing, rest, ask, wait, or set a boundary.",
+      },
+      {
+        heading: "Connect action to timing",
+        body: "Some readings point to movement, while others point to patience. The spread helps choose between acting now and preparing first.",
+      },
+      {
+        heading: "Review it tomorrow",
+        body: "A daily action becomes more valuable when you return and ask whether it created clarity, relief, progress, or a better question.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is daily action tarot?",
+        answer:
+          "It is a free tarot reading focused on one practical step you can take today, rather than a broad prediction about the future.",
+      },
+      {
+        question: "Can I use it after my daily card?",
+        answer:
+          "Yes. It works well as a follow-up when the daily card gives a theme and you want to turn that theme into action.",
+      },
+    ],
+  }),
   {
     slug: "monthly-tarot-report",
     cards: [18, 20, 21],
@@ -1330,7 +1565,7 @@ export function resolveSeoSourceSlug(slug: string, locale: SeoLocale = defaultLo
 }
 
 export function getSeoStaticParams(locale: SeoLocale = defaultLocale) {
-  const slugs = seoPageSources.flatMap((source) => {
+  const slugs = seoPageSources.filter((source) => sourceSupportsLocale(source, locale)).flatMap((source) => {
     const canonicalSlug = getCanonicalSeoSlug(source.slug, locale)
     return canonicalSlug === source.slug ? [source.slug] : [canonicalSlug, source.slug]
   })
@@ -3217,14 +3452,19 @@ function regionalContent(slug: string, base: SeoPageContent, locale: RegionalLoc
 
 export const seoPages = seoPageSources.map((source) => getSeoPage(source.slug, defaultLocale)).filter(Boolean) as SeoPage[]
 
+function sourceSupportsLocale(source: SeoPageSource, locale: SeoLocale) {
+  return !source.locales || source.locales.includes(locale)
+}
+
 export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): SeoPage | undefined {
   const sourceSlug = resolveSeoSourceSlug(slug, locale)
   const source = seoPageSources.find((page) => page.slug === sourceSlug)
   if (!source) return undefined
+  if (!sourceSupportsLocale(source, locale)) return undefined
   const content =
     locale === "es" || locale === "pt-br"
-      ? regionalContent(source.slug, source.content[defaultLocale], locale)
-      : source.content[locale] || source.content[defaultLocale]
+      ? regionalContent(source.slug, source.content.en, locale)
+      : source.content[locale] || source.content.en
   const enhancedContent = enhanceSeoContent(source.slug, locale, content)
   return {
     ...enhancedContent,
@@ -3238,14 +3478,16 @@ export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): Seo
 
 export function getAllLocalizedSeoPages() {
   return seoPageSources.flatMap((source) =>
-    seoLocales.map((locale) => getSeoPage(source.slug, locale)).filter(Boolean),
+    seoLocales.filter((locale) => sourceSupportsLocale(source, locale)).map((locale) => getSeoPage(source.slug, locale)).filter(Boolean),
   ) as SeoPage[]
 }
 
 export function getSeoAlternates(slug: string) {
   const sourceSlug = resolveSeoSourceSlug(slug)
+  const source = seoPageSources.find((page) => page.slug === sourceSlug)
+  const supportedLocales = source?.locales || seoLocales
 
   return Object.fromEntries(
-    seoLocales.map((locale) => [locale, localePath(locale, `/${getCanonicalSeoSlug(sourceSlug, locale)}`)]),
+    supportedLocales.map((locale) => [locale, localePath(locale, `/${getCanonicalSeoSlug(sourceSlug, locale)}`)]),
   )
 }

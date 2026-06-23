@@ -82,6 +82,31 @@ export const highIntentQuestionLinks = [
     href: "/future-spouse-tarot-reading",
   },
   {
+    title: "Daily love tarot",
+    description: "A daily relationship check-in for today's love energy, feelings, timing, and one grounded next step.",
+    href: "/daily-love-tarot",
+  },
+  {
+    title: "Daily career tarot",
+    description: "A daily work-focused tarot path for opportunities, pressure, preparation, and one practical career move.",
+    href: "/daily-career-tarot",
+  },
+  {
+    title: "Daily yes or no tarot",
+    description: "A quick daily yes-or-no tarot path for one simple choice today, with the reason behind yes, no, or not yet.",
+    href: "/daily-yes-or-no-tarot",
+  },
+  {
+    title: "Daily mood tarot",
+    description: "A daily emotional check-in for mood patterns, triggers, grounding, and what would help today.",
+    href: "/daily-mood-tarot",
+  },
+  {
+    title: "Daily action tarot",
+    description: "A daily action-focused tarot path that turns today's card into one grounded next step.",
+    href: "/daily-action-tarot",
+  },
+  {
     title: "Yes or no tarot love",
     description: "A quick love decision page that explains the reason behind yes, no, or not yet.",
     href: "/yes-or-no-tarot-love",

@@ -88,6 +88,11 @@ const files = {
     path: "app/share/[slug]/page.tsx",
     source: read("app/share/[slug]/page.tsx"),
   },
+  freeToolsPage: {
+    path: "app/free-tarot-tools/page.tsx",
+    source: read("app/free-tarot-tools/page.tsx"),
+  },
+  sitemap: { path: "app/sitemap.ts", source: read("app/sitemap.ts") },
 }
 
 const cardCoverage = [
@@ -149,6 +154,35 @@ for (const slug of highIntentLongTailSlugs) {
     `related question cluster for ${slug}`,
   )
 }
+
+const dailyIntentSlugs = [
+  "daily-love-tarot",
+  "daily-career-tarot",
+  "daily-yes-or-no-tarot",
+  "daily-mood-tarot",
+  "daily-action-tarot",
+]
+
+for (const slug of dailyIntentSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `daily intent SEO page ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en"]', `daily intent English-first locale control ${slug}`)
+  assertIncludes(files.site, `href: "/${slug}"`, `daily intent site link ${slug}`)
+  assertIncludes(files.dailyTarotPage, `slug: "${slug}"`, `daily tarot prompt card ${slug}`)
+  assertIncludes(files.seoLanding, `"${slug}"`, `daily intent related cluster ${slug}`)
+}
+
+assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
+
+for (const localeRoute of [
+  "app/zh/[slug]/page.tsx",
+  "app/ja/[slug]/page.tsx",
+  "app/ko/[slug]/page.tsx",
+]) {
+  assertIncludes({ path: localeRoute, source: read(localeRoute) }, "getSeoStaticParams(locale)", `locale-aware static params in ${localeRoute}`)
+}
+
+assertIncludes(files.seoPages, "sourceSupportsLocale", "SEO source locale filtering")
+assertIncludes(files.seoPages, "supportedLocales", "SEO alternates locale filtering")
 
 for (const conversionSignal of [
   "const highIntentQuestionSlugs = new Set",
