@@ -378,6 +378,9 @@ const freeFirstReadingCoverage = [
   [files.readingRoute, "if (isFollowUp)", "follow-up-only auth gate"],
   [files.readingRoute, "const auth = await requireUser(req)", "follow-up auth check"],
   [files.readingRoute, "if (!auth.ok) return auth.response", "follow-up unauthorized response"],
+  [files.readingRoute, "getProfile(auth.supabase, auth.user)", "follow-up profile lookup"],
+  [files.readingRoute, "isMemberActive(profile) || isPartnerActive(profile)", "follow-up membership gate"],
+  [files.readingRoute, "followUpUpgradeMessage(lang)", "localized follow-up upgrade response"],
   [files.readingPage, "if (!isLoggedIn && !isFollowUp)", "anonymous first reading attempt"],
   [files.readingPage, "Failed to create anonymous user", "guest fallback when anonymous auth fails"],
   [files.readingPage, "fallback_share", "free reading fallback share URL"],
@@ -385,6 +388,7 @@ const freeFirstReadingCoverage = [
   [files.readingPage, "share_template_copied", "free reading fallback share compatible analytics event"],
   [files.readingPage, "Log in to create a public result page", "free reading share fallback copy"],
   [files.readingPage, "Log in to continue with deeper follow-up questions", "follow-up login boundary copy"],
+  [files.readingPage, "isUpgradeErrorMessage(error)", "follow-up upgrade CTA detection"],
   [files.readingPage, "Membership stays for deeper follow-ups", "membership boundary copy"],
 ]
 

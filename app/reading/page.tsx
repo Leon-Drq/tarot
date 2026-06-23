@@ -183,6 +183,22 @@ export default function ReadingPage() {
       ko: "심층 후속 질문과 기록 저장을 계속하려면 로그인하세요.",
     }[language] || "Log in to continue with deeper follow-up questions and save this reading."
 
+  const isUpgradeErrorMessage = (message: string) => {
+    const normalized = message.toLowerCase()
+    return (
+      message.includes(t("tarot.noCredits")) ||
+      message.includes("深度追问") ||
+      message.includes("会员功能") ||
+      normalized.includes("insufficient credits") ||
+      normalized.includes("membership feature") ||
+      normalized.includes("upgrade to continue") ||
+      message.includes("メンバー機能") ||
+      message.includes("멤버십 기능") ||
+      normalized.includes("función de membresía") ||
+      normalized.includes("recurso de membro")
+    )
+  }
+
   const tx = (key: string, fallback: string) => {
     const value = t(key)
     return value === key ? fallback : value
@@ -428,16 +444,16 @@ export default function ReadingPage() {
           }
         }
         
-        // 追问完成后刷新用户积分（非会员追问会扣积分）
+        // 追问完成后刷新会员状态和用户信息
         if (isFollowUp && isLoggedIn) {
           refreshUser()
         }
       }
     } catch (err) {
       console.error("Reading error:", err)
-      // 检查是否是积分不足的错误
-      if (err instanceof Error && err.message.includes("积分不足")) {
-        setError("需要更多深度追问额度")
+      const errorMessage = err instanceof Error ? err.message : ""
+      if (errorMessage && isUpgradeErrorMessage(errorMessage)) {
+        setError(errorMessage.includes("积分不足") ? "需要更多深度追问额度" : errorMessage)
       } else if (err instanceof Error && err.message === followUpLoginCopy) {
         setError(err.message)
       } else {
@@ -934,7 +950,7 @@ export default function ReadingPage() {
                 >
                   {t("common.retry")}
                 </button>
-                  {(error.includes(t("tarot.noCredits")) || error.includes("深度追问额度")) && (
+                  {isUpgradeErrorMessage(error) && (
                     <button
                       onClick={() => router.push("/membership")}
                       className="px-6 py-2 rounded-full text-sm bg-[#aaa1ff] text-[#110c24] hover:bg-[#c9c0ff] transition-colors"

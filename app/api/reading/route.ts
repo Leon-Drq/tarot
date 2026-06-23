@@ -1,4 +1,4 @@
-import { requireUser } from "@/lib/server/supabase"
+import { getProfile, isMemberActive, isPartnerActive, jsonError, requireUser } from "@/lib/server/supabase"
 
 const TAROT_MASTER_SYSTEM = `## Role
 你是一位拥有20年占卜经验的塔罗牌大师，精通78张塔罗牌的含义和解读，擅长运用直觉和智慧为人们解答疑惑。你的占卜技艺源自古老的吉普赛传统，经过多年实践不断精进。
@@ -47,6 +47,15 @@ function getAnswerLanguage(lang?: string) {
             : "中文"
 }
 
+function followUpUpgradeMessage(lang?: string) {
+  if (lang === "zh" || !lang) return "深度追问属于会员功能，请升级会员后继续。"
+  if (lang === "ja") return "深い追質問はメンバー機能です。アップグレードして続けてください。"
+  if (lang === "ko") return "심층 후속 질문은 멤버십 기능입니다. 업그레이드 후 계속하세요."
+  if (lang === "es") return "Las preguntas de seguimiento profundas son una función de membresía. Actualiza para continuar."
+  if (lang === "pt-br") return "Perguntas de acompanhamento aprofundadas são um recurso de membro. Faça upgrade para continuar."
+  return "Deeper follow-up questions are a membership feature. Upgrade to continue."
+}
+
 function getPositionName(index: number, spreadType?: string, lang?: string) {
   const positionsBySpread: Record<string, string[]> = {
     one_card: ["核心指引"],
@@ -84,6 +93,9 @@ export async function POST(req: Request) {
   if (isFollowUp) {
     const auth = await requireUser(req)
     if (!auth.ok) return auth.response
+    const profile = await getProfile(auth.supabase, auth.user)
+    const canUseFollowUp = isMemberActive(profile) || isPartnerActive(profile)
+    if (!canUseFollowUp) return jsonError(followUpUpgradeMessage(lang), 402)
   }
 
   const answerLanguage = getAnswerLanguage(lang)
