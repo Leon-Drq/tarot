@@ -35,6 +35,12 @@ type QuestionPath = {
   href: string
 }
 
+type PracticePath = {
+  title: string
+  body: string
+  href: string
+}
+
 function cardDisplayName(page: TarotCardSeoPage) {
   if (page.locale === "zh") return page.card.name
   if (page.locale === "ja") return page.card.nameJa || page.card.nameEn
@@ -209,6 +215,7 @@ function cardPageNavItems(page: TarotCardSeoPage) {
     })),
     { href: "#combinations", label: page.combinationsLabel },
     { href: "#try-reading", label: copy.promptsLabel },
+    { href: "#daily-practice", label: dailyPracticeNavLabel(page) },
     { href: "#question-paths", label: copy.questionsLabel },
     { href: "#related-cards", label: copy.relatedLabel },
     { href: "#faq", label: page.faqLabel },
@@ -375,6 +382,102 @@ function questionPathCopy(page: TarotCardSeoPage) {
       { title: "Career tarot reading", body: `${name} can help reveal career direction, risk, resources, and the next practical move.`, href: path("career-tarot-reading") },
       { title: "Should I quit my job?", body: `${name} can separate temporary burnout, a completed cycle, and the preparation needed before leaving.`, href: path("should-i-quit-my-job-tarot") },
     ] satisfies QuestionPath[],
+  }
+}
+
+function dailyPracticeNavLabel(page: TarotCardSeoPage) {
+  if (page.locale === "zh") return "每日练习"
+  if (page.locale === "ja") return "毎日の練習"
+  if (page.locale === "ko") return "매일 연습"
+  if (page.locale === "es") return "Práctica diaria"
+  if (page.locale === "pt-br") return "Prática diária"
+  return "Daily practice"
+}
+
+function dailyPracticeCopy(page: TarotCardSeoPage) {
+  const name = cardDisplayName(page)
+  const path = (slug: string) => getSeoPage(slug, page.locale)?.path || localePath(page.locale, `/${slug}`)
+
+  if (page.locale === "zh") {
+    return {
+      eyebrow: "免费复访入口",
+      title: `把${name}放进每天的练习里`,
+      body: "单张牌义适合理解符号，每日塔罗和免费解读适合把它变成持续记录、真实问题和下一步行动。",
+      action: "打开",
+      paths: [
+        { title: "每日塔罗", body: "每日一牌、连续打卡、日记和提醒，让用户明天有理由回来。", href: path("daily-tarot") },
+        { title: "免费 AI 塔罗", body: `用${name}围绕一个真实问题开始免费解读，先获得价值，再决定是否深入。`, href: path("free-ai-tarot-reading") },
+        { title: "月度塔罗报告", body: "当你有历史记录和连续主题后，再用更长报告观察模式。", href: path("monthly-tarot-report") },
+      ] satisfies PracticePath[],
+    }
+  }
+
+  if (page.locale === "ja") {
+    return {
+      eyebrow: "無料で戻れる入口",
+      title: `${name}を毎日の練習に入れる`,
+      body: "カードの意味は象徴の理解に役立ちます。毎日のタロットと無料リーディングは、それを記録、質問、行動に変えます。",
+      action: "開く",
+      paths: [
+        { title: "今日のタロット", body: "一枚引き、連続記録、日記、リマインダーで戻る理由を作ります。", href: path("daily-tarot") },
+        { title: "無料 AI タロット", body: `${name}を実際の質問に入れて、まず無料で意味を確認します。`, href: path("free-ai-tarot-reading") },
+        { title: "月間タロットレポート", body: "履歴と繰り返すテーマができたら、長いレポートで流れを見ます。", href: path("monthly-tarot-report") },
+      ] satisfies PracticePath[],
+    }
+  }
+
+  if (page.locale === "ko") {
+    return {
+      eyebrow: "무료 재방문 입구",
+      title: `${name}를 매일의 연습에 넣기`,
+      body: "카드 의미는 상징을 이해하는 데 좋고, 데일리 타로와 무료 리딩은 기록, 질문, 다음 행동으로 이어집니다.",
+      action: "열기",
+      paths: [
+        { title: "데일리 타로", body: "한 장 뽑기, 연속 기록, 저널, 알림으로 다시 올 이유를 만듭니다.", href: path("daily-tarot") },
+        { title: "무료 AI 타로", body: `${name}를 실제 질문에 넣어 먼저 무료로 해석해 봅니다.`, href: path("free-ai-tarot-reading") },
+        { title: "월간 타로 리포트", body: "기록과 반복되는 테마가 생기면 더 긴 리포트로 흐름을 봅니다.", href: path("monthly-tarot-report") },
+      ] satisfies PracticePath[],
+    }
+  }
+
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Vuelve gratis",
+      title: `Usa ${name} en una práctica diaria`,
+      body: "El significado explica el símbolo. El tarot diario y la lectura gratis lo convierten en seguimiento, preguntas reales y un próximo paso.",
+      action: "Abrir",
+      paths: [
+        { title: "Tarot diario", body: "Una carta al día, racha, diario y recordatorios para volver con una razón clara.", href: path("daily-tarot") },
+        { title: "Lectura gratis con IA", body: `Usa ${name} dentro de una pregunta real y recibe valor antes de profundizar.`, href: path("free-ai-tarot-reading") },
+        { title: "Informe mensual", body: "Cuando tengas historial y temas repetidos, usa un informe más largo para ver patrones.", href: path("monthly-tarot-report") },
+      ] satisfies PracticePath[],
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Volte grátis",
+      title: `Use ${name} em uma prática diária`,
+      body: "O significado explica o símbolo. O tarot diário e a leitura grátis transformam isso em acompanhamento, perguntas reais e próximo passo.",
+      action: "Abrir",
+      paths: [
+        { title: "Tarot diário", body: "Uma carta por dia, sequência, diário e lembretes para voltar com um motivo claro.", href: path("daily-tarot") },
+        { title: "Leitura grátis com IA", body: `Use ${name} dentro de uma pergunta real e receba valor antes de aprofundar.`, href: path("free-ai-tarot-reading") },
+        { title: "Relatório mensal", body: "Quando houver histórico e temas repetidos, use um relatório mais longo para ver padrões.", href: path("monthly-tarot-report") },
+      ] satisfies PracticePath[],
+    }
+  }
+
+  return {
+    eyebrow: "Free return path",
+    title: `Use ${name} in a daily tarot practice`,
+    body: "The meaning explains the symbol. Daily Tarot and free AI readings turn it into a returning habit, a real question, and one practical next step.",
+    action: "Open",
+    paths: [
+      { title: "Daily Tarot", body: "Draw one card each day, keep a streak, save a journal note, and set a reminder to come back tomorrow.", href: path("daily-tarot") },
+      { title: "Free AI Tarot Reading", body: `Put ${name} into a real question and get useful guidance before deciding whether to go deeper.`, href: path("free-ai-tarot-reading") },
+      { title: "Monthly Tarot Report", body: "After you have saved readings and repeated themes, use a longer report to see the bigger pattern.", href: path("monthly-tarot-report") },
+    ] satisfies PracticePath[],
   }
 }
 
@@ -582,6 +685,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const cardImage = page.card.image.startsWith("http") ? page.card.image : `${appUrl}${page.card.image}`
   const primaryHref = readingHref(page)
   const promptCopy = cardPromptCopy(page)
+  const practiceCopy = dailyPracticeCopy(page)
   const questionPaths = questionPathCopy(page)
   const relatedCopy = relatedCardCopy(page)
   const relatedCards = createRelatedCardLinks(page)
@@ -609,6 +713,12 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         isPartOf: {
           "@id": `${appUrl}/#website`,
         },
+        mainEntity: {
+          "@id": `${appUrl}${page.path}#defined-term`,
+        },
+        about: {
+          "@id": `${appUrl}${page.path}#defined-term`,
+        },
         reviewedBy: {
           "@id": `${appUrl}/#editorial-team`,
         },
@@ -634,6 +744,10 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         mainEntityOfPage: {
           "@id": `${appUrl}${page.path}#webpage`,
         },
+        about: {
+          "@id": `${appUrl}${page.path}#defined-term`,
+        },
+        mentions: page.deepSections.map((section) => section.heading),
         author: {
           "@id": `${appUrl}/#editorial-team`,
         },
@@ -643,6 +757,35 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         publisher: {
           "@id": `${appUrl}/#organization`,
         },
+      },
+      {
+        "@type": "DefinedTermSet",
+        "@id": `${appUrl}${meaningsHref}#defined-term-set`,
+        name: "Tarot Card Meanings",
+        url: `${appUrl}${meaningsHref}`,
+        hasDefinedTerm: {
+          "@id": `${appUrl}${page.path}#defined-term`,
+        },
+      },
+      {
+        "@type": "DefinedTerm",
+        "@id": `${appUrl}${page.path}#defined-term`,
+        name: page.h1,
+        alternateName: Array.from(new Set([cardDisplayName(page), page.card.nameEn, page.card.name].filter(Boolean))),
+        description: page.description,
+        termCode: page.slug,
+        url: `${appUrl}${page.path}`,
+        inDefinedTermSet: {
+          "@id": `${appUrl}${meaningsHref}#defined-term-set`,
+        },
+        subjectOf: [
+          {
+            "@id": `${appUrl}${page.path}#article`,
+          },
+          {
+            "@id": `${appUrl}${page.path}#faq`,
+          },
+        ],
       },
       {
         "@type": "BreadcrumbList",
@@ -689,6 +832,18 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           position: index + 1,
           name: prompt.question,
           url: `${appUrl}${cardPromptHref(page, prompt)}`,
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#practice-paths`,
+        name: practiceCopy.title,
+        itemListElement: practiceCopy.paths.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.title,
+          description: item.body,
+          url: `${appUrl}${item.href}`,
         })),
       },
       {
@@ -880,6 +1035,29 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                   ))}
                 </div>
               </div>
+
+              <section id="daily-practice" className="mt-8 scroll-mt-24">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{practiceCopy.eyebrow}</p>
+                <div className="mt-3 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+                  <div className="min-w-0">
+                    <h2 className="font-serif text-2xl leading-tight text-white">{practiceCopy.title}</h2>
+                    <p className="mt-3 text-sm leading-7 text-white/62">{practiceCopy.body}</p>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                  {practiceCopy.paths.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="group min-w-0 rounded-lg border border-white/10 bg-white/[0.03] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.055]"
+                    >
+                      <h3 className="break-words text-sm font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                      <p className="mt-3 text-xs text-[#c9c0ff]/65 group-hover:text-[#e8e3ff]">{practiceCopy.action}</p>
+                    </Link>
+                  ))}
+                </div>
+              </section>
 
               <div id="question-paths" className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{questionPaths.eyebrow}</p>
