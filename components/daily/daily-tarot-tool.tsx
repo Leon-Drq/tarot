@@ -862,6 +862,18 @@ export function DailyTarotTool() {
             <Bell className="h-4 w-4" aria-hidden="true" />
             <span>{copy.reminderTitle}</span>
           </button>
+          {calendarReminderAvailable && (
+            <button
+              type="button"
+              data-daily-sticky-calendar
+              onClick={handleDownloadCalendarReminder}
+              aria-label={copy.calendarReminder}
+              title={copy.calendarReminder}
+              className="inline-flex min-h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#c9c0ff]/26 bg-[#c9c0ff]/[0.08] text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
+            >
+              <CalendarPlus className="h-4 w-4" aria-hidden="true" />
+            </button>
+          )}
           <button
             type="button"
             onClick={hasReading ? handleShare : handleDraw}
