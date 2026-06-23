@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, CalendarPlus, Home, NotebookPen, Share2 } from "lucide-react"
 import { DailyTarotTool } from "@/components/daily/daily-tarot-tool"
 import {
   editorialTeamJsonLd,
@@ -53,7 +53,30 @@ const dailySteps = [
   },
   {
     name: "Return tomorrow",
-    text: "Keep a streak, set an email reminder, and watch patterns across repeated cards.",
+    text: "Keep a streak, add a calendar reminder, and watch patterns across repeated cards.",
+  },
+]
+
+const returnLoopItems = [
+  {
+    title: "Open from your home screen",
+    text: "Save POPTarot to your phone home screen so Daily Tarot becomes a direct visit instead of a search.",
+    icon: Home,
+  },
+  {
+    title: "Add a calendar reminder",
+    text: "Choose a return time in the tool and add the daily calendar reminder while email delivery is being connected.",
+    icon: CalendarPlus,
+  },
+  {
+    title: "Write one journal note",
+    text: "A short note makes tomorrow's card more useful because you can compare the theme with what actually happened.",
+    icon: NotebookPen,
+  },
+  {
+    title: "Share one useful insight",
+    text: "Share a daily card link or caption when the reading gives a practical next step worth saving.",
+    icon: Share2,
   },
 ]
 
@@ -197,6 +220,35 @@ export default function DailyTarotPage() {
         </div>
       </header>
       <DailyTarotTool />
+      <section className="border-t border-white/10 bg-[#0a0413]">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 lg:px-10 lg:py-16">
+          <div className="grid gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">Return loop</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">
+                Make Daily Tarot easy to revisit
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
+                Daily traffic grows when the ritual is simple: open the page directly, draw one card, write one note, and return tomorrow.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {returnLoopItems.map((item) => {
+                const Icon = item.icon
+                return (
+                  <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-4">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.08] text-[#d9d1ff]">
+                      <Icon className="h-4 w-4" aria-hidden="true" />
+                    </div>
+                    <h3 className="mt-4 text-sm font-medium leading-snug text-white">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/56">{item.text}</p>
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
       <section className="border-t border-white/10 bg-[#0d0618]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-8 lg:grid-cols-[0.85fr_1.15fr] lg:px-10 lg:py-16">
           <div>
