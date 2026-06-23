@@ -178,6 +178,62 @@ function cardFromEntry(entry: DailyTarotEntry): DrawnCard | null {
   }
 }
 
+function entryTheme(cardId: number, language: string) {
+  const themes =
+    {
+      zh: {
+        major: "人生主题",
+        wands: "行动与事业",
+        cups: "情感与关系",
+        pentacles: "金钱与稳定",
+        swords: "思考与沟通",
+      },
+      ja: {
+        major: "人生テーマ",
+        wands: "行動と仕事",
+        cups: "感情と関係",
+        pentacles: "お金と安定",
+        swords: "思考と対話",
+      },
+      ko: {
+        major: "삶의 주제",
+        wands: "행동과 일",
+        cups: "감정과 관계",
+        pentacles: "돈과 안정",
+        swords: "생각과 소통",
+      },
+      en: {
+        major: "Life themes",
+        wands: "Action and career",
+        cups: "Emotion and relationships",
+        pentacles: "Money and stability",
+        swords: "Thought and communication",
+      },
+    }[language] || {
+      major: "Life themes",
+      wands: "Action and career",
+      cups: "Emotion and relationships",
+      pentacles: "Money and stability",
+      swords: "Thought and communication",
+    }
+
+  if (cardId <= 21) return themes.major
+  if (cardId <= 35) return themes.wands
+  if (cardId <= 49) return themes.cups
+  if (cardId <= 63) return themes.pentacles
+  return themes.swords
+}
+
+function mostCommonTheme(entries: DailyTarotEntry[], language: string) {
+  const counts = new Map<string, number>()
+  for (const item of entries) {
+    const theme = entryTheme(item.card_id, language)
+    counts.set(theme, (counts.get(theme) || 0) + 1)
+  }
+
+  return Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] || entryTheme(0, language)
+}
+
 async function readStream(response: Response, onDelta: (value: string) => void) {
   const reader = response.body?.getReader()
   if (!reader) return ""
@@ -293,6 +349,59 @@ export function DailyTarotTool() {
         templateCopied: "공유 문구 복사됨",
       },
     }[language]
+
+  const patternCopy =
+    {
+      zh: {
+        eyebrow: "7 日模式",
+        title: "把每日一牌变成可回看的线索",
+        emptyBody: "连续抽几天后，这里会显示最近主题、日记数量和连续打卡，让每日塔罗不只是一次性解读。",
+        activeBody: "最近的每日牌更偏向「{theme}」。把它当作轻量复盘：看看相同主题是否也出现在情绪、行动或关系里。",
+        days: "记录天数",
+        journals: "日记数",
+        theme: "主要主题",
+        report: "查看月度报告",
+      },
+      ja: {
+        eyebrow: "7日パターン",
+        title: "毎日の一枚を振り返れる手がかりに",
+        emptyBody: "数日続けると、最近のテーマ、日記数、連続記録がここに表示されます。",
+        activeBody: "最近のカードは「{theme}」に寄っています。同じテーマが感情、行動、関係にも出ているか振り返れます。",
+        days: "記録日数",
+        journals: "日記数",
+        theme: "主なテーマ",
+        report: "月間レポート",
+      },
+      ko: {
+        eyebrow: "7일 패턴",
+        title: "하루 한 장을 다시 볼 수 있는 단서로",
+        emptyBody: "며칠간 기록하면 최근 주제, 저널 수, 연속 기록이 여기에 표시됩니다.",
+        activeBody: "최근 카드는 「{theme}」 쪽으로 기울어 있습니다. 감정, 행동, 관계에서도 같은 주제가 반복되는지 살펴보세요.",
+        days: "기록 일수",
+        journals: "저널 수",
+        theme: "주요 주제",
+        report: "월간 리포트",
+      },
+      en: {
+        eyebrow: "7-day pattern",
+        title: "Turn one daily card into a pattern you can revisit",
+        emptyBody: "After a few daily cards, this review will show your recent theme, journal count, and streak so Daily Tarot becomes more than a one-time reading.",
+        activeBody: "Your recent cards lean toward {theme}. Use this as a light review: check whether the same theme is showing up in your mood, actions, or relationships.",
+        days: "Tracked days",
+        journals: "Journal notes",
+        theme: "Main theme",
+        report: "View monthly report",
+      },
+    }[language] || {
+      eyebrow: "7-day pattern",
+      title: "Turn one daily card into a pattern you can revisit",
+      emptyBody: "After a few daily cards, this review will show your recent theme, journal count, and streak so Daily Tarot becomes more than a one-time reading.",
+      activeBody: "Your recent cards lean toward {theme}. Use this as a light review: check whether the same theme is showing up in your mood, actions, or relationships.",
+      days: "Tracked days",
+      journals: "Journal notes",
+      theme: "Main theme",
+      report: "View monthly report",
+    }
 
   useEffect(() => {
     const today = getLocalDateKey()
@@ -704,6 +813,23 @@ export function DailyTarotTool() {
     language === "zh" ? item.name : language === "ja" ? item.nameJa || item.nameEn : language === "ko" ? item.nameKo || item.nameEn : item.nameEn
 
   const displayName = card ? localizedCardName(card) : ""
+  const dailyPattern = useMemo(() => {
+    const trackedDays = recentEntries.length
+    const journalCount = recentEntries.filter((item) => Boolean(item.journal?.trim())).length
+    const dominantTheme = trackedDays > 0 ? mostCommonTheme(recentEntries, language) : mostCommonTheme([], language)
+    const body = trackedDays > 0
+      ? patternCopy.activeBody.replace("{theme}", dominantTheme)
+      : patternCopy.emptyBody
+
+    return {
+      body,
+      stats: [
+        { label: patternCopy.days, value: `${trackedDays}/7` },
+        { label: patternCopy.journals, value: String(journalCount) },
+        { label: patternCopy.theme, value: dominantTheme },
+      ],
+    }
+  }, [language, patternCopy.activeBody, patternCopy.days, patternCopy.emptyBody, patternCopy.journals, patternCopy.theme, recentEntries])
   const reminderModeTitle = emailDeliveryEnabled ? copy.emailReminderReadyTitle : copy.calendarFallbackTitle
   const reminderModeBody = emailDeliveryEnabled ? copy.reminderHelp : copy.calendarFallbackBody
   const calendarReminderAvailable = reminderCapability?.calendar_reminder_available ?? true
@@ -986,6 +1112,30 @@ export function DailyTarotTool() {
             </p>
           )}
           {calendarStatus && <p className="mt-3 text-xs text-white/45">{calendarStatus}</p>}
+        </article>
+
+        <article data-daily-pattern-review className="rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.04] p-5 sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{patternCopy.eyebrow}</p>
+              <h2 className="mt-2 font-serif text-xl leading-tight text-white">{patternCopy.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">{dailyPattern.body}</p>
+            </div>
+            <Link
+              href="/monthly-tarot-report"
+              className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-[#c9c0ff]/26 px-4 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/10"
+            >
+              {patternCopy.report}
+            </Link>
+          </div>
+          <div className="mt-5 grid gap-2 sm:grid-cols-3">
+            {dailyPattern.stats.map((item) => (
+              <div key={item.label} className="rounded-lg border border-white/10 bg-black/16 p-3">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/36">{item.label}</p>
+                <p className="mt-2 break-words text-sm font-medium leading-snug text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
         </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
