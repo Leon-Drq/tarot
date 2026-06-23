@@ -224,6 +224,7 @@ export function DailyTarotTool() {
   const [shareUrl, setShareUrl] = useState("")
   const [shareStatus, setShareStatus] = useState("")
   const [calendarStatus, setCalendarStatus] = useState("")
+  const [reminderStatus, setReminderStatus] = useState("")
   const [installStatus, setInstallStatus] = useState("")
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [showInstallPrompt, setShowInstallPrompt] = useState(false)
@@ -512,10 +513,12 @@ export function DailyTarotTool() {
     const normalizedEmail = normalizeReminderEmail(reminderEmail)
     if (reminderEnabled && !isValidReminderEmail(normalizedEmail)) {
       setStatus(copy.reminderEmailInvalid)
+      setReminderStatus(copy.reminderEmailInvalid)
       return
     }
 
     setIsSaving(true)
+    setReminderStatus("")
     try {
       setReminderEmail(reminderEnabled ? normalizedEmail : "")
       const localEntry = createLocalEntry({
@@ -526,23 +529,23 @@ export function DailyTarotTool() {
       if (!localEntry) return
 
       saveLocalEntry(localEntry)
-      setStatus(
-        reminderEnabled
-          ? emailDeliveryEnabled
-            ? copy.reminderSavedLocal
-            : copy.reminderSavedPending
-          : copy.savedLocal,
-      )
+      const localStatus = reminderEnabled
+        ? emailDeliveryEnabled
+          ? copy.reminderSavedLocal
+          : copy.reminderSavedPending
+        : copy.savedLocal
+      setStatus(localStatus)
+      setReminderStatus(localStatus)
       const syncedEntry = await syncEntry(localEntry)
       if (syncedEntry) {
         saveLocalEntry(syncedEntry)
-        setStatus(
-          reminderEnabled
-            ? emailDeliveryEnabled
-              ? copy.reminderSaved
-              : copy.reminderSavedPending
-            : copy.saved,
-        )
+        const syncedStatus = reminderEnabled
+          ? emailDeliveryEnabled
+            ? copy.reminderSaved
+            : copy.reminderSavedPending
+          : copy.saved
+        setStatus(syncedStatus)
+        setReminderStatus(syncedStatus)
       }
     } finally {
       setIsSaving(false)
@@ -853,70 +856,57 @@ export function DailyTarotTool() {
             <p className="text-sm font-medium text-[#f2edff]">{reminderModeTitle}</p>
             <p className="mt-2 text-xs leading-5 text-white/52">{reminderModeBody}</p>
           </div>
-          {emailDeliveryEnabled ? (
-            <>
-              <div className="grid gap-3 sm:grid-cols-[1fr_132px]">
-                <input
-                  type="email"
-                  value={reminderEmail}
-                  onChange={(event) => setReminderEmail(event.target.value)}
-                  placeholder={copy.reminderEmail}
-                  className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
-                />
-                <input
-                  type="time"
-                  value={reminderTime}
-                  onChange={(event) => setReminderTime(event.target.value)}
-                  aria-label={copy.reminderTime}
-                  className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#bfb6ff]/55"
-                />
-              </div>
-              <label className="mt-4 flex min-h-10 items-center gap-3 text-sm text-white/62">
-                <input
-                  type="checkbox"
-                  checked={reminderEnabled}
-                  onChange={(event) => setReminderEnabled(event.target.checked)}
-                  className="h-4 w-4 accent-[#bfb6ff]"
-                />
-                {copy.reminderToggle}
-              </label>
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                <button
-                  onClick={handleSaveReminder}
-                  disabled={isSaving || (!reminderEmail && reminderEnabled)}
-                  className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
-                >
-                  {copy.saveReminder}
-                </button>
-                <button
-                  onClick={handleDownloadCalendarReminder}
-                  className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-[#bfb6ff]/28 bg-[#bfb6ff]/[0.06] px-5 text-sm text-[#eee9ff] transition hover:bg-[#bfb6ff]/12"
-                >
-                  <CalendarPlus className="h-4 w-4" />
-                  {copy.calendarReminder}
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className="grid gap-3">
-              <label className="grid gap-2">
-                <span className="text-xs uppercase tracking-[0.16em] text-white/42">{copy.reminderTime}</span>
-                <input
-                  type="time"
-                  value={reminderTime}
-                  onChange={(event) => setReminderTime(event.target.value)}
-                  aria-label={copy.reminderTime}
-                  className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#bfb6ff]/55"
-                />
-              </label>
+          <div data-daily-reminder-form>
+            <div className="grid gap-3 sm:grid-cols-[1fr_132px]">
+              <input
+                type="email"
+                value={reminderEmail}
+                onChange={(event) => setReminderEmail(event.target.value)}
+                placeholder={copy.reminderEmail}
+                className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+              />
+              <input
+                type="time"
+                value={reminderTime}
+                onChange={(event) => setReminderTime(event.target.value)}
+                aria-label={copy.reminderTime}
+                className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition focus:border-[#bfb6ff]/55"
+              />
+            </div>
+            <label className="mt-4 flex min-h-10 items-center gap-3 text-sm text-white/62">
+              <input
+                type="checkbox"
+                checked={reminderEnabled}
+                onChange={(event) => setReminderEnabled(event.target.checked)}
+                className="h-4 w-4 accent-[#bfb6ff]"
+              />
+              {copy.reminderToggle}
+            </label>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <button
+                onClick={handleSaveReminder}
+                disabled={isSaving || (!reminderEmail && reminderEnabled)}
+                className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
+              >
+                {copy.saveReminder}
+              </button>
               <button
                 onClick={handleDownloadCalendarReminder}
-                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/40 bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-5 text-sm font-medium text-[#130d24] shadow-[0_16px_42px_rgba(146,132,239,0.22)] transition hover:brightness-110"
+                className={`inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg px-5 text-sm transition ${
+                  emailDeliveryEnabled
+                    ? "border border-[#bfb6ff]/28 bg-[#bfb6ff]/[0.06] text-[#eee9ff] hover:bg-[#bfb6ff]/12"
+                    : "border border-[#c9c0ff]/40 bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] font-medium text-[#130d24] shadow-[0_16px_42px_rgba(146,132,239,0.22)] hover:brightness-110"
+                }`}
               >
                 <CalendarPlus className="h-4 w-4" />
                 {copy.calendarReminder}
               </button>
             </div>
+          </div>
+          {reminderStatus && (
+            <p data-daily-reminder-status className="mt-3 text-xs leading-5 text-[#c9c0ff]">
+              {reminderStatus}
+            </p>
           )}
           {calendarStatus && <p className="mt-3 text-xs text-white/45">{calendarStatus}</p>}
         </article>
