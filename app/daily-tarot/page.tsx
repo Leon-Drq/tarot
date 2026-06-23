@@ -90,6 +90,64 @@ const returnLoopItems = [
   },
 ]
 
+const dailyPromptCards = [
+  {
+    slug: "daily-love-tarot",
+    label: "Love",
+    title: "Daily love tarot",
+    body: "Use today's card as a light relationship check-in, then open a focused love spread if the feeling needs more context.",
+    question: "What should I understand about love today?",
+    spread: "love_connection",
+  },
+  {
+    slug: "daily-career-tarot",
+    label: "Career",
+    title: "Daily career tarot",
+    body: "Turn the daily theme into one practical work signal: what to prepare, avoid, ask, or move forward.",
+    question: "What should I focus on in my career today?",
+    spread: "job_opportunity",
+  },
+  {
+    slug: "daily-yes-or-no-tarot",
+    label: "Yes or no",
+    title: "Daily yes-or-no tarot",
+    body: "When today has one simple choice, get a direct answer with the reason behind yes, no, or not yet.",
+    question: "Is this the right move for me today?",
+    spread: "yes_no",
+  },
+  {
+    slug: "daily-mood-tarot",
+    label: "Mood",
+    title: "Daily mood tarot",
+    body: "Use a short spread to understand the emotional pattern behind today's card and what would help you stay clear.",
+    question: "What is my emotional pattern today, and what would help?",
+    spread: "three_card",
+  },
+  {
+    slug: "daily-action-tarot",
+    label: "Action",
+    title: "Daily action tarot",
+    body: "Translate the daily card into a grounded next step instead of leaving the reading as a vague mood.",
+    question: "What is the most grounded action I can take today?",
+    spread: "three_card",
+  },
+]
+
+function dailyPromptHref(prompt: (typeof dailyPromptCards)[number]) {
+  const params = new URLSearchParams({
+    q: prompt.question,
+    auto: "1",
+    spread: prompt.spread,
+    lang: "en",
+    source: "daily-tarot",
+    utm_source: "daily-tarot",
+    utm_medium: "daily_prompt",
+    utm_campaign: prompt.slug,
+  })
+
+  return `/input?${params.toString()}`
+}
+
 export const metadata: Metadata = {
   title: `${dailyTitle} | Free One Card Tarot`,
   description: dailyDescription,
@@ -178,6 +236,29 @@ const structuredData = {
       })),
     },
     {
+      "@type": "ItemList",
+      "@id": `${appUrl}/daily-tarot#daily-question-prompts`,
+      name: "Daily tarot question prompts",
+      description: "Free follow-up tarot prompts that turn a daily card into love, career, yes-or-no, mood, or action readings.",
+      numberOfItems: dailyPromptCards.length,
+      itemListElement: dailyPromptCards.map((prompt, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "WebPage",
+          name: prompt.title,
+          description: prompt.body,
+          url: `${appUrl}${dailyPromptHref(prompt)}`,
+          isAccessibleForFree: true,
+          potentialAction: {
+            "@type": "Action",
+            name: "Start free tarot reading",
+            target: `${appUrl}${dailyPromptHref(prompt)}`,
+          },
+        },
+      })),
+    },
+    {
       "@type": "FAQPage",
       "@id": `${appUrl}/daily-tarot#faq`,
       mainEntity: dailyFaqs.map((faq) => ({
@@ -231,6 +312,35 @@ export default function DailyTarotPage() {
         </div>
       </header>
       <DailyTarotTool />
+      <section className="border-t border-white/10 bg-[#080310]">
+        <div className="mx-auto grid max-w-6xl gap-7 px-4 py-12 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-16">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">After the daily card</p>
+            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">
+              Turn today&apos;s card into a precise free question
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
+              A daily card works best when it gives you one next question. These prompts move from the one-card habit into the right free spread without pushing membership first.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {dailyPromptCards.map((prompt) => (
+              <Link
+                key={prompt.slug}
+                href={dailyPromptHref(prompt)}
+                className="group flex min-h-[12rem] flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.055]"
+              >
+                <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{prompt.label}</p>
+                <h3 className="mt-3 text-base font-medium leading-snug text-white group-hover:text-[#f4f0ff]">{prompt.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/56">{prompt.body}</p>
+                <p className="mt-auto pt-4 text-xs leading-5 text-[#c9c0ff]/72 group-hover:text-[#eeeaff]">
+                  {prompt.question}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="border-t border-white/10 bg-[#0a0413]">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 lg:px-10 lg:py-16">
           <div className="grid gap-7 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
