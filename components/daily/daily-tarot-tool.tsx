@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
-import { CalendarPlus, Loader2, Share2 } from "lucide-react"
+import { CalendarPlus, Loader2, Share2, Smartphone } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, authApi, dailyTarotApi, readingApi, setAccessToken, type DailyTarotEntry } from "@/lib/api"
@@ -20,6 +20,11 @@ import { getCardById, type DrawnCard } from "@/lib/tarot-cards"
 
 const storageKey = "poptarot_daily_seed"
 
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>
+}
+
 function getSeed() {
   if (typeof window === "undefined") return "guest"
   const existing = localStorage.getItem(storageKey)
@@ -35,6 +40,12 @@ function getTimezone() {
   } catch {
     return "UTC"
   }
+}
+
+function isStandaloneDisplay() {
+  if (typeof window === "undefined") return false
+  const navigatorWithStandalone = navigator as Navigator & { standalone?: boolean }
+  return window.matchMedia("(display-mode: standalone)").matches || navigatorWithStandalone.standalone === true
 }
 
 function normalizeReminderEmail(value: string) {
@@ -213,6 +224,9 @@ export function DailyTarotTool() {
   const [shareUrl, setShareUrl] = useState("")
   const [shareStatus, setShareStatus] = useState("")
   const [calendarStatus, setCalendarStatus] = useState("")
+  const [installStatus, setInstallStatus] = useState("")
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false)
   const [isCreatingShare, setIsCreatingShare] = useState(false)
   const [isDrawing, setIsDrawing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
@@ -303,6 +317,28 @@ export function DailyTarotTool() {
       .then((data) => setEmailDeliveryEnabled(Boolean(data.can_send_email_reminders ?? data.scheduled_delivery_enabled ?? data.email_delivery_enabled)))
       .catch(() => setEmailDeliveryEnabled(false))
   }, [])
+
+  useEffect(() => {
+    setShowInstallPrompt(!isStandaloneDisplay())
+
+    const handleBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault()
+      setInstallPrompt(event as BeforeInstallPromptEvent)
+      setShowInstallPrompt(true)
+    }
+
+    const handleAppInstalled = () => {
+      setShowInstallPrompt(false)
+      setInstallStatus(copy.installInstalled)
+    }
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
+    window.addEventListener("appinstalled", handleAppInstalled)
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
+      window.removeEventListener("appinstalled", handleAppInstalled)
+    }
+  }, [copy.installInstalled])
 
   useEffect(() => {
     if (!isLoggedIn || !dateKey) return
@@ -530,6 +566,23 @@ export function DailyTarotTool() {
     setCalendarStatus(copy.calendarReminderSaved)
   }
 
+  const handleInstallPrompt = async () => {
+    if (!installPrompt) {
+      setInstallStatus(copy.installFallback)
+      return
+    }
+
+    await installPrompt.prompt()
+    const choice = await installPrompt.userChoice
+    setInstallPrompt(null)
+    if (choice.outcome === "accepted") {
+      setShowInstallPrompt(false)
+      setInstallStatus(copy.installInstalled)
+      return
+    }
+    setInstallStatus(copy.installFallback)
+  }
+
   const ensureShareUrl = async () => {
     if (shareUrl) return shareUrl
     if (!card || !interpretation) throw new Error("No daily reading to share")
@@ -687,6 +740,31 @@ export function DailyTarotTool() {
       </section>
 
       <section className="space-y-5">
+        {showInstallPrompt && (
+          <article
+            data-daily-install-prompt
+            className="rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.045] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.2)] sm:hidden"
+          >
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#bfb6ff]/24 bg-[#bfb6ff]/[0.1] text-[#dcd5ff]">
+                <Smartphone className="h-5 w-5" aria-hidden="true" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{copy.installEyebrow}</p>
+                <h2 className="mt-2 text-base font-medium leading-snug text-white">{copy.installTitle}</h2>
+                <p className="mt-2 text-sm leading-6 text-white/56">{copy.installBody}</p>
+              </div>
+            </div>
+            <button
+              onClick={handleInstallPrompt}
+              className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-[#c9c0ff]/36 bg-[#c9c0ff]/12 px-5 text-sm font-medium text-[#f4f0ff] transition hover:bg-[#c9c0ff]/18"
+            >
+              {copy.installAction}
+            </button>
+            {installStatus && <p className="mt-3 text-xs leading-5 text-white/45">{installStatus}</p>}
+          </article>
+        )}
+
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
           <div className="mb-4">
             <h2 className="font-serif text-xl text-white">AI Reading</h2>
