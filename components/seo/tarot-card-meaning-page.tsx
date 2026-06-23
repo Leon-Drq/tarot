@@ -122,6 +122,60 @@ function cardPageGuideCopy(page: TarotCardSeoPage) {
   }
 }
 
+function cardStickyCtaCopy(page: TarotCardSeoPage) {
+  if (page.locale === "zh") {
+    return {
+      eyebrow: "免费牌义解读",
+      primary: "免费解读",
+      secondary: "问题",
+      secondaryLabel: "查看相关问题入口",
+    }
+  }
+
+  if (page.locale === "ja") {
+    return {
+      eyebrow: "無料カード解釈",
+      primary: "無料で読む",
+      secondary: "質問",
+      secondaryLabel: "関連する質問を見る",
+    }
+  }
+
+  if (page.locale === "ko") {
+    return {
+      eyebrow: "무료 카드 리딩",
+      primary: "무료 리딩",
+      secondary: "질문",
+      secondaryLabel: "관련 질문 보기",
+    }
+  }
+
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Lectura gratis",
+      primary: "Leer gratis",
+      secondary: "Preguntas",
+      secondaryLabel: "Ver preguntas relacionadas",
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Leitura gratis",
+      primary: "Ler gratis",
+      secondary: "Perguntas",
+      secondaryLabel: "Ver perguntas relacionadas",
+    }
+  }
+
+  return {
+    eyebrow: "Free card reading",
+    primary: "Free reading",
+    secondary: "Questions",
+    secondaryLabel: "View related tarot question paths",
+  }
+}
+
 function deepSectionAnchorId(page: TarotCardSeoPage, index: number) {
   if (page.locale === "en" || page.locale === "es" || page.locale === "pt-br") {
     return ["love", "career", "money", "yes-or-no", "advice"][index] || `context-${index + 1}`
@@ -534,6 +588,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const trustCopy = trustHighlightCopy(page)
   const trustItems = trustHighlightItems(page)
   const guideCopy = cardPageGuideCopy(page)
+  const stickyCopy = cardStickyCtaCopy(page)
   const navItems = cardPageNavItems(page)
   const quickRows = cardQuickAnswerRows(page, keywords)
   const structuredData = {
@@ -664,13 +719,39 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   }
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#080310] text-white">
+    <main className="min-h-screen overflow-x-hidden bg-[#080310] pb-[calc(env(safe-area-inset-bottom)+5.75rem)] text-white sm:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
         }}
       />
+      <div
+        data-card-sticky-cta
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#090411]/92 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_50px_rgba(0,0,0,0.42)] backdrop-blur-xl sm:hidden"
+      >
+        <div className="mx-auto flex max-w-md items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">
+              {stickyCopy.eyebrow}
+            </p>
+            <p className="mt-1 truncate text-xs text-white/52">{cardDisplayName(page)}</p>
+          </div>
+          <a
+            href="#question-paths"
+            aria-label={stickyCopy.secondaryLabel}
+            className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-white/12 px-3 text-xs text-white/70 transition hover:border-white/30 hover:text-white"
+          >
+            {stickyCopy.secondary}
+          </a>
+          <Link
+            href={primaryHref}
+            className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-xs font-medium text-[#120c22] shadow-[0_12px_30px_rgba(146,132,239,0.24)] transition hover:brightness-110"
+          >
+            {stickyCopy.primary}
+          </Link>
+        </div>
+      </div>
       <section className="relative overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_58%_0%,rgba(123,83,178,0.38),transparent_34%),linear-gradient(180deg,#12091f_0%,#080310_100%)]" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 lg:px-10">
