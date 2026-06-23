@@ -480,7 +480,7 @@ function MysticContent() {
 
   return (
     <div className="allow-scroll home-hero-stage relative min-h-screen overflow-x-hidden bg-mystic-bg">
-      <div className="fixed inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 min-h-full pointer-events-none">
         {/* 1. Background gradient */}
         <BackgroundGradient />
 

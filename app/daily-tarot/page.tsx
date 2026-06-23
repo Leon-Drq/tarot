@@ -13,7 +13,7 @@ import { trustLastReviewed } from "@/lib/trust-signals"
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 const dailyTitle = "Daily AI Tarot Reading"
 const dailyDescription =
-  "Draw one free AI tarot card every day, save a private tarot journal, keep your daily streak, and set a reminder to return."
+  "Draw one free AI tarot card every day, save a private tarot journal, keep your daily streak, and add a calendar reminder to return."
 
 const dailyFaqs = [
   {
@@ -27,9 +27,9 @@ const dailyFaqs = [
       "Yes. Daily Tarot includes a journal field for your mood, reflection, and what you want to remember. Local entries can be used immediately, and signed-in entries can sync to your account.",
   },
   {
-    question: "How do Daily Tarot email reminders work?",
+    question: "How do Daily Tarot reminders work?",
     answer:
-      "You can add a reminder email, preferred time, and timezone. Reminder emails include a link to return for the next daily card and a link to turn reminders off.",
+      "Calendar reminders are available now: choose a time, download the calendar file, and your phone calendar can remind you to return. Email reminders use a reminder email, preferred time, timezone, and unsubscribe link after delivery is connected.",
   },
   {
     question: "Should I treat the daily card as a prediction?",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: dailyTitle,
-    description: "A free daily one-card tarot ritual with AI guidance, streaks, journal, and reminders.",
+    description: "A free daily one-card tarot ritual with AI guidance, streaks, journal, and a calendar reminder.",
     url: `${appUrl}/daily-tarot`,
     siteName: "POPTarot",
     type: "website",
@@ -120,7 +120,8 @@ const structuredData = {
         "AI tarot interpretation",
         "Daily streak",
         "Private journal note",
-        "Email reminder preference",
+        "Calendar reminder",
+        "Email reminder preference after delivery is connected",
         "Shareable daily tarot result",
       ],
       maintainer: {

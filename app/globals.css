@@ -189,32 +189,32 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-focal-y: clamp(20rem, calc(13rem + 34vw), 22.75rem);
-    --home-hero-content-y: calc(var(--home-hero-focal-y) + 3.25rem);
+    --home-hero-focal-y: clamp(21rem, 48svh, 24.5rem);
+    --home-hero-content-y: calc(var(--home-hero-focal-y) + clamp(3.25rem, 7svh, 4.5rem));
   }
 
   @media (min-width: 640px) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(23rem, 54vh, 32rem);
+      --home-hero-focal-y: clamp(23rem, 52vh, 32rem);
       --home-hero-content-y: calc(var(--home-hero-focal-y) + 4.5rem);
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: clamp(23rem, 54svh, 32rem);
+        --home-hero-focal-y: clamp(23rem, 52svh, 32rem);
       }
     }
   }
 
   @media (min-width: 768px) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(26rem, 58vh, 36rem);
+      --home-hero-focal-y: clamp(26rem, 55vh, 36rem);
       --home-hero-content-y: calc(var(--home-hero-focal-y) + 5.25rem);
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: clamp(26rem, 58svh, 36rem);
+        --home-hero-focal-y: clamp(26rem, 55svh, 36rem);
       }
     }
   }
