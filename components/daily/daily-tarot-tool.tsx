@@ -516,6 +516,9 @@ export function DailyTarotTool() {
     const existing = entry || readLocalEntry(dateKey)
     const previous = readLocalEntry(getPreviousDateKey(dateKey))
     const nextStreak = existing?.streak_count || Number(previous?.streak_count || 0) + 1
+    const nextReminderEmail = Object.prototype.hasOwnProperty.call(input, "reminderEmail")
+      ? input.reminderEmail
+      : existing?.reminder_email ?? reminderEmail
 
     return {
       ...existing,
@@ -529,7 +532,7 @@ export function DailyTarotTool() {
       mood: input.mood ?? existing?.mood ?? mood,
       streak_count: nextStreak,
       reminder_enabled: input.reminderEnabled ?? existing?.reminder_enabled ?? reminderEnabled,
-      reminder_email: input.reminderEmail ?? existing?.reminder_email ?? reminderEmail,
+      reminder_email: nextReminderEmail,
       reminder_time: input.reminderTime ?? existing?.reminder_time ?? reminderTime,
       reminder_timezone: getTimezone(),
     }
@@ -1064,7 +1067,11 @@ export function DailyTarotTool() {
               <input
                 type="email"
                 value={reminderEmail}
-                onChange={(event) => setReminderEmail(event.target.value)}
+                onChange={(event) => {
+                  const nextEmail = event.target.value
+                  setReminderEmail(nextEmail)
+                  if (normalizeReminderEmail(nextEmail) && !reminderEnabled) setReminderEnabled(true)
+                }}
                 placeholder={copy.reminderEmail}
                 className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
               />
