@@ -1,10 +1,10 @@
 import { hasEmailProvider } from "@/lib/server/email"
-import { hasSupabaseServiceKey } from "@/lib/server/supabase"
+import { checkDailyReminderDatabaseAccess, hasReminderCronSecret } from "@/lib/server/daily-reminder-rpc"
 
 export async function GET() {
   const emailProviderConfigured = hasEmailProvider()
-  const serviceDatabaseConfigured = hasSupabaseServiceKey()
-  const cronSecretConfigured = Boolean(process.env.CRON_SECRET)
+  const cronSecretConfigured = hasReminderCronSecret()
+  const serviceDatabaseConfigured = await checkDailyReminderDatabaseAccess()
   const scheduledDeliveryEnabled = emailProviderConfigured && serviceDatabaseConfigured && cronSecretConfigured
   const missingCapabilities = [
     !emailProviderConfigured ? "email_provider" : null,
@@ -21,6 +21,7 @@ export async function GET() {
       setup_required: !scheduledDeliveryEnabled,
       email_provider_configured: emailProviderConfigured,
       service_database_configured: serviceDatabaseConfigured,
+      reminder_database_access_mode: serviceDatabaseConfigured ? "cron_secret_rpc" : "unavailable",
       cron_authorization_configured: cronSecretConfigured,
       cron_path_configured: true,
       missing_capabilities: missingCapabilities,

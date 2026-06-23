@@ -1,20 +1,15 @@
-import { createServiceSupabase, hasSupabaseServiceKey, jsonError, jsonResponse } from "@/lib/server/supabase"
+import { jsonError, jsonResponse } from "@/lib/server/supabase"
 import { dailyReminderUnsubscribeUrl } from "@/lib/server/daily-reminder-unsubscribe"
 import { dailyTarotReminderHtml, hasEmailProvider, sendEmail } from "@/lib/server/email"
+import {
+  checkDailyReminderDatabaseAccess,
+  listDailyReminderCandidates,
+  markDailyReminderFailed,
+  markDailyReminderSent,
+  type ReminderCandidateRow,
+} from "@/lib/server/daily-reminder-rpc"
 
-type ReminderRow = {
-  id: string
-  user_id: string
-  entry_date: string
-  card_name: string
-  is_reversed: boolean
-  streak_count: number
-  reminder_email: string | null
-  reminder_time: string
-  reminder_timezone: string
-  reminder_last_sent_on: string | null
-  reminder_send_count: number | null
-}
+type ReminderRow = ReminderCandidateRow
 
 function isAuthorized(req: Request) {
   const secret = process.env.CRON_SECRET
@@ -65,27 +60,15 @@ function newestPerUser(rows: ReminderRow[]) {
 
 export async function GET(req: Request) {
   if (!isAuthorized(req)) return jsonError("Unauthorized", 401)
-  if (!hasSupabaseServiceKey()) return jsonError("Missing SUPABASE_SERVICE_ROLE_KEY", 503)
+  if (!(await checkDailyReminderDatabaseAccess())) return jsonError("Daily reminder database access is not configured", 503)
   if (!hasEmailProvider()) return jsonError("Missing RESEND_API_KEY", 503)
 
-  const supabase = createServiceSupabase()
-  const { data, error } = await supabase
-    .from("daily_tarot_entries")
-    .select(
-      "id,user_id,entry_date,card_name,is_reversed,streak_count,reminder_email,reminder_time,reminder_timezone,reminder_last_sent_on,reminder_send_count",
-    )
-    .eq("reminder_enabled", true)
-    .not("reminder_email", "is", null)
-    .order("entry_date", { ascending: false })
-    .order("updated_at", { ascending: false })
-    .limit(2000)
-
-  if (error) return jsonError(error.message)
+  const data = await listDailyReminderCandidates(2000)
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
-  const candidates = newestPerUser(((data || []) as ReminderRow[]).filter((row) => row.reminder_email && isDue(row))).slice(0, 200)
+  const candidates = newestPerUser(data.filter((row) => row.reminder_email && isDue(row))).slice(0, 200)
   const results = {
-    scanned: data?.length || 0,
+    scanned: data.length,
     due: candidates.length,
     sent: 0,
     failed: 0,
@@ -107,26 +90,12 @@ export async function GET(req: Request) {
         idempotencyKey: `daily-tarot-reminder-${row.user_id}-${date}`,
       })
 
-      const { error: updateError } = await supabase
-        .from("daily_tarot_entries")
-        .update({
-          reminder_last_sent_on: date,
-          reminder_last_sent_at: new Date().toISOString(),
-          reminder_last_error: null,
-          reminder_send_count: Number(row.reminder_send_count || 0) + 1,
-        })
-        .eq("id", row.id)
-
-      if (updateError) throw new Error(updateError.message)
+      await markDailyReminderSent(row.id, date)
       results.sent += 1
     } catch (err) {
       results.failed += 1
-      await supabase
-        .from("daily_tarot_entries")
-        .update({
-          reminder_last_error: err instanceof Error ? err.message.slice(0, 500) : "Unknown email error",
-        })
-        .eq("id", row.id)
+      const message = err instanceof Error ? err.message.slice(0, 500) : "Unknown email error"
+      await markDailyReminderFailed(row.id, message).catch(() => undefined)
     }
   }
 
