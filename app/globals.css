@@ -189,27 +189,35 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-focal-y: clamp(20.5rem, 46vh, 22rem);
-    --home-hero-content-y: calc(var(--home-hero-focal-y) + clamp(9.5rem, 21vh, 11rem));
+    --home-hero-focal-y: clamp(19.75rem, 42vh, 21rem);
+    --home-hero-light-y: var(--home-hero-focal-y);
+    --home-hero-card-y: var(--home-hero-light-y);
+    --home-hero-content-y: calc(var(--home-hero-card-y) + clamp(9.75rem, 20vh, 10.75rem));
   }
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(20.5rem, 46svh, 22rem);
-      --home-hero-content-y: calc(var(--home-hero-focal-y) + clamp(9.5rem, 21svh, 11rem));
+      --home-hero-focal-y: clamp(19.75rem, 42svh, 21rem);
+      --home-hero-light-y: var(--home-hero-focal-y);
+      --home-hero-card-y: var(--home-hero-light-y);
+      --home-hero-content-y: calc(var(--home-hero-card-y) + clamp(9.75rem, 20svh, 10.75rem));
     }
   }
 
   @media (min-width: 640px) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(23rem, 52vh, 32rem);
-      --home-hero-content-y: calc(var(--home-hero-focal-y) + 13.5rem);
+      --home-hero-focal-y: clamp(23rem, 50vh, 31rem);
+      --home-hero-light-y: var(--home-hero-focal-y);
+      --home-hero-card-y: var(--home-hero-light-y);
+      --home-hero-content-y: calc(var(--home-hero-card-y) + 14rem);
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: clamp(23rem, 52svh, 32rem);
-        --home-hero-content-y: calc(var(--home-hero-focal-y) + 13.5rem);
+        --home-hero-focal-y: clamp(23rem, 50svh, 31rem);
+        --home-hero-light-y: var(--home-hero-focal-y);
+        --home-hero-card-y: var(--home-hero-light-y);
+        --home-hero-content-y: calc(var(--home-hero-card-y) + 14rem);
       }
     }
   }
@@ -217,13 +225,17 @@
   @media (min-width: 768px) {
     .home-hero-stage {
       --home-hero-focal-y: clamp(26rem, 55vh, 36rem);
-      --home-hero-content-y: calc(var(--home-hero-focal-y) + 19rem);
+      --home-hero-light-y: var(--home-hero-focal-y);
+      --home-hero-card-y: var(--home-hero-light-y);
+      --home-hero-content-y: calc(var(--home-hero-card-y) + 19rem);
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
         --home-hero-focal-y: clamp(26rem, 55svh, 36rem);
-        --home-hero-content-y: calc(var(--home-hero-focal-y) + 19rem);
+        --home-hero-light-y: var(--home-hero-focal-y);
+        --home-hero-card-y: var(--home-hero-light-y);
+        --home-hero-content-y: calc(var(--home-hero-card-y) + 19rem);
       }
     }
   }

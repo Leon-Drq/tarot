@@ -681,7 +681,7 @@ function MysticContent() {
         {/* 4. 3D rotating tarot card - use custom images if available */}
         <div
           data-home-card-scene
-          className="absolute left-0 right-0 top-[var(--home-hero-focal-y)] z-20 flex h-0 justify-center overflow-visible"
+          className="absolute left-0 right-0 top-[var(--home-hero-card-y,var(--home-hero-focal-y,52svh))] z-20 flex h-0 justify-center overflow-visible"
         >
           <div
             data-home-card-focal
