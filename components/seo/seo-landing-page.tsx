@@ -175,22 +175,34 @@ function relatedPages(page: SeoPage) {
 
 const relatedQuestionClusters: Record<string, string[]> = {
   "will-my-ex-come-back-tarot": [
+    "will-he-come-back-tarot",
+    "does-my-ex-miss-me-tarot",
     "will-we-get-back-together-tarot",
     "will-he-contact-me-tarot",
+  ],
+  "does-my-ex-miss-me-tarot": [
+    "will-he-come-back-tarot",
+    "will-my-ex-come-back-tarot",
+    "will-he-contact-me-tarot",
+    "is-he-thinking-about-me-tarot",
+  ],
+  "will-he-come-back-tarot": [
+    "does-my-ex-miss-me-tarot",
+    "will-my-ex-come-back-tarot",
+    "will-we-get-back-together-tarot",
     "is-this-relationship-over-tarot",
-    "should-i-text-him-tarot",
   ],
   "will-we-get-back-together-tarot": [
+    "will-he-come-back-tarot",
     "will-my-ex-come-back-tarot",
     "is-this-relationship-over-tarot",
     "will-he-contact-me-tarot",
-    "what-are-his-intentions-tarot",
   ],
   "will-he-contact-me-tarot": [
+    "does-my-ex-miss-me-tarot",
     "should-i-text-him-tarot",
     "is-he-thinking-about-me-tarot",
     "will-my-ex-come-back-tarot",
-    "what-does-he-think-of-me-tarot",
   ],
   "should-i-text-him-tarot": [
     "will-he-contact-me-tarot",
@@ -199,40 +211,52 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "yes-or-no-tarot-love",
   ],
   "does-he-love-me-tarot": [
+    "how-does-he-feel-about-me-tarot",
     "what-are-his-intentions-tarot",
     "what-does-he-think-of-me-tarot",
     "is-he-thinking-about-me-tarot",
-    "is-he-my-soulmate-tarot",
+  ],
+  "how-does-he-feel-about-me-tarot": [
+    "does-he-love-me-tarot",
+    "what-are-his-intentions-tarot",
+    "what-does-he-think-of-me-tarot",
+    "is-he-thinking-about-me-tarot",
   ],
   "what-are-his-intentions-tarot": [
+    "how-does-he-feel-about-me-tarot",
     "does-he-love-me-tarot",
     "what-does-he-think-of-me-tarot",
     "is-he-thinking-about-me-tarot",
-    "yes-or-no-tarot-love",
   ],
   "what-does-he-think-of-me-tarot": [
+    "how-does-he-feel-about-me-tarot",
     "what-are-his-intentions-tarot",
     "does-he-love-me-tarot",
     "is-he-thinking-about-me-tarot",
-    "will-he-contact-me-tarot",
   ],
   "is-he-thinking-about-me-tarot": [
+    "how-does-he-feel-about-me-tarot",
+    "does-my-ex-miss-me-tarot",
     "will-he-contact-me-tarot",
     "what-does-he-think-of-me-tarot",
-    "does-he-love-me-tarot",
-    "should-i-text-him-tarot",
   ],
   "is-he-my-soulmate-tarot": [
+    "future-spouse-tarot-reading",
     "does-he-love-me-tarot",
     "when-will-i-find-love-tarot",
     "what-are-his-intentions-tarot",
-    "yes-or-no-tarot-love",
   ],
   "when-will-i-find-love-tarot": [
+    "future-spouse-tarot-reading",
     "is-he-my-soulmate-tarot",
     "does-he-love-me-tarot",
     "yes-or-no-tarot-love",
-    "daily-tarot",
+  ],
+  "future-spouse-tarot-reading": [
+    "when-will-i-find-love-tarot",
+    "is-he-my-soulmate-tarot",
+    "does-he-love-me-tarot",
+    "yes-or-no-tarot-love",
   ],
   "yes-or-no-tarot-love": [
     "should-i-text-him-tarot",

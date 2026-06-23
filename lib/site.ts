@@ -61,6 +61,26 @@ export const highIntentQuestionLinks = [
     href: "/does-he-love-me-tarot",
   },
   {
+    title: "How does he feel about me tarot",
+    description: "A feelings-focused love tarot path for attraction, hidden emotion, availability, and whether feelings may become action.",
+    href: "/how-does-he-feel-about-me-tarot",
+  },
+  {
+    title: "Does my ex miss me tarot",
+    description: "A breakup-silence tarot path for nostalgia, no-contact energy, unfinished feelings, and whether missing you is enough to reconnect.",
+    href: "/does-my-ex-miss-me-tarot",
+  },
+  {
+    title: "Will he come back tarot",
+    description: "A return-focused tarot path for no-contact periods, reunion hopes, motives, delays, and healthy waiting boundaries.",
+    href: "/will-he-come-back-tarot",
+  },
+  {
+    title: "Future spouse tarot reading",
+    description: "A future-partner tarot path for spouse energy, partnership traits, timing themes, readiness, and lasting love.",
+    href: "/future-spouse-tarot-reading",
+  },
+  {
     title: "Yes or no tarot love",
     description: "A quick love decision page that explains the reason behind yes, no, or not yet.",
     href: "/yes-or-no-tarot-love",

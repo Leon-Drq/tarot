@@ -337,6 +337,10 @@ function HomeScrollContent() {
         questionItems: [
           { href: "/will-my-ex-come-back-tarot", title: "Will my ex come back?", body: "Reconciliation, contact, timing, closure, and whether waiting still helps." },
           { href: "/does-he-love-me-tarot", title: "Does he love me?", body: "Compare feelings with behavior, consistency, and emotional safety." },
+          { href: "/how-does-he-feel-about-me-tarot", title: "How does he feel about me?", body: "Attraction, hidden feelings, emotional availability, and whether feelings may become action." },
+          { href: "/does-my-ex-miss-me-tarot", title: "Does my ex miss me?", body: "Breakup silence, nostalgia, no-contact energy, and whether missing you is enough." },
+          { href: "/will-he-come-back-tarot", title: "Will he come back?", body: "Return energy, motives, delays, and a healthy boundary while you wait." },
+          { href: "/future-spouse-tarot-reading", title: "Future spouse tarot reading", body: "Future partner traits, timing themes, readiness, and lasting love." },
           { href: "/yes-or-no-tarot-love", title: "Yes or no love tarot", body: "A quick direction with the reason behind yes, no, or not yet." },
           { href: "/career-tarot-reading", title: "Career tarot reading", body: "Career direction, pressure, risk, resources, and the next practical move." },
           { href: "/should-i-quit-my-job-tarot", title: "Should I quit my job?", body: "Separate temporary burnout from a real transition signal and preparation." },
@@ -705,19 +709,19 @@ function MysticContent() {
           <HomeDailyReturnPanel />
 
           <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
-            <a href="/daily-tarot" className="inline-flex min-h-10 items-center transition hover:text-white">
+            <a href="/daily-tarot" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
               Daily Tarot
             </a>
             <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/tarot-spreads" className="inline-flex min-h-10 items-center transition hover:text-white">
+            <a href="/tarot-spreads" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
               Spreads
             </a>
             <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/tarot-card-meanings" className="inline-flex min-h-10 items-center transition hover:text-white">
+            <a href="/tarot-card-meanings" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
               Card Meanings
             </a>
             <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/about" className="inline-flex min-h-10 items-center transition hover:text-white">
+            <a href="/about" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
               About
             </a>
           </div>
