@@ -675,7 +675,7 @@ function MysticContent() {
           </div>
         </div>
 
-        <div className="relative z-30 pt-[var(--home-hero-content-y)]">
+        <div className="absolute left-0 right-0 top-[var(--home-hero-content-y)] z-30">
           <HomeQuestionForm />
 
           <HomeDailyReturnPanel />
