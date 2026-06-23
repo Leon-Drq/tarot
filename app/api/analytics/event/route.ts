@@ -8,6 +8,7 @@ const eventNames = new Set([
   "reading_completed",
   "share_created",
   "share_template_copied",
+  "share_fallback_created",
   "payment_started",
   "payment_completed",
 ])

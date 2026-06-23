@@ -61,6 +61,8 @@ export default function ReadingPage() {
         xhs: "小红书文案",
         instagram: "Instagram 文案",
         templateCopied: "分享文案已复制",
+        fallbackGenerated: "已生成可分享文案；登录后可创建公开结果页。",
+        fallbackCopied: "分享文案已复制；登录后可创建公开结果页。",
         failed: "分享失败，请稍后重试",
         memberTitle: "需要深入时再打开进阶功能",
         memberText: "会员只放在更深层体验里：深度追问、保存历史、高级牌阵和月度报告。",
@@ -79,6 +81,8 @@ export default function ReadingPage() {
         xhs: "Xiaohongshu copy",
         instagram: "Instagram caption",
         templateCopied: "Share caption copied",
+        fallbackGenerated: "Share caption ready. Log in to create a public result page.",
+        fallbackCopied: "Share caption copied. Log in to create a public result page.",
         failed: "Sharing failed. Please try again.",
         memberTitle: "Go deeper only when you need it",
         memberText: "Membership stays for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
@@ -97,6 +101,8 @@ export default function ReadingPage() {
         xhs: "小紅書テキスト",
         instagram: "Instagramキャプション",
         templateCopied: "共有テキストをコピーしました",
+        fallbackGenerated: "共有テキストを用意しました。ログインすると公開結果ページを作成できます。",
+        fallbackCopied: "共有テキストをコピーしました。ログインすると公開結果ページを作成できます。",
         failed: "共有に失敗しました。もう一度お試しください。",
         memberTitle: "必要な時だけ深く読む",
         memberText: "会員機能は深い追質問、履歴保存、高度なスプレッド、月次レポートのために用意されています。",
@@ -115,6 +121,8 @@ export default function ReadingPage() {
         xhs: "샤오홍슈 문구",
         instagram: "Instagram 캡션",
         templateCopied: "공유 문구를 복사했습니다",
+        fallbackGenerated: "공유 문구가 준비되었습니다. 로그인하면 공개 결과 페이지를 만들 수 있습니다.",
+        fallbackCopied: "공유 문구를 복사했습니다. 로그인하면 공개 결과 페이지를 만들 수 있습니다.",
         failed: "공유에 실패했습니다. 다시 시도해 주세요.",
         memberTitle: "필요할 때만 더 깊게 보기",
         memberText: "멤버십은 심층 질문, 기록 저장, 고급 스프레드, 월간 리포트에만 배치됩니다.",
@@ -133,6 +141,8 @@ export default function ReadingPage() {
       xhs: "Xiaohongshu copy",
       instagram: "Instagram caption",
       templateCopied: "Share caption copied",
+      fallbackGenerated: "Share caption ready. Log in to create a public result page.",
+      fallbackCopied: "Share caption copied. Log in to create a public result page.",
       failed: "Sharing failed. Please try again.",
       memberTitle: "Go deeper only when you need it",
       memberText: "Membership stays for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
@@ -458,6 +468,62 @@ export default function ReadingPage() {
     messages.map((message) => message.content).join("\n\n---\n\n") ||
     currentStreaming
 
+  const getFallbackShareUrl = () => {
+    const params = new URLSearchParams({
+      utm_source: "share",
+      utm_medium: "fallback_share",
+      utm_campaign: "free_reading",
+    })
+    return `${window.location.origin}/free-ai-tarot-reading?${params.toString()}`
+  }
+
+  const buildShareCaption = (platform: ShareTemplatePlatform, url: string) =>
+    createShareTemplate({
+      platform,
+      locale: language,
+      question,
+      cards: drawnCards.map((card) => ({
+        name: getCardName(card, language),
+        isReversed: card.isReversed,
+      })),
+      interpretation: getCurrentInterpretation(),
+      url,
+    })
+
+  const trackFallbackShare = (platform: ShareTemplatePlatform, channel: "native" | "clipboard") => {
+    analyticsApi.track("share_fallback_created", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: question,
+      reading_id: readingId,
+      metadata: {
+        platform,
+        channel,
+        spread_type: spreadType,
+      },
+    })
+  }
+
+  const shareFallbackCaption = async (platform: ShareTemplatePlatform, preferNativeShare: boolean) => {
+    const fallbackUrl = getFallbackShareUrl()
+    const text = buildShareCaption(platform, fallbackUrl)
+
+    if (preferNativeShare && navigator.share) {
+      await navigator.share({
+        title: "POPTarot Reading",
+        text,
+        url: fallbackUrl,
+      })
+      trackFallbackShare(platform, "native")
+      setShareStatus(shareCopy.fallbackGenerated)
+      return
+    }
+
+    await navigator.clipboard.writeText(text)
+    trackFallbackShare(platform, "clipboard")
+    setShareStatus(shareCopy.fallbackCopied)
+  }
+
   const ensureShareUrl = async () => {
     if (shareUrl) return shareUrl
     if (drawnCards.length === 0) throw new Error("No cards to share")
@@ -507,7 +573,12 @@ export default function ReadingPage() {
       }
     } catch (err) {
       console.error("[Reading] Share failed:", err)
-      setShareStatus(shareCopy.failed)
+      try {
+        await shareFallbackCaption("instagram", true)
+      } catch (fallbackErr) {
+        console.error("[Reading] Fallback share failed:", fallbackErr)
+        setShareStatus(shareCopy.failed)
+      }
     } finally {
       setIsCreatingShare(false)
     }
@@ -521,17 +592,7 @@ export default function ReadingPage() {
 
     try {
       const absoluteUrl = await ensureShareUrl()
-      const text = createShareTemplate({
-        platform,
-        locale: language,
-        question,
-        cards: drawnCards.map((card) => ({
-          name: getCardName(card, language),
-          isReversed: card.isReversed,
-        })),
-        interpretation: getCurrentInterpretation(),
-        url: absoluteUrl,
-      })
+      const text = buildShareCaption(platform, absoluteUrl)
 
       await navigator.clipboard.writeText(text)
       analyticsApi.track("share_template_copied", {
@@ -546,7 +607,12 @@ export default function ReadingPage() {
       setShareStatus(shareCopy.templateCopied)
     } catch (err) {
       console.error("[Reading] Share template failed:", err)
-      setShareStatus(shareCopy.failed)
+      try {
+        await shareFallbackCaption(platform, false)
+      } catch (fallbackErr) {
+        console.error("[Reading] Fallback share template failed:", fallbackErr)
+        setShareStatus(shareCopy.failed)
+      }
     } finally {
       setIsCreatingShare(false)
     }

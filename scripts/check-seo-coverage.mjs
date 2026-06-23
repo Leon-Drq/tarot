@@ -76,6 +76,11 @@ const files = {
     path: "app/reading/page.tsx",
     source: read("app/reading/page.tsx"),
   },
+  analyticsEventRoute: {
+    path: "app/api/analytics/event/route.ts",
+    source: read("app/api/analytics/event/route.ts"),
+  },
+  apiClient: { path: "lib/api.ts", source: read("lib/api.ts") },
 }
 
 const cardCoverage = [
@@ -307,6 +312,11 @@ const freeFirstReadingCoverage = [
   [files.readingRoute, "if (!auth.ok) return auth.response", "follow-up unauthorized response"],
   [files.readingPage, "if (!isLoggedIn && !isFollowUp)", "anonymous first reading attempt"],
   [files.readingPage, "Failed to create anonymous user", "guest fallback when anonymous auth fails"],
+  [files.readingPage, "fallback_share", "free reading fallback share URL"],
+  [files.readingPage, "share_fallback_created", "free reading fallback share analytics"],
+  [files.analyticsEventRoute, "share_fallback_created", "fallback share analytics route event"],
+  [files.apiClient, "'share_fallback_created'", "fallback share analytics client event type"],
+  [files.readingPage, "Log in to create a public result page", "free reading share fallback copy"],
   [files.readingPage, "Log in to continue with deeper follow-up questions", "follow-up login boundary copy"],
   [files.readingPage, "Membership stays for deeper follow-ups", "membership boundary copy"],
 ]
