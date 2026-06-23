@@ -77,35 +77,52 @@ for (const section of ["#combinations", "#faq", "#question-paths", "#daily-pract
   assertIncludes(files.cardMeaningPage, section, `card page section ${section}`)
 }
 
-const longTailSlugs = [
+const highIntentLongTailSlugs = [
   "will-my-ex-come-back-tarot",
   "does-he-love-me-tarot",
+  "how-does-he-feel-about-me-tarot",
+  "does-my-ex-miss-me-tarot",
+  "will-he-come-back-tarot",
+  "future-spouse-tarot-reading",
   "yes-or-no-tarot-love",
   "career-tarot-reading",
   "should-i-quit-my-job-tarot",
-  "how-does-he-feel-about-me-tarot",
-  "does-my-ex-miss-me-tarot",
-  "will-he-come-back-tarot",
-  "future-spouse-tarot-reading",
+  "is-he-thinking-about-me-tarot",
+  "should-i-text-him-tarot",
+  "when-will-i-find-love-tarot",
+  "what-are-his-intentions-tarot",
+  "will-we-get-back-together-tarot",
+  "is-he-my-soulmate-tarot",
+  "money-tarot-reading",
+  "what-does-he-think-of-me-tarot",
+  "will-he-contact-me-tarot",
+  "is-this-relationship-over-tarot",
+  "will-i-get-the-job-tarot",
+  "should-i-take-this-job-tarot",
+  "will-i-be-successful-tarot",
 ]
 
-for (const slug of longTailSlugs) {
+for (const slug of highIntentLongTailSlugs) {
   assertIncludes(files.seoPages, `slug: "${slug}"`, `SEO page ${slug}`)
   assertIncludes(files.site, `href: "/${slug}"`, `high-intent site link ${slug}`)
   assertIncludes(files.tarotQuestions, `slug: "${slug}"`, `tarot question hub entry ${slug}`)
-}
-
-for (const slug of [
-  "how-does-he-feel-about-me-tarot",
-  "does-my-ex-miss-me-tarot",
-  "will-he-come-back-tarot",
-  "future-spouse-tarot-reading",
-]) {
   assertMatches(
     files.seoLanding,
     new RegExp(`"${slug}"\\s*:\\s*\\[`),
     `related question cluster for ${slug}`,
   )
+}
+
+for (const conversionSignal of [
+  "const highIntentQuestionSlugs = new Set",
+  "createFallbackQuestionToolkit(page, recommendedSpread)",
+  "#ready-question-prompts",
+  "#recommended-spread",
+  "#related-question-cluster",
+  "data-question-sticky-cta",
+  "utm_medium: \"question_prompt\"",
+]) {
+  assertIncludes(files.seoLanding, conversionSignal, `high-intent question conversion signal ${conversionSignal}`)
 }
 
 for (const localizedSlug of [
@@ -117,6 +134,35 @@ for (const localizedSlug of [
   "meu-ex-sente-minha-falta-tarot",
   "ele-vai-voltar-tarot",
   "leitura-tarot-futuro-conjuge",
+  "esta-pensando-en-mi-tarot",
+  "deberia-escribirle-tarot",
+  "cuando-encontrare-amor-tarot",
+  "cuales-son-sus-intenciones-tarot",
+  "volveremos-a-estar-juntos-tarot",
+  "es-mi-alma-gemela-tarot",
+  "lectura-tarot-dinero",
+  "que-piensa-de-mi-tarot",
+  "me-contactara-tarot",
+  "esta-relacion-termino-tarot",
+  "conseguire-el-trabajo-tarot",
+  "deberia-aceptar-este-trabajo-tarot",
+  "tendre-exito-tarot",
+  "ele-esta-pensando-em-mim-tarot",
+  "tarot-amor-sim-ou-nao",
+  "devo-mandar-mensagem-tarot",
+  "quando-vou-encontrar-amor-tarot",
+  "quais-sao-as-intencoes-dele-tarot",
+  "vamos-voltar-tarot",
+  "ele-e-minha-alma-gemea-tarot",
+  "leitura-tarot-dinheiro",
+  "leitura-tarot-carreira",
+  "devo-pedir-demissao-tarot",
+  "o-que-ele-pensa-de-mim-tarot",
+  "ele-vai-entrar-em-contato-tarot",
+  "este-relacionamento-acabou-tarot",
+  "vou-conseguir-o-emprego-tarot",
+  "devo-aceitar-este-trabalho-tarot",
+  "vou-ter-sucesso-tarot",
 ]) {
   assertIncludes(files.seoPages, localizedSlug, `localized long-tail slug ${localizedSlug}`)
 }
