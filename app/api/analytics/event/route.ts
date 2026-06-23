@@ -1,5 +1,5 @@
 import { createAnonSupabase, createUserSupabase, getBearerToken, jsonError, jsonResponse } from "@/lib/server/supabase"
-import { isLocale } from "@/lib/locales"
+import { isSeoLocale } from "@/lib/locales"
 
 const eventNames = new Set([
   "page_view",
@@ -42,8 +42,8 @@ export async function POST(req: Request) {
     }
   }
 
-  const rawLocale = text((payload as Record<string, unknown>).locale, 8) || "en"
-  const locale = isLocale(rawLocale) ? rawLocale : "en"
+  const rawLocale = text((payload as Record<string, unknown>).locale, 16) || "en"
+  const locale = isSeoLocale(rawLocale) ? rawLocale : "en"
 
   const record = {
     event_name: eventName,
