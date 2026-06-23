@@ -124,17 +124,16 @@ const homeStructuredData = {
         "@type": "ListItem",
         position: index + 1,
         item: {
-          "@type": "Review",
+          "@type": "Quotation",
           name: item.title,
-          reviewBody: item.quote,
-          reviewAspect: item.title,
+          text: item.quote,
+          about: item.context,
           datePublished: trustLastReviewed,
-          author: {
-            "@type": "Person",
-            name: "POPTarot reader",
+          creator: {
+            "@id": `${appUrl}/#editorial-team`,
           },
-          itemReviewed: {
-            "@id": `${appUrl}/#app`,
+          isPartOf: {
+            "@id": `${appUrl}/reviews#webpage`,
           },
         },
       })),

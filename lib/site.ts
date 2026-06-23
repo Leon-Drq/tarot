@@ -386,17 +386,16 @@ export function softwareApplicationJsonLd() {
         "@id": `${appUrl}/ai-tarot-disclaimer#webpage`,
       },
     ],
-    review: representativeTestimonials.map((item) => ({
-      "@type": "Review",
+    citation: representativeTestimonials.map((item) => ({
+      "@type": "Quotation",
       name: item.title,
-      reviewBody: item.quote,
-      reviewAspect: item.title,
-      author: {
-        "@type": "Person",
-        name: "POPTarot reader",
+      text: item.quote,
+      about: item.context,
+      creator: {
+        "@id": `${appUrl}/#editorial-team`,
       },
-      itemReviewed: {
-        "@id": `${appUrl}/#app`,
+      isPartOf: {
+        "@id": `${appUrl}/reviews#webpage`,
       },
     })),
     publisher: {

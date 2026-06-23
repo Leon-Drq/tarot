@@ -1,4 +1,4 @@
-export const trustLastReviewed = "2026-06-22"
+export const trustLastReviewed = "2026-06-23"
 
 export const editorialTeam = {
   name: "POPTarot Editorial Team",
