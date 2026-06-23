@@ -76,6 +76,41 @@ export const highIntentQuestionLinks = [
     href: "/should-i-quit-my-job-tarot",
   },
   {
+    title: "Is he thinking about me tarot",
+    description: "A thoughts-and-silence tarot path for mixed signals, no-contact periods, and whether attention may become action.",
+    href: "/is-he-thinking-about-me-tarot",
+  },
+  {
+    title: "Should I text him tarot",
+    description: "A contact-decision tarot path for timing, intention, emotional safety, and one grounded next action.",
+    href: "/should-i-text-him-tarot",
+  },
+  {
+    title: "When will I find love tarot",
+    description: "A love timing tarot entry for readiness, dating energy, soulmate themes, and the pattern that needs to shift first.",
+    href: "/when-will-i-find-love-tarot",
+  },
+  {
+    title: "What are his intentions tarot",
+    description: "A relationship-intent tarot entry for mixed signals, emotional availability, and whether actions match words.",
+    href: "/what-are-his-intentions-tarot",
+  },
+  {
+    title: "Will we get back together tarot",
+    description: "A reconciliation tarot entry for second chances, timing, what changed, and whether repair would be healthy.",
+    href: "/will-we-get-back-together-tarot",
+  },
+  {
+    title: "Is he my soulmate tarot",
+    description: "A soulmate tarot entry for intense connections, compatibility, lessons, timing, and healthy reciprocity.",
+    href: "/is-he-my-soulmate-tarot",
+  },
+  {
+    title: "Money tarot reading",
+    description: "A reflective money tarot entry for income direction, spending patterns, resources, and one grounded next step.",
+    href: "/money-tarot-reading",
+  },
+  {
     title: "What does he think of me tarot",
     description: "A perception-focused love tarot entry for mixed signals, silence, private thoughts, and possible next actions.",
     href: "/what-does-he-think-of-me-tarot",

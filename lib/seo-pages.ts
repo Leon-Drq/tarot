@@ -959,6 +959,82 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "what-are-his-intentions-tarot",
+    cards: [2, 7, 18],
+    recommendedSpread: "their_thoughts",
+    title: "What Are His Intentions Tarot",
+    description: "Ask a free AI tarot reading about his intentions, mixed signals, emotional availability, and whether his actions are likely to match his words.",
+    h1: "What Are His Intentions Tarot",
+    intent: "Best for mixed signals, dating uncertainty, unclear communication, and checking whether attraction is serious, casual, avoidant, or confused.",
+    question: "What are his intentions toward me, and what should I watch in his actions?",
+    sections: [
+      { heading: "Intentions need evidence", body: "A useful reading should compare what he thinks, what he feels, what he wants, and whether his behavior is likely to become consistent." },
+      { heading: "Separate desire from readiness", body: "Someone can feel attraction without being ready for commitment, honesty, or healthy follow-through." },
+      { heading: "Let the advice protect you", body: "The best answer should give you one boundary, conversation, or observation point instead of leaving you guessing." },
+    ],
+    faqs: [
+      { question: "Can tarot reveal his real intentions?", answer: "Tarot can reflect likely motives, fears, attraction, and blocks. Use it to guide observation, not to replace direct communication." },
+      { question: "What cards suggest serious intentions?", answer: "The Hierophant, King of Pentacles, Two of Cups, Ten of Pentacles, and The Emperor can support serious intentions when the full spread agrees." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "will-we-get-back-together-tarot",
+    cards: [6, 14, 20],
+    recommendedSpread: "breakup_recovery",
+    title: "Will We Get Back Together Tarot",
+    description: "Draw a free AI tarot reading about getting back together, reconciliation timing, what changed, and whether reunion would be healthy.",
+    h1: "Will We Get Back Together Tarot",
+    intent: "Best for breakup recovery, reconciliation, contact after distance, unresolved feelings, and whether a second chance is realistic.",
+    question: "Will we get back together, and what would need to change for it to be healthy?",
+    sections: [
+      { heading: "Reunion needs changed behavior", body: "A return is only useful if the spread shows what ended, what still connects you, and what both people would need to do differently." },
+      { heading: "Look beyond the yes or no", body: "The strongest cards show timing, accountability, emotional readiness, and whether contact would heal or reopen the same wound." },
+      { heading: "Choose your next step", body: "If the reading leans toward reunion, ask what conversation is needed. If it leans no or not yet, ask what helps you move forward." },
+    ],
+    faqs: [
+      { question: "Is this get back together tarot reading free?", answer: "Yes. You can start this reconciliation reading for free. Membership is for deeper follow-ups, saved history, advanced spreads, and reports." },
+      { question: "What cards suggest getting back together?", answer: "Judgement, Temperance, Two of Cups, Six of Cups, The Lovers, and The Star can support reconciliation when the surrounding cards show repair." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "is-he-my-soulmate-tarot",
+    cards: [6, 10, 17],
+    recommendedSpread: "love_connection",
+    title: "Is He My Soulmate Tarot",
+    description: "Ask a free AI tarot reading about soulmate energy, compatibility, lessons, timing, and whether the connection is healthy for you.",
+    h1: "Is He My Soulmate Tarot",
+    intent: "Best for intense connections, soulmate questions, spiritual attraction, repeated patterns, and deciding whether the bond is safe and mutual.",
+    question: "Is he my soulmate, and what is this connection here to teach me?",
+    sections: [
+      { heading: "Soulmate energy is not always simple", body: "A soulmate-style reading should look at compatibility, growth, emotional safety, and whether the connection brings out your better choices." },
+      { heading: "Intensity is not proof", body: "Strong attraction can feel meaningful, but the spread should also test respect, consistency, timing, and shared values." },
+      { heading: "Ask what the bond asks of you", body: "The most useful answer names the lesson, boundary, or action that keeps the connection grounded." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if he is my soulmate?", answer: "Tarot can explore soulmate themes, compatibility, lessons, and timing. It should also check whether the bond is healthy and reciprocal." },
+      { question: "What cards suggest soulmate energy?", answer: "The Lovers, Two of Cups, Six of Cups, The Star, Wheel of Fortune, and Temperance can suggest meaningful connection when supported by the spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "money-tarot-reading",
+    cards: [1, 50, 63],
+    recommendedSpread: "three_card",
+    title: "Money Tarot Reading",
+    description: "Use a free AI tarot reading to reflect on money energy, income choices, spending patterns, career resources, and the next practical step.",
+    h1: "Money Tarot Reading",
+    intent: "Best for money stress, income direction, spending patterns, practical resources, and choosing one grounded next step.",
+    question: "What should I understand about my money situation and next practical step?",
+    sections: [
+      { heading: "Use money tarot as reflection", body: "A money reading can show patterns around confidence, risk, scarcity, effort, and resources, but it is not financial advice." },
+      { heading: "Connect symbols to action", body: "The useful answer should point to a practical move: budget, ask, save, negotiate, reduce risk, or build a skill." },
+      { heading: "Read abundance with responsibility", body: "Positive cards can show opportunity, but the spread should still name timing, constraints, and what you can control." },
+    ],
+    faqs: [
+      { question: "Is a money tarot reading financial advice?", answer: "No. POPTarot frames money tarot as reflective guidance. Pair it with real budgets, contracts, professional advice, and practical planning." },
+      { question: "What cards suggest money improvement?", answer: "Ace of Pentacles, Ten of Pentacles, King of Pentacles, The Magician, and Six of Pentacles can support improvement when the full spread agrees." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "what-does-he-think-of-me-tarot",
     cards: [2, 6, 18],
     recommendedSpread: "their_thoughts",
@@ -1108,6 +1184,10 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "is-he-thinking-about-me-tarot": "esta-pensando-en-mi-tarot",
     "should-i-text-him-tarot": "deberia-escribirle-tarot",
     "when-will-i-find-love-tarot": "cuando-encontrare-amor-tarot",
+    "what-are-his-intentions-tarot": "cuales-son-sus-intenciones-tarot",
+    "will-we-get-back-together-tarot": "volveremos-a-estar-juntos-tarot",
+    "is-he-my-soulmate-tarot": "es-mi-alma-gemela-tarot",
+    "money-tarot-reading": "lectura-tarot-dinero",
     "yes-or-no-tarot-love": "tarot-amor-si-o-no",
     "career-tarot-reading": "lectura-tarot-carrera",
     "should-i-quit-my-job-tarot": "debo-renunciar-trabajo-tarot",
@@ -1132,6 +1212,10 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "is-he-thinking-about-me-tarot": "ele-esta-pensando-em-mim-tarot",
     "should-i-text-him-tarot": "devo-mandar-mensagem-tarot",
     "when-will-i-find-love-tarot": "quando-vou-encontrar-amor-tarot",
+    "what-are-his-intentions-tarot": "quais-sao-as-intencoes-dele-tarot",
+    "will-we-get-back-together-tarot": "vamos-voltar-tarot",
+    "is-he-my-soulmate-tarot": "ele-e-minha-alma-gemea-tarot",
+    "money-tarot-reading": "leitura-tarot-dinheiro",
     "yes-or-no-tarot-love": "tarot-amor-sim-ou-nao",
     "career-tarot-reading": "leitura-tarot-carreira",
     "should-i-quit-my-job-tarot": "devo-pedir-demissao-tarot",
@@ -1414,6 +1498,78 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "¿El tarot puede predecir cuándo encontraré el amor?", answer: "Puede mostrar temas de timing y disponibilidad, pero lo más útil es entender qué decisiones hacen posible la conexión." },
         { question: "¿Qué cartas sugieren nuevo amor?", answer: "As de Copas, Los Enamorados, La Estrella, Dos de Copas, La Emperatriz y Rueda de la Fortuna pueden sugerir apertura a nuevo amor." },
+      ],
+    },
+    "what-are-his-intentions-tarot": {
+      title: "Tarot: ¿cuáles son sus intenciones?",
+      description: "Lectura gratis con IA sobre sus intenciones, señales mixtas, disponibilidad emocional y si sus acciones coinciden con sus palabras.",
+      eyebrow: "Intenciones y amor",
+      h1: "Tarot: ¿cuáles son sus intenciones?",
+      intro: "Pregunta qué intención real tiene contigo y qué deberías observar en sus acciones, no solo en sus palabras.",
+      intent: "Ideal para citas inciertas, señales mixtas, comunicación confusa y dudas sobre si algo es serio, casual o evitativo.",
+      ctaQuestion: "¿Cuáles son sus intenciones hacia mí y qué debo observar en sus acciones?",
+      sections: [
+        { heading: "Las intenciones necesitan evidencia", body: "Una lectura útil compara lo que piensa, siente, quiere y si su conducta puede volverse consistente." },
+        { heading: "Distingue deseo de disponibilidad", body: "Puede existir atracción sin preparación para compromiso, honestidad o continuidad sana." },
+        { heading: "Deja que el consejo te proteja", body: "La respuesta debe darte un límite, conversación u observación concreta, no más ansiedad." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede revelar sus intenciones reales?", answer: "Puede reflejar motivos probables, miedo, atracción y bloqueos. Úsalo para observar mejor, no para reemplazar una conversación directa." },
+        { question: "¿Qué cartas sugieren intenciones serias?", answer: "El Hierofante, Rey de Oros, Dos de Copas, Diez de Oros y El Emperador pueden apoyar intenciones serias si la tirada coincide." },
+      ],
+    },
+    "will-we-get-back-together-tarot": {
+      title: "Tarot: ¿volveremos a estar juntos?",
+      description: "Lectura gratis con IA sobre volver con alguien, reconciliación, timing, qué cambió y si la unión sería sana.",
+      eyebrow: "Reconciliación",
+      h1: "Tarot: ¿volveremos a estar juntos?",
+      intro: "Pregunta si pueden volver y qué tendría que cambiar para que el reencuentro no repita el mismo patrón.",
+      intent: "Ideal para ruptura, contacto después de distancia, sentimientos no resueltos y si una segunda oportunidad es realista.",
+      ctaQuestion: "¿Volveremos a estar juntos y qué tendría que cambiar para que sea sano?",
+      sections: [
+        { heading: "Volver requiere conducta nueva", body: "La tirada debe mostrar qué terminó, qué sigue vivo y qué tendría que cambiar en ambos." },
+        { heading: "Mira más que el sí o no", body: "Las mejores cartas muestran timing, responsabilidad, disponibilidad emocional y si contactar sana o reabre la herida." },
+        { heading: "Elige tu siguiente paso", body: "Si inclina al regreso, pregunta qué conversación falta. Si inclina a no o todavía no, pregunta qué te ayuda a avanzar." },
+      ],
+      faqs: [
+        { question: "¿Esta lectura para volver es gratis?", answer: "Sí. Puedes empezar gratis. La membresía queda para seguimientos profundos, historial, tiradas avanzadas e informes." },
+        { question: "¿Qué cartas sugieren volver?", answer: "El Juicio, Templanza, Dos de Copas, Seis de Copas, Los Enamorados y La Estrella pueden apoyar reconciliación si muestran reparación." },
+      ],
+    },
+    "is-he-my-soulmate-tarot": {
+      title: "Tarot: ¿es mi alma gemela?",
+      description: "Lectura gratis con IA sobre energía de alma gemela, compatibilidad, lecciones, timing y si la conexión es sana.",
+      eyebrow: "Conexión espiritual",
+      h1: "Tarot: ¿es mi alma gemela?",
+      intro: "Pregunta si esta conexión tiene energía de alma gemela y qué lección o límite trae para ti.",
+      intent: "Ideal para conexiones intensas, atracción espiritual, patrones repetidos y dudas sobre si el vínculo es seguro y mutuo.",
+      ctaQuestion: "¿Es mi alma gemela y qué me enseña esta conexión?",
+      sections: [
+        { heading: "Alma gemela no siempre significa fácil", body: "La lectura debe mirar compatibilidad, crecimiento, seguridad emocional y si el vínculo saca lo mejor de ti." },
+        { heading: "La intensidad no prueba destino", body: "La atracción fuerte puede sentirse significativa, pero también hay que revisar respeto, consistencia, timing y valores." },
+        { heading: "Pregunta qué pide el vínculo", body: "La respuesta útil nombra una lección, límite o acción para mantener la conexión en tierra." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decir si es mi alma gemela?", answer: "Puede explorar temas de alma gemela, compatibilidad y lecciones, pero también debe revisar salud emocional y reciprocidad." },
+        { question: "¿Qué cartas sugieren alma gemela?", answer: "Los Enamorados, Dos de Copas, Seis de Copas, La Estrella, Rueda de la Fortuna y Templanza pueden sugerir conexión significativa." },
+      ],
+    },
+    "money-tarot-reading": {
+      title: "Lectura de tarot del dinero",
+      description: "Lectura gratis con IA para reflexionar sobre dinero, ingresos, gastos, recursos profesionales y el próximo paso práctico.",
+      eyebrow: "Dinero y recursos",
+      h1: "Lectura de tarot del dinero",
+      intro: "Pregunta por tu situación económica como guía reflexiva: patrones, recursos, decisiones y una acción concreta.",
+      intent: "Ideal para estrés económico, dirección de ingresos, hábitos de gasto, recursos prácticos y un siguiente paso realista.",
+      ctaQuestion: "¿Qué debo entender sobre mi dinero y mi próximo paso práctico?",
+      sections: [
+        { heading: "Usa el tarot como reflexión", body: "Puede mostrar confianza, riesgo, escasez, esfuerzo y recursos, pero no es asesoría financiera." },
+        { heading: "Conecta símbolos con acción", body: "La respuesta útil apunta a presupuestar, pedir, ahorrar, negociar, reducir riesgo o desarrollar una habilidad." },
+        { heading: "Abundancia con responsabilidad", body: "Las cartas positivas muestran oportunidad, pero la tirada también debe nombrar límites, timing y control real." },
+      ],
+      faqs: [
+        { question: "¿El tarot del dinero es asesoría financiera?", answer: "No. POPTarot lo presenta como guía reflexiva. Combínalo con presupuestos, contratos, asesoría profesional y planificación." },
+        { question: "¿Qué cartas sugieren mejora económica?", answer: "As de Oros, Diez de Oros, Rey de Oros, El Mago y Seis de Oros pueden apoyar mejora si la tirada acompaña." },
       ],
     },
     "yes-or-no-tarot-love": {
@@ -1812,6 +1968,78 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "O tarot pode prever quando vou encontrar amor?", answer: "Pode mostrar temas de timing e disponibilidade, mas o mais útil é entender quais decisões tornam a conexão possível." },
         { question: "Que cartas sugerem novo amor?", answer: "Ás de Copas, Os Enamorados, A Estrela, Dois de Copas, A Imperatriz e Roda da Fortuna podem sugerir abertura para novo amor." },
+      ],
+    },
+    "what-are-his-intentions-tarot": {
+      title: "Tarot: quais são as intenções dele?",
+      description: "Leitura grátis com IA sobre intenções, sinais mistos, disponibilidade emocional e se as atitudes combinam com as palavras.",
+      eyebrow: "Intenções e amor",
+      h1: "Tarot: quais são as intenções dele?",
+      intro: "Pergunte que intenção real ele tem com você e o que observar nas atitudes, não apenas nas palavras.",
+      intent: "Ideal para encontros incertos, sinais mistos, comunicação confusa e dúvidas sobre algo sério, casual ou evitativo.",
+      ctaQuestion: "Quais são as intenções dele comigo e o que devo observar nas atitudes?",
+      sections: [
+        { heading: "Intenções precisam de evidência", body: "Uma leitura útil compara o que ele pensa, sente, quer e se a conduta pode se tornar consistente." },
+        { heading: "Separe desejo de disponibilidade", body: "Pode existir atração sem preparo para compromisso, honestidade ou continuidade saudável." },
+        { heading: "Deixe o conselho proteger você", body: "A resposta deve dar um limite, conversa ou ponto de observação concreto, não mais ansiedade." },
+      ],
+      faqs: [
+        { question: "O tarot pode revelar intenções reais?", answer: "Pode refletir motivos prováveis, medo, atração e bloqueios. Use para observar melhor, não para substituir uma conversa direta." },
+        { question: "Que cartas sugerem intenções sérias?", answer: "O Hierofante, Rei de Ouros, Dois de Copas, Dez de Ouros e O Imperador podem apoiar intenções sérias se a tiragem concorda." },
+      ],
+    },
+    "will-we-get-back-together-tarot": {
+      title: "Tarot: vamos voltar?",
+      description: "Leitura grátis com IA sobre voltar com alguém, reconciliação, timing, o que mudou e se a união seria saudável.",
+      eyebrow: "Reconciliação",
+      h1: "Tarot: vamos voltar?",
+      intro: "Pergunte se vocês podem voltar e o que teria que mudar para que o reencontro não repita o mesmo padrão.",
+      intent: "Ideal para término, contato após distância, sentimentos não resolvidos e se uma segunda chance é realista.",
+      ctaQuestion: "Vamos voltar e o que teria que mudar para ser saudável?",
+      sections: [
+        { heading: "Voltar exige comportamento novo", body: "A tiragem deve mostrar o que terminou, o que ainda vive e o que teria que mudar em ambos." },
+        { heading: "Veja além do sim ou não", body: "As melhores cartas mostram timing, responsabilidade, disponibilidade emocional e se contato cura ou reabre a ferida." },
+        { heading: "Escolha seu próximo passo", body: "Se inclinar para retorno, pergunte que conversa falta. Se inclinar para não ou ainda não, pergunte o que ajuda você a avançar." },
+      ],
+      faqs: [
+        { question: "Esta leitura para voltar é grátis?", answer: "Sim. Você pode começar grátis. A assinatura fica para acompanhamentos profundos, histórico, tiragens avançadas e relatórios." },
+        { question: "Que cartas sugerem voltar?", answer: "O Julgamento, Temperança, Dois de Copas, Seis de Copas, Os Enamorados e A Estrela podem apoiar reconciliação se mostram reparo." },
+      ],
+    },
+    "is-he-my-soulmate-tarot": {
+      title: "Tarot: ele é minha alma gêmea?",
+      description: "Leitura grátis com IA sobre energia de alma gêmea, compatibilidade, lições, timing e se a conexão é saudável.",
+      eyebrow: "Conexão espiritual",
+      h1: "Tarot: ele é minha alma gêmea?",
+      intro: "Pergunte se esta conexão tem energia de alma gêmea e que lição ou limite ela traz para você.",
+      intent: "Ideal para conexões intensas, atração espiritual, padrões repetidos e dúvidas sobre segurança e reciprocidade.",
+      ctaQuestion: "Ele é minha alma gêmea e o que esta conexão me ensina?",
+      sections: [
+        { heading: "Alma gêmea nem sempre é simples", body: "A leitura deve olhar compatibilidade, crescimento, segurança emocional e se o vínculo melhora suas escolhas." },
+        { heading: "Intensidade não prova destino", body: "Atração forte pode parecer significativa, mas também é preciso revisar respeito, consistência, timing e valores." },
+        { heading: "Pergunte o que o vínculo pede", body: "A resposta útil nomeia uma lição, limite ou atitude para manter a conexão com os pés no chão." },
+      ],
+      faqs: [
+        { question: "O tarot pode dizer se ele é minha alma gêmea?", answer: "Pode explorar temas de alma gêmea, compatibilidade e lições, mas também deve revisar saúde emocional e reciprocidade." },
+        { question: "Que cartas sugerem alma gêmea?", answer: "Os Enamorados, Dois de Copas, Seis de Copas, A Estrela, Roda da Fortuna e Temperança podem sugerir conexão significativa." },
+      ],
+    },
+    "money-tarot-reading": {
+      title: "Leitura de tarot do dinheiro",
+      description: "Leitura grátis com IA para refletir sobre dinheiro, renda, gastos, recursos profissionais e o próximo passo prático.",
+      eyebrow: "Dinheiro e recursos",
+      h1: "Leitura de tarot do dinheiro",
+      intro: "Pergunte sobre sua situação financeira como guia reflexivo: padrões, recursos, decisões e uma ação concreta.",
+      intent: "Ideal para estresse financeiro, direção de renda, hábitos de gasto, recursos práticos e um próximo passo realista.",
+      ctaQuestion: "O que devo entender sobre meu dinheiro e meu próximo passo prático?",
+      sections: [
+        { heading: "Use tarot como reflexão", body: "Pode mostrar confiança, risco, escassez, esforço e recursos, mas não é aconselhamento financeiro." },
+        { heading: "Conecte símbolos com ação", body: "A resposta útil aponta para orçamento, pedido, economia, negociação, redução de risco ou uma habilidade." },
+        { heading: "Abundância com responsabilidade", body: "Cartas positivas mostram oportunidade, mas a tiragem também deve nomear limites, timing e controle real." },
+      ],
+      faqs: [
+        { question: "Tarot do dinheiro é conselho financeiro?", answer: "Não. POPTarot apresenta como guia reflexivo. Combine com orçamento, contratos, orientação profissional e planejamento." },
+        { question: "Que cartas sugerem melhora financeira?", answer: "Ás de Ouros, Dez de Ouros, Rei de Ouros, O Mago e Seis de Ouros podem apoiar melhora se a tiragem concorda." },
       ],
     },
     "yes-or-no-tarot-love": {
@@ -2667,6 +2895,158 @@ const regionalQuestionSeoEnhancements: Record<RegionalLocale, Record<string, Seo
         {
           question: "Que tiragem serve antes de pedir demissão?",
           answer: "Use uma tiragem profissional que revise pressão atual, riscos ocultos, recursos disponíveis, tempo e próximo passo mais seguro.",
+        },
+      ],
+    },
+    "what-are-his-intentions-tarot": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use quando sinais mistos, mensagens vagas ou encontros inconsistentes fazem você perguntar se ele quer algo sério, casual ou indefinido.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "A leitura deve comparar desejo, disponibilidade emocional, medo, intenção e se as atitudes podem ficar consistentes.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Se houver interesse sem ação, observe limites e consistência. Se houver confusão, peça clareza ou proteja sua energia.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da primeira resposta, pergunte: que sinal concreto devo observar antes de investir mais?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Esta leitura sobre intenções é grátis?",
+          answer: "Sim. Você pode começar grátis. A assinatura fica para acompanhamentos profundos, histórico salvo, tiragens avançadas e relatórios.",
+        },
+        {
+          question: "O tarot pode revelar intenções reais?",
+          answer: "Pode refletir motivos prováveis, atração, medos e bloqueios. Use como guia de observação, não como substituto de conversa direta.",
+        },
+        {
+          question: "Que cartas sugerem intenções sérias?",
+          answer: "O Hierofante, Rei de Ouros, Dois de Copas, Dez de Ouros e O Imperador podem apoiar intenção séria quando a tiragem concorda.",
+        },
+        {
+          question: "E se as cartas mostrarem desejo mas não compromisso?",
+          answer: "Isso sugere separar química de disponibilidade. A carta de conselho deve mostrar limite, conversa ou espera.",
+        },
+      ],
+    },
+    "will-we-get-back-together-tarot": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use após uma ruptura, distância ou silêncio quando ainda existe sentimento, mas você não sabe se voltar seria realista ou saudável.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "As cartas devem mostrar o que terminou, o que ainda conecta vocês, o que mudou e que reparo seria necessário.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Se inclinar para retorno, procure responsabilidade e conversa real. Se inclinar para não ou ainda não, foque em fechar o ciclo com dignidade.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da resposta, pergunte: que limite ou conversa teria que existir para uma segunda chance não repetir o passado?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Esta leitura sobre voltar é grátis?",
+          answer: "Sim. Você pode começar grátis. A assinatura adiciona acompanhamento, histórico, tiragens avançadas e relatórios.",
+        },
+        {
+          question: "Que cartas sugerem reconciliação?",
+          answer: "O Julgamento, Temperança, Dois de Copas, Seis de Copas, Os Enamorados e A Estrela podem apoiar reconciliação quando mostram reparo.",
+        },
+        {
+          question: "Voltar é sempre bom se as cartas dizem sim?",
+          answer: "Não. O sim precisa vir com mudança de comportamento, tempo certo, respeito e estabilidade emocional.",
+        },
+        {
+          question: "E se a resposta for ainda não?",
+          answer: "Ainda não costuma apontar timing, cura, comunicação ou responsabilidade ainda incompletos.",
+        },
+      ],
+    },
+    "is-he-my-soulmate-tarot": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use quando uma conexão parece intensa, espiritual ou repetitiva, mas você precisa saber se ela também é saudável e recíproca.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "A leitura deve olhar compatibilidade, lição, timing, segurança emocional, valores e se a conexão melhora suas escolhas.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Não trate intensidade como prova. Use a mensagem para nomear uma lição, limite ou atitude concreta.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da resposta, pergunte: que padrão esta conexão me pede para curar ou escolher melhor?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Esta leitura de alma gêmea é grátis?",
+          answer: "Sim. Você pode começar grátis. A assinatura é para perguntas profundas, histórico salvo e relatórios maiores.",
+        },
+        {
+          question: "O tarot pode dizer se ele é minha alma gêmea?",
+          answer: "Pode explorar temas de alma gêmea, compatibilidade, lições e timing, mas também deve checar saúde emocional e reciprocidade.",
+        },
+        {
+          question: "Que cartas sugerem alma gêmea?",
+          answer: "Os Enamorados, Dois de Copas, Seis de Copas, A Estrela, Roda da Fortuna e Temperança podem sugerir conexão significativa.",
+        },
+        {
+          question: "Alma gêmea significa relacionamento garantido?",
+          answer: "Não. Uma conexão pode ser significativa e ainda exigir limites, maturidade, escolha e cuidado real.",
+        },
+      ],
+    },
+    "money-tarot-reading": {
+      sections: [
+        {
+          heading: "Quando usar esta pergunta",
+          body: "Use quando dinheiro, renda, gastos, recursos profissionais ou escolhas práticas precisam de reflexão antes de agir.",
+        },
+        {
+          heading: "O que a tiragem deve esclarecer",
+          body: "A leitura pode mostrar padrões de escassez, confiança, risco, esforço, recursos e o próximo passo mais realista.",
+        },
+        {
+          heading: "Como agir com a resposta",
+          body: "Transforme a leitura em ação concreta: orçamento, pedido, economia, negociação, reduzir risco ou desenvolver uma habilidade.",
+        },
+        {
+          heading: "Melhor pergunta de acompanhamento",
+          body: "Depois da resposta, pergunte: que pequena decisão financeira eu consigo controlar esta semana?",
+        },
+      ],
+      faqs: [
+        {
+          question: "Tarot do dinheiro é conselho financeiro?",
+          answer: "Não. POPTarot trata como guia reflexivo. Combine com orçamento, contratos, planejamento real e aconselhamento profissional quando necessário.",
+        },
+        {
+          question: "Esta leitura de dinheiro é grátis?",
+          answer: "Sim. Você pode começar grátis. A assinatura fica para acompanhamentos profundos, histórico salvo e relatórios maiores.",
+        },
+        {
+          question: "Que cartas sugerem melhora financeira?",
+          answer: "Ás de Ouros, Dez de Ouros, Rei de Ouros, O Mago e Seis de Ouros podem apoiar melhora quando a tiragem concorda.",
+        },
+        {
+          question: "Posso usar tarot para investimentos?",
+          answer: "Use apenas para reflexão emocional e clareza de risco; decisões de investimento exigem dados, planejamento e orientação financeira qualificada.",
         },
       ],
     },
