@@ -343,6 +343,8 @@ export function DailyTarotTool() {
         copied: "链接已复制",
         generated: "分享链接已生成",
         failed: "分享失败，请稍后再试",
+        fallbackGenerated: "已生成可分享文案；登录后可创建公开结果页。",
+        fallbackCopied: "分享文案已复制；登录后可创建公开结果页。",
         xhs: "复制小红书文案",
         instagram: "复制 Instagram 文案",
         templateCopied: "分享文案已复制",
@@ -355,6 +357,8 @@ export function DailyTarotTool() {
         copied: "Share link copied",
         generated: "Share link ready",
         failed: "Share failed. Please try again.",
+        fallbackGenerated: "Share caption ready. Log in to create a public Daily Tarot page.",
+        fallbackCopied: "Share caption copied. Log in to create a public Daily Tarot page.",
         xhs: "Copy Xiaohongshu",
         instagram: "Copy Instagram",
         templateCopied: "Share caption copied",
@@ -367,6 +371,8 @@ export function DailyTarotTool() {
         copied: "リンクをコピーしました",
         generated: "共有リンクを作成しました",
         failed: "共有に失敗しました。もう一度お試しください。",
+        fallbackGenerated: "共有テキストを用意しました。ログインすると公開 Daily Tarot ページを作成できます。",
+        fallbackCopied: "共有テキストをコピーしました。ログインすると公開 Daily Tarot ページを作成できます。",
         xhs: "小紅書テキストをコピー",
         instagram: "Instagramをコピー",
         templateCopied: "投稿文をコピーしました",
@@ -379,6 +385,8 @@ export function DailyTarotTool() {
         copied: "공유 링크 복사됨",
         generated: "공유 링크 생성됨",
         failed: "공유에 실패했습니다. 다시 시도해주세요.",
+        fallbackGenerated: "공유 문구가 준비되었습니다. 로그인하면 공개 Daily Tarot 페이지를 만들 수 있습니다.",
+        fallbackCopied: "공유 문구를 복사했습니다. 로그인하면 공개 Daily Tarot 페이지를 만들 수 있습니다.",
         xhs: "샤오홍슈 문구 복사",
         instagram: "Instagram 복사",
         templateCopied: "공유 문구 복사됨",
@@ -875,6 +883,66 @@ export function DailyTarotTool() {
     return absoluteUrl
   }
 
+  const getDailyFallbackShareUrl = () => {
+    const params = new URLSearchParams({
+      utm_source: "share",
+      utm_medium: "fallback_share",
+      utm_campaign: "daily_tarot",
+    })
+    return `${window.location.origin}/daily-tarot?${params.toString()}`
+  }
+
+  const buildDailyShareCaption = (platform: ShareTemplatePlatform, url: string) => {
+    if (!card) throw new Error("No daily card to share")
+    return createShareTemplate({
+      platform,
+      locale: language,
+      question: dailyTarotQuestion,
+      cards: [
+        {
+          name: localizedCardName(card),
+          isReversed: card.isReversed,
+        },
+      ],
+      interpretation,
+      url,
+    })
+  }
+
+  const trackDailyFallbackShare = (platform: ShareTemplatePlatform, channel: "native" | "clipboard") => {
+    analyticsApi.track("share_template_copied", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      metadata: {
+        fallback: true,
+        platform,
+        channel,
+        surface: "daily-tarot",
+      },
+    })
+  }
+
+  const shareDailyFallbackCaption = async (platform: ShareTemplatePlatform, preferNativeShare: boolean) => {
+    const fallbackUrl = getDailyFallbackShareUrl()
+    const text = buildDailyShareCaption(platform, fallbackUrl)
+
+    if (preferNativeShare && navigator.share) {
+      await navigator.share({
+        title: "POPTarot Daily Tarot",
+        text,
+        url: fallbackUrl,
+      })
+      trackDailyFallbackShare(platform, "native")
+      setShareStatus(shareCopy.fallbackGenerated)
+      return
+    }
+
+    await navigator.clipboard.writeText(text)
+    trackDailyFallbackShare(platform, "clipboard")
+    setShareStatus(shareCopy.fallbackCopied)
+  }
+
   const handleShare = async () => {
     if (isCreatingShare || !card || !interpretation) return
     setIsCreatingShare(true)
@@ -894,7 +962,11 @@ export function DailyTarotTool() {
         setShareStatus(shareCopy.copied)
       }
     } catch {
-      setShareStatus(shareCopy.failed)
+      try {
+        await shareDailyFallbackCaption("instagram", true)
+      } catch {
+        setShareStatus(shareCopy.failed)
+      }
     } finally {
       setIsCreatingShare(false)
     }
@@ -907,19 +979,7 @@ export function DailyTarotTool() {
 
     try {
       const absoluteUrl = await ensureShareUrl()
-      const text = createShareTemplate({
-        platform,
-        locale: language,
-        question: dailyTarotQuestion,
-        cards: [
-          {
-            name: localizedCardName(card),
-            isReversed: card.isReversed,
-          },
-        ],
-        interpretation,
-        url: absoluteUrl,
-      })
+      const text = buildDailyShareCaption(platform, absoluteUrl)
       await navigator.clipboard.writeText(text)
       analyticsApi.track("share_template_copied", {
         ...getCurrentAttribution(),
@@ -932,7 +992,11 @@ export function DailyTarotTool() {
       })
       setShareStatus(shareCopy.templateCopied)
     } catch {
-      setShareStatus(shareCopy.failed)
+      try {
+        await shareDailyFallbackCaption(platform, false)
+      } catch {
+        setShareStatus(shareCopy.failed)
+      }
     } finally {
       setIsCreatingShare(false)
     }

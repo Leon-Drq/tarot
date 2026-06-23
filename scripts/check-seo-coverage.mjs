@@ -29,6 +29,10 @@ const files = {
   layout: { path: "app/layout.tsx", source: read("app/layout.tsx") },
   homePage: { path: "app/page.tsx", source: read("app/page.tsx") },
   dailyTarotPage: { path: "app/daily-tarot/page.tsx", source: read("app/daily-tarot/page.tsx") },
+  dailyTarotTool: {
+    path: "components/daily/daily-tarot-tool.tsx",
+    source: read("components/daily/daily-tarot-tool.tsx"),
+  },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
   vercelConfig: { path: "vercel.json", source: read("vercel.json") },
   tarotCardSeo: { path: "lib/tarot-card-seo.ts", source: read("lib/tarot-card-seo.ts") },
@@ -298,6 +302,18 @@ const dailyReminderCoverage = [
 ]
 
 for (const [file, needle, label] of dailyReminderCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+const dailyTarotShareCoverage = [
+  [files.dailyTarotTool, "getDailyFallbackShareUrl", "Daily Tarot fallback share URL helper"],
+  [files.dailyTarotTool, "utm_campaign: \"daily_tarot\"", "Daily Tarot fallback share campaign"],
+  [files.dailyTarotTool, "fallback: true", "Daily Tarot fallback share analytics metadata"],
+  [files.dailyTarotTool, "shareDailyFallbackCaption", "Daily Tarot fallback share handler"],
+  [files.dailyTarotTool, "Log in to create a public Daily Tarot page", "Daily Tarot fallback share copy"],
+]
+
+for (const [file, needle, label] of dailyTarotShareCoverage) {
   assertIncludes(file, needle, label)
 }
 
