@@ -46,6 +46,7 @@ const coreToolLinks = [
   { label: "Yes or No Tarot", href: "/yes-or-no-tarot", type: "WebPage" },
   { label: "Love Tarot Reading", href: "/love-tarot-reading", type: "WebPage" },
   { label: "Career Tarot Reading", href: "/career-tarot-reading", type: "WebPage" },
+  { label: "Monthly Tarot Report", href: "/monthly-tarot-report", type: "WebPage" },
 ]
 
 export const highIntentQuestionLinks = [

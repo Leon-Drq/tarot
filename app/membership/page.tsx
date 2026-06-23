@@ -196,6 +196,7 @@ function MembershipContent() {
         body: "POPTarot 的第一目标是免费 AI 塔罗工具。你可以先完成免费解读、每日一牌和牌义查询；会员只在你需要更深追问、长期保存和月度总结时出现。",
         freeCta: "开始免费解读",
         dailyCta: "每日塔罗",
+        monthlyCta: "查看月度报告",
         upgradeTitle: "适合升级的场景",
         items: [
           "深度追问：围绕同一个问题继续追问，而不是反复重新开始。",
@@ -210,6 +211,7 @@ function MembershipContent() {
         body: "POPTarot should work as a free AI tarot tool before anyone pays. Start with a free reading, Daily Tarot, and card meanings; upgrade only when you need deeper follow-ups, saved history, advanced spreads, or monthly reports.",
         freeCta: "Start Free Reading",
         dailyCta: "Daily Tarot",
+        monthlyCta: "Preview Monthly Report",
         upgradeTitle: "Upgrade when you need",
         items: [
           "Deeper follow-ups: continue one question instead of restarting the same reading.",
@@ -224,6 +226,7 @@ function MembershipContent() {
         body: "POPTarot は、支払い前に無料 AI タロットとして役立つことを優先します。無料リーディング、毎日のタロット、カード意味から始め、深い追質問、履歴保存、高度なスプレッド、月次レポートが必要な時だけアップグレードできます。",
         freeCta: "無料で始める",
         dailyCta: "毎日のタロット",
+        monthlyCta: "月間レポートを見る",
         upgradeTitle: "アップグレードが役立つ時",
         items: [
           "深い追質問: 同じテーマを最初からやり直さずに続けて整理する。",
@@ -238,6 +241,7 @@ function MembershipContent() {
         body: "POPTarot은 결제 전에도 무료 AI 타로 도구로 충분히 유용해야 합니다. 무료 리딩, 데일리 타로, 카드 의미부터 시작하고, 심층 질문, 기록 저장, 고급 스프레드, 월간 리포트가 필요할 때만 업그레이드하세요.",
         freeCta: "무료 리딩 시작",
         dailyCta: "데일리 타로",
+        monthlyCta: "월간 리포트 보기",
         upgradeTitle: "업그레이드가 필요한 순간",
         items: [
           "심층 후속 질문: 같은 질문을 처음부터 반복하지 않고 이어서 정리합니다.",
@@ -252,6 +256,7 @@ function MembershipContent() {
       body: "POPTarot should work as a free AI tarot tool before anyone pays. Start with a free reading, Daily Tarot, and card meanings; upgrade only when you need deeper follow-ups, saved history, advanced spreads, or monthly reports.",
       freeCta: "Start Free Reading",
       dailyCta: "Daily Tarot",
+      monthlyCta: "Preview Monthly Report",
       upgradeTitle: "Upgrade when you need",
       items: [
         "Deeper follow-ups: continue one question instead of restarting the same reading.",
@@ -381,6 +386,12 @@ function MembershipContent() {
               className="inline-flex min-h-11 items-center justify-center rounded-lg border border-mystic-border px-4 py-2.5 text-sm text-mystic-foreground transition hover:border-mystic-foreground/35 hover:bg-mystic-surface"
             >
               {membershipBoundary.dailyCta}
+            </Link>
+            <Link
+              href="/monthly-tarot-report"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[#bfb6ff]/25 bg-[#bfb6ff]/[0.06] px-4 py-2.5 text-sm text-mystic-foreground transition hover:border-mystic-foreground/35 hover:bg-mystic-surface sm:col-span-2"
+            >
+              {membershipBoundary.monthlyCta}
             </Link>
           </div>
           <div className="mt-5 border-t border-mystic-border pt-5">
