@@ -210,11 +210,11 @@ export default function DailyTarotPage() {
       />
       <header className="border-b border-white/10 bg-[#0d0618]/95">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-8 lg:px-10">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-white/62 transition hover:text-white">
+          <Link href="/" className="inline-flex min-h-10 items-center gap-2 text-sm text-white/62 transition hover:text-white">
             <ArrowLeft className="h-4 w-4" />
             POP TAROT
           </Link>
-          <Link href="/free-ai-tarot-reading" className="text-sm text-[#c9c0ff]/85 transition hover:text-white">
+          <Link href="/free-ai-tarot-reading" className="inline-flex min-h-10 items-center text-sm text-[#c9c0ff]/85 transition hover:text-white">
             Free AI Tarot
           </Link>
         </div>

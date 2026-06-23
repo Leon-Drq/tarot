@@ -19,7 +19,7 @@ export function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
         className={`
           group flex items-center justify-center gap-1.5 sm:gap-2 
-          h-8 px-2.5 sm:h-9 sm:px-3.5 md:h-10 md:px-4 
+          h-10 px-3 sm:h-10 sm:px-3.5 md:px-4 
           rounded-full transition-all duration-300 backdrop-blur-md border 
           ${
             isOpen
@@ -53,7 +53,7 @@ export function LanguageSwitcher() {
                   key={lang}
                   onClick={() => handleLanguageChange(lang)}
                   className={`
-                    w-full px-3 py-2 sm:px-4 sm:py-2.5 text-left transition-all duration-200 flex items-center gap-2 sm:gap-3
+                    min-h-10 w-full px-3 py-2 sm:px-4 sm:py-2.5 text-left transition-all duration-200 flex items-center gap-2 sm:gap-3
                     group relative
                     ${
                       language === lang

@@ -911,7 +911,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_58%_0%,rgba(123,83,178,0.38),transparent_34%),linear-gradient(180deg,#12091f_0%,#080310_100%)]" />
         <div className="relative mx-auto w-full max-w-6xl px-5 py-8 sm:px-8 lg:px-10">
           <nav className="flex w-full max-w-full items-center justify-between gap-3 overflow-hidden">
-            <Link href="/" className="shrink-0 font-serif text-sm tracking-[0.28em] text-white/80">
+            <Link href="/" className="inline-flex min-h-10 shrink-0 items-center font-serif text-sm tracking-[0.28em] text-white/80">
               POP TAROT
             </Link>
             <Link
@@ -950,7 +950,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                     <a
                       key={`${item.href}-${item.label}`}
                       href={item.href}
-                      className="rounded-lg border border-white/10 px-3 py-2 text-xs text-white/62 transition hover:border-[#bfb6ff]/45 hover:text-white"
+                      className="inline-flex min-h-10 items-center rounded-lg border border-white/10 px-3 py-2 text-xs text-white/62 transition hover:border-[#bfb6ff]/45 hover:text-white"
                     >
                       {item.label}
                     </a>
@@ -1081,7 +1081,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{trustCopy.eyebrow}</p>
                 <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                   <h2 className="max-w-2xl font-serif text-2xl leading-tight text-white">{trustCopy.title}</h2>
-                  <Link href="/about" className="text-sm text-[#c9c0ff] transition hover:text-white">
+                  <Link href="/about" className="inline-flex min-h-10 items-center text-sm text-[#c9c0ff] transition hover:text-white">
                     {trustCopy.action}
                   </Link>
                 </div>
@@ -1146,7 +1146,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="rounded-lg border border-white/10 px-3 py-2 text-sm text-white/56 transition hover:border-[#bfb6ff]/45 hover:text-white"
+                    className="inline-flex min-h-10 items-center rounded-lg border border-white/10 px-3 py-2 text-sm text-white/56 transition hover:border-[#bfb6ff]/45 hover:text-white"
                   >
                     {link.label}
                   </Link>

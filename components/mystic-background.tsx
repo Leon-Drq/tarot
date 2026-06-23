@@ -106,7 +106,7 @@ function HomeQuestionForm() {
             key={example}
             type="button"
             onClick={() => setQuestion(example)}
-            className="shrink-0 rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-[11px] text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
+            className="inline-flex min-h-10 shrink-0 items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-[11px] text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
           >
             {example}
           </button>
@@ -673,7 +673,7 @@ function MysticContent() {
         {/* 4. 3D rotating tarot card - use custom images if available */}
         <div
           data-home-card-scene
-          className="absolute left-0 right-0 top-[var(--home-hero-focal-y,var(--home-hero-card-y))] z-20 flex h-0 justify-center overflow-visible"
+          className="absolute left-0 right-0 top-[var(--home-hero-card-y)] z-20 flex h-0 justify-center overflow-visible"
         >
           <div
             data-home-card-focal
@@ -705,19 +705,19 @@ function MysticContent() {
           <HomeDailyReturnPanel />
 
           <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
-            <a href="/daily-tarot" className="transition hover:text-white">
+            <a href="/daily-tarot" className="inline-flex min-h-10 items-center transition hover:text-white">
               Daily Tarot
             </a>
             <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/tarot-spreads" className="transition hover:text-white">
+            <a href="/tarot-spreads" className="inline-flex min-h-10 items-center transition hover:text-white">
               Spreads
             </a>
             <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/tarot-card-meanings" className="transition hover:text-white">
+            <a href="/tarot-card-meanings" className="inline-flex min-h-10 items-center transition hover:text-white">
               Card Meanings
             </a>
             <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/about" className="transition hover:text-white">
+            <a href="/about" className="inline-flex min-h-10 items-center transition hover:text-white">
               About
             </a>
           </div>

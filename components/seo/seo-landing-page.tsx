@@ -1233,7 +1233,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
 
         <div className="relative mx-auto flex min-h-[88vh] max-w-6xl flex-col justify-center px-5 py-24 sm:px-8 lg:px-10">
           <nav className="absolute left-5 right-5 top-5 flex items-center justify-between sm:left-8 sm:right-8 lg:left-10 lg:right-10">
-            <Link href="/" className="font-serif text-sm tracking-[0.28em] text-white/80">
+            <Link href="/" className="inline-flex min-h-10 items-center font-serif text-sm tracking-[0.28em] text-white/80">
               POP TAROT
             </Link>
             <Link

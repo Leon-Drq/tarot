@@ -189,10 +189,10 @@ export function TrustPageView({ page }: { page: TrustPage }) {
       <section className="border-b border-white/10 bg-[radial-gradient(circle_at_50%_0%,rgba(123,83,178,0.34),transparent_36%),linear-gradient(180deg,#12091f_0%,#080310_100%)]">
         <div className="mx-auto max-w-5xl px-5 py-6 sm:px-8 lg:px-10">
           <nav className="flex items-center justify-between">
-            <Link href="/" className="text-sm tracking-[0.22em] text-white/62 transition hover:text-white">
+            <Link href="/" className="inline-flex min-h-10 items-center text-sm tracking-[0.22em] text-white/62 transition hover:text-white">
               POP TAROT
             </Link>
-            <Link href="/free-ai-tarot-reading" className="text-sm text-[#c9c0ff] transition hover:text-white">
+            <Link href="/free-ai-tarot-reading" className="inline-flex min-h-10 items-center text-sm text-[#c9c0ff] transition hover:text-white">
               Free Reading
             </Link>
           </nav>
