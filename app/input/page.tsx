@@ -76,6 +76,7 @@ function InputContent() {
       keyword: q,
       metadata: {
         question_length: q.length,
+        requested_spread: preferredSpreadType || undefined,
       },
     })
 
@@ -138,7 +139,7 @@ function InputContent() {
 
     analyticsApi.track("cards_selected", {
       ...getCurrentAttribution(),
-      locale: language,
+      locale: readingLocale,
       keyword: question,
       metadata: {
         spread_type: spreadInfo?.type || "three_card",

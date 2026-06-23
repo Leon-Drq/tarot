@@ -393,6 +393,7 @@ export const dailyTarotApi = {
 
 export interface CardData {
   name: string
+  position?: string
   isReversed: boolean
   meaning: {
     upright: string

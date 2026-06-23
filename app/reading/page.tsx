@@ -170,6 +170,23 @@ export default function ReadingPage() {
     return value === key ? fallback : value
   }
 
+  const getLocalizedPosition = (config: SpreadConfig | null | undefined, index: number, locale: string) => {
+    const position = config?.positions?.[index]
+    if (!position) return undefined
+    if (locale === "ja") return position.nameJa || position.nameEn || position.name
+    if (locale === "ko") return position.nameKo || position.nameEn || position.name
+    if (locale === "zh") return position.name
+    return position.nameEn || position.name
+  }
+
+  const buildReadingCards = (cards: DrawnCard[], locale: string, config: SpreadConfig | null | undefined) =>
+    cards.map((card, index) => ({
+      name: getCardName(card, locale),
+      position: getLocalizedPosition(config, index, locale),
+      isReversed: card.isReversed,
+      meaning: card.meaning,
+    }))
+
   useEffect(() => {
     const count = Number(localStorage.getItem("poptarot_reading_count") || "0")
     setReadingCount(Number.isFinite(count) ? count : 0)
@@ -193,7 +210,7 @@ export default function ReadingPage() {
 
     if (!hasStartedRef.current) {
       hasStartedRef.current = true
-      startReading(parsed.drawnCards, parsed.question, false, "", parsed.spreadType || "three_card", parsedLocale)
+      startReading(parsed.drawnCards, parsed.question, false, "", parsed.spreadType || "three_card", parsedLocale, parsed.spreadConfig || null)
     }
   }, [router])
 
@@ -261,6 +278,7 @@ export default function ReadingPage() {
     followUpQuestion = "",
     currentSpreadType = "three_card",
     currentReadingLocale = readingLocale,
+    currentSpreadConfig: SpreadConfig | null = spreadConfig,
   ) => {
     if (isReading || cards.length === 0) return
 
@@ -286,16 +304,14 @@ export default function ReadingPage() {
         }
       }
       
+      const readingCards = buildReadingCards(cards, currentReadingLocale, currentSpreadConfig)
+
       // 如果是首次解读且用户已登录，先创建解读记录
       if (!isFollowUp && hasSession && !readingId) {
         try {
           const createResult = await readingApi.create(
             userQuestion,
-            cards.map(card => ({
-              name: getCardName(card, currentReadingLocale),
-              isReversed: card.isReversed,
-              meaning: card.meaning,
-            })),
+            readingCards,
             currentSpreadType || spreadType
           )
           setReadingId(createResult.reading_id)
@@ -319,11 +335,7 @@ export default function ReadingPage() {
       // 调用 AI 解读 API（后端流式接口，带语言参数和牌阵类型）
       const response = await readingApi.interpret(
         userQuestion,
-        cards.map((card) => ({
-          name: getCardName(card, currentReadingLocale),
-          isReversed: card.isReversed,
-          meaning: card.meaning,
-        })),
+        readingCards,
         isFollowUp,
         followUpQuestion,
         messages.map((m) => m.content),
