@@ -691,8 +691,7 @@ function MysticContent() {
             <CoreLight className="pointer-events-none absolute left-0 top-0 z-0 flex h-0 w-0 items-center justify-center" />
             <div
               data-home-card-anchor
-              className="absolute left-0 top-0 z-10 flex h-[15rem] w-[8.75rem] items-center justify-center overflow-visible sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
-              style={{ transform: "translate(-50%, -50%)" }}
+              className="absolute left-0 top-0 z-10 flex h-[15rem] w-[8.75rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-visible sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
             >
               <TarotCard
                 frontImage={customFront || DEFAULT_FRONT}
