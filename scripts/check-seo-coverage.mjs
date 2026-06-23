@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 
 const root = process.cwd()
@@ -19,7 +19,17 @@ function assertMatches(file, pattern, label) {
   }
 }
 
+function assertFileExists(path, label) {
+  if (!existsSync(join(root, path))) {
+    throw new Error(`Missing ${label}: ${path}`)
+  }
+}
+
 const files = {
+  layout: { path: "app/layout.tsx", source: read("app/layout.tsx") },
+  homePage: { path: "app/page.tsx", source: read("app/page.tsx") },
+  dailyTarotPage: { path: "app/daily-tarot/page.tsx", source: read("app/daily-tarot/page.tsx") },
+  manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
   tarotCardSeo: { path: "lib/tarot-card-seo.ts", source: read("lib/tarot-card-seo.ts") },
   cardMeaningPage: {
     path: "components/seo/tarot-card-meaning-page.tsx",
@@ -34,6 +44,12 @@ const files = {
   seoLanding: {
     path: "components/seo/seo-landing-page.tsx",
     source: read("components/seo/seo-landing-page.tsx"),
+  },
+  trustPages: { path: "lib/trust-pages.ts", source: read("lib/trust-pages.ts") },
+  trustSignals: { path: "lib/trust-signals.ts", source: read("lib/trust-signals.ts") },
+  trustPageView: {
+    path: "components/trust/trust-page.tsx",
+    source: read("components/trust/trust-page.tsx"),
   },
 }
 
@@ -103,6 +119,94 @@ for (const localizedSlug of [
   "leitura-tarot-futuro-conjuge",
 ]) {
   assertIncludes(files.seoPages, localizedSlug, `localized long-tail slug ${localizedSlug}`)
+}
+
+const trustSlugs = [
+  "about",
+  "official-channels",
+  "brand-assets",
+  "editorial-policy",
+  "ai-tarot-disclaimer",
+  "privacy",
+  "reviews",
+  "tarot-reading-examples",
+]
+
+for (const slug of trustSlugs) {
+  assertIncludes(files.trustPages, `slug: "${slug}"`, `trust page ${slug}`)
+  assertIncludes(files.site, `href: "/${slug}"`, `trust navigation link ${slug}`)
+}
+
+const trustDataCoverage = [
+  [files.trustPages, "testimonials: representativeTestimonials", "reviews testimonials"],
+  [files.trustPages, "readingExamples:", "reading examples content"],
+  [files.trustPages, "brandAssets:", "brand asset registry"],
+  [files.trustPages, "actionLinks:", "trust-to-free-reading action links"],
+  [files.trustSignals, "Free first", "free-first trust highlight"],
+  [files.trustSignals, "Membership second", "membership-second trust highlight"],
+  [files.trustSignals, "Responsible AI", "responsible AI trust highlight"],
+  [files.trustPageView, "#testimonials", "testimonial structured data"],
+  [files.trustPageView, "#sample-readings", "sample reading structured data"],
+  [files.trustPageView, "#brand-assets", "brand asset structured data"],
+  [files.trustPageView, "Official Social Accounts", "official social account section"],
+]
+
+for (const [file, needle, label] of trustDataCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+const structuredDataCoverage = [
+  [files.site, "logo: {", "Organization logo"],
+  [files.site, "/icon-512x512.png", "Organization logo asset"],
+  [files.site, "data.sameAs = socialLinks.map", "verified sameAs emission"],
+  [files.site, "makesOffer:", "free offer on Organization"],
+  [files.site, "price: \"0\"", "free pricing signal"],
+  [files.site, "\"@type\": \"SearchAction\"", "Website SearchAction"],
+  [files.site, "query-input", "SearchAction query input"],
+  [files.site, "citation: representativeTestimonials.map", "SoftwareApplication testimonial citations"],
+  [files.homePage, "#free-tarot-paths", "homepage free path ItemList"],
+  [files.homePage, "#high-intent-tarot-questions", "homepage high-intent question ItemList"],
+  [files.homePage, "#trust-paths", "homepage trust path ItemList"],
+  [files.homePage, "#representative-feedback", "homepage representative feedback ItemList"],
+  [files.dailyTarotPage, "\"@type\": \"SoftwareApplication\"", "daily tarot SoftwareApplication schema"],
+  [files.dailyTarotPage, "\"@type\": \"HowTo\"", "daily tarot HowTo schema"],
+  [files.dailyTarotPage, "\"@type\": \"FAQPage\"", "daily tarot FAQ schema"],
+  [files.dailyTarotPage, "Calendar reminder", "daily tarot calendar reminder"],
+  [files.dailyTarotPage, "Email reminder preference after delivery is connected", "daily tarot pending email reminder signal"],
+]
+
+for (const [file, needle, label] of structuredDataCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+const identityMetadataCoverage = [
+  [files.layout, "manifest: \"/manifest.webmanifest\"", "web app manifest metadata"],
+  [files.layout, "/favicon-48x48.png", "48px favicon metadata"],
+  [files.layout, "/favicon-96x96.png", "96px favicon metadata"],
+  [files.layout, "/apple-touch-icon.png", "Apple touch icon metadata"],
+  [files.layout, "/og-image.jpg", "Open Graph image metadata"],
+  [files.manifest, "\"name\": \"POPTarot - Free AI Tarot Reading\"", "manifest product name"],
+  [files.manifest, "\"shortcuts\"", "manifest shortcuts"],
+  [files.manifest, "\"url\": \"/daily-tarot\"", "Daily Tarot manifest shortcut"],
+  [files.manifest, "\"url\": \"/free-ai-tarot-reading\"", "Free Reading manifest shortcut"],
+  [files.manifest, "\"url\": \"/tarot-card-meanings\"", "card meanings manifest shortcut"],
+  [files.manifest, "\"src\": \"/icon-512x512.png\"", "512px manifest icon"],
+]
+
+for (const [file, needle, label] of identityMetadataCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+for (const [path, label] of [
+  ["public/favicon-48x48.png", "48px favicon"],
+  ["public/favicon-96x96.png", "96px favicon"],
+  ["public/apple-touch-icon.png", "Apple touch icon"],
+  ["public/icon-192x192.png", "192px app icon"],
+  ["public/icon-512x512.png", "512px app icon"],
+  ["public/icon.svg", "SVG icon"],
+  ["public/og-image.jpg", "Open Graph image"],
+]) {
+  assertFileExists(path, label)
 }
 
 console.log("SEO coverage checks passed.")
