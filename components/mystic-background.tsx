@@ -692,7 +692,7 @@ function MysticContent() {
             <div
               data-home-card-anchor
               className="absolute left-0 top-0 z-10 flex h-[15rem] w-[8.75rem] items-center justify-center overflow-visible sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
-              style={{ transform: "translate(-50%, calc(-50% - var(--home-card-optical-lift, 0px)))" }}
+              style={{ transform: "translate(-50%, -50%)" }}
             >
               <TarotCard
                 frontImage={customFront || DEFAULT_FRONT}
