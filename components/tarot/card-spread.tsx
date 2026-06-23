@@ -6,6 +6,7 @@ import { useEffect, useState, useRef, useMemo } from "react"
 import Image from "next/image"
 import { getMajorArcana, getFullDeck, type TarotCard } from "@/lib/tarot-cards"
 import { type DeckType } from "@/lib/api"
+import { useLanguage } from "@/contexts/language-context"
 
 interface CardSpreadProps {
   onShuffle?: () => void
@@ -38,6 +39,7 @@ export function CardSpread({
   const [rotationOffset, setRotationOffset] = useState(0)
   const touchStartRef = useRef<{ x: number; rotation: number } | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
+  const { language } = useLanguage()
 
   const [isMobile, setIsMobile] = useState(false)
 
@@ -49,6 +51,13 @@ export function CardSpread({
   }, [deckType])
 
   const CARD_COUNT = deck.length
+  const mobileSwipeHint =
+    {
+      zh: "滑动旋转牌阵",
+      en: "Swipe to rotate the spread",
+      ja: "スワイプでスプレッドを回転",
+      ko: "스와이프로 스프레드 회전",
+    }[language] || "Swipe to rotate the spread"
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640)
@@ -174,8 +183,8 @@ export function CardSpread({
       onTouchEnd={handleTouchEnd}
     >
       {selectionMode && !collectingMode && cardsDealt && (
-        <div className="absolute bottom-[12%] sm:bottom-[8%] left-1/2 -translate-x-1/2 text-mystic-muted text-xs sm:hidden pointer-events-none animate-pulse">
-          ← 滑动旋转牌阵 →
+        <div className="pointer-events-none absolute bottom-[calc(env(safe-area-inset-bottom)+9.25rem)] left-1/2 -translate-x-1/2 animate-pulse whitespace-nowrap text-xs text-[#c9c0ff]/56 sm:hidden">
+          {mobileSwipeHint}
         </div>
       )}
 
@@ -241,14 +250,14 @@ export function CardSpread({
               style={{
                 backgroundColor: "#24163f",
                 border: isSelected
-                  ? "2px solid #dcb360"
+                  ? "2px solid #c9c0ff"
                   : hoveredCard === card.id && canSelect
-                    ? "1px solid #dcb360"
+                    ? "1px solid #b7adff"
                     : "1px solid #543d7a",
                 boxShadow: isSelected
-                  ? "0 0 25px rgba(220, 179, 96, 0.6), 0 10px 30px rgba(220, 179, 96, 0.3)"
+                  ? "0 0 26px rgba(201, 192, 255, 0.52), 0 10px 32px rgba(129, 114, 232, 0.28)"
                   : hoveredCard === card.id && canSelect
-                    ? "0 0 20px rgba(220, 179, 96, 0.3)"
+                    ? "0 0 20px rgba(183, 173, 255, 0.28)"
                     : "-5px 5px 20px rgba(0,0,0,0.6)",
                 filter: isSelected
                   ? "brightness(1.15)"
@@ -261,7 +270,7 @@ export function CardSpread({
               <div
                 className="absolute top-1.5 left-1.5 right-1.5 bottom-1.5 rounded-lg pointer-events-none"
                 style={{
-                  border: isSelected ? "1px solid rgba(220, 179, 96, 0.5)" : "1px solid rgba(220, 179, 96, 0.3)",
+                  border: isSelected ? "1px solid rgba(201, 192, 255, 0.5)" : "1px solid rgba(201, 192, 255, 0.24)",
                 }}
               />
             </div>

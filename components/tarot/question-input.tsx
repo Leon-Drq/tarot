@@ -60,80 +60,84 @@ export function QuestionInput({ visible = true, onSubmit, initialQuestion = "" }
             }}
           />
 
-          <div className="absolute inset-0 z-20 flex translate-y-0 flex-col items-center justify-center gap-5 overflow-visible px-5 py-[calc(env(safe-area-inset-top)+2rem)] opacity-100 transition-all delay-300 duration-700 sm:gap-6 sm:px-6 md:gap-7">
-            <div className="flex flex-col items-center gap-3 text-center">
-              <p 
-                className="text-xs uppercase text-[#c9c0ff]/68 md:text-sm" 
-                style={{ 
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 300
-                }}
-              >
-                {t("tarot.questionInputSubtitle")}
-              </p>
-              <h1 
-                className="max-w-[17rem] whitespace-normal break-words text-center text-[1.45rem] leading-tight text-white/86 sm:max-w-xl sm:text-3xl"
-                style={{ 
-                  fontFamily: 'var(--font-serif)',
-                  fontWeight: 600,
-                }}
-              >
-                {t("tarot.questionInputTitle")}
-              </h1>
-            </div>
+          <div className="absolute inset-0 z-20 translate-y-0 overflow-y-auto overscroll-contain px-5 pb-[calc(env(safe-area-inset-bottom)+2rem)] pt-[calc(env(safe-area-inset-top)+1.5rem)] opacity-100 transition-all delay-300 duration-700 sm:px-6 md:pt-[calc(env(safe-area-inset-top)+2rem)]">
+            <div className="mx-auto flex min-h-full w-full flex-col items-center justify-center gap-5 py-2 sm:gap-6 md:gap-7">
+              <div className="flex flex-col items-center gap-3 text-center">
+                <p
+                  className="text-xs uppercase text-[#c9c0ff]/68 md:text-sm"
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 300,
+                  }}
+                >
+                  {t("tarot.questionInputSubtitle")}
+                </p>
+                <h1
+                  className="max-w-[17rem] whitespace-normal break-words text-center text-[1.45rem] leading-tight text-white/86 sm:max-w-xl sm:text-3xl"
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontWeight: 600,
+                  }}
+                >
+                  {t("tarot.questionInputTitle")}
+                </h1>
+              </div>
 
-            <div className="relative flex h-16 w-[18rem] max-w-[calc(100vw-2.5rem)] items-center justify-center overflow-hidden sm:w-full sm:max-w-xl">
+              {suggestedQuestions.length > 0 && (
+                <div className="relative flex h-16 w-[18rem] max-w-[calc(100vw-2.5rem)] items-center justify-center overflow-hidden sm:w-full sm:max-w-xl">
+                  <button
+                    type="button"
+                    key={currentQuestionIndex}
+                    className="animate-fade-in-up group absolute rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 text-center transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.07]"
+                    onClick={() => setQuestion(suggestedQuestions[currentQuestionIndex])}
+                  >
+                    <span className="line-clamp-2 text-sm leading-6 text-white/58 transition-colors duration-300 group-hover:text-white/82 md:text-base">
+                      {suggestedQuestions[currentQuestionIndex]}
+                    </span>
+                  </button>
+                </div>
+              )}
+
+              <div className="relative w-[18rem] max-w-[calc(100vw-2.5rem)] sm:w-full sm:max-w-xl">
+                <div
+                  className="absolute -inset-1 rounded-lg opacity-45 blur-xl transition-opacity duration-500"
+                  style={{
+                    background: "radial-gradient(circle, rgba(191, 182, 255, 0.32) 0%, transparent 72%)",
+                  }}
+                />
+                <div className="relative rounded-lg border border-white/14 bg-black/38 px-4 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.32)] backdrop-blur-md transition focus-within:border-[#bfb6ff]/60 md:px-5 md:py-4">
+                  <div className="flex items-center justify-center gap-3">
+                    <input
+                      type="text"
+                      value={question}
+                      autoFocus
+                      onChange={(e) => setQuestion(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                      placeholder={t("tarot.questionInputPlaceholder")}
+                      className="min-w-0 flex-1 bg-transparent text-base text-white/90 outline-none placeholder:text-white/32 md:text-lg"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <button
-                type="button"
-                key={currentQuestionIndex}
-                className="animate-fade-in-up group absolute rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 text-center transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.07]"
-                onClick={() => setQuestion(suggestedQuestions[currentQuestionIndex])}
+                onClick={handleSubmit}
+                disabled={!question.trim() || hasSubmitted}
+                className="group relative w-[18rem] max-w-[calc(100vw-2.5rem)] cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 sm:w-full sm:max-w-xl"
               >
-                <span className="line-clamp-2 text-sm leading-6 text-white/58 transition-colors duration-300 group-hover:text-white/82 md:text-base">
-                  {suggestedQuestions[currentQuestionIndex]}
-                </span>
+                <div className="relative flex min-h-12 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_48%,#8172e8_100%)] px-6 py-3 text-[#120c22] shadow-[0_18px_45px_rgba(129,114,232,0.26)] transition duration-300 group-hover:brightness-110">
+                  <div className="flex items-center">
+                    <span className="whitespace-nowrap text-sm font-medium transition-colors duration-300 md:text-base">
+                      {t("tarot.selectCardButton")}
+                    </span>
+                  </div>
+                </div>
               </button>
+
+              <p className="max-w-md text-center text-xs leading-5 text-white/40">
+                {t("tarot.questionInputBottomHint")}
+              </p>
             </div>
-
-            <div className="relative w-[18rem] max-w-[calc(100vw-2.5rem)] sm:w-full sm:max-w-xl">
-              <div 
-                className="absolute -inset-1 rounded-lg opacity-45 blur-xl transition-opacity duration-500"
-                style={{
-                  background: "radial-gradient(circle, rgba(191, 182, 255, 0.32) 0%, transparent 72%)",
-                }}
-              />
-              <div className="relative rounded-lg border border-white/14 bg-black/38 px-4 py-3 shadow-[0_18px_60px_rgba(0,0,0,0.32)] backdrop-blur-md transition focus-within:border-[#bfb6ff]/60 md:px-5 md:py-4">
-                <div className="flex items-center justify-center gap-3">
-                  <input
-                    type="text"
-                    value={question}
-                    autoFocus
-                    onChange={(e) => setQuestion(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                    placeholder={t("tarot.questionInputPlaceholder")}
-                    className="min-w-0 flex-1 bg-transparent text-base text-white/90 outline-none placeholder:text-white/32 md:text-lg"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <button
-              onClick={handleSubmit}
-              disabled={!question.trim() || hasSubmitted}
-              className="group relative w-[18rem] max-w-[calc(100vw-2.5rem)] cursor-pointer disabled:cursor-not-allowed disabled:opacity-45 sm:w-full sm:max-w-xl"
-            >
-              <div className="relative flex min-h-12 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_48%,#8172e8_100%)] px-6 py-3 text-[#120c22] shadow-[0_18px_45px_rgba(129,114,232,0.26)] transition duration-300 group-hover:brightness-110">
-                <div className="flex items-center">
-                  <span className="whitespace-nowrap text-sm font-medium transition-colors duration-300 md:text-base">
-                    {t("tarot.selectCardButton")}
-                  </span>
-                </div>
-              </div>
-            </button>
-
-            <p className="text-xs text-white/40 text-center max-w-md">
-              {t("tarot.questionInputBottomHint")}
-            </p>
           </div>
         </>
       )}

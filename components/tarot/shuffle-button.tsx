@@ -12,7 +12,7 @@ export function ShuffleButton({ visible, onClick }: ShuffleButtonProps) {
 
   return (
     <div
-      className={`fixed bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 z-40 transition-all duration-700 ${
+      className={`fixed bottom-[calc(env(safe-area-inset-bottom)+2rem)] left-1/2 z-40 -translate-x-1/2 transition-all duration-700 sm:bottom-12 ${
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"
       }`}
     >
@@ -25,17 +25,17 @@ export function ShuffleButton({ visible, onClick }: ShuffleButtonProps) {
           border: "1px solid rgba(255,255,255,0.3)",
           color: "#fff",
           fontFamily: "var(--font-sans)",
-          boxShadow: "0 4px 20px rgba(0,0,0,0.3), 0 0 30px rgba(220,179,96,0.1)",
+          boxShadow: "0 4px 20px rgba(0,0,0,0.3), 0 0 30px rgba(201,192,255,0.12)",
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.background = "rgba(220,179,96,0.15)"
-          e.currentTarget.style.borderColor = "rgba(220,179,96,0.6)"
-          e.currentTarget.style.boxShadow = "0 4px 30px rgba(0,0,0,0.4), 0 0 40px rgba(220,179,96,0.3)"
+          e.currentTarget.style.background = "rgba(201,192,255,0.14)"
+          e.currentTarget.style.borderColor = "rgba(201,192,255,0.56)"
+          e.currentTarget.style.boxShadow = "0 4px 30px rgba(0,0,0,0.4), 0 0 40px rgba(129,114,232,0.28)"
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.background = "rgba(0,0,0,0.3)"
           e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"
-          e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.3), 0 0 30px rgba(220,179,96,0.1)"
+          e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.3), 0 0 30px rgba(201,192,255,0.12)"
         }}
       >
         <span className="flex items-center gap-2">

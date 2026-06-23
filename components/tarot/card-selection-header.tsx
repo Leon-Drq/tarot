@@ -165,12 +165,12 @@ export function CardSelectionHeader({
 
       {/* 手机端 - 显示在底部 */}
       <div
-        className={`absolute bottom-[18%] left-1/2 -translate-x-1/2 z-30 flex sm:hidden flex-col items-center gap-1 transition-all duration-700 ${
+        className={`absolute bottom-[calc(env(safe-area-inset-bottom)+6rem)] left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-1 rounded-full border border-white/10 bg-black/26 px-4 py-2 shadow-[0_12px_35px_rgba(0,0,0,0.28)] backdrop-blur-md transition-all duration-700 sm:hidden ${
           visible && !isComplete ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8 pointer-events-none"
         }`}
       >
         {nextPosition && (
-          <p className="text-white/70 text-sm tracking-wide">
+          <p className="whitespace-nowrap text-sm tracking-wide text-white/72">
             {{
               zh: "下一张",
               en: "Next",

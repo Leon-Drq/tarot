@@ -169,7 +169,8 @@ function InputContent() {
 
   return (
     <div
-      className="fixed inset-0 w-screen h-[100dvh] overflow-hidden touch-none flex items-center justify-center"
+      data-input-page
+      className="fixed inset-0 flex h-[100dvh] min-h-[100svh] w-screen items-center justify-center overflow-hidden overscroll-none"
       style={{
         background: "radial-gradient(circle at 50% -10%, #5a3c85 0%, #241438 40%, #0f0518 100%)",
       }}
