@@ -33,6 +33,14 @@ type BeforeInstallPromptEvent = Event & {
   userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>
 }
 
+type DailyReturnCommitment = {
+  target_date: string
+  source_entry_date: string
+  focus: string
+  note: string
+  created_at: string
+}
+
 function getSeed() {
   if (typeof window === "undefined") return "guest"
   const existing = localStorage.getItem(storageKey)
@@ -135,10 +143,21 @@ function localDailyKey(dateKey: string) {
   return `poptarot_daily_${dateKey}`
 }
 
+function localReturnCommitmentKey(dateKey: string) {
+  return `poptarot_daily_return_${dateKey}`
+}
+
 function getPreviousDateKey(dateKey: string) {
   const [year, month, day] = dateKey.split("-").map(Number)
   const date = new Date(year, month - 1, day)
   date.setDate(date.getDate() - 1)
+  return getLocalDateKey(date)
+}
+
+function getNextDateKey(dateKey: string) {
+  const [year, month, day] = dateKey.split("-").map(Number)
+  const date = new Date(year, month - 1, day)
+  date.setDate(date.getDate() + 1)
   return getLocalDateKey(date)
 }
 
@@ -167,6 +186,17 @@ function readRecentLocalEntries(dateKey: string) {
   return getRecentDateKeys(dateKey)
     .map(readLocalEntry)
     .filter((item): item is DailyTarotEntry => Boolean(item))
+}
+
+function readReturnCommitment(dateKey: string): DailyReturnCommitment | null {
+  if (typeof window === "undefined") return null
+  const value = localStorage.getItem(localReturnCommitmentKey(dateKey))
+  if (!value) return null
+  try {
+    return JSON.parse(value) as DailyReturnCommitment
+  } catch {
+    return null
+  }
 }
 
 function cardFromEntry(entry: DailyTarotEntry): DrawnCard | null {
@@ -290,6 +320,11 @@ export function DailyTarotTool() {
   const [shareStatus, setShareStatus] = useState("")
   const [calendarStatus, setCalendarStatus] = useState("")
   const [reminderStatus, setReminderStatus] = useState("")
+  const [returnFocus, setReturnFocus] = useState("")
+  const [returnNote, setReturnNote] = useState("")
+  const [todayReturnCommitment, setTodayReturnCommitment] = useState<DailyReturnCommitment | null>(null)
+  const [tomorrowReturnCommitment, setTomorrowReturnCommitment] = useState<DailyReturnCommitment | null>(null)
+  const [returnCommitmentStatus, setReturnCommitmentStatus] = useState("")
   const [installStatus, setInstallStatus] = useState("")
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [showInstallPrompt, setShowInstallPrompt] = useState(false)
@@ -347,6 +382,66 @@ export function DailyTarotTool() {
         xhs: "샤오홍슈 문구 복사",
         instagram: "Instagram 복사",
         templateCopied: "공유 문구 복사됨",
+      },
+    }[language]
+
+  const returnCopy =
+    {
+      zh: {
+        eyebrow: "明日回访",
+        title: "给明天留一个回来的理由",
+        body: "保存一个轻量主题，明天打开 Daily Tarot 时先看它，再抽新的牌。",
+        todayLabel: "今天从上次带来的主题",
+        tomorrowLabel: "明天的主题",
+        noteLabel: "给明天的自己",
+        notePlaceholder: "例如：观察我是否还在同一个情绪里，或者我是否采取了一个小行动。",
+        saved: "明日回访主题已保存",
+        save: "保存明日主题",
+        savedPrefix: "已保存",
+        defaultFocus: "今日牌的下一步",
+        chips: ["爱情", "事业", "情绪", "行动", "边界"],
+      },
+      ja: {
+        eyebrow: "明日の再訪",
+        title: "明日戻る理由をひとつ残す",
+        body: "軽いテーマを保存して、明日 Daily Tarot を開いたときに新しいカードの前に確認できます。",
+        todayLabel: "前回から持ち越した今日のテーマ",
+        tomorrowLabel: "明日のテーマ",
+        noteLabel: "明日の自分へ",
+        notePlaceholder: "例: 同じ感情が続いているか、小さな行動を取れたかを見る。",
+        saved: "明日のテーマを保存しました",
+        save: "明日のテーマを保存",
+        savedPrefix: "保存済み",
+        defaultFocus: "今日のカードの次の一歩",
+        chips: ["恋愛", "仕事", "感情", "行動", "境界線"],
+      },
+      ko: {
+        eyebrow: "내일 다시 보기",
+        title: "내일 돌아올 이유를 하나 남기세요",
+        body: "가벼운 주제를 저장해 두면 내일 Daily Tarot을 열 때 새 카드 전에 먼저 확인할 수 있습니다.",
+        todayLabel: "지난번에 남긴 오늘의 주제",
+        tomorrowLabel: "내일의 주제",
+        noteLabel: "내일의 나에게",
+        notePlaceholder: "예: 같은 감정이 반복되는지, 작은 행동을 했는지 확인하기.",
+        saved: "내일 다시 볼 주제가 저장되었습니다",
+        save: "내일 주제 저장",
+        savedPrefix: "저장됨",
+        defaultFocus: "오늘 카드의 다음 단계",
+        chips: ["사랑", "커리어", "감정", "행동", "경계"],
+      },
+      en: {
+        eyebrow: "Tomorrow return",
+        title: "Leave one reason to come back tomorrow",
+        body: "Save a light focus so tomorrow starts with continuity before you draw a new card.",
+        todayLabel: "Focus carried into today",
+        tomorrowLabel: "Tomorrow's focus",
+        noteLabel: "Note to future you",
+        notePlaceholder: "For example: notice whether the same feeling returns, or whether I took one small action.",
+        saved: "Tomorrow's return cue is saved",
+        save: "Save Tomorrow Cue",
+        savedPrefix: "Saved",
+        defaultFocus: "Next step from today's card",
+        chips: ["Love", "Career", "Mood", "Action", "Boundaries"],
       },
     }[language]
 
@@ -409,6 +504,14 @@ export function DailyTarotTool() {
     const seededCard = getDailyCard(today, getSeed())
     setCard(seededCard)
     setRecentEntries(readRecentLocalEntries(today))
+    setTodayReturnCommitment(readReturnCommitment(today))
+
+    const tomorrowCommitment = readReturnCommitment(getNextDateKey(today))
+    setTomorrowReturnCommitment(tomorrowCommitment)
+    if (tomorrowCommitment) {
+      setReturnFocus(tomorrowCommitment.focus)
+      setReturnNote(tomorrowCommitment.note)
+    }
 
     const localEntry = localStorage.getItem(localDailyKey(today))
     if (localEntry) {
@@ -694,6 +797,23 @@ export function DailyTarotTool() {
     link.remove()
     window.setTimeout(() => URL.revokeObjectURL(url), 1000)
     setCalendarStatus(copy.calendarReminderSaved)
+  }
+
+  const handleSaveReturnCommitment = () => {
+    if (!dateKey) return
+    const targetDate = getNextDateKey(dateKey)
+    const nextCommitment: DailyReturnCommitment = {
+      target_date: targetDate,
+      source_entry_date: dateKey,
+      focus: returnFocus.trim() || returnCopy.defaultFocus,
+      note: returnNote.trim(),
+      created_at: new Date().toISOString(),
+    }
+    localStorage.setItem(localReturnCommitmentKey(targetDate), JSON.stringify(nextCommitment))
+    setTomorrowReturnCommitment(nextCommitment)
+    setReturnFocus(nextCommitment.focus)
+    setReturnNote(nextCommitment.note)
+    setReturnCommitmentStatus(returnCopy.saved)
   }
 
   const scrollToReminder = () => {
@@ -1022,6 +1142,85 @@ export function DailyTarotTool() {
             </div>
           )}
         </article>
+
+        {(interpretation || todayReturnCommitment || tomorrowReturnCommitment) && (
+          <article data-daily-return-commitment className="rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.04] p-5 sm:p-6">
+            <div className="flex flex-col gap-5">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{returnCopy.eyebrow}</p>
+                <h2 className="mt-2 font-serif text-xl leading-tight text-white">{returnCopy.title}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/58">{returnCopy.body}</p>
+              </div>
+
+              {todayReturnCommitment && (
+                <div className="rounded-lg border border-white/10 bg-black/18 p-4">
+                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">{returnCopy.todayLabel}</p>
+                  <p className="mt-2 text-sm font-medium leading-snug text-white">{todayReturnCommitment.focus}</p>
+                  {todayReturnCommitment.note && (
+                    <p className="mt-2 text-sm leading-6 text-white/54">{todayReturnCommitment.note}</p>
+                  )}
+                </div>
+              )}
+
+              <div className="grid gap-3">
+                <div>
+                  <p className="mb-2 text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.tomorrowLabel}</p>
+                  <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    {returnCopy.chips.map((chip) => (
+                      <button
+                        key={chip}
+                        type="button"
+                        onClick={() => setReturnFocus(chip)}
+                        className={`inline-flex min-h-10 shrink-0 items-center rounded-full border px-3 text-xs transition ${
+                          returnFocus === chip
+                            ? "border-[#c9c0ff]/52 bg-[#c9c0ff]/16 text-white"
+                            : "border-white/10 bg-black/18 text-white/58 hover:border-[#c9c0ff]/35 hover:text-white"
+                        }`}
+                      >
+                        {chip}
+                      </button>
+                    ))}
+                  </div>
+                  <input
+                    value={returnFocus}
+                    onChange={(event) => setReturnFocus(event.target.value)}
+                    placeholder={returnCopy.defaultFocus}
+                    className="mt-3 min-h-11 w-full rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+                  />
+                </div>
+
+                <label className="grid gap-2">
+                  <span className="text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.noteLabel}</span>
+                  <textarea
+                    value={returnNote}
+                    onChange={(event) => setReturnNote(event.target.value)}
+                    placeholder={returnCopy.notePlaceholder}
+                    className="min-h-24 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+                  />
+                </label>
+              </div>
+
+              <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-center">
+                {tomorrowReturnCommitment ? (
+                  <p className="text-xs leading-5 text-white/45">
+                    {returnCopy.savedPrefix}: {tomorrowReturnCommitment.target_date} · {tomorrowReturnCommitment.focus}
+                  </p>
+                ) : (
+                  <p className="text-xs leading-5 text-white/45">{getNextDateKey(dateKey || getLocalDateKey())}</p>
+                )}
+                <button
+                  type="button"
+                  onClick={handleSaveReturnCommitment}
+                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/28 bg-[#c9c0ff]/[0.08] px-4 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
+                >
+                  {returnCopy.save}
+                </button>
+              </div>
+
+              {returnCommitmentStatus && <p className="text-xs text-[#c9c0ff]">{returnCommitmentStatus}</p>}
+            </div>
+          </article>
+        )}
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
           <div className="mb-4">

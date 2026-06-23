@@ -13,7 +13,7 @@ import { trustLastReviewed } from "@/lib/trust-signals"
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 const dailyTitle = "Daily AI Tarot Reading"
 const dailyDescription =
-  "Draw one free AI tarot card every day, save a private tarot journal, keep your daily streak, and add a calendar reminder to return."
+  "Draw one free AI tarot card every day, save a private tarot journal, keep your daily streak, set a tomorrow return cue, and add a calendar reminder."
 
 const dailyFaqs = [
   {
@@ -30,6 +30,11 @@ const dailyFaqs = [
     question: "How do Daily Tarot reminders work?",
     answer:
       "Calendar reminders are available now: choose a time, download the calendar file, and your phone calendar can remind you to return. Email reminders use a reminder email, preferred time, timezone, and unsubscribe link after delivery is connected.",
+  },
+  {
+    question: "What is a tomorrow return cue?",
+    answer:
+      "A return cue is a small local note for tomorrow, such as love, career, mood, action, or boundaries. It gives your next daily card continuity without requiring payment or email delivery.",
   },
   {
     question: "Should I treat the daily card as a prediction?",
@@ -53,7 +58,7 @@ const dailySteps = [
   },
   {
     name: "Return tomorrow",
-    text: "Keep a streak, add a calendar reminder, and watch patterns across repeated cards.",
+    text: "Save a tomorrow return cue, keep a streak, add a calendar reminder, and watch patterns across repeated cards.",
   },
 ]
 
@@ -72,6 +77,11 @@ const returnLoopItems = [
     title: "Write one journal note",
     text: "A short note makes tomorrow's card more useful because you can compare the theme with what actually happened.",
     icon: NotebookPen,
+  },
+  {
+    title: "Save tomorrow's focus",
+    text: "Leave a small return cue so the next visit begins with continuity before a new card is drawn.",
+    icon: CalendarPlus,
   },
   {
     title: "Share one useful insight",
@@ -143,6 +153,7 @@ const structuredData = {
         "AI tarot interpretation",
         "Daily streak",
         "Private journal note",
+        "Tomorrow return cue",
         "Calendar reminder",
         "Email reminder preference after delivery is connected",
         "Shareable daily tarot result",
