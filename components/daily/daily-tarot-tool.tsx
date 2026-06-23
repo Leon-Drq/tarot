@@ -6,7 +6,15 @@ import { useEffect, useMemo, useState } from "react"
 import { Bell, CalendarPlus, Loader2, Share2, Smartphone } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
-import { analyticsApi, authApi, dailyTarotApi, readingApi, setAccessToken, type DailyTarotEntry } from "@/lib/api"
+import {
+  analyticsApi,
+  authApi,
+  dailyTarotApi,
+  readingApi,
+  setAccessToken,
+  type DailyReminderCapability,
+  type DailyTarotEntry,
+} from "@/lib/api"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import {
@@ -220,6 +228,7 @@ export function DailyTarotTool() {
   const [reminderTime, setReminderTime] = useState("08:30")
   const [reminderEnabled, setReminderEnabled] = useState(false)
   const [emailDeliveryEnabled, setEmailDeliveryEnabled] = useState(false)
+  const [reminderCapability, setReminderCapability] = useState<DailyReminderCapability | null>(null)
   const [streak, setStreak] = useState(0)
   const [shareUrl, setShareUrl] = useState("")
   const [shareStatus, setShareStatus] = useState("")
@@ -315,8 +324,14 @@ export function DailyTarotTool() {
   useEffect(() => {
     dailyTarotApi
       .getReminderCapability()
-      .then((data) => setEmailDeliveryEnabled(Boolean(data.can_send_email_reminders ?? data.scheduled_delivery_enabled ?? data.email_delivery_enabled)))
-      .catch(() => setEmailDeliveryEnabled(false))
+      .then((data) => {
+        setReminderCapability(data)
+        setEmailDeliveryEnabled(Boolean(data.can_send_email_reminders ?? data.scheduled_delivery_enabled ?? data.email_delivery_enabled))
+      })
+      .catch(() => {
+        setReminderCapability(null)
+        setEmailDeliveryEnabled(false)
+      })
   }, [])
 
   useEffect(() => {
@@ -691,6 +706,7 @@ export function DailyTarotTool() {
   const displayName = card ? localizedCardName(card) : ""
   const reminderModeTitle = emailDeliveryEnabled ? copy.emailReminderReadyTitle : copy.calendarFallbackTitle
   const reminderModeBody = emailDeliveryEnabled ? copy.reminderHelp : copy.calendarFallbackBody
+  const calendarReminderAvailable = reminderCapability?.calendar_reminder_available ?? true
   const hasReading = Boolean(interpretation)
   const stickyPrimaryLabel = hasReading ? shareCopy.button : isDrawing ? copy.drawing : copy.draw
   const stickyPrimaryDisabled = hasReading ? isCreatingShare || isDrawing : isDrawing
@@ -894,8 +910,24 @@ export function DailyTarotTool() {
         </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
-          <div className="mb-4">
+          <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <h2 className="font-serif text-xl text-white">{copy.reminderTitle}</h2>
+            <div className="flex flex-wrap gap-2">
+              <span
+                className={`inline-flex min-h-8 items-center rounded-lg border px-3 text-[11px] uppercase tracking-[0.14em] ${
+                  emailDeliveryEnabled
+                    ? "border-emerald-300/24 bg-emerald-300/10 text-emerald-100"
+                    : "border-[#c9c0ff]/22 bg-[#c9c0ff]/10 text-[#dcd5ff]"
+                }`}
+              >
+                {emailDeliveryEnabled ? copy.emailActiveBadge : copy.emailPendingBadge}
+              </span>
+              {calendarReminderAvailable && (
+                <span className="inline-flex min-h-8 items-center rounded-lg border border-white/10 bg-white/[0.045] px-3 text-[11px] uppercase tracking-[0.14em] text-white/56">
+                  {copy.calendarNowBadge}
+                </span>
+              )}
+            </div>
           </div>
           <div className="mb-4 rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.045] p-4">
             <p className="text-sm font-medium text-[#f2edff]">{reminderModeTitle}</p>
@@ -933,7 +965,7 @@ export function DailyTarotTool() {
                 disabled={isSaving || (!reminderEmail && reminderEnabled)}
                 className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
               >
-                {copy.saveReminder}
+                {emailDeliveryEnabled ? copy.saveReminder : copy.saveEmailPreference}
               </button>
               <button
                 onClick={handleDownloadCalendarReminder}
