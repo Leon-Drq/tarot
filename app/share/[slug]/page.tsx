@@ -43,6 +43,21 @@ function cardLabel(card: ReadingShareCard) {
   return card.nameEn || card.name || "Tarot Card"
 }
 
+function sharedReadingHref(share: ReadingShare) {
+  const params = new URLSearchParams({
+    q: share.question,
+    auto: "1",
+    source: "shared-reading",
+    utm_source: "share",
+    utm_medium: "public_share",
+    utm_campaign: "shared_reading",
+  })
+
+  if (share.spread_type) params.set("spread", share.spread_type)
+
+  return `/input?${params.toString()}`
+}
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
   const share = await getShare(slug)
@@ -94,6 +109,7 @@ export default async function SharePage({ params }: Params) {
   const share = await getShare(slug)
   if (!share) notFound()
   const description = share.interpretation_excerpt || "A shared AI tarot reading from POPTarot."
+  const sameQuestionHref = sharedReadingHref(share)
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -117,6 +133,11 @@ export default async function SharePage({ params }: Params) {
         },
         mainEntity: {
           "@id": `${appUrl}/share/${share.slug}#reading`,
+        },
+        potentialAction: {
+          "@type": "Action",
+          name: "Ask this tarot question free",
+          target: `${appUrl}${sameQuestionHref}`,
         },
       },
       {
@@ -182,7 +203,7 @@ export default async function SharePage({ params }: Params) {
               POP TAROT
             </Link>
             <Link
-              href={freeReadingHref}
+              href={sameQuestionHref}
               className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-[#c9c0ff]/30 px-4 py-2 text-xs uppercase tracking-[0.14em] text-[#eeeaff] transition hover:border-[#c9c0ff]/65 hover:bg-[#c9c0ff]/10"
             >
               Draw Cards
@@ -237,13 +258,32 @@ export default async function SharePage({ params }: Params) {
               </article>
             )}
 
+            <div
+              data-public-share-free-loop
+              className="mx-auto mt-10 max-w-3xl rounded-lg border border-[#c9c0ff]/18 bg-[#c9c0ff]/[0.06] p-5 text-center sm:p-6"
+            >
+              <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/72">Free reading loop</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+                Ask the same question with your own cards
+              </h2>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-white/60">
+                Shared readings are for reflection. Start the same question free, keep the matching spread, and only upgrade later if you need deeper follow-up questions or saved history.
+              </p>
+            </div>
+
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
-                href={freeReadingHref}
+                href={sameQuestionHref}
                 className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f5f2ff_0%,#b7adff_44%,#6d63d8_100%)] px-7 py-3 text-sm font-medium text-[#0c0920] shadow-[0_18px_45px_rgba(109,99,216,0.28)] transition hover:brightness-110 sm:w-auto"
               >
-                Start Your Free Reading
+                Ask This Question Free
                 <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href={freeReadingHref}
+                className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-white/14 px-7 py-3 text-sm text-white/72 transition hover:border-[#c9c0ff]/40 hover:bg-white/[0.05] sm:w-auto"
+              >
+                Start a New Question
               </Link>
               <Link
                 href={dailyTarotHref}

@@ -80,6 +80,10 @@ const files = {
     path: "app/reading/page.tsx",
     source: read("app/reading/page.tsx"),
   },
+  sharePage: {
+    path: "app/share/[slug]/page.tsx",
+    source: read("app/share/[slug]/page.tsx"),
+  },
 }
 
 const cardCoverage = [
@@ -314,6 +318,20 @@ const dailyTarotShareCoverage = [
 ]
 
 for (const [file, needle, label] of dailyTarotShareCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+const publicShareConversionCoverage = [
+  [files.sharePage, "function sharedReadingHref", "public share same-question href helper"],
+  [files.sharePage, "q: share.question", "public share carries original question"],
+  [files.sharePage, "params.set(\"spread\", share.spread_type)", "public share carries original spread"],
+  [files.sharePage, "data-public-share-free-loop", "public share free conversion section"],
+  [files.sharePage, "Ask This Question Free", "public share same-question CTA"],
+  [files.sharePage, "Start a New Question", "public share alternate new-question CTA"],
+  [files.sharePage, "utm_medium: \"public_share\"", "public share attribution"],
+]
+
+for (const [file, needle, label] of publicShareConversionCoverage) {
   assertIncludes(file, needle, label)
 }
 
