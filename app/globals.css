@@ -189,7 +189,7 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-focal-y: clamp(20.5rem, 46svh, 23rem);
+    --home-hero-focal-y: 23rem;
     --home-hero-light-y: var(--home-hero-focal-y);
     --home-hero-content-y: calc(var(--home-hero-light-y) + clamp(3.75rem, 8svh, 4.75rem));
   }
