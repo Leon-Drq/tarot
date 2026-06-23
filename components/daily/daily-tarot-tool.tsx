@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
-import { CalendarPlus, Loader2, Share2, Smartphone } from "lucide-react"
+import { Bell, CalendarPlus, Loader2, Share2, Smartphone } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, authApi, dailyTarotApi, readingApi, setAccessToken, type DailyTarotEntry } from "@/lib/api"
@@ -569,6 +569,13 @@ export function DailyTarotTool() {
     setCalendarStatus(copy.calendarReminderSaved)
   }
 
+  const scrollToReminder = () => {
+    document.querySelector("[data-daily-reminder-form]")?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    })
+  }
+
   const handleInstallPrompt = async () => {
     if (!installPrompt) {
       setInstallStatus(copy.installFallback)
@@ -684,9 +691,47 @@ export function DailyTarotTool() {
   const displayName = card ? localizedCardName(card) : ""
   const reminderModeTitle = emailDeliveryEnabled ? copy.emailReminderReadyTitle : copy.calendarFallbackTitle
   const reminderModeBody = emailDeliveryEnabled ? copy.reminderHelp : copy.calendarFallbackBody
+  const hasReading = Boolean(interpretation)
+  const stickyPrimaryLabel = hasReading ? shareCopy.button : isDrawing ? copy.drawing : copy.draw
+  const stickyPrimaryDisabled = hasReading ? isCreatingShare || isDrawing : isDrawing
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-12 pt-6 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
+    <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-[calc(env(safe-area-inset-bottom)+6.75rem)] pt-6 sm:px-8 sm:pb-12 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
+      <div
+        data-daily-sticky-cta
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#090411]/92 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_50px_rgba(0,0,0,0.42)] backdrop-blur-xl sm:hidden"
+      >
+        <div className="mx-auto flex max-w-md items-center gap-2">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">{copy.eyebrow}</p>
+            <p className="mt-1 truncate text-xs text-white/52">
+              {displayName || copy.streak} · {streak} {copy.days}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={scrollToReminder}
+            aria-label={copy.reminderTitle}
+            className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-white/12 px-3 text-xs text-white/70 transition hover:border-white/30 hover:text-white"
+          >
+            <Bell className="h-4 w-4" aria-hidden="true" />
+            <span>{copy.reminderTitle}</span>
+          </button>
+          <button
+            type="button"
+            onClick={hasReading ? handleShare : handleDraw}
+            disabled={stickyPrimaryDisabled}
+            className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-xs font-medium text-[#120c22] shadow-[0_12px_30px_rgba(146,132,239,0.24)] transition hover:brightness-110 disabled:opacity-60"
+          >
+            {isDrawing || (hasReading && isCreatingShare) ? (
+              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+            ) : hasReading ? (
+              <Share2 className="h-4 w-4" aria-hidden="true" />
+            ) : null}
+            <span>{stickyPrimaryLabel}</span>
+          </button>
+        </div>
+      </div>
       <section className="rounded-lg border border-white/10 bg-white/[0.03] p-5 shadow-[0_20px_80px_rgba(0,0,0,0.22)] sm:p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
