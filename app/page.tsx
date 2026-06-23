@@ -15,6 +15,11 @@ import { representativeTestimonials, trustLastReviewed } from "@/lib/trust-signa
 
 const homeFreePaths = [
   {
+    title: "Free Tarot Tools",
+    description: "Use one crawlable hub for free readings, Daily Tarot, tarot questions, spreads, meanings, examples, and trust pages.",
+    href: "/free-tarot-tools",
+  },
+  {
     title: "Free AI Tarot Reading",
     description: "Ask one real question, draw cards, and receive a free AI tarot interpretation before any membership decision.",
     href: "/free-ai-tarot-reading",

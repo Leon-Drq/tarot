@@ -38,6 +38,7 @@ export const trustLinks = [
 ]
 
 const coreToolLinks = [
+  { label: "Free Tarot Tools", href: "/free-tarot-tools", type: "CollectionPage" },
   { label: "Free AI Tarot Reading", href: "/free-ai-tarot-reading", type: "WebPage" },
   { label: "Daily Tarot", href: "/daily-tarot", type: "WebApplication" },
   { label: "Free Tarot Spreads", href: "/tarot-spreads", type: "CollectionPage" },

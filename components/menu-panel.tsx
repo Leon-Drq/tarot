@@ -109,6 +109,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         cardMeanings: "牌义大全",
         tarotSpreads: "免费牌阵",
         tarotQuestions: "问题入口",
+        freeTools: "免费工具",
         monthlyReport: "月度报告",
         trust: "关于与隐私",
         reviews: "用户评价",
@@ -121,6 +122,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         cardMeanings: "Card Meanings",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "Tarot Questions",
+        freeTools: "Free Tools",
         monthlyReport: "Monthly Report",
         trust: "About & Privacy",
         reviews: "Reviews",
@@ -133,6 +135,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         cardMeanings: "カードの意味",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "質問別タロット",
+        freeTools: "Free Tools",
         monthlyReport: "Monthly Report",
         trust: "About / Privacy",
         reviews: "Reviews",
@@ -145,6 +148,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         cardMeanings: "카드 의미",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "질문별 타로",
+        freeTools: "Free Tools",
         monthlyReport: "Monthly Report",
         trust: "About / Privacy",
         reviews: "Reviews",
@@ -277,6 +281,12 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
             className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
           >
             {menuCopy.tarotQuestions}
+          </button>
+          <button
+            onClick={() => handleNavigate("/free-tarot-tools")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.freeTools}
           </button>
           <button
             onClick={() => handleNavigate("/about")}

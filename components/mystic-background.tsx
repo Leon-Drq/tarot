@@ -231,6 +231,7 @@ function HomeScrollContent() {
         trustBody: "补充阅读编辑说明、AI 解读边界、隐私政策、用户反馈和真实问题案例。",
         items: [
           { href: "/daily-tarot", title: "每日塔罗", body: "每日一牌、连续打卡、保存日记。" },
+          { href: "/free-tarot-tools", title: "免费工具", body: "从一个入口查看免费解读、每日塔罗、问题页、牌阵和牌义。" },
           { href: "/tarot-spreads", title: "免费牌阵", body: "爱情、事业、是/否问题直接匹配牌阵。" },
           { href: "/tarot-questions", title: "问题入口", body: "前任、爱情、事业和是否问题直接开始。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "适合快速判断，但保留 AI 解释。" },
@@ -294,6 +295,7 @@ function HomeScrollContent() {
         trustBody: "Read the editorial policy, AI disclaimer, privacy notes, representative reviews, and realistic reading examples.",
         items: [
           { href: "/daily-tarot", title: "Daily Tarot", body: "One card, streaks, journal, and reminders." },
+          { href: "/free-tarot-tools", title: "Free Tools", body: "One hub for free readings, Daily Tarot, question pages, spreads, and meanings." },
           { href: "/tarot-spreads", title: "Tarot Spreads", body: "Choose yes/no, love, ex, career, and decision spreads." },
           { href: "/tarot-questions", title: "Tarot Questions", body: "Start from ex, love, yes/no, and career questions." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "A quick answer with the reason behind it." },
@@ -361,6 +363,7 @@ function HomeScrollContent() {
         trustBody: "編集方針、AI 免責、プライバシー、レビュー、質問例を確認できます。",
         items: [
           { href: "/daily-tarot", title: "今日のタロット", body: "一枚引き、記録、リマインダー。" },
+          { href: "/free-tarot-tools", title: "Free Tools", body: "無料リーディング、毎日の一枚、質問、スプレッド、カード意味の入口。" },
           { href: "/tarot-spreads", title: "Tarot Spreads", body: "恋愛、仕事、Yes/No に合うスプレッド。" },
           { href: "/tarot-questions", title: "質問別タロット", body: "復縁、恋愛、仕事、Yes/No から開始。" },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "短い答えと理由を確認。" },
@@ -424,6 +427,7 @@ function HomeScrollContent() {
         trustBody: "편집 원칙, AI 안내, 개인정보, 리뷰, 실제 질문 예시를 확인할 수 있습니다.",
         items: [
           { href: "/daily-tarot", title: "오늘의 타로", body: "한 장 뽑기, 기록, 알림." },
+          { href: "/free-tarot-tools", title: "Free Tools", body: "무료 리딩, 데일리 타로, 질문 페이지, 스프레드, 카드 의미 입구." },
           { href: "/tarot-spreads", title: "Tarot Spreads", body: "사랑, 커리어, 예/아니오 질문별 스프레드." },
           { href: "/tarot-questions", title: "질문별 타로", body: "재회, 사랑, 커리어, 예/아니오로 시작." },
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "빠른 답과 그 이유." },
