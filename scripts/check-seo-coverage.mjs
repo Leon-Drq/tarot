@@ -30,6 +30,7 @@ const files = {
   homePage: { path: "app/page.tsx", source: read("app/page.tsx") },
   dailyTarotPage: { path: "app/daily-tarot/page.tsx", source: read("app/daily-tarot/page.tsx") },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
+  vercelConfig: { path: "vercel.json", source: read("vercel.json") },
   tarotCardSeo: { path: "lib/tarot-card-seo.ts", source: read("lib/tarot-card-seo.ts") },
   cardMeaningPage: {
     path: "components/seo/tarot-card-meaning-page.tsx",
@@ -50,6 +51,22 @@ const files = {
   trustPageView: {
     path: "components/trust/trust-page.tsx",
     source: read("components/trust/trust-page.tsx"),
+  },
+  reminderCapability: {
+    path: "app/api/daily-tarot/reminder-capability/route.ts",
+    source: read("app/api/daily-tarot/reminder-capability/route.ts"),
+  },
+  reminderCron: {
+    path: "app/api/cron/daily-tarot-reminders/route.ts",
+    source: read("app/api/cron/daily-tarot-reminders/route.ts"),
+  },
+  reminderUnsubscribe: {
+    path: "app/api/daily-tarot/unsubscribe/route.ts",
+    source: read("app/api/daily-tarot/unsubscribe/route.ts"),
+  },
+  reminderUnsubscribeToken: {
+    path: "lib/server/daily-reminder-unsubscribe.ts",
+    source: read("lib/server/daily-reminder-unsubscribe.ts"),
   },
 }
 
@@ -253,6 +270,27 @@ for (const [path, label] of [
   ["public/og-image.jpg", "Open Graph image"],
 ]) {
   assertFileExists(path, label)
+}
+
+const dailyReminderCoverage = [
+  [files.vercelConfig, "\"path\": \"/api/cron/daily-tarot-reminders\"", "Vercel cron path"],
+  [files.vercelConfig, "\"schedule\": \"0 * * * *\"", "hourly reminder cron schedule"],
+  [files.reminderCron, "authorization", "cron authorization header check"],
+  [files.reminderCron, "Bearer", "cron bearer token check"],
+  [files.reminderCron, "hasEmailProvider()", "cron email provider guard"],
+  [files.reminderCron, "dailyReminderUnsubscribeUrl", "cron unsubscribe URL"],
+  [files.reminderCron, "idempotencyKey", "cron email idempotency"],
+  [files.reminderCapability, "unsubscribe_configured", "reminder unsubscribe capability"],
+  [files.reminderCapability, "hasSupabaseServiceKey", "reminder service key capability check"],
+  [files.reminderCapability, "unsubscribe_service_key", "reminder missing unsubscribe capability"],
+  [files.reminderUnsubscribe, "verifyDailyReminderUnsubscribeToken", "unsubscribe token verification"],
+  [files.reminderUnsubscribe, "reminder_enabled: false", "unsubscribe disables reminders"],
+  [files.reminderUnsubscribeToken, "DAILY_TAROT_UNSUBSCRIBE_SECRET", "dedicated unsubscribe secret"],
+  [files.reminderUnsubscribeToken, "timingSafeEqual", "safe unsubscribe token comparison"],
+]
+
+for (const [file, needle, label] of dailyReminderCoverage) {
+  assertIncludes(file, needle, label)
 }
 
 console.log("SEO coverage checks passed.")
