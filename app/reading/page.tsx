@@ -491,12 +491,13 @@ export default function ReadingPage() {
     })
 
   const trackFallbackShare = (platform: ShareTemplatePlatform, channel: "native" | "clipboard") => {
-    analyticsApi.track("share_fallback_created", {
+    analyticsApi.track("share_template_copied", {
       ...getCurrentAttribution(),
       locale: language,
       keyword: question,
       reading_id: readingId,
       metadata: {
+        fallback: true,
         platform,
         channel,
         spread_type: spreadType,
