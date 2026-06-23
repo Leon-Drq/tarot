@@ -6,7 +6,7 @@ export function BackgroundGradient() {
       data-home-background-gradient
       className="absolute inset-0 z-[1]"
       style={{
-        background: `radial-gradient(circle at 50% var(--home-hero-card-y, var(--home-hero-light-y, 52svh)),
+        background: `radial-gradient(circle at 50% var(--home-hero-focal-y, 52svh),
           #4c2a78 0%,
           #251240 40%,
           #0d0516 70%,

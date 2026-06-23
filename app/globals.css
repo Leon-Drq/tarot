@@ -189,7 +189,7 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-focal-y: clamp(21.5rem, 52vh, 23rem);
+    --home-hero-focal-y: clamp(20.5rem, 46vh, 22rem);
     --home-hero-card-y: var(--home-hero-focal-y);
     --home-hero-light-y: var(--home-hero-card-y);
     --home-hero-content-y: calc(var(--home-hero-card-y) + clamp(8.75rem, 20vh, 10rem));
@@ -197,7 +197,7 @@
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(21.5rem, 52svh, 23rem);
+      --home-hero-focal-y: clamp(20.5rem, 46svh, 22rem);
       --home-hero-card-y: var(--home-hero-focal-y);
       --home-hero-light-y: var(--home-hero-card-y);
       --home-hero-content-y: calc(var(--home-hero-card-y) + clamp(8.75rem, 20svh, 10rem));
