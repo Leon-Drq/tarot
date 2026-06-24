@@ -452,6 +452,192 @@ const stickyCtaCopy = {
 
 const highIntentQuestionSlugs = new Set(highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")))
 
+type ResultPreview = {
+  eyebrow: string
+  title: string
+  body: string
+  questionLabel: string
+  cardsLabel: string
+  interpretationLabel: string
+  nextStepLabel: string
+  actionLabel: string
+  question: string
+  cards: Array<{
+    position: string
+    card: string
+    meaning: string
+  }>
+  interpretation: string
+  nextStep: string
+}
+
+const resultPreviewUiCopy = {
+  zh: {
+    eyebrow: "结果预览",
+    title: "免费答案会长什么样",
+    body: "这是代表性示例，不是私人用户记录。它展示页面如何把具体问题、牌位和下一步行动连起来。",
+    questionLabel: "示例问题",
+    cardsLabel: "示例牌",
+    interpretationLabel: "示例解读",
+    nextStepLabel: "下一步",
+    actionLabel: "免费试这个牌阵",
+  },
+  en: {
+    eyebrow: "Result preview",
+    title: "What the free answer can look like",
+    body: "This is a representative sample, not a private user record. It shows how the page turns the question, card positions, and next step into a usable first reading.",
+    questionLabel: "Sample question",
+    cardsLabel: "Sample cards",
+    interpretationLabel: "Sample interpretation",
+    nextStepLabel: "Practical next step",
+    actionLabel: "Try this spread free",
+  },
+  ja: {
+    eyebrow: "結果プレビュー",
+    title: "無料の答えの例",
+    body: "これは代表例であり、個人の記録ではありません。質問、カード位置、次の一歩がどうつながるかを示します。",
+    questionLabel: "例の質問",
+    cardsLabel: "例のカード",
+    interpretationLabel: "解釈例",
+    nextStepLabel: "次の一歩",
+    actionLabel: "無料で試す",
+  },
+  ko: {
+    eyebrow: "결과 미리보기",
+    title: "무료 답변 예시",
+    body: "개인 기록이 아닌 대표 예시입니다. 질문, 카드 위치, 다음 행동이 어떻게 연결되는지 보여줍니다.",
+    questionLabel: "예시 질문",
+    cardsLabel: "예시 카드",
+    interpretationLabel: "예시 해석",
+    nextStepLabel: "다음 단계",
+    actionLabel: "무료로 시작",
+  },
+  es: {
+    eyebrow: "Vista previa",
+    title: "Como puede verse la respuesta gratis",
+    body: "Es un ejemplo representativo, no un registro privado. Muestra como la pagina conecta pregunta, posiciones y siguiente paso.",
+    questionLabel: "Pregunta de ejemplo",
+    cardsLabel: "Cartas de ejemplo",
+    interpretationLabel: "Interpretacion de ejemplo",
+    nextStepLabel: "Siguiente paso",
+    actionLabel: "Probar gratis",
+  },
+  "pt-br": {
+    eyebrow: "Previa do resultado",
+    title: "Como pode ser a resposta gratis",
+    body: "E um exemplo representativo, nao um registro privado. Mostra como a pagina conecta pergunta, posicoes e proximo passo.",
+    questionLabel: "Pergunta de exemplo",
+    cardsLabel: "Cartas de exemplo",
+    interpretationLabel: "Interpretacao de exemplo",
+    nextStepLabel: "Proximo passo",
+    actionLabel: "Testar gratis",
+  },
+} satisfies Record<SeoPage["locale"], Omit<ResultPreview, "question" | "cards" | "interpretation" | "nextStep">>
+
+const englishResultSamples: Record<string, {
+  question: string
+  cards: string[]
+  meanings: string[]
+  interpretation: string
+  nextStep: string
+}> = {
+  "will-my-ex-come-back-tarot": {
+    question: "Will my ex come back, and what has actually changed?",
+    cards: ["Six of Cups", "The Hanged Man", "Justice", "Temperance", "Two of Cups"],
+    meanings: ["nostalgia is present", "timing is paused", "accountability matters", "repair needs patience", "reconnection needs mutual care"],
+    interpretation:
+      "The sample answer is not a simple yes. Six of Cups shows unfinished memory, but The Hanged Man and Justice say return only becomes useful if something has changed in behavior, responsibility, and timing.",
+    nextStep: "Wait for evidence of accountability before initiating a serious conversation.",
+  },
+  "does-he-love-me-tarot": {
+    question: "Does he love me, or is this only attraction?",
+    cards: ["The Lovers", "Knight of Wands", "Two of Cups", "The Moon", "Queen of Cups"],
+    meanings: ["real attraction", "inconsistent pursuit", "mutual warmth", "unclear fear", "protect emotional dignity"],
+    interpretation:
+      "The Lovers and Two of Cups support affection, but Knight of Wands and The Moon warn that intensity is not the same as steady love. The answer asks you to compare feeling with follow-through.",
+    nextStep: "Look for consistent behavior before investing more emotional energy.",
+  },
+  "yes-or-no-tarot-love": {
+    question: "Is this connection worth pursuing right now?",
+    cards: ["Ace of Cups", "Seven of Cups", "Justice"],
+    meanings: ["yes to emotional opening", "confusion still exists", "choose based on facts"],
+    interpretation:
+      "This sample leans yes, but only with clarity. Ace of Cups opens the door, Seven of Cups shows mixed signals, and Justice says the next move should be based on honest evidence rather than fantasy.",
+    nextStep: "Take one small clear step, then watch whether their response matches their words.",
+  },
+  "career-tarot-reading": {
+    question: "What should I focus on in my career this month?",
+    cards: ["The Magician", "Eight of Pentacles", "Two of Wands", "The Chariot", "Justice"],
+    meanings: ["use available skills", "practice matters", "choose a direction", "commit momentum", "review contracts and consequences"],
+    interpretation:
+      "The answer points toward action, but not scattered action. The Magician and Eight of Pentacles ask for skillful execution, while Two of Wands and The Chariot ask you to choose one track instead of trying everything.",
+    nextStep: "Pick one measurable professional move for the next two weeks and review the result.",
+  },
+  "should-i-quit-my-job-tarot": {
+    question: "Should I quit my job or prepare first?",
+    cards: ["Ten of Wands", "Death", "Four of Pentacles", "Two of Wands", "Temperance"],
+    meanings: ["burnout is real", "a cycle may be ending", "money needs protection", "plan the next route", "pace the transition"],
+    interpretation:
+      "This sample shows strong transition energy, but not an impulsive exit. Ten of Wands and Death say the old pattern is heavy; Four of Pentacles and Temperance say planning matters before leaving.",
+    nextStep: "Create a financial and timing plan before making the exit final.",
+  },
+}
+
+function resultSampleForPage(page: SeoPage, toolkit: QuestionToolkit) {
+  if (page.locale === "en" && englishResultSamples[page.slug]) return englishResultSamples[page.slug]
+
+  return {
+    question: toolkit.prompts[0] || page.ctaQuestion,
+    cards: ["The High Priestess", "Two of Cups", "Justice", "Temperance", "The Star"],
+    meanings: toolkit.frames.map((frame) => frame.title),
+    interpretation:
+      page.locale === "zh"
+        ? "这个示例答案先读核心信号，再看阻碍和建议。重点不是制造确定预言，而是把问题转成一个可以执行的下一步。"
+        : page.locale === "ja"
+          ? "この例では、まず主要なサインを読み、次に障害と助言を確認します。確定した予言ではなく、実行できる一歩に変えるための読み方です。"
+          : page.locale === "ko"
+            ? "이 예시는 핵심 신호를 먼저 읽고, 장애물과 조언을 확인합니다. 확정 예언이 아니라 실행 가능한 다음 단계로 바꾸는 방식입니다."
+            : page.locale === "es"
+              ? "Este ejemplo lee primero la senal principal, luego el bloqueo y el consejo. No busca una prediccion fija, sino un siguiente paso util."
+              : page.locale === "pt-br"
+                ? "Este exemplo le primeiro o sinal principal, depois o bloqueio e o conselho. Nao busca uma predicao fixa, mas um proximo passo util."
+                : "This sample reads the main signal first, then the obstacle and advice. It is not a fixed prediction; it turns the question into a useful next step.",
+    nextStep:
+      page.locale === "zh"
+        ? "把建议写成一个今天能执行的动作，再决定是否需要更深追问。"
+        : page.locale === "ja"
+          ? "助言を今日できる一つの行動にしてから、さらに深く聞くか決めます。"
+          : page.locale === "ko"
+            ? "조언을 오늘 할 수 있는 한 가지 행동으로 바꾼 뒤 더 깊게 물을지 정하세요."
+            : page.locale === "es"
+              ? "Convierte el consejo en una accion que puedas hacer hoy antes de preguntar mas."
+              : page.locale === "pt-br"
+                ? "Transforme o conselho em uma acao que voce possa fazer hoje antes de perguntar mais."
+                : "Turn the advice into one action you can take today before asking a deeper follow-up.",
+  }
+}
+
+function createResultPreview(page: SeoPage, toolkit: QuestionToolkit | undefined, recommendedSpread: SpreadConfig | undefined): ResultPreview | undefined {
+  if (!toolkit || !recommendedSpread || !highIntentQuestionSlugs.has(page.slug)) return undefined
+
+  const copy = resultPreviewUiCopy[page.locale]
+  const sample = resultSampleForPage(page, toolkit)
+  const positionNames = toolkit.positionNames || recommendedSpread.positions.map((position) => (page.locale === "zh" ? position.name : position.nameEn))
+  const previewPositions = positionNames.slice(0, Math.min(5, positionNames.length))
+
+  return {
+    ...copy,
+    question: sample.question,
+    cards: previewPositions.map((position, index) => ({
+      position,
+      card: sample.cards[index] || sample.cards[index % sample.cards.length],
+      meaning: sample.meanings[index] || toolkit.frames[index % toolkit.frames.length]?.title || page.intent,
+    })),
+    interpretation: sample.interpretation,
+    nextStep: sample.nextStep,
+  }
+}
+
 const fallbackQuestionToolkitCopy = {
   zh: {
     label: "推荐牌阵",
@@ -1220,6 +1406,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const stickyCopy = stickyCtaCopy[page.locale]
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug] || createFallbackQuestionToolkit(page, recommendedSpread)
+  const resultPreview = createResultPreview(page, toolkit, recommendedSpread)
   const cardGroups = cardIndexGroupOrder.map((group) => ({
     key: group,
     title: cardText.groups[group],
@@ -1376,6 +1563,31 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 position: index + 1,
                 name: prompt,
                 url: `${appUrl}${promptHref(page, prompt)}`,
+              })),
+            },
+          ]
+        : []),
+      ...(resultPreview
+        ? [
+            {
+              "@type": "CreativeWork",
+              "@id": `${appUrl}${page.path}#sample-result-preview`,
+              name: resultPreview.title,
+              description: resultPreview.interpretation,
+              text: resultPreview.nextStep,
+              isAccessibleForFree: true,
+              about: resultPreview.question,
+            },
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#sample-result-cards`,
+              name: resultPreview.cardsLabel,
+              numberOfItems: resultPreview.cards.length,
+              itemListElement: resultPreview.cards.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: `${item.position}: ${item.card}`,
+                description: item.meaning,
               })),
             },
           ]
@@ -1594,6 +1806,55 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 ))}
               </div>
             </div>
+
+            {resultPreview && (
+              <section
+                data-question-result-preview
+                id="result-preview"
+                className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.035] p-5"
+              >
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/78">{resultPreview.eyebrow}</p>
+                <div className="mt-3 grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+                  <div className="min-w-0">
+                    <h3 className="font-serif text-2xl leading-tight text-white">{resultPreview.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-white/62">{resultPreview.body}</p>
+                    <div className="mt-5 rounded-lg border border-white/10 bg-black/[0.16] p-4">
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{resultPreview.questionLabel}</p>
+                      <p className="mt-2 break-words text-sm leading-6 text-white/76">{resultPreview.question}</p>
+                    </div>
+                    <Link
+                      href={primaryHref}
+                      className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-[#bfb6ff]/30 px-4 py-2 text-sm text-[#e8e3ff] transition hover:border-[#e8e3ff] hover:bg-white/[0.06] sm:w-auto"
+                    >
+                      {resultPreview.actionLabel}
+                    </Link>
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/78">{resultPreview.cardsLabel}</p>
+                    <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                      {resultPreview.cards.map((item) => (
+                        <article key={`${item.position}-${item.card}`} className="rounded-lg border border-white/10 bg-black/[0.16] p-3">
+                          <p className="text-xs uppercase tracking-[0.16em] text-white/38">{item.position}</p>
+                          <p className="mt-1 text-sm font-medium text-white">{item.card}</p>
+                          <p className="mt-2 text-xs leading-5 text-white/52">{item.meaning}</p>
+                        </article>
+                      ))}
+                    </div>
+                    <div className="mt-4 grid gap-3 md:grid-cols-2">
+                      <article className="rounded-lg border border-white/10 bg-black/[0.16] p-4">
+                        <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{resultPreview.interpretationLabel}</p>
+                        <p className="mt-3 text-sm leading-7 text-white/62">{resultPreview.interpretation}</p>
+                      </article>
+                      <article className="rounded-lg border border-white/10 bg-black/[0.16] p-4">
+                        <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{resultPreview.nextStepLabel}</p>
+                        <p className="mt-3 text-sm leading-7 text-white/62">{resultPreview.nextStep}</p>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            )}
           </div>
         </section>
       )}
