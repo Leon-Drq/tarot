@@ -189,11 +189,11 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-visual-center-y: clamp(26rem, 52vh, 30rem);
-    --home-hero-card-optical-y: -1.125rem;
-    --home-hero-light-y: var(--home-hero-visual-center-y);
-    --home-hero-card-y: calc(var(--home-hero-light-y) + var(--home-hero-card-optical-y));
-    --home-hero-light-optical-y: calc(0rem - var(--home-hero-card-optical-y));
+    --home-hero-focal-y: clamp(26rem, 52vh, 30rem);
+    --home-hero-visual-center-y: var(--home-hero-focal-y);
+    --home-hero-light-y: var(--home-hero-focal-y);
+    --home-hero-card-y: var(--home-hero-focal-y);
+    --home-hero-light-optical-y: 0rem;
     --home-hero-card-half-y: 7.5rem;
     --home-hero-flow-gap: clamp(2.75rem, 6vh, 3.25rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
@@ -201,37 +201,35 @@
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-visual-center-y: clamp(26rem, 52svh, 30rem);
+      --home-hero-focal-y: clamp(26rem, 52svh, 30rem);
       --home-hero-flow-gap: clamp(2.75rem, 6svh, 3.25rem);
     }
   }
 
   @media (min-width: 640px) {
     .home-hero-stage {
-      --home-hero-visual-center-y: clamp(23rem, 50vh, 31rem);
-      --home-hero-card-optical-y: -0.75rem;
+      --home-hero-focal-y: clamp(23rem, 50vh, 31rem);
       --home-hero-card-half-y: 10.5rem;
       --home-hero-flow-gap: 3.5rem;
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-visual-center-y: clamp(23rem, 50svh, 31rem);
+        --home-hero-focal-y: clamp(23rem, 50svh, 31rem);
       }
     }
   }
 
   @media (min-width: 768px) {
     .home-hero-stage {
-      --home-hero-visual-center-y: clamp(26rem, 55vh, 36rem);
-      --home-hero-card-optical-y: 0rem;
+      --home-hero-focal-y: clamp(26rem, 55vh, 36rem);
       --home-hero-card-half-y: 14.5625rem;
       --home-hero-flow-gap: 4.4375rem;
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-visual-center-y: clamp(26rem, 55svh, 36rem);
+        --home-hero-focal-y: clamp(26rem, 55svh, 36rem);
       }
     }
   }
