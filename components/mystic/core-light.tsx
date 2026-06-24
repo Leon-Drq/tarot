@@ -1,14 +1,18 @@
 "use client"
 
+import type { CSSProperties } from "react"
+
 type CoreLightProps = {
   className?: string
+  style?: CSSProperties
 }
 
 export function CoreLight({
   className = "absolute left-0 right-0 top-0 z-[3] flex h-[100dvh] items-center justify-center",
+  style,
 }: CoreLightProps) {
   return (
-    <div className={className}>
+    <div className={className} style={style}>
       <div className="relative flex items-center justify-center">
         <div
           className="absolute w-24 h-24 sm:w-36 sm:h-36 md:w-48 md:h-48 rounded-full mix-blend-screen"
