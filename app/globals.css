@@ -189,20 +189,20 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-visual-center-y: clamp(19.75rem, 42vh, 21rem);
+    --home-hero-visual-center-y: clamp(26rem, 52vh, 30rem);
     --home-hero-card-y: var(--home-hero-visual-center-y);
     --home-hero-light-optical-y: 0rem;
     --home-hero-light-y: calc(var(--home-hero-card-y) + var(--home-hero-light-optical-y));
     --home-hero-card-half-y: 7.5rem;
-    --home-hero-flow-gap: clamp(2.25rem, 6vh, 3rem);
+    --home-hero-flow-gap: clamp(2.75rem, 6vh, 3.25rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
   }
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-visual-center-y: clamp(19.75rem, 42svh, 21rem);
+      --home-hero-visual-center-y: clamp(26rem, 52svh, 30rem);
       --home-hero-light-optical-y: 0rem;
-      --home-hero-flow-gap: clamp(2.25rem, 6svh, 3rem);
+      --home-hero-flow-gap: clamp(2.75rem, 6svh, 3.25rem);
     }
   }
 
