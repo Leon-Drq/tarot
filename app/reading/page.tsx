@@ -14,7 +14,7 @@ import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, readingApi, getAccessToken, authApi, setAccessToken, type SpreadConfig } from "@/lib/api"
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import { getCurrentAttribution } from "@/lib/client-analytics"
-import { isSeoLocale } from "@/lib/locales"
+import { isLocale, isSeoLocale, type Locale, type SeoLocale } from "@/lib/locales"
 
 interface Message {
   id: string
@@ -49,6 +49,8 @@ export default function ReadingPage() {
   const [shareStatus, setShareStatus] = useState("")
   const [isCreatingShare, setIsCreatingShare] = useState(false)
   const [readingCount, setReadingCount] = useState(0)
+  const activeReadingLocale: SeoLocale = isSeoLocale(readingLocale) ? readingLocale : "en"
+  const shareTemplateLocale: Locale = isLocale(activeReadingLocale) ? activeReadingLocale : "en"
   const shareCopy =
     {
       zh: {
@@ -131,7 +133,47 @@ export default function ReadingPage() {
         saveText: "{count}번 체험했습니다. 멤버는 리딩 기록과 반복되는 카드, 주제를 다시 볼 수 있습니다.",
         saveButton: "기록 저장 업그레이드",
       },
-    }[language] || {
+      es: {
+        title: "SHARE",
+        description: "Crea una pagina publica con las cartas para compartirla.",
+        button: "Compartir",
+        loading: "Creando",
+        generated: "Enlace listo",
+        copied: "Enlace copiado",
+        xhs: "Texto Xiaohongshu",
+        instagram: "Caption Instagram",
+        templateCopied: "Texto copiado",
+        fallbackGenerated: "Texto listo. Inicia sesion para crear una pagina publica.",
+        fallbackCopied: "Texto copiado. Inicia sesion para crear una pagina publica.",
+        failed: "No se pudo compartir. Intentalo de nuevo.",
+        memberTitle: "Profundiza solo cuando lo necesites",
+        memberText: "La membresia queda para preguntas profundas, historial guardado, tiradas avanzadas e informes mensuales.",
+        memberButton: "Ver funciones avanzadas",
+        saveTitle: "Guarda historial cuando importe",
+        saveText: "Ya probaste {count} lecturas. Los miembros pueden guardar historial y revisar cartas o temas repetidos.",
+        saveButton: "Mejorar para guardar historial",
+      },
+      "pt-br": {
+        title: "SHARE",
+        description: "Crie uma pagina publica com as cartas para compartilhar.",
+        button: "Compartilhar",
+        loading: "Criando",
+        generated: "Link pronto",
+        copied: "Link copiado",
+        xhs: "Texto Xiaohongshu",
+        instagram: "Legenda Instagram",
+        templateCopied: "Texto copiado",
+        fallbackGenerated: "Texto pronto. Entre para criar uma pagina publica.",
+        fallbackCopied: "Texto copiado. Entre para criar uma pagina publica.",
+        failed: "Nao foi possivel compartilhar. Tente de novo.",
+        memberTitle: "Aprofunde apenas quando precisar",
+        memberText: "A assinatura fica para perguntas profundas, historico salvo, tiragens avancadas e relatorios mensais.",
+        memberButton: "Ver recursos avancados",
+        saveTitle: "Salve historico quando fizer sentido",
+        saveText: "Voce ja testou {count} leituras. Membros podem salvar historico e rever cartas ou temas repetidos.",
+        saveButton: "Fazer upgrade para salvar historico",
+      },
+    }[activeReadingLocale] || {
       title: "SHARE",
       description: "Create a public result page with card images for social sharing.",
       button: "Share",
@@ -170,7 +212,15 @@ export default function ReadingPage() {
         member: "고급 기능 활성화",
         free: "무료 AI 리딩 사용 가능",
       },
-    }[language] || {
+      es: {
+        member: "Funciones avanzadas activas",
+        free: "Lectura AI gratis activa",
+      },
+      "pt-br": {
+        member: "Recursos avancados ativos",
+        free: "Leitura AI gratis ativa",
+      },
+    }[activeReadingLocale] || {
       member: "Advanced features active",
       free: "Free AI reading active",
     }
@@ -181,7 +231,81 @@ export default function ReadingPage() {
       en: "Log in to continue with deeper follow-up questions and save this reading.",
       ja: "深い追質問と履歴保存を続けるにはログインしてください。",
       ko: "심층 후속 질문과 기록 저장을 계속하려면 로그인하세요.",
-    }[language] || "Log in to continue with deeper follow-up questions and save this reading."
+      es: "Inicia sesion para continuar con preguntas profundas y guardar esta lectura.",
+      "pt-br": "Entre para continuar com perguntas profundas e salvar esta leitura.",
+    }[activeReadingLocale] || "Log in to continue with deeper follow-up questions and save this reading."
+
+  const readingReturnCopy =
+    {
+      zh: {
+        eyebrow: "每日复访",
+        title: "把这次解读变成明天的每日塔罗",
+        body: "明天回来抽一张免费每日牌，连续打卡并写下日记，看看这次问题是否正在形成某种反复出现的主题。",
+        daily: "打开每日塔罗",
+        meanings: "查看牌义",
+        tools: "免费工具",
+      },
+      en: {
+        eyebrow: "Daily return",
+        title: "Turn this reading into tomorrow's Daily Tarot",
+        body: "Come back for one free daily card, keep a streak, and use your journal to see whether this reading becomes a pattern.",
+        daily: "Open Daily Tarot",
+        meanings: "Read Card Meanings",
+        tools: "Free Tools",
+      },
+      ja: {
+        eyebrow: "毎日の再訪",
+        title: "このリーディングを明日のデイリータロットへ",
+        body: "明日また無料の1枚を引き、連続記録と日記で、このテーマが繰り返されているか見てみましょう。",
+        daily: "デイリータロット",
+        meanings: "カードの意味",
+        tools: "無料ツール",
+      },
+      ko: {
+        eyebrow: "매일 돌아오기",
+        title: "이 리딩을 내일의 데일리 타로로 이어가기",
+        body: "내일 무료 일일 카드를 뽑고, 연속 기록과 저널로 이 주제가 반복되는지 살펴보세요.",
+        daily: "데일리 타로 열기",
+        meanings: "카드 의미 보기",
+        tools: "무료 도구",
+      },
+      es: {
+        eyebrow: "Regreso diario",
+        title: "Convierte esta lectura en tu Tarot Diario de manana",
+        body: "Vuelve por una carta diaria gratis, mantiene una racha y usa el diario para ver si esta lectura se convierte en un patron.",
+        daily: "Abrir Tarot Diario",
+        meanings: "Leer significados",
+        tools: "Herramientas gratis",
+      },
+      "pt-br": {
+        eyebrow: "Retorno diario",
+        title: "Transforme esta leitura no Tarot Diario de amanha",
+        body: "Volte para tirar uma carta diaria gratis, manter uma sequencia e usar o diario para perceber se esta leitura vira um padrao.",
+        daily: "Abrir Tarot Diario",
+        meanings: "Ler significados",
+        tools: "Ferramentas gratis",
+      },
+    }[activeReadingLocale] || {
+      eyebrow: "Daily return",
+      title: "Turn this reading into tomorrow's Daily Tarot",
+      body: "Come back for one free daily card, keep a streak, and use your journal to see whether this reading becomes a pattern.",
+      daily: "Open Daily Tarot",
+      meanings: "Read Card Meanings",
+      tools: "Free Tools",
+    }
+  const readingReturnParams = `utm_source=reading_result&utm_medium=return_path&utm_campaign=free_reading&lang=${activeReadingLocale}`
+  const dailyReturnHref = `/daily-tarot?${readingReturnParams}`
+  const meaningsReturnHref = `/tarot-card-meanings?${readingReturnParams}`
+  const toolsReturnHref = `/free-tarot-tools?${readingReturnParams}`
+  const orientationCopy =
+    {
+      zh: { upright: "正", reversed: "逆" },
+      en: { upright: "U", reversed: "R" },
+      ja: { upright: "正", reversed: "逆" },
+      ko: { upright: "정", reversed: "역" },
+      es: { upright: "U", reversed: "R" },
+      "pt-br": { upright: "U", reversed: "R" },
+    }[activeReadingLocale] || { upright: "U", reversed: "R" }
 
   const isUpgradeErrorMessage = (message: string) => {
     const normalized = message.toLowerCase()
@@ -474,10 +598,10 @@ export default function ReadingPage() {
   const buildShareCaption = (platform: ShareTemplatePlatform, url: string) =>
     createShareTemplate({
       platform,
-      locale: language,
+      locale: shareTemplateLocale,
       question,
       cards: drawnCards.map((card) => ({
-        name: getCardName(card, language),
+        name: getCardName(card, activeReadingLocale),
         isReversed: card.isReversed,
       })),
       interpretation: getCurrentInterpretation(),
@@ -487,7 +611,7 @@ export default function ReadingPage() {
   const trackFallbackShare = (platform: ShareTemplatePlatform, channel: "native" | "clipboard") => {
     analyticsApi.track("share_template_copied", {
       ...getCurrentAttribution(),
-      locale: language,
+      locale: activeReadingLocale,
       keyword: question,
       reading_id: readingId,
       metadata: {
@@ -508,7 +632,7 @@ export default function ReadingPage() {
     await refreshUser()
     analyticsApi.track("share_session_only", {
       ...getCurrentAttribution(),
-      locale: language,
+      locale: activeReadingLocale,
       keyword: question,
       metadata: {
         spread_type: spreadType,
@@ -553,7 +677,7 @@ export default function ReadingPage() {
     setShareUrl(absoluteUrl)
     analyticsApi.track("share_created", {
       ...getCurrentAttribution(),
-      locale: language,
+      locale: activeReadingLocale,
       keyword: question,
       reading_id: readingId,
       share_slug: result.slug,
@@ -610,7 +734,7 @@ export default function ReadingPage() {
       await navigator.clipboard.writeText(text)
       analyticsApi.track("share_template_copied", {
         ...getCurrentAttribution(),
-        locale: language,
+        locale: activeReadingLocale,
         keyword: question,
         reading_id: readingId,
         metadata: {
@@ -639,13 +763,18 @@ export default function ReadingPage() {
 
   // 获取位置标签
   const getPositionLabel = (index: number): string => {
-    if (spreadConfig && spreadConfig.positions[index]) {
-      return language === 'en' 
-        ? spreadConfig.positions[index].nameEn 
-        : spreadConfig.positions[index].name
-    }
-    // 默认标签
-    const defaultLabels = [t("tarot.past"), t("tarot.present"), t("tarot.future")]
+    const localizedPosition = getLocalizedPosition(spreadConfig, index, activeReadingLocale)
+    if (localizedPosition) return localizedPosition
+
+    const defaultLabels =
+      {
+        zh: ["过去", "现在", "未来"],
+        en: ["Past", "Present", "Future"],
+        ja: ["過去", "現在", "未来"],
+        ko: ["과거", "현재", "미래"],
+        es: ["Past", "Present", "Future"],
+        "pt-br": ["Past", "Present", "Future"],
+      }[activeReadingLocale] || ["Past", "Present", "Future"]
     return defaultLabels[index] || `Position ${index + 1}`
   }
 
@@ -900,8 +1029,8 @@ export default function ReadingPage() {
               </div>
               <p className="text-[#c9c0ff]/60 text-xs mt-2">{getPositionLabel(index)}</p>
               <p className="text-white/80 text-xs mt-1 text-center">
-                {getCardName(card, language)}
-                <span className="text-white/50 ml-1">{card.isReversed ? t("tarot.reversed").substring(0, 1) : t("tarot.upright").substring(0, 1)}</span>
+                {getCardName(card, activeReadingLocale)}
+                <span className="text-white/50 ml-1">{card.isReversed ? orientationCopy.reversed : orientationCopy.upright}</span>
               </p>
             </div>
           ))}
@@ -940,12 +1069,12 @@ export default function ReadingPage() {
               <div className="text-red-400/80 text-center">
                 <p>{error}</p>
                 <div className="flex gap-3 justify-center mt-4">
-                <button
-                  onClick={() => startReading(drawnCards, question, false, "", spreadType, readingLocale)}
+                  <button
+                    onClick={() => startReading(drawnCards, question, false, "", spreadType, readingLocale)}
                     className="px-6 py-2 rounded-full text-sm border border-red-400/50 hover:bg-red-400/10 transition-colors"
-                >
-                  {t("common.retry")}
-                </button>
+                  >
+                    {t("common.retry")}
+                  </button>
                   {isUpgradeErrorMessage(error) && (
                     <button
                       onClick={() => router.push("/membership")}
@@ -1196,6 +1325,38 @@ export default function ReadingPage() {
                 </div>
               </div>
             )}
+          </div>
+          <div
+            data-reading-return-path
+            className="mt-4 rounded-lg border border-[#c9c0ff]/18 bg-white/[0.04] p-5 backdrop-blur-sm"
+          >
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="min-w-0">
+                <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/72">{readingReturnCopy.eyebrow}</p>
+                <h2 className="mt-2 text-base font-medium text-white/88">{readingReturnCopy.title}</h2>
+                <p className="mt-2 max-w-2xl text-sm leading-6 text-white/52">{readingReturnCopy.body}</p>
+              </div>
+              <div className="grid gap-2 sm:grid-cols-3 md:min-w-[24rem]">
+                <Link
+                  href={dailyReturnHref}
+                  className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[#c9c0ff] px-4 py-2 text-sm font-medium text-[#130d27] transition hover:bg-[#eeeaff]"
+                >
+                  {readingReturnCopy.daily}
+                </Link>
+                <Link
+                  href={meaningsReturnHref}
+                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
+                >
+                  {readingReturnCopy.meanings}
+                </Link>
+                <Link
+                  href={toolsReturnHref}
+                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
+                >
+                  {readingReturnCopy.tools}
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 

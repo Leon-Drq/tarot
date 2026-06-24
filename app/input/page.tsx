@@ -157,6 +157,16 @@ function InputContent() {
         body: "{requested}은 멤버용 고급 스프레드입니다. 먼저 {fallback}으로 무료 리딩을 시작할 수 있습니다.",
         button: "멤버십 보기",
       },
+      es: {
+        title: "Cambiamos a una tirada inicial gratis",
+        body: "{requested} es una tirada avanzada para miembros. Empieza gratis con {fallback} y mejora cuando quieras la tirada completa.",
+        button: "Ver membresia",
+      },
+      "pt-br": {
+        title: "Mudamos para uma tiragem inicial gratis",
+        body: "{requested} e uma tiragem avancada para membros. Comece gratis com {fallback} e faca upgrade quando quiser a tiragem completa.",
+        button: "Ver assinatura",
+      },
     }[readingLocale] || {
       title: "Switched to a free starter spread",
       body: "{requested} is an advanced member spread. Start free with {fallback}, then upgrade when you want the full spread.",
