@@ -7,6 +7,7 @@ import Image from "next/image"
 import { getMajorArcana, getFullDeck, type TarotCard } from "@/lib/tarot-cards"
 import { type DeckType } from "@/lib/api"
 import { useLanguage } from "@/contexts/language-context"
+import type { SeoLocale } from "@/lib/locales"
 
 interface CardSpreadProps {
   onShuffle?: () => void
@@ -18,6 +19,7 @@ interface CardSpreadProps {
   onCollectComplete?: () => void
   maxCards?: number  // 最大可选卡牌数量
   deckType?: DeckType  // 牌组类型: major=大阿尔卡纳22张, full=全部78张
+  locale?: SeoLocale
 }
 
 export function CardSpread({
@@ -30,6 +32,7 @@ export function CardSpread({
   onCollectComplete,
   maxCards = 3,
   deckType = 'major',  // 默认使用大阿尔卡纳
+  locale,
 }: CardSpreadProps) {
   const [cardsDealt, setCardsDealt] = useState(false)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
@@ -40,6 +43,7 @@ export function CardSpread({
   const touchStartRef = useRef<{ x: number; rotation: number } | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const { language } = useLanguage()
+  const activeLocale = locale || language
 
   const [isMobile, setIsMobile] = useState(false)
 
@@ -57,7 +61,9 @@ export function CardSpread({
       en: "Swipe to rotate the spread",
       ja: "スワイプでスプレッドを回転",
       ko: "스와이프로 스프레드 회전",
-    }[language] || "Swipe to rotate the spread"
+      es: "Desliza para girar la tirada",
+      "pt-br": "Deslize para girar a tiragem",
+    }[activeLocale] || "Swipe to rotate the spread"
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640)

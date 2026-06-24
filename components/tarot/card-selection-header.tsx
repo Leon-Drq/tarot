@@ -3,6 +3,7 @@
 import { useLanguage } from "@/contexts/language-context"
 import { useMemo } from "react"
 import { type SpreadConfig, type DeckType } from "@/lib/api"
+import type { SeoLocale } from "@/lib/locales"
 
 interface CardSelectionHeaderProps {
   visible: boolean
@@ -13,6 +14,29 @@ interface CardSelectionHeaderProps {
   showShuffle?: boolean
   spreadConfig?: SpreadConfig | null  // 从后端获取的牌阵配置
   deckType?: DeckType  // 牌组类型
+  locale?: SeoLocale
+}
+
+function localizeFallbackLabel(value: string | undefined, locale: SeoLocale | string) {
+  if (!value) return ""
+  const normalized = value.trim().toLowerCase()
+  const dictionaries: Record<string, Record<string, string>> = {
+    es: {
+      "past present future": "Pasado Presente Futuro",
+      past: "Pasado",
+      present: "Presente",
+      future: "Futuro",
+      answer: "Respuesta",
+    },
+    "pt-br": {
+      "past present future": "Passado Presente Futuro",
+      past: "Passado",
+      present: "Presente",
+      future: "Futuro",
+      answer: "Resposta",
+    },
+  }
+  return dictionaries[locale]?.[normalized] || value
 }
 
 export function CardSelectionHeader({
@@ -24,8 +48,10 @@ export function CardSelectionHeader({
   showShuffle = true,
   spreadConfig,
   deckType = 'major',
+  locale,
 }: CardSelectionHeaderProps) {
   const { language } = useLanguage()
+  const activeLocale = locale || language
   const remaining = totalCards - selectedCount
   
   // 根据语言获取牌阵名称
@@ -36,7 +62,9 @@ export function CardSelectionHeader({
         en: "Past Present Future",
         ja: "時の流れ",
         ko: "시간의 흐름",
-      }[language] || "时间之流"
+        es: "Pasado Presente Futuro",
+        "pt-br": "Passado Presente Futuro",
+      }[activeLocale] || "Past Present Future"
     }
     
     // 根据语言选择对应字段
@@ -45,9 +73,11 @@ export function CardSelectionHeader({
       en: spreadConfig.nameEn,
       ja: spreadConfig.nameJa || spreadConfig.nameEn,
       ko: spreadConfig.nameKo || spreadConfig.nameEn,
+      es: spreadConfig.nameEn,
+      "pt-br": spreadConfig.nameEn,
     }
-    return nameMap[language] || spreadConfig.name
-  }, [spreadConfig, language])
+    return localizeFallbackLabel(nameMap[activeLocale] || spreadConfig.nameEn || spreadConfig.name, activeLocale)
+  }, [spreadConfig, activeLocale])
   
   // 获取牌阵描述（支持后端返回的多语言字段）
   const spreadDescription = useMemo(() => {
@@ -56,10 +86,12 @@ export function CardSelectionHeader({
       en: "Classic three-card spread, reading from past, present, and future perspectives",
       ja: "古典的な3枚のスプレッド、過去・現在・未来の3つの視点から解読",
       ko: "클래식 3카드 스프레드, 과거·현재·미래 관점에서 해석",
+      es: "Tirada clásica de tres cartas desde pasado, presente y futuro",
+      "pt-br": "Tiragem clássica de três cartas: passado, presente e futuro",
     }
     
     if (!spreadConfig) {
-      return defaultDesc[language] || defaultDesc.zh
+      return defaultDesc[activeLocale] || defaultDesc.en
     }
     
     // 根据语言选择对应描述字段
@@ -68,9 +100,11 @@ export function CardSelectionHeader({
       en: spreadConfig.descriptionEn || spreadConfig.description,
       ja: spreadConfig.descriptionJa || spreadConfig.descriptionEn || spreadConfig.description,
       ko: spreadConfig.descriptionKo || spreadConfig.descriptionEn || spreadConfig.description,
+      es: spreadConfig.descriptionEn || spreadConfig.description,
+      "pt-br": spreadConfig.descriptionEn || spreadConfig.description,
     }
-    return descMap[language] || spreadConfig.description
-  }, [spreadConfig, language])
+    return descMap[activeLocale] || spreadConfig.descriptionEn || spreadConfig.description
+  }, [spreadConfig, activeLocale])
 
   // 获取牌组类型的显示名称
   const deckTypeName = useMemo(() => {
@@ -80,15 +114,19 @@ export function CardSelectionHeader({
         en: "Major Arcana 22 Cards",
         ja: "大アルカナ 22枚",
         ko: "메이저 아르카나 22장",
-      }[language] || "大阿尔卡纳 22张"
+        es: "22 Arcanos Mayores",
+        "pt-br": "22 Arcanos Maiores",
+      }[activeLocale] || "Major Arcana 22 Cards"
     }
     return {
       zh: "全套塔罗牌 78张",
       en: "Full Deck 78 Cards",
       ja: "フルデッキ 78枚",
       ko: "풀 덱 78장",
-    }[language] || "全套塔罗牌 78张"
-  }, [deckType, language])
+      es: "Mazo completo 78 cartas",
+      "pt-br": "Baralho completo 78 cartas",
+    }[activeLocale] || "Full Deck 78 Cards"
+  }, [deckType, activeLocale])
   
   // 获取位置名称列表（支持后端返回的多语言字段）
   const positionNames = useMemo(() => {
@@ -98,7 +136,9 @@ export function CardSelectionHeader({
         en: ["Past", "Present", "Future"],
         ja: ["過去", "現在", "未来"],
         ko: ["과거", "현재", "미래"],
-      }[language] || ["过去", "现在", "未来"]
+        es: ["Pasado", "Presente", "Futuro"],
+        "pt-br": ["Passado", "Presente", "Futuro"],
+      }[activeLocale] || ["Past", "Present", "Future"]
     }
     return spreadConfig.positions.map(p => {
       const nameMap: Record<string, string> = {
@@ -106,10 +146,12 @@ export function CardSelectionHeader({
         en: p.nameEn || p.name,
         ja: p.nameJa || p.nameEn || p.name,
         ko: p.nameKo || p.nameEn || p.name,
+        es: p.nameEn || p.name,
+        "pt-br": p.nameEn || p.name,
       }
-      return nameMap[language] || p.name
+      return localizeFallbackLabel(nameMap[activeLocale] || p.nameEn || p.name, activeLocale)
     })
-  }, [spreadConfig, language])
+  }, [spreadConfig, activeLocale])
   
   // 获取下一张牌的位置名称
   const nextPosition = useMemo(() => {
@@ -157,7 +199,9 @@ export function CardSelectionHeader({
               en: "Next",
               ja: "次",
               ko: "다음",
-            }[language] || "下一张"}：<span className="text-[#c9c0ff]">{nextPosition}</span>
+              es: "Siguiente",
+              "pt-br": "Proxima",
+            }[activeLocale] || "Next"}: <span className="text-[#c9c0ff]">{nextPosition}</span>
             <span className="text-white/40 ml-2">({selectedCount + 1}/{totalCards})</span>
           </p>
         )}
@@ -176,7 +220,9 @@ export function CardSelectionHeader({
               en: "Next",
               ja: "次",
               ko: "다음",
-            }[language] || "下一张"}：<span className="text-[#c9c0ff]">{nextPosition}</span>
+              es: "Siguiente",
+              "pt-br": "Proxima",
+            }[activeLocale] || "Next"}: <span className="text-[#c9c0ff]">{nextPosition}</span>
             <span className="text-white/40 ml-2">({selectedCount + 1}/{totalCards})</span>
           </p>
         )}

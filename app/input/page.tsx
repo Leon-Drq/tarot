@@ -39,6 +39,22 @@ function createLocalSpreadInfo(type: SpreadType, reason: string, confidence: num
   }
 }
 
+function localizeSpreadFallbackName(value: string | undefined, locale: string) {
+  if (!value) return ""
+  const normalized = value.trim().toLowerCase()
+  const dictionaries: Record<string, Record<string, string>> = {
+    es: {
+      "past present future": "Pasado Presente Futuro",
+      "yes or no": "Si o No",
+    },
+    "pt-br": {
+      "past present future": "Passado Presente Futuro",
+      "yes or no": "Sim ou Nao",
+    },
+  }
+  return dictionaries[locale]?.[normalized] || value
+}
+
 function InputContent() {
   const [pageState, setPageState] = useState<PageState>("dealing")
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([])
@@ -68,10 +84,10 @@ function InputContent() {
   const hasAdvancedSpreadAccess = Boolean(user?.is_member)
 
   const getLocalizedSpreadName = (config: SpreadConfig) => {
-    if (language === "zh") return config.name
-    if (language === "ja") return config.nameJa || config.nameEn || config.name
-    if (language === "ko") return config.nameKo || config.nameEn || config.name
-    return config.nameEn || config.name
+    if (readingLocale === "zh") return config.name
+    if (readingLocale === "ja") return config.nameJa || config.nameEn || config.name
+    if (readingLocale === "ko") return config.nameKo || config.nameEn || config.name
+    return localizeSpreadFallbackName(config.nameEn || config.name, readingLocale)
   }
 
   const intentHintCopy =
@@ -141,7 +157,7 @@ function InputContent() {
         body: "{requested}은 멤버용 고급 스프레드입니다. 먼저 {fallback}으로 무료 리딩을 시작할 수 있습니다.",
         button: "멤버십 보기",
       },
-    }[language] || {
+    }[readingLocale] || {
       title: "Switched to a free starter spread",
       body: "{requested} is an advanced member spread. Start free with {fallback}, then upgrade when you want the full spread.",
       button: "View membership",
@@ -293,6 +309,7 @@ function InputContent() {
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
       .join(" ")
   }, [source])
+  const matchedSpreadLabel = spreadInfo ? getLocalizedSpreadName(spreadInfo.config) : ""
 
   return (
     <div
@@ -339,6 +356,7 @@ function InputContent() {
         onCollectComplete={handleCollectComplete}
         maxCards={requiredCardCount}
         deckType={spreadInfo?.deckType || 'major'}
+        locale={readingLocale}
       />
 
       <CardSelectionHeader
@@ -350,32 +368,36 @@ function InputContent() {
         showShuffle={false}
         spreadConfig={spreadInfo?.config}
         deckType={spreadInfo?.deckType || 'major'}
+        locale={readingLocale}
       />
 
       <ShuffleButton
         visible={selectedCardIds.length === 0 && pageState === "selecting"}
         onClick={handleShuffle}
+        locale={readingLocale}
       />
 
       {shouldShowIntentHint && (
         <div
           data-input-intent-hint
-          className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.75rem)] z-40 w-[min(92vw,36rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/18 bg-[#10081d]/78 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.36)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4"
+          data-input-mobile-intent-compact
+          className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.625rem)] z-40 w-[min(92vw,36rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/18 bg-[#10081d]/76 p-2.5 shadow-[0_14px_38px_rgba(0,0,0,0.32)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4 sm:shadow-[0_18px_45px_rgba(0,0,0,0.36)]"
         >
           <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-start">
             <div className="min-w-0">
               <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">{intentHintCopy.eyebrow}</p>
-              <h2 className="mt-1 text-sm font-medium leading-snug text-[#f2edff] sm:text-base">{intentHintCopy.title}</h2>
-              <p className="mt-1 line-clamp-2 text-xs leading-5 text-white/58 sm:text-sm sm:leading-6">{question || initialQuestion}</p>
+              <h2 className="mt-1 truncate text-sm font-medium leading-snug text-[#f2edff] sm:text-base">{intentHintCopy.title}</h2>
+              <p className="mt-1 line-clamp-1 text-xs leading-5 text-white/58 sm:line-clamp-2 sm:text-sm sm:leading-6">{question || initialQuestion}</p>
+              <p className="mt-1 truncate text-[11px] leading-4 text-[#c9c0ff]/64 sm:hidden">{matchedSpreadLabel}</p>
             </div>
-            <div className="grid gap-1 rounded-lg border border-white/10 bg-black/18 px-3 py-2 text-xs text-white/54 sm:min-w-[10rem]">
-              <span className="truncate text-[#c9c0ff]/72">{spreadInfo ? getLocalizedSpreadName(spreadInfo.config) : ""}</span>
+            <div className="hidden gap-1 rounded-lg border border-white/10 bg-black/18 px-3 py-2 text-xs text-white/54 sm:grid sm:min-w-[10rem]">
+              <span className="truncate text-[#c9c0ff]/72">{matchedSpreadLabel}</span>
               <span className="truncate">
                 {intentHintCopy.source}: {intentSourceLabel}
               </span>
             </div>
           </div>
-          <p className="mt-2 text-xs leading-5 text-white/45">{intentHintCopy.body}</p>
+          <p className="mt-2 hidden text-xs leading-5 text-white/45 sm:block">{intentHintCopy.body}</p>
         </div>
       )}
 

@@ -1,14 +1,25 @@
 "use client"
 
 import { useLanguage } from "@/contexts/language-context"
+import type { SeoLocale } from "@/lib/locales"
 
 interface ShuffleButtonProps {
   visible: boolean
   onClick: () => void
+  locale?: SeoLocale
 }
 
-export function ShuffleButton({ visible, onClick }: ShuffleButtonProps) {
-  const { t } = useLanguage()
+export function ShuffleButton({ visible, onClick, locale }: ShuffleButtonProps) {
+  const { t, language } = useLanguage()
+  const label =
+    {
+      zh: "洗牌",
+      en: "Shuffle",
+      ja: "シャッフル",
+      ko: "셔플",
+      es: "Barajar",
+      "pt-br": "Embaralhar",
+    }[locale || language] || t("tarot.shuffle")
 
   return (
     <div
@@ -54,7 +65,7 @@ export function ShuffleButton({ visible, onClick }: ShuffleButtonProps) {
               d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
             />
           </svg>
-          {t("tarot.shuffle")}
+          {label}
         </span>
       </button>
     </div>
