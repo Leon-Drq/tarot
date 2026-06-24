@@ -77,6 +77,10 @@ const files = {
     path: "lib/server/daily-reminder-rpc.ts",
     source: read("lib/server/daily-reminder-rpc.ts"),
   },
+  reminderCheckScript: {
+    path: "scripts/check-reminder-capability.mjs",
+    source: read("scripts/check-reminder-capability.mjs"),
+  },
   memberGate: {
     path: "lib/server/member-gate.ts",
     source: read("lib/server/member-gate.ts"),
@@ -338,7 +342,7 @@ const structuredDataCoverage = [
   [files.dailyTarotPage, "\"@type\": \"HowTo\"", "daily tarot HowTo schema"],
   [files.dailyTarotPage, "\"@type\": \"FAQPage\"", "daily tarot FAQ schema"],
   [files.dailyTarotPage, "Calendar reminder", "daily tarot calendar reminder"],
-  [files.dailyTarotPage, "Email reminder preference after delivery is connected", "daily tarot pending email reminder signal"],
+  [files.dailyTarotPage, "Email reminder preference with capability-based delivery status", "daily tarot capability-based email reminder signal"],
 ]
 
 for (const [file, needle, label] of structuredDataCoverage) {
@@ -386,6 +390,11 @@ const dailyReminderCoverage = [
   [files.reminderCapability, "unsubscribe_configured", "reminder unsubscribe capability"],
   [files.reminderCapability, "checkDailyReminderUnsubscribeAccess", "reminder unsubscribe RPC capability check"],
   [files.reminderCapability, "unsubscribe_rpc", "reminder missing unsubscribe RPC capability"],
+  [files.reminderCapability, "delivery_status", "reminder delivery status"],
+  [files.reminderCapability, "next_setup_step", "reminder next setup step"],
+  [files.reminderCheckScript, "check-reminder-capability", "reminder capability check script identity"],
+  [files.reminderCheckScript, "can_send_email_reminders", "reminder capability check script scheduled email output"],
+  [files.reminderCheckScript, "--strict", "reminder capability strict mode"],
   [files.reminderUnsubscribe, "verifyDailyReminderUnsubscribeToken", "unsubscribe token verification"],
   [files.reminderUnsubscribe, "disableDailyReminders", "unsubscribe disables reminders through RPC"],
   [files.reminderRpc, "disable_daily_tarot_reminders", "unsubscribe RPC helper"],

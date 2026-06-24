@@ -17,6 +17,16 @@ export async function GET() {
     !cronSecretConfigured ? "cron_authorization" : null,
     !unsubscribeConfigured ? "unsubscribe_rpc" : null,
   ].filter((item): item is string => Boolean(item))
+  const nextSetupStep =
+    missingCapabilities[0] === "email_provider"
+      ? "Add RESEND_API_KEY to the Vercel Production environment, then redeploy."
+      : missingCapabilities[0] === "service_database"
+        ? "Deploy the daily reminder Supabase RPC helpers and verify CRON_SECRET matches."
+        : missingCapabilities[0] === "cron_authorization"
+          ? "Add CRON_SECRET to the Vercel Production environment."
+          : missingCapabilities[0] === "unsubscribe_rpc"
+            ? "Deploy the unsubscribe RPC helper before enabling scheduled email delivery."
+            : "Scheduled Daily Tarot email reminders are ready."
 
   return Response.json(
     {
@@ -32,6 +42,8 @@ export async function GET() {
       cron_authorization_configured: cronSecretConfigured,
       cron_path_configured: true,
       missing_capabilities: missingCapabilities,
+      delivery_status: scheduledDeliveryEnabled ? "ready" : "setup_required",
+      next_setup_step: nextSetupStep,
     },
     {
       headers: {

@@ -66,10 +66,10 @@ npx vercel deploy --prod
 After deployment, check:
 
 ```bash
-curl https://poptarot.com/api/daily-tarot/reminder-capability
+npm run check:reminders
 ```
 
-`can_send_email_reminders` and `unsubscribe_configured` should be `true` before the site promises scheduled email delivery.
+`can_send_email_reminders` and `unsubscribe_configured` should be `true` before the site promises scheduled email delivery. Use `npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active.
 
 Official social profiles are optional but should be configured as full `https://` URLs only after the account is active and links back to poptarot.com. Configured profiles appear on `/official-channels` and in Organization structured data as `sameAs` brand signals.
 
@@ -79,4 +79,6 @@ Official social profiles are optional but should be configured as full `https://
 npm run dev
 npm run build
 npm run start
+npm run check:seo
+npm run check:reminders
 ```

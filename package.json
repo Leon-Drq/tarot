@@ -6,7 +6,9 @@
     "build": "next build",
     "dev": "next dev",
     "start": "next start -p 3001",
-    "check:seo": "node scripts/check-seo-coverage.mjs"
+    "check:seo": "node scripts/check-seo-coverage.mjs",
+    "check:reminders": "node scripts/check-reminder-capability.mjs",
+    "check:reminders:strict": "node scripts/check-reminder-capability.mjs --strict"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

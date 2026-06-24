@@ -361,6 +361,8 @@ export interface DailyReminderCapability {
   cron_authorization_configured?: boolean
   cron_path_configured?: boolean
   missing_capabilities?: string[]
+  delivery_status?: "ready" | "setup_required"
+  next_setup_step?: string
 }
 
 export const dailyTarotApi = {

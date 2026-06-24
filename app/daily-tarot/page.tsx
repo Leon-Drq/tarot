@@ -29,7 +29,7 @@ const dailyFaqs = [
   {
     question: "How do Daily Tarot reminders work?",
     answer:
-      "Calendar reminders are available now: choose a time, download the calendar file, and your phone calendar can remind you to return. Email reminders use a reminder email, preferred time, timezone, and unsubscribe link after delivery is connected.",
+      "Calendar reminders are available now: choose a time, download the calendar file, and your phone calendar can remind you to return. Email reminder preferences store an email, preferred time, timezone, and unsubscribe link; scheduled delivery starts only when the email provider is enabled.",
   },
   {
     question: "What is a tomorrow return cue?",
@@ -70,7 +70,7 @@ const returnLoopItems = [
   },
   {
     title: "Add a calendar reminder",
-    text: "Choose a return time in the tool and add the daily calendar reminder while email delivery is being connected.",
+    text: "Choose a return time in the tool and add the daily calendar reminder while scheduled email delivery is unavailable.",
     icon: CalendarPlus,
   },
   {
@@ -213,7 +213,7 @@ const structuredData = {
         "Private journal note",
         "Tomorrow return cue",
         "Calendar reminder",
-        "Email reminder preference after delivery is connected",
+        "Email reminder preference with capability-based delivery status",
         "Shareable daily tarot result",
       ],
       maintainer: {
