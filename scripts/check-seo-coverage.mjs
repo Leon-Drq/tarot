@@ -156,6 +156,10 @@ const cardCoverage = [
   ["Money context", "${englishName} for Money"],
   ["Yes/no context", "${englishName} Yes or No"],
   ["Advice context", "Advice from ${englishName}"],
+  ["Spread position label", "Spread position meanings"],
+  ["Past position", "${englishName} in the past position"],
+  ["Future position", "${englishName} in the future position"],
+  ["Outcome position", "${englishName} as an outcome"],
   ["Common combinations", "Common Card Combinations"],
   ["FAQ", "faqLabel: \"FAQ\""],
 ]
@@ -168,7 +172,7 @@ for (const anchor of ["love", "career", "money", "yes-or-no", "advice"]) {
   assertIncludes(files.cardMeaningPage, `"${anchor}"`, `card page anchor ${anchor}`)
 }
 
-for (const section of ["#combinations", "#faq", "#question-paths", "#daily-practice"]) {
+for (const section of ["#spread-positions", "#combinations", "#faq", "#question-paths", "#daily-practice"]) {
   assertIncludes(files.cardMeaningPage, section, `card page section ${section}`)
 }
 

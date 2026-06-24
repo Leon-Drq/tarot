@@ -213,6 +213,7 @@ function cardPageNavItems(page: TarotCardSeoPage) {
       href: `#${deepSectionAnchorId(page, index)}`,
       label: section.heading,
     })),
+    { href: "#spread-positions", label: page.positionLabel },
     { href: "#combinations", label: page.combinationsLabel },
     { href: "#try-reading", label: copy.promptsLabel },
     { href: "#daily-practice", label: dailyPracticeNavLabel(page) },
@@ -747,7 +748,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         about: {
           "@id": `${appUrl}${page.path}#defined-term`,
         },
-        mentions: page.deepSections.map((section) => section.heading),
+        mentions: [...page.deepSections.map((section) => section.heading), ...page.positionSections.map((section) => section.heading)],
         author: {
           "@id": `${appUrl}/#editorial-team`,
         },
@@ -821,6 +822,17 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
             "@type": "Answer",
             text: faq.answer,
           },
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#spread-position-meanings`,
+        name: page.positionLabel,
+        itemListElement: page.positionSections.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.heading,
+          description: item.body,
         })),
       },
       {
@@ -1004,6 +1016,23 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                   </article>
                 ))}
               </div>
+
+              <section
+                id="spread-positions"
+                className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5"
+              >
+                <h2 className="font-serif text-2xl leading-tight text-white">{page.positionLabel}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{page.positionIntro}</p>
+                <div className="mt-5 grid gap-3 md:grid-cols-2">
+                  {page.positionSections.map((item) => (
+                    <article key={item.heading} className="rounded-lg border border-white/10 bg-black/[0.14] p-4">
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/68">{item.position}</p>
+                      <h3 className="mt-2 break-words text-sm font-medium text-white">{item.heading}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
 
               <div id="combinations" className="mt-8 scroll-mt-24 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
                 <h2 className="font-serif text-xl text-white">{page.combinationsLabel}</h2>

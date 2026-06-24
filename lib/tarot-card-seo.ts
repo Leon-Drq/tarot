@@ -24,6 +24,13 @@ export type TarotCardSeoPage = {
     heading: string
     body: string
   }>
+  positionLabel: string
+  positionIntro: string
+  positionSections: Array<{
+    position: string
+    heading: string
+    body: string
+  }>
   combinationsLabel: string
   combinations: Array<{
     heading: string
@@ -851,6 +858,116 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
   ]
 }
 
+function createPositionSections(card: TarotCard, locale: SeoLocale, theme: string) {
+  const name = localizedCardName(card, locale)
+  const englishName = card.nameEn
+  const upright = localizedKeywords(card, locale, "upright")
+  const reversed = localizedKeywords(card, locale, "reversed")
+
+  if (locale === "en") {
+    const guidance = englishSuitGuidance[getCardSuit(card)]
+    return {
+      label: "Spread position meanings",
+      intro: `The same ${englishName} card changes emphasis depending on where it lands in the spread. Use the position first, then refine the meaning with the question and nearby cards.`,
+      sections: [
+        {
+          position: "Past",
+          heading: `${englishName} in the past position`,
+          body: `In the past position, ${englishName} points to a pattern of ${upright} that shaped the current question. If the card feels reversed in the story, ${reversed} may describe what you are still untangling.`,
+        },
+        {
+          position: "Present",
+          heading: `${englishName} in the present position`,
+          body: `In the present position, ${englishName} names the active energy now. It asks you to notice where ${theme} is already influencing your choices, emotions, timing, or communication.`,
+        },
+        {
+          position: "Future",
+          heading: `${englishName} in the future position`,
+          body: `In the future position, ${englishName} shows the direction the situation may take if the current pattern continues. Upright energy supports ${upright}; reversed energy warns that ${reversed} could slow the outcome.`,
+        },
+        {
+          position: "Advice",
+          heading: `${englishName} as advice`,
+          body: `As advice, ${englishName} asks you to ${guidance.advice}. Make the message practical: choose one action you can control instead of waiting for the card to decide everything for you.`,
+        },
+        {
+          position: "Outcome",
+          heading: `${englishName} as an outcome`,
+          body: `As an outcome, ${englishName} is strongest when read with the final surrounding cards. It can show a result built around ${upright}, or a lesson that remains unresolved when ${reversed} keeps repeating.`,
+        },
+      ],
+    }
+  }
+
+  if (locale === "es") {
+    return {
+      label: "Significados por posicion",
+      intro: `La misma carta ${name} cambia segun la posicion en la tirada. Lee primero la posicion, despues la pregunta y las cartas cercanas.`,
+      sections: [
+        { position: "Pasado", heading: `${name} en posicion de pasado`, body: `${name} puede mostrar un patron anterior de ${upright} que todavia influye en la pregunta.` },
+        { position: "Presente", heading: `${name} en posicion de presente`, body: `En presente, ${name} nombra la energia activa ahora dentro de ${theme}.` },
+        { position: "Futuro", heading: `${name} en posicion de futuro`, body: `En futuro, ${name} muestra una direccion posible si el patron actual continua; invertida advierte sobre ${reversed}.` },
+        { position: "Consejo", heading: `${name} como consejo`, body: `Como consejo, convierte el simbolo en una accion concreta que puedas controlar hoy.` },
+        { position: "Resultado", heading: `${name} como resultado`, body: `Como resultado, ${name} debe leerse con las cartas finales: puede confirmar ${upright} o mostrar que ${reversed} sigue pendiente.` },
+      ],
+    }
+  }
+
+  if (locale === "pt-br") {
+    return {
+      label: "Significados por posicao",
+      intro: `A mesma carta ${name} muda de enfase conforme a posicao na tiragem. Leia primeiro a posicao, depois a pergunta e as cartas proximas.`,
+      sections: [
+        { position: "Passado", heading: `${name} na posicao de passado`, body: `${name} pode mostrar um padrao anterior de ${upright} que ainda influencia a pergunta.` },
+        { position: "Presente", heading: `${name} na posicao de presente`, body: `No presente, ${name} nomeia a energia ativa agora dentro de ${theme}.` },
+        { position: "Futuro", heading: `${name} na posicao de futuro`, body: `No futuro, ${name} mostra uma direcao possivel se o padrao atual continuar; invertida alerta para ${reversed}.` },
+        { position: "Conselho", heading: `${name} como conselho`, body: `Como conselho, transforme o simbolo em uma acao concreta que voce controla hoje.` },
+        { position: "Resultado", heading: `${name} como resultado`, body: `Como resultado, ${name} precisa ser lida com as cartas finais: pode confirmar ${upright} ou mostrar que ${reversed} continua pendente.` },
+      ],
+    }
+  }
+
+  if (locale === "zh") {
+    return {
+      label: "牌位解读",
+      intro: `同一张${name}落在不同牌位，重点会变化。先看牌位，再结合问题和附近的牌。`,
+      sections: [
+        { position: "过去", heading: `${name}在过去位置`, body: `${name}可能指向已经形成的${cleanKeywords(card.meaning.upright)}模式，也可能提示仍未整理完的${cleanKeywords(card.meaning.reversed)}。` },
+        { position: "现在", heading: `${name}在现在位置`, body: `现在位置强调${theme}正在影响你的选择、情绪或行动。` },
+        { position: "未来", heading: `${name}在未来位置`, body: `未来位置不是固定预言，而是显示当前模式继续发展时可能出现的方向。` },
+        { position: "建议", heading: `${name}作为建议`, body: "把牌义变成一个今天能执行的动作，而不是等待牌替你决定。" },
+        { position: "结果", heading: `${name}作为结果`, body: "结果位置需要和最后几张牌一起看，判断主题是否稳定落地，还是仍有阻滞。" },
+      ],
+    }
+  }
+
+  if (locale === "ja") {
+    return {
+      label: "位置ごとの読み方",
+      intro: `${name}は位置によって強調点が変わります。まず位置を見て、質問と周囲のカードで調整します。`,
+      sections: [
+        { position: "過去", heading: `${name}が過去に出た時`, body: `過去では、${localizedKeywords(card, locale, "upright")}という流れや、まだ残る${localizedKeywords(card, locale, "reversed")}を示します。` },
+        { position: "現在", heading: `${name}が現在に出た時`, body: `現在では、${theme}が今の選択や感情に影響していることを示します。` },
+        { position: "未来", heading: `${name}が未来に出た時`, body: "未来では、今の流れが続いた場合の方向性を示します。" },
+        { position: "助言", heading: `${name}が助言に出た時`, body: "カードの象徴を、今日できる一つの行動に変えることが大切です。" },
+        { position: "結果", heading: `${name}が結果に出た時`, body: "結果では、周囲のカードと合わせてテーマが定着するか、まだ調整が必要かを見ます。" },
+      ],
+    }
+  }
+
+  return {
+    label: "위치별 해석",
+    intro: `${name}는 위치에 따라 강조점이 달라집니다. 먼저 위치를 보고 질문과 주변 카드를 함께 읽으세요.`,
+    sections: [
+      { position: "과거", heading: `${name}가 과거 위치에 나올 때`, body: `과거에서는 ${localizedKeywords(card, locale, "upright")}의 흐름이나 아직 남은 ${localizedKeywords(card, locale, "reversed")}를 보여줍니다.` },
+      { position: "현재", heading: `${name}가 현재 위치에 나올 때`, body: `현재에서는 ${theme}가 지금 선택과 감정에 영향을 주고 있음을 뜻합니다.` },
+      { position: "미래", heading: `${name}가 미래 위치에 나올 때`, body: "미래에서는 현재 흐름이 계속될 때의 가능성을 보여줍니다." },
+      { position: "조언", heading: `${name}가 조언 위치에 나올 때`, body: "카드의 상징을 오늘 통제할 수 있는 한 가지 행동으로 바꾸세요." },
+      { position: "결과", heading: `${name}가 결과 위치에 나올 때`, body: "결과에서는 주변 카드와 함께 주제가 안정되는지, 아직 조정이 필요한지 봅니다." },
+    ],
+  }
+}
+
 function createCardFaqs(card: TarotCard, locale: SeoLocale) {
   const name = localizedCardName(card, locale)
   const englishName = card.nameEn
@@ -969,6 +1086,7 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
   const englishName = card.nameEn
   const slug = getCardSlug(card)
   const theme = suitThemes[locale][getCardSuit(card)]
+  const positionCopy = createPositionSections(card, locale, theme)
 
   const copy = {
     zh: {
@@ -1119,6 +1237,9 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
     backLabel: copy.backLabel,
     sections: copy.sections,
     deepSections: createDeepSections(card, locale, theme),
+    positionLabel: positionCopy.label,
+    positionIntro: positionCopy.intro,
+    positionSections: positionCopy.sections,
     combinationsLabel: copy.combinationsLabel,
     combinations: createCombinations(card, locale),
     faqLabel: copy.faqLabel,
