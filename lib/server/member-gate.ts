@@ -2,7 +2,7 @@ import type { SupabaseClient, User as SupabaseUser } from "@supabase/supabase-js
 
 import { getProfile, isMemberActive, isPartnerActive, jsonError, type ProfileRow } from "@/lib/server/supabase"
 
-type MemberFeature = "followup" | "history" | "advanced_spread"
+type MemberFeature = "followup" | "history" | "advanced_spread" | "monthly_report"
 
 const upgradeMessages: Record<MemberFeature, Record<string, string>> = {
   followup: {
@@ -28,6 +28,14 @@ const upgradeMessages: Record<MemberFeature, Record<string, string>> = {
     ko: "고급 스프레드는 멤버십 기능입니다. 업그레이드 후 계속하세요.",
     es: "Las tiradas avanzadas son una función de membresía. Actualiza para continuar.",
     "pt-br": "Tiragens avançadas são um recurso de membro. Faça upgrade para continuar.",
+  },
+  monthly_report: {
+    zh: "月度报告属于会员功能，请升级会员后查看本月模式。",
+    en: "Monthly reports are a membership feature. Upgrade to review this month's patterns.",
+    ja: "月間レポートはメンバー機能です。アップグレードして今月のパターンを確認してください。",
+    ko: "월간 리포트는 멤버십 기능입니다. 업그레이드 후 이번 달의 패턴을 확인하세요.",
+    es: "Los informes mensuales son una función de membresía. Actualiza para revisar los patrones de este mes.",
+    "pt-br": "Relatórios mensais são um recurso de membro. Faça upgrade para revisar os padrões deste mês.",
   },
 }
 

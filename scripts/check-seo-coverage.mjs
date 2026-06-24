@@ -81,6 +81,18 @@ const files = {
     path: "lib/server/member-gate.ts",
     source: read("lib/server/member-gate.ts"),
   },
+  monthlyReportPage: {
+    path: "app/monthly-tarot-report/page.tsx",
+    source: read("app/monthly-tarot-report/page.tsx"),
+  },
+  monthlyReportTool: {
+    path: "components/monthly/monthly-tarot-report.tsx",
+    source: read("components/monthly/monthly-tarot-report.tsx"),
+  },
+  monthlyReportRoute: {
+    path: "app/api/monthly-tarot-report/route.ts",
+    source: read("app/api/monthly-tarot-report/route.ts"),
+  },
   readingRoute: {
     path: "app/api/reading/route.ts",
     source: read("app/api/reading/route.ts"),
@@ -397,6 +409,27 @@ for (const [file, needle, label] of dailyTarotShareCoverage) {
   assertIncludes(file, needle, label)
 }
 
+const monthlyReportCoverage = [
+  [files.memberGate, "monthly_report", "monthly report membership feature key"],
+  [files.memberGate, "Monthly reports are a membership feature", "monthly report membership response copy"],
+  [files.monthlyReportPage, "MonthlyTarotReportView", "explicit monthly report route"],
+  [files.monthlyReportPage, "getSeoAlternates(\"monthly-tarot-report\")", "monthly report SEO alternates"],
+  [files.monthlyReportTool, "data-monthly-report-locked", "monthly report locked state"],
+  [files.monthlyReportTool, "monthlyReportApi.get", "monthly report client fetch"],
+  [files.monthlyReportTool, "data-monthly-report-ready", "monthly report ready state"],
+  [files.monthlyReportTool, "report.next_month_prompts", "monthly report next question prompts"],
+  [files.monthlyReportRoute, "requireMemberAccess(auth.supabase, auth.user, \"monthly_report\", lang)", "monthly report server member gate"],
+  [files.monthlyReportRoute, ".from(\"tarot_readings\")", "monthly report reads saved readings"],
+  [files.monthlyReportRoute, ".from(\"daily_tarot_entries\")", "monthly report reads daily entries"],
+  [files.monthlyReportRoute, ".eq(\"user_id\", auth.user.id)", "monthly report current-user filters"],
+  [files.monthlyReportRoute, "journal_notes", "monthly report journal summary"],
+  [files.monthlyReportRoute, "top_cards", "monthly report repeated cards"],
+]
+
+for (const [file, needle, label] of monthlyReportCoverage) {
+  assertIncludes(file, needle, label)
+}
+
 const publicShareConversionCoverage = [
   [files.sharePage, "function sharedReadingHref", "public share same-question href helper"],
   [files.sharePage, "q: share.question", "public share carries original question"],
@@ -416,6 +449,7 @@ const freeFirstReadingCoverage = [
   [files.memberGate, "Saved reading history is a membership feature", "history membership response copy"],
   [files.memberGate, "Deeper follow-up questions are a membership feature", "follow-up membership response copy"],
   [files.memberGate, "Advanced spreads are a membership feature", "advanced spread membership response copy"],
+  [files.memberGate, "Monthly reports are a membership feature", "monthly report membership response copy"],
   [files.spreadConfig, "export const FREE_SPREAD_TYPES", "free spread allowlist"],
   [files.spreadConfig, "export function isAdvancedSpreadType", "advanced spread classifier"],
   [files.spreadConfig, "return SPREAD_CONFIGS.three_card", "advanced spread free fallback"],

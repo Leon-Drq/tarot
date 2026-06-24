@@ -392,6 +392,53 @@ export const dailyTarotApi = {
   },
 }
 
+// ========== Monthly Tarot Report API ==========
+
+export interface MonthlyReportTheme {
+  key: string
+  title: string
+  summary: string
+  score: number
+  evidence: string[]
+}
+
+export interface MonthlyReportCardSummary {
+  label: string
+  count: number
+  upright: number
+  reversed: number
+}
+
+export interface MonthlyTarotReport {
+  month_label: string
+  generated_at: string
+  period: {
+    start_date: string
+    end_date: string
+  }
+  is_empty: boolean
+  totals: {
+    readings: number
+    daily_entries: number
+    journal_notes: number
+    unique_cards: number
+    current_streak: number
+  }
+  top_cards: MonthlyReportCardSummary[]
+  themes: MonthlyReportTheme[]
+  spread_mix: Array<{ label: string; count: number }>
+  daily_notes: Array<{ date: string; card: string; note: string }>
+  next_month_prompts: string[]
+}
+
+export const monthlyReportApi = {
+  get: async (lang: string = 'en', month?: string): Promise<MonthlyTarotReport> => {
+    const params = new URLSearchParams({ lang })
+    if (month) params.set('month', month)
+    return request(`/monthly-tarot-report?${params.toString()}`)
+  },
+}
+
 // ========== Reading API ==========
 
 export interface CardData {
