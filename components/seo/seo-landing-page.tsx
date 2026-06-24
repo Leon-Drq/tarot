@@ -355,6 +355,18 @@ function questionClusterPages(page: SeoPage) {
 }
 
 function readingHref(page: SeoPage) {
+  if (page.slug === "daily-tarot") {
+    const params = new URLSearchParams({
+      lang: page.locale,
+      source: "seo",
+      utm_source: "seo",
+      utm_medium: "daily_landing",
+      utm_campaign: page.locale === "es" || page.locale === "pt-br" ? page.path.replace(/^\//, "") : page.slug,
+    })
+
+    return `/daily-tarot?${params.toString()}`
+  }
+
   const params = new URLSearchParams({
     q: page.ctaQuestion,
     auto: "1",

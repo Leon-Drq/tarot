@@ -133,6 +133,23 @@ const dailyPromptCards = [
   },
 ]
 
+const regionalDailyGuides = [
+  {
+    href: "/es/tarot-diario",
+    language: "Espanol",
+    title: "Tarot diario gratis",
+    body: "Una pagina indexable para lectores en espanol que vuelve al ritual gratuito: una carta diaria, racha, diario y recordatorio.",
+    cta: "Abrir guia",
+  },
+  {
+    href: "/pt-br/tarot-diario",
+    language: "Portugues BR",
+    title: "Tarot diario gratis",
+    body: "Uma pagina indexavel para leitores do Brasil que volta ao ritual gratuito: uma carta por dia, sequencia, diario e lembrete.",
+    cta: "Abrir guia",
+  },
+]
+
 function dailyPromptHref(prompt: (typeof dailyPromptCards)[number]) {
   const params = new URLSearchParams({
     q: prompt.question,
@@ -259,6 +276,30 @@ const structuredData = {
       })),
     },
     {
+      "@type": "ItemList",
+      "@id": `${appUrl}/daily-tarot#regional-daily-guides`,
+      name: "Regional Daily Tarot guides",
+      description: "Spanish and Brazilian Portuguese Daily Tarot SEO entry pages that lead back to the free daily tool.",
+      numberOfItems: regionalDailyGuides.length,
+      itemListElement: regionalDailyGuides.map((guide, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "WebPage",
+          name: guide.title,
+          description: guide.body,
+          url: `${appUrl}${guide.href}`,
+          isAccessibleForFree: true,
+          inLanguage: guide.href.startsWith("/es/") ? "es" : "pt-BR",
+          potentialAction: {
+            "@type": "ReadAction",
+            name: "Open Daily Tarot guide",
+            target: `${appUrl}${guide.href}`,
+          },
+        },
+      })),
+    },
+    {
       "@type": "FAQPage",
       "@id": `${appUrl}/daily-tarot#faq`,
       mainEntity: dailyFaqs.map((faq) => ({
@@ -312,6 +353,34 @@ export default function DailyTarotPage() {
         </div>
       </header>
       <DailyTarotTool />
+      <section data-daily-regional-guides className="border-t border-white/10 bg-[#0b0415]">
+        <div className="mx-auto grid max-w-6xl gap-7 px-4 py-10 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-14">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">Regional guides</p>
+            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">
+              Bring the daily ritual into Spanish and Brazil search
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
+              These localized entry pages help new readers find the free Daily Tarot habit first, then return to the same one-card tool for streaks, notes, and reminders.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {regionalDailyGuides.map((guide) => (
+              <Link
+                key={guide.href}
+                data-daily-regional-guide
+                href={guide.href}
+                className="group flex min-h-[11rem] flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.055]"
+              >
+                <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{guide.language}</p>
+                <h3 className="mt-3 text-base font-medium leading-snug text-white group-hover:text-[#f4f0ff]">{guide.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/56">{guide.body}</p>
+                <span className="mt-auto pt-4 text-xs text-[#c9c0ff]/72 group-hover:text-[#eeeaff]">{guide.cta}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
       <section className="border-t border-white/10 bg-[#080310]">
         <div className="mx-auto grid max-w-6xl gap-7 px-4 py-12 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-16">
           <div>

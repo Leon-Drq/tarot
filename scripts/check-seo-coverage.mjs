@@ -232,12 +232,24 @@ for (const slug of dailyIntentSlugs) {
   assertIncludes(files.seoLanding, `"${slug}"`, `daily intent related cluster ${slug}`)
 }
 
+for (const regionalDailyPath of ["/es/tarot-diario", "/pt-br/tarot-diario"]) {
+  assertIncludes(files.seoPages, `"daily-tarot": "tarot-diario"`, `regional Daily Tarot slug mapping ${regionalDailyPath}`)
+  assertIncludes(files.dailyTarotPage, regionalDailyPath, `Daily Tarot regional guide link ${regionalDailyPath}`)
+}
+
+assertIncludes(files.dailyTarotPage, "data-daily-regional-guides", "Daily Tarot regional guide section")
+assertIncludes(files.dailyTarotPage, "#regional-daily-guides", "Daily Tarot regional guide structured data")
+assertIncludes(files.seoLanding, "utm_medium: \"daily_landing\"", "Daily Tarot SEO landing attribution")
+assertIncludes(files.seoLanding, "page.slug === \"daily-tarot\"", "Daily Tarot SEO pages open the daily tool")
+
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
 
 for (const localeRoute of [
   "app/zh/[slug]/page.tsx",
   "app/ja/[slug]/page.tsx",
   "app/ko/[slug]/page.tsx",
+  "app/es/[slug]/page.tsx",
+  "app/pt-br/[slug]/page.tsx",
 ]) {
   assertIncludes({ path: localeRoute, source: read(localeRoute) }, "getSeoStaticParams(locale)", `locale-aware static params in ${localeRoute}`)
 }
