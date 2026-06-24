@@ -1159,30 +1159,55 @@ export function DailyTarotTool() {
       </section>
 
       <section className="space-y-5">
-        {showInstallPrompt && (
-          <article
-            data-daily-install-prompt
-            className="rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.045] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.2)] sm:hidden"
-          >
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#bfb6ff]/24 bg-[#bfb6ff]/[0.1] text-[#dcd5ff]">
-                <Smartphone className="h-5 w-5" aria-hidden="true" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{copy.installEyebrow}</p>
-                <h2 className="mt-2 text-base font-medium leading-snug text-white">{copy.installTitle}</h2>
-                <p className="mt-2 text-sm leading-6 text-white/56">{copy.installBody}</p>
-              </div>
+        <article
+          data-daily-return-setup
+          data-daily-install-prompt={showInstallPrompt ? "true" : undefined}
+          className="rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.045] p-5 shadow-[0_18px_55px_rgba(0,0,0,0.2)] sm:p-6"
+        >
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#bfb6ff]/24 bg-[#bfb6ff]/[0.1] text-[#dcd5ff]">
+              <Bell className="h-5 w-5" aria-hidden="true" />
             </div>
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{copy.returnSetupEyebrow}</p>
+              <h2 className="mt-2 text-base font-medium leading-snug text-white">{copy.returnSetupTitle}</h2>
+              <p className="mt-2 text-sm leading-6 text-white/56">{copy.returnSetupBody}</p>
+            </div>
+          </div>
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
             <button
-              onClick={handleInstallPrompt}
-              className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-lg border border-[#c9c0ff]/36 bg-[#c9c0ff]/12 px-5 text-sm font-medium text-[#f4f0ff] transition hover:bg-[#c9c0ff]/18"
+              type="button"
+              data-daily-return-setup-calendar
+              onClick={handleDownloadCalendarReminder}
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/40 bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-sm font-medium text-[#130d24] shadow-[0_16px_42px_rgba(146,132,239,0.18)] transition hover:brightness-110"
             >
-              {copy.installAction}
+              <CalendarPlus className="h-4 w-4" aria-hidden="true" />
+              {copy.returnSetupCalendar}
             </button>
-            {installStatus && <p className="mt-3 text-xs leading-5 text-white/45">{installStatus}</p>}
-          </article>
-        )}
+            <button
+              type="button"
+              data-daily-return-setup-reminder
+              onClick={scrollToReminder}
+              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
+            >
+              <Bell className="h-4 w-4" aria-hidden="true" />
+              {copy.returnSetupReminder}
+            </button>
+            {showInstallPrompt && (
+              <button
+                type="button"
+                data-daily-return-setup-install
+                onClick={handleInstallPrompt}
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white sm:col-span-2"
+              >
+                <Smartphone className="h-4 w-4" aria-hidden="true" />
+                {copy.returnSetupHome}
+              </button>
+            )}
+          </div>
+          {calendarStatus && <p className="mt-3 text-xs leading-5 text-[#c9c0ff]">{calendarStatus}</p>}
+          {installStatus && <p className="mt-3 text-xs leading-5 text-white/45">{installStatus}</p>}
+        </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
           <div className="mb-4">

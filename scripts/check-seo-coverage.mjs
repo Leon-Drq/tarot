@@ -429,6 +429,10 @@ const dailyReminderCoverage = [
   [files.reminderRpc, "disable_daily_tarot_reminders", "unsubscribe RPC helper"],
   [files.reminderUnsubscribeToken, "DAILY_TAROT_UNSUBSCRIBE_SECRET", "dedicated unsubscribe secret"],
   [files.reminderUnsubscribeToken, "timingSafeEqual", "safe unsubscribe token comparison"],
+  [files.dailyTarotTool, "data-daily-return-setup", "Daily Tarot return setup panel"],
+  [files.dailyTarotTool, "data-daily-return-setup-calendar", "Daily Tarot prominent calendar reminder CTA"],
+  [files.dailyTarotTool, "data-daily-return-setup-reminder", "Daily Tarot reminder preference CTA"],
+  [files.dailyTarotTool, "returnSetupTitle", "Daily Tarot return setup localized copy"],
 ]
 
 for (const [file, needle, label] of dailyReminderCoverage) {
