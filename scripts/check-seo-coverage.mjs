@@ -424,6 +424,9 @@ const dailyTarotShareCoverage = [
   [files.dailyTarotTool, "fallback: true", "Daily Tarot fallback share analytics metadata"],
   [files.dailyTarotTool, "shareDailyFallbackCaption", "Daily Tarot fallback share handler"],
   [files.dailyTarotTool, "Log in to create a public Daily Tarot page", "Daily Tarot fallback share copy"],
+  [files.dailyTarotTool, "data-daily-pattern-free-cta", "Daily Tarot free pattern CTA"],
+  [files.dailyTarotTool, "utm_medium: \"daily_pattern\"", "Daily Tarot pattern CTA attribution"],
+  [files.dailyTarotTool, "daily-pattern-free-reading", "Daily Tarot pattern CTA campaign"],
 ]
 
 for (const [file, needle, label] of dailyTarotShareCoverage) {

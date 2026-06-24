@@ -463,6 +463,8 @@ export function DailyTarotTool() {
         days: "记录天数",
         journals: "日记数",
         theme: "主要主题",
+        askPattern: "免费解读这个模式",
+        patternQuestion: "我最近的每日塔罗更偏向「{theme}」，这说明什么？我下一步该怎么做？",
         report: "查看月度报告",
       },
       ja: {
@@ -473,6 +475,8 @@ export function DailyTarotTool() {
         days: "記録日数",
         journals: "日記数",
         theme: "主なテーマ",
+        askPattern: "このパターンを無料で読む",
+        patternQuestion: "最近の Daily Tarot は「{theme}」に寄っています。これは何を示し、次に何をすればいいですか？",
         report: "月間レポート",
       },
       ko: {
@@ -483,6 +487,8 @@ export function DailyTarotTool() {
         days: "기록 일수",
         journals: "저널 수",
         theme: "주요 주제",
+        askPattern: "이 패턴 무료로 보기",
+        patternQuestion: "최근 Daily Tarot 카드가 「{theme}」 쪽으로 기울어 있습니다. 이것은 무엇을 뜻하고 다음 행동은 무엇인가요?",
         report: "월간 리포트",
       },
       en: {
@@ -493,6 +499,8 @@ export function DailyTarotTool() {
         days: "Tracked days",
         journals: "Journal notes",
         theme: "Main theme",
+        askPattern: "Ask about this pattern",
+        patternQuestion: "My recent Daily Tarot cards lean toward {theme}. What does this pattern mean, and what should I do next?",
         report: "View monthly report",
       },
     }[language] || {
@@ -503,6 +511,8 @@ export function DailyTarotTool() {
       days: "Tracked days",
       journals: "Journal notes",
       theme: "Main theme",
+      askPattern: "Ask about this pattern",
+      patternQuestion: "My recent Daily Tarot cards lean toward {theme}. What does this pattern mean, and what should I do next?",
       report: "View monthly report",
     }
 
@@ -1016,6 +1026,7 @@ export function DailyTarotTool() {
 
     return {
       body,
+      dominantTheme,
       stats: [
         { label: patternCopy.days, value: `${trackedDays}/7` },
         { label: patternCopy.journals, value: String(journalCount) },
@@ -1026,6 +1037,19 @@ export function DailyTarotTool() {
   const reminderModeTitle = emailDeliveryEnabled ? copy.emailReminderReadyTitle : copy.calendarFallbackTitle
   const reminderModeBody = emailDeliveryEnabled ? copy.reminderHelp : copy.calendarFallbackBody
   const calendarReminderAvailable = reminderCapability?.calendar_reminder_available ?? true
+  const dailyPatternHref = useMemo(() => {
+    const params = new URLSearchParams({
+      q: patternCopy.patternQuestion.replace("{theme}", dailyPattern.dominantTheme),
+      auto: "1",
+      spread: "three_card",
+      lang: language,
+      source: "daily-tarot",
+      utm_source: "daily-tarot",
+      utm_medium: "daily_pattern",
+      utm_campaign: "daily-pattern-free-reading",
+    })
+    return `/input?${params.toString()}`
+  }, [dailyPattern.dominantTheme, language, patternCopy.patternQuestion])
   const hasReading = Boolean(interpretation)
   const stickyPrimaryLabel = hasReading ? shareCopy.button : isDrawing ? copy.drawing : copy.draw
   const stickyPrimaryDisabled = hasReading ? isCreatingShare || isDrawing : isDrawing
@@ -1409,12 +1433,21 @@ export function DailyTarotTool() {
               <h2 className="mt-2 font-serif text-xl leading-tight text-white">{patternCopy.title}</h2>
               <p className="mt-3 text-sm leading-7 text-white/58">{dailyPattern.body}</p>
             </div>
-            <Link
-              href="/monthly-tarot-report"
-              className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-[#c9c0ff]/26 px-4 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/10"
-            >
-              {patternCopy.report}
-            </Link>
+            <div className="grid shrink-0 gap-2 sm:min-w-[12rem]">
+              <Link
+                data-daily-pattern-free-cta
+                href={dailyPatternHref}
+                className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-sm font-medium text-[#130d24] shadow-[0_14px_34px_rgba(146,132,239,0.2)] transition hover:brightness-110"
+              >
+                {patternCopy.askPattern}
+              </Link>
+              <Link
+                href="/monthly-tarot-report"
+                className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/26 px-4 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/10"
+              >
+                {patternCopy.report}
+              </Link>
+            </div>
           </div>
           <div className="mt-5 grid gap-2 sm:grid-cols-3">
             {dailyPattern.stats.map((item) => (
