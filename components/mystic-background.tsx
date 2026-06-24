@@ -681,7 +681,7 @@ function MysticContent() {
         {/* 4. 3D rotating tarot card - use custom images if available */}
         <div
           data-home-card-scene
-          className="absolute left-0 right-0 top-[var(--home-hero-card-y,var(--home-hero-focal-y,52svh))] z-20 flex h-0 justify-center overflow-visible"
+          className="absolute left-0 right-0 top-[var(--home-hero-scene-y,52svh)] z-20 flex h-0 justify-center overflow-visible"
         >
           <div
             data-home-card-focal
@@ -690,7 +690,7 @@ function MysticContent() {
             <div
               data-home-focal-glow
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-0 z-0 h-[min(78vw,34rem)] w-[min(78vw,34rem)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(246,244,255,0.54)_0%,rgba(170,161,255,0.32)_32%,rgba(76,42,120,0.14)_58%,transparent_76%)] blur-2xl mix-blend-screen md:h-[34rem] md:w-[34rem]"
+              className="pointer-events-none absolute left-0 top-0 z-0 h-[min(88vw,34rem)] w-[min(88vw,34rem)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(246,244,255,0.62)_0%,rgba(170,161,255,0.36)_32%,rgba(76,42,120,0.16)_58%,transparent_76%)] blur-2xl mix-blend-screen md:h-[34rem] md:w-[34rem]"
             />
             <CoreLight className="pointer-events-none absolute left-0 top-0 z-0 flex h-0 w-0 items-center justify-center" />
             <div
