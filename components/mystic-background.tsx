@@ -100,13 +100,13 @@ function HomeQuestionForm() {
       >
         <span>{copy.action}</span>
       </button>
-      <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:justify-center md:overflow-visible md:pb-0">
+      <div className="mt-3 flex flex-wrap justify-center gap-2 pb-1 md:pb-0">
         {copy.examples.map((example) => (
           <button
             key={example}
             type="button"
             onClick={() => setQuestion(example)}
-            className="inline-flex min-h-10 shrink-0 items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-[11px] text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
+            className="inline-flex min-h-10 max-w-full items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-center text-[11px] leading-4 text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
           >
             {example}
           </button>
