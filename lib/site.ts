@@ -397,7 +397,7 @@ export function websiteJsonLd() {
     },
     potentialAction: {
       "@type": "SearchAction",
-      target: `${appUrl}/input?q={search_term_string}`,
+      target: `${appUrl}/tarot-questions?query={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
     publisher: {

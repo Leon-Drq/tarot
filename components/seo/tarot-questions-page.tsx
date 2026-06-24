@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { Suspense } from "react"
 import { ArrowLeft, ArrowUpRight, Search } from "lucide-react"
 import { localeOpenGraph, type SeoLocale } from "@/lib/locales"
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, siteName, websiteJsonLd } from "@/lib/site"
@@ -7,6 +8,7 @@ import { getSeoPage } from "@/lib/seo-pages"
 import { SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
 import { trustLastReviewed } from "@/lib/trust-signals"
 import { getTarotSpreadHubPath } from "@/components/seo/tarot-spreads-page"
+import { TarotQuestionSearchResults, type TarotQuestionSearchEntry } from "@/components/seo/tarot-question-search-results"
 
 type TarotQuestionHubLocale = Extract<SeoLocale, "en" | "es" | "pt-br">
 type QuestionGroup = "love" | "career" | "fast"
@@ -848,6 +850,57 @@ function readingHref(entry: QuestionEntry, locale: TarotQuestionHubLocale) {
   return `/input?${params.toString()}`
 }
 
+function searchCopy(locale: TarotQuestionHubLocale) {
+  if (locale === "es") {
+    return {
+      eyebrow: "Busqueda de preguntas",
+      title: "Preguntas de tarot que coinciden",
+      body: "Elige una pregunta cercana y abre una lectura gratis con la tirada adecuada.",
+      emptyTitle: "No encontramos una coincidencia exacta",
+      emptyBody: "Estas preguntas populares son buenos puntos de partida para una lectura gratis.",
+      startFree: "Empezar gratis",
+      readGuide: "Leer guia",
+    }
+  }
+
+  if (locale === "pt-br") {
+    return {
+      eyebrow: "Busca de perguntas",
+      title: "Perguntas de tarot relacionadas",
+      body: "Escolha uma pergunta proxima e abra uma leitura gratis com a tiragem adequada.",
+      emptyTitle: "Nao encontramos uma correspondencia exata",
+      emptyBody: "Estas perguntas populares sao bons pontos de partida para uma leitura gratis.",
+      startFree: "Comecar gratis",
+      readGuide: "Ler guia",
+    }
+  }
+
+  return {
+    eyebrow: "Question search",
+    title: "Matching tarot questions",
+    body: "Pick the closest question and open a free reading with the right spread already selected.",
+    emptyTitle: "No exact match yet",
+    emptyBody: "These popular question paths are strong starting points for a free reading.",
+    startFree: "Start free",
+    readGuide: "Read guide",
+  }
+}
+
+function searchEntries(copy: QuestionPageCopy): TarotQuestionSearchEntry[] {
+  return copy.entries.map((entry) => {
+    const spread = SPREAD_CONFIGS[entry.spread]
+    return {
+      key: entry.slug || entry.title,
+      title: entry.title,
+      query: entry.query,
+      intent: entry.intent,
+      spreadLabel: copy.cardLabel(spread.cardCount, spread.nameEn),
+      guideHref: guideHref(entry, copy.locale),
+      readingHref: readingHref(entry, copy.locale),
+    }
+  })
+}
+
 function buildStructuredData(copy: QuestionPageCopy) {
   return {
     "@context": "https://schema.org",
@@ -967,6 +1020,7 @@ export function getTarotQuestionHubMetadata(locale: TarotQuestionHubLocale): Met
 export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLocale }) {
   const copy = getQuestionHubCopy(locale)
   const structuredData = buildStructuredData(copy)
+  const questionSearchEntries = searchEntries(copy)
 
   return (
     <main className="min-h-screen bg-[#080310] text-white">
@@ -1007,6 +1061,10 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
           </div>
         </div>
       </section>
+
+      <Suspense fallback={null}>
+        <TarotQuestionSearchResults entries={questionSearchEntries} copy={searchCopy(locale)} />
+      </Suspense>
 
       <section className="mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:px-10 lg:py-16">
         <div className="grid gap-5">
