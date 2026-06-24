@@ -22,6 +22,19 @@ const previewItems = [
   },
 ]
 
+function inputHref(question: string, medium: string) {
+  const params = new URLSearchParams({
+    q: question,
+    auto: "1",
+    spread: "three_card",
+    source: "monthly_report",
+    utm_source: "monthly_report",
+    utm_medium: medium,
+    utm_campaign: "monthly_report_free",
+  })
+  return `/input?${params.toString()}`
+}
+
 function BackIcon({ className }: { className?: string }) {
   return (
     <svg className={className} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24">
@@ -39,6 +52,49 @@ function Metric({ label, value }: { label: string; value: string | number }) {
   )
 }
 
+function FreeMonthlyCheckIn({ copy }: { copy: ReturnType<typeof getCopy> }) {
+  return (
+    <section data-monthly-free-checkin className="border-y border-[#bfb6ff]/14 py-8">
+      <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <div>
+          <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.freeCheckEyebrow}</p>
+          <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.freeCheckTitle}</h2>
+          <p className="mt-4 text-sm leading-7 text-white/58">{copy.freeCheckBody}</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              data-monthly-free-checkin-primary
+              href={inputHref(copy.freeCheckItems[0].question, "free_checkin")}
+              className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f3f0ff_0%,#c9c0ff_52%,#8f80ee_100%)] px-5 text-sm font-medium text-[#100b22] shadow-[0_16px_42px_rgba(143,128,238,0.22)] transition hover:brightness-110"
+            >
+              {copy.startFreeCheck}
+            </Link>
+            <Link
+              href="/daily-tarot"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
+            >
+              {copy.daily}
+            </Link>
+          </div>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+          {copy.freeCheckItems.map((item) => (
+            <Link
+              data-monthly-free-checkin-question
+              key={item.question}
+              href={inputHref(item.question, "free_checkin_question")}
+              className="group rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.075]"
+            >
+              <p className="text-[10px] uppercase tracking-[0.18em] text-white/36">{item.label}</p>
+              <h3 className="mt-2 break-words text-sm font-medium leading-snug text-[#f2edff]">{item.question}</h3>
+              <p className="mt-2 text-xs leading-5 text-white/48">{copy.pickCards}</p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function UpgradeBoundary({ copy }: { copy: ReturnType<typeof getCopy> }) {
   return (
     <section data-monthly-report-locked className="border-y border-white/10 py-8">
@@ -49,16 +105,22 @@ function UpgradeBoundary({ copy }: { copy: ReturnType<typeof getCopy> }) {
           <p className="mt-4 text-sm leading-7 text-white/58">{copy.lockedBody}</p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
             <Link
-              href="/membership"
+              href={inputHref(copy.freeCheckItems[0].question, "locked_free_checkin")}
               className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f3f0ff_0%,#c9c0ff_52%,#8f80ee_100%)] px-4 text-sm font-medium text-[#100b22] shadow-[0_16px_42px_rgba(143,128,238,0.22)] transition hover:brightness-110"
             >
-              {copy.upgrade}
+              {copy.startFreeCheck}
             </Link>
             <Link
               href="/daily-tarot"
               className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
             >
               {copy.daily}
+            </Link>
+            <Link
+              href="/membership"
+              className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
+            >
+              {copy.upgrade}
             </Link>
           </div>
         </div>
@@ -220,9 +282,19 @@ function getCopy(language: string) {
   if (language === "zh") {
     return {
       back: "返回首页",
-      eyebrow: "会员月度报告",
-      title: "Monthly Tarot Report",
-      body: "把本月保存的解读、每日塔罗和日记整理成一个模式报告。免费解读仍然优先；月报只属于需要长期复盘的会员场景。",
+      eyebrow: "免费月度塔罗自查",
+      title: "Monthly Tarot Check-In",
+      body: "先用一个免费问题复盘本月。会员月报放在后面，用来把保存的解读、每日塔罗和日记整理成长期模式。",
+      freeCheckEyebrow: "免费月度自查",
+      freeCheckTitle: "先用一个真实问题复盘本月",
+      freeCheckBody: "不用先升级。选择一个本月问题，直接进入免费三牌解读；当你开始保存历史、每日塔罗和日记后，会员月报才有意义。",
+      startFreeCheck: "开始免费月度自查",
+      pickCards: "进入免费抽牌",
+      freeCheckItems: [
+        { label: "本月模式", question: "这个月反复出现的模式是什么？" },
+        { label: "需要放下", question: "进入下个月前，我应该放下什么？" },
+        { label: "下月重点", question: "下个月我最应该关注什么？" },
+      ],
       loginTitle: "登录后查看月度报告",
       loginBody: "月报需要读取你的保存历史和每日塔罗记录。先登录，再决定是否升级。",
       login: "登录",
@@ -261,9 +333,19 @@ function getCopy(language: string) {
 
   return {
     back: "Back Home",
-    eyebrow: "Member Monthly Report",
-    title: "Monthly Tarot Report",
-    body: "Turn saved readings, Daily Tarot, and journal notes into one monthly pattern report. The free tool still comes first; this report is for longer reflection.",
+    eyebrow: "Free monthly tarot check-in",
+    title: "Monthly Tarot Check-In",
+    body: "Start with one free question about your month. Membership comes later for the deeper report built from saved readings, Daily Tarot, and journal notes.",
+    freeCheckEyebrow: "Free monthly check-in",
+    freeCheckTitle: "Start with one real monthly question",
+    freeCheckBody: "You do not need to upgrade first. Pick a question, draw a free three-card reading, then use membership later only when you want saved history, repeated cards, and journal patterns in one report.",
+    startFreeCheck: "Start Free Check-In",
+    pickCards: "Pick cards free",
+    freeCheckItems: [
+      { label: "This month's pattern", question: "What pattern kept showing up for me this month?" },
+      { label: "Release", question: "What should I release before next month begins?" },
+      { label: "Next focus", question: "What should I focus on next month?" },
+    ],
     loginTitle: "Log in to view your monthly report",
     loginBody: "Monthly reports need saved readings and Daily Tarot entries. Log in first, then upgrade only when you want the longer pattern review.",
     login: "Log In",
@@ -342,8 +424,8 @@ export function MonthlyTarotReportView() {
             <BackIcon className="h-4 w-4" />
             <span>{copy.back}</span>
           </Link>
-          <Link href={isMember ? "/profile" : "/membership"} className="inline-flex min-h-10 items-center rounded-lg border border-white/12 px-3 text-sm text-white/62 transition hover:border-[#bfb6ff]/38 hover:text-white">
-            {isMember ? copy.profile : copy.upgrade}
+          <Link href={isMember ? "/profile" : "/free-ai-tarot-reading"} className="inline-flex min-h-10 items-center rounded-lg border border-white/12 px-3 text-sm text-white/62 transition hover:border-[#bfb6ff]/38 hover:text-white">
+            {isMember ? copy.profile : copy.freeReading}
           </Link>
         </div>
       </header>
@@ -365,12 +447,14 @@ export function MonthlyTarotReportView() {
           </div>
         </section>
 
+        <FreeMonthlyCheckIn copy={copy} />
+
         {isLoading ? (
-          <section className="border-y border-white/10 py-10">
+          <section className="border-b border-white/10 py-10">
             <p className="text-sm text-white/58">{copy.loading}</p>
           </section>
         ) : !isLoggedIn ? (
-          <section className="border-y border-white/10 py-8">
+          <section className="border-b border-white/10 py-8">
             <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.lockedEyebrow}</p>
             <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.loginTitle}</h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/58">{copy.loginBody}</p>
