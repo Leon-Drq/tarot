@@ -3,11 +3,76 @@
 import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Image from "next/image"
-import type { DrawnCard } from "@/lib/tarot-cards"
-import { getCardName } from "@/lib/tarot-cards"
+import { getCardById, getCardName, TAROT_CARDS, type TarotCard } from "@/lib/tarot-cards"
+import { getSpreadConfig, isKnownSpreadType } from "@/lib/spread-config"
 import ReactMarkdown from "react-markdown"
 import { useLanguage } from "@/contexts/language-context"
-import { readingApi, ReadingRecord } from "@/lib/api"
+import { readingApi, type CardData, type ReadingRecord } from "@/lib/api"
+
+type ReadingDetailCard = CardData & {
+  id?: number
+  image?: string
+  nameEn?: string
+  nameJa?: string
+  nameKo?: string
+}
+
+function normalizeCardName(value?: string) {
+  return value?.trim().toLowerCase() || ""
+}
+
+function resolveCatalogCard(card: ReadingDetailCard): TarotCard | undefined {
+  if (typeof card.id === "number") {
+    const byId = getCardById(card.id)
+    if (byId) return byId
+  }
+
+  const names = new Set([card.name, card.nameEn, card.nameJa, card.nameKo].map(normalizeCardName).filter(Boolean))
+  if (names.size === 0) return undefined
+
+  return TAROT_CARDS.find((item) =>
+    [item.name, item.nameEn, item.nameJa, item.nameKo].some((name) => names.has(normalizeCardName(name))),
+  )
+}
+
+function localizedFallbackPosition(index: number, lang: string) {
+  const labels =
+    {
+      zh: ["位置 1", "位置 2", "位置 3"],
+      ja: ["位置 1", "位置 2", "位置 3"],
+      ko: ["위치 1", "위치 2", "위치 3"],
+      en: ["Position 1", "Position 2", "Position 3"],
+    }[lang] || ["Position 1", "Position 2", "Position 3"]
+
+  if (labels[index]) return labels[index]
+  if (lang === "zh" || lang === "ja") return `位置 ${index + 1}`
+  if (lang === "ko") return `위치 ${index + 1}`
+  return `Position ${index + 1}`
+}
+
+function getReadingDetailPositionLabel(card: ReadingDetailCard, spreadType: string | undefined, index: number, lang: string) {
+  if (card.position) return card.position
+
+  if (isKnownSpreadType(spreadType)) {
+    const position = getSpreadConfig(spreadType).positions[index]
+    if (position) return lang === "zh" ? position.name : position.nameEn || position.name
+  }
+
+  return localizedFallbackPosition(index, lang)
+}
+
+function getReadingDetailCardName(card: ReadingDetailCard, lang: string) {
+  const catalogCard = resolveCatalogCard(card)
+  if (catalogCard) return getCardName(catalogCard, lang)
+  if (lang === "zh") return card.name || card.nameEn || "Tarot Card"
+  if (lang === "ja") return card.nameJa || card.nameEn || card.name || "Tarot Card"
+  if (lang === "ko") return card.nameKo || card.nameEn || card.name || "Tarot Card"
+  return card.nameEn || card.name || "Tarot Card"
+}
+
+function getReadingDetailCardImage(card: ReadingDetailCard) {
+  return card.image || resolveCatalogCard(card)?.image || "/placeholder.svg"
+}
 
 export default function ReadingDetailPage() {
   const router = useRouter()
@@ -67,7 +132,7 @@ export default function ReadingDetailPage() {
     )
   }
 
-  const cards = reading.cards as DrawnCard[]
+  const cards = reading.cards as ReadingDetailCard[]
 
   return (
     <div className="fixed inset-0 bg-gradient-to-b from-mystic-bg to-mystic-bg-deep overflow-auto scrollbar-hide">
@@ -129,8 +194,8 @@ export default function ReadingDetailPage() {
                 }}
               >
                 <Image
-                  src={card.image || "/placeholder.svg"}
-                  alt={card.name}
+                  src={getReadingDetailCardImage(card)}
+                  alt={getReadingDetailCardName(card, language)}
                   fill
                   className="object-cover"
                   style={{
@@ -146,10 +211,10 @@ export default function ReadingDetailPage() {
               {/* 卡牌信息 */}
               <div className="mt-4 text-center">
                 <p className="text-mystic-foreground-muted text-xs mb-1">
-                  {index === 0 ? t("tarot.past") : index === 1 ? t("tarot.present") : t("tarot.future")}
+                  {getReadingDetailPositionLabel(card, reading.spread_type, index, language)}
                 </p>
                 <p className="text-mystic-foreground text-sm font-medium">
-                  {getCardName(card, language)}
+                  {getReadingDetailCardName(card, language)}
                 </p>
                 <p className="text-mystic-foreground-muted text-xs">
                   ({card.isReversed ? t("tarot.reversed") : t("tarot.upright")})
@@ -228,4 +293,3 @@ export default function ReadingDetailPage() {
     </div>
   )
 }
-

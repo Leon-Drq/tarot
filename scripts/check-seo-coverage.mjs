@@ -144,6 +144,10 @@ const files = {
     path: "app/reading/page.tsx",
     source: read("app/reading/page.tsx"),
   },
+  readingDetailPage: {
+    path: "app/reading/[id]/page.tsx",
+    source: read("app/reading/[id]/page.tsx"),
+  },
   inputPage: {
     path: "app/input/page.tsx",
     source: read("app/input/page.tsx"),
@@ -593,6 +597,10 @@ const freeFirstReadingCoverage = [
   [files.readingRoute, "Do not reframe the reading as past/present/future", "reading prompt avoids forced three-card framing"],
   [files.readingRoute, "getReadingTaskPrompt", "reading prompt localized task instructions"],
   [files.readingRoute, "getSpreadConfig(spreadType).positions", "reading fallback positions from spread config"],
+  [files.readingDetailPage, "getReadingDetailPositionLabel", "reading detail uses spread-aware position labels"],
+  [files.readingDetailPage, "if (card.position) return card.position", "reading detail preserves saved card position"],
+  [files.readingDetailPage, "getSpreadConfig(spreadType).positions", "reading detail fallback positions from spread config"],
+  [files.readingDetailPage, "resolveCatalogCard", "reading detail resolves saved cards against tarot catalog"],
   [files.readingSpreadsRoute, "is_advanced: isAdvancedSpreadType(spread.type)", "spread list advanced marker"],
   [files.readingClassifyRoute, "is_advanced: isAdvancedSpreadType(best.type)", "classified spread advanced marker"],
   [files.readingCreateRoute, "requireMemberAccess(auth.supabase, auth.user, \"history\", lang)", "history create membership gate"],
