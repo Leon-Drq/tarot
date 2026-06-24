@@ -243,6 +243,11 @@ assertIncludes(files.seoLanding, "utm_medium: \"daily_landing\"", "Daily Tarot S
 assertIncludes(files.seoLanding, "page.slug === \"daily-tarot\"", "Daily Tarot SEO pages open the daily tool")
 
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
+assertIncludes(files.freeToolsPage, "data-free-tools-question-start", "free tools direct high-intent start CTA")
+assertIncludes(files.freeToolsPage, "data-free-tools-question-guide", "free tools high-intent guide CTA")
+assertIncludes(files.freeToolsPage, "utm_medium: \"question_grid\"", "free tools high-intent question attribution")
+assertIncludes(files.freeToolsPage, "getSeoPage(slug, \"en\")", "free tools high-intent SEO page lookup")
+assertIncludes(files.freeToolsPage, "Start matching free tarot spread", "free tools high-intent structured action")
 
 for (const localeRoute of [
   "app/zh/[slug]/page.tsx",

@@ -6,6 +6,7 @@ import {
   siteName,
   trustLinks,
 } from "@/lib/site"
+import { getSeoPage } from "@/lib/seo-pages"
 import { trustLastReviewed } from "@/lib/trust-signals"
 
 const toolPaths = [
@@ -66,6 +67,30 @@ const conversionSteps = [
   },
 ]
 
+function questionSlugFromHref(href: string) {
+  return href.replace(/^\//, "")
+}
+
+function highIntentReadingHref(item: (typeof highIntentQuestionLinks)[number]) {
+  const slug = questionSlugFromHref(item.href)
+  const page = getSeoPage(slug, "en")
+  const params = new URLSearchParams({
+    q: page?.ctaQuestion || item.title,
+    auto: "1",
+    source: "free_tools",
+    lang: "en",
+    utm_source: "free_tools",
+    utm_medium: "question_grid",
+    utm_campaign: slug,
+  })
+
+  if (page?.recommendedSpread) {
+    params.set("spread", page.recommendedSpread)
+  }
+
+  return `/input?${params.toString()}`
+}
+
 const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -105,13 +130,26 @@ const structuredData = {
       "@type": "ItemList",
       "@id": `${appUrl}/free-tarot-tools#question-list`,
       name: "Free tarot question paths",
-      itemListElement: highIntentQuestionLinks.map((item, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        name: item.title,
-        description: item.description,
-        url: `${appUrl}${item.href}`,
-      })),
+      itemListElement: highIntentQuestionLinks.map((item, index) => {
+        const readingPath = highIntentReadingHref(item)
+
+        return {
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "WebPage",
+            name: item.title,
+            description: item.description,
+            url: `${appUrl}${item.href}`,
+            isAccessibleForFree: true,
+            potentialAction: {
+              "@type": "Action",
+              name: "Start matching free tarot spread",
+              target: `${appUrl}${readingPath}`,
+            },
+          },
+        }
+      }),
     },
     {
       "@type": "BreadcrumbList",
@@ -270,14 +308,30 @@ export default function FreeTarotToolsPage() {
           </div>
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {highIntentQuestionLinks.map((item) => (
-              <Link
+              <article
                 key={item.href}
-                href={item.href}
-                className="rounded-lg border border-white/10 bg-black/22 p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                data-free-tools-question-card
+                className="flex min-h-[14rem] flex-col rounded-lg border border-white/10 bg-black/22 p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
               >
                 <h3 className="break-words text-sm font-medium leading-snug text-white">{item.title}</h3>
                 <p className="mt-2 text-xs leading-5 text-white/52">{item.description}</p>
-              </Link>
+                <div className="mt-auto grid gap-2 pt-4">
+                  <Link
+                    data-free-tools-question-start
+                    href={highIntentReadingHref(item)}
+                    className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-3 py-2 text-xs font-medium text-[#120c22] shadow-[0_12px_28px_rgba(146,132,239,0.18)] transition hover:brightness-110"
+                  >
+                    Start matching spread
+                  </Link>
+                  <Link
+                    data-free-tools-question-guide
+                    href={item.href}
+                    className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-xs text-white/64 transition hover:border-[#bfb6ff]/40 hover:text-white"
+                  >
+                    Read guide
+                  </Link>
+                </div>
+              </article>
             ))}
           </div>
         </section>
