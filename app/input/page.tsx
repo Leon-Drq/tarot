@@ -8,8 +8,9 @@ import { CardSelectionHeader } from "@/components/tarot/card-selection-header"
 import { ShuffleButton } from "@/components/tarot/shuffle-button"
 import { TAROT_CARDS, type DrawnCard } from "@/lib/tarot-cards"
 import { analyticsApi, readingApi, type SpreadConfig, type DeckType } from "@/lib/api"
-import { getSpreadConfig, SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
+import { getFreeSpreadFallback, getSpreadConfig, isAdvancedSpreadType, SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
 import { useLanguage } from "@/contexts/language-context"
+import { useAuth } from "@/contexts/auth-context"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isSeoLocale } from "@/lib/locales"
 
@@ -45,10 +46,15 @@ function InputContent() {
   const [shuffleKey, setShuffleKey] = useState(0)
   const [spreadInfo, setSpreadInfo] = useState<SpreadInfo | null>(null)
   const [isClassifying, setIsClassifying] = useState(false)
+  const [advancedSpreadPrompt, setAdvancedSpreadPrompt] = useState<{
+    requestedName: string
+    fallbackName: string
+  } | null>(null)
   const hasSubmittedQuestion = useRef(false)
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t, language } = useLanguage()
+  const { user } = useAuth()
   const initialQuestion = searchParams.get("q") || ""
   const autoStart = searchParams.get("auto") === "1"
   const requestedSpread = searchParams.get("spread")
@@ -58,6 +64,62 @@ function InputContent() {
 
   // 根据牌阵配置获取需要选择的卡牌数量
   const requiredCardCount = spreadInfo?.config.cardCount || 3
+  const hasAdvancedSpreadAccess = Boolean(user?.is_member)
+
+  const getLocalizedSpreadName = (config: SpreadConfig) => {
+    if (language === "zh") return config.name
+    if (language === "ja") return config.nameJa || config.nameEn || config.name
+    if (language === "ko") return config.nameKo || config.nameEn || config.name
+    return config.nameEn || config.name
+  }
+
+  const advancedSpreadCopy =
+    {
+      zh: {
+        title: "已切换为免费三牌阵",
+        body: "{requested} 是会员高级牌阵。你可以先用 {fallback} 免费解读，之后再升级查看完整牌阵。",
+        button: "查看会员功能",
+      },
+      en: {
+        title: "Switched to a free starter spread",
+        body: "{requested} is an advanced member spread. Start free with {fallback}, then upgrade when you want the full spread.",
+        button: "View membership",
+      },
+      ja: {
+        title: "無料スタータースプレッドに切り替えました",
+        body: "{requested} はメンバー向けの高度なスプレッドです。まず {fallback} で無料リーディングを始められます。",
+        button: "メンバー機能を見る",
+      },
+      ko: {
+        title: "무료 기본 스프레드로 전환했습니다",
+        body: "{requested}은 멤버용 고급 스프레드입니다. 먼저 {fallback}으로 무료 리딩을 시작할 수 있습니다.",
+        button: "멤버십 보기",
+      },
+    }[language] || {
+      title: "Switched to a free starter spread",
+      body: "{requested} is an advanced member spread. Start free with {fallback}, then upgrade when you want the full spread.",
+      button: "View membership",
+    }
+
+  const resolveSpreadForAccess = (info: SpreadInfo): SpreadInfo => {
+    if (!isAdvancedSpreadType(info.type) || hasAdvancedSpreadAccess) {
+      setAdvancedSpreadPrompt(null)
+      return info
+    }
+
+    const fallback = getFreeSpreadFallback(info.type)
+    setAdvancedSpreadPrompt({
+      requestedName: getLocalizedSpreadName(info.config),
+      fallbackName: getLocalizedSpreadName(fallback),
+    })
+    return {
+      type: fallback.type,
+      config: fallback,
+      deckType: fallback.cardCount <= 3 ? "major" : "full",
+      reason: "Advanced spread reserved for members; using a free starter spread.",
+      confidence: Math.min(info.confidence, 0.72),
+    }
+  }
 
   const handleCardsDealt = () => {
     if (!hasSubmittedQuestion.current) {
@@ -81,7 +143,7 @@ function InputContent() {
     })
 
     if (preferredSpreadType) {
-      setSpreadInfo(createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92))
+      setSpreadInfo(resolveSpreadForAccess(createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92)))
       setIsClassifying(false)
       setPageState("selecting")
       return
@@ -90,16 +152,17 @@ function InputContent() {
     try {
       // 调用问题分类API
       const result = await readingApi.classifyQuestion(q, readingLocale)
-      setSpreadInfo({
+      setSpreadInfo(resolveSpreadForAccess({
         type: result.spread_type,
         config: result.spread_config,
         deckType: result.deck_type || 'major',  // 牌组类型
         reason: result.reason,
         confidence: result.confidence,
-      })
+      }))
     } catch (error) {
       console.error("问题分类失败:", error)
       // 使用默认的三牌阵
+      setAdvancedSpreadPrompt(null)
       setSpreadInfo(createLocalSpreadInfo("three_card", "使用默认牌阵", 0.5))
     } finally {
       setIsClassifying(false)
@@ -229,6 +292,27 @@ function InputContent() {
         visible={selectedCardIds.length === 0 && pageState === "selecting"}
         onClick={handleShuffle}
       />
+
+      {advancedSpreadPrompt && (pageState === "selecting" || pageState === "collecting") && (
+        <div className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.875rem)] z-40 w-[min(92vw,34rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/20 bg-[#11091f]/78 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.38)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <p className="text-sm font-medium text-[#eeeaff]">{advancedSpreadCopy.title}</p>
+              <p className="mt-1 text-xs leading-5 text-white/58 sm:text-sm sm:leading-6">
+                {advancedSpreadCopy.body
+                  .replace("{requested}", advancedSpreadPrompt.requestedName)
+                  .replace("{fallback}", advancedSpreadPrompt.fallbackName)}
+              </p>
+            </div>
+            <button
+              onClick={() => router.push("/membership")}
+              className="shrink-0 rounded-full border border-[#c9c0ff]/35 px-3 py-2 text-xs font-medium text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10"
+            >
+              {advancedSpreadCopy.button}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* 问题分类中的加载状态 */}
       {pageState === "classifying" && (

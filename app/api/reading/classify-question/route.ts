@@ -1,4 +1,4 @@
-import { getSpreadConfig, SPREAD_CONFIGS, type SpreadConfig } from "@/lib/spread-config"
+import { getSpreadConfig, isAdvancedSpreadType, SPREAD_CONFIGS, type SpreadConfig } from "@/lib/spread-config"
 import { jsonResponse } from "@/lib/server/supabase"
 
 function serializeSpread(config: SpreadConfig) {
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
     deck_type: best.cardCount <= 3 ? "major" : "full",
     confidence,
     reason: best.type === "three_card" ? "使用默认三牌阵" : `根据问题关键词匹配到「${best.name}」`,
+    is_advanced: isAdvancedSpreadType(best.type),
     spread_config: serializeSpread(best),
   })
 }

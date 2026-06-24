@@ -36,6 +36,15 @@ export interface SpreadConfig {
   keywords: string[] // 用于匹配用户问题的关键词
 }
 
+export const FREE_SPREAD_TYPES = new Set<SpreadType>([
+  'yes_no',
+  'daily_fashion',
+  'shopping_decision',
+  'binary_choice',
+  'triple_choice',
+  'three_card',
+])
+
 /**
  * 所有牌阵配置
  */
@@ -260,6 +269,19 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
  */
 export function getSpreadConfig(type: SpreadType): SpreadConfig {
   return SPREAD_CONFIGS[type] || SPREAD_CONFIGS.three_card
+}
+
+export function isKnownSpreadType(value: string | null | undefined): value is SpreadType {
+  return !!value && Object.prototype.hasOwnProperty.call(SPREAD_CONFIGS, value)
+}
+
+export function isAdvancedSpreadType(value: string | null | undefined): value is SpreadType {
+  if (!isKnownSpreadType(value)) return false
+  return !FREE_SPREAD_TYPES.has(value)
+}
+
+export function getFreeSpreadFallback(_type?: string | null): SpreadConfig {
+  return SPREAD_CONFIGS.three_card
 }
 
 /**

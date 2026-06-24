@@ -2,7 +2,7 @@ import type { SupabaseClient, User as SupabaseUser } from "@supabase/supabase-js
 
 import { getProfile, isMemberActive, isPartnerActive, jsonError, type ProfileRow } from "@/lib/server/supabase"
 
-type MemberFeature = "followup" | "history"
+type MemberFeature = "followup" | "history" | "advanced_spread"
 
 const upgradeMessages: Record<MemberFeature, Record<string, string>> = {
   followup: {
@@ -20,6 +20,14 @@ const upgradeMessages: Record<MemberFeature, Record<string, string>> = {
     ko: "리딩 기록 저장과 보기는 멤버십 기능입니다. 업그레이드 후 계속하세요.",
     es: "Guardar y ver el historial de lecturas es una función de membresía. Actualiza para continuar.",
     "pt-br": "Salvar e ver o histórico de leituras é um recurso de membro. Faça upgrade para continuar.",
+  },
+  advanced_spread: {
+    zh: "高级牌阵属于会员功能，请升级会员后继续。",
+    en: "Advanced spreads are a membership feature. Upgrade to continue.",
+    ja: "高度なスプレッドはメンバー機能です。アップグレードして続けてください。",
+    ko: "고급 스프레드는 멤버십 기능입니다. 업그레이드 후 계속하세요.",
+    es: "Las tiradas avanzadas son una función de membresía. Actualiza para continuar.",
+    "pt-br": "Tiragens avançadas são um recurso de membro. Faça upgrade para continuar.",
   },
 }
 

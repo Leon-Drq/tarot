@@ -1,5 +1,6 @@
 import { requireMemberAccess } from "@/lib/server/member-gate"
 import { requireUser } from "@/lib/server/supabase"
+import { isAdvancedSpreadType } from "@/lib/spread-config"
 
 const TAROT_MASTER_SYSTEM = `## Role
 你是一位拥有20年占卜经验的塔罗牌大师，精通78张塔罗牌的含义和解读，擅长运用直觉和智慧为人们解答疑惑。你的占卜技艺源自古老的吉普赛传统，经过多年实践不断精进。
@@ -77,16 +78,23 @@ function enqueueSse(controller: ReadableStreamDefaultController<Uint8Array>, pay
 }
 
 export async function POST(req: Request) {
-  if (!OPENAI_API_KEY) {
-    return Response.json({ error: "Missing OPENAI_API_KEY" }, { status: 500 })
-  }
-
   const { question, cards, isFollowUp, followUpQuestion, previousMessages, lang, spread_type } = await req.json()
+  const usesAdvancedSpread = isAdvancedSpreadType(spread_type) || (Array.isArray(cards) && cards.length > 3)
+
   if (isFollowUp) {
     const auth = await requireUser(req)
     if (!auth.ok) return auth.response
     const member = await requireMemberAccess(auth.supabase, auth.user, "followup", lang)
     if (!member.ok) return member.response
+  } else if (usesAdvancedSpread) {
+    const auth = await requireUser(req)
+    if (!auth.ok) return auth.response
+    const member = await requireMemberAccess(auth.supabase, auth.user, "advanced_spread", lang)
+    if (!member.ok) return member.response
+  }
+
+  if (!OPENAI_API_KEY) {
+    return Response.json({ error: "Missing OPENAI_API_KEY" }, { status: 500 })
   }
 
   const answerLanguage = getAnswerLanguage(lang)

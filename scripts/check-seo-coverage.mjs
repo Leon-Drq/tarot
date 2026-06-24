@@ -42,6 +42,7 @@ const files = {
   },
   seoPages: { path: "lib/seo-pages.ts", source: read("lib/seo-pages.ts") },
   site: { path: "lib/site.ts", source: read("lib/site.ts") },
+  spreadConfig: { path: "lib/spread-config.ts", source: read("lib/spread-config.ts") },
   tarotQuestions: {
     path: "components/seo/tarot-questions-page.tsx",
     source: read("components/seo/tarot-questions-page.tsx"),
@@ -84,6 +85,14 @@ const files = {
     path: "app/api/reading/route.ts",
     source: read("app/api/reading/route.ts"),
   },
+  readingSpreadsRoute: {
+    path: "app/api/reading/spreads/route.ts",
+    source: read("app/api/reading/spreads/route.ts"),
+  },
+  readingClassifyRoute: {
+    path: "app/api/reading/classify-question/route.ts",
+    source: read("app/api/reading/classify-question/route.ts"),
+  },
   readingCreateRoute: {
     path: "app/api/reading/create/route.ts",
     source: read("app/api/reading/create/route.ts"),
@@ -103,6 +112,10 @@ const files = {
   readingPage: {
     path: "app/reading/page.tsx",
     source: read("app/reading/page.tsx"),
+  },
+  inputPage: {
+    path: "app/input/page.tsx",
+    source: read("app/input/page.tsx"),
   },
   profilePage: {
     path: "app/profile/page.tsx",
@@ -402,10 +415,18 @@ const freeFirstReadingCoverage = [
   [files.memberGate, "export async function requireMemberAccess", "shared server member gate"],
   [files.memberGate, "Saved reading history is a membership feature", "history membership response copy"],
   [files.memberGate, "Deeper follow-up questions are a membership feature", "follow-up membership response copy"],
+  [files.memberGate, "Advanced spreads are a membership feature", "advanced spread membership response copy"],
+  [files.spreadConfig, "export const FREE_SPREAD_TYPES", "free spread allowlist"],
+  [files.spreadConfig, "export function isAdvancedSpreadType", "advanced spread classifier"],
+  [files.spreadConfig, "return SPREAD_CONFIGS.three_card", "advanced spread free fallback"],
   [files.readingRoute, "if (isFollowUp)", "follow-up-only auth gate"],
   [files.readingRoute, "const auth = await requireUser(req)", "follow-up auth check"],
   [files.readingRoute, "if (!auth.ok) return auth.response", "follow-up unauthorized response"],
   [files.readingRoute, "requireMemberAccess(auth.supabase, auth.user, \"followup\", lang)", "follow-up membership gate"],
+  [files.readingRoute, "isAdvancedSpreadType(spread_type) || (Array.isArray(cards) && cards.length > 3)", "advanced spread server detection"],
+  [files.readingRoute, "requireMemberAccess(auth.supabase, auth.user, \"advanced_spread\", lang)", "advanced spread membership gate"],
+  [files.readingSpreadsRoute, "is_advanced: isAdvancedSpreadType(spread.type)", "spread list advanced marker"],
+  [files.readingClassifyRoute, "is_advanced: isAdvancedSpreadType(best.type)", "classified spread advanced marker"],
   [files.readingCreateRoute, "requireMemberAccess(auth.supabase, auth.user, \"history\", lang)", "history create membership gate"],
   [files.readingHistoryRoute, "requireMemberAccess(auth.supabase, auth.user, \"history\")", "history list membership gate"],
   [files.readingHistoryRoute, ".eq(\"user_id\", auth.user.id)", "history list current-user filter"],
@@ -416,6 +437,9 @@ const freeFirstReadingCoverage = [
   [files.readingPage, "user?.is_member && !readingId", "member-only reading history creation"],
   [files.readingPage, "Creating anonymous share session", "share-only anonymous session"],
   [files.readingPage, "share_session_only", "share session analytics signal"],
+  [files.inputPage, "resolveSpreadForAccess", "input advanced spread downgrade"],
+  [files.inputPage, "Switched to a free starter spread", "advanced spread downgrade copy"],
+  [files.inputPage, "router.push(\"/membership\")", "advanced spread upgrade CTA"],
   [files.readingPage, "fallback_share", "free reading fallback share URL"],
   [files.readingPage, "fallback: true", "free reading fallback share analytics metadata"],
   [files.readingPage, "share_template_copied", "free reading fallback share compatible analytics event"],

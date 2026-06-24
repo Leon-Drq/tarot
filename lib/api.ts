@@ -426,6 +426,7 @@ export interface SpreadConfig {
   descriptionJa?: string
   descriptionKo?: string
   deckType?: DeckType  // 牌组类型: major=大阿尔卡纳22张, full=全部78张
+  is_advanced?: boolean
   positions: SpreadPosition[]
 }
 
@@ -434,6 +435,7 @@ export interface QuestionClassificationResponse {
   deck_type: DeckType  // AI推荐的牌组类型
   confidence: number
   reason: string
+  is_advanced?: boolean
   spread_config: SpreadConfig
 }
 

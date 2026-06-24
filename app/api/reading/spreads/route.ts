@@ -1,4 +1,4 @@
-import { getAllSpreads } from "@/lib/spread-config"
+import { getAllSpreads, isAdvancedSpreadType } from "@/lib/spread-config"
 import { jsonResponse } from "@/lib/server/supabase"
 
 export async function GET() {
@@ -6,6 +6,7 @@ export async function GET() {
     spreads: getAllSpreads().map((spread) => ({
       ...spread,
       type: spread.type,
+      is_advanced: isAdvancedSpreadType(spread.type),
       positions: spread.positions.map((position) => ({
         ...position,
         nameJa: position.nameEn,
