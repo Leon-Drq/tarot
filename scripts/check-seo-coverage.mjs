@@ -39,6 +39,10 @@ const files = {
     path: "components/daily/daily-tarot-tool.tsx",
     source: read("components/daily/daily-tarot-tool.tsx"),
   },
+  homeExperience: {
+    path: "components/mystic-background.tsx",
+    source: read("components/mystic-background.tsx"),
+  },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
   robots: { path: "app/robots.ts", source: read("app/robots.ts") },
   vercelConfig: { path: "vercel.json", source: read("vercel.json") },
@@ -275,6 +279,11 @@ assertIncludes(files.freeToolsPage, "data-free-tools-question-guide", "free tool
 assertIncludes(files.freeToolsPage, "utm_medium: \"question_grid\"", "free tools high-intent question attribution")
 assertIncludes(files.freeToolsPage, "getSeoPage(slug, \"en\")", "free tools high-intent SEO page lookup")
 assertIncludes(files.freeToolsPage, "Start matching free tarot spread", "free tools high-intent structured action")
+assertIncludes(files.homeExperience, "data-home-example-start", "homepage one-tap example start CTA")
+assertIncludes(files.homeExperience, "\"home_example\"", "homepage example source attribution")
+assertIncludes(files.homeExperience, "utm_medium", "homepage hero attribution")
+assertIncludes(files.homeExperience, "hero_example", "homepage example campaign medium")
+assertIncludes(files.homeExperience, "spread: \"three_card\"", "homepage examples force free starter spread")
 assertIncludes(files.tarotQuestions, "TarotQuestionSearchResults", "tarot questions public search results import")
 assertIncludes(files.tarotQuestions, "searchEntries(copy)", "tarot questions public search result entries")
 assertIncludes(files.tarotQuestionSearchResults, "data-question-search-results", "tarot questions public search result section")

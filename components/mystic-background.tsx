@@ -41,37 +41,69 @@ function HomeQuestionForm() {
         label: "从一个真实问题开始",
         placeholder: "输入你的问题...",
         action: "抽牌",
-        examples: ["他对我是什么感觉？", "我该换工作吗？", "今天我需要注意什么？"],
+        examples: [
+          { label: "他对我是什么感觉？", question: "他对我是什么感觉？", campaign: "feelings" },
+          { label: "我该换工作吗？", question: "我该换工作吗？", campaign: "career_change" },
+          { label: "今天我需要注意什么？", question: "今天我需要注意什么？", campaign: "daily_guidance" },
+        ],
       },
       en: {
         label: "Start with one real question",
         placeholder: "Ask your question...",
         action: "Draw",
-        examples: ["Will my ex come back?", "Should I quit my job?", "What do I need today?"],
+        examples: [
+          { label: "Will my ex come back?", question: "Will my ex come back?", campaign: "ex_return" },
+          { label: "Should I quit my job?", question: "Should I quit my job?", campaign: "job_quit" },
+          { label: "What do I need today?", question: "What do I need today?", campaign: "daily_guidance" },
+        ],
       },
       ja: {
         label: "ひとつの本当の質問から",
         placeholder: "質問を入力...",
         action: "引く",
-        examples: ["相手の気持ちは？", "転職すべき？", "今日必要なメッセージは？"],
+        examples: [
+          { label: "相手の気持ちは？", question: "相手の気持ちは？", campaign: "feelings" },
+          { label: "転職すべき？", question: "転職すべき？", campaign: "career_change" },
+          { label: "今日必要なメッセージは？", question: "今日必要なメッセージは？", campaign: "daily_guidance" },
+        ],
       },
       ko: {
         label: "진짜 질문 하나로 시작",
         placeholder: "질문을 입력하세요...",
         action: "뽑기",
-        examples: ["그 사람 마음은?", "이직해야 할까?", "오늘 필요한 조언은?"],
+        examples: [
+          { label: "그 사람 마음은?", question: "그 사람 마음은?", campaign: "feelings" },
+          { label: "이직해야 할까?", question: "이직해야 할까?", campaign: "career_change" },
+          { label: "오늘 필요한 조언은?", question: "오늘 필요한 조언은?", campaign: "daily_guidance" },
+        ],
       },
     }[language]
 
-  const submitQuestion = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const trimmed = question.trim()
+  const startReading = (value: string, source: "home" | "home_example", campaign?: string) => {
+    const trimmed = value.trim()
     if (!trimmed) {
-      router.push("/input?source=home")
+      router.push("/input?source=home&utm_source=home&utm_medium=hero_form")
       return
     }
+
+    const params = new URLSearchParams({
+      q: trimmed,
+      auto: "1",
+      source,
+      spread: "three_card",
+      lang: language,
+      utm_source: "home",
+      utm_medium: source === "home_example" ? "hero_example" : "hero_form",
+    })
+
+    if (campaign) params.set("utm_campaign", campaign)
     sessionStorage.setItem("tarot_question", trimmed)
-    router.push(`/input?q=${encodeURIComponent(trimmed)}&auto=1&source=home`)
+    router.push(`/input?${params.toString()}`)
+  }
+
+  const submitQuestion = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    startReading(question, "home")
   }
 
   return (
@@ -103,12 +135,13 @@ function HomeQuestionForm() {
       <div className="mt-3 flex flex-wrap justify-center gap-2 pb-1 md:pb-0">
         {copy.examples.map((example) => (
           <button
-            key={example}
+            key={example.campaign}
             type="button"
-            onClick={() => setQuestion(example)}
+            data-home-example-start
+            onClick={() => startReading(example.question, "home_example", example.campaign)}
             className="inline-flex min-h-10 max-w-full items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-center text-[11px] leading-4 text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
           >
-            {example}
+            {example.label}
           </button>
         ))}
       </div>
