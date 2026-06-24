@@ -152,7 +152,47 @@ const cardIndexCopy = {
   groups: Record<"major" | "wands" | "cups" | "pentacles" | "swords", string>
 }>
 
+const cardCombinationCopy = {
+  zh: {
+    title: "常见牌组组合入口",
+    body: "组合解读能帮助你理解一张牌和另一张牌同时出现时，主题如何被放大、修正或转向。",
+    action: "查看组合",
+  },
+  en: {
+    title: "Common Tarot Card Combination Paths",
+    body: "Card combinations help you read how one card changes, strengthens, or redirects another card in a real spread.",
+    action: "Read combinations",
+  },
+  ja: {
+    title: "よくあるカード組み合わせ",
+    body: "カードの組み合わせを見ると、1枚の意味が別のカードによってどう強まり、変化するかを読みやすくなります。",
+    action: "組み合わせを見る",
+  },
+  ko: {
+    title: "자주 나오는 카드 조합",
+    body: "카드 조합은 한 카드의 의미가 다른 카드와 함께 나올 때 어떻게 강화되거나 바뀌는지 이해하게 해줍니다.",
+    action: "조합 보기",
+  },
+  es: {
+    title: "Combinaciones comunes de tarot",
+    body: "Las combinaciones ayudan a leer cómo una carta cambia, refuerza o redirige a otra carta dentro de una tirada real.",
+    action: "Leer combinaciones",
+  },
+  "pt-br": {
+    title: "Combinações comuns de tarot",
+    body: "As combinações ajudam a ler como uma carta muda, reforça ou redireciona outra carta dentro de uma tiragem real.",
+    action: "Ler combinações",
+  },
+} satisfies Record<SeoPage["locale"], { title: string; body: string; action: string }>
+
 const cardIndexGroupOrder = ["major", "wands", "cups", "pentacles", "swords"] as const
+const combinationPreviewCardIds = [0, 1, 2, 6, 10, 13, 15, 16, 17, 18, 19, 20]
+type CardMeaningPage = ReturnType<typeof getAllCardSeoPages>[number]
+
+function previewCombination(cardPage: CardMeaningPage) {
+  const selfPair = `${cardPage.card.nameEn} with ${cardPage.card.nameEn}`
+  return cardPage.combinations.find((item) => !item.heading.includes(selfPair)) || cardPage.combinations[0]
+}
 
 function relatedPages(page: SeoPage) {
   const priority = [
@@ -1414,6 +1454,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const relatedText = relatedCopy[page.locale]
   const clusterText = questionClusterCopy[page.locale]
   const cardText = cardIndexCopy[page.locale]
+  const combinationText = cardCombinationCopy[page.locale]
   const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
   const stickyCopy = stickyCtaCopy[page.locale]
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
@@ -1424,6 +1465,9 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
     title: cardText.groups[group],
     cards: cardPages.filter((cardPage) => getCardSuit(cardPage.card) === group),
   }))
+  const combinationPreviewPages = combinationPreviewCardIds
+    .map((id) => cardPages.find((cardPage) => cardPage.card.id === id))
+    .filter((cardPage): cardPage is (typeof cardPages)[number] => Boolean(cardPage))
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -1542,6 +1586,20 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                     name: cardPage.h1,
                   })),
                 },
+              })),
+            },
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#card-combination-paths`,
+              name: combinationText.title,
+              description: combinationText.body,
+              numberOfItems: combinationPreviewPages.length,
+              itemListElement: combinationPreviewPages.map((cardPage, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${appUrl}${cardPage.path}#combinations`,
+                name: `${cardPage.h1} ${cardPage.combinationsLabel}`,
+                description: previewCombination(cardPage)?.body || cardPage.description,
               })),
             },
           ]
@@ -1944,6 +2002,49 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                   </section>
                 ) : null,
               )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {combinationPreviewPages.length > 0 && (
+        <section id="card-combination-paths" data-card-combination-paths className="border-b border-white/10 bg-[#0b0415]">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="mb-8 max-w-3xl">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{cardText.title}</p>
+              <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{combinationText.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-white/60">{combinationText.body}</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {combinationPreviewPages.map((cardPage) => {
+                const firstCombination = previewCombination(cardPage)
+
+                return (
+                  <Link
+                    key={`${cardPage.path}-combinations`}
+                    href={`${cardPage.path}#combinations`}
+                    className="group min-w-0 rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/50 hover:bg-white/[0.06]"
+                  >
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">
+                      {cardPage.combinationsLabel}
+                    </p>
+                    <h3 className="mt-3 text-base font-medium leading-6 text-white group-hover:text-[#f4f0ff]">
+                      {cardPage.h1}
+                    </h3>
+                    {firstCombination ? (
+                      <>
+                        <p className="mt-3 text-sm font-medium leading-6 text-[#e8e3ff]/82">{firstCombination.heading}</p>
+                        <p className="mt-2 line-clamp-3 text-sm leading-6 text-white/56">{firstCombination.body}</p>
+                      </>
+                    ) : (
+                      <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/56">{cardPage.description}</p>
+                    )}
+                    <span className="mt-4 inline-flex min-h-10 items-center text-sm text-[#c9c0ff] group-hover:text-white">
+                      {combinationText.action}
+                    </span>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>

@@ -54,6 +54,10 @@ const files = {
     path: "components/seo/tarot-questions-page.tsx",
     source: read("components/seo/tarot-questions-page.tsx"),
   },
+  tarotQuestionSearchResults: {
+    path: "components/seo/tarot-question-search-results.tsx",
+    source: read("components/seo/tarot-question-search-results.tsx"),
+  },
   seoLanding: {
     path: "components/seo/seo-landing-page.tsx",
     source: read("components/seo/seo-landing-page.tsx"),
@@ -271,6 +275,13 @@ assertIncludes(files.freeToolsPage, "data-free-tools-question-guide", "free tool
 assertIncludes(files.freeToolsPage, "utm_medium: \"question_grid\"", "free tools high-intent question attribution")
 assertIncludes(files.freeToolsPage, "getSeoPage(slug, \"en\")", "free tools high-intent SEO page lookup")
 assertIncludes(files.freeToolsPage, "Start matching free tarot spread", "free tools high-intent structured action")
+assertIncludes(files.tarotQuestions, "TarotQuestionSearchResults", "tarot questions public search results import")
+assertIncludes(files.tarotQuestions, "searchEntries(copy)", "tarot questions public search result entries")
+assertIncludes(files.tarotQuestionSearchResults, "data-question-search-results", "tarot questions public search result section")
+assertIncludes(files.tarotQuestionSearchResults, "searchParams.get(\"query\")", "tarot questions SearchAction query reader")
+assertIncludes(files.tarotQuestionSearchResults, "searchParams.get(\"q\")", "tarot questions fallback query reader")
+assertIncludes(files.tarotQuestionSearchResults, "readingHref", "tarot questions search result free-reading CTA")
+assertIncludes(files.tarotQuestionSearchResults, "guideHref", "tarot questions search result guide CTA")
 
 for (const localeRoute of [
   "app/zh/[slug]/page.tsx",
@@ -299,6 +310,18 @@ for (const conversionSignal of [
   "utm_medium: \"question_prompt\"",
 ]) {
   assertIncludes(files.seoLanding, conversionSignal, `high-intent question conversion signal ${conversionSignal}`)
+}
+
+for (const cardMeaningSignal of [
+  "cardCombinationCopy",
+  "combinationPreviewCardIds",
+  "previewCombination(cardPage)",
+  "#card-combination-paths",
+  "data-card-combination-paths",
+  "cardPage.path}#combinations",
+  "Common Tarot Card Combination Paths",
+]) {
+  assertIncludes(files.seoLanding, cardMeaningSignal, `card meaning hub combination signal ${cardMeaningSignal}`)
 }
 
 for (const localizedSlug of [
@@ -385,6 +408,7 @@ const structuredDataCoverage = [
   [files.site, "price: \"0\"", "free pricing signal"],
   [files.site, "\"@type\": \"SearchAction\"", "Website SearchAction"],
   [files.site, "query-input", "SearchAction query input"],
+  [files.site, "/tarot-questions?query={search_term_string}", "public SearchAction target"],
   [files.site, "citation: representativeTestimonials.map", "SoftwareApplication testimonial citations"],
   [files.homePage, "#free-tarot-paths", "homepage free path ItemList"],
   [files.homePage, "#high-intent-tarot-questions", "homepage high-intent question ItemList"],
