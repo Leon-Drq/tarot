@@ -11,8 +11,6 @@ const baseRoutes = [
   { path: "/", priority: 1 },
   { path: "/free-tarot-tools", priority: 0.91 },
   { path: "/daily-tarot", priority: 0.92 },
-  { path: "/input", priority: 0.8 },
-  { path: "/reading", priority: 0.7 },
   { path: "/membership", priority: 0.4 },
 ]
 

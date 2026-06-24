@@ -13,6 +13,12 @@ function assertIncludes(file, needle, label) {
   }
 }
 
+function assertNotIncludes(file, needle, label) {
+  if (file.source.includes(needle)) {
+    throw new Error(`${file.path} should not include ${label}: ${needle}`)
+  }
+}
+
 function assertMatches(file, pattern, label) {
   if (!pattern.test(file.source)) {
     throw new Error(`${file.path} is missing ${label}: ${pattern}`)
@@ -34,6 +40,7 @@ const files = {
     source: read("components/daily/daily-tarot-tool.tsx"),
   },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
+  robots: { path: "app/robots.ts", source: read("app/robots.ts") },
   vercelConfig: { path: "vercel.json", source: read("vercel.json") },
   tarotCardSeo: { path: "lib/tarot-card-seo.ts", source: read("lib/tarot-card-seo.ts") },
   cardMeaningPage: {
@@ -132,6 +139,22 @@ const files = {
   inputPage: {
     path: "app/input/page.tsx",
     source: read("app/input/page.tsx"),
+  },
+  inputLayout: {
+    path: "app/input/layout.tsx",
+    source: read("app/input/layout.tsx"),
+  },
+  readingLayout: {
+    path: "app/reading/layout.tsx",
+    source: read("app/reading/layout.tsx"),
+  },
+  revealLayout: {
+    path: "app/reveal/layout.tsx",
+    source: read("app/reveal/layout.tsx"),
+  },
+  loadingReadingLayout: {
+    path: "app/loading-reading/layout.tsx",
+    source: read("app/loading-reading/layout.tsx"),
   },
   profilePage: {
     path: "app/profile/page.tsx",
@@ -394,6 +417,31 @@ const identityMetadataCoverage = [
 
 for (const [file, needle, label] of identityMetadataCoverage) {
   assertIncludes(file, needle, label)
+}
+
+const crawlHygieneCoverage = [
+  [files.robots, '"/input"', "input flow robots disallow"],
+  [files.robots, '"/reading"', "reading flow robots disallow"],
+  [files.robots, '"/reveal"', "reveal flow robots disallow"],
+  [files.robots, '"/loading-reading"', "loading flow robots disallow"],
+  [files.inputLayout, "index: false", "input noindex metadata"],
+  [files.inputLayout, "follow: false", "input nofollow metadata"],
+  [files.readingLayout, "index: false", "reading noindex metadata"],
+  [files.revealLayout, "index: false", "reveal noindex metadata"],
+  [files.loadingReadingLayout, "index: false", "loading noindex metadata"],
+]
+
+for (const [file, needle, label] of crawlHygieneCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+for (const [needle, label] of [
+  ['path: "/input"', "input flow sitemap route"],
+  ['path: "/reading"', "reading flow sitemap route"],
+  ['path: "/reveal"', "reveal flow sitemap route"],
+  ['path: "/loading-reading"', "loading flow sitemap route"],
+]) {
+  assertNotIncludes(files.sitemap, needle, label)
 }
 
 for (const [path, label] of [
