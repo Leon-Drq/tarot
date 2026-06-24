@@ -31,6 +31,16 @@ export type TarotCardSeoPage = {
     heading: string
     body: string
   }>
+  exampleLabel: string
+  exampleIntro: string
+  exampleReadings: Array<{
+    label: string
+    question: string
+    cards: string
+    interpretation: string
+    nextStep: string
+    hrefSlug: string
+  }>
   combinationsLabel: string
   combinations: Array<{
     heading: string
@@ -968,6 +978,210 @@ function createPositionSections(card: TarotCard, locale: SeoLocale, theme: strin
   }
 }
 
+function createExampleReadings(card: TarotCard, locale: SeoLocale, theme: string) {
+  const name = localizedCardName(card, locale)
+  const englishName = card.nameEn
+  const upright = localizedKeywords(card, locale, "upright")
+  const reversed = localizedKeywords(card, locale, "reversed")
+
+  if (locale === "en") {
+    const guidance = englishSuitGuidance[getCardSuit(card)]
+    return {
+      label: "Example readings",
+      intro: `Use these examples as reading patterns, not private user records. They show how ${englishName} changes when the question, surrounding cards, and next step are specific.`,
+      readings: [
+        {
+          label: "Love example",
+          question: `Does ${englishName} mean this connection can grow?`,
+          cards: `${englishName}, The Lovers, Two of Cups`,
+          interpretation: `In a love spread, ${englishName} makes the reading less about a guaranteed outcome and more about emotional readiness. The Lovers and Two of Cups support mutual interest, but ${englishName} asks whether both people can move from curiosity into consistent behavior.`,
+          nextStep: `Ask what action would make the connection safer, clearer, and less dependent on guessing.`,
+          hrefSlug: "does-he-love-me-tarot",
+        },
+        {
+          label: "Career example",
+          question: `How should I use ${englishName} energy at work?`,
+          cards: `${englishName}, Eight of Pentacles, The Chariot`,
+          interpretation: `For career, ${englishName} turns ${theme} into a practical experiment. Eight of Pentacles asks for skill and repetition, while The Chariot asks for direction. The useful answer is not "quit or stay" yet; it is to test one focused move before making a larger decision.`,
+          nextStep: `Choose one measurable work action this week, then review whether it creates momentum or only more noise.`,
+          hrefSlug: "career-tarot-reading",
+        },
+        {
+          label: "Yes or no example",
+          question: `Is ${englishName} a yes or no for my decision?`,
+          cards: `${englishName}, Justice, Four of Swords`,
+          interpretation: `This is a conditional answer. ${guidance.yesNo}. Justice asks for facts and consequences; Four of Swords asks for a pause. The reading leans away from rushing and toward a cleaner decision after the missing information is named.`,
+          nextStep: `Write the decision as one sentence, list the fact you still need, then ask again only after that fact is clear.`,
+          hrefSlug: "yes-or-no-tarot",
+        },
+      ],
+    }
+  }
+
+  if (locale === "es") {
+    return {
+      label: "Ejemplos de lectura",
+      intro: `Estos ejemplos muestran como ${name} cambia segun la pregunta, las cartas cercanas y el siguiente paso.`,
+      readings: [
+        {
+          label: "Ejemplo de amor",
+          question: `Que muestra ${name} sobre esta conexion?`,
+          cards: `${name}, The Lovers, Two of Cups`,
+          interpretation: `${name} lleva la lectura a disponibilidad, ritmo y conducta real. Si hay interes, todavia necesita convertirse en acciones consistentes.`,
+          nextStep: "Pregunta que accion haria la conexion mas clara y menos dependiente de adivinar.",
+          hrefSlug: "does-he-love-me-tarot",
+        },
+        {
+          label: "Ejemplo de carrera",
+          question: `Como usar la energia de ${name} en mi trabajo?`,
+          cards: `${name}, Eight of Pentacles, The Chariot`,
+          interpretation: `${name} convierte ${theme} en un experimento practico: habilidad, repeticion y direccion antes de una decision grande.`,
+          nextStep: "Elige una accion medible esta semana y revisa si crea avance real.",
+          hrefSlug: "career-tarot-reading",
+        },
+        {
+          label: "Ejemplo si o no",
+          question: `${name} indica si o no?`,
+          cards: `${name}, Justice, Four of Swords`,
+          interpretation: `La respuesta es condicional. Normal puede apoyar ${upright}; invertida pide revisar ${reversed} antes de actuar.`,
+          nextStep: "Nombra la informacion que falta antes de tomar la decision.",
+          hrefSlug: "yes-or-no-tarot",
+        },
+      ],
+    }
+  }
+
+  if (locale === "pt-br") {
+    return {
+      label: "Exemplos de leitura",
+      intro: `Estes exemplos mostram como ${name} muda conforme a pergunta, as cartas próximas e o próximo passo.`,
+      readings: [
+        {
+          label: "Exemplo de amor",
+          question: `O que ${name} mostra sobre esta conexao?`,
+          cards: `${name}, The Lovers, Two of Cups`,
+          interpretation: `${name} leva a leitura para disponibilidade, ritmo e comportamento real. Se existe interesse, ele ainda precisa virar consistencia.`,
+          nextStep: "Pergunte qual acao deixaria a conexao mais clara e menos dependente de suposicao.",
+          hrefSlug: "does-he-love-me-tarot",
+        },
+        {
+          label: "Exemplo de carreira",
+          question: `Como usar a energia de ${name} no trabalho?`,
+          cards: `${name}, Eight of Pentacles, The Chariot`,
+          interpretation: `${name} transforma ${theme} em um teste pratico: habilidade, repeticao e direcao antes de uma decisao maior.`,
+          nextStep: "Escolha uma acao mensuravel esta semana e veja se ela cria avanco real.",
+          hrefSlug: "career-tarot-reading",
+        },
+        {
+          label: "Exemplo sim ou nao",
+          question: `${name} indica sim ou nao?`,
+          cards: `${name}, Justice, Four of Swords`,
+          interpretation: `A resposta e condicional. Normal pode apoiar ${upright}; invertida pede revisar ${reversed} antes de agir.`,
+          nextStep: "Nomeie a informacao que falta antes de decidir.",
+          hrefSlug: "yes-or-no-tarot",
+        },
+      ],
+    }
+  }
+
+  if (locale === "zh") {
+    return {
+      label: "解读示例",
+      intro: `这些是代表性场景，不是私人用户记录。它们展示${name}如何随着问题、周围牌和下一步行动而变化。`,
+      readings: [
+        {
+          label: "爱情示例",
+          question: `${name}说明这段关系能发展吗？`,
+          cards: `${name}、恋人、圣杯二`,
+          interpretation: `${name}把重点放在准备度、节奏和真实行动上。即使有好感，也需要从感觉走向稳定行为。`,
+          nextStep: "问清楚什么行动能让关系更安全、更清晰，而不是只猜对方想法。",
+          hrefSlug: "does-he-love-me-tarot",
+        },
+        {
+          label: "事业示例",
+          question: `我该如何把${name}用在工作里？`,
+          cards: `${name}、星币八、战车`,
+          interpretation: `${name}把${theme}变成一次现实测试：先看技能、重复投入和方向，再判断要不要做大决定。`,
+          nextStep: "本周选一个可衡量行动，看它带来推进还是更多消耗。",
+          hrefSlug: "career-tarot-reading",
+        },
+        {
+          label: "是或否示例",
+          question: `${name}代表 yes 还是 no？`,
+          cards: `${name}、正义、宝剑四`,
+          interpretation: `这是有条件的答案。正位支持${upright}，逆位则提醒先处理${cleanKeywords(card.meaning.reversed)}。`,
+          nextStep: "先写下你还缺的关键信息，再决定是否行动。",
+          hrefSlug: "yes-or-no-tarot",
+        },
+      ],
+    }
+  }
+
+  if (locale === "ja") {
+    return {
+      label: "読み方の例",
+      intro: `${name}が質問、周囲のカード、次の行動によってどう変わるかを見る代表例です。`,
+      readings: [
+        {
+          label: "恋愛の例",
+          question: `${name}はこの関係の成長を示す？`,
+          cards: `${name}, The Lovers, Two of Cups`,
+          interpretation: `${name}は気持ちだけでなく、準備、ペース、実際の行動を見るよう促します。`,
+          nextStep: "相手の気持ちを推測する前に、関係を明確にする行動を一つ決めます。",
+          hrefSlug: "does-he-love-me-tarot",
+        },
+        {
+          label: "仕事の例",
+          question: `仕事で${name}をどう使う？`,
+          cards: `${name}, Eight of Pentacles, The Chariot`,
+          interpretation: `${name}は${theme}を現実的な試みに変えます。大きな決断の前に方向と技術を確認します。`,
+          nextStep: "今週できる測定可能な行動を一つ選びます。",
+          hrefSlug: "career-tarot-reading",
+        },
+        {
+          label: "Yes / No の例",
+          question: `${name}は Yes か No か？`,
+          cards: `${name}, Justice, Four of Swords`,
+          interpretation: `答えは条件付きです。正位置は${upright}を支え、逆位置は${reversed}を整える必要を示します。`,
+          nextStep: "不足している情報を一つ明確にしてから決めます。",
+          hrefSlug: "yes-or-no-tarot",
+        },
+      ],
+    }
+  }
+
+  return {
+    label: "해석 예시",
+    intro: `${name}가 질문, 주변 카드, 다음 행동에 따라 어떻게 달라지는지 보여주는 대표 예시입니다.`,
+    readings: [
+      {
+        label: "사랑 예시",
+        question: `${name}는 이 관계의 성장을 뜻하나요?`,
+        cards: `${name}, The Lovers, Two of Cups`,
+        interpretation: `${name}는 감정뿐 아니라 준비도, 속도, 실제 행동을 함께 보라고 말합니다.`,
+        nextStep: "상대 마음을 추측하기보다 관계를 더 명확하게 만드는 행동을 하나 정하세요.",
+        hrefSlug: "does-he-love-me-tarot",
+      },
+      {
+        label: "커리어 예시",
+        question: `일에서 ${name} 에너지를 어떻게 쓸까요?`,
+        cards: `${name}, Eight of Pentacles, The Chariot`,
+        interpretation: `${name}는 ${theme}를 현실적인 실험으로 바꿉니다. 큰 결정 전 방향과 기술을 확인하세요.`,
+        nextStep: "이번 주 측정 가능한 행동 하나를 선택하세요.",
+        hrefSlug: "career-tarot-reading",
+      },
+      {
+        label: "예 / 아니오 예시",
+        question: `${name}는 예인가요, 아니오인가요?`,
+        cards: `${name}, Justice, Four of Swords`,
+        interpretation: `답은 조건부입니다. 정방향은 ${upright}를 돕고, 역방향은 ${reversed}를 먼저 정리하라고 말합니다.`,
+        nextStep: "결정 전에 부족한 정보를 하나 분명히 하세요.",
+        hrefSlug: "yes-or-no-tarot",
+      },
+    ],
+  }
+}
+
 function createCardFaqs(card: TarotCard, locale: SeoLocale) {
   const name = localizedCardName(card, locale)
   const englishName = card.nameEn
@@ -1087,6 +1301,7 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
   const slug = getCardSlug(card)
   const theme = suitThemes[locale][getCardSuit(card)]
   const positionCopy = createPositionSections(card, locale, theme)
+  const exampleCopy = createExampleReadings(card, locale, theme)
 
   const copy = {
     zh: {
@@ -1240,6 +1455,9 @@ export function getTarotCardSeoPage(card: TarotCard, locale: SeoLocale): TarotCa
     positionLabel: positionCopy.label,
     positionIntro: positionCopy.intro,
     positionSections: positionCopy.sections,
+    exampleLabel: exampleCopy.label,
+    exampleIntro: exampleCopy.intro,
+    exampleReadings: exampleCopy.readings,
     combinationsLabel: copy.combinationsLabel,
     combinations: createCombinations(card, locale),
     faqLabel: copy.faqLabel,

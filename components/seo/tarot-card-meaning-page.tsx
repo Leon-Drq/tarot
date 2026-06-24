@@ -215,6 +215,7 @@ function cardPageNavItems(page: TarotCardSeoPage) {
     })),
     { href: "#spread-positions", label: page.positionLabel },
     { href: "#combinations", label: page.combinationsLabel },
+    { href: "#example-readings", label: page.exampleLabel },
     { href: "#try-reading", label: copy.promptsLabel },
     { href: "#daily-practice", label: dailyPracticeNavLabel(page) },
     { href: "#question-paths", label: copy.questionsLabel },
@@ -235,6 +236,10 @@ function cardPromptHref(page: TarotCardSeoPage, prompt: CardPrompt) {
   })
 
   return `/input?${params.toString()}`
+}
+
+function cardExampleHref(page: TarotCardSeoPage, hrefSlug: string) {
+  return getSeoPage(hrefSlug, page.locale)?.path || localePath(page.locale, `/${hrefSlug}`)
 }
 
 function cardPromptCopy(page: TarotCardSeoPage) {
@@ -748,7 +753,11 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         about: {
           "@id": `${appUrl}${page.path}#defined-term`,
         },
-        mentions: [...page.deepSections.map((section) => section.heading), ...page.positionSections.map((section) => section.heading)],
+        mentions: [
+          ...page.deepSections.map((section) => section.heading),
+          ...page.positionSections.map((section) => section.heading),
+          ...page.exampleReadings.map((item) => item.label),
+        ],
         author: {
           "@id": `${appUrl}/#editorial-team`,
         },
@@ -844,6 +853,18 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           position: index + 1,
           name: prompt.question,
           url: `${appUrl}${cardPromptHref(page, prompt)}`,
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#example-readings`,
+        name: page.exampleLabel,
+        itemListElement: page.exampleReadings.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.label,
+          description: `${item.question} ${item.interpretation}`,
+          url: `${appUrl}${cardExampleHref(page, item.hrefSlug)}`,
         })),
       },
       {
@@ -1045,6 +1066,31 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                   ))}
                 </div>
               </div>
+
+              <section
+                id="example-readings"
+                className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5"
+              >
+                <h2 className="font-serif text-2xl leading-tight text-white">{page.exampleLabel}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{page.exampleIntro}</p>
+                <div className="mt-5 grid gap-3 lg:grid-cols-3">
+                  {page.exampleReadings.map((item) => (
+                    <article key={item.label} className="min-w-0 rounded-lg border border-white/10 bg-black/[0.14] p-4">
+                      <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/70">{item.label}</p>
+                      <h3 className="mt-3 break-words text-base font-medium leading-6 text-white">{item.question}</h3>
+                      <p className="mt-3 text-xs uppercase tracking-[0.16em] text-white/36">{item.cards}</p>
+                      <p className="mt-3 text-sm leading-6 text-white/60">{item.interpretation}</p>
+                      <p className="mt-3 text-sm leading-6 text-[#d9d2ff]/72">{item.nextStep}</p>
+                      <Link
+                        href={cardExampleHref(page, item.hrefSlug)}
+                        className="mt-4 inline-flex min-h-10 items-center text-sm text-[#c9c0ff] transition hover:text-white"
+                      >
+                        {questionPaths.eyebrow}
+                      </Link>
+                    </article>
+                  ))}
+                </div>
+              </section>
 
               <div id="try-reading" className="mt-8 scroll-mt-24 rounded-lg border border-[#bfb6ff]/22 bg-[#bfb6ff]/[0.045] p-5">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{promptCopy.eyebrow}</p>
