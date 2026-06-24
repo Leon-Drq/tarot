@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useEffect, useState, useRef } from "react"
+import { Suspense, useEffect, useMemo, useState, useRef } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { QuestionInput } from "@/components/tarot/question-input"
 import { CardSpread } from "@/components/tarot/card-spread"
@@ -59,6 +59,7 @@ function InputContent() {
   const autoStart = searchParams.get("auto") === "1"
   const requestedSpread = searchParams.get("spread")
   const requestedLocale = searchParams.get("lang") || ""
+  const source = searchParams.get("source") || searchParams.get("utm_source") || ""
   const readingLocale = isSeoLocale(requestedLocale) ? requestedLocale : language
   const preferredSpreadType = isSpreadType(requestedSpread) ? requestedSpread : null
 
@@ -72,6 +73,51 @@ function InputContent() {
     if (language === "ko") return config.nameKo || config.nameEn || config.name
     return config.nameEn || config.name
   }
+
+  const intentHintCopy =
+    {
+      zh: {
+        eyebrow: "已匹配免费牌阵",
+        title: "问题已带入，直接抽牌",
+        body: "我们已经根据入口问题预选牌阵；你只需要选择卡牌。",
+        source: "来源",
+      },
+      en: {
+        eyebrow: "Matched free spread",
+        title: "Your question is ready",
+        body: "The entry page already matched a spread for this question. Pick your cards to continue free.",
+        source: "Source",
+      },
+      ja: {
+        eyebrow: "無料スプレッドを選択済み",
+        title: "質問は準備できています",
+        body: "入口ページから質問とスプレッドを引き継ぎました。カードを選んで続けられます。",
+        source: "Source",
+      },
+      ko: {
+        eyebrow: "무료 스프레드 매칭됨",
+        title: "질문이 준비되었습니다",
+        body: "입구 페이지에서 질문과 스프레드를 이어받았습니다. 카드를 선택해 무료로 계속하세요.",
+        source: "Source",
+      },
+      es: {
+        eyebrow: "Tirada gratis elegida",
+        title: "Tu pregunta esta lista",
+        body: "La pagina de entrada ya eligio una tirada para esta pregunta. Elige tus cartas para continuar gratis.",
+        source: "Origen",
+      },
+      "pt-br": {
+        eyebrow: "Tiragem gratis escolhida",
+        title: "Sua pergunta esta pronta",
+        body: "A pagina de entrada ja escolheu uma tiragem para esta pergunta. Escolha as cartas para continuar gratis.",
+        source: "Origem",
+      },
+    }[readingLocale] || {
+      eyebrow: "Matched free spread",
+      title: "Your question is ready",
+      body: "The entry page already matched a spread for this question. Pick your cards to continue free.",
+      source: "Source",
+    }
 
   const advancedSpreadCopy =
     {
@@ -230,6 +276,24 @@ function InputContent() {
     setShuffleKey((k) => k + 1)
   }
 
+  const hasEntryQuestionContext = Boolean(
+    initialQuestion &&
+      autoStart &&
+      spreadInfo &&
+      (pageState === "selecting" || pageState === "collecting"),
+  )
+  const shouldShowIntentHint = Boolean(hasEntryQuestionContext && !advancedSpreadPrompt)
+
+  const intentSourceLabel = useMemo(() => {
+    const normalized = source.replace(/[_-]+/g, " ").trim()
+    if (!normalized) return "POPTarot"
+    return normalized
+      .split(" ")
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(" ")
+  }, [source])
+
   return (
     <div
       data-input-page
@@ -293,6 +357,28 @@ function InputContent() {
         onClick={handleShuffle}
       />
 
+      {shouldShowIntentHint && (
+        <div
+          data-input-intent-hint
+          className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.75rem)] z-40 w-[min(92vw,36rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/18 bg-[#10081d]/78 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.36)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4"
+        >
+          <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-start">
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">{intentHintCopy.eyebrow}</p>
+              <h2 className="mt-1 text-sm font-medium leading-snug text-[#f2edff] sm:text-base">{intentHintCopy.title}</h2>
+              <p className="mt-1 line-clamp-2 text-xs leading-5 text-white/58 sm:text-sm sm:leading-6">{question || initialQuestion}</p>
+            </div>
+            <div className="grid gap-1 rounded-lg border border-white/10 bg-black/18 px-3 py-2 text-xs text-white/54 sm:min-w-[10rem]">
+              <span className="truncate text-[#c9c0ff]/72">{spreadInfo ? getLocalizedSpreadName(spreadInfo.config) : ""}</span>
+              <span className="truncate">
+                {intentHintCopy.source}: {intentSourceLabel}
+              </span>
+            </div>
+          </div>
+          <p className="mt-2 text-xs leading-5 text-white/45">{intentHintCopy.body}</p>
+        </div>
+      )}
+
       {advancedSpreadPrompt && (pageState === "selecting" || pageState === "collecting") && (
         <div className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.875rem)] z-40 w-[min(92vw,34rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/20 bg-[#11091f]/78 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.38)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4">
           <div className="flex items-start justify-between gap-3">
@@ -303,6 +389,17 @@ function InputContent() {
                   .replace("{requested}", advancedSpreadPrompt.requestedName)
                   .replace("{fallback}", advancedSpreadPrompt.fallbackName)}
               </p>
+              {hasEntryQuestionContext && (
+                <div
+                  data-input-entry-context
+                  className="mt-3 grid gap-1 rounded-lg border border-white/10 bg-black/18 px-3 py-2 text-xs text-white/54"
+                >
+                  <p className="line-clamp-2 leading-5 text-white/64">{question || initialQuestion}</p>
+                  <p className="truncate text-[#c9c0ff]/70">
+                    {intentHintCopy.source}: {intentSourceLabel}
+                  </p>
+                </div>
+              )}
             </div>
             <button
               onClick={() => router.push("/membership")}
