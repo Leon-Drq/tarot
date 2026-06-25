@@ -191,8 +191,8 @@
   .home-hero-stage {
     --home-hero-focal-y: clamp(26rem, 52vh, 30rem);
     --home-hero-visual-center-y: var(--home-hero-focal-y);
-    --home-hero-card-optical-lift: 1.25rem;
-    --home-hero-light-visual-drop: 0.5rem;
+    --home-hero-card-optical-lift: 0rem;
+    --home-hero-light-visual-drop: 0rem;
     --home-hero-light-optical-y: calc(var(--home-hero-card-optical-lift) + var(--home-hero-light-visual-drop));
     --home-hero-light-y: calc(var(--home-hero-focal-y) + var(--home-hero-light-visual-drop));
     --home-hero-card-y: calc(var(--home-hero-focal-y) - var(--home-hero-card-optical-lift));
@@ -211,8 +211,8 @@
   @media (min-width: 640px) {
     .home-hero-stage {
       --home-hero-focal-y: clamp(23rem, 50vh, 31rem);
-      --home-hero-card-optical-lift: 0.75rem;
-      --home-hero-light-visual-drop: 0.25rem;
+      --home-hero-card-optical-lift: 0rem;
+      --home-hero-light-visual-drop: 0rem;
       --home-hero-card-half-y: 10.5rem;
       --home-hero-flow-gap: 3.5rem;
     }
