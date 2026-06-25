@@ -482,13 +482,16 @@ const trustDataCoverage = [
   [files.trustPages, "readingExamples:", "reading examples content"],
   [files.trustPages, "brandAssets:", "brand asset registry"],
   [files.trustPages, "actionLinks:", "trust-to-free-reading action links"],
+  [files.site, "officialVerificationLinks", "official verification registry"],
   [files.trustSignals, "Free first", "free-first trust highlight"],
   [files.trustSignals, "Membership second", "membership-second trust highlight"],
   [files.trustSignals, "Responsible AI", "responsible AI trust highlight"],
   [files.trustPageView, "#testimonials", "testimonial structured data"],
   [files.trustPageView, "#sample-readings", "sample reading structured data"],
   [files.trustPageView, "#brand-assets", "brand asset structured data"],
+  [files.trustPageView, "#official-verification-links", "official verification structured data"],
   [files.trustPageView, "Official Social Accounts", "official social account section"],
+  [files.trustPageView, "Where POPTarot Confirms Its Identity", "official verification visible section"],
 ]
 
 for (const [file, needle, label] of trustDataCoverage) {

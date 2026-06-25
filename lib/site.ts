@@ -37,6 +37,45 @@ export const trustLinks = [
   { label: "Reading Examples", href: "/tarot-reading-examples" },
 ]
 
+export const officialVerificationLinks = [
+  {
+    label: "Canonical website",
+    title: "poptarot.com",
+    body: "Primary source for POPTarot free readings, Daily Tarot, card meanings, privacy guidance, and membership information.",
+    href: "/",
+  },
+  {
+    label: "Free product hub",
+    title: "Free AI Tarot Tools",
+    body: "A crawlable map of the free reading flow, Daily Tarot, question pages, spreads, card meanings, examples, and trust pages.",
+    href: "/free-tarot-tools",
+  },
+  {
+    label: "Logo source",
+    title: "POPTarot Brand Assets",
+    body: "Canonical logo, app icon, favicon, and social preview assets referenced by metadata, manifest, and structured data.",
+    href: "/brand-assets",
+  },
+  {
+    label: "Editorial source",
+    title: "Editorial Policy",
+    body: "How card meanings, AI readings, localization, limitations, and updates are reviewed for user-facing clarity.",
+    href: "/editorial-policy",
+  },
+  {
+    label: "Responsible use",
+    title: "AI Tarot Disclaimer",
+    body: "Clear boundaries that readings are symbolic reflection, not medical, legal, financial, psychological, or safety advice.",
+    href: "/ai-tarot-disclaimer",
+  },
+  {
+    label: "Data handling",
+    title: "Privacy Policy",
+    body: "How questions, readings, journal entries, reminders, account data, analytics, and payments are handled.",
+    href: "/privacy",
+  },
+] as const
+
 const coreToolLinks = [
   { label: "Free Tarot Tools", href: "/free-tarot-tools", type: "CollectionPage" },
   { label: "Free AI Tarot Reading", href: "/free-ai-tarot-reading", type: "WebPage" },

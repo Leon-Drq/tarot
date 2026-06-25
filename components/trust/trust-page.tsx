@@ -6,6 +6,7 @@ import {
   appUrl,
   editorialTeamJsonLd,
   organizationJsonLd,
+  officialVerificationLinks,
   siteName,
   socialLinks,
   softwareApplicationJsonLd,
@@ -149,6 +150,28 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                 name: item.title,
                 description: item.body,
                 url: `${appUrl}${item.href}`,
+              })),
+            },
+          ]
+        : []),
+      ...(isOfficialChannelsPage
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}/${page.slug}#official-verification-links`,
+              name: "Official POPTarot verification links",
+              itemListElement: officialVerificationLinks.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": item.href === "/" ? "WebSite" : "WebPage",
+                  name: item.title,
+                  description: item.body,
+                  url: `${appUrl}${item.href === "/" ? "" : item.href}`,
+                  isPartOf: {
+                    "@id": `${appUrl}/#website`,
+                  },
+                },
               })),
             },
           ]
@@ -443,6 +466,29 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                 )}
               </article>
             </div>
+
+            <section className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
+              <div className="max-w-2xl">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Official verification links</p>
+                <h2 className="mt-3 font-serif text-2xl text-white">Where POPTarot Confirms Its Identity</h2>
+                <p className="mt-3 text-sm leading-7 text-white/58">
+                  These are the public pages POPTarot uses to connect the brand, logo, free product stance, editorial standards, AI boundaries, and privacy expectations.
+                </p>
+              </div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {officialVerificationLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                  >
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{item.label}</p>
+                    <h3 className="mt-3 break-words text-base font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
           </section>
         )}
 
