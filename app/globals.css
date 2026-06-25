@@ -189,33 +189,37 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-focal-y: clamp(22rem, 50vh, 31rem);
+    --home-hero-focal-y: clamp(24.75rem, 58vh, 28.5rem);
     --home-hero-center-y: var(--home-hero-focal-y);
     --home-hero-visual-center-y: var(--home-hero-center-y);
     --home-hero-light-y: var(--home-hero-center-y);
     --home-hero-card-y: var(--home-hero-light-y);
-    --home-hero-card-half-y: 7.5rem;
-    --home-hero-flow-gap: clamp(2.75rem, 6vh, 3.25rem);
+    --home-hero-card-width: clamp(7.5rem, 34vw, 8.25rem);
+    --home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857);
+    --home-hero-card-half-y: calc(var(--home-hero-card-height) / 2);
+    --home-hero-glow-size: min(82vw, 30rem);
+    --home-hero-flow-gap: clamp(2.75rem, 7vh, 3.5rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
   }
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(22rem, 50svh, 31rem);
-      --home-hero-flow-gap: clamp(2.75rem, 6svh, 3.25rem);
+      --home-hero-focal-y: clamp(24.75rem, 58svh, 28.5rem);
+      --home-hero-flow-gap: clamp(2.75rem, 7svh, 3.5rem);
     }
   }
 
   @media (min-width: 640px) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(23rem, 50vh, 31rem);
-      --home-hero-card-half-y: 10.5rem;
+      --home-hero-focal-y: clamp(24rem, 52vh, 32rem);
+      --home-hero-card-width: 12.25rem;
+      --home-hero-card-height: 21rem;
       --home-hero-flow-gap: 3.5rem;
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: clamp(23rem, 50svh, 31rem);
+        --home-hero-focal-y: clamp(24rem, 52svh, 32rem);
       }
     }
   }
@@ -223,7 +227,9 @@
   @media (min-width: 768px) {
     .home-hero-stage {
       --home-hero-focal-y: clamp(26rem, 55vh, 36rem);
-      --home-hero-card-half-y: 14.5625rem;
+      --home-hero-card-width: 16.875rem;
+      --home-hero-card-height: 29.125rem;
+      --home-hero-glow-size: 34rem;
       --home-hero-flow-gap: 4.4375rem;
     }
 

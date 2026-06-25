@@ -725,7 +725,7 @@ function MysticContent() {
             <div
               data-home-focal-glow
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-0 z-0 h-[min(88vw,34rem)] w-[min(88vw,34rem)] rounded-full bg-[radial-gradient(circle,rgba(246,244,255,0.62)_0%,rgba(170,161,255,0.36)_32%,rgba(76,42,120,0.16)_58%,transparent_76%)] blur-2xl mix-blend-screen md:h-[34rem] md:w-[34rem]"
+              className="pointer-events-none absolute left-0 top-0 z-0 h-[var(--home-hero-glow-size)] w-[var(--home-hero-glow-size)] rounded-full bg-[radial-gradient(circle,rgba(246,244,255,0.62)_0%,rgba(170,161,255,0.36)_32%,rgba(76,42,120,0.16)_58%,transparent_76%)] blur-2xl mix-blend-screen"
               style={{ transform: "translate3d(-50%, -50%, 0)" }}
             />
             <CoreLight
@@ -733,7 +733,7 @@ function MysticContent() {
             />
             <div
               data-home-card-anchor
-              className="absolute left-0 top-0 z-10 flex h-[15rem] w-[8.75rem] items-center justify-center overflow-visible sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
+              className="absolute left-0 top-0 z-10 flex h-[var(--home-hero-card-height)] w-[var(--home-hero-card-width)] items-center justify-center overflow-visible"
               style={{ transform: "translate3d(-50%, -50%, 0)" }}
             >
               <TarotCard

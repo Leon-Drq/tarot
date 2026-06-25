@@ -42,7 +42,7 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
   return (
     <div
       data-home-card
-      className="pointer-events-none relative z-[5] h-[15rem] w-[8.75rem] origin-center sm:h-[21rem] sm:w-[12.25rem] md:h-[29.125rem] md:w-[16.875rem]"
+      className="pointer-events-none relative z-[5] h-[var(--home-hero-card-height)] w-[var(--home-hero-card-width)] origin-center"
       style={{
         perspective: "1000px",
         opacity: 1,
@@ -201,8 +201,8 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
       <div
         className="absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 rounded-xl md:rounded-2xl"
         style={{
-          width: "clamp(172px, 42vw, 320px)",
-          height: "clamp(270px, 66vw, 520px)",
+          width: "calc(var(--home-hero-card-width) * 1.35)",
+          height: "calc(var(--home-hero-card-height) * 1.15)",
           background: "radial-gradient(ellipse, rgba(162, 137, 255, 0.3) 0%, transparent 70%)",
           filter: "blur(30px)",
           animation: "breathe 4s ease-in-out infinite",
