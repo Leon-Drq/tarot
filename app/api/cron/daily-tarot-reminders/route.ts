@@ -59,9 +59,11 @@ function newestPerUser(rows: ReminderRow[]) {
 }
 
 export async function GET(req: Request) {
+  const url = new URL(req.url)
+  const dryRun = url.searchParams.get("dry_run") === "1" || url.searchParams.get("dryRun") === "1"
+
   if (!isAuthorized(req)) return jsonError("Unauthorized", 401)
   if (!(await checkDailyReminderDatabaseAccess())) return jsonError("Daily reminder database access is not configured", 503)
-  if (!hasEmailProvider()) return jsonError("Missing RESEND_API_KEY", 503)
 
   const data = await listDailyReminderCandidates(2000)
 
@@ -73,6 +75,17 @@ export async function GET(req: Request) {
     sent: 0,
     failed: 0,
   }
+
+  if (dryRun) {
+    return jsonResponse({
+      ok: true,
+      dry_run: true,
+      email_provider_configured: hasEmailProvider(),
+      ...results,
+    })
+  }
+
+  if (!hasEmailProvider()) return jsonError("Missing RESEND_API_KEY", 503)
 
   for (const row of candidates) {
     const { date } = localParts(row.reminder_timezone || "UTC")
@@ -99,5 +112,5 @@ export async function GET(req: Request) {
     }
   }
 
-  return jsonResponse({ ok: true, ...results })
+  return jsonResponse({ ok: true, dry_run: false, ...results })
 }

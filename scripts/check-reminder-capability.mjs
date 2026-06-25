@@ -1,11 +1,46 @@
 const args = new Set(process.argv.slice(2))
 const strict = args.has("--strict")
+const checkCron = args.has("--cron") || args.has("--cron-dry-run")
 const scriptName = "check-reminder-capability"
 const appUrl = process.env.CHECK_REMINDER_APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
-const url = `${appUrl.replace(/\/$/, "")}/api/daily-tarot/reminder-capability`
+const rootUrl = appUrl.replace(/\/$/, "")
+const url = `${rootUrl}/api/daily-tarot/reminder-capability`
+const cronDryRunUrl = `${rootUrl}/api/cron/daily-tarot-reminders?dry_run=1`
 
 function line(label, value) {
   console.log(`${label.padEnd(32)} ${value}`)
+}
+
+async function checkCronDryRun() {
+  const secret = process.env.CHECK_REMINDER_CRON_SECRET || process.env.CRON_SECRET || ""
+  if (!secret) {
+    throw new Error("Missing CHECK_REMINDER_CRON_SECRET for --cron dry-run check")
+  }
+
+  const response = await fetch(cronDryRunUrl, {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${secret}`,
+    },
+    cache: "no-store",
+  })
+
+  const data = await response.json()
+  if (!response.ok) {
+    throw new Error(data?.error || `Cron dry-run failed with HTTP ${response.status}`)
+  }
+  if (data?.dry_run !== true) {
+    throw new Error("Cron dry-run endpoint did not report dry_run=true")
+  }
+
+  console.log("")
+  console.log(`daily-reminder-cron-dry-run: ${cronDryRunUrl}`)
+  line("cron_dry_run", String(Boolean(data.dry_run)))
+  line("cron_scanned", String(Number(data.scanned || 0)))
+  line("cron_due", String(Number(data.due || 0)))
+  line("cron_sent", String(Number(data.sent || 0)))
+  line("cron_failed", String(Number(data.failed || 0)))
+  line("cron_email_provider_configured", String(Boolean(data.email_provider_configured)))
 }
 
 try {
@@ -40,6 +75,10 @@ try {
 
   if (strict && !data.can_send_email_reminders) {
     process.exitCode = 1
+  }
+
+  if (checkCron) {
+    await checkCronDryRun()
   }
 } catch (error) {
   console.error(error instanceof Error ? error.message : error)
