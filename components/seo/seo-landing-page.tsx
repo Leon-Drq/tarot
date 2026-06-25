@@ -1521,6 +1521,7 @@ function QuestionHeroStart({
   return (
     <div
       data-question-hero-start
+      data-question-matched-spread
       className="mt-7 rounded-lg border border-[#bfb6ff]/20 bg-black/28 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.28)] backdrop-blur-md lg:hidden"
     >
       <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{copy.label}</p>
@@ -1562,6 +1563,7 @@ function QuestionHeroTool({
   return (
     <aside
       data-question-hero-tool
+      data-question-matched-spread
       className="relative rounded-lg border border-[#bfb6ff]/22 bg-black/32 p-5 shadow-[0_22px_70px_rgba(0,0,0,0.32)] backdrop-blur-md"
     >
       <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#e8e3ff]/50 to-transparent" />
@@ -1853,6 +1855,53 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         : []),
       ...(toolkit && recommendedSpread
         ? [
+            {
+              "@type": "WebApplication",
+              "@id": `${appUrl}${page.path}#matched-question-spread`,
+              name: `${toolkit.spreadTitle || recommendedSpread.nameEn} for ${page.ctaQuestion}`,
+              description: toolkit.body,
+              applicationCategory: "LifestyleApplication",
+              operatingSystem: "Any",
+              inLanguage: page.locale,
+              isAccessibleForFree: true,
+              url: `${appUrl}${primaryHref}`,
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
+              },
+              potentialAction: {
+                "@type": "InteractAction",
+                name: toolkitCopy.startSpread,
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${appUrl}${primaryHref}`,
+                  actionPlatform: [
+                    "https://schema.org/DesktopWebPlatform",
+                    "https://schema.org/MobileWebPlatform",
+                  ],
+                },
+                object: {
+                  "@type": "Question",
+                  name: page.ctaQuestion,
+                },
+              },
+              about: {
+                "@type": "ItemList",
+                "@id": `${appUrl}${page.path}#matched-question-spread-positions`,
+                name: toolkit.spreadTitle || recommendedSpread.nameEn,
+                description: toolkit.spreadBody || recommendedSpread.descriptionEn || recommendedSpread.description,
+                numberOfItems: recommendedSpread.positions.length,
+                itemListElement: recommendedSpread.positions.map((position, index) => ({
+                  "@type": "ListItem",
+                  position: index + 1,
+                  name: toolkit.positionNames?.[index] || position.nameEn,
+                  description: position.description,
+                  url: `${appUrl}${primaryHref}`,
+                })),
+              },
+            },
             {
               "@type": "HowTo",
               "@id": `${appUrl}${page.path}#how-to-use-answer`,
