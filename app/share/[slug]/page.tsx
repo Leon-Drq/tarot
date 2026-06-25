@@ -4,6 +4,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowRight } from "lucide-react"
 import { ShareCopyActions } from "@/components/share/share-copy-actions"
+import { getSpreadConfig, isKnownSpreadType, type SpreadConfig } from "@/lib/spread-config"
 import { createAnonSupabase } from "@/lib/server/supabase"
 import {
   editorialTeamJsonLd,
@@ -19,6 +20,8 @@ export const dynamic = "force-dynamic"
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 const freeReadingHref = "/input?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
 const dailyTarotHref = "/daily-tarot?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
+
+type ShareSpreadContext = Pick<SpreadConfig, "name" | "nameEn" | "cardCount" | "descriptionEn" | "positions">
 
 type Params = {
   params: Promise<{ slug: string }>
@@ -41,6 +44,27 @@ async function getShare(slug: string): Promise<ReadingShare | null> {
 
 function cardLabel(card: ReadingShareCard) {
   return card.nameEn || card.name || "Tarot Card"
+}
+
+function getShareSpreadContext(spreadType: string | null | undefined): ShareSpreadContext {
+  if (isKnownSpreadType(spreadType)) return getSpreadConfig(spreadType)
+
+  if (spreadType === "one_card") {
+    return {
+      name: "每日一牌",
+      nameEn: "One-Card Daily Tarot",
+      cardCount: 1,
+      descriptionEn: "A single daily card for reflection, journaling, and return visits.",
+      positions: [{ name: "今日指引", nameEn: "Daily Card", description: "The central guidance for today." }],
+    }
+  }
+
+  return getSpreadConfig("three_card")
+}
+
+function getSharePositionLabel(card: ReadingShareCard, spread: ShareSpreadContext, index: number) {
+  if (card.position) return card.position
+  return spread.positions[index]?.nameEn || `Position ${index + 1}`
 }
 
 function sharedReadingHref(share: ReadingShare) {
@@ -110,6 +134,8 @@ export default async function SharePage({ params }: Params) {
   if (!share) notFound()
   const description = share.interpretation_excerpt || "A shared AI tarot reading from POPTarot."
   const sameQuestionHref = sharedReadingHref(share)
+  const spread = getShareSpreadContext(share.spread_type)
+  const spreadName = spread.nameEn || spread.name
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -222,6 +248,19 @@ export default async function SharePage({ params }: Params) {
             <p className="mt-4 max-w-2xl text-sm leading-7 text-white/58 sm:text-base">
               A public POPTarot reading for reflection. Start with the same free flow, then return for a daily card or save deeper follow-ups later.
             </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              <span className="inline-flex min-h-9 items-center rounded-lg border border-[#c9c0ff]/22 bg-[#c9c0ff]/[0.07] px-3 text-xs text-[#eeeaff]">
+                {spreadName}
+              </span>
+              <span className="inline-flex min-h-9 items-center rounded-lg border border-white/10 bg-white/[0.035] px-3 text-xs text-white/55">
+                {share.cards.length || spread.cardCount} card{(share.cards.length || spread.cardCount) === 1 ? "" : "s"}
+              </span>
+              {spread.descriptionEn && (
+                <span className="inline-flex min-h-9 items-center rounded-lg border border-white/10 bg-white/[0.035] px-3 text-xs text-white/55">
+                  Position-aware reading
+                </span>
+              )}
+            </div>
 
             <div className="mt-9 flex flex-wrap justify-center gap-4 sm:mt-10 sm:gap-6">
               {share.cards.slice(0, 5).map((card, index) => (
@@ -243,8 +282,11 @@ export default async function SharePage({ params }: Params) {
                     )}
                     <div className="absolute inset-2 rounded border border-[#eeeaff]/18" />
                   </div>
-                  <p className="mt-3 line-clamp-2 text-center text-xs text-white/70">{cardLabel(card)}</p>
-                  <p className="mt-1 text-[11px] text-[#c9c0ff]/70">{card.isReversed ? "Reversed" : "Upright"}</p>
+                  <p className="mt-3 line-clamp-1 text-center text-[11px] uppercase tracking-[0.14em] text-[#c9c0ff]/70">
+                    {getSharePositionLabel(card, spread, index)}
+                  </p>
+                  <p className="mt-1 line-clamp-2 text-center text-xs text-white/75">{cardLabel(card)}</p>
+                  <p className="mt-1 text-[11px] text-white/42">{card.isReversed ? "Reversed" : "Upright"}</p>
                 </div>
               ))}
             </div>

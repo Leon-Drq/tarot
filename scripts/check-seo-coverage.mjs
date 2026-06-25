@@ -176,6 +176,14 @@ const files = {
     path: "app/share/[slug]/page.tsx",
     source: read("app/share/[slug]/page.tsx"),
   },
+  shareRoute: {
+    path: "app/api/reading/share/route.ts",
+    source: read("app/api/reading/share/route.ts"),
+  },
+  shareTemplates: {
+    path: "lib/share-templates.ts",
+    source: read("lib/share-templates.ts"),
+  },
   freeToolsPage: {
     path: "app/free-tarot-tools/page.tsx",
     source: read("app/free-tarot-tools/page.tsx"),
@@ -568,6 +576,12 @@ const publicShareConversionCoverage = [
   [files.sharePage, "function sharedReadingHref", "public share same-question href helper"],
   [files.sharePage, "q: share.question", "public share carries original question"],
   [files.sharePage, "params.set(\"spread\", share.spread_type)", "public share carries original spread"],
+  [files.sharePage, "getShareSpreadContext", "public share resolves spread context"],
+  [files.sharePage, "getSharePositionLabel", "public share renders spread-aware position labels"],
+  [files.sharePage, "if (card.position) return card.position", "public share preserves stored card position"],
+  [files.sharePage, "Position-aware reading", "public share position-aware badge"],
+  [files.shareRoute, "position: trimText(card.position, 80) || undefined", "public share API persists card position"],
+  [files.shareTemplates, "card.position ? `${card.position}: ${card.name}`", "share templates include card positions"],
   [files.sharePage, "data-public-share-free-loop", "public share free conversion section"],
   [files.sharePage, "Ask This Question Free", "public share same-question CTA"],
   [files.sharePage, "Start a New Question", "public share alternate new-question CTA"],

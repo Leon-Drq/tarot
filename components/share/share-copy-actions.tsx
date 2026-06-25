@@ -48,6 +48,7 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       question,
       cards: cards.map((card) => ({
         name: card.nameEn || card.name || "Tarot Card",
+        position: card.position,
         isReversed: card.isReversed,
       })),
       interpretation,

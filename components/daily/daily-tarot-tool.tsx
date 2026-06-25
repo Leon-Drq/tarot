@@ -870,10 +870,17 @@ export function DailyTarotTool() {
 
     const ready = await ensureUser()
     if (!ready) throw new Error("Unable to prepare sharing")
+    const dailyPosition =
+      {
+        zh: "今日指引",
+        en: "Daily Card",
+        ja: "今日の指針",
+        ko: "오늘의 안내",
+      }[language] || "Daily Card"
 
     const result = await readingApi.createShare({
       question: dailyTarotQuestion,
-      cards: [card],
+      cards: [{ ...card, position: dailyPosition }],
       interpretation,
       spread_type: "one_card",
     })
@@ -911,6 +918,13 @@ export function DailyTarotTool() {
       cards: [
         {
           name: localizedCardName(card),
+          position:
+            {
+              zh: "今日指引",
+              en: "Daily Card",
+              ja: "今日の指針",
+              ko: "오늘의 안내",
+            }[language] || "Daily Card",
           isReversed: card.isReversed,
         },
       ],

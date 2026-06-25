@@ -5,6 +5,7 @@ type ShareCardInput = {
   id?: number
   name?: string
   nameEn?: string
+  position?: string
   image?: string
   isReversed?: boolean
   meaning?: unknown
@@ -23,6 +24,7 @@ function cleanCards(value: unknown) {
     id: typeof card.id === "number" ? card.id : undefined,
     name: trimText(card.name, 80),
     nameEn: trimText(card.nameEn, 80),
+    position: trimText(card.position, 80) || undefined,
     image: typeof card.image === "string" && card.image.startsWith("https://") ? card.image : undefined,
     isReversed: Boolean(card.isReversed),
     meaning: card.meaning && typeof card.meaning === "object" ? card.meaning : undefined,

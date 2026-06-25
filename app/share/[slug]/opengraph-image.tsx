@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og"
+import { getSpreadConfig, isKnownSpreadType, type SpreadConfig } from "@/lib/spread-config"
 
 export const runtime = "edge"
 export const alt = "Shared POPTarot reading"
@@ -15,18 +16,22 @@ type ShareRecord = {
   cards: Array<{
     name?: string
     nameEn?: string
+    position?: string
     image?: string
     isReversed?: boolean
   }>
+  spread_type?: string
   interpretation_excerpt?: string
 }
+
+type ShareSpreadContext = Pick<SpreadConfig, "name" | "nameEn" | "cardCount" | "positions">
 
 async function getShare(slug: string): Promise<ShareRecord | null> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
   if (!supabaseUrl || !supabaseKey || !/^[a-z0-9-]{8,64}$/.test(slug)) return null
 
-  const fields = "slug,question,cards,interpretation_excerpt"
+  const fields = "slug,question,cards,spread_type,interpretation_excerpt"
   const response = await fetch(
     `${supabaseUrl}/rest/v1/reading_shares?slug=eq.${encodeURIComponent(slug)}&is_active=eq.true&select=${fields}`,
     {
@@ -49,11 +54,36 @@ function shortText(value: string | undefined, maxLength: number) {
   return normalized.length > maxLength ? `${normalized.slice(0, maxLength - 1)}...` : normalized
 }
 
+function getShareSpreadContext(spreadType: string | undefined): ShareSpreadContext {
+  if (isKnownSpreadType(spreadType)) return getSpreadConfig(spreadType)
+
+  if (spreadType === "one_card") {
+    return {
+      name: "每日一牌",
+      nameEn: "One-Card Daily Tarot",
+      cardCount: 1,
+      positions: [{ name: "今日指引", nameEn: "Daily Card", description: "The central guidance for today." }],
+    }
+  }
+
+  return getSpreadConfig("three_card")
+}
+
+function cardPosition(
+  card: ShareRecord["cards"][number],
+  spread: ShareSpreadContext,
+  index: number,
+) {
+  return card.position || spread.positions[index]?.nameEn || `Position ${index + 1}`
+}
+
 export default async function Image({ params }: Params) {
   const { slug } = await params
   const share = await getShare(slug)
   const question = share?.question || "A POPTarot Reading"
   const cards = share?.cards?.slice(0, 3) || []
+  const spread = getShareSpreadContext(share?.spread_type)
+  const spreadName = spread.nameEn || spread.name
 
   return new ImageResponse(
     (
@@ -104,7 +134,7 @@ export default async function Image({ params }: Params) {
               textTransform: "uppercase",
             }}
           >
-            POP TAROT · SHARED READING
+            POP TAROT · {spreadName}
           </div>
           <div
             style={{
@@ -209,6 +239,20 @@ export default async function Image({ params }: Params) {
                 style={{
                   display: "flex",
                   marginTop: 18,
+                  color: "#c9c0ff",
+                  fontSize: 17,
+                  letterSpacing: 2,
+                  textTransform: "uppercase",
+                  textAlign: "center",
+                  maxWidth: 170,
+                }}
+              >
+                {shortText(cardPosition(card, spread, index), 20)}
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  marginTop: 8,
                   color: "rgba(255,255,255,0.78)",
                   fontSize: 21,
                   textAlign: "center",

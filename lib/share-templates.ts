@@ -2,6 +2,7 @@ import type { Locale } from "@/lib/locales"
 
 type ShareCard = {
   name: string
+  position?: string
   isReversed?: boolean
 }
 
@@ -25,7 +26,10 @@ function cardLine(cards: ShareCard[], locale: Locale) {
 
   return cards
     .slice(0, 5)
-    .map((card) => `${card.name}${card.isReversed ? ` (${reversed})` : ""}`)
+    .map((card) => {
+      const name = card.position ? `${card.position}: ${card.name}` : card.name
+      return `${name}${card.isReversed ? ` (${reversed})` : ""}`
+    })
     .join(" / ")
 }
 

@@ -600,8 +600,9 @@ export default function ReadingPage() {
       platform,
       locale: shareTemplateLocale,
       question,
-      cards: drawnCards.map((card) => ({
+      cards: drawnCards.map((card, index) => ({
         name: getCardName(card, activeReadingLocale),
+        position: getLocalizedPosition(spreadConfig, index, activeReadingLocale),
         isReversed: card.isReversed,
       })),
       interpretation: getCurrentInterpretation(),
@@ -668,7 +669,7 @@ export default function ReadingPage() {
     const result = await readingApi.createShare({
       reading_id: readingId || undefined,
       question,
-      cards: drawnCards,
+      cards: buildReadingCards(drawnCards, activeReadingLocale, spreadConfig),
       interpretation: getCurrentInterpretation(),
       spread_type: spreadType,
     })

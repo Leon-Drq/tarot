@@ -508,6 +508,7 @@ export interface ReadingShareCard {
   id?: number
   name: string
   nameEn?: string
+  position?: string
   image?: string
   isReversed: boolean
 }
