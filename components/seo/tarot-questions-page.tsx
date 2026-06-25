@@ -40,6 +40,9 @@ type QuestionPageCopy = {
   heading: string
   intro: string
   features: Array<{ title: string; body: string }>
+  quickStartEyebrow: string
+  quickStartTitle: string
+  quickStartBody: string
   groups: QuestionGroupCopy[]
   entries: QuestionEntry[]
   betterEyebrow: string
@@ -57,6 +60,14 @@ const questionHubPaths = {
   es: "/es/preguntas-tarot",
   "pt-br": "/pt-br/perguntas-tarot",
 } satisfies Record<TarotQuestionHubLocale, string>
+
+const quickStartSlugs = [
+  "will-my-ex-come-back-tarot",
+  "does-he-love-me-tarot",
+  "yes-or-no-tarot-love",
+  "career-tarot-reading",
+  "should-i-quit-my-job-tarot",
+]
 
 export function getTarotQuestionHubPath(locale: TarotQuestionHubLocale) {
   return questionHubPaths[locale]
@@ -80,6 +91,10 @@ const copyByLocale = {
       { title: "Intent matched", body: "Love, ex, career, and yes-or-no questions use different card layouts." },
       { title: "Search ready", body: "High-intent guide pages and direct spread links reinforce each other." },
     ],
+    quickStartEyebrow: "Quick start",
+    quickStartTitle: "Open a matching free spread in one tap",
+    quickStartBody:
+      "These are the highest-intent paths for new readers. Each link keeps the real question, spread, locale, and attribution attached.",
     groups: [
       {
         label: "Love",
@@ -335,6 +350,10 @@ const copyByLocale = {
       { title: "Intencion clara", body: "Amor, ex, carrera y si/no usan tiradas distintas para evitar respuestas genericas." },
       { title: "Lista para busqueda", body: "Las guias de alta intencion y los enlaces directos a tiradas se refuerzan entre si." },
     ],
+    quickStartEyebrow: "Inicio rapido",
+    quickStartTitle: "Abre una tirada gratis en un toque",
+    quickStartBody:
+      "Estas son rutas de alta intencion para nuevos lectores. Cada enlace conserva la pregunta, la tirada, el idioma y la atribucion.",
     groups: [
       {
         label: "Amor",
@@ -590,6 +609,10 @@ const copyByLocale = {
       { title: "Intencao clara", body: "Amor, ex, carreira e sim/nao usam tiragens diferentes para evitar respostas genericas." },
       { title: "Pronto para busca", body: "Guias de alta intencao e links diretos para tiragens reforcam uns aos outros." },
     ],
+    quickStartEyebrow: "Comeco rapido",
+    quickStartTitle: "Abra uma tiragem gratis em um toque",
+    quickStartBody:
+      "Estas sao rotas de alta intencao para novos leitores. Cada link mantem a pergunta, a tiragem, o idioma e a atribuicao.",
     groups: [
       {
         label: "Amor",
@@ -839,13 +862,22 @@ function guideHref(entry: QuestionEntry, locale: TarotQuestionHubLocale) {
   return getSeoPage(entry.slug, locale)?.path || `/${entry.slug}`
 }
 
-function readingHref(entry: QuestionEntry, locale: TarotQuestionHubLocale) {
+function quickStartEntries(copy: QuestionPageCopy) {
+  return quickStartSlugs
+    .map((slug) => copy.entries.find((entry) => entry.slug === slug))
+    .filter((entry): entry is QuestionEntry => Boolean(entry))
+}
+
+function readingHref(entry: QuestionEntry, locale: TarotQuestionHubLocale, medium = "question_hub") {
   const params = new URLSearchParams({
     q: entry.query,
     auto: "1",
     spread: entry.spread,
     source: locale === "en" ? "tarot-questions" : `${locale}-tarot-questions`,
     lang: locale,
+    utm_source: locale === "en" ? "tarot_questions" : `${locale}_tarot_questions`,
+    utm_medium: medium,
+    utm_campaign: entry.slug || entry.group,
   })
   return `/input?${params.toString()}`
 }
@@ -902,6 +934,8 @@ function searchEntries(copy: QuestionPageCopy): TarotQuestionSearchEntry[] {
 }
 
 function buildStructuredData(copy: QuestionPageCopy) {
+  const quickEntries = quickStartEntries(copy)
+
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -948,6 +982,35 @@ function buildStructuredData(copy: QuestionPageCopy) {
                 "@type": "Action",
                 name: copy.startFree,
                 target: `${appUrl}${readingHref(entry, copy.locale)}`,
+                result: {
+                  "@type": "CreativeWork",
+                  name: `${spread.nameEn} AI tarot reading`,
+                },
+              },
+            },
+          }
+        }),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${copy.path}#quick-start-question-paths`,
+        name: copy.quickStartTitle,
+        description: copy.quickStartBody,
+        itemListElement: quickEntries.map((entry, index) => {
+          const spread = SPREAD_CONFIGS[entry.spread]
+          return {
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": "WebPage",
+              name: entry.title,
+              description: entry.intent,
+              url: `${appUrl}${guideHref(entry, copy.locale)}`,
+              isAccessibleForFree: true,
+              potentialAction: {
+                "@type": "Action",
+                name: copy.startFree,
+                target: `${appUrl}${readingHref(entry, copy.locale, "question_hub_quick_start")}`,
                 result: {
                   "@type": "CreativeWork",
                   name: `${spread.nameEn} AI tarot reading`,
@@ -1021,6 +1084,7 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
   const copy = getQuestionHubCopy(locale)
   const structuredData = buildStructuredData(copy)
   const questionSearchEntries = searchEntries(copy)
+  const quickEntries = quickStartEntries(copy)
 
   return (
     <main className="min-h-screen bg-[#080310] text-white">
@@ -1051,6 +1115,48 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
             </h1>
             <p className="mt-6 text-base leading-8 text-white/66 sm:text-lg">{copy.intro}</p>
           </div>
+          {quickEntries.length > 0 && (
+            <div
+              data-question-quick-start
+              className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.045] p-4 sm:p-5"
+            >
+              <div className="grid gap-4 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-[#c9c0ff]/78">
+                    {copy.quickStartEyebrow}
+                  </p>
+                  <h2 className="mt-2 font-serif text-xl leading-tight text-white sm:text-2xl">
+                    {copy.quickStartTitle}
+                  </h2>
+                  <p className="mt-3 text-sm leading-6 text-white/58">{copy.quickStartBody}</p>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+                  {quickEntries.map((entry) => {
+                    const spread = SPREAD_CONFIGS[entry.spread]
+                    return (
+                      <Link
+                        key={entry.slug || entry.title}
+                        data-question-quick-start-card
+                        href={readingHref(entry, copy.locale, "question_hub_quick_start")}
+                        className="group flex min-h-[7.5rem] flex-col justify-between rounded-lg border border-white/10 bg-black/[0.2] p-3 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                      >
+                        <span className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">
+                          {copy.cardLabel(spread.cardCount, spread.nameEn)}
+                        </span>
+                        <span className="mt-2 break-words text-sm font-medium leading-snug text-white">
+                          {entry.title}
+                        </span>
+                        <span className="mt-3 inline-flex items-center gap-1 text-xs text-white/45 transition group-hover:text-white/72">
+                          {copy.startFree}
+                          <ArrowUpRight className="h-3.5 w-3.5" />
+                        </span>
+                      </Link>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {copy.features.map((item) => (
               <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-4">
