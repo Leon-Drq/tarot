@@ -23,6 +23,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!card) return {}
 
   const page = getTarotCardSeoPage(card, defaultLocale)
+  const ogImage = `/api/og/tarot-card?locale=${page.locale}&card=${page.slug}`
 
   return {
     title: page.title,
@@ -42,9 +43,9 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       locale: localeOpenGraph[page.locale],
       images: [
         {
-          url: card.image,
-          width: 800,
-          height: 1200,
+          url: ogImage,
+          width: 1200,
+          height: 630,
           alt: page.title,
         },
       ],
@@ -53,7 +54,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
       card: "summary_large_image",
       title: `${page.title} | POPTarot`,
       description: page.description,
-      images: [card.image],
+      images: [ogImage],
     },
   }
 }

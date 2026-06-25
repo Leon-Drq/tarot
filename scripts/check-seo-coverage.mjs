@@ -52,6 +52,26 @@ const files = {
     path: "components/seo/tarot-card-meaning-page.tsx",
     source: read("components/seo/tarot-card-meaning-page.tsx"),
   },
+  seoOgImage: {
+    path: "lib/seo-og-image.tsx",
+    source: read("lib/seo-og-image.tsx"),
+  },
+  tarotCardOgRoute: {
+    path: "app/api/og/tarot-card/route.tsx",
+    source: read("app/api/og/tarot-card/route.tsx"),
+  },
+  tarotCardRoute: {
+    path: "app/(seo)/tarot-card-meanings/[card]/page.tsx",
+    source: read("app/(seo)/tarot-card-meanings/[card]/page.tsx"),
+  },
+  spanishTarotCardRoute: {
+    path: "app/es/tarot-card-meanings/[card]/page.tsx",
+    source: read("app/es/tarot-card-meanings/[card]/page.tsx"),
+  },
+  portugueseTarotCardRoute: {
+    path: "app/pt-br/tarot-card-meanings/[card]/page.tsx",
+    source: read("app/pt-br/tarot-card-meanings/[card]/page.tsx"),
+  },
   seoPages: { path: "lib/seo-pages.ts", source: read("lib/seo-pages.ts") },
   site: { path: "lib/site.ts", source: read("lib/site.ts") },
   spreadConfig: { path: "lib/spread-config.ts", source: read("lib/spread-config.ts") },
@@ -574,6 +594,23 @@ const identityMetadataCoverage = [
 ]
 
 for (const [file, needle, label] of identityMetadataCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+const dynamicOgCoverage = [
+  [files.seoOgImage, "renderSeoOgImage", "SEO landing dynamic OG renderer"],
+  [files.seoOgImage, "renderTarotCardOgImage", "tarot card dynamic OG renderer"],
+  [files.tarotCardOgRoute, "getCardBySlug", "tarot card OG slug lookup"],
+  [files.tarotCardOgRoute, "renderTarotCardOgImage", "tarot card OG response"],
+  [files.tarotCardRoute, "/api/og/tarot-card?locale=${page.locale}&card=${page.slug}", "English card page dynamic OG image"],
+  [files.spanishTarotCardRoute, "/api/og/tarot-card?locale=${page.locale}&card=${page.slug}", "Spanish card page dynamic OG image"],
+  [files.portugueseTarotCardRoute, "/api/og/tarot-card?locale=${page.locale}&card=${page.slug}", "Portuguese card page dynamic OG image"],
+  [files.tarotCardRoute, "width: 1200", "English card page OG landscape width"],
+  [files.spanishTarotCardRoute, "width: 1200", "Spanish card page OG landscape width"],
+  [files.portugueseTarotCardRoute, "width: 1200", "Portuguese card page OG landscape width"],
+]
+
+for (const [file, needle, label] of dynamicOgCoverage) {
   assertIncludes(file, needle, label)
 }
 
