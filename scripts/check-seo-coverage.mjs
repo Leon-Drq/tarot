@@ -208,6 +208,7 @@ const cardCoverage = [
   ["Career example", "Career example"],
   ["Yes or no example", "Yes or no example"],
   ["Common combinations", "Common Card Combinations"],
+  ["Combination href slugs", "hrefSlug: linkedSlug"],
   ["FAQ", "faqLabel: \"FAQ\""],
 ]
 
@@ -221,6 +222,15 @@ for (const anchor of ["love", "career", "money", "yes-or-no", "advice"]) {
 
 for (const section of ["#spread-positions", "#example-readings", "#combinations", "#faq", "#question-paths", "#daily-practice"]) {
   assertIncludes(files.cardMeaningPage, section, `card page section ${section}`)
+}
+
+for (const [needle, label] of [
+  ["cardCombinationHref", "card combination internal-link helper"],
+  ["combinationLinkLabel", "card combination localized link label"],
+  ["#card-combinations", "card combination structured data item list"],
+  ["Open paired card", "English paired-card link label"],
+]) {
+  assertIncludes(files.cardMeaningPage, needle, label)
 }
 
 const highIntentLongTailSlugs = [
@@ -465,6 +475,7 @@ const structuredDataCoverage = [
   [files.dailyTarotPage, "\"@type\": \"FAQPage\"", "daily tarot FAQ schema"],
   [files.dailyTarotPage, "Calendar reminder", "daily tarot calendar reminder"],
   [files.dailyTarotPage, "Email reminder preference with capability-based delivery status", "daily tarot capability-based email reminder signal"],
+  [files.cardMeaningPage, "#card-combinations", "card combinations ItemList schema"],
 ]
 
 for (const [file, needle, label] of structuredDataCoverage) {

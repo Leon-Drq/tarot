@@ -45,6 +45,7 @@ export type TarotCardSeoPage = {
   combinations: Array<{
     heading: string
     body: string
+    hrefSlug?: string
   }>
   faqLabel: string
   faqs: Array<{
@@ -778,6 +779,10 @@ function createDeepSections(card: TarotCard, locale: SeoLocale, theme: string) {
 function createCombinations(card: TarotCard, locale: SeoLocale) {
   const name = localizedCardName(card, locale)
   const englishName = card.nameEn
+  const linkedSlug = (englishCardName: string) => {
+    const linkedCard = TAROT_CARDS.find((item) => item.nameEn === englishCardName)
+    return linkedCard ? getCardSlug(linkedCard) : undefined
+  }
 
   if (locale === "en") {
     const partner = {
@@ -792,10 +797,12 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
       {
         heading: `${englishName} with The Lovers`,
         body: `This combination often brings the card into relationship choices, attraction, values, or the need to make a decision with emotional honesty.`,
+        hrefSlug: linkedSlug("The Lovers"),
       },
       {
         heading: `${englishName} with The Tower`,
         body: `The Tower intensifies the message. It can show a pattern breaking open so the lesson of ${englishName} can no longer be ignored.`,
+        hrefSlug: linkedSlug("The Tower"),
       },
       {
         heading: `${englishName} with Ace cards`,
@@ -804,6 +811,7 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
       {
         heading: `${englishName} with ${partner.card}`,
         body: `Together, these cards emphasize ${partner.meaning}. Read the pair as a clue about what must be stabilized before the message of ${englishName} can become useful.`,
+        hrefSlug: linkedSlug(partner.card),
       },
     ]
   }
@@ -824,12 +832,14 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
         body: isEs
           ? "Esta combinacion suele llevar la lectura hacia elecciones de relacion, valores, atraccion y honestidad emocional."
           : "Essa combinacao costuma levar a leitura para escolhas de relacionamento, valores, atracao e honestidade emocional.",
+        hrefSlug: linkedSlug("The Lovers"),
       },
       {
         heading: isEs ? `${name} con The Tower` : `${name} com The Tower`,
         body: isEs
           ? `The Tower intensifica el mensaje y puede mostrar que el patron de ${name} ya no puede ignorarse.`
           : `The Tower intensifica a mensagem e pode mostrar que o padrao de ${name} ja nao pode ser ignorado.`,
+        hrefSlug: linkedSlug("The Tower"),
       },
       {
         heading: isEs ? `${name} con Ases` : `${name} com Ases`,
@@ -842,6 +852,7 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
         body: isEs
           ? `Juntas, estas cartas enfatizan ${partner.es}. Usa la combinacion para ver que debe estabilizarse antes de aplicar el mensaje de ${name}.`
           : `Juntas, estas cartas enfatizam ${partner.pt}. Use a combinacao para ver o que precisa ser estabilizado antes de aplicar a mensagem de ${name}.`,
+        hrefSlug: linkedSlug(partner.card),
       },
     ]
   }
@@ -855,6 +866,7 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
           : locale === "ja"
             ? "この組み合わせは、関係の選択、価値観、正直な対話を強調します。"
             : "이 조합은 관계 선택, 가치관, 솔직한 소통을 강조합니다.",
+      hrefSlug: linkedSlug("The Lovers"),
     },
     {
       heading: locale === "zh" ? `${name}与高塔` : locale === "ja" ? `${name}と塔` : `${name}와 탑`,
@@ -864,6 +876,7 @@ function createCombinations(card: TarotCard, locale: SeoLocale) {
           : locale === "ja"
             ? "塔はこのカードの意味を強め、古いパターンが続けられないことを示します。"
             : "탑은 이 카드의 메시지를 강하게 만들며 오래된 패턴이 지속되기 어렵다는 뜻입니다.",
+      hrefSlug: linkedSlug("The Tower"),
     },
   ]
 }

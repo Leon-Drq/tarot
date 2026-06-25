@@ -242,6 +242,20 @@ function cardExampleHref(page: TarotCardSeoPage, hrefSlug: string) {
   return getSeoPage(hrefSlug, page.locale)?.path || localePath(page.locale, `/${hrefSlug}`)
 }
 
+function cardCombinationHref(page: TarotCardSeoPage, item: TarotCardSeoPage["combinations"][number]) {
+  if (!item.hrefSlug) return null
+  return localePath(page.locale, `/tarot-card-meanings/${item.hrefSlug}`)
+}
+
+function combinationLinkLabel(page: TarotCardSeoPage) {
+  if (page.locale === "zh") return "打开配对牌义"
+  if (page.locale === "ja") return "組み合わせのカードを見る"
+  if (page.locale === "ko") return "연결 카드 보기"
+  if (page.locale === "es") return "Abrir carta relacionada"
+  if (page.locale === "pt-br") return "Abrir carta relacionada"
+  return "Open paired card"
+}
+
 function cardPromptCopy(page: TarotCardSeoPage) {
   const name = cardDisplayName(page)
 
@@ -846,6 +860,22 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
       },
       {
         "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#card-combinations`,
+        name: page.combinationsLabel,
+        itemListElement: page.combinations.map((item, index) => {
+          const href = cardCombinationHref(page, item)
+
+          return {
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.heading,
+            description: item.body,
+            ...(href ? { url: `${appUrl}${href}` } : {}),
+          }
+        }),
+      },
+      {
+        "@type": "ItemList",
         "@id": `${appUrl}${page.path}#reading-prompts`,
         name: promptCopy.title,
         itemListElement: promptCopy.prompts.map((prompt, index) => ({
@@ -1058,12 +1088,24 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
               <div id="combinations" className="mt-8 scroll-mt-24 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
                 <h2 className="font-serif text-xl text-white">{page.combinationsLabel}</h2>
                 <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  {page.combinations.map((item) => (
-                    <article key={item.heading}>
-                      <h3 className="text-sm font-medium text-[#c9c0ff]">{item.heading}</h3>
-                      <p className="mt-2 text-sm leading-6 text-white/62">{item.body}</p>
-                    </article>
-                  ))}
+                  {page.combinations.map((item) => {
+                    const href = cardCombinationHref(page, item)
+
+                    return (
+                      <article key={item.heading}>
+                        <h3 className="text-sm font-medium text-[#c9c0ff]">{item.heading}</h3>
+                        <p className="mt-2 text-sm leading-6 text-white/62">{item.body}</p>
+                        {href && (
+                          <Link
+                            href={href}
+                            className="mt-3 inline-flex min-h-9 items-center text-xs font-medium uppercase tracking-[0.12em] text-[#eeeaff]/68 transition hover:text-white"
+                          >
+                            {combinationLinkLabel(page)}
+                          </Link>
+                        )}
+                      </article>
+                    )
+                  })}
                 </div>
               </div>
 
