@@ -699,7 +699,10 @@ function MysticContent() {
         />
       )}
 
-      <div className="relative min-h-[142svh] overflow-visible pb-[calc(env(safe-area-inset-bottom)+6rem)] sm:min-h-[132svh] md:min-h-[124svh] md:pb-28">
+      <div
+        data-home-hero-shell
+        className="home-hero-shell relative overflow-visible pb-[calc(env(safe-area-inset-bottom)+6rem)] md:pb-28"
+      >
         <section
           data-home-hero-copy
           className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[6.5rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]"
