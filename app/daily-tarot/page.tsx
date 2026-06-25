@@ -150,6 +150,93 @@ const regionalDailyGuides = [
   },
 ]
 
+const regionalDailyIntentGroups = [
+  {
+    locale: "es",
+    language: "Espanol",
+    title: "Lecturas diarias en espanol",
+    body: "Entradas enfocadas para amor, carrera, si o no, estado de animo y accion diaria.",
+    links: [
+      {
+        href: "/es/tarot-diario-amor",
+        label: "Amor",
+        title: "Tarot diario del amor",
+        body: "Una carta diaria para revisar sentimientos, contacto, limites y el siguiente paso en una relacion.",
+      },
+      {
+        href: "/es/tarot-diario-carrera",
+        label: "Carrera",
+        title: "Tarot diario para carrera",
+        body: "Convierte la energia del dia en una senal practica para trabajo, entrevistas, proyectos o decisiones.",
+      },
+      {
+        href: "/es/tarot-diario-si-o-no",
+        label: "Si o no",
+        title: "Tarot diario si o no",
+        body: "Usa una pregunta concreta cuando necesitas una respuesta breve con una razon clara detras.",
+      },
+      {
+        href: "/es/tarot-diario-estado-de-animo",
+        label: "Estado",
+        title: "Tarot diario del estado de animo",
+        body: "Lee el tono emocional del dia y guarda una nota para comparar el patron manana.",
+      },
+      {
+        href: "/es/tarot-diario-accion",
+        label: "Accion",
+        title: "Tarot diario de accion",
+        body: "Pasa de una carta simbolica a un paso concreto que puedas hacer hoy.",
+      },
+    ],
+  },
+  {
+    locale: "pt-br",
+    language: "Portugues BR",
+    title: "Leituras diarias em portugues",
+    body: "Entradas focadas para amor, carreira, sim ou nao, humor e acao diaria.",
+    links: [
+      {
+        href: "/pt-br/tarot-diario-amor",
+        label: "Amor",
+        title: "Tarot diario do amor",
+        body: "Uma carta diaria para observar sentimentos, contato, limites e o proximo passo em uma relacao.",
+      },
+      {
+        href: "/pt-br/tarot-diario-carreira",
+        label: "Carreira",
+        title: "Tarot diario para carreira",
+        body: "Transforme a energia do dia em um sinal pratico para trabalho, entrevistas, projetos ou escolhas.",
+      },
+      {
+        href: "/pt-br/tarot-diario-sim-ou-nao",
+        label: "Sim/nao",
+        title: "Tarot diario sim ou nao",
+        body: "Use uma pergunta concreta quando precisa de uma resposta curta com o motivo por tras dela.",
+      },
+      {
+        href: "/pt-br/tarot-diario-humor",
+        label: "Humor",
+        title: "Tarot diario do humor",
+        body: "Leia o tom emocional do dia e salve uma nota para comparar o padrao amanha.",
+      },
+      {
+        href: "/pt-br/tarot-diario-acao",
+        label: "Acao",
+        title: "Tarot diario de acao",
+        body: "Saia de uma carta simbolica para um passo concreto que voce pode fazer hoje.",
+      },
+    ],
+  },
+]
+
+const regionalDailyIntentLinks = regionalDailyIntentGroups.flatMap((group) =>
+  group.links.map((link) => ({
+    ...link,
+    locale: group.locale,
+    language: group.language,
+  })),
+)
+
 function dailyPromptHref(prompt: (typeof dailyPromptCards)[number]) {
   const params = new URLSearchParams({
     q: prompt.question,
@@ -300,6 +387,30 @@ const structuredData = {
       })),
     },
     {
+      "@type": "ItemList",
+      "@id": `${appUrl}/daily-tarot#regional-daily-intent-links`,
+      name: "Regional Daily Tarot question paths",
+      description: "Spanish and Brazilian Portuguese Daily Tarot intent pages for love, career, yes-or-no, mood, and action searches.",
+      numberOfItems: regionalDailyIntentLinks.length,
+      itemListElement: regionalDailyIntentLinks.map((link, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "WebPage",
+          name: link.title,
+          description: link.body,
+          url: `${appUrl}${link.href}`,
+          isAccessibleForFree: true,
+          inLanguage: link.locale === "es" ? "es" : "pt-BR",
+          potentialAction: {
+            "@type": "ReadAction",
+            name: "Open regional Daily Tarot page",
+            target: `${appUrl}${link.href}`,
+          },
+        },
+      })),
+    },
+    {
       "@type": "FAQPage",
       "@id": `${appUrl}/daily-tarot#faq`,
       mainEntity: dailyFaqs.map((faq) => ({
@@ -334,7 +445,7 @@ const structuredData = {
 
 export default function DailyTarotPage() {
   return (
-    <main className="min-h-screen bg-[#080310] text-white">
+    <main className="min-h-screen bg-[#080310] pb-[calc(env(safe-area-inset-bottom)+6.5rem)] text-white sm:pb-0">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -377,6 +488,42 @@ export default function DailyTarotPage() {
                 <p className="mt-3 text-sm leading-6 text-white/56">{guide.body}</p>
                 <span className="mt-auto pt-4 text-xs text-[#c9c0ff]/72 group-hover:text-[#eeeaff]">{guide.cta}</span>
               </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="regional-daily-intent-links" data-daily-regional-intent-links className="border-t border-white/10 bg-[#090412]">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-8 lg:px-10 lg:py-16">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">Regional daily questions</p>
+            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">
+              Link each daily intent to the right localized page
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
+              These pages match how Spanish and Brazilian readers search: daily love, career, yes-or-no, mood, and action. Each path keeps the free Daily Tarot ritual as the first step.
+            </p>
+          </div>
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            {regionalDailyIntentGroups.map((group) => (
+              <div key={group.locale} className="min-w-0">
+                <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{group.language}</p>
+                <h3 className="mt-3 text-lg font-medium leading-snug text-white">{group.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/56">{group.body}</p>
+                <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                  {group.links.map((link) => (
+                    <Link
+                      key={link.href}
+                      data-daily-regional-intent-link
+                      href={link.href}
+                      className="group rounded-lg border border-white/10 bg-black/18 p-3 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.055]"
+                    >
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/62">{link.label}</p>
+                      <h4 className="mt-2 text-sm font-medium leading-snug text-white group-hover:text-[#f4f0ff]">{link.title}</h4>
+                      <p className="mt-2 text-xs leading-5 text-white/54">{link.body}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </div>

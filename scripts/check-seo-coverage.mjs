@@ -333,6 +333,7 @@ const regionalDailyIntentSlugs = {
 for (const [locale, slugs] of Object.entries(regionalDailyIntentSlugs)) {
   for (const slug of slugs) {
     assertIncludes(files.seoPages, `"${slug}"`, `${locale} daily intent localized slug ${slug}`)
+    assertIncludes(files.dailyTarotPage, `/${locale}/${slug}`, `Daily Tarot regional intent link /${locale}/${slug}`)
   }
 }
 
@@ -347,6 +348,9 @@ for (const regionalDailyPath of ["/es/tarot-diario", "/pt-br/tarot-diario"]) {
 
 assertIncludes(files.dailyTarotPage, "data-daily-regional-guides", "Daily Tarot regional guide section")
 assertIncludes(files.dailyTarotPage, "#regional-daily-guides", "Daily Tarot regional guide structured data")
+assertIncludes(files.dailyTarotPage, "data-daily-regional-intent-links", "Daily Tarot regional intent link section")
+assertIncludes(files.dailyTarotPage, "data-daily-regional-intent-link", "Daily Tarot regional intent link cards")
+assertIncludes(files.dailyTarotPage, "#regional-daily-intent-links", "Daily Tarot regional intent structured data")
 assertIncludes(files.seoLanding, "utm_medium: \"daily_landing\"", "Daily Tarot SEO landing attribution")
 assertIncludes(files.seoLanding, "page.slug === \"daily-tarot\"", "Daily Tarot SEO pages open the daily tool")
 assertIncludes(files.dailyTarotTool, "data-daily-quick-actions", "Daily Tarot first-screen quick action rail")
