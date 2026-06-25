@@ -307,10 +307,37 @@ const dailyIntentSlugs = [
 
 for (const slug of dailyIntentSlugs) {
   assertIncludes(files.seoPages, `slug: "${slug}"`, `daily intent SEO page ${slug}`)
-  assertIncludes(files.seoPages, 'locales: ["en"]', `daily intent English-first locale control ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en", "es", "pt-br"]', `daily intent regional locale control ${slug}`)
   assertIncludes(files.site, `href: "/${slug}"`, `daily intent site link ${slug}`)
   assertIncludes(files.dailyTarotPage, `slug: "${slug}"`, `daily tarot prompt card ${slug}`)
   assertIncludes(files.seoLanding, `"${slug}"`, `daily intent related cluster ${slug}`)
+}
+
+const regionalDailyIntentSlugs = {
+  es: [
+    "tarot-diario-amor",
+    "tarot-diario-carrera",
+    "tarot-diario-si-o-no",
+    "tarot-diario-estado-de-animo",
+    "tarot-diario-accion",
+  ],
+  "pt-br": [
+    "tarot-diario-amor",
+    "tarot-diario-carreira",
+    "tarot-diario-sim-ou-nao",
+    "tarot-diario-humor",
+    "tarot-diario-acao",
+  ],
+}
+
+for (const [locale, slugs] of Object.entries(regionalDailyIntentSlugs)) {
+  for (const slug of slugs) {
+    assertIncludes(files.seoPages, `"${slug}"`, `${locale} daily intent localized slug ${slug}`)
+  }
+}
+
+for (const label of ["Tarot diario del amor", "Tarot diario para carrera", "Tarot diário do amor", "Tarot diário para carreira"]) {
+  assertIncludes(files.seoPages, label, `regional daily intent copy ${label}`)
 }
 
 for (const regionalDailyPath of ["/es/tarot-diario", "/pt-br/tarot-diario"]) {
@@ -323,10 +350,11 @@ assertIncludes(files.dailyTarotPage, "#regional-daily-guides", "Daily Tarot regi
 assertIncludes(files.seoLanding, "utm_medium: \"daily_landing\"", "Daily Tarot SEO landing attribution")
 assertIncludes(files.seoLanding, "page.slug === \"daily-tarot\"", "Daily Tarot SEO pages open the daily tool")
 assertIncludes(files.dailyTarotTool, "data-daily-quick-actions", "Daily Tarot first-screen quick action rail")
-for (const action of ["draw", "journal", "reminder", "calendar", "share"]) {
+for (const action of ["draw", "journal", "reminder", "calendar", "share", "return-cue"]) {
   assertIncludes(files.dailyTarotTool, `data-daily-quick-action="${action}"`, `Daily Tarot quick action ${action}`)
 }
 assertIncludes(files.dailyTarotTool, "scrollToJournal", "Daily Tarot quick journal scroll handler")
+assertIncludes(files.dailyTarotTool, "scrollToReturnCue", "Daily Tarot return cue scroll handler")
 assertIncludes(files.dailyTarotTool, "data-daily-journal-form", "Daily Tarot journal scroll target")
 
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
