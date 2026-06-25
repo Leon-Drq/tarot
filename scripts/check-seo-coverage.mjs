@@ -244,6 +244,23 @@ for (const [needle, label] of [
   assertIncludes(files.cardMeaningPage, needle, label)
 }
 
+for (const [slug, context, anchor] of [
+  ["love-tarot-card-meanings", "love", "love"],
+  ["career-tarot-card-meanings", "career", "career"],
+  ["money-tarot-card-meanings", "money", "money"],
+  ["yes-or-no-tarot-card-meanings", "yes-or-no", "yes-or-no"],
+]) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `card context SEO page ${slug}`)
+  assertIncludes(files.seoPages, `context: "${context}"`, `card context SEO page context ${context}`)
+  assertIncludes(files.seoLanding, `"${slug}"`, `card context hub link ${slug}`)
+  assertIncludes(files.seoLanding, `data-card-context-index`, `card context index data hook ${slug}`)
+  assertIncludes(files.seoLanding, `anchor: "${anchor}"`, `card context anchor link ${anchor}`)
+}
+assertIncludes(files.seoPages, "cardMeaningContext?: CardMeaningContext", "card context SEO page model")
+assertIncludes(files.seoLanding, "#card-context-hubs", "card context hub structured data")
+assertIncludes(files.seoLanding, "data-card-context-hubs", "card context visible hub links")
+assertIncludes(files.seoLanding, "cardIndexHref(cardPage, activeCardIndexMode)", "card context card anchor hrefs")
+
 const highIntentLongTailSlugs = [
   "will-my-ex-come-back-tarot",
   "does-he-love-me-tarot",

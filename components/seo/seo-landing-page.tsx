@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
-import { getAllLocalizedSeoPages, type SeoPage } from "@/lib/seo-pages"
+import { getAllLocalizedSeoPages, getSeoPage, type CardMeaningContext, type SeoPage } from "@/lib/seo-pages"
 import { SPREAD_CONFIGS, type SpreadConfig } from "@/lib/spread-config"
 import { getAllCardSeoPages, getCardKeywords, getCardSuit } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
@@ -187,7 +187,87 @@ const cardCombinationCopy = {
 
 const cardIndexGroupOrder = ["major", "wands", "cups", "pentacles", "swords"] as const
 const combinationPreviewCardIds = [0, 1, 2, 6, 10, 13, 15, 16, 17, 18, 19, 20]
+const cardMeaningHubSlugs = [
+  "tarot-card-meanings",
+  "love-tarot-card-meanings",
+  "career-tarot-card-meanings",
+  "money-tarot-card-meanings",
+  "yes-or-no-tarot-card-meanings",
+] as const
 type CardMeaningPage = ReturnType<typeof getAllCardSeoPages>[number]
+type CardIndexMode = "all" | CardMeaningContext
+
+const cardMeaningContextCopy = {
+  love: {
+    title: "Love Tarot Card Meanings",
+    body: "Jump directly to each card's love meaning: attraction, emotional availability, boundaries, timing, commitment, and whether behavior supports the feeling.",
+    browseLabel: "Browse love meanings by group",
+    label: "Love",
+    action: "Read love meaning",
+    anchor: "love",
+    headingPart: " in Love",
+  },
+  career: {
+    title: "Career Tarot Card Meanings",
+    body: "Jump directly to each card's career meaning for work choices, interviews, pressure, skill, timing, opportunity, and practical next steps.",
+    browseLabel: "Browse career meanings by group",
+    label: "Career",
+    action: "Read career meaning",
+    anchor: "career",
+    headingPart: " in Career",
+  },
+  money: {
+    title: "Money Tarot Card Meanings",
+    body: "Jump directly to each card's money meaning for stability, spending, saving, debt, value, resources, risk, and material decisions.",
+    browseLabel: "Browse money meanings by group",
+    label: "Money",
+    action: "Read money meaning",
+    anchor: "money",
+    headingPart: " for Money",
+  },
+  "yes-or-no": {
+    title: "Yes or No Tarot Card Meanings",
+    body: "Jump directly to each card's yes-or-no meaning and read the reason behind yes, no, not yet, or a conditional answer.",
+    browseLabel: "Browse yes-or-no meanings by group",
+    label: "Yes / No",
+    action: "Read yes-or-no meaning",
+    anchor: "yes-or-no",
+    headingPart: " Yes or No",
+  },
+} satisfies Record<CardMeaningContext, {
+  title: string
+  body: string
+  browseLabel: string
+  label: string
+  action: string
+  anchor: string
+  headingPart: string
+}>
+
+function cardIndexMode(page: SeoPage): CardIndexMode | null {
+  if (page.cardMeaningContext) return page.cardMeaningContext
+  return page.slug === "tarot-card-meanings" ? "all" : null
+}
+
+function cardIndexHref(cardPage: CardMeaningPage, mode: CardIndexMode | null) {
+  if (!mode || mode === "all") return cardPage.path
+  return `${cardPage.path}#${cardMeaningContextCopy[mode].anchor}`
+}
+
+function cardContextSummary(cardPage: CardMeaningPage, mode: CardIndexMode | null) {
+  if (!mode || mode === "all") return null
+  const context = cardMeaningContextCopy[mode]
+  const section = cardPage.deepSections.find((item) => item.heading.includes(context.headingPart))
+  return section?.body || cardPage.description
+}
+
+function cardMeaningHubPages(page: SeoPage) {
+  if (page.locale !== "en") return []
+  return cardMeaningHubSlugs
+    .map((slug) => getSeoPage(slug, "en"))
+    .filter((item): item is SeoPage => Boolean(item))
+    .filter((item) => item.slug !== page.slug)
+}
 
 function previewCombination(cardPage: CardMeaningPage) {
   const selfPair = `${cardPage.card.nameEn} with ${cardPage.card.nameEn}`
@@ -201,6 +281,10 @@ function relatedPages(page: SeoPage) {
     ...highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")),
     "monthly-tarot-report",
     "tarot-card-meanings",
+    "love-tarot-card-meanings",
+    "career-tarot-card-meanings",
+    "money-tarot-card-meanings",
+    "yes-or-no-tarot-card-meanings",
   ]
   const candidates = getAllLocalizedSeoPages().filter((candidate) => candidate.locale === page.locale && candidate.slug !== page.slug)
 
@@ -1614,28 +1698,45 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const cards = page.cards
     .map((id) => TAROT_CARDS.find((card) => card.id === id))
     .filter(Boolean)
-  const cardPages = page.slug === "tarot-card-meanings" ? getAllCardSeoPages(page.locale) : []
+  const activeCardIndexMode = cardIndexMode(page)
+  const cardPages = activeCardIndexMode ? getAllCardSeoPages(page.locale) : []
   const primaryHref = readingHref(page)
   const clusterRelated = questionClusterPages(page)
   const clusterRelatedSlugs = new Set(clusterRelated.map((item) => item.slug))
   const related = relatedPages(page).filter((item) => !clusterRelatedSlugs.has(item.slug))
   const relatedText = relatedCopy[page.locale]
   const clusterText = questionClusterCopy[page.locale]
-  const cardText = cardIndexCopy[page.locale]
+  const baseCardText = cardIndexCopy[page.locale]
+  const contextCardText =
+    activeCardIndexMode && activeCardIndexMode !== "all" && page.locale === "en"
+      ? cardMeaningContextCopy[activeCardIndexMode]
+      : null
+  const cardText = contextCardText
+    ? {
+        ...baseCardText,
+        title: contextCardText.title,
+        body: contextCardText.body,
+        browseLabel: contextCardText.browseLabel,
+      }
+    : baseCardText
   const combinationText = cardCombinationCopy[page.locale]
   const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
   const stickyCopy = stickyCtaCopy[page.locale]
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug] || createFallbackQuestionToolkit(page, recommendedSpread)
   const resultPreview = createResultPreview(page, toolkit, recommendedSpread)
+  const cardHubs = activeCardIndexMode ? cardMeaningHubPages(page) : []
   const cardGroups = cardIndexGroupOrder.map((group) => ({
     key: group,
     title: cardText.groups[group],
     cards: cardPages.filter((cardPage) => getCardSuit(cardPage.card) === group),
   }))
-  const combinationPreviewPages = combinationPreviewCardIds
-    .map((id) => cardPages.find((cardPage) => cardPage.card.id === id))
-    .filter((cardPage): cardPage is (typeof cardPages)[number] => Boolean(cardPage))
+  const combinationPreviewPages =
+    activeCardIndexMode === "all"
+      ? combinationPreviewCardIds
+          .map((id) => cardPages.find((cardPage) => cardPage.card.id === id))
+          .filter((cardPage): cardPage is (typeof cardPages)[number] => Boolean(cardPage))
+      : []
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -1720,6 +1821,23 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
       },
       ...(cardPages.length > 0
         ? [
+            ...(cardHubs.length > 0
+              ? [
+                  {
+                    "@type": "ItemList",
+                    "@id": `${appUrl}${page.path}#card-context-hubs`,
+                    name: "Tarot card meaning context hubs",
+                    numberOfItems: cardHubs.length,
+                    itemListElement: cardHubs.map((hub, index) => ({
+                      "@type": "ListItem",
+                      position: index + 1,
+                      url: `${appUrl}${hub.path}`,
+                      name: hub.h1,
+                      description: hub.description,
+                    })),
+                  },
+                ]
+              : []),
             {
               "@type": "ItemList",
               "@id": `${appUrl}${page.path}#card-index`,
@@ -1729,8 +1847,9 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
               itemListElement: cardPages.map((cardPage, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
-                url: `${appUrl}${cardPage.path}`,
+                url: `${appUrl}${cardIndexHref(cardPage, activeCardIndexMode)}`,
                 name: cardPage.h1,
+                description: cardContextSummary(cardPage, activeCardIndexMode) || cardPage.description,
               })),
             },
             {
@@ -1750,8 +1869,9 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                   itemListElement: group.cards.map((cardPage, cardIndex) => ({
                     "@type": "ListItem",
                     position: cardIndex + 1,
-                    url: `${appUrl}${cardPage.path}`,
+                    url: `${appUrl}${cardIndexHref(cardPage, activeCardIndexMode)}`,
                     name: cardPage.h1,
+                    description: cardContextSummary(cardPage, activeCardIndexMode) || cardPage.description,
                   })),
                 },
               })),
@@ -2164,7 +2284,10 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
       )}
 
       {cardPages.length > 0 && (
-        <section className="border-b border-white/10 bg-[#080310]">
+        <section
+          data-card-context-index={activeCardIndexMode && activeCardIndexMode !== "all" ? activeCardIndexMode : undefined}
+          className="border-b border-white/10 bg-[#080310]"
+        >
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
             <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
               <div className="max-w-3xl">
@@ -2175,6 +2298,22 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 {page.primaryCta}
               </Link>
             </div>
+            {cardHubs.length > 0 && (
+              <div data-card-context-hubs className="mb-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {cardHubs.map((hub) => (
+                  <Link
+                    key={hub.slug}
+                    href={hub.path}
+                    className="group rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.07]"
+                  >
+                    <h3 className="break-words text-sm font-medium leading-snug text-[#f1edff] group-hover:text-white">
+                      {hub.h1}
+                    </h3>
+                    <p className="mt-2 line-clamp-3 text-xs leading-5 text-white/52">{hub.description}</p>
+                  </Link>
+                ))}
+              </div>
+            )}
             <nav
               aria-label={cardText.browseLabel}
               className="mb-9 flex flex-wrap gap-2"
@@ -2208,11 +2347,12 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                       {group.cards.map((cardPage) => {
                         const keywords = getCardKeywords(cardPage.card, page.locale)
+                        const contextSummary = cardContextSummary(cardPage, activeCardIndexMode)
 
                         return (
                           <Link
                             key={cardPage.path}
-                            href={cardPage.path}
+                            href={cardIndexHref(cardPage, activeCardIndexMode)}
                             className="group flex min-w-0 gap-4 rounded-lg border border-white/10 bg-white/[0.035] p-3 transition hover:border-[#bfb6ff]/55 hover:bg-white/[0.06]"
                           >
                             <div className="relative aspect-[7/12] w-14 shrink-0 overflow-hidden rounded-md border border-[#bfb6ff]/30 bg-[#211330] sm:w-16">
@@ -2222,12 +2362,25 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                               <h4 className="line-clamp-2 text-sm font-medium leading-6 text-white/82 group-hover:text-white">
                                 {cardPage.h1}
                               </h4>
-                              <p className="mt-2 line-clamp-1 text-xs leading-5 text-[#c9c0ff]/72">
-                                {cardText.upright}: {keywords.upright}
-                              </p>
-                              <p className="line-clamp-1 text-xs leading-5 text-white/44">
-                                {cardText.reversed}: {keywords.reversed}
-                              </p>
+                              {contextSummary && contextCardText ? (
+                                <>
+                                  <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/56">
+                                    <span className="text-[#c9c0ff]/72">{contextCardText.label}:</span> {contextSummary}
+                                  </p>
+                                  <p className="mt-2 text-xs text-[#c9c0ff]/70 group-hover:text-[#e8e3ff]">
+                                    {contextCardText.action}
+                                  </p>
+                                </>
+                              ) : (
+                                <>
+                                  <p className="mt-2 line-clamp-1 text-xs leading-5 text-[#c9c0ff]/72">
+                                    {cardText.upright}: {keywords.upright}
+                                  </p>
+                                  <p className="line-clamp-1 text-xs leading-5 text-white/44">
+                                    {cardText.reversed}: {keywords.reversed}
+                                  </p>
+                                </>
+                              )}
                             </div>
                           </Link>
                         )

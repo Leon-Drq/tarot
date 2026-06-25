@@ -23,11 +23,14 @@ export type SeoPageContent = {
   }>
 }
 
+export type CardMeaningContext = "love" | "career" | "money" | "yes-or-no"
+
 export type SeoPage = SeoPageContent & {
   slug: string
   locale: SeoLocale
   cards: number[]
   recommendedSpread?: SpreadType
+  cardMeaningContext?: CardMeaningContext
   path: string
 }
 
@@ -35,6 +38,7 @@ type SeoPageSource = {
   slug: string
   cards: number[]
   recommendedSpread?: SpreadType
+  cardMeaningContext?: CardMeaningContext
   locales?: SeoLocale[]
   content: Record<"en", SeoPageContent> & Partial<Record<Locale, SeoPageContent>>
 }
@@ -99,6 +103,42 @@ function makeDailyIntentSeoPage(input: {
         title: input.title,
         description: input.description,
         eyebrow: "Daily Tarot Prompt",
+        h1: input.h1,
+        intro: input.intro,
+        intent: input.intent,
+        ctaQuestion: input.ctaQuestion,
+        sections: input.sections,
+        faqs: input.faqs,
+      }),
+    },
+  }
+}
+
+function makeCardMeaningContextSeoPage(input: {
+  slug: string
+  context: CardMeaningContext
+  cards: number[]
+  recommendedSpread: SpreadType
+  title: string
+  description: string
+  h1: string
+  ctaQuestion: string
+  intro: string
+  intent: string
+  sections: SeoPageContent["sections"]
+  faqs: SeoPageContent["faqs"]
+}): SeoPageSource {
+  return {
+    slug: input.slug,
+    cards: input.cards,
+    recommendedSpread: input.recommendedSpread,
+    cardMeaningContext: input.context,
+    locales: ["en"],
+    content: {
+      en: withSharedCta("en", {
+        title: input.title,
+        description: input.description,
+        eyebrow: "Tarot Card Meanings",
         h1: input.h1,
         intro: input.intro,
         intent: input.intent,
@@ -973,6 +1013,90 @@ export const seoPageSources: SeoPageSource[] = [
       }),
     },
   },
+  makeCardMeaningContextSeoPage({
+    slug: "love-tarot-card-meanings",
+    context: "love",
+    cards: [6, 2, 17],
+    recommendedSpread: "relationship",
+    title: "Love Tarot Card Meanings",
+    description: "Read all 78 tarot cards in love readings, including relationship signals, emotional patterns, attraction, boundaries, and next steps.",
+    h1: "Love Tarot Card Meanings",
+    ctaQuestion: "What do these cards reveal about this relationship?",
+    intro: "Love tarot card meanings change when the question is about attraction, trust, timing, commitment, or whether a connection can become more consistent.",
+    intent: "Use this free love tarot meanings index to jump from any card to its relationship interpretation, then ask a real love question with a matching spread.",
+    sections: [
+      { heading: "Read the card in context", body: "A love meaning is not only romance. It can show emotional availability, attachment patterns, communication, boundaries, and whether actions match feelings." },
+      { heading: "Compare upright and reversed", body: "Upright cards often show what can grow. Reversed cards may show fear, avoidance, delay, imbalance, or a private process that needs honesty before movement." },
+      { heading: "Move from meaning to spread", body: "After checking the card, ask a specific relationship question so the AI reading can connect the card to positions, timing, and the next grounded step." },
+    ],
+    faqs: [
+      { question: "Can one tarot card prove someone loves me?", answer: "No. A card can describe emotional patterns and likely signals, but it should be read with behavior, timing, and boundaries." },
+      { question: "Should I use upright or reversed love meanings?", answer: "Use both. Upright shows the active relationship theme; reversed often shows what is blocked, delayed, hidden, or asking for repair." },
+    ],
+  }),
+  makeCardMeaningContextSeoPage({
+    slug: "career-tarot-card-meanings",
+    context: "career",
+    cards: [1, 7, 21],
+    recommendedSpread: "job_opportunity",
+    title: "Career Tarot Card Meanings",
+    description: "Read all 78 tarot cards for career, job decisions, interviews, workplace pressure, business timing, and practical next steps.",
+    h1: "Career Tarot Card Meanings",
+    ctaQuestion: "What should I understand about my career path right now?",
+    intro: "Career tarot card meanings focus on work patterns: motivation, skill, timing, opportunity, risk, teamwork, pressure, and the next practical move.",
+    intent: "Use this free career tarot meanings index to find a card's work interpretation, then open a career spread for a more specific AI reading.",
+    sections: [
+      { heading: "Use cards for work decisions", body: "Career meanings are strongest when they clarify a real choice: stay or leave, apply or wait, negotiate or accept, focus or change direction." },
+      { heading: "Look for resources and friction", body: "Some cards show momentum and support; others show unclear expectations, burnout, weak foundations, or missing information." },
+      { heading: "Turn insight into one action", body: "A career reading should end with something measurable: a conversation, application, plan, boundary, skill practice, or decision checkpoint." },
+    ],
+    faqs: [
+      { question: "Can tarot tell me whether to quit my job?", answer: "It can help separate burnout, fear, opportunity, and timing, but it should not replace practical planning, contracts, or financial judgment." },
+      { question: "Which cards are good for career?", answer: "It depends on the question. Pentacles often help with work and money; Wands show ambition; Swords show decisions; Major Arcana cards show larger turning points." },
+    ],
+  }),
+  makeCardMeaningContextSeoPage({
+    slug: "money-tarot-card-meanings",
+    context: "money",
+    cards: [10, 15, 19],
+    recommendedSpread: "three_card",
+    title: "Money Tarot Card Meanings",
+    description: "Read all 78 tarot cards for money questions, financial habits, stability, risk, spending, saving, debt, and material decisions.",
+    h1: "Money Tarot Card Meanings",
+    ctaQuestion: "What do I need to understand about money and stability?",
+    intro: "Money tarot card meanings translate each card into practical themes: stability, resources, risk, delay, discipline, value, and the habits shaping an outcome.",
+    intent: "Use this free money tarot meanings index when a card appears in a financial reading, then ask a grounded question before making any real-world decision.",
+    sections: [
+      { heading: "Keep money readings grounded", body: "A financial tarot reading should point to habits, risk, timing, and resources. It should not replace budgeting, professional advice, or factual research." },
+      { heading: "Notice the material pattern", body: "Pentacles may speak directly to money, but every suit matters: Wands show initiative, Cups show emotional spending, Swords show planning, and Majors show larger cycles." },
+      { heading: "Ask for the next controllable step", body: "Instead of asking for a guaranteed outcome, ask what needs attention before spending, saving, negotiating, investing, or taking on risk." },
+    ],
+    faqs: [
+      { question: "Can tarot predict money?", answer: "POPTarot treats money tarot as reflective guidance, not financial prediction. Use it to examine patterns and next steps, not to replace financial advice." },
+      { question: "Are Pentacles always money cards?", answer: "Pentacles often relate to money and resources, but they can also describe time, health, work, effort, and real-world stability." },
+    ],
+  }),
+  makeCardMeaningContextSeoPage({
+    slug: "yes-or-no-tarot-card-meanings",
+    context: "yes-or-no",
+    cards: [11, 14, 20],
+    recommendedSpread: "yes_no",
+    title: "Yes or No Tarot Card Meanings",
+    description: "Read all 78 tarot cards as yes, no, or conditional answers, with nuance for upright, reversed, timing, advice, and next steps.",
+    h1: "Yes or No Tarot Card Meanings",
+    ctaQuestion: "Is the answer yes, no, or not yet?",
+    intro: "Yes-or-no tarot card meanings work best when they explain the reason behind the answer instead of forcing every card into a single word.",
+    intent: "Use this free yes-or-no tarot meanings index to compare a card's answer, then draw one card for a simple decision with context.",
+    sections: [
+      { heading: "Do not force a one-word answer", body: "Many tarot cards are conditional. They can lean yes, no, not yet, or yes if a specific issue is handled first." },
+      { heading: "Read upright and reversed carefully", body: "Upright often shows the cleaner expression of a card. Reversed can point to delay, blocked energy, unclear motives, or a need to gather facts." },
+      { heading: "Ask one clean question", body: "Yes-or-no tarot works better when the question is specific, time-bounded, and tied to one decision instead of several hidden questions at once." },
+    ],
+    faqs: [
+      { question: "Can every tarot card be read as yes or no?", answer: "Every card can give direction, but some are conditional. POPTarot shows the reason behind yes, no, or not yet so the answer is usable." },
+      { question: "Should reversed cards always mean no?", answer: "No. Reversed cards often mean delay, unclear motive, weak foundation, or a need to adjust before the answer can move forward." },
+    ],
+  }),
 ]
 
 function makeQuestionSeoPage(input: {
@@ -3472,6 +3596,7 @@ export function getSeoPage(slug: string, locale: SeoLocale = defaultLocale): Seo
     locale,
     cards: source.cards,
     recommendedSpread: source.recommendedSpread,
+    cardMeaningContext: source.cardMeaningContext,
     path: localePath(locale, `/${getCanonicalSeoSlug(source.slug, locale)}`),
   }
 }
