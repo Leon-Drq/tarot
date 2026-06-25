@@ -807,6 +807,9 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
             "@id": `${appUrl}${page.path}#article`,
           },
           {
+            "@id": `${appUrl}${page.path}#card-quick-answer`,
+          },
+          {
             "@id": `${appUrl}${page.path}#faq`,
           },
         ],
@@ -834,6 +837,20 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
             item: `${appUrl}${page.path}`,
           },
         ],
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#card-quick-answer`,
+        name: guideCopy.summaryTitle,
+        description: guideCopy.summaryIntro,
+        numberOfItems: quickRows.length,
+        itemListElement: quickRows.map((row, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: row.label,
+          description: row.body,
+          url: `${appUrl}${page.path}#${row.id}`,
+        })),
       },
       {
         "@type": "FAQPage",
@@ -985,15 +1002,15 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
             </Link>
           </nav>
 
-          <div className="grid min-h-[78vh] items-center gap-10 py-12 lg:grid-cols-[0.75fr_1.25fr]">
-            <div className="mx-auto w-full max-w-[260px] sm:max-w-[300px] lg:max-w-[340px]">
+          <div className="grid items-start gap-10 py-12 lg:min-h-[78vh] lg:grid-cols-[0.75fr_1.25fr]">
+            <div data-card-hero-art className="hidden w-full max-w-[340px] lg:sticky lg:top-24 lg:order-1 lg:block">
               <div className="relative aspect-[7/12] overflow-hidden rounded-xl border border-[#bfb6ff]/35 bg-[#211330] shadow-2xl shadow-black/45">
                 <Image src={page.card.image} alt={page.title} fill className="object-cover" sizes="360px" priority />
                 <div className="absolute inset-3 rounded-lg border border-[#e8e3ff]/20" />
               </div>
             </div>
 
-            <div className="min-w-0 max-w-[21rem] sm:max-w-3xl">
+            <div data-card-hero-content className="order-1 min-w-0 max-w-[21rem] sm:max-w-3xl lg:order-2">
               <div className="mb-5 inline-flex items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-[#c9c0ff]">
                 {page.eyebrow}
               </div>
@@ -1002,6 +1019,13 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
               </h1>
               <p className="mt-6 break-words text-sm leading-7 text-white/72 sm:text-lg sm:leading-8">{page.intro}</p>
               <EditorialByline locale={page.locale} className="mt-7" />
+
+              <div data-card-mobile-art className="mt-6 w-[min(44vw,9rem)] lg:hidden">
+                <div className="relative aspect-[7/12] overflow-hidden rounded-lg border border-[#bfb6ff]/35 bg-[#211330] shadow-xl shadow-black/35">
+                  <Image src={page.card.image} alt={page.title} fill className="object-cover" sizes="144px" priority />
+                  <div className="absolute inset-2 rounded border border-[#e8e3ff]/20" />
+                </div>
+              </div>
 
               <nav
                 aria-label={guideCopy.navTitle}
@@ -1021,7 +1045,11 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 </div>
               </nav>
 
-              <section id="quick-answer" className="mt-6 scroll-mt-24 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.035] p-5">
+              <section
+                id="quick-answer"
+                data-card-quick-answer
+                className="mt-6 scroll-mt-24 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.035] p-5"
+              >
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{guideCopy.summaryEyebrow}</p>
                 <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{guideCopy.summaryTitle}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/62">{guideCopy.summaryIntro}</p>

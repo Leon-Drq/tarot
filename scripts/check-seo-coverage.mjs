@@ -43,6 +43,7 @@ const files = {
     path: "components/mystic-background.tsx",
     source: read("components/mystic-background.tsx"),
   },
+  globalStyles: { path: "app/globals.css", source: read("app/globals.css") },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
   robots: { path: "app/robots.ts", source: read("app/robots.ts") },
   vercelConfig: { path: "vercel.json", source: read("vercel.json") },
@@ -225,6 +226,16 @@ for (const section of ["#spread-positions", "#example-readings", "#combinations"
 }
 
 for (const [needle, label] of [
+  ["data-card-hero-content", "card meaning mobile-first hero content hook"],
+  ["data-card-hero-art", "card meaning hero card art hook"],
+  ["data-card-mobile-art", "card meaning compact mobile card art hook"],
+  ["lg:sticky", "card meaning desktop sticky card art"],
+  ["lg:top-24", "card meaning desktop sticky card art offset"],
+  ["lg:order-1", "card meaning desktop card-art ordering"],
+  ["lg:order-2", "card meaning desktop content ordering"],
+  ["data-card-quick-answer", "card quick answer visible section hook"],
+  ["#card-quick-answer", "card quick answer structured data item list"],
+  ["numberOfItems: quickRows.length", "card quick answer row count schema"],
   ["cardCombinationHref", "card combination internal-link helper"],
   ["combinationLinkLabel", "card combination localized link label"],
   ["#card-combinations", "card combination structured data item list"],
@@ -318,6 +329,10 @@ assertIncludes(files.homeExperience, "\"home_example\"", "homepage example sourc
 assertIncludes(files.homeExperience, "utm_medium", "homepage hero attribution")
 assertIncludes(files.homeExperience, "hero_example", "homepage example campaign medium")
 assertIncludes(files.homeExperience, "spread: \"three_card\"", "homepage examples force free starter spread")
+assertIncludes(files.globalStyles, "--home-hero-focal-y: clamp(22rem, 50svh, 31rem)", "homepage mobile high-screen focal centering")
+assertIncludes(files.homeExperience, "data-home-focal-glow", "homepage focal glow hook")
+assertIncludes(files.homeExperience, "data-home-card-anchor", "homepage card anchor hook")
+assertIncludes(files.homeExperience, "style={{ transform: \"translate3d(-50%, -50%, 0)\" }}", "homepage card and glow center transform")
 assertIncludes(files.tarotQuestions, "TarotQuestionSearchResults", "tarot questions public search results import")
 assertIncludes(files.tarotQuestions, "searchEntries(copy)", "tarot questions public search result entries")
 assertIncludes(files.tarotQuestions, "quickStartSlugs", "tarot questions quick-start high-intent slug list")
@@ -482,6 +497,7 @@ const structuredDataCoverage = [
   [files.dailyTarotPage, "\"@type\": \"FAQPage\"", "daily tarot FAQ schema"],
   [files.dailyTarotPage, "Calendar reminder", "daily tarot calendar reminder"],
   [files.dailyTarotPage, "Email reminder preference with capability-based delivery status", "daily tarot capability-based email reminder signal"],
+  [files.cardMeaningPage, "#card-quick-answer", "card quick answer ItemList schema"],
   [files.cardMeaningPage, "#card-combinations", "card combinations ItemList schema"],
 ]
 
