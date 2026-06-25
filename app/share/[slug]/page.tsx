@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Bell, CalendarPlus, NotebookPen } from "lucide-react"
 import { ShareCopyActions } from "@/components/share/share-copy-actions"
 import { getSpreadConfig, isKnownSpreadType, type SpreadConfig } from "@/lib/spread-config"
 import { createAnonSupabase } from "@/lib/server/supabase"
@@ -20,6 +20,23 @@ export const dynamic = "force-dynamic"
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 const freeReadingHref = "/input?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
 const dailyTarotHref = "/daily-tarot?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
+const shareDailyReturnFeatures = [
+  {
+    title: "Daily card",
+    body: "Come back for a fresh one-card AI reading without starting from search.",
+    icon: CalendarPlus,
+  },
+  {
+    title: "Journal streak",
+    body: "Track repeat themes with a private note instead of treating the share as a one-time page.",
+    icon: NotebookPen,
+  },
+  {
+    title: "Reminder",
+    body: "Use Daily Tarot reminder options so the next visit is direct, not accidental.",
+    icon: Bell,
+  },
+]
 
 type ShareSpreadContext = Pick<SpreadConfig, "name" | "nameEn" | "cardCount" | "descriptionEn" | "positions">
 
@@ -312,6 +329,46 @@ export default async function SharePage({ params }: Params) {
                 Shared readings are for reflection. Start the same question free, keep the matching spread, and only upgrade later if you need deeper follow-up questions or saved history.
               </p>
             </div>
+
+            <section
+              data-public-share-daily-return
+              className="mx-auto mt-4 max-w-3xl rounded-lg border border-white/10 bg-white/[0.035] p-5 sm:p-6"
+            >
+              <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+                <div className="min-w-0 lg:max-w-[22rem]">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/72">Daily return path</p>
+                  <h2 className="mt-3 font-serif text-2xl leading-tight text-white">Make this reading a daily check-in</h2>
+                  <p className="mt-3 text-sm leading-7 text-white/58">
+                    If this shared reading resonates, use Daily Tarot tomorrow to see whether the same theme returns.
+                  </p>
+                </div>
+                <ul className="grid min-w-0 gap-3 sm:grid-cols-3 lg:flex-1">
+                  {shareDailyReturnFeatures.map((item) => {
+                    const Icon = item.icon
+                    return (
+                      <li
+                        key={item.title}
+                        className="min-w-0 border-l border-white/12 pl-3"
+                      >
+                        <div className="flex items-center gap-2 text-[#eeeaff]">
+                          <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          <p className="text-sm font-medium leading-tight">{item.title}</p>
+                        </div>
+                        <p className="mt-2 text-xs leading-5 text-white/48">{item.body}</p>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+              <Link
+                href={dailyTarotHref}
+                data-public-share-daily-return-cta
+                className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/32 bg-[#c9c0ff]/[0.09] px-5 py-2.5 text-sm font-medium text-[#eeeaff] transition hover:border-[#c9c0ff]/55 hover:bg-[#c9c0ff]/[0.14] sm:w-auto"
+              >
+                Open Daily Tarot
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </section>
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
               <Link
