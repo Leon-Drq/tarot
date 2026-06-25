@@ -191,12 +191,12 @@
   .home-hero-stage {
     --home-hero-focal-y: clamp(22rem, 50vh, 31rem);
     --home-hero-center-y: var(--home-hero-focal-y);
-    --home-hero-visual-center-y: var(--home-hero-focal-y);
-    --home-hero-light-y: var(--home-hero-focal-y);
-    --home-hero-card-y: var(--home-hero-focal-y);
+    --home-hero-visual-center-y: var(--home-hero-center-y);
+    --home-hero-light-y: var(--home-hero-center-y);
+    --home-hero-card-y: var(--home-hero-light-y);
     --home-hero-card-half-y: 7.5rem;
     --home-hero-flow-gap: clamp(2.75rem, 6vh, 3.25rem);
-    --home-hero-content-y: calc(var(--home-hero-focal-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
+    --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
   }
 
   @supports (height: 100svh) {

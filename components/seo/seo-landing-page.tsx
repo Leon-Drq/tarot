@@ -198,43 +198,121 @@ type CardMeaningPage = ReturnType<typeof getAllCardSeoPages>[number]
 type CardIndexMode = "all" | CardMeaningContext
 
 const cardMeaningContextCopy = {
-  love: {
-    title: "Love Tarot Card Meanings",
-    body: "Jump directly to each card's love meaning: attraction, emotional availability, boundaries, timing, commitment, and whether behavior supports the feeling.",
-    browseLabel: "Browse love meanings by group",
-    label: "Love",
-    action: "Read love meaning",
-    anchor: "love",
-    headingPart: " in Love",
+  en: {
+    love: {
+      title: "Love Tarot Card Meanings",
+      body: "Jump directly to each card's love meaning: attraction, emotional availability, boundaries, timing, commitment, and whether behavior supports the feeling.",
+      browseLabel: "Browse love meanings by group",
+      label: "Love",
+      action: "Read love meaning",
+      anchor: "love",
+      headingPart: " in Love",
+    },
+    career: {
+      title: "Career Tarot Card Meanings",
+      body: "Jump directly to each card's career meaning for work choices, interviews, pressure, skill, timing, opportunity, and practical next steps.",
+      browseLabel: "Browse career meanings by group",
+      label: "Career",
+      action: "Read career meaning",
+      anchor: "career",
+      headingPart: " in Career",
+    },
+    money: {
+      title: "Money Tarot Card Meanings",
+      body: "Jump directly to each card's money meaning for stability, spending, saving, debt, value, resources, risk, and material decisions.",
+      browseLabel: "Browse money meanings by group",
+      label: "Money",
+      action: "Read money meaning",
+      anchor: "money",
+      headingPart: " for Money",
+    },
+    "yes-or-no": {
+      title: "Yes or No Tarot Card Meanings",
+      body: "Jump directly to each card's yes-or-no meaning and read the reason behind yes, no, not yet, or a conditional answer.",
+      browseLabel: "Browse yes-or-no meanings by group",
+      label: "Yes / No",
+      action: "Read yes-or-no meaning",
+      anchor: "yes-or-no",
+      headingPart: " Yes or No",
+    },
   },
-  career: {
-    title: "Career Tarot Card Meanings",
-    body: "Jump directly to each card's career meaning for work choices, interviews, pressure, skill, timing, opportunity, and practical next steps.",
-    browseLabel: "Browse career meanings by group",
-    label: "Career",
-    action: "Read career meaning",
-    anchor: "career",
-    headingPart: " in Career",
+  es: {
+    love: {
+      title: "Significados de cartas de tarot en el amor",
+      body: "Abre directamente el significado amoroso de cada carta: atracción, disponibilidad emocional, límites, tiempos, compromiso y conducta real.",
+      browseLabel: "Explorar significados de amor por grupo",
+      label: "Amor",
+      action: "Leer significado amoroso",
+      anchor: "love",
+      headingPart: " en el amor",
+    },
+    career: {
+      title: "Significados de cartas de tarot en carrera",
+      body: "Abre directamente el significado profesional de cada carta para decisiones laborales, entrevistas, presión, habilidad, tiempos y próximos pasos.",
+      browseLabel: "Explorar significados de carrera por grupo",
+      label: "Carrera",
+      action: "Leer significado profesional",
+      anchor: "career",
+      headingPart: " en carrera",
+    },
+    money: {
+      title: "Significados de cartas de tarot en dinero",
+      body: "Abre directamente el significado de dinero de cada carta para estabilidad, gastos, ahorro, deudas, valor, recursos y riesgo.",
+      browseLabel: "Explorar significados de dinero por grupo",
+      label: "Dinero",
+      action: "Leer significado de dinero",
+      anchor: "money",
+      headingPart: " en dinero",
+    },
+    "yes-or-no": {
+      title: "Significados de cartas de tarot sí o no",
+      body: "Abre directamente el significado sí o no de cada carta y lee la razón detrás de sí, no, todavía no o una respuesta condicional.",
+      browseLabel: "Explorar significados sí o no por grupo",
+      label: "Sí / No",
+      action: "Leer significado sí o no",
+      anchor: "yes-or-no",
+      headingPart: " sí o no",
+    },
   },
-  money: {
-    title: "Money Tarot Card Meanings",
-    body: "Jump directly to each card's money meaning for stability, spending, saving, debt, value, resources, risk, and material decisions.",
-    browseLabel: "Browse money meanings by group",
-    label: "Money",
-    action: "Read money meaning",
-    anchor: "money",
-    headingPart: " for Money",
+  "pt-br": {
+    love: {
+      title: "Significados das cartas de tarot no amor",
+      body: "Abra direto o significado amoroso de cada carta: atração, disponibilidade emocional, limites, tempo, compromisso e comportamento real.",
+      browseLabel: "Explorar significados de amor por grupo",
+      label: "Amor",
+      action: "Ler significado amoroso",
+      anchor: "love",
+      headingPart: " no amor",
+    },
+    career: {
+      title: "Significados das cartas de tarot na carreira",
+      body: "Abra direto o significado profissional de cada carta para decisões de trabalho, entrevistas, pressão, habilidade, tempo e próximos passos.",
+      browseLabel: "Explorar significados de carreira por grupo",
+      label: "Carreira",
+      action: "Ler significado profissional",
+      anchor: "career",
+      headingPart: " na carreira",
+    },
+    money: {
+      title: "Significados das cartas de tarot em dinheiro",
+      body: "Abra direto o significado financeiro de cada carta para estabilidade, gastos, poupança, dívida, valor, recursos e risco.",
+      browseLabel: "Explorar significados de dinheiro por grupo",
+      label: "Dinheiro",
+      action: "Ler significado de dinheiro",
+      anchor: "money",
+      headingPart: " em dinheiro",
+    },
+    "yes-or-no": {
+      title: "Significados das cartas de tarot sim ou não",
+      body: "Abra direto o significado sim ou não de cada carta e leia a razão por trás de sim, não, ainda não ou uma resposta condicional.",
+      browseLabel: "Explorar significados sim ou não por grupo",
+      label: "Sim / Não",
+      action: "Ler significado sim ou não",
+      anchor: "yes-or-no",
+      headingPart: " sim ou não",
+    },
   },
-  "yes-or-no": {
-    title: "Yes or No Tarot Card Meanings",
-    body: "Jump directly to each card's yes-or-no meaning and read the reason behind yes, no, not yet, or a conditional answer.",
-    browseLabel: "Browse yes-or-no meanings by group",
-    label: "Yes / No",
-    action: "Read yes-or-no meaning",
-    anchor: "yes-or-no",
-    headingPart: " Yes or No",
-  },
-} satisfies Record<CardMeaningContext, {
+} satisfies Partial<Record<SeoPage["locale"], Record<CardMeaningContext, {
   title: string
   body: string
   browseLabel: string
@@ -242,7 +320,12 @@ const cardMeaningContextCopy = {
   action: string
   anchor: string
   headingPart: string
-}>
+}>>>
+
+function cardMeaningContextUi(locale: SeoPage["locale"], mode: CardMeaningContext) {
+  const localizedCopy = cardMeaningContextCopy[locale as keyof typeof cardMeaningContextCopy]
+  return localizedCopy?.[mode] || cardMeaningContextCopy.en[mode]
+}
 
 function cardIndexMode(page: SeoPage): CardIndexMode | null {
   if (page.cardMeaningContext) return page.cardMeaningContext
@@ -251,20 +334,20 @@ function cardIndexMode(page: SeoPage): CardIndexMode | null {
 
 function cardIndexHref(cardPage: CardMeaningPage, mode: CardIndexMode | null) {
   if (!mode || mode === "all") return cardPage.path
-  return `${cardPage.path}#${cardMeaningContextCopy[mode].anchor}`
+  return `${cardPage.path}#${cardMeaningContextUi(cardPage.locale, mode).anchor}`
 }
 
 function cardContextSummary(cardPage: CardMeaningPage, mode: CardIndexMode | null) {
   if (!mode || mode === "all") return null
-  const context = cardMeaningContextCopy[mode]
+  const context = cardMeaningContextUi(cardPage.locale, mode)
   const section = cardPage.deepSections.find((item) => item.heading.includes(context.headingPart))
   return section?.body || cardPage.description
 }
 
 function cardMeaningHubPages(page: SeoPage) {
-  if (page.locale !== "en") return []
+  if (!cardMeaningContextCopy[page.locale as keyof typeof cardMeaningContextCopy]) return []
   return cardMeaningHubSlugs
-    .map((slug) => getSeoPage(slug, "en"))
+    .map((slug) => getSeoPage(slug, page.locale))
     .filter((item): item is SeoPage => Boolean(item))
     .filter((item) => item.slug !== page.slug)
 }
@@ -1708,8 +1791,8 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const clusterText = questionClusterCopy[page.locale]
   const baseCardText = cardIndexCopy[page.locale]
   const contextCardText =
-    activeCardIndexMode && activeCardIndexMode !== "all" && page.locale === "en"
-      ? cardMeaningContextCopy[activeCardIndexMode]
+    activeCardIndexMode && activeCardIndexMode !== "all"
+      ? cardMeaningContextUi(page.locale, activeCardIndexMode)
       : null
   const cardText = contextCardText
     ? {
