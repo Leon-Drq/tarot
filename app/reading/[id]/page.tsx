@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
 import Image from "next/image"
+import Link from "next/link"
 import { getCardById, getCardName, TAROT_CARDS, type TarotCard } from "@/lib/tarot-cards"
 import { getSpreadConfig, isKnownSpreadType } from "@/lib/spread-config"
 import ReactMarkdown from "react-markdown"
@@ -110,7 +111,7 @@ export default function ReadingDetailPage() {
 
   if (loading) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-b from-mystic-bg to-mystic-bg-deep flex items-center justify-center">
+      <div className="fixed inset-0 flex items-center justify-center bg-[#020103]">
         <div className="text-mystic-foreground-muted">加载中...</div>
       </div>
     )
@@ -118,7 +119,7 @@ export default function ReadingDetailPage() {
 
   if (error || !reading) {
     return (
-      <div className="fixed inset-0 bg-gradient-to-b from-mystic-bg to-mystic-bg-deep flex items-center justify-center p-4">
+      <div className="fixed inset-0 flex items-center justify-center bg-[#020103] p-4">
         <div className="text-center">
           <p className="text-red-400 mb-4">{error || t("errors.notFound")}</p>
           <button
@@ -133,9 +134,60 @@ export default function ReadingDetailPage() {
   }
 
   const cards = reading.cards as ReadingDetailCard[]
+  const returnCopy =
+    {
+      zh: {
+        eyebrow: "每日复访",
+        title: "把这次历史解读接到明天的每日塔罗",
+        body: "如果这个主题还在反复出现，明天抽一张免费每日牌，保留连续打卡和日记，看看它是否变成你的长期模式。",
+        daily: "打开每日塔罗",
+        free: "再问一个免费问题",
+        tools: "免费工具",
+      },
+      en: {
+        eyebrow: "Daily return",
+        title: "Use this saved reading as tomorrow's Daily Tarot",
+        body: "If this theme keeps returning, draw one free daily card tomorrow, keep your streak, and add a journal note so the pattern becomes easier to see.",
+        daily: "Open Daily Tarot",
+        free: "New Free Question",
+        tools: "Free Tools",
+      },
+      ja: {
+        eyebrow: "毎日の再訪",
+        title: "保存したリーディングを明日のデイリータロットへ",
+        body: "このテーマが続いているなら、明日また無料の1枚を引き、連続記録と日記でパターンを見やすくしましょう。",
+        daily: "デイリータロット",
+        free: "別の無料質問",
+        tools: "無料ツール",
+      },
+      ko: {
+        eyebrow: "매일 돌아오기",
+        title: "저장한 리딩을 내일의 데일리 타로로 이어가기",
+        body: "이 주제가 계속 돌아온다면 내일 무료 일일 카드를 뽑고, 연속 기록과 저널로 패턴을 더 쉽게 확인하세요.",
+        daily: "데일리 타로",
+        free: "무료 질문 더 하기",
+        tools: "무료 도구",
+      },
+    }[language] || {
+      eyebrow: "Daily return",
+      title: "Use this saved reading as tomorrow's Daily Tarot",
+      body: "If this theme keeps returning, draw one free daily card tomorrow, keep your streak, and add a journal note so the pattern becomes easier to see.",
+      daily: "Open Daily Tarot",
+      free: "New Free Question",
+      tools: "Free Tools",
+    }
+  const returnParams = new URLSearchParams({
+    utm_source: "reading_history",
+    utm_medium: "return_path",
+    utm_campaign: "saved_reading",
+    lang: language,
+  })
+  const detailDailyReturnHref = `/daily-tarot?${returnParams.toString()}`
+  const detailFreeReadingHref = `/input?${returnParams.toString()}&source=history_return`
+  const detailToolsHref = `/free-tarot-tools?${returnParams.toString()}`
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-b from-mystic-bg to-mystic-bg-deep overflow-auto scrollbar-hide">
+    <div className="fixed inset-0 overflow-auto bg-[radial-gradient(circle_at_50%_0%,rgba(128,102,193,0.18)_0%,rgba(8,4,17,0.98)_36%,#020103_100%)] text-mystic-foreground scrollbar-hide">
       {/* 返回按钮 */}
       <button
         onClick={() => router.push("/profile")}
@@ -273,6 +325,43 @@ export default function ReadingDetailPage() {
             </div>
           </div>
         )}
+
+        <section
+          data-reading-detail-return-path
+          className="mt-8 rounded-xl border border-[#c9c0ff]/22 bg-[#0c0715]/92 p-5 shadow-[0_22px_70px_rgba(0,0,0,0.36)] backdrop-blur-sm sm:p-6"
+          style={{
+            opacity: mounted ? 1 : 0,
+            transition: "opacity 0.7s ease-out 0.75s",
+          }}
+        >
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="min-w-0">
+              <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/72">{returnCopy.eyebrow}</p>
+              <h2 className="mt-2 text-base font-medium text-mystic-foreground">{returnCopy.title}</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-mystic-foreground-muted">{returnCopy.body}</p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-3 md:min-w-[32rem]">
+              <Link
+                href={detailDailyReturnHref}
+                className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#c9c0ff] px-4 py-2 text-sm font-medium text-[#130d27] transition hover:bg-[#eeeaff]"
+              >
+                {returnCopy.daily}
+              </Link>
+              <Link
+                href={detailFreeReadingHref}
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-mystic-foreground-muted transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-mystic-foreground"
+              >
+                {returnCopy.free}
+              </Link>
+              <Link
+                href={detailToolsHref}
+                className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-mystic-foreground-muted transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-mystic-foreground"
+              >
+                {returnCopy.tools}
+              </Link>
+            </div>
+          </div>
+        </section>
 
         {/* 底部按钮 */}
         <div
