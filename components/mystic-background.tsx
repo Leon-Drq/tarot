@@ -725,11 +725,9 @@ function MysticContent() {
               data-home-focal-glow
               aria-hidden="true"
               className="pointer-events-none absolute left-0 top-0 z-0 h-[min(88vw,34rem)] w-[min(88vw,34rem)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(246,244,255,0.62)_0%,rgba(170,161,255,0.36)_32%,rgba(76,42,120,0.16)_58%,transparent_76%)] blur-2xl mix-blend-screen md:h-[34rem] md:w-[34rem]"
-              style={{ top: "var(--home-hero-light-optical-y)" }}
             />
             <CoreLight
               className="pointer-events-none absolute left-0 top-0 z-0 flex h-0 w-0 items-center justify-center"
-              style={{ top: "var(--home-hero-light-optical-y)" }}
             />
             <div
               data-home-card-anchor
