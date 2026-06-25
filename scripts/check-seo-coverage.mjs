@@ -340,8 +340,13 @@ assertIncludes(files.seoPages, "supportedLocales", "SEO alternates locale filter
 for (const conversionSignal of [
   "const highIntentQuestionSlugs = new Set",
   "createFallbackQuestionToolkit(page, recommendedSpread)",
+  "data-question-hero-start",
+  "data-question-hero-tool",
+  "Free matched spread",
   "#ready-question-prompts",
+  "data-question-ready-prompts",
   "#recommended-spread",
+  "data-question-recommended-spread",
   "#sample-result-preview",
   "#sample-result-cards",
   "data-question-result-preview",

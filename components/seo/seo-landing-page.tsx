@@ -502,6 +502,64 @@ const stickyCtaCopy = {
   },
 } satisfies Record<SeoPage["locale"], { eyebrow: string; primary: string; secondary: string }>
 
+const questionHeroToolCopy = {
+  zh: {
+    label: "免费匹配牌阵",
+    question: "已带入的问题",
+    spread: "推荐牌阵",
+    positions: "牌位",
+    start: "免费抽这个问题",
+    prompts: "也可以换成这些问法",
+  },
+  en: {
+    label: "Free matched spread",
+    question: "Question already loaded",
+    spread: "Recommended spread",
+    positions: "Positions",
+    start: "Draw this question free",
+    prompts: "Or switch to one of these prompts",
+  },
+  ja: {
+    label: "無料の適合スプレッド",
+    question: "入力済みの質問",
+    spread: "おすすめスプレッド",
+    positions: "カード位置",
+    start: "この質問で無料リーディング",
+    prompts: "別の質問に切り替える",
+  },
+  ko: {
+    label: "무료 맞춤 스프레드",
+    question: "미리 입력된 질문",
+    spread: "추천 스프레드",
+    positions: "카드 위치",
+    start: "이 질문으로 무료 시작",
+    prompts: "다른 질문으로 바꾸기",
+  },
+  es: {
+    label: "Tirada gratis adecuada",
+    question: "Pregunta ya cargada",
+    spread: "Tirada recomendada",
+    positions: "Posiciones",
+    start: "Tirar esta pregunta gratis",
+    prompts: "O cambia a una de estas preguntas",
+  },
+  "pt-br": {
+    label: "Tiragem gratis adequada",
+    question: "Pergunta ja carregada",
+    spread: "Tiragem recomendada",
+    positions: "Posicoes",
+    start: "Tirar esta pergunta gratis",
+    prompts: "Ou troque para uma destas perguntas",
+  },
+} satisfies Record<SeoPage["locale"], {
+  label: string
+  question: string
+  spread: string
+  positions: string
+  start: string
+  prompts: string
+}>
+
 const highIntentQuestionSlugs = new Set(highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")))
 
 type ResultPreview = {
@@ -1442,6 +1500,114 @@ function promptHref(page: SeoPage, prompt: string) {
   return `/input?${params.toString()}`
 }
 
+function heroPositionNames(page: SeoPage, toolkit: QuestionToolkit, recommendedSpread: SpreadConfig) {
+  return (toolkit.positionNames || recommendedSpread.positions.map((position) => (page.locale === "zh" ? position.name : position.nameEn))).slice(0, 6)
+}
+
+function QuestionHeroStart({
+  page,
+  toolkit,
+  recommendedSpread,
+  primaryHref,
+}: {
+  page: SeoPage
+  toolkit: QuestionToolkit
+  recommendedSpread: SpreadConfig
+  primaryHref: string
+}) {
+  const copy = questionHeroToolCopy[page.locale]
+  const spreadName = toolkit.spreadTitle || spreadNameForLocale(recommendedSpread, page.locale)
+
+  return (
+    <div
+      data-question-hero-start
+      className="mt-7 rounded-lg border border-[#bfb6ff]/20 bg-black/28 p-4 shadow-[0_18px_55px_rgba(0,0,0,0.28)] backdrop-blur-md lg:hidden"
+    >
+      <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{copy.label}</p>
+      <p className="mt-2 text-sm font-medium leading-6 text-white">{page.ctaQuestion}</p>
+      <div className="mt-4 flex flex-col gap-2 min-[420px]:flex-row">
+        <Link
+          href={primaryHref}
+          className="inline-flex min-h-11 flex-1 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_50%,#8f80ee_100%)] px-4 text-sm font-medium text-[#120c22] shadow-[0_14px_34px_rgba(143,128,238,0.22)] transition hover:brightness-110"
+        >
+          {copy.start}
+        </Link>
+        <a
+          href="#recommended-spread"
+          className="inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border border-white/12 px-4 text-sm text-white/68 transition hover:border-[#bfb6ff]/35 hover:text-white"
+        >
+          {spreadName}
+        </a>
+      </div>
+    </div>
+  )
+}
+
+function QuestionHeroTool({
+  page,
+  toolkit,
+  recommendedSpread,
+  primaryHref,
+}: {
+  page: SeoPage
+  toolkit: QuestionToolkit
+  recommendedSpread: SpreadConfig
+  primaryHref: string
+}) {
+  const copy = questionHeroToolCopy[page.locale]
+  const positionNames = heroPositionNames(page, toolkit, recommendedSpread)
+  const spreadName = toolkit.spreadTitle || spreadNameForLocale(recommendedSpread, page.locale)
+  const promptRows = toolkit.prompts.slice(0, 3)
+
+  return (
+    <aside
+      data-question-hero-tool
+      className="relative rounded-lg border border-[#bfb6ff]/22 bg-black/32 p-5 shadow-[0_22px_70px_rgba(0,0,0,0.32)] backdrop-blur-md"
+    >
+      <div className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-[#e8e3ff]/50 to-transparent" />
+      <p className="text-[11px] uppercase tracking-[0.2em] text-[#c9c0ff]/82">{copy.label}</p>
+      <div className="mt-5 border-b border-white/10 pb-5">
+        <p className="text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.question}</p>
+        <p className="mt-2 break-words text-base font-medium leading-7 text-white">{page.ctaQuestion}</p>
+        <Link
+          href={primaryHref}
+          className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_50%,#8f80ee_100%)] px-4 text-sm font-medium text-[#120c22] shadow-[0_14px_34px_rgba(143,128,238,0.22)] transition hover:brightness-110"
+        >
+          {copy.start}
+        </Link>
+      </div>
+      <div className="border-b border-white/10 py-5">
+        <p className="text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.spread}</p>
+        <h2 className="mt-2 font-serif text-2xl leading-tight text-white">{spreadName}</h2>
+        <p className="mt-3 text-sm leading-6 text-white/58">{toolkit.spreadBody || recommendedSpread.descriptionEn}</p>
+        <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.positions}</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {positionNames.map((position) => (
+            <span key={position} className="inline-flex min-h-8 items-center rounded-full border border-white/10 px-3 text-xs text-white/64">
+              {position}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div className="pt-5">
+        <p className="text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.prompts}</p>
+        <div className="mt-3 divide-y divide-white/10 border-y border-white/10">
+          {promptRows.map((prompt) => (
+            <Link
+              key={prompt}
+              href={promptHref(page, prompt)}
+              className="group block py-3 text-sm leading-6 text-white/64 transition hover:text-white"
+            >
+              <span className="block break-words">{prompt}</span>
+              <span className="mt-1 block text-xs text-[#c9c0ff]/62 group-hover:text-[#e8e3ff]">{toolkitUiCopy[page.locale]?.drawPrompt || defaultToolkitUiCopy.drawPrompt}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </aside>
+  )
+}
+
 export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const cards = page.cards
     .map((id) => TAROT_CARDS.find((card) => card.id === id))
@@ -1758,7 +1924,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
             </Link>
           </nav>
 
-          <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+          <div className="grid items-center gap-8 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12">
             <div className="max-w-2xl">
               <div className="mb-5 inline-flex items-center rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-[#c9c0ff]">
                 {page.eyebrow}
@@ -1767,6 +1933,14 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 {page.h1}
               </h1>
               <p className="mt-6 max-w-xl text-base leading-8 text-white/72 sm:text-lg">{page.intro}</p>
+              {toolkit && recommendedSpread && (
+                <QuestionHeroStart
+                  page={page}
+                  toolkit={toolkit}
+                  recommendedSpread={recommendedSpread}
+                  primaryHref={primaryHref}
+                />
+              )}
               <p className="mt-4 max-w-xl text-sm leading-7 text-white/56">{page.intent}</p>
               <EditorialByline locale={page.locale} className="mt-7 max-w-xl" />
 
@@ -1786,22 +1960,33 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
               </div>
             </div>
 
-            <div className="flex min-h-[320px] items-center justify-center gap-4 sm:min-h-[360px] sm:gap-6">
-              {cards.map((card, index) =>
-                card ? (
-                  <div
-                    key={card.id}
-                    className="relative aspect-[7/12] w-[28%] max-w-[160px] overflow-hidden rounded-lg border border-[#bfb6ff]/35 bg-[#211330] shadow-2xl shadow-black/40"
-                    style={{
-                      transform: `translateY(${index === 1 ? "-28px" : "18px"}) rotate(${index === 0 ? "-9deg" : index === 2 ? "9deg" : "0deg"})`,
-                    }}
-                  >
-                    <Image src={card.image} alt={card.nameEn} fill className="object-cover" sizes="180px" />
-                    <div className="absolute inset-2 rounded border border-[#e8e3ff]/20" />
-                  </div>
-                ) : null,
-              )}
-            </div>
+            {toolkit && recommendedSpread ? (
+              <div className="hidden lg:block">
+                <QuestionHeroTool
+                  page={page}
+                  toolkit={toolkit}
+                  recommendedSpread={recommendedSpread}
+                  primaryHref={primaryHref}
+                />
+              </div>
+            ) : (
+              <div className="flex min-h-[320px] items-center justify-center gap-4 sm:min-h-[360px] sm:gap-6">
+                {cards.map((card, index) =>
+                  card ? (
+                    <div
+                      key={card.id}
+                      className="relative aspect-[7/12] w-[28%] max-w-[160px] overflow-hidden rounded-lg border border-[#bfb6ff]/35 bg-[#211330] shadow-2xl shadow-black/40"
+                      style={{
+                        transform: `translateY(${index === 1 ? "-28px" : "18px"}) rotate(${index === 0 ? "-9deg" : index === 2 ? "9deg" : "0deg"})`,
+                      }}
+                    >
+                      <Image src={card.image} alt={card.nameEn} fill className="object-cover" sizes="180px" />
+                      <div className="absolute inset-2 rounded border border-[#e8e3ff]/20" />
+                    </div>
+                  ) : null,
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -1819,7 +2004,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
       </section>
 
       {toolkit && recommendedSpread && (
-        <section className="border-b border-white/10 bg-[#080310]">
+        <section id="recommended-spread" className="border-b border-white/10 bg-[#080310]">
           <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
             <div className="max-w-3xl">
               <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{toolkit.label}</p>
@@ -1828,7 +2013,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
             </div>
 
             <div className="mt-9 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
-              <article className="rounded-lg border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.045] p-5">
+              <article data-question-recommended-spread className="rounded-lg border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.045] p-5">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{toolkitCopy.recommendedSpread}</p>
                 <h3 className="mt-3 font-serif text-2xl text-white">{toolkit.spreadTitle || recommendedSpread.nameEn}</h3>
                 <p className="mt-3 text-sm leading-7 text-white/62">{toolkit.spreadBody || recommendedSpread.descriptionEn}</p>
@@ -1848,7 +2033,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 </Link>
               </article>
 
-              <article className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+              <article id="ready-question-prompts" data-question-ready-prompts className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{toolkit.promptTitle}</p>
                 <div className="mt-5 grid gap-3">
                   {toolkit.prompts.map((prompt) => (
