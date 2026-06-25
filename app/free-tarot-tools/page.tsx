@@ -7,7 +7,8 @@ import {
   trustLinks,
 } from "@/lib/site"
 import { getSeoPage } from "@/lib/seo-pages"
-import { trustLastReviewed } from "@/lib/trust-signals"
+import { getTrustPage } from "@/lib/trust-pages"
+import { representativeTestimonials, trustLastReviewed } from "@/lib/trust-signals"
 
 const toolPaths = [
   {
@@ -66,6 +67,9 @@ const conversionSteps = [
     body: "About, editorial policy, AI disclaimer, privacy, reviews, examples, and brand assets make the free tool easier to trust.",
   },
 ]
+
+const visibleTestimonials = representativeTestimonials.slice(0, 3)
+const sampleReadingExamples = getTrustPage("tarot-reading-examples")?.readingExamples?.slice(0, 3) || []
 
 function questionSlugFromHref(href: string) {
   return href.replace(/^\//, "")
@@ -150,6 +154,42 @@ const structuredData = {
           },
         }
       }),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/free-tarot-tools#reader-feedback`,
+      name: "Representative reader feedback for POPTarot free tools",
+      itemListElement: visibleTestimonials.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "Quotation",
+          name: item.title,
+          text: item.quote,
+          about: item.context,
+          datePublished: trustLastReviewed,
+          isPartOf: {
+            "@id": `${appUrl}/reviews#webpage`,
+          },
+        },
+      })),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/free-tarot-tools#example-readings`,
+      name: "Realistic free tarot reading examples",
+      itemListElement: sampleReadingExamples.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "CreativeWork",
+          name: item.title,
+          url: `${appUrl}${item.href}`,
+          text: item.interpretation,
+          about: [item.label, item.spread, item.question],
+          isAccessibleForFree: true,
+        },
+      })),
     },
     {
       "@type": "BreadcrumbList",
@@ -329,6 +369,71 @@ export default function FreeTarotToolsPage() {
                     className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-xs text-white/64 transition hover:border-[#bfb6ff]/40 hover:text-white"
                   >
                     Read guide
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section
+          data-free-tools-social-proof
+          className="mt-12 grid gap-6 border-t border-white/10 pt-8 lg:grid-cols-[0.86fr_1.14fr]"
+        >
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">Reader proof</p>
+            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+              Show trust before asking for an account
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/58">
+              New visitors need to see how POPTarot is used before they commit. Feedback and examples keep the
+              first step focused on free readings, daily return, and practical next actions.
+            </p>
+            <Link
+              href="/reviews"
+              className="mt-5 inline-flex min-h-10 items-center justify-center rounded-lg border border-[#bfb6ff]/35 px-4 py-2 text-sm text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-white/[0.06]"
+            >
+              Read feedback
+            </Link>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+            {visibleTestimonials.map((item) => (
+              <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-4">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">{item.title}</p>
+                <p className="mt-3 text-sm leading-6 text-white/70">&quot;{item.quote}&quot;</p>
+                <p className="mt-3 text-xs leading-5 text-white/38">{item.context}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section data-free-tools-example-readings className="mt-12 border-t border-white/10 pt-8">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">Realistic examples</p>
+            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+              Let visitors preview the quality of a free answer
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/58">
+              Examples make the product less abstract: a question, a spread, cards in context, and one next step.
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 lg:grid-cols-3">
+            {sampleReadingExamples.map((item) => (
+              <article
+                key={item.title}
+                className="flex min-h-[18rem] flex-col rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4"
+              >
+                <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">{item.label}</p>
+                <h3 className="mt-3 text-base font-medium leading-snug text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/60">{item.question}</p>
+                <p className="mt-3 text-xs leading-5 text-white/40">{item.cards}</p>
+                <p className="mt-3 line-clamp-4 text-sm leading-6 text-white/58">{item.interpretation}</p>
+                <div className="mt-auto pt-4">
+                  <Link
+                    href={item.href}
+                    className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-xs text-white/68 transition hover:border-[#bfb6ff]/40 hover:text-white"
+                  >
+                    Start this path
                   </Link>
                 </div>
               </article>
