@@ -189,7 +189,7 @@
 
 @layer components {
   .home-hero-stage {
-    --home-hero-focal-y: clamp(22rem, 58vh, 28rem);
+    --home-hero-focal-y: clamp(20.75rem, 53vh, 25.25rem);
     --home-hero-center-y: var(--home-hero-focal-y);
     --home-hero-visual-center-y: var(--home-hero-focal-y);
     --home-hero-light-y: var(--home-hero-focal-y);
@@ -201,7 +201,7 @@
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-focal-y: clamp(22rem, 58svh, 28rem);
+      --home-hero-focal-y: clamp(20.75rem, 53svh, 25.25rem);
       --home-hero-flow-gap: clamp(2.75rem, 6svh, 3.25rem);
     }
   }
