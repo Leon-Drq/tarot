@@ -413,6 +413,7 @@ export function DailyTarotTool() {
         notePlaceholder: "例如：观察我是否还在同一个情绪里，或者我是否采取了一个小行动。",
         saved: "明日回访主题已保存",
         save: "保存明日主题",
+        quickAction: "明日主题",
         savedPrefix: "已保存",
         defaultFocus: "今日牌的下一步",
         chips: ["爱情", "事业", "情绪", "行动", "边界"],
@@ -427,6 +428,7 @@ export function DailyTarotTool() {
         notePlaceholder: "例: 同じ感情が続いているか、小さな行動を取れたかを見る。",
         saved: "明日のテーマを保存しました",
         save: "明日のテーマを保存",
+        quickAction: "明日のテーマ",
         savedPrefix: "保存済み",
         defaultFocus: "今日のカードの次の一歩",
         chips: ["恋愛", "仕事", "感情", "行動", "境界線"],
@@ -441,6 +443,7 @@ export function DailyTarotTool() {
         notePlaceholder: "예: 같은 감정이 반복되는지, 작은 행동을 했는지 확인하기.",
         saved: "내일 다시 볼 주제가 저장되었습니다",
         save: "내일 주제 저장",
+        quickAction: "내일 주제",
         savedPrefix: "저장됨",
         defaultFocus: "오늘 카드의 다음 단계",
         chips: ["사랑", "커리어", "감정", "행동", "경계"],
@@ -455,6 +458,7 @@ export function DailyTarotTool() {
         notePlaceholder: "For example: notice whether the same feeling returns, or whether I took one small action.",
         saved: "Tomorrow's return cue is saved",
         save: "Save Tomorrow Cue",
+        quickAction: "Tomorrow Cue",
         savedPrefix: "Saved",
         defaultFocus: "Next step from today's card",
         chips: ["Love", "Career", "Mood", "Action", "Boundaries"],
@@ -862,6 +866,14 @@ export function DailyTarotTool() {
     })
   }
 
+  const scrollToReturnCue = () => {
+    const target = document.querySelector("[data-daily-return-commitment]") || document.querySelector("[data-daily-return-setup]")
+    target?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    })
+  }
+
   const handleInstallPrompt = async () => {
     if (!installPrompt) {
       setInstallStatus(copy.installFallback)
@@ -1114,6 +1126,16 @@ export function DailyTarotTool() {
           )}
           <button
             type="button"
+            data-daily-sticky-return-cue
+            onClick={scrollToReturnCue}
+            aria-label={returnCopy.title}
+            title={returnCopy.title}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/12 text-white/70 transition hover:border-white/30 hover:text-white"
+          >
+            <NotebookPen className="h-4 w-4" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
             onClick={hasReading ? handleShare : handleDraw}
             disabled={stickyPrimaryDisabled}
             title={stickyPrimaryTitle}
@@ -1201,6 +1223,15 @@ export function DailyTarotTool() {
               <Share2 className="h-4 w-4 shrink-0" aria-hidden="true" />
             )}
             <span className={quickActionTextClass}>{shareCopy.button}</span>
+          </button>
+          <button
+            type="button"
+            data-daily-quick-action="return-cue"
+            onClick={scrollToReturnCue}
+            className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white"
+          >
+            <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className={quickActionTextClass}>{returnCopy.quickAction}</span>
           </button>
         </div>
 
@@ -1343,84 +1374,82 @@ export function DailyTarotTool() {
           )}
         </article>
 
-        {(interpretation || todayReturnCommitment || tomorrowReturnCommitment) && (
-          <article data-daily-return-commitment className="rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.04] p-5 sm:p-6">
-            <div className="flex flex-col gap-5">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{returnCopy.eyebrow}</p>
-                <h2 className="mt-2 font-serif text-xl leading-tight text-white">{returnCopy.title}</h2>
-                <p className="mt-3 text-sm leading-7 text-white/58">{returnCopy.body}</p>
-              </div>
-
-              {todayReturnCommitment && (
-                <div className="rounded-lg border border-white/10 bg-black/18 p-4">
-                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">{returnCopy.todayLabel}</p>
-                  <p className="mt-2 text-sm font-medium leading-snug text-white">{todayReturnCommitment.focus}</p>
-                  {todayReturnCommitment.note && (
-                    <p className="mt-2 text-sm leading-6 text-white/54">{todayReturnCommitment.note}</p>
-                  )}
-                </div>
-              )}
-
-              <div className="grid gap-3">
-                <div>
-                  <p className="mb-2 text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.tomorrowLabel}</p>
-                  <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    {returnCopy.chips.map((chip) => (
-                      <button
-                        key={chip}
-                        type="button"
-                        onClick={() => setReturnFocus(chip)}
-                        className={`inline-flex min-h-10 shrink-0 items-center rounded-full border px-3 text-xs transition ${
-                          returnFocus === chip
-                            ? "border-[#c9c0ff]/52 bg-[#c9c0ff]/16 text-white"
-                            : "border-white/10 bg-black/18 text-white/58 hover:border-[#c9c0ff]/35 hover:text-white"
-                        }`}
-                      >
-                        {chip}
-                      </button>
-                    ))}
-                  </div>
-                  <input
-                    value={returnFocus}
-                    onChange={(event) => setReturnFocus(event.target.value)}
-                    placeholder={returnCopy.defaultFocus}
-                    className="mt-3 min-h-11 w-full rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
-                  />
-                </div>
-
-                <label className="grid gap-2">
-                  <span className="text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.noteLabel}</span>
-                  <textarea
-                    value={returnNote}
-                    onChange={(event) => setReturnNote(event.target.value)}
-                    placeholder={returnCopy.notePlaceholder}
-                    className="min-h-24 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
-                  />
-                </label>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-center">
-                {tomorrowReturnCommitment ? (
-                  <p className="text-xs leading-5 text-white/45">
-                    {returnCopy.savedPrefix}: {tomorrowReturnCommitment.target_date} · {tomorrowReturnCommitment.focus}
-                  </p>
-                ) : (
-                  <p className="text-xs leading-5 text-white/45">{getNextDateKey(dateKey || getLocalDateKey())}</p>
-                )}
-                <button
-                  type="button"
-                  onClick={handleSaveReturnCommitment}
-                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/28 bg-[#c9c0ff]/[0.08] px-4 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
-                >
-                  {returnCopy.save}
-                </button>
-              </div>
-
-              {returnCommitmentStatus && <p className="text-xs text-[#c9c0ff]">{returnCommitmentStatus}</p>}
+        <article data-daily-return-commitment className="rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.04] p-5 sm:p-6">
+          <div className="flex flex-col gap-5">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{returnCopy.eyebrow}</p>
+              <h2 className="mt-2 font-serif text-xl leading-tight text-white">{returnCopy.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-white/58">{returnCopy.body}</p>
             </div>
-          </article>
-        )}
+
+            {todayReturnCommitment && (
+              <div className="rounded-lg border border-white/10 bg-black/18 p-4">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">{returnCopy.todayLabel}</p>
+                <p className="mt-2 text-sm font-medium leading-snug text-white">{todayReturnCommitment.focus}</p>
+                {todayReturnCommitment.note && (
+                  <p className="mt-2 text-sm leading-6 text-white/54">{todayReturnCommitment.note}</p>
+                )}
+              </div>
+            )}
+
+            <div className="grid gap-3">
+              <div>
+                <p className="mb-2 text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.tomorrowLabel}</p>
+                <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                  {returnCopy.chips.map((chip) => (
+                    <button
+                      key={chip}
+                      type="button"
+                      onClick={() => setReturnFocus(chip)}
+                      className={`inline-flex min-h-10 shrink-0 items-center rounded-full border px-3 text-xs transition ${
+                        returnFocus === chip
+                          ? "border-[#c9c0ff]/52 bg-[#c9c0ff]/16 text-white"
+                          : "border-white/10 bg-black/18 text-white/58 hover:border-[#c9c0ff]/35 hover:text-white"
+                      }`}
+                    >
+                      {chip}
+                    </button>
+                  ))}
+                </div>
+                <input
+                  value={returnFocus}
+                  onChange={(event) => setReturnFocus(event.target.value)}
+                  placeholder={returnCopy.defaultFocus}
+                  className="mt-3 min-h-11 w-full rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+                />
+              </div>
+
+              <label className="grid gap-2">
+                <span className="text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.noteLabel}</span>
+                <textarea
+                  value={returnNote}
+                  onChange={(event) => setReturnNote(event.target.value)}
+                  placeholder={returnCopy.notePlaceholder}
+                  className="min-h-24 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+                />
+              </label>
+            </div>
+
+            <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-center">
+              {tomorrowReturnCommitment ? (
+                <p className="text-xs leading-5 text-white/45">
+                  {returnCopy.savedPrefix}: {tomorrowReturnCommitment.target_date} · {tomorrowReturnCommitment.focus}
+                </p>
+              ) : (
+                <p className="text-xs leading-5 text-white/45">{getNextDateKey(dateKey || getLocalDateKey())}</p>
+              )}
+              <button
+                type="button"
+                onClick={handleSaveReturnCommitment}
+                className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/28 bg-[#c9c0ff]/[0.08] px-4 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
+              >
+                {returnCopy.save}
+              </button>
+            </div>
+
+            {returnCommitmentStatus && <p className="text-xs text-[#c9c0ff]">{returnCommitmentStatus}</p>}
+          </div>
+        </article>
 
         <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
           <div className="mb-4">
