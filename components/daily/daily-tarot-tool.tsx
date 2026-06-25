@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
-import { Bell, CalendarPlus, Loader2, Share2, Smartphone } from "lucide-react"
+import { Bell, CalendarPlus, Loader2, NotebookPen, Share2, Smartphone } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import {
@@ -27,6 +27,7 @@ import {
 import { getCardById, type DrawnCard } from "@/lib/tarot-cards"
 
 const storageKey = "poptarot_daily_seed"
+const quickActionTextClass = "min-w-0 text-center leading-tight"
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>
@@ -303,6 +304,13 @@ export function DailyTarotTool() {
   const { user, isLoggedIn, refreshUser } = useAuth()
   const { language } = useLanguage()
   const copy = useMemo(() => getDailyTarotCopy(language), [language])
+  const quickActionCopy = useMemo(
+    () => ({
+      draw: copy.draw === "Draw Today's Card" ? "Draw Card" : copy.draw,
+      calendar: copy.calendarReminder === "Add Calendar Reminder" ? "Add Calendar" : copy.calendarReminder,
+    }),
+    [copy.calendarReminder, copy.draw],
+  )
   const [dateKey, setDateKey] = useState("")
   const [card, setCard] = useState<DrawnCard | null>(null)
   const [entry, setEntry] = useState<DailyTarotEntry | null>(null)
@@ -847,6 +855,13 @@ export function DailyTarotTool() {
     })
   }
 
+  const scrollToJournal = () => {
+    document.querySelector("[data-daily-journal-form]")?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    })
+  }
+
   const handleInstallPrompt = async () => {
     if (!installPrompt) {
       setInstallStatus(copy.installFallback)
@@ -1065,7 +1080,8 @@ export function DailyTarotTool() {
     return `/input?${params.toString()}`
   }, [dailyPattern.dominantTheme, language, patternCopy.patternQuestion])
   const hasReading = Boolean(interpretation)
-  const stickyPrimaryLabel = hasReading ? shareCopy.button : isDrawing ? copy.drawing : copy.draw
+  const stickyPrimaryLabel = hasReading ? shareCopy.button : isDrawing ? copy.drawing : quickActionCopy.draw
+  const stickyPrimaryTitle = hasReading ? shareCopy.button : copy.draw
   const stickyPrimaryDisabled = hasReading ? isCreatingShare || isDrawing : isDrawing
 
   return (
@@ -1075,20 +1091,14 @@ export function DailyTarotTool() {
         className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#090411]/92 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_50px_rgba(0,0,0,0.42)] backdrop-blur-xl sm:hidden"
       >
         <div className="mx-auto flex max-w-md items-center gap-2">
-          <div className="min-w-0 flex-1">
-            <p className="truncate text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">{copy.eyebrow}</p>
-            <p className="mt-1 truncate text-xs text-white/52">
-              {displayName || copy.streak} · {streak} {copy.days}
-            </p>
-          </div>
           <button
             type="button"
             onClick={scrollToReminder}
             aria-label={copy.reminderTitle}
-            className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-white/12 px-3 text-xs text-white/70 transition hover:border-white/30 hover:text-white"
+            title={copy.reminderTitle}
+            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/12 text-white/70 transition hover:border-white/30 hover:text-white"
           >
             <Bell className="h-4 w-4" aria-hidden="true" />
-            <span>{copy.reminderTitle}</span>
           </button>
           {calendarReminderAvailable && (
             <button
@@ -1097,7 +1107,7 @@ export function DailyTarotTool() {
               onClick={handleDownloadCalendarReminder}
               aria-label={copy.calendarReminder}
               title={copy.calendarReminder}
-              className="inline-flex min-h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#c9c0ff]/26 bg-[#c9c0ff]/[0.08] text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
+              className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-[#c9c0ff]/26 bg-[#c9c0ff]/[0.08] text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
             >
               <CalendarPlus className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -1106,14 +1116,15 @@ export function DailyTarotTool() {
             type="button"
             onClick={hasReading ? handleShare : handleDraw}
             disabled={stickyPrimaryDisabled}
-            className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-xs font-medium text-[#120c22] shadow-[0_12px_30px_rgba(146,132,239,0.24)] transition hover:brightness-110 disabled:opacity-60"
+            title={stickyPrimaryTitle}
+            className="inline-flex min-h-11 min-w-0 flex-1 items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-xs font-medium text-[#120c22] shadow-[0_12px_30px_rgba(146,132,239,0.24)] transition hover:brightness-110 disabled:opacity-60"
           >
             {isDrawing || (hasReading && isCreatingShare) ? (
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
             ) : hasReading ? (
               <Share2 className="h-4 w-4" aria-hidden="true" />
             ) : null}
-            <span>{stickyPrimaryLabel}</span>
+            <span className={quickActionTextClass}>{stickyPrimaryLabel}</span>
           </button>
         </div>
       </div>
@@ -1135,6 +1146,62 @@ export function DailyTarotTool() {
               {copy.streak} · {copy.days}
             </p>
           </div>
+        </div>
+
+        <div data-daily-quick-actions className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <button
+            type="button"
+            data-daily-quick-action="draw"
+            onClick={handleDraw}
+            disabled={isDrawing}
+            title={copy.draw}
+            className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/26 bg-[#c9c0ff]/[0.08] px-3 text-xs font-medium text-[#f2edff] transition hover:border-[#c9c0ff]/45 hover:bg-[#c9c0ff]/[0.13] disabled:opacity-55"
+          >
+            {isDrawing ? <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" /> : null}
+            <span className={quickActionTextClass}>{isDrawing ? copy.drawing : quickActionCopy.draw}</span>
+          </button>
+          <button
+            type="button"
+            data-daily-quick-action="journal"
+            onClick={scrollToJournal}
+            className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white"
+          >
+            <NotebookPen className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className={quickActionTextClass}>{copy.saveJournal}</span>
+          </button>
+          <button
+            type="button"
+            data-daily-quick-action="reminder"
+            onClick={scrollToReminder}
+            className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white"
+          >
+            <Bell className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className={quickActionTextClass}>{copy.reminderTitle}</span>
+          </button>
+          <button
+            type="button"
+            data-daily-quick-action="calendar"
+            onClick={handleDownloadCalendarReminder}
+            title={copy.calendarReminder}
+            className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white"
+          >
+            <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span className={quickActionTextClass}>{quickActionCopy.calendar}</span>
+          </button>
+          <button
+            type="button"
+            data-daily-quick-action="share"
+            onClick={handleShare}
+            disabled={!hasReading || isCreatingShare || isDrawing}
+            className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white disabled:opacity-42"
+          >
+            {isCreatingShare ? (
+              <Loader2 className="h-4 w-4 shrink-0 animate-spin" aria-hidden="true" />
+            ) : (
+              <Share2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+            )}
+            <span className={quickActionTextClass}>{shareCopy.button}</span>
+          </button>
         </div>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-[220px_1fr]">
@@ -1223,7 +1290,7 @@ export function DailyTarotTool() {
           {installStatus && <p className="mt-3 text-xs leading-5 text-white/45">{installStatus}</p>}
         </article>
 
-        <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+        <article data-daily-journal-form className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
           <div className="mb-4">
             <h2 className="font-serif text-xl text-white">AI Reading</h2>
           </div>
