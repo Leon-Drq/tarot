@@ -1245,6 +1245,7 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
     const name = localizedCardName(card, locale)
     const upright = localizedKeywords(card, locale, "upright")
     const reversed = localizedKeywords(card, locale, "reversed")
+    const theme = suitThemes[locale][getCardSuit(card)]
 
     return [
       {
@@ -1282,6 +1283,18 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
         answer: isEs
           ? `Usala como una senal de reflexion y accion. Observa el patron que nombra la carta y elige un siguiente paso practico en lugar de tratarla como destino fijo.`
           : `Use como um sinal de reflexao e acao. Observe o padrao que a carta nomeia e escolha um proximo passo pratico em vez de trata-la como destino fixo.`,
+      },
+      {
+        question: isEs ? `Que significa ${name} para carrera y dinero?` : `O que ${name} significa para carreira e dinheiro?`,
+        answer: isEs
+          ? `Para carrera y dinero, ${name} conecta ${theme} con recursos reales, ritmo y decisiones que puedes controlar. Normal puede apoyar ${upright}; invertida pide revisar ${reversed} antes de avanzar.`
+          : `Para carreira e dinheiro, ${name} conecta ${theme} com recursos reais, ritmo e decisoes que voce pode controlar. Normal pode apoiar ${upright}; invertida pede revisar ${reversed} antes de avancar.`,
+      },
+      {
+        question: isEs ? `Cual es el mejor consejo de ${name}?` : `Qual e o melhor conselho de ${name}?`,
+        answer: isEs
+          ? `El mejor consejo es convertir la carta en una accion pequena y verificable: nombra el patron, revisa la informacion que falta y evita buscar solo confirmacion.`
+          : `O melhor conselho e transformar a carta em uma acao pequena e verificavel: nomeie o padrao, revise a informacao que falta e evite buscar apenas confirmacao.`,
       },
     ]
   }

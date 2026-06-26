@@ -663,6 +663,48 @@ for (const [file, needle, label] of dynamicOgCoverage) {
   assertIncludes(file, needle, label)
 }
 
+const tarotCardRankingCoverage = [
+  [files.tarotCardSeo, "function createDeepSections", "card page deep section generator"],
+  [files.tarotCardSeo, "${englishName} in Love", "English card love meaning section"],
+  [files.tarotCardSeo, "${englishName} in Career", "English card career meaning section"],
+  [files.tarotCardSeo, "${englishName} for Money", "English card money meaning section"],
+  [files.tarotCardSeo, "${englishName} Yes or No", "English card yes-or-no meaning section"],
+  [files.tarotCardSeo, "Advice from", "English card advice section"],
+  [files.tarotCardSeo, "function createCombinations", "card combination generator"],
+  [files.tarotCardSeo, "function createCardFaqs", "card FAQ generator"],
+  [files.tarotCardSeo, "What does ${englishName} mean upright?", "English upright FAQ"],
+  [files.tarotCardSeo, "What does ${englishName} mean reversed?", "English reversed FAQ"],
+  [files.tarotCardSeo, "What does ${englishName} mean in love?", "English love FAQ"],
+  [files.tarotCardSeo, "What does ${englishName} mean for career and money?", "English career and money FAQ"],
+  [files.tarotCardSeo, "What is the best advice from ${englishName}?", "English advice FAQ"],
+  [files.tarotCardSeo, "createRegionalCoreSections(card, \"es\", theme)", "Spanish card core sections"],
+  [files.tarotCardSeo, "createRegionalCoreSections(card, \"pt-br\", theme)", "Portuguese card core sections"],
+  [files.tarotCardSeo, "Que significa ${name} para carrera y dinero?", "Spanish career and money FAQ"],
+  [files.tarotCardSeo, "O que ${name} significa para carreira e dinheiro?", "Portuguese career and money FAQ"],
+  [files.tarotCardSeo, "Cual es el mejor consejo de ${name}?", "Spanish advice FAQ"],
+  [files.tarotCardSeo, "Qual e o melhor conselho de ${name}?", "Portuguese advice FAQ"],
+  [files.tarotCardSeo, "majorKeywordSets", "major arcana regional keyword data"],
+  [files.tarotCardSeo, "regionalCardNames", "Spanish and Portuguese card names"],
+  [files.cardMeaningPage, "id=\"upright\"", "card page upright anchor"],
+  [files.cardMeaningPage, "id=\"reversed\"", "card page reversed anchor"],
+  [files.cardMeaningPage, "id=\"context-signals\"", "card page context signal anchor"],
+  [files.cardMeaningPage, "id=\"combinations\"", "card page combinations anchor"],
+  [files.cardMeaningPage, "id=\"example-readings\"", "card page example readings anchor"],
+  [files.cardMeaningPage, "id=\"faq\"", "card page FAQ anchor"],
+  [files.cardMeaningPage, "data-card-context-signal-grid", "card page English context grid"],
+  [files.cardMeaningPage, "data-card-context-signal-link", "card page context grid free spread links"],
+  [files.cardMeaningPage, "\"@type\": \"FAQPage\"", "card page FAQ structured data"],
+  [files.cardMeaningPage, "\"@id\": `${appUrl}${page.path}#card-combinations`", "card page combinations structured data"],
+  [files.cardMeaningPage, "\"@id\": `${appUrl}${page.path}#example-readings`", "card page examples structured data"],
+  [files.cardMeaningPage, "Daily Tarot", "card page Daily Tarot retention path"],
+  [files.cardMeaningPage, "Free AI Tarot Reading", "card page free tool path"],
+  [files.cardMeaningPage, "Monthly Tarot Report", "card page member feature path"],
+]
+
+for (const [file, needle, label] of tarotCardRankingCoverage) {
+  assertIncludes(file, needle, label)
+}
+
 const crawlHygieneCoverage = [
   [files.robots, '"/input"', "input flow robots disallow"],
   [files.robots, '"/reading"', "reading flow robots disallow"],
