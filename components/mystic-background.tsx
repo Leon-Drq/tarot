@@ -548,7 +548,10 @@ function HomeScrollContent() {
     }[language]
 
   return (
-    <section className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-28 sm:pt-24">
+    <section
+      data-home-scroll-content
+      className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-36 sm:pt-28"
+    >
       <div className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.eyebrow}</p>
         <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{copy.title}</h2>

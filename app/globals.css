@@ -201,8 +201,8 @@
     --home-hero-glow-size: min(82vw, 30rem);
     --home-hero-flow-gap: clamp(2.75rem, 7vh, 3.5rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
-    --home-hero-content-reserve: 60rem;
-    --home-hero-shell-min-height: max(176vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+    --home-hero-content-reserve: 72rem;
+    --home-hero-shell-min-height: max(205vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
   }
 
   .home-hero-shell {
@@ -213,7 +213,7 @@
     .home-hero-stage {
       --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58svh, 28.5rem));
       --home-hero-flow-gap: clamp(2.75rem, 7svh, 3.5rem);
-      --home-hero-shell-min-height: max(176svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+      --home-hero-shell-min-height: max(205svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
     }
   }
 
