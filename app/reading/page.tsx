@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Archive, Copy, Instagram, Share2 } from "lucide-react"
+import { Archive, Copy, Instagram, Mail, Share2 } from "lucide-react"
 import type { DrawnCard } from "@/lib/tarot-cards"
 import { getCardName } from "@/lib/tarot-cards"
 import BlurText from "@/components/ui/blur-text"
@@ -72,6 +72,14 @@ export default function ReadingPage() {
         copied: "分享链接已复制",
         xhs: "小红书文案",
         instagram: "Instagram 文案",
+        emailSelf: "发到我的邮箱",
+        emailSubject: "我的 POPTarot 解读",
+        emailIntro: "这是我在 POPTarot 的免费 AI 塔罗解读，留给自己明天再看。",
+        emailCardsLabel: "抽到的牌",
+        emailInsightLabel: "AI 解读摘录",
+        emailOpenLabel: "打开解读",
+        emailDailyLabel: "明天继续每日塔罗",
+        emailOpened: "已打开邮件草稿",
         templateCopied: "分享文案已复制",
         fallbackGenerated: "已生成可分享文案；登录后可创建公开结果页。",
         fallbackCopied: "分享文案已复制；登录后可创建公开结果页。",
@@ -92,6 +100,14 @@ export default function ReadingPage() {
         copied: "Share link copied",
         xhs: "Xiaohongshu copy",
         instagram: "Instagram caption",
+        emailSelf: "Email to myself",
+        emailSubject: "My POPTarot reading",
+        emailIntro: "Here is my free AI tarot reading from POPTarot, saved so I can revisit it tomorrow.",
+        emailCardsLabel: "Cards",
+        emailInsightLabel: "AI insight excerpt",
+        emailOpenLabel: "Open reading",
+        emailDailyLabel: "Continue with Daily Tarot tomorrow",
+        emailOpened: "Email draft opened",
         templateCopied: "Share caption copied",
         fallbackGenerated: "Share caption ready. Log in to create a public result page.",
         fallbackCopied: "Share caption copied. Log in to create a public result page.",
@@ -112,6 +128,14 @@ export default function ReadingPage() {
         copied: "共有リンクをコピーしました",
         xhs: "小紅書テキスト",
         instagram: "Instagramキャプション",
+        emailSelf: "自分にメール",
+        emailSubject: "POPTarot リーディング",
+        emailIntro: "POPTarot の無料 AI タロットリーディングを、明日見返すために保存します。",
+        emailCardsLabel: "カード",
+        emailInsightLabel: "AIリーディング抜粋",
+        emailOpenLabel: "リーディングを開く",
+        emailDailyLabel: "明日のデイリータロットへ",
+        emailOpened: "メール下書きを開きました",
         templateCopied: "共有テキストをコピーしました",
         fallbackGenerated: "共有テキストを用意しました。ログインすると公開結果ページを作成できます。",
         fallbackCopied: "共有テキストをコピーしました。ログインすると公開結果ページを作成できます。",
@@ -132,6 +156,14 @@ export default function ReadingPage() {
         copied: "공유 링크를 복사했습니다",
         xhs: "샤오홍슈 문구",
         instagram: "Instagram 캡션",
+        emailSelf: "내 이메일로 보내기",
+        emailSubject: "나의 POPTarot 리딩",
+        emailIntro: "내일 다시 보기 위해 POPTarot 무료 AI 타로 리딩을 저장합니다.",
+        emailCardsLabel: "카드",
+        emailInsightLabel: "AI 해석 요약",
+        emailOpenLabel: "리딩 열기",
+        emailDailyLabel: "내일 데일리 타로 계속하기",
+        emailOpened: "이메일 초안이 열렸습니다",
         templateCopied: "공유 문구를 복사했습니다",
         fallbackGenerated: "공유 문구가 준비되었습니다. 로그인하면 공개 결과 페이지를 만들 수 있습니다.",
         fallbackCopied: "공유 문구를 복사했습니다. 로그인하면 공개 결과 페이지를 만들 수 있습니다.",
@@ -152,6 +184,14 @@ export default function ReadingPage() {
         copied: "Enlace copiado",
         xhs: "Texto Xiaohongshu",
         instagram: "Caption Instagram",
+        emailSelf: "Enviarme por email",
+        emailSubject: "Mi lectura POPTarot",
+        emailIntro: "Esta es mi lectura gratis de tarot con IA en POPTarot, guardada para revisarla manana.",
+        emailCardsLabel: "Cartas",
+        emailInsightLabel: "Extracto de la lectura IA",
+        emailOpenLabel: "Abrir lectura",
+        emailDailyLabel: "Continuar manana con Tarot Diario",
+        emailOpened: "Borrador de email abierto",
         templateCopied: "Texto copiado",
         fallbackGenerated: "Texto listo. Inicia sesion para crear una pagina publica.",
         fallbackCopied: "Texto copiado. Inicia sesion para crear una pagina publica.",
@@ -172,6 +212,14 @@ export default function ReadingPage() {
         copied: "Link copiado",
         xhs: "Texto Xiaohongshu",
         instagram: "Legenda Instagram",
+        emailSelf: "Enviar para meu email",
+        emailSubject: "Minha leitura POPTarot",
+        emailIntro: "Esta e minha leitura gratis de tarot com IA no POPTarot, salva para rever amanha.",
+        emailCardsLabel: "Cartas",
+        emailInsightLabel: "Trecho da leitura IA",
+        emailOpenLabel: "Abrir leitura",
+        emailDailyLabel: "Continuar amanha com Tarot Diario",
+        emailOpened: "Rascunho de email aberto",
         templateCopied: "Texto copiado",
         fallbackGenerated: "Texto pronto. Entre para criar uma pagina publica.",
         fallbackCopied: "Texto copiado. Entre para criar uma pagina publica.",
@@ -192,6 +240,14 @@ export default function ReadingPage() {
       copied: "Share link copied",
       xhs: "Xiaohongshu copy",
       instagram: "Instagram caption",
+      emailSelf: "Email to myself",
+      emailSubject: "My POPTarot reading",
+      emailIntro: "Here is my free AI tarot reading from POPTarot, saved so I can revisit it tomorrow.",
+      emailCardsLabel: "Cards",
+      emailInsightLabel: "AI insight excerpt",
+      emailOpenLabel: "Open reading",
+      emailDailyLabel: "Continue with Daily Tarot tomorrow",
+      emailOpened: "Email draft opened",
       templateCopied: "Share caption copied",
       fallbackGenerated: "Share caption ready. Log in to create a public result page.",
       fallbackCopied: "Share caption copied. Log in to create a public result page.",
@@ -710,6 +766,54 @@ export default function ReadingPage() {
       interpretation: getCurrentInterpretation(),
       url,
     })
+
+  const buildSelfEmailBody = () => {
+    const readingUrl = shareUrl || getFallbackShareUrl()
+    const dailyUrl = `${window.location.origin}${dailyReturnHref}`
+    const cards = drawnCards
+      .map((card, index) => {
+        const position = getLocalizedPosition(spreadConfig, index, activeReadingLocale)
+        const orientation = card.isReversed ? orientationCopy.reversed : orientationCopy.upright
+        return position
+          ? `${position}: ${getCardName(card, activeReadingLocale)} (${orientation})`
+          : `${getCardName(card, activeReadingLocale)} (${orientation})`
+      })
+      .join(" / ")
+    const excerpt = getCurrentInterpretation().replace(/\s+/g, " ").trim().slice(0, 900)
+
+    return [
+      shareCopy.emailIntro,
+      "",
+      question,
+      "",
+      `${shareCopy.emailCardsLabel}: ${cards}`,
+      "",
+      `${shareCopy.emailInsightLabel}:`,
+      excerpt,
+      "",
+      `${shareCopy.emailOpenLabel}: ${readingUrl}`,
+      `${shareCopy.emailDailyLabel}: ${dailyUrl}`,
+    ].join("\n")
+  }
+
+  const handleSelfEmail = () => {
+    if (drawnCards.length === 0) return
+
+    const subject = encodeURIComponent(shareCopy.emailSubject)
+    const body = encodeURIComponent(buildSelfEmailBody())
+    analyticsApi.track("reading_email_self_opened", {
+      ...getCurrentAttribution(),
+      locale: activeReadingLocale,
+      keyword: question,
+      reading_id: readingId,
+      metadata: {
+        spread_type: spreadType,
+        has_share_url: Boolean(shareUrl),
+      },
+    })
+    window.location.href = `mailto:?subject=${subject}&body=${body}`
+    setShareStatus(shareCopy.emailOpened)
+  }
 
   const trackFallbackShare = (platform: ShareTemplatePlatform, channel: "native" | "clipboard") => {
     analyticsApi.track("share_template_copied", {
@@ -1363,22 +1467,31 @@ export default function ReadingPage() {
                 </div>
               )}
 
-              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
                 <button
                   onClick={() => handleCopyShareTemplate("xhs")}
                   disabled={isCreatingShare || isReading}
-                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
                 >
-                  <Copy className="h-3.5 w-3.5" />
-                  {shareCopy.xhs}
+                  <Copy className="h-3.5 w-3.5 shrink-0" />
+                  <span className="min-w-0 break-words text-center leading-4">{shareCopy.xhs}</span>
                 </button>
                 <button
                   onClick={() => handleCopyShareTemplate("instagram")}
                   disabled={isCreatingShare || isReading}
-                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
                 >
-                  <Instagram className="h-3.5 w-3.5" />
-                  {shareCopy.instagram}
+                  <Instagram className="h-3.5 w-3.5 shrink-0" />
+                  <span className="min-w-0 break-words text-center leading-4">{shareCopy.instagram}</span>
+                </button>
+                <button
+                  onClick={handleSelfEmail}
+                  disabled={isCreatingShare || isReading || drawnCards.length === 0}
+                  data-reading-email-self
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white disabled:opacity-45"
+                >
+                  <Mail className="h-3.5 w-3.5 shrink-0" />
+                  <span className="min-w-0 break-words text-center leading-4">{shareCopy.emailSelf}</span>
                 </button>
               </div>
 

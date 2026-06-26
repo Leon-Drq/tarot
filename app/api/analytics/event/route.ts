@@ -9,6 +9,7 @@ const eventNames = new Set([
   "share_created",
   "share_session_only",
   "share_template_copied",
+  "reading_email_self_opened",
   "payment_started",
   "payment_completed",
 ])

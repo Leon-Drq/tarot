@@ -39,6 +39,10 @@ const files = {
     path: "components/daily/daily-tarot-tool.tsx",
     source: read("components/daily/daily-tarot-tool.tsx"),
   },
+  analyticsEventRoute: {
+    path: "app/api/analytics/event/route.ts",
+    source: read("app/api/analytics/event/route.ts"),
+  },
   homeExperience: {
     path: "components/mystic-background.tsx",
     source: read("components/mystic-background.tsx"),
@@ -955,6 +959,11 @@ const freeFirstReadingCoverage = [
   [files.readingPage, "fallback_share", "free reading fallback share URL"],
   [files.readingPage, "fallback: true", "free reading fallback share analytics metadata"],
   [files.readingPage, "share_template_copied", "free reading fallback share compatible analytics event"],
+  [files.readingPage, "data-reading-email-self", "free reading self-email CTA"],
+  [files.readingPage, "buildSelfEmailBody", "free reading self-email body helper"],
+  [files.readingPage, "mailto:?subject=", "free reading self-email mailto"],
+  [files.readingPage, "reading_email_self_opened", "free reading self-email analytics event"],
+  [files.analyticsEventRoute, "reading_email_self_opened", "analytics self-email event allowlist"],
   [files.readingPage, "activeReadingLocale", "reading result SEO locale UI state"],
   [files.readingPage, "shareTemplateLocale", "regional share template safe fallback"],
   [files.readingPage, "data-reading-return-path", "free reading daily return path"],
