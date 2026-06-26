@@ -12,6 +12,7 @@ import { MenuPanel } from "./menu-panel"
 import { LanguageSwitcher } from "./language-switcher"
 import { useLanguage } from "@/contexts/language-context"
 import { getLocalDateKey } from "@/lib/daily-tarot"
+import type { SpreadType } from "@/lib/spread-config"
 
 const DEFAULT_FRONT = "/images/0.png"
 const DEFAULT_BACK = "/images/back1.jpg"
@@ -34,6 +35,13 @@ function HomeQuestionForm() {
   const router = useRouter()
   const { language } = useLanguage()
   const [question, setQuestion] = useState("")
+  type QuickStartExample = {
+    label: string
+    question: string
+    campaign: string
+    spread?: SpreadType
+    href?: string
+  }
 
   const copy =
     {
@@ -42,44 +50,52 @@ function HomeQuestionForm() {
         placeholder: "输入你的问题...",
         action: "抽牌",
         examples: [
-          { label: "他对我是什么感觉？", question: "他对我是什么感觉？", campaign: "feelings" },
-          { label: "我该换工作吗？", question: "我该换工作吗？", campaign: "career_change" },
-          { label: "今天我需要注意什么？", question: "今天我需要注意什么？", campaign: "daily_guidance" },
-        ],
+          { label: "前任会回来吗？", question: "前任会回来吗？我该继续等还是放下？", campaign: "ex_return", spread: "breakup_recovery" },
+          { label: "他爱我吗？", question: "他爱我吗？这段关系真实的情绪是什么？", campaign: "does_he_love_me", spread: "their_thoughts" },
+          { label: "事业塔罗", question: "我现在的事业方向需要注意什么？", campaign: "career_tarot", spread: "job_opportunity" },
+          { label: "爱情 Yes / No", question: "请给我一个爱情问题的是或否方向，并解释原因。", campaign: "yes_no_love", spread: "yes_no" },
+          { label: "每日塔罗", question: "", campaign: "daily_tarot", href: "/daily-tarot?utm_source=home&utm_medium=hero_quick_start&utm_campaign=daily_tarot" },
+        ] satisfies QuickStartExample[],
       },
       en: {
         label: "Start with one real question",
         placeholder: "Ask your question...",
         action: "Draw",
         examples: [
-          { label: "Will my ex come back?", question: "Will my ex come back?", campaign: "ex_return" },
-          { label: "Should I quit my job?", question: "Should I quit my job?", campaign: "job_quit" },
-          { label: "What do I need today?", question: "What do I need today?", campaign: "daily_guidance" },
-        ],
+          { label: "Will my ex come back?", question: "Will my ex come back, and what should I understand before I act?", campaign: "ex_return", spread: "breakup_recovery" },
+          { label: "Does he love me?", question: "Does he love me, and what is the real emotional energy between us?", campaign: "does_he_love_me", spread: "their_thoughts" },
+          { label: "Career tarot", question: "What should I understand about my career path right now?", campaign: "career_tarot", spread: "job_opportunity" },
+          { label: "Yes / no love", question: "Give me a yes or no love tarot answer with the reason behind it.", campaign: "yes_no_love", spread: "yes_no" },
+          { label: "Daily Tarot", question: "", campaign: "daily_tarot", href: "/daily-tarot?utm_source=home&utm_medium=hero_quick_start&utm_campaign=daily_tarot" },
+        ] satisfies QuickStartExample[],
       },
       ja: {
         label: "ひとつの本当の質問から",
         placeholder: "質問を入力...",
         action: "引く",
         examples: [
-          { label: "相手の気持ちは？", question: "相手の気持ちは？", campaign: "feelings" },
-          { label: "転職すべき？", question: "転職すべき？", campaign: "career_change" },
-          { label: "今日必要なメッセージは？", question: "今日必要なメッセージは？", campaign: "daily_guidance" },
-        ],
+          { label: "元恋人は戻る？", question: "元恋人は戻りますか？行動する前に何を理解すべきですか？", campaign: "ex_return", spread: "breakup_recovery" },
+          { label: "彼は私を愛している？", question: "彼は私を愛していますか？二人の本当の感情は何ですか？", campaign: "does_he_love_me", spread: "their_thoughts" },
+          { label: "仕事のタロット", question: "今の仕事の流れについて何を理解すべきですか？", campaign: "career_tarot", spread: "job_opportunity" },
+          { label: "恋愛 Yes / No", question: "恋愛の質問に Yes / No と理由をください。", campaign: "yes_no_love", spread: "yes_no" },
+          { label: "今日のタロット", question: "", campaign: "daily_tarot", href: "/daily-tarot?utm_source=home&utm_medium=hero_quick_start&utm_campaign=daily_tarot" },
+        ] satisfies QuickStartExample[],
       },
       ko: {
         label: "진짜 질문 하나로 시작",
         placeholder: "질문을 입력하세요...",
         action: "뽑기",
         examples: [
-          { label: "그 사람 마음은?", question: "그 사람 마음은?", campaign: "feelings" },
-          { label: "이직해야 할까?", question: "이직해야 할까?", campaign: "career_change" },
-          { label: "오늘 필요한 조언은?", question: "오늘 필요한 조언은?", campaign: "daily_guidance" },
-        ],
+          { label: "전 애인이 돌아올까?", question: "전 애인이 돌아올까요? 행동하기 전에 무엇을 이해해야 하나요?", campaign: "ex_return", spread: "breakup_recovery" },
+          { label: "그는 나를 사랑할까?", question: "그는 나를 사랑하나요? 우리 사이의 진짜 감정은 무엇인가요?", campaign: "does_he_love_me", spread: "their_thoughts" },
+          { label: "커리어 타로", question: "지금 내 커리어 흐름에서 무엇을 이해해야 하나요?", campaign: "career_tarot", spread: "job_opportunity" },
+          { label: "연애 Yes / No", question: "연애 질문에 대해 예/아니오와 그 이유를 알려주세요.", campaign: "yes_no_love", spread: "yes_no" },
+          { label: "데일리 타로", question: "", campaign: "daily_tarot", href: "/daily-tarot?utm_source=home&utm_medium=hero_quick_start&utm_campaign=daily_tarot" },
+        ] satisfies QuickStartExample[],
       },
     }[language]
 
-  const startReading = (value: string, source: "home" | "home_example", campaign?: string) => {
+  const startReading = (value: string, source: "home" | "home_example", campaign?: string, spread: SpreadType = "three_card") => {
     const trimmed = value.trim()
     if (!trimmed) {
       router.push("/input?source=home&utm_source=home&utm_medium=hero_form")
@@ -90,15 +106,24 @@ function HomeQuestionForm() {
       q: trimmed,
       auto: "1",
       source,
-      spread: "three_card",
+      spread,
       lang: language,
       utm_source: "home",
-      utm_medium: source === "home_example" ? "hero_example" : "hero_form",
+      utm_medium: source === "home_example" ? "hero_quick_start" : "hero_form",
     })
 
     if (campaign) params.set("utm_campaign", campaign)
     sessionStorage.setItem("tarot_question", trimmed)
     router.push(`/input?${params.toString()}`)
+  }
+
+  const openExample = (example: QuickStartExample) => {
+    if (example.href) {
+      router.push(example.href)
+      return
+    }
+
+    startReading(example.question, "home_example", example.campaign, example.spread || "three_card")
   }
 
   const submitQuestion = (event: FormEvent<HTMLFormElement>) => {
@@ -133,13 +158,14 @@ function HomeQuestionForm() {
       >
         <span>{copy.action}</span>
       </button>
-      <div className="mt-3 flex flex-wrap justify-center gap-2 pb-1 md:pb-0">
+      <div data-home-hero-quick-start className="mt-3 flex flex-wrap justify-center gap-2 pb-1 md:pb-0">
         {copy.examples.map((example) => (
           <button
             key={example.campaign}
             type="button"
             data-home-example-start
-            onClick={() => startReading(example.question, "home_example", example.campaign)}
+            data-home-hero-quick-start-link
+            onClick={() => openExample(example)}
             className="inline-flex min-h-10 max-w-full items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-center text-[11px] leading-4 text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
           >
             {example.label}
