@@ -4,10 +4,12 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowRight, Bell, CalendarPlus, NotebookPen } from "lucide-react"
 import { ShareCopyActions } from "@/components/share/share-copy-actions"
+import { getSeoPage } from "@/lib/seo-pages"
 import { getSpreadConfig, isKnownSpreadType, type SpreadConfig } from "@/lib/spread-config"
 import { createAnonSupabase } from "@/lib/server/supabase"
 import {
   editorialTeamJsonLd,
+  highIntentQuestionLinks,
   organizationJsonLd,
   softwareApplicationJsonLd,
   trustLinks,
@@ -99,6 +101,75 @@ function sharedReadingHref(share: ReadingShare) {
   return `/input?${params.toString()}`
 }
 
+function questionSlugFromHref(href: string) {
+  return href.replace(/^\//, "")
+}
+
+function publicShareQuestionReadingHref(item: (typeof highIntentQuestionLinks)[number]) {
+  const slug = questionSlugFromHref(item.href)
+  const page = getSeoPage(slug, "en")
+  const params = new URLSearchParams({
+    q: page?.ctaQuestion || item.title,
+    auto: "1",
+    source: "public-share-related-question",
+    lang: "en",
+    utm_source: "share",
+    utm_medium: "public_share_related_question",
+    utm_campaign: slug,
+  })
+
+  if (page?.recommendedSpread) {
+    params.set("spread", page.recommendedSpread)
+  }
+
+  return `/input?${params.toString()}`
+}
+
+function relatedQuestionSlugs(share: ReadingShare) {
+  const text = `${share.question} ${share.spread_type || ""}`.toLowerCase()
+
+  if (/(career|job|work|quit|money|salary|interview|success|business|promotion)/.test(text)) {
+    return [
+      "career-tarot-reading",
+      "should-i-quit-my-job-tarot",
+      "will-i-get-the-job-tarot",
+      "money-tarot-reading",
+    ]
+  }
+
+  if (/(ex|come back|get back|miss|contact|reconcile|breakup|no contact)/.test(text)) {
+    return [
+      "will-my-ex-come-back-tarot",
+      "will-he-contact-me-tarot",
+      "does-my-ex-miss-me-tarot",
+      "will-we-get-back-together-tarot",
+    ]
+  }
+
+  if (/(love|relationship|\bhe\b|\bhim\b|\bhis\b|soulmate|feel|intention|text)/.test(text)) {
+    return [
+      "does-he-love-me-tarot",
+      "how-does-he-feel-about-me-tarot",
+      "yes-or-no-tarot-love",
+      "what-are-his-intentions-tarot",
+    ]
+  }
+
+  return [
+    "daily-love-tarot",
+    "daily-career-tarot",
+    "yes-or-no-tarot-love",
+    "will-i-be-successful-tarot",
+  ]
+}
+
+function publicShareRelatedQuestions(share: ReadingShare) {
+  const bySlug = new Map(highIntentQuestionLinks.map((item) => [questionSlugFromHref(item.href), item]))
+  return relatedQuestionSlugs(share)
+    .map((slug) => bySlug.get(slug))
+    .filter((item): item is (typeof highIntentQuestionLinks)[number] => Boolean(item))
+}
+
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params
   const share = await getShare(slug)
@@ -153,6 +224,7 @@ export default async function SharePage({ params }: Params) {
   const sameQuestionHref = sharedReadingHref(share)
   const spread = getShareSpreadContext(share.spread_type)
   const spreadName = spread.nameEn || spread.name
+  const relatedQuestions = publicShareRelatedQuestions(share)
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -208,6 +280,29 @@ export default async function SharePage({ params }: Params) {
         mainEntityOfPage: {
           "@id": `${appUrl}/share/${share.slug}#webpage`,
         },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}/share/${share.slug}#related-question-paths`,
+        name: "Related free tarot question paths",
+        description: "Long-tail tarot question pages connected from a public shared reading.",
+        numberOfItems: relatedQuestions.length,
+        itemListElement: relatedQuestions.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "WebPage",
+            name: item.title,
+            description: item.description,
+            url: `${appUrl}${item.href}`,
+            isAccessibleForFree: true,
+            potentialAction: {
+              "@type": "Action",
+              name: "Start related free tarot spread",
+              target: `${appUrl}${publicShareQuestionReadingHref(item)}`,
+            },
+          },
+        })),
       },
       {
         "@type": "BreadcrumbList",
@@ -368,6 +463,55 @@ export default async function SharePage({ params }: Params) {
                 Open Daily Tarot
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
+            </section>
+
+            <section
+              data-public-share-related-questions
+              className="mx-auto mt-4 max-w-3xl rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6"
+            >
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/72">Related free questions</p>
+                  <h2 className="mt-3 font-serif text-2xl leading-tight text-white">Keep exploring from a precise question</h2>
+                </div>
+                <Link
+                  href="/tarot-questions?utm_source=share&utm_medium=public_share_related_question&utm_campaign=question_hub"
+                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/28 px-4 py-2 text-xs text-[#eeeaff] transition hover:border-[#c9c0ff]/48 hover:bg-[#c9c0ff]/10"
+                >
+                  Browse all questions
+                </Link>
+              </div>
+              <p className="mt-3 text-sm leading-7 text-white/58">
+                If this shared reading is close but not exact, open a related long-tail page or go straight into its free spread.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {relatedQuestions.map((item) => (
+                  <article
+                    key={item.href}
+                    data-public-share-related-question-card
+                    className="flex min-w-0 flex-col rounded-lg border border-white/10 bg-black/18 p-4"
+                  >
+                    <h3 className="break-words text-sm font-medium leading-snug text-white">{item.title}</h3>
+                    <p className="mt-2 text-xs leading-5 text-white/52">{item.description}</p>
+                    <div className="mt-auto grid gap-2 pt-4">
+                      <Link
+                        data-public-share-related-question-start
+                        href={publicShareQuestionReadingHref(item)}
+                        className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/30 bg-[#c9c0ff]/[0.08] px-3 py-2 text-xs font-medium text-[#eeeaff] transition hover:bg-[#c9c0ff]/14"
+                      >
+                        Start free spread
+                      </Link>
+                      <Link
+                        data-public-share-related-question-guide
+                        href={item.href}
+                        className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-3 py-2 text-xs text-white/62 transition hover:border-[#c9c0ff]/35 hover:text-white"
+                      >
+                        Read guide
+                      </Link>
+                    </div>
+                  </article>
+                ))}
+              </div>
             </section>
 
             <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">

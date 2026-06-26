@@ -854,6 +854,14 @@ const publicShareConversionCoverage = [
   [files.sharePage, "Ask This Question Free", "public share same-question CTA"],
   [files.sharePage, "Start a New Question", "public share alternate new-question CTA"],
   [files.sharePage, "utm_medium: \"public_share\"", "public share attribution"],
+  [files.sharePage, "publicShareRelatedQuestions", "public share related question selector"],
+  [files.sharePage, "data-public-share-related-questions", "public share related questions section"],
+  [files.sharePage, "data-public-share-related-question-card", "public share related question cards"],
+  [files.sharePage, "data-public-share-related-question-start", "public share related question free-spread CTA"],
+  [files.sharePage, "data-public-share-related-question-guide", "public share related question guide CTA"],
+  [files.sharePage, "#related-question-paths", "public share related question structured data"],
+  [files.sharePage, "public_share_related_question", "public share related question attribution"],
+  [files.sharePage, "Start related free tarot spread", "public share related question structured action"],
 ]
 
 for (const [file, needle, label] of publicShareConversionCoverage) {
