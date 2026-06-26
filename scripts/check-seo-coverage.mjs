@@ -75,6 +75,10 @@ const files = {
   seoPages: { path: "lib/seo-pages.ts", source: read("lib/seo-pages.ts") },
   site: { path: "lib/site.ts", source: read("lib/site.ts") },
   spreadConfig: { path: "lib/spread-config.ts", source: read("lib/spread-config.ts") },
+  tarotSpreadsPage: {
+    path: "components/seo/tarot-spreads-page.tsx",
+    source: read("components/seo/tarot-spreads-page.tsx"),
+  },
   tarotQuestions: {
     path: "components/seo/tarot-questions-page.tsx",
     source: read("components/seo/tarot-questions-page.tsx"),
@@ -423,6 +427,13 @@ assertIncludes(files.freeToolsPage, "#reader-feedback", "free tools reader feedb
 assertIncludes(files.freeToolsPage, "#example-readings", "free tools example readings structured data")
 assertIncludes(files.freeToolsPage, "representativeTestimonials.slice(0, 3)", "free tools representative testimonial reuse")
 assertIncludes(files.freeToolsPage, "getTrustPage(\"tarot-reading-examples\")", "free tools sample reading example reuse")
+assertIncludes(files.tarotSpreadsPage, "data-spread-access-boundary", "tarot spreads visible free/member boundary")
+assertIncludes(files.tarotSpreadsPage, "#free-starter-spread-boundary", "tarot spreads boundary structured data")
+assertIncludes(files.tarotSpreadsPage, "isAdvancedSpreadType(type)", "tarot spreads advanced spread detection")
+assertIncludes(files.tarotSpreadsPage, "data-spread-access={isAdvanced ? \"member-depth\" : \"free\"}", "tarot spreads per-card access label")
+assertIncludes(files.tarotSpreadsPage, "data-spread-free-start-mode={isAdvanced ? \"starter\" : \"direct\"}", "tarot spreads free starter CTA mode")
+assertIncludes(files.tarotSpreadsPage, "Start free starter", "tarot spreads advanced free starter CTA")
+assertIncludes(files.tarotSpreadsPage, "isAccessibleForFree: !isAdvanced", "tarot spreads structured free access marker")
 assertIncludes(files.homeExperience, "data-home-example-start", "homepage one-tap example start CTA")
 assertIncludes(files.homeExperience, "data-home-hero-quick-start", "homepage quick-start visible section")
 assertIncludes(files.homeExperience, "data-home-hero-quick-start-link", "homepage quick-start link hook")

@@ -3,7 +3,7 @@ import Link from "next/link"
 import { ArrowLeft, ArrowUpRight } from "lucide-react"
 import { localeOpenGraph, type SeoLocale } from "@/lib/locales"
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, siteName, websiteJsonLd } from "@/lib/site"
-import { SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
+import { isAdvancedSpreadType, SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
 import { trustLastReviewed } from "@/lib/trust-signals"
 
 type TarotSpreadHubLocale = Extract<SeoLocale, "en" | "es" | "pt-br">
@@ -38,6 +38,15 @@ type SpreadHubCopy = {
   chooseBody: string
   positionsLabel: string
   startLabel: string
+  freeBadge: string
+  memberBadge: string
+  freeNote: string
+  memberNote: string
+  freeStarterLabel: string
+  boundaryEyebrow: string
+  boundaryTitle: string
+  boundaryBody: string
+  boundaryItems: Array<{ title: string; body: string }>
   cardLabel: (count: number) => string
 }
 
@@ -248,6 +257,20 @@ const copyByLocale = {
       "If the question is emotional, choose a relationship spread. If it is practical, choose a decision or career spread. If it is simple, start with one card.",
     positionsLabel: "Positions",
     startLabel: "Start this spread",
+    freeBadge: "Free",
+    memberBadge: "Member depth",
+    freeNote: "Available as a free starter spread.",
+    memberNote: "Open a free starter first; the full multi-card layout is reserved for membership depth.",
+    freeStarterLabel: "Start free starter",
+    boundaryEyebrow: "Free first",
+    boundaryTitle: "Start with the useful free version, upgrade only for depth",
+    boundaryBody:
+      "POPTarot keeps the first tarot experience free. Simple spreads open directly. Advanced spreads can start as a free starter reading, while the full layout belongs to deeper follow-ups, saved history, and membership reports.",
+    boundaryItems: [
+      { title: "Free starter spreads", body: "Yes/no, three-card, and choice spreads are the fastest way to get a useful first answer." },
+      { title: "Advanced spread depth", body: "Relationship, reconciliation, career, study, social, and love-potential layouts are richer member experiences." },
+      { title: "No payment before clarity", body: "Use the free flow first; membership should only matter after the first answer proves useful." },
+    ],
     cardLabel: (count: number) => `${count} card${count === 1 ? "" : "s"}`,
   },
   es: {
@@ -292,6 +315,20 @@ const copyByLocale = {
       "Si la pregunta es emocional, elige una tirada de relacion. Si es practica, usa una de decision o carrera. Si es simple, empieza con una carta.",
     positionsLabel: "Posiciones",
     startLabel: "Empezar esta tirada",
+    freeBadge: "Gratis",
+    memberBadge: "Profundidad miembro",
+    freeNote: "Disponible como tirada inicial gratis.",
+    memberNote: "Abre primero una version inicial gratis; la tirada completa de varias cartas queda para profundidad de membresia.",
+    freeStarterLabel: "Empezar gratis",
+    boundaryEyebrow: "Gratis primero",
+    boundaryTitle: "Empieza con una version gratis util y mejora solo si necesitas profundidad",
+    boundaryBody:
+      "POPTarot mantiene la primera experiencia de tarot gratis. Las tiradas simples se abren directamente. Las avanzadas pueden empezar como lectura inicial gratis; el diseno completo queda para seguimientos, historial y reportes de membresia.",
+    boundaryItems: [
+      { title: "Tiradas iniciales gratis", body: "Si/no, tres cartas y elecciones son la forma mas rapida de obtener una primera respuesta util." },
+      { title: "Profundidad avanzada", body: "Relacion, reconciliacion, carrera, estudios, social y potencial amoroso son experiencias mas ricas para miembros." },
+      { title: "Sin pago antes de claridad", body: "Usa primero el flujo gratis; la membresia importa solo despues de que la primera respuesta sea util." },
+    ],
     cardLabel: (count: number) => `${count} carta${count === 1 ? "" : "s"}`,
   },
   "pt-br": {
@@ -336,6 +373,20 @@ const copyByLocale = {
       "Se a pergunta e emocional, escolha uma tiragem de relacionamento. Se e pratica, use uma de decisao ou carreira. Se e simples, comece com uma carta.",
     positionsLabel: "Posicoes",
     startLabel: "Comecar esta tiragem",
+    freeBadge: "Gratis",
+    memberBadge: "Profundidade membro",
+    freeNote: "Disponivel como tiragem inicial gratis.",
+    memberNote: "Abra primeiro uma versao inicial gratis; o layout completo de varias cartas fica para profundidade de assinatura.",
+    freeStarterLabel: "Comecar gratis",
+    boundaryEyebrow: "Gratis primeiro",
+    boundaryTitle: "Comece com a versao gratis util e assine so se precisar aprofundar",
+    boundaryBody:
+      "POPTarot mantem a primeira experiencia de tarot gratis. Tiragens simples abrem direto. Tiragens avancadas podem comecar como leitura inicial gratis; o layout completo fica para aprofundamentos, historico e relatorios de assinatura.",
+    boundaryItems: [
+      { title: "Tiragens iniciais gratis", body: "Sim/nao, tres cartas e escolhas sao a forma mais rapida de receber uma primeira resposta util." },
+      { title: "Profundidade avancada", body: "Relacionamento, reconciliacao, carreira, estudos, social e potencial amoroso sao experiencias mais ricas para membros." },
+      { title: "Sem pagamento antes da clareza", body: "Use primeiro o fluxo gratis; assinatura so deve importar depois que a primeira resposta for util." },
+    ],
     cardLabel: (count: number) => `${count} carta${count === 1 ? "" : "s"}`,
   },
 } satisfies Record<TarotSpreadHubLocale, SpreadHubCopy>
@@ -415,9 +466,11 @@ function buildStructuredData(copy: SpreadHubCopy) {
         "@type": "ItemList",
         "@id": `${appUrl}${copy.path}#spread-list`,
         name: `${copy.title} on POPTarot`,
+        description: copy.boundaryBody,
         itemListElement: spreadOrder.map((type, index) => {
           const spread = SPREAD_CONFIGS[type]
           const spreadCopy = getSpreadCopy(type, copy.locale)
+          const isAdvanced = isAdvancedSpreadType(type)
           return {
             "@type": "ListItem",
             position: index + 1,
@@ -425,9 +478,15 @@ function buildStructuredData(copy: SpreadHubCopy) {
               "@type": "HowTo",
               name: spreadCopy.name,
               description: spreadCopy.description,
+              isAccessibleForFree: !isAdvanced,
               totalTime: "PT3M",
               supply: copy.cardLabel(spread.cardCount),
               url: `${appUrl}${spreadHref(type, copy.locale)}`,
+              potentialAction: {
+                "@type": "InteractAction",
+                name: isAdvanced ? copy.freeStarterLabel : copy.startLabel,
+                target: `${appUrl}${spreadHref(type, copy.locale)}`,
+              },
               step: spreadCopy.positions.map((position, positionIndex) => ({
                 "@type": "HowToStep",
                 position: positionIndex + 1,
@@ -437,6 +496,18 @@ function buildStructuredData(copy: SpreadHubCopy) {
             },
           }
         }),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${copy.path}#free-starter-spread-boundary`,
+        name: copy.boundaryTitle,
+        description: copy.boundaryBody,
+        itemListElement: copy.boundaryItems.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.title,
+          description: item.body,
+        })),
       },
       {
         "@type": "BreadcrumbList",
@@ -527,6 +598,26 @@ export function TarotSpreadsPageView({ locale }: { locale: TarotSpreadHubLocale 
               </article>
             ))}
           </div>
+          <section
+            data-spread-access-boundary
+            className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.045] p-5 sm:p-6"
+          >
+            <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/78">{copy.boundaryEyebrow}</p>
+            <div className="mt-3 grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+              <div>
+                <h2 className="font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.boundaryTitle}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{copy.boundaryBody}</p>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-3">
+                {copy.boundaryItems.map((item) => (
+                  <article key={item.title} className="min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4">
+                    <h3 className="text-sm font-medium leading-6 text-white">{item.title}</h3>
+                    <p className="mt-2 text-xs leading-5 text-white/54">{item.body}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
         </div>
       </section>
 
@@ -535,8 +626,14 @@ export function TarotSpreadsPageView({ locale }: { locale: TarotSpreadHubLocale 
           {spreadOrder.map((type) => {
             const spread = SPREAD_CONFIGS[type]
             const spreadCopy = getSpreadCopy(type, copy.locale)
+            const isAdvanced = isAdvancedSpreadType(type)
             return (
-              <article key={type} className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+              <article
+                key={type}
+                data-spread-card
+                data-spread-access={isAdvanced ? "member-depth" : "free"}
+                className="rounded-lg border border-white/10 bg-white/[0.035] p-5"
+              >
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">
@@ -549,6 +646,21 @@ export function TarotSpreadsPageView({ locale }: { locale: TarotSpreadHubLocale 
                   </span>
                 </div>
                 <p className="mt-4 text-sm leading-7 text-white/62">{spreadCopy.description}</p>
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                  <span
+                    data-spread-access-badge
+                    className={`rounded-lg border px-3 py-1.5 text-xs ${
+                      isAdvanced
+                        ? "border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.06] text-[#d9d2ff]"
+                        : "border-emerald-300/20 bg-emerald-300/[0.08] text-emerald-100/86"
+                    }`}
+                  >
+                    {isAdvanced ? copy.memberBadge : copy.freeBadge}
+                  </span>
+                  <span className="min-w-0 text-xs leading-5 text-white/46">
+                    {isAdvanced ? copy.memberNote : copy.freeNote}
+                  </span>
+                </div>
                 <div className="mt-4 border-t border-white/10 pt-4">
                   <p className="text-xs uppercase tracking-[0.16em] text-white/36">{copy.positionsLabel}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -564,9 +676,11 @@ export function TarotSpreadsPageView({ locale }: { locale: TarotSpreadHubLocale 
                 </div>
                 <Link
                   href={spreadHref(type, copy.locale)}
+                  data-spread-free-start
+                  data-spread-free-start-mode={isAdvanced ? "starter" : "direct"}
                   className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_50%,#8f80ee_100%)] px-4 py-2 text-sm font-medium text-[#120c22] shadow-[0_18px_45px_rgba(143,128,238,0.2)] transition hover:brightness-110 sm:w-auto"
                 >
-                  {copy.startLabel}
+                  {isAdvanced ? copy.freeStarterLabel : copy.startLabel}
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </article>
@@ -589,16 +703,25 @@ export function TarotSpreadsPageView({ locale }: { locale: TarotSpreadHubLocale 
                 <h3 className="mt-3 font-serif text-2xl text-white">{group.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-white/58">{group.body}</p>
                 <div className="mt-4 space-y-2">
-                  {group.spreads.map((type) => (
-                    <Link
-                      key={type}
-                      href={spreadHref(type, copy.locale)}
-                      className="flex min-h-10 items-center justify-between gap-3 rounded-lg border border-white/10 px-3 py-2 text-sm text-white/66 transition hover:border-[#bfb6ff]/35 hover:bg-white/[0.04] hover:text-white"
-                    >
-                      {getSpreadCopy(type, copy.locale).name}
-                      <ArrowUpRight className="h-4 w-4 shrink-0" />
-                    </Link>
-                  ))}
+                  {group.spreads.map((type) => {
+                    const isAdvanced = isAdvancedSpreadType(type)
+
+                    return (
+                      <Link
+                        key={type}
+                        href={spreadHref(type, copy.locale)}
+                        data-spread-group-start
+                        data-spread-free-start-mode={isAdvanced ? "starter" : "direct"}
+                        className="flex min-h-10 items-center justify-between gap-3 rounded-lg border border-white/10 px-3 py-2 text-sm text-white/66 transition hover:border-[#bfb6ff]/35 hover:bg-white/[0.04] hover:text-white"
+                      >
+                        <span className="min-w-0 flex-1 break-words">{getSpreadCopy(type, copy.locale).name}</span>
+                        <span className="shrink-0 text-xs text-[#c9c0ff]/68">
+                          {isAdvanced ? copy.freeStarterLabel : copy.freeBadge}
+                        </span>
+                        <ArrowUpRight className="h-4 w-4 shrink-0" />
+                      </Link>
+                    )
+                  })}
                 </div>
               </article>
             ))}
