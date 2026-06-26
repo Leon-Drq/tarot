@@ -1,4 +1,4 @@
-import { writeFile } from "node:fs/promises"
+import { copyFile, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import sharp from "sharp"
 
@@ -51,6 +51,8 @@ const favicon96 = await png(96, "favicon-96x96.png")
 const icon192 = await png(192, "icon-192x192.png")
 const icon512 = await png(512, "icon-512x512.png")
 await writeFile(join(publicDir, "icon.png"), icon512)
+await writeFile(join(publicDir, "logo.png"), icon512)
+await copyFile(source, join(publicDir, "logo.svg"))
 await png(180, "apple-touch-icon.png")
 await png(180, "apple-icon.png")
 await png(32, "icon-light-32x32.png")

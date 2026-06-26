@@ -5,6 +5,8 @@ export const siteName = "POPTarot"
 export const siteTitle = "POPTarot - Free AI Tarot Reading"
 export const siteDescription =
   "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
+export const brandIconVersion = "20260626"
+export const brandLogoPath = "/logo.png"
 
 function verifiedExternalUrl(value: string | undefined) {
   if (!value) return ""
@@ -91,8 +93,8 @@ export const brandVerificationFacts = [
   },
   {
     label: "Primary logo asset",
-    value: "/icon-512x512.png",
-    body: "The 512 x 512 PT monogram icon is the canonical Organization logo and app icon used for search, manifest, and brand verification.",
+    value: brandLogoPath,
+    body: "The 512 x 512 PT monogram logo is the canonical Organization logo used for search identity, structured data, and brand verification.",
     href: "/brand-assets",
   },
   {
@@ -350,7 +352,7 @@ export function organizationJsonLd() {
       {
         "@type": "PropertyValue",
         propertyID: "canonical-logo",
-        value: `${appUrl}/icon-512x512.png`,
+        value: `${appUrl}${brandLogoPath}`,
         url: `${appUrl}/brand-assets`,
       },
     ],
@@ -368,8 +370,8 @@ export function organizationJsonLd() {
     logo: {
       "@type": "ImageObject",
       "@id": `${appUrl}/#logo`,
-      url: `${appUrl}/icon-512x512.png`,
-      contentUrl: `${appUrl}/icon-512x512.png`,
+      url: `${appUrl}${brandLogoPath}`,
+      contentUrl: `${appUrl}${brandLogoPath}`,
       width: 512,
       height: 512,
       caption: "POPTarot logo",
@@ -476,7 +478,7 @@ export function websiteJsonLd() {
     image: {
       "@id": `${appUrl}/#brand-image`,
     },
-    thumbnailUrl: `${appUrl}/icon-512x512.png`,
+    thumbnailUrl: `${appUrl}${brandLogoPath}`,
     about: {
       "@id": `${appUrl}/#brand`,
     },

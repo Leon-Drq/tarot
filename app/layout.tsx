@@ -6,7 +6,7 @@ import { AuthProvider } from "@/contexts/auth-context"
 import { LanguageProvider } from "@/contexts/language-context"
 import { AudioProvider } from "@/contexts/audio-context"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
-import { appUrl, siteDescription, siteName, siteTitle } from "@/lib/site"
+import { appUrl, brandIconVersion, brandLogoPath, siteDescription, siteName, siteTitle } from "@/lib/site"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -56,6 +56,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: `/favicon-48x48.png?v=${brandIconVersion}`, sizes: "48x48", type: "image/png" },
+      { url: `/favicon-96x96.png?v=${brandIconVersion}`, sizes: "96x96", type: "image/png" },
+      { url: `/favicon.ico?v=${brandIconVersion}`, sizes: "any" },
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
@@ -64,7 +67,7 @@ export const metadata: Metadata = {
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: "/favicon.ico",
+    shortcut: `/favicon.ico?v=${brandIconVersion}`,
   },
   manifest: "/manifest.webmanifest",
   openGraph: {
@@ -104,7 +107,8 @@ export const metadata: Metadata = {
   other: {
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#160B2E",
-    "msapplication-TileImage": "/icon.png",
+    "msapplication-TileImage": brandLogoPath,
+    thumbnail: brandLogoPath,
   },
 }
 

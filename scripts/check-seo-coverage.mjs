@@ -50,6 +50,7 @@ const files = {
   globalStyles: { path: "app/globals.css", source: read("app/globals.css") },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
   iconSvg: { path: "public/icon.svg", source: read("public/icon.svg") },
+  logoSvg: { path: "public/logo.svg", source: existsSync(join(root, "public/logo.svg")) ? read("public/logo.svg") : "" },
   robots: { path: "app/robots.ts", source: read("app/robots.ts") },
   vercelConfig: { path: "vercel.json", source: read("vercel.json") },
   tarotCardSeo: { path: "lib/tarot-card-seo.ts", source: read("lib/tarot-card-seo.ts") },
@@ -699,7 +700,8 @@ for (const [file, needle, label] of trustDataCoverage) {
 
 const structuredDataCoverage = [
   [files.site, "logo: {", "Organization logo"],
-  [files.site, "/icon-512x512.png", "Organization logo asset"],
+  [files.site, "brandLogoPath = \"/logo.png\"", "canonical logo path constant"],
+  [files.site, "`${appUrl}${brandLogoPath}`", "Organization logo asset"],
   [files.site, "Official brand name", "Organization official brand fact"],
   [files.site, "Canonical domain", "Organization canonical domain fact"],
   [files.site, "Free product stance", "Organization free product stance fact"],
@@ -729,6 +731,9 @@ for (const [file, needle, label] of structuredDataCoverage) {
 
 const identityMetadataCoverage = [
   [files.layout, "manifest: \"/manifest.webmanifest\"", "web app manifest metadata"],
+  [files.layout, "`/favicon-48x48.png?v=${brandIconVersion}`", "versioned 48px favicon metadata"],
+  [files.layout, "`/favicon.ico?v=${brandIconVersion}`", "versioned ICO favicon metadata"],
+  [files.layout, "thumbnail: brandLogoPath", "thumbnail logo metadata"],
   [files.layout, "/favicon.ico", "ICO favicon metadata"],
   [files.layout, "/favicon-32x32.png", "32px favicon metadata"],
   [files.layout, "/favicon-48x48.png", "48px favicon metadata"],
@@ -745,9 +750,11 @@ const identityMetadataCoverage = [
   [files.manifest, "\"src\": \"/icon.png\"", "canonical PNG manifest icon"],
   [files.manifest, "\"src\": \"/icon-512x512.png\"", "512px manifest icon"],
   [files.iconSvg, "viewBox=\"0 0 512 512\"", "512px SVG icon viewBox"],
+  [files.logoSvg, "viewBox=\"0 0 512 512\"", "512px SVG logo viewBox"],
   [files.iconSvg, "#140E24", "POPTarot dark icon background"],
   [files.iconSvg, "#B8A5FF", "POPTarot lavender icon mark"],
-  [files.trustPages, "PT monogram icon", "brand asset PT monogram copy"],
+  [files.trustPages, "PT monogram logo", "brand asset PT monogram copy"],
+  [files.trustPages, "48 x 48 search favicon", "brand asset favicon copy"],
   [files.trustPages, "SVG icon", "brand asset SVG icon consistency copy"],
 ]
 
@@ -845,6 +852,8 @@ for (const [path, label] of [
   ["public/favicon-48x48.png", "48px favicon"],
   ["public/favicon-96x96.png", "96px favicon"],
   ["public/apple-touch-icon.png", "Apple touch icon"],
+  ["public/logo.png", "canonical logo"],
+  ["public/logo.svg", "canonical SVG logo"],
   ["public/icon-192x192.png", "192px app icon"],
   ["public/icon.png", "canonical PNG app icon"],
   ["public/icon-512x512.png", "512px app icon"],
