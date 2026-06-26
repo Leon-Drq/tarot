@@ -260,6 +260,51 @@ export default function ReadingPage() {
       saveButton: "Upgrade to save history",
     }
 
+  const shareFreeLoopCopy =
+    {
+      zh: {
+        eyebrow: "免费分享链路",
+        title: "先分享和回访，不急着升级",
+        body: "公开结果页、社媒文案和发给自己的邮件都可以先免费完成；会员只用于保存历史、深度追问和月度报告。",
+        steps: ["公开结果页", "社媒文案", "发给自己"],
+      },
+      en: {
+        eyebrow: "Free share loop",
+        title: "Share and revisit first, upgrade later",
+        body: "Public result pages, social captions, and self-email are available before membership. Upgrades stay for saved history, deeper follow-ups, and monthly reports.",
+        steps: ["Public result page", "Social caption", "Email yourself"],
+      },
+      ja: {
+        eyebrow: "無料共有ループ",
+        title: "まず共有と再訪、アップグレードは後で",
+        body: "公開結果ページ、SNS用テキスト、自分宛メールは会員登録前に使えます。会員機能は履歴保存、深い追質問、月次レポート用です。",
+        steps: ["公開結果ページ", "SNSテキスト", "自分にメール"],
+      },
+      ko: {
+        eyebrow: "무료 공유 루프",
+        title: "먼저 공유하고 다시 보기, 업그레이드는 나중에",
+        body: "공개 결과 페이지, 소셜 문구, 내 이메일 저장은 멤버십 전에도 사용할 수 있습니다. 업그레이드는 기록 저장, 심층 질문, 월간 리포트에만 둡니다.",
+        steps: ["공개 결과 페이지", "소셜 문구", "내 이메일"],
+      },
+      es: {
+        eyebrow: "Bucle gratis",
+        title: "Comparte y vuelve primero, mejora despues",
+        body: "La pagina publica, los textos sociales y el email personal estan disponibles antes de la membresia. El upgrade queda para historial, preguntas profundas e informes mensuales.",
+        steps: ["Pagina publica", "Texto social", "Email propio"],
+      },
+      "pt-br": {
+        eyebrow: "Loop gratis",
+        title: "Compartilhe e volte primeiro, assine depois",
+        body: "Pagina publica, textos sociais e email para voce ficam disponiveis antes da assinatura. O upgrade fica para historico, perguntas profundas e relatorios mensais.",
+        steps: ["Pagina publica", "Texto social", "Email proprio"],
+      },
+    }[activeReadingLocale] || {
+      eyebrow: "Free share loop",
+      title: "Share and revisit first, upgrade later",
+      body: "Public result pages, social captions, and self-email are available before membership. Upgrades stay for saved history, deeper follow-ups, and monthly reports.",
+      steps: ["Public result page", "Social caption", "Email yourself"],
+    }
+
   const statusCopy =
     {
       zh: {
@@ -1452,6 +1497,28 @@ export default function ReadingPage() {
                   <Share2 className="h-4 w-4" />
                   {isCreatingShare ? shareCopy.loading : shareCopy.button}
                 </button>
+              </div>
+
+              <div
+                data-reading-free-share-loop
+                className="mt-4 rounded-lg border border-[#c9c0ff]/14 bg-[#c9c0ff]/[0.035] p-4"
+              >
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[#c9c0ff]/70">
+                  {shareFreeLoopCopy.eyebrow}
+                </p>
+                <p className="mt-2 text-sm font-medium leading-snug text-white/88">{shareFreeLoopCopy.title}</p>
+                <p className="mt-2 text-xs leading-5 text-white/52">{shareFreeLoopCopy.body}</p>
+                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                  {shareFreeLoopCopy.steps.map((step) => (
+                    <span
+                      key={step}
+                      data-reading-free-share-step
+                      className="rounded-md border border-white/10 bg-black/16 px-3 py-2 text-center text-[0.7rem] leading-4 text-white/62"
+                    >
+                      {step}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {shareUrl && (
