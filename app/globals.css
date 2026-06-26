@@ -202,7 +202,13 @@
     --home-hero-flow-gap: clamp(2.75rem, 7vh, 3.5rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
     --home-hero-content-reserve: 72rem;
-    --home-hero-shell-min-height: max(205vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+    --home-hero-after-actions-gap: clamp(8rem, 15vh, 12rem);
+    --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-content-reserve) - var(--home-hero-after-actions-gap));
+    --home-hero-shell-min-height: max(
+      205vh,
+      calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+      calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
+    );
   }
 
   .home-hero-shell {
@@ -213,7 +219,12 @@
     .home-hero-stage {
       --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58svh, 28.5rem));
       --home-hero-flow-gap: clamp(2.75rem, 7svh, 3.5rem);
-      --home-hero-shell-min-height: max(205svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+      --home-hero-after-actions-gap: clamp(8rem, 15svh, 12rem);
+      --home-hero-shell-min-height: max(
+        205svh,
+        calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+        calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
+      );
     }
   }
 
@@ -224,13 +235,23 @@
       --home-hero-card-height: 21rem;
       --home-hero-flow-gap: 3.5rem;
       --home-hero-content-reserve: 50rem;
-      --home-hero-shell-min-height: max(150vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+      --home-hero-after-actions-gap: 7rem;
+      --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-content-reserve) - var(--home-hero-after-actions-gap));
+      --home-hero-shell-min-height: max(
+        150vh,
+        calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+        calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
+      );
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
         --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24rem, 52svh, 32rem));
-        --home-hero-shell-min-height: max(150svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+        --home-hero-shell-min-height: max(
+          150svh,
+          calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+          calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
+        );
       }
     }
   }
@@ -243,13 +264,23 @@
       --home-hero-glow-size: 34rem;
       --home-hero-flow-gap: 4.4375rem;
       --home-hero-content-reserve: 40rem;
-      --home-hero-shell-min-height: max(128vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+      --home-hero-after-actions-gap: 5rem;
+      --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-content-reserve) - var(--home-hero-after-actions-gap));
+      --home-hero-shell-min-height: max(
+        128vh,
+        calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+        calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
+      );
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
         --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(26rem, 55svh, 36rem));
-        --home-hero-shell-min-height: max(128svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+        --home-hero-shell-min-height: max(
+          128svh,
+          calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+          calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
+        );
       }
     }
   }

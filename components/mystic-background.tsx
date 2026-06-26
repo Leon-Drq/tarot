@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, Suspense, type FormEvent } from "react"
+import { useEffect, useRef, useState, Suspense, type FormEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { BackgroundGradient } from "./mystic/background-gradient"
 import { StarsLayer } from "./mystic/stars-layer"
@@ -663,6 +663,8 @@ function HomeScrollContent() {
 
 function MysticContent() {
   const { language } = useLanguage()
+  const stageRef = useRef<HTMLDivElement | null>(null)
+  const heroActionsRef = useRef<HTMLDivElement | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [customFront, setCustomFront] = useState<string | null>(null)
@@ -698,6 +700,40 @@ function MysticContent() {
     }
   }, [])
 
+  useEffect(() => {
+    const stage = stageRef.current
+    const actions = heroActionsRef.current
+    if (!stage || !actions) return
+
+    const viewport = window.visualViewport
+    let frame = 0
+    const measureHeroActions = () => {
+      window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(() => {
+        const stageRect = stage.getBoundingClientRect()
+        const actionsRect = actions.getBoundingClientRect()
+        const bottom = Math.max(0, actionsRect.bottom - stageRect.top)
+        stage.style.setProperty("--home-hero-actions-bottom", `${Math.ceil(bottom)}px`)
+      })
+    }
+
+    measureHeroActions()
+    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measureHeroActions)
+    observer?.observe(actions)
+    window.addEventListener("resize", measureHeroActions)
+    viewport?.addEventListener("resize", measureHeroActions)
+    viewport?.addEventListener("scroll", measureHeroActions)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      observer?.disconnect()
+      window.removeEventListener("resize", measureHeroActions)
+      viewport?.removeEventListener("resize", measureHeroActions)
+      viewport?.removeEventListener("scroll", measureHeroActions)
+      stage.style.removeProperty("--home-hero-actions-bottom")
+    }
+  }, [])
+
   const heroCopy =
     {
       zh: {
@@ -719,7 +755,7 @@ function MysticContent() {
     }[language]
 
   return (
-    <div className="allow-scroll home-hero-stage relative min-h-screen overflow-x-hidden bg-mystic-bg">
+    <div ref={stageRef} className="allow-scroll home-hero-stage relative min-h-screen overflow-x-hidden bg-mystic-bg">
       <div className="absolute inset-0 z-0 min-h-full pointer-events-none">
         {/* 1. Background gradient */}
         <BackgroundGradient />
@@ -805,6 +841,7 @@ function MysticContent() {
         </div>
 
         <div
+          ref={heroActionsRef}
           data-home-hero-actions
           className="relative z-30"
           style={{ paddingTop: "var(--home-hero-content-y)" }}
