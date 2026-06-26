@@ -1465,7 +1465,7 @@ export function DailyTarotTool() {
           )}
         </article>
 
-        <article data-daily-return-commitment className="rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.04] p-5 sm:p-6">
+        <article data-daily-return-commitment className="min-w-0 rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.04] p-5 sm:p-6">
           <div className="flex flex-col gap-5">
             <div>
               <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{returnCopy.eyebrow}</p>
@@ -1483,8 +1483,8 @@ export function DailyTarotTool() {
               </div>
             )}
 
-            <div className="grid gap-3">
-              <div>
+            <div className="grid min-w-0 gap-3">
+              <div className="min-w-0">
                 <p className="mb-2 text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.tomorrowLabel}</p>
                 <div className="flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                   {returnCopy.chips.map((chip) => (
@@ -1506,17 +1506,17 @@ export function DailyTarotTool() {
                   value={returnFocus}
                   onChange={(event) => setReturnFocus(event.target.value)}
                   placeholder={returnCopy.defaultFocus}
-                  className="mt-3 min-h-11 w-full rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+                  className="mt-3 min-h-11 min-w-0 w-full rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
                 />
               </div>
 
-              <label className="grid gap-2">
+              <label className="grid min-w-0 gap-2">
                 <span className="text-xs uppercase tracking-[0.16em] text-white/38">{returnCopy.noteLabel}</span>
                 <textarea
                   value={returnNote}
                   onChange={(event) => setReturnNote(event.target.value)}
                   placeholder={returnCopy.notePlaceholder}
-                  className="min-h-24 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+                  className="min-h-24 min-w-0 rounded-lg border border-white/10 bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
                 />
               </label>
             </div>

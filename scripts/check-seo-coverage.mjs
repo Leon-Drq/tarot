@@ -781,6 +781,10 @@ const dailyReminderCoverage = [
   [files.dailyTarotTool, "data-daily-return-setup-calendar", "Daily Tarot prominent calendar reminder CTA"],
   [files.dailyTarotTool, "data-daily-return-setup-reminder", "Daily Tarot reminder preference CTA"],
   [files.dailyTarotTool, "returnSetupTitle", "Daily Tarot return setup localized copy"],
+  [files.dailyTarotTool, "data-daily-return-commitment className=\"min-w-0", "Daily Tarot return cue panel can shrink on narrow mobile"],
+  [files.dailyTarotTool, "className=\"grid min-w-0 gap-3\"", "Daily Tarot return cue form grid can shrink on narrow mobile"],
+  [files.dailyTarotTool, "className=\"mt-3 min-h-11 min-w-0 w-full", "Daily Tarot return cue input can shrink on narrow mobile"],
+  [files.dailyTarotTool, "className=\"min-h-24 min-w-0 rounded-lg", "Daily Tarot return cue textarea can shrink on narrow mobile"],
 ]
 
 for (const [file, needle, label] of dailyReminderCoverage) {
