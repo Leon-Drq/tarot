@@ -553,6 +553,44 @@ export function DailyTarotTool() {
       report: "View monthly report",
     }
 
+  const habitSnapshotCopy =
+    {
+      zh: {
+        eyebrow: "回访快照",
+        title: "让今天留下明天能接上的线索",
+        body: "先看连续天数、日记数量和主要主题，再决定是否需要更深入的功能。",
+        pattern: "解读这个模式",
+        returnCue: "设置明日主题",
+      },
+      ja: {
+        eyebrow: "再訪スナップショット",
+        title: "今日の記録を明日につなげる",
+        body: "連続記録、日記数、主なテーマを見てから、必要なときだけ深い機能へ進めます。",
+        pattern: "このパターンを読む",
+        returnCue: "明日のテーマ",
+      },
+      ko: {
+        eyebrow: "재방문 스냅샷",
+        title: "오늘의 흔적이 내일의 시작이 되게",
+        body: "연속 기록, 저널 수, 주요 주제를 먼저 보고 필요할 때만 더 깊은 기능으로 이동하세요.",
+        pattern: "패턴 읽기",
+        returnCue: "내일 주제",
+      },
+      en: {
+        eyebrow: "Habit snapshot",
+        title: "Let today's trace make tomorrow easier to continue",
+        body: "Check streak, notes, and the main 7-day theme before deciding whether deeper features are useful.",
+        pattern: "Ask about this pattern",
+        returnCue: "Set tomorrow cue",
+      },
+    }[language] || {
+      eyebrow: "Habit snapshot",
+      title: "Let today's trace make tomorrow easier to continue",
+      body: "Check streak, notes, and the main 7-day theme before deciding whether deeper features are useful.",
+      pattern: "Ask about this pattern",
+      returnCue: "Set tomorrow cue",
+    }
+
   useEffect(() => {
     const today = getLocalDateKey()
     setDateKey(today)
@@ -1357,6 +1395,40 @@ export function DailyTarotTool() {
                 {status}
               </p>
             )}
+          </div>
+        </div>
+
+        <div data-daily-habit-snapshot className="mt-8 border-t border-white/10 pt-5">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72">{habitSnapshotCopy.eyebrow}</p>
+          <h2 className="mt-2 font-serif text-xl leading-tight text-white">{habitSnapshotCopy.title}</h2>
+          <p className="mt-3 text-sm leading-7 text-white/58">{habitSnapshotCopy.body}</p>
+          <div className="mt-4 grid min-w-0 grid-cols-3 gap-2">
+            {dailyPattern.stats.map((item, index) => (
+              <div
+                key={item.label}
+                className={`min-w-0 ${index === 0 ? "" : "border-l border-white/10 pl-2"}`}
+              >
+                <p className="text-[9px] uppercase leading-snug tracking-[0.12em] text-white/36">{item.label}</p>
+                <p className="mt-2 break-words text-xs font-medium leading-snug text-white">{item.value}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 grid min-w-0 gap-2 sm:grid-cols-2">
+            <Link
+              data-daily-habit-snapshot-pattern
+              href={dailyPatternHref}
+              className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg border border-[#c9c0ff]/30 bg-[#c9c0ff]/[0.08] px-4 text-center text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
+            >
+              {habitSnapshotCopy.pattern}
+            </Link>
+            <button
+              type="button"
+              data-daily-habit-snapshot-return-cue
+              onClick={scrollToReturnCue}
+              className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg border border-white/12 px-4 text-center text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
+            >
+              {habitSnapshotCopy.returnCue}
+            </button>
           </div>
         </div>
       </section>
