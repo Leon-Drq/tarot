@@ -1,0 +1,78 @@
+{
+  "name": "POPTarot - Free AI Tarot Reading",
+  "short_name": "POPTarot",
+  "description": "Free AI tarot readings for love, career, daily guidance, and personal decisions.",
+  "id": "/",
+  "lang": "en",
+  "dir": "ltr",
+  "start_url": "/?utm_source=pwa&utm_medium=homescreen&utm_campaign=app_launch",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait",
+  "background_color": "#160B2E",
+  "theme_color": "#6D28D9",
+  "categories": ["lifestyle", "utilities"],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Daily Tarot",
+      "short_name": "Daily",
+      "description": "Draw one daily tarot card and get free AI guidance.",
+      "url": "/daily-tarot?utm_source=pwa&utm_medium=shortcut&utm_campaign=daily_tarot",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Free AI Tarot Reading",
+      "short_name": "Reading",
+      "description": "Ask a question and draw cards for a free AI tarot reading.",
+      "url": "/input?source=pwa_shortcut&utm_source=pwa&utm_medium=shortcut&utm_campaign=free_reading",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Tarot Card Meanings",
+      "short_name": "Cards",
+      "description": "Browse upright, reversed, love, career, and advice meanings.",
+      "url": "/tarot-card-meanings?utm_source=pwa&utm_medium=shortcut&utm_campaign=card_meanings",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

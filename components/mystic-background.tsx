@@ -784,8 +784,18 @@ function MysticContent() {
           <MenuButton isOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
         </div>
         
-        <h1 className="font-serif text-lg sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-[0.12em] sm:tracking-[0.18em] md:tracking-[0.24em] text-mystic-foreground drop-shadow-[0_0_15px_var(--mystic-glow)] whitespace-nowrap pointer-events-auto">
-          POP TAROT
+        <h1 className="pointer-events-auto flex items-center justify-center gap-2 whitespace-nowrap font-serif text-lg font-semibold tracking-[0.12em] text-mystic-foreground drop-shadow-[0_0_15px_var(--mystic-glow)] sm:gap-3 sm:text-2xl sm:tracking-[0.18em] md:text-3xl md:tracking-[0.24em] lg:text-4xl">
+          <img
+            data-home-brand-logo
+            src="/logo.png"
+            width="36"
+            height="36"
+            alt="POPTarot logo"
+            className="h-7 w-7 shrink-0 rounded-lg sm:h-9 sm:w-9 md:h-10 md:w-10"
+            loading="eager"
+            fetchPriority="high"
+          />
+          <span>POP TAROT</span>
         </h1>
 
         <div className="flex-1 flex justify-end pointer-events-auto">
