@@ -92,7 +92,7 @@ export const brandVerificationFacts = [
   {
     label: "Primary logo asset",
     value: "/icon-512x512.png",
-    body: "The 512 x 512 icon is the canonical Organization logo and app icon used for search, manifest, and brand verification.",
+    body: "The 512 x 512 PT monogram icon is the canonical Organization logo and app icon used for search, manifest, and brand verification.",
     href: "/brand-assets",
   },
   {

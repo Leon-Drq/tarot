@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "generate:icons": "node scripts/generate-brand-icons.mjs",
     "start": "next start -p 3001",
     "check:mobile": "node scripts/check-mobile-layout.mjs",
     "check:seo": "node scripts/check-seo-coverage.mjs",

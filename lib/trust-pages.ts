@@ -112,8 +112,8 @@ export const trustPages: TrustPage[] = [
     eyebrow: "Brand Assets",
     intro: "These are the canonical POPTarot visual assets used by poptarot.com, structured data, app metadata, social previews, and saved-home-screen icons.",
     sections: [
-      { heading: "Canonical logo", body: "The primary POPTarot logo signal is the 512 x 512 icon used in Organization structured data and app manifests." },
-      { heading: "Search and preview consistency", body: "The favicon, apple touch icon, app icon, and Open Graph image point back to the same brand identity so search engines and social previews read one consistent source." },
+      { heading: "Canonical logo", body: "The primary POPTarot logo signal is the PT monogram icon used in Organization structured data, app manifests, favicons, and saved-home-screen icons." },
+      { heading: "Search and preview consistency", body: "The favicon, SVG icon, apple touch icon, app icon, and Open Graph image point back to the same brand identity so search engines and social previews read one consistent source." },
       { heading: "Official source", body: "Use only assets hosted under poptarot.com for brand verification. New public channels should link back to this page or the official channels page." },
       { heading: "Free-first positioning", body: "POPTarot should be described as a free AI tarot tool first. Membership is for deeper follow-ups, saved history, advanced spreads, and longer reports." },
       { heading: "AI tarot boundary", body: "Brand descriptions should keep readings framed as reflective guidance, not professional medical, legal, financial, psychological, or safety advice." },
@@ -122,8 +122,8 @@ export const trustPages: TrustPage[] = [
     brandAssets: [
       {
         label: "Logo",
-        title: "512 x 512 app logo",
-        description: "Primary image used in Organization structured data and installable app metadata.",
+        title: "512 x 512 PT monogram logo",
+        description: "Primary image used in Organization structured data, search identity, and installable app metadata.",
         src: "/icon-512x512.png",
         width: 512,
         height: 512,

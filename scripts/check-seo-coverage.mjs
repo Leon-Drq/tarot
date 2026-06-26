@@ -49,6 +49,7 @@ const files = {
   },
   globalStyles: { path: "app/globals.css", source: read("app/globals.css") },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
+  iconSvg: { path: "public/icon.svg", source: read("public/icon.svg") },
   robots: { path: "app/robots.ts", source: read("app/robots.ts") },
   vercelConfig: { path: "vercel.json", source: read("vercel.json") },
   tarotCardSeo: { path: "lib/tarot-card-seo.ts", source: read("lib/tarot-card-seo.ts") },
@@ -720,6 +721,7 @@ for (const [file, needle, label] of structuredDataCoverage) {
 const identityMetadataCoverage = [
   [files.layout, "manifest: \"/manifest.webmanifest\"", "web app manifest metadata"],
   [files.layout, "/favicon.ico", "ICO favicon metadata"],
+  [files.layout, "/favicon-32x32.png", "32px favicon metadata"],
   [files.layout, "/favicon-48x48.png", "48px favicon metadata"],
   [files.layout, "/favicon-96x96.png", "96px favicon metadata"],
   [files.layout, "/icon.png", "canonical PNG icon metadata"],
@@ -733,6 +735,11 @@ const identityMetadataCoverage = [
   [files.manifest, "\"url\": \"/tarot-card-meanings?utm_source=pwa&utm_medium=shortcut&utm_campaign=card_meanings\"", "card meanings manifest shortcut attribution"],
   [files.manifest, "\"src\": \"/icon.png\"", "canonical PNG manifest icon"],
   [files.manifest, "\"src\": \"/icon-512x512.png\"", "512px manifest icon"],
+  [files.iconSvg, "viewBox=\"0 0 512 512\"", "512px SVG icon viewBox"],
+  [files.iconSvg, "#140E24", "POPTarot dark icon background"],
+  [files.iconSvg, "#B8A5FF", "POPTarot lavender icon mark"],
+  [files.trustPages, "PT monogram icon", "brand asset PT monogram copy"],
+  [files.trustPages, "SVG icon", "brand asset SVG icon consistency copy"],
 ]
 
 for (const [file, needle, label] of identityMetadataCoverage) {
@@ -825,6 +832,7 @@ for (const [needle, label] of [
 
 for (const [path, label] of [
   ["public/favicon.ico", "ICO favicon"],
+  ["public/favicon-32x32.png", "32px favicon"],
   ["public/favicon-48x48.png", "48px favicon"],
   ["public/favicon-96x96.png", "96px favicon"],
   ["public/apple-touch-icon.png", "Apple touch icon"],
