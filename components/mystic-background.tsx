@@ -757,7 +757,7 @@ function MysticContent() {
       >
         <section
           data-home-hero-copy
-          className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[9.25rem] lg:pt-[9.75rem]"
+          className="pointer-events-none absolute left-1/2 top-0 z-30 w-[calc(100vw_-_2rem)] max-w-[680px] -translate-x-1/2 pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[9.25rem] lg:pt-[9.75rem]"
         >
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
@@ -801,7 +801,11 @@ function MysticContent() {
           </div>
         </div>
 
-        <div data-home-hero-actions className="absolute left-0 right-0 top-[var(--home-hero-content-y)] z-30">
+        <div
+          data-home-hero-actions
+          className="relative z-30"
+          style={{ paddingTop: "var(--home-hero-content-y)" }}
+        >
           <HomeQuestionForm />
 
           <HomeDailyReturnPanel />
