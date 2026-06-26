@@ -676,6 +676,200 @@ const stickyCtaCopy = {
   },
 } satisfies Record<SeoPage["locale"], { eyebrow: string; primary: string; secondary: string }>
 
+type QuestionReturnLoopItem = {
+  id: string
+  label: string
+  title: string
+  body: string
+  action: string
+  href: string
+}
+
+const questionReturnLoopCopy = {
+  zh: {
+    eyebrow: "免费回访路径",
+    title: "先免费抽牌，再把复访接起来",
+    body: "从 Google 进来的问题不应该只读一次。先获得免费答案，明天用每日塔罗复盘，等有足够记录后再考虑保存历史和月报。",
+    items: [
+      {
+        label: "01",
+        title: "先抽这个具体问题",
+        body: "问题和牌阵已经预填好，先用免费解读确认方向，不需要先开会员。",
+        action: "开始免费解读",
+      },
+      {
+        label: "02",
+        title: "明天用每日塔罗回访",
+        body: "把今天的问题作为 return cue，明天抽一张每日牌，看情绪、行动或关系是否出现同一主题。",
+        action: "打开每日塔罗",
+      },
+      {
+        label: "03",
+        title: "有记录后再看月度模式",
+        body: "历史保存、高级牌阵和月度报告适合在多次免费体验之后使用，不放在第一步。",
+        action: "查看月报入口",
+      },
+    ],
+  },
+  en: {
+    eyebrow: "Free return loop",
+    title: "Start free, then make the next visit obvious",
+    body: "A search question should not be a dead end. Draw the matched spread first, come back with Daily Tarot tomorrow, and use saved history or monthly reports only after there is enough activity to review.",
+    items: [
+      {
+        label: "01",
+        title: "Draw this exact question",
+        body: "The question and spread are already loaded, so the first useful answer stays free and immediate.",
+        action: "Start free reading",
+      },
+      {
+        label: "02",
+        title: "Return with Daily Tarot",
+        body: "Use today's question as a return cue, then check whether tomorrow's daily card repeats the same emotion, action, or relationship theme.",
+        action: "Open Daily Tarot",
+      },
+      {
+        label: "03",
+        title: "Review patterns later",
+        body: "Saved history, advanced spreads, and monthly reports become useful after several readings, not before the first answer.",
+        action: "Preview monthly report",
+      },
+    ],
+  },
+  ja: {
+    eyebrow: "無料の再訪導線",
+    title: "まず無料で引き、次に戻る理由を作る",
+    body: "検索から来た質問を一度で終わらせず、無料リーディング、翌日の Daily Tarot、記録が増えた後の月間レビューへつなげます。",
+    items: [
+      {
+        label: "01",
+        title: "この質問で引く",
+        body: "質問とスプレッドは入力済みです。まず無料で方向を確認できます。",
+        action: "無料で始める",
+      },
+      {
+        label: "02",
+        title: "Daily Tarot で戻る",
+        body: "今日の質問を return cue として残し、明日のカードで同じテーマが出るか見ます。",
+        action: "Daily Tarot を開く",
+      },
+      {
+        label: "03",
+        title: "後でパターンを見る",
+        body: "履歴保存、高度なスプレッド、月間レポートは、記録が増えてから役立ちます。",
+        action: "月間レポートを見る",
+      },
+    ],
+  },
+  ko: {
+    eyebrow: "무료 재방문 흐름",
+    title: "먼저 무료로 뽑고, 다시 올 이유를 만듭니다",
+    body: "검색 질문을 한 번으로 끝내지 않고 무료 리딩, 내일의 Daily Tarot, 기록이 쌓인 뒤의 월간 리뷰로 연결합니다.",
+    items: [
+      {
+        label: "01",
+        title: "이 질문으로 뽑기",
+        body: "질문과 스프레드가 준비되어 있어 첫 답은 무료로 바로 시작할 수 있습니다.",
+        action: "무료 리딩 시작",
+      },
+      {
+        label: "02",
+        title: "Daily Tarot으로 돌아오기",
+        body: "오늘 질문을 return cue로 남기고 내일 카드에서 같은 감정, 행동, 관계 테마가 반복되는지 봅니다.",
+        action: "Daily Tarot 열기",
+      },
+      {
+        label: "03",
+        title: "나중에 패턴 보기",
+        body: "기록 저장, 고급 스프레드, 월간 리포트는 여러 번 사용한 뒤 더 유용합니다.",
+        action: "월간 리포트 보기",
+      },
+    ],
+  },
+  es: {
+    eyebrow: "Ruta gratis de regreso",
+    title: "Empieza gratis y deja claro el proximo paso",
+    body: "Una pregunta desde Google no debe terminar en una sola visita. Tira la pregunta primero, vuelve manana con Daily Tarot y usa historial o informe mensual solo cuando haya actividad suficiente.",
+    items: [
+      {
+        label: "01",
+        title: "Tira esta pregunta exacta",
+        body: "La pregunta y la tirada ya estan cargadas, para que la primera respuesta util sea gratis e inmediata.",
+        action: "Empezar gratis",
+      },
+      {
+        label: "02",
+        title: "Vuelve con Daily Tarot",
+        body: "Usa la pregunta de hoy como return cue y revisa manana si aparece el mismo tema emocional, practico o relacional.",
+        action: "Abrir Daily Tarot",
+      },
+      {
+        label: "03",
+        title: "Revisa patrones despues",
+        body: "El historial, las tiradas avanzadas y los informes mensuales son utiles despues de varias lecturas, no antes de la primera respuesta.",
+        action: "Ver informe mensual",
+      },
+    ],
+  },
+  "pt-br": {
+    eyebrow: "Caminho gratis de retorno",
+    title: "Comece gratis e deixe o proximo passo claro",
+    body: "Uma pergunta vinda do Google nao deve acabar em uma unica visita. Tire a pergunta primeiro, volte amanha com Daily Tarot e use historico ou relatorio mensal apenas quando houver atividade suficiente.",
+    items: [
+      {
+        label: "01",
+        title: "Tire esta pergunta exata",
+        body: "A pergunta e a tiragem ja estao carregadas, para que a primeira resposta util seja gratis e imediata.",
+        action: "Comecar gratis",
+      },
+      {
+        label: "02",
+        title: "Volte com Daily Tarot",
+        body: "Use a pergunta de hoje como return cue e veja amanha se o mesmo tema emocional, pratico ou relacional aparece de novo.",
+        action: "Abrir Daily Tarot",
+      },
+      {
+        label: "03",
+        title: "Revise padroes depois",
+        body: "Historico salvo, tiragens avancadas e relatorios mensais ficam mais uteis depois de varias leituras, nao antes da primeira resposta.",
+        action: "Ver relatorio mensal",
+      },
+    ],
+  },
+} satisfies Record<SeoPage["locale"], {
+  eyebrow: string
+  title: string
+  body: string
+  items: Array<Omit<QuestionReturnLoopItem, "id" | "href">>
+}>
+
+function questionReturnLoopItems(page: SeoPage, primaryHref: string): QuestionReturnLoopItem[] {
+  const copy = questionReturnLoopCopy[page.locale]
+  const dailyParams = new URLSearchParams({
+    return_focus: page.ctaQuestion,
+    utm_source: "seo",
+    utm_medium: "question_return_loop",
+    utm_campaign: page.slug,
+  })
+  const monthlyParams = new URLSearchParams({
+    utm_source: "seo",
+    utm_medium: "question_return_loop",
+    utm_campaign: page.slug,
+  })
+  const hrefs = [
+    primaryHref,
+    `/daily-tarot?${dailyParams.toString()}`,
+    `/monthly-tarot-report?${monthlyParams.toString()}`,
+  ]
+  const ids = ["free-reading", "daily-return", "monthly-pattern"]
+
+  return copy.items.map((item, index) => ({
+    ...item,
+    id: ids[index],
+    href: hrefs[index],
+  }))
+}
+
 const questionHeroToolCopy = {
   zh: {
     label: "免费匹配牌阵",
@@ -1977,6 +2171,9 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug] || createFallbackQuestionToolkit(page, recommendedSpread)
   const resultPreview = createResultPreview(page, toolkit, recommendedSpread)
+  const isHighIntentQuestion = highIntentQuestionSlugs.has(page.slug)
+  const returnLoopCopy = questionReturnLoopCopy[page.locale]
+  const returnLoopItems = isHighIntentQuestion ? questionReturnLoopItems(page, primaryHref) : []
   const cardHubs = activeCardIndexMode ? cardMeaningHubPages(page) : []
   const cardGroups = cardIndexGroupOrder.map((group) => ({
     key: group,
@@ -2198,6 +2395,24 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 position: index + 1,
                 name: `${item.position}: ${item.card}`,
                 description: item.meaning,
+              })),
+            },
+          ]
+        : []),
+      ...(returnLoopItems.length > 0
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#question-return-loop`,
+              name: returnLoopCopy.title,
+              description: returnLoopCopy.body,
+              numberOfItems: returnLoopItems.length,
+              itemListElement: returnLoopItems.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `${appUrl}${item.href}`,
+                name: item.title,
+                description: item.body,
               })),
             },
           ]
@@ -2459,6 +2674,48 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
           primaryHref={primaryHref}
           clusterRelated={clusterRelated}
         />
+      )}
+
+      {returnLoopItems.length > 0 && (
+        <section
+          id="question-return-loop"
+          data-question-return-loop
+          className="border-b border-white/10 bg-[#0b0415]"
+        >
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="grid gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+              <div className="max-w-2xl">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{returnLoopCopy.eyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">{returnLoopCopy.title}</h2>
+                <p className="mt-4 text-sm leading-7 text-white/62 sm:text-base">{returnLoopCopy.body}</p>
+              </div>
+              <div className="grid gap-3">
+                {returnLoopItems.map((item) => (
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    data-question-return-loop-card
+                    data-question-return-loop-step={item.id}
+                    className="group min-w-0 rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.06]"
+                  >
+                    <div className="flex min-w-0 items-start gap-4">
+                      <span className="mt-1 inline-flex h-8 w-10 shrink-0 items-center justify-center rounded-md border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.08] text-[11px] tracking-[0.12em] text-[#c9c0ff]/82">
+                        {item.label}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block break-words text-base font-medium leading-6 text-white group-hover:text-[#f4f0ff]">
+                          {item.title}
+                        </span>
+                        <span className="mt-2 block text-sm leading-6 text-white/56">{item.body}</span>
+                        <span className="mt-3 block text-sm text-[#c9c0ff]/76 group-hover:text-[#eeeaff]">{item.action}</span>
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {toolkit && recommendedSpread && (
