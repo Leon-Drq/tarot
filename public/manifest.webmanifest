@@ -5,7 +5,7 @@
   "id": "/",
   "lang": "en",
   "dir": "ltr",
-  "start_url": "/",
+  "start_url": "/?utm_source=pwa&utm_medium=homescreen&utm_campaign=app_launch",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui", "browser"],
@@ -33,7 +33,7 @@
       "name": "Daily Tarot",
       "short_name": "Daily",
       "description": "Draw one daily tarot card and get free AI guidance.",
-      "url": "/daily-tarot",
+      "url": "/daily-tarot?utm_source=pwa&utm_medium=shortcut&utm_campaign=daily_tarot",
       "icons": [
         {
           "src": "/icon-192x192.png",
@@ -46,7 +46,7 @@
       "name": "Free AI Tarot Reading",
       "short_name": "Reading",
       "description": "Ask a question and draw cards for a free AI tarot reading.",
-      "url": "/free-ai-tarot-reading",
+      "url": "/input?source=pwa_shortcut&utm_source=pwa&utm_medium=shortcut&utm_campaign=free_reading",
       "icons": [
         {
           "src": "/icon-192x192.png",
@@ -59,7 +59,7 @@
       "name": "Tarot Card Meanings",
       "short_name": "Cards",
       "description": "Browse upright, reversed, love, career, and advice meanings.",
-      "url": "/tarot-card-meanings",
+      "url": "/tarot-card-meanings?utm_source=pwa&utm_medium=shortcut&utm_campaign=card_meanings",
       "icons": [
         {
           "src": "/icon-192x192.png",

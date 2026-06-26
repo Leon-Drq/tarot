@@ -911,6 +911,16 @@ export function DailyTarotTool() {
     link.remove()
     window.setTimeout(() => URL.revokeObjectURL(url), 1000)
     setCalendarStatus(copy.calendarReminderSaved)
+    analyticsApi.track("daily_calendar_reminder_downloaded", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      metadata: {
+        surface: "daily-tarot",
+        reminder_time: reminderTime,
+        email_delivery_enabled: emailDeliveryEnabled,
+      },
+    })
   }
 
   const handleSaveReturnCommitment = () => {
@@ -1006,18 +1016,53 @@ export function DailyTarotTool() {
   const handleInstallPrompt = async () => {
     if (!installPrompt) {
       setInstallStatus(copy.installFallback)
+      analyticsApi.track("daily_install_fallback_shown", {
+        ...getCurrentAttribution(),
+        locale: language,
+        keyword: "daily tarot",
+        metadata: {
+          surface: "daily-tarot",
+          reason: "beforeinstallprompt_unavailable",
+        },
+      })
       return
     }
 
+    analyticsApi.track("daily_install_prompt_opened", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      metadata: {
+        surface: "daily-tarot",
+      },
+    })
     await installPrompt.prompt()
     const choice = await installPrompt.userChoice
     setInstallPrompt(null)
     if (choice.outcome === "accepted") {
       setShowInstallPrompt(false)
       setInstallStatus(copy.installInstalled)
+      analyticsApi.track("daily_install_completed", {
+        ...getCurrentAttribution(),
+        locale: language,
+        keyword: "daily tarot",
+        metadata: {
+          surface: "daily-tarot",
+          platform: choice.platform,
+        },
+      })
       return
     }
     setInstallStatus(copy.installFallback)
+    analyticsApi.track("daily_install_dismissed", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      metadata: {
+        surface: "daily-tarot",
+        platform: choice.platform,
+      },
+    })
   }
 
   const ensureShareUrl = async () => {
