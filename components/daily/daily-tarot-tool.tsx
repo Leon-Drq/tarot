@@ -1097,7 +1097,7 @@ export function DailyTarotTool() {
   const stickyPrimaryDisabled = hasReading ? isCreatingShare || isDrawing : isDrawing
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-5 px-4 pb-[calc(env(safe-area-inset-bottom)+6.75rem)] pt-6 sm:px-8 sm:pb-12 lg:grid-cols-[0.95fr_1.05fr] lg:px-10 lg:py-12">
+    <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 px-4 pb-[calc(env(safe-area-inset-bottom)+6.75rem)] pt-6 sm:px-8 sm:pb-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:px-10 lg:py-12">
       <div
         data-daily-sticky-cta
         className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#090411]/92 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_50px_rgba(0,0,0,0.42)] backdrop-blur-xl sm:hidden"
@@ -1150,7 +1150,7 @@ export function DailyTarotTool() {
           </button>
         </div>
       </div>
-      <section className="rounded-lg border border-white/10 bg-white/[0.03] p-5 shadow-[0_20px_80px_rgba(0,0,0,0.22)] sm:p-6">
+      <section className="min-w-0 rounded-lg border border-white/10 bg-white/[0.03] p-5 shadow-[0_20px_80px_rgba(0,0,0,0.22)] sm:p-6">
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/78">{copy.eyebrow}</p>
@@ -1270,7 +1270,7 @@ export function DailyTarotTool() {
         </div>
       </section>
 
-      <section className="space-y-5">
+      <section className="min-w-0 space-y-5">
         <article
           data-daily-return-setup
           data-daily-install-prompt={showInstallPrompt ? "true" : undefined}

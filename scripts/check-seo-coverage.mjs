@@ -374,6 +374,10 @@ assertIncludes(files.dailyTarotPage, "#regional-daily-intent-links", "Daily Taro
 assertIncludes(files.seoLanding, "utm_medium: \"daily_landing\"", "Daily Tarot SEO landing attribution")
 assertIncludes(files.seoLanding, "page.slug === \"daily-tarot\"", "Daily Tarot SEO pages open the daily tool")
 assertIncludes(files.dailyTarotTool, "data-daily-quick-actions", "Daily Tarot first-screen quick action rail")
+assertIncludes(files.dailyTarotTool, "grid-cols-1", "Daily Tarot mobile grid uses shrinkable single column")
+assertIncludes(files.dailyTarotTool, "lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]", "Daily Tarot desktop grid columns cannot force mobile overflow")
+assertIncludes(files.dailyTarotTool, "min-w-0 rounded-lg border border-white/10", "Daily Tarot primary panel can shrink on mobile")
+assertIncludes(files.dailyTarotTool, "min-w-0 space-y-5", "Daily Tarot secondary panel can shrink on mobile")
 for (const action of ["draw", "journal", "reminder", "calendar", "share", "return-cue"]) {
   assertIncludes(files.dailyTarotTool, `data-daily-quick-action="${action}"`, `Daily Tarot quick action ${action}`)
 }
@@ -402,6 +406,8 @@ assertIncludes(files.globalStyles, "--home-hero-focal-y: clamp(24.75rem, 58svh, 
 assertIncludes(files.globalStyles, "--home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857)", "homepage card size variable")
 assertIncludes(files.globalStyles, "--home-hero-card-half-y: calc(var(--home-hero-card-height) / 2)", "homepage card half-height variable")
 assertIncludes(files.globalStyles, "--home-hero-shell-min-height", "homepage hero shell dynamic height reserve")
+assertIncludes(files.globalStyles, "--home-hero-content-reserve: 44rem", "homepage mobile content reserve prevents overlap under browser chrome")
+assertIncludes(files.globalStyles, "max(150svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)))", "homepage mobile shell keeps following content below hero actions")
 assertIncludes(files.globalStyles, "calc(var(--home-hero-content-y) + var(--home-hero-content-reserve))", "homepage hero content bottom reserve")
 assertIncludes(files.homeExperience, "data-home-hero-shell", "homepage hero shell measurement hook")
 assertIncludes(files.homeExperience, "home-hero-shell", "homepage hero shell class")

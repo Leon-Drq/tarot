@@ -200,8 +200,8 @@
     --home-hero-glow-size: min(82vw, 30rem);
     --home-hero-flow-gap: clamp(2.75rem, 7vh, 3.5rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
-    --home-hero-content-reserve: 39rem;
-    --home-hero-shell-min-height: max(142vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+    --home-hero-content-reserve: 44rem;
+    --home-hero-shell-min-height: max(150vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
   }
 
   .home-hero-shell {
@@ -212,7 +212,7 @@
     .home-hero-stage {
       --home-hero-focal-y: clamp(24.75rem, 58svh, 28.5rem);
       --home-hero-flow-gap: clamp(2.75rem, 7svh, 3.5rem);
-      --home-hero-shell-min-height: max(142svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+      --home-hero-shell-min-height: max(150svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
     }
   }
 
@@ -222,14 +222,14 @@
       --home-hero-card-width: 12.25rem;
       --home-hero-card-height: 21rem;
       --home-hero-flow-gap: 3.5rem;
-      --home-hero-content-reserve: 35rem;
-      --home-hero-shell-min-height: max(132vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+      --home-hero-content-reserve: 40rem;
+      --home-hero-shell-min-height: max(138vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
         --home-hero-focal-y: clamp(24rem, 52svh, 32rem);
-        --home-hero-shell-min-height: max(132svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
+        --home-hero-shell-min-height: max(138svh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
       }
     }
   }
@@ -241,7 +241,7 @@
       --home-hero-card-height: 29.125rem;
       --home-hero-glow-size: 34rem;
       --home-hero-flow-gap: 4.4375rem;
-      --home-hero-content-reserve: 34rem;
+      --home-hero-content-reserve: 36rem;
       --home-hero-shell-min-height: max(124vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
     }
 
