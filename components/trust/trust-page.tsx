@@ -42,6 +42,22 @@ const defaultTrustActionLinks: NonNullable<TrustPage["actionLinks"]> = [
   },
 ]
 
+function readingExampleStartHref(item: NonNullable<TrustPage["readingExamples"]>[number]) {
+  if (item.startHref) return item.startHref
+
+  const params = new URLSearchParams({
+    q: item.startQuestion || item.question,
+    auto: "1",
+    source: "trust_example",
+    spread: item.spreadType || "three_card",
+    utm_source: "trust",
+    utm_medium: "reading_example",
+    utm_campaign: item.href.replace(/^\//, ""),
+  })
+
+  return `/input?${params.toString()}`
+}
+
 export function TrustPageView({ page }: { page: TrustPage }) {
   const relatedLinks = getRelatedTrustLinks(page.slug)
   const isOfficialChannelsPage = page.slug === "official-channels"
@@ -158,6 +174,12 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   about: item.question,
                   abstract: item.interpretation,
                   url: `${appUrl}${item.href}`,
+                  isAccessibleForFree: true,
+                  potentialAction: {
+                    "@type": "InteractAction",
+                    name: "Try this example free",
+                    target: `${appUrl}${readingExampleStartHref(item)}`,
+                  },
                 },
               })),
             },
@@ -348,7 +370,11 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             </div>
             <div className="mt-6 grid gap-4 lg:grid-cols-2">
               {page.readingExamples.map((item) => (
-                <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+                <article
+                  key={item.title}
+                  data-trust-reading-example-card
+                  className="rounded-lg border border-white/10 bg-white/[0.035] p-5"
+                >
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="rounded-full border border-[#bfb6ff]/25 bg-[#bfb6ff]/[0.07] px-3 py-1 text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]">
                       {item.label}
@@ -366,12 +392,22 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                     <p className="text-xs uppercase tracking-[0.16em] text-white/38">Next step</p>
                     <p className="mt-2 text-sm leading-7 text-white/68">{item.nextStep}</p>
                   </div>
-                  <Link
-                    href={item.href}
-                    className="mt-5 inline-flex min-h-11 items-center justify-center rounded-lg border border-[#bfb6ff]/25 px-4 py-2 text-sm text-[#d8d0ff] transition hover:border-[#bfb6ff]/55 hover:bg-[#bfb6ff]/[0.06] hover:text-white"
-                  >
-                    Open this reading
-                  </Link>
+                  <div className="mt-5 grid gap-2 sm:grid-cols-2">
+                    <Link
+                      href={readingExampleStartHref(item)}
+                      data-trust-reading-example-start
+                      className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#c9c0ff] px-4 py-2 text-center text-sm font-medium text-[#120c22] transition hover:bg-[#eeeaff]"
+                    >
+                      Try this example free
+                    </Link>
+                    <Link
+                      href={item.href}
+                      data-trust-reading-example-guide
+                      className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[#bfb6ff]/25 px-4 py-2 text-center text-sm text-[#d8d0ff] transition hover:border-[#bfb6ff]/55 hover:bg-[#bfb6ff]/[0.06] hover:text-white"
+                    >
+                      Open this reading
+                    </Link>
+                  </div>
                 </article>
               ))}
             </div>

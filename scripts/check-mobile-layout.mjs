@@ -63,6 +63,11 @@ const pages = [
     name: "about trust page",
     requiredSelectors: ["main", "[data-trust-page]"],
   },
+  {
+    path: "/tarot-reading-examples",
+    name: "reading examples trust page",
+    requiredSelectors: ["[data-trust-page]", "[data-trust-reading-example-start]", "[data-trust-reading-example-guide]"],
+  },
 ]
 
 function absoluteUrl(path) {

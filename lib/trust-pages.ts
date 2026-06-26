@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { appUrl, siteName, trustLinks } from "@/lib/site"
+import type { SpreadType } from "@/lib/spread-config"
 import { representativeTestimonials } from "@/lib/trust-signals"
 
 export type TrustPage = {
@@ -32,6 +33,9 @@ export type TrustPage = {
     interpretation: string
     nextStep: string
     href: string
+    startQuestion?: string
+    spreadType?: SpreadType
+    startHref?: string
   }>
   actionLinks?: Array<{
     label: string
@@ -247,6 +251,8 @@ export const trustPages: TrustPage[] = [
         interpretation: "The connection has genuine attraction and mutual resonance, but the Nine of Swords shows anxiety filling the gaps where direct communication is missing. The cards do not prove a private feeling; they show that the relationship needs clearer signals before you build a conclusion.",
         nextStep: "Look for consistent behavior over a full week, then ask one calm question instead of testing him indirectly.",
         href: "/does-he-love-me-tarot",
+        startQuestion: "Does he love me, or am I reading too much into mixed signals?",
+        spreadType: "three_card",
       },
       {
         label: "Reconciliation",
@@ -257,6 +263,8 @@ export const trustPages: TrustPage[] = [
         interpretation: "The Six of Cups shows nostalgia and unfinished emotion, while Judgment suggests a chance to review what happened honestly. Four of Cups warns that one person may still be closed off or emotionally tired. The reading points to possible contact, not automatic repair.",
         nextStep: "Before reaching out, write down what would need to change for the relationship to feel different this time.",
         href: "/will-my-ex-come-back-tarot",
+        startQuestion: "Will my ex come back, and would reconnecting actually be healthy?",
+        spreadType: "three_card",
       },
       {
         label: "Career",
@@ -267,6 +275,8 @@ export const trustPages: TrustPage[] = [
         interpretation: "Eight of Swords reflects feeling trapped, but Ace of Pentacles says a practical opportunity can be built. Temperance argues against an impulsive exit. This is less about staying forever and more about creating a staged transition.",
         nextStep: "Set a two-week plan: update your resume, price your expenses, and test one concrete opportunity before resigning.",
         href: "/should-i-quit-my-job-tarot",
+        startQuestion: "Should I quit my job now, or wait until I have a clearer plan?",
+        spreadType: "three_card",
       },
       {
         label: "Daily",
@@ -277,6 +287,7 @@ export const trustPages: TrustPage[] = [
         interpretation: "The Hermit asks for quiet focus, fewer outside opinions, and one honest look at what you already know. It is a good daily card for research, reflection, and choosing a slower but wiser pace.",
         nextStep: "Protect one uninterrupted block of time and use it for the decision you have been avoiding.",
         href: "/daily-tarot",
+        startHref: "/daily-tarot?utm_source=trust&utm_medium=reading_example&utm_campaign=daily_example",
       },
       {
         label: "Yes / No",
@@ -287,6 +298,8 @@ export const trustPages: TrustPage[] = [
         interpretation: "The answer leans yes, but only if the message is emotionally honest and not designed to force reassurance. Two of Swords shows hesitation; Queen of Swords says your words should be simple, direct, and self-respecting.",
         nextStep: "Send one clear message, then let the response show you whether the energy is mutual.",
         href: "/yes-or-no-tarot-love",
+        startQuestion: "Should I text first?",
+        spreadType: "yes_no",
       },
     ],
     examples: [
