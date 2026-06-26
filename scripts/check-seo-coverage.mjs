@@ -619,8 +619,15 @@ const trustDataCoverage = [
   [files.trustPageView, "Daily Tarot", "trust default daily return action"],
   [files.trustPageView, "Tarot Questions", "trust default question path action"],
   [files.trustPageView, "#official-verification-links", "official verification structured data"],
+  [files.trustPageView, "#brand-verification-facts", "brand verification facts structured data"],
+  [files.trustPageView, "data-official-brand-verification-facts", "official channel brand verification visible section"],
+  [files.trustPageView, "data-official-brand-verification-fact", "official channel brand verification fact cards"],
   [files.trustPageView, "Official Social Accounts", "official social account section"],
   [files.trustPageView, "Where POPTarot Confirms Its Identity", "official verification visible section"],
+  [files.site, "brandVerificationFacts", "brand verification fact registry"],
+  [files.site, "additionalProperty: brandVerificationFacts.map", "Organization brand verification properties"],
+  [files.trustPages, "Brand search terms", "official channels brand search term copy"],
+  [files.trustPages, "Crawlable sources", "official channels crawlable source copy"],
 ]
 
 for (const [file, needle, label] of trustDataCoverage) {
@@ -630,6 +637,9 @@ for (const [file, needle, label] of trustDataCoverage) {
 const structuredDataCoverage = [
   [files.site, "logo: {", "Organization logo"],
   [files.site, "/icon-512x512.png", "Organization logo asset"],
+  [files.site, "Official brand name", "Organization official brand fact"],
+  [files.site, "Canonical domain", "Organization canonical domain fact"],
+  [files.site, "Free product stance", "Organization free product stance fact"],
   [files.site, "data.sameAs = socialLinks.map", "verified sameAs emission"],
   [files.site, "makesOffer:", "free offer on Organization"],
   [files.site, "price: \"0\"", "free pricing signal"],

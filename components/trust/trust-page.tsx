@@ -4,6 +4,7 @@ import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getRelatedTrustLinks, type TrustPage } from "@/lib/trust-pages"
 import {
   appUrl,
+  brandVerificationFacts,
   editorialTeamJsonLd,
   organizationJsonLd,
   officialVerificationLinks,
@@ -191,6 +192,22 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   isPartOf: {
                     "@id": `${appUrl}/#website`,
                   },
+                },
+              })),
+            },
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}/${page.slug}#brand-verification-facts`,
+              name: "POPTarot brand verification facts",
+              itemListElement: brandVerificationFacts.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "PropertyValue",
+                  name: item.label,
+                  value: item.value,
+                  description: item.body,
+                  url: `${appUrl}${item.href}`,
                 },
               })),
             },
@@ -503,6 +520,30 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   >
                     <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{item.label}</p>
                     <h3 className="mt-3 break-words text-base font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                  </Link>
+                ))}
+              </div>
+            </section>
+
+            <section data-official-brand-verification-facts className="mt-8 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+              <div className="max-w-2xl">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Brand verification pack</p>
+                <h2 className="mt-3 font-serif text-2xl text-white">Consistent Signals for Search and Users</h2>
+                <p className="mt-3 text-sm leading-7 text-white/58">
+                  These facts keep the brand name, canonical domain, logo, free product stance, sitemap, and membership boundary aligned across metadata, schema, and public pages.
+                </p>
+              </div>
+              <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {brandVerificationFacts.map((item) => (
+                  <Link
+                    key={item.label}
+                    data-official-brand-verification-fact
+                    href={item.href}
+                    className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                  >
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{item.label}</p>
+                    <h3 className="mt-3 break-words text-base font-medium text-white group-hover:text-[#eeeaff]">{item.value}</h3>
                     <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
                   </Link>
                 ))}

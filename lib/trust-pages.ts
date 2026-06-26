@@ -93,6 +93,8 @@ export const trustPages: TrustPage[] = [
       { heading: "Primary website", body: "The canonical POPTarot experience is hosted at poptarot.com. Use this domain for free AI tarot readings, daily tarot, card meanings, and official policy pages." },
       { heading: "Social profiles", body: "Official social profiles are listed on this page and in structured data only after they are active and verified. We do not publish placeholder social links." },
       { heading: "Brand verification", body: "Search engines and users can check the same brand signals across About, Editorial Policy, AI Disclaimer, Privacy, Reviews, Reading Examples, and this official channels page." },
+      { heading: "Brand search terms", body: "The official brand terms are POPTarot, Pop Tarot AI, and POPTarot AI Tarot. The canonical product category is free AI tarot tool." },
+      { heading: "Crawlable sources", body: "The sitemap, brand assets, free tools hub, daily tarot page, question pages, and card meanings give search engines a consistent map of the product." },
       { heading: "Safe link checks", body: "Be careful with copied links, payment requests, or messages that do not point back to poptarot.com. Official product and policy links should resolve under this domain." },
       { heading: "Membership boundary", body: "The free reading flow stays available before payment. Membership belongs to saved history, deeper follow-ups, advanced spreads, and long-form reports." },
       { heading: "How updates appear", body: "When official accounts, support inboxes, or new public channels are launched, they will be added here first and then reflected in site-wide structured data." },

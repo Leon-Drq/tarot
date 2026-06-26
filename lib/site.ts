@@ -76,6 +76,45 @@ export const officialVerificationLinks = [
   },
 ] as const
 
+export const brandVerificationFacts = [
+  {
+    label: "Official brand name",
+    value: "POPTarot",
+    body: "Use POPTarot as the canonical product and brand name in search, app metadata, structured data, and public references.",
+    href: "/about",
+  },
+  {
+    label: "Canonical domain",
+    value: "poptarot.com",
+    body: "The only canonical website for the POPTarot free AI tarot tool is https://poptarot.com.",
+    href: "/official-channels",
+  },
+  {
+    label: "Primary logo asset",
+    value: "/icon-512x512.png",
+    body: "The 512 x 512 icon is the canonical Organization logo and app icon used for search, manifest, and brand verification.",
+    href: "/brand-assets",
+  },
+  {
+    label: "Sitemap",
+    value: "/sitemap.xml",
+    body: "The sitemap lists free reading paths, Daily Tarot, question pages, card meanings, localized pages, and trust assets.",
+    href: "/sitemap.xml",
+  },
+  {
+    label: "Free product stance",
+    value: "Free AI tarot tool first",
+    body: "The first reading, Daily Tarot, tarot questions, spreads, card meanings, examples, and trust pages are available before payment.",
+    href: "/free-tarot-tools",
+  },
+  {
+    label: "Membership boundary",
+    value: "Upgrade only for depth",
+    body: "Membership is reserved for deeper follow-ups, saved history, advanced spreads, and long-form monthly reports.",
+    href: "/membership",
+  },
+] as const
+
 const coreToolLinks = [
   { label: "Free Tarot Tools", href: "/free-tarot-tools", type: "CollectionPage" },
   { label: "Free AI Tarot Reading", href: "/free-ai-tarot-reading", type: "WebPage" },
@@ -380,6 +419,13 @@ export function organizationJsonLd() {
       "yes or no tarot",
       "official tarot reading channels",
     ],
+    additionalProperty: brandVerificationFacts.map((item) => ({
+      "@type": "PropertyValue",
+      name: item.label,
+      value: item.value,
+      description: item.body,
+      url: `${appUrl}${item.href}`,
+    })),
     subjectOf: [
       {
         "@id": `${appUrl}/official-channels#webpage`,
