@@ -561,6 +561,12 @@ function questionClusterPages(page: SeoPage) {
   return pages
 }
 
+const highIntentQuestionSlugs = new Set(highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")))
+
+function seoLandingSource(page: SeoPage) {
+  return highIntentQuestionSlugs.has(page.slug) ? "seo_question_page" : "seo_landing_page"
+}
+
 function readingHref(page: SeoPage) {
   if (page.slug === "daily-tarot") {
     const params = new URLSearchParams({
@@ -577,6 +583,7 @@ function readingHref(page: SeoPage) {
   const params = new URLSearchParams({
     q: page.ctaQuestion,
     auto: "1",
+    source: seoLandingSource(page),
     lang: page.locale,
     utm_source: "seo",
     utm_medium: "landing",
@@ -727,7 +734,84 @@ const questionHeroToolCopy = {
   prompts: string
 }>
 
-const highIntentQuestionSlugs = new Set(highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")))
+const questionToolEntryCopy = {
+  zh: {
+    eyebrow: "免费问题入口",
+    title: "这个问题已经准备好，可以直接抽牌",
+    body: "页面内容负责帮你判断问题是否问对；真正的解读从一个预填好的问题和对应牌阵开始。",
+    loaded: "已预填问题",
+    spread: "推荐牌阵",
+    positions: "会看的牌位",
+    primary: "开始免费解读",
+    related: "也可以直接抽这些问题",
+    relatedAction: "免费抽这个问题",
+  },
+  en: {
+    eyebrow: "Free question tool",
+    title: "This search question is already ready to draw",
+    body: "Use the page to frame the situation, then start the matching spread with the question already loaded.",
+    loaded: "Question loaded",
+    spread: "Recommended spread",
+    positions: "Positions checked",
+    primary: "Start the free reading",
+    related: "Or draw a related question",
+    relatedAction: "Draw this question free",
+  },
+  ja: {
+    eyebrow: "無料質問ツール",
+    title: "この検索質問はすぐに引けます",
+    body: "ページで状況を整理し、入力済みの質問と対応スプレッドから無料リーディングを始められます。",
+    loaded: "入力済みの質問",
+    spread: "おすすめスプレッド",
+    positions: "確認する位置",
+    primary: "無料リーディング開始",
+    related: "関連する質問も引けます",
+    relatedAction: "この質問で無料リーディング",
+  },
+  ko: {
+    eyebrow: "무료 질문 도구",
+    title: "이 검색 질문은 바로 뽑을 수 있습니다",
+    body: "페이지에서 상황을 정리한 뒤, 미리 입력된 질문과 맞춤 스프레드로 무료 리딩을 시작하세요.",
+    loaded: "입력된 질문",
+    spread: "추천 스프레드",
+    positions: "확인할 포지션",
+    primary: "무료 리딩 시작",
+    related: "관련 질문도 바로 뽑기",
+    relatedAction: "이 질문으로 무료 리딩",
+  },
+  es: {
+    eyebrow: "Herramienta gratis",
+    title: "Esta pregunta de busqueda ya esta lista para tirar",
+    body: "Usa la pagina para ordenar la situacion y empieza la tirada adecuada con la pregunta ya cargada.",
+    loaded: "Pregunta cargada",
+    spread: "Tirada recomendada",
+    positions: "Posiciones revisadas",
+    primary: "Empezar lectura gratis",
+    related: "O tira una pregunta relacionada",
+    relatedAction: "Tirar esta pregunta gratis",
+  },
+  "pt-br": {
+    eyebrow: "Ferramenta gratis",
+    title: "Esta pergunta de busca ja esta pronta para tirar",
+    body: "Use a pagina para organizar a situacao e comece a tiragem adequada com a pergunta ja carregada.",
+    loaded: "Pergunta carregada",
+    spread: "Tiragem recomendada",
+    positions: "Posicoes analisadas",
+    primary: "Comecar leitura gratis",
+    related: "Ou tire uma pergunta relacionada",
+    relatedAction: "Tirar esta pergunta gratis",
+  },
+} satisfies Record<SeoPage["locale"], {
+  eyebrow: string
+  title: string
+  body: string
+  loaded: string
+  spread: string
+  positions: string
+  primary: string
+  related: string
+  relatedAction: string
+}>
 
 type ResultPreview = {
   eyebrow: string
@@ -1654,6 +1738,7 @@ function promptHref(page: SeoPage, prompt: string) {
   const params = new URLSearchParams({
     q: prompt,
     auto: "1",
+    source: seoLandingSource(page),
     lang: page.locale,
     utm_source: "seo",
     utm_medium: "question_prompt",
@@ -1777,6 +1862,89 @@ function QuestionHeroTool({
   )
 }
 
+function QuestionToolEntry({
+  page,
+  toolkit,
+  recommendedSpread,
+  primaryHref,
+  clusterRelated,
+}: {
+  page: SeoPage
+  toolkit: QuestionToolkit
+  recommendedSpread: SpreadConfig
+  primaryHref: string
+  clusterRelated: SeoPage[]
+}) {
+  const copy = questionToolEntryCopy[page.locale]
+  const spreadName = toolkit.spreadTitle || spreadNameForLocale(recommendedSpread, page.locale)
+  const positionNames = heroPositionNames(page, toolkit, recommendedSpread).slice(0, 4)
+  const relatedRows = clusterRelated.slice(0, 3)
+
+  return (
+    <section
+      id="question-tool-entry"
+      data-seo-question-tool-entry
+      data-long-tail-free-spread-entry
+      className="border-b border-white/10 bg-[#0a0414]"
+    >
+      <div className="mx-auto grid max-w-6xl gap-5 px-5 py-12 sm:px-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-10">
+        <div className="min-w-0 rounded-lg border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.045] p-5 shadow-[0_18px_50px_rgba(0,0,0,0.22)]">
+          <p className="text-[11px] uppercase tracking-[0.2em] text-[#c9c0ff]/80">{copy.eyebrow}</p>
+          <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.title}</h2>
+          <p className="mt-3 text-sm leading-7 text-white/62">{copy.body}</p>
+          <div className="mt-5 grid gap-3 md:grid-cols-[1.12fr_0.88fr]">
+            <div className="rounded-lg border border-white/10 bg-black/[0.18] p-4">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.loaded}</p>
+              <p className="mt-2 break-words text-sm font-medium leading-6 text-white">{page.ctaQuestion}</p>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-black/[0.18] p-4">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.spread}</p>
+              <p className="mt-2 text-sm font-medium leading-6 text-white">{spreadName}</p>
+            </div>
+          </div>
+          <div className="mt-4">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.positions}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {positionNames.map((position) => (
+                <span key={position} className="inline-flex min-h-8 items-center rounded-full border border-white/10 bg-black/[0.14] px-3 text-xs text-white/64">
+                  {position}
+                </span>
+              ))}
+            </div>
+          </div>
+          <Link
+            href={primaryHref}
+            data-seo-question-tool-primary
+            className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_50%,#8f80ee_100%)] px-5 py-3 text-sm font-medium text-[#120c22] shadow-[0_16px_38px_rgba(143,128,238,0.22)] transition hover:brightness-110 sm:w-auto"
+          >
+            {copy.primary}
+          </Link>
+        </div>
+
+        {relatedRows.length > 0 && (
+          <aside data-seo-question-tool-related className="min-w-0 rounded-lg border border-white/10 bg-white/[0.035] p-5">
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#c9c0ff]/80">{copy.related}</p>
+            <div className="mt-4 divide-y divide-white/10 border-y border-white/10">
+              {relatedRows.map((item) => (
+                <Link
+                  key={item.path}
+                  href={readingHref(item)}
+                  data-seo-question-related-direct-start
+                  className="group block py-4"
+                >
+                  <h3 className="break-words text-sm font-medium leading-6 text-white group-hover:text-[#f4f0ff]">{item.h1}</h3>
+                  <p className="mt-2 line-clamp-2 text-xs leading-5 text-white/52">{item.intent}</p>
+                  <span className="mt-2 block text-xs text-[#c9c0ff]/68 group-hover:text-[#eeeaff]">{copy.relatedAction}</span>
+                </Link>
+              ))}
+            </div>
+          </aside>
+        )}
+      </div>
+    </section>
+  )
+}
+
 export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const cards = page.cards
     .map((id) => TAROT_CARDS.find((card) => card.id === id))
@@ -1804,6 +1972,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
     : baseCardText
   const combinationText = cardCombinationCopy[page.locale]
   const toolkitCopy = toolkitUiCopy[page.locale] || defaultToolkitUiCopy
+  const toolEntryCopy = questionToolEntryCopy[page.locale]
   const stickyCopy = stickyCtaCopy[page.locale]
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug] || createFallbackQuestionToolkit(page, recommendedSpread)
@@ -2060,6 +2229,33 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         ? [
             {
               "@type": "WebApplication",
+              "@id": `${appUrl}${page.path}#question-tool-entry`,
+              name: toolEntryCopy.title,
+              description: toolEntryCopy.body,
+              applicationCategory: "LifestyleApplication",
+              operatingSystem: "Any",
+              inLanguage: page.locale,
+              isAccessibleForFree: true,
+              url: `${appUrl}${primaryHref}`,
+              potentialAction: {
+                "@type": "InteractAction",
+                name: toolEntryCopy.primary,
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${appUrl}${primaryHref}`,
+                  actionPlatform: [
+                    "https://schema.org/DesktopWebPlatform",
+                    "https://schema.org/MobileWebPlatform",
+                  ],
+                },
+                object: {
+                  "@type": "Question",
+                  name: page.ctaQuestion,
+                },
+              },
+            },
+            {
+              "@type": "WebApplication",
               "@id": `${appUrl}${page.path}#matched-question-spread`,
               name: `${toolkit.spreadTitle || recommendedSpread.nameEn} for ${page.ctaQuestion}`,
               description: toolkit.body,
@@ -2254,6 +2450,16 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
           ))}
         </div>
       </section>
+
+      {toolkit && recommendedSpread && (
+        <QuestionToolEntry
+          page={page}
+          toolkit={toolkit}
+          recommendedSpread={recommendedSpread}
+          primaryHref={primaryHref}
+          clusterRelated={clusterRelated}
+        />
+      )}
 
       {toolkit && recommendedSpread && (
         <section id="recommended-spread" className="border-b border-white/10 bg-[#080310]">
