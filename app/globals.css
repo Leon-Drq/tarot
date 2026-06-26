@@ -201,7 +201,7 @@
     --home-hero-glow-size: min(82vw, 30rem);
     --home-hero-flow-gap: clamp(2.75rem, 7vh, 3.5rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
-    --home-hero-content-reserve: 56rem;
+    --home-hero-content-reserve: 60rem;
     --home-hero-shell-min-height: max(176vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
   }
 
@@ -223,7 +223,7 @@
       --home-hero-card-width: 12.25rem;
       --home-hero-card-height: 21rem;
       --home-hero-flow-gap: 3.5rem;
-      --home-hero-content-reserve: 46rem;
+      --home-hero-content-reserve: 50rem;
       --home-hero-shell-min-height: max(150vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
     }
 
@@ -242,7 +242,7 @@
       --home-hero-card-height: 29.125rem;
       --home-hero-glow-size: 34rem;
       --home-hero-flow-gap: 4.4375rem;
-      --home-hero-content-reserve: 38rem;
+      --home-hero-content-reserve: 40rem;
       --home-hero-shell-min-height: max(128vh, calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)));
     }
 

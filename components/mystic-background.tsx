@@ -245,7 +245,7 @@ function HomeDailyReturnPanel() {
   return (
     <div
       data-home-daily-return-panel
-      className="relative z-30 mx-auto mt-6 w-[calc(100vw_-_3rem)] max-w-[620px] rounded-lg border border-white/10 bg-[#100720]/95 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.34)] backdrop-blur-md sm:mt-6"
+      className="relative z-30 mx-auto mt-6 w-[calc(100vw_-_3rem)] max-w-[620px] rounded-lg border border-white/10 bg-[#0b0314] p-4 shadow-[0_18px_50px_rgba(0,0,0,0.34)] backdrop-blur-md sm:mt-6"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
@@ -548,7 +548,7 @@ function HomeScrollContent() {
     }[language]
 
   return (
-    <section className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-20 sm:pt-20">
+    <section className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-28 sm:pt-24">
       <div className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.eyebrow}</p>
         <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{copy.title}</h2>
@@ -753,7 +753,7 @@ function MysticContent() {
 
       <div
         data-home-hero-shell
-        className="home-hero-shell relative overflow-visible pb-[calc(env(safe-area-inset-bottom)+6rem)] md:pb-28"
+        className="home-hero-shell relative overflow-hidden pb-[calc(env(safe-area-inset-bottom)+7.5rem)] md:pb-28"
       >
         <section
           data-home-hero-copy
@@ -812,7 +812,7 @@ function MysticContent() {
 
           <div
             data-home-secondary-nav
-            className="relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#100720]/86 px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0"
+            className="relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314] px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0"
           >
             <a href="/daily-tarot" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
               Daily Tarot

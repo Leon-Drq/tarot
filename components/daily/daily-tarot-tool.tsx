@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
-import { Bell, CalendarPlus, Loader2, NotebookPen, Share2, Smartphone } from "lucide-react"
+import { Bell, CalendarPlus, Link2, Loader2, Mail, NotebookPen, Share2, Smartphone } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import {
@@ -200,6 +200,10 @@ function readReturnCommitment(dateKey: string): DailyReturnCommitment | null {
   }
 }
 
+function cleanReturnFocus(value: string | null) {
+  return (value || "").trim().slice(0, 80)
+}
+
 function cardFromEntry(entry: DailyTarotEntry): DrawnCard | null {
   const savedCard = getCardById(entry.card_id)
   if (!savedCard) return null
@@ -333,6 +337,7 @@ export function DailyTarotTool() {
   const [todayReturnCommitment, setTodayReturnCommitment] = useState<DailyReturnCommitment | null>(null)
   const [tomorrowReturnCommitment, setTomorrowReturnCommitment] = useState<DailyReturnCommitment | null>(null)
   const [returnCommitmentStatus, setReturnCommitmentStatus] = useState("")
+  const [returnLinkStatus, setReturnLinkStatus] = useState("")
   const [installStatus, setInstallStatus] = useState("")
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [showInstallPrompt, setShowInstallPrompt] = useState(false)
@@ -413,6 +418,11 @@ export function DailyTarotTool() {
         notePlaceholder: "例如：观察我是否还在同一个情绪里，或者我是否采取了一个小行动。",
         saved: "明日回访主题已保存",
         save: "保存明日主题",
+        copyLink: "复制回访链接",
+        mailLink: "发到邮箱草稿",
+        linkCopied: "回访链接已复制",
+        mailOpened: "已打开邮件草稿",
+        linkLabel: "你的 Daily Tarot 回访链接",
         quickAction: "明日主题",
         savedPrefix: "已保存",
         defaultFocus: "今日牌的下一步",
@@ -428,6 +438,11 @@ export function DailyTarotTool() {
         notePlaceholder: "例: 同じ感情が続いているか、小さな行動を取れたかを見る。",
         saved: "明日のテーマを保存しました",
         save: "明日のテーマを保存",
+        copyLink: "再訪リンクをコピー",
+        mailLink: "メール下書きへ",
+        linkCopied: "再訪リンクをコピーしました",
+        mailOpened: "メール下書きを開きました",
+        linkLabel: "Daily Tarot 再訪リンク",
         quickAction: "明日のテーマ",
         savedPrefix: "保存済み",
         defaultFocus: "今日のカードの次の一歩",
@@ -443,6 +458,11 @@ export function DailyTarotTool() {
         notePlaceholder: "예: 같은 감정이 반복되는지, 작은 행동을 했는지 확인하기.",
         saved: "내일 다시 볼 주제가 저장되었습니다",
         save: "내일 주제 저장",
+        copyLink: "다시 보기 링크 복사",
+        mailLink: "이메일 초안 열기",
+        linkCopied: "다시 보기 링크가 복사되었습니다",
+        mailOpened: "이메일 초안을 열었습니다",
+        linkLabel: "Daily Tarot 다시 보기 링크",
         quickAction: "내일 주제",
         savedPrefix: "저장됨",
         defaultFocus: "오늘 카드의 다음 단계",
@@ -458,6 +478,11 @@ export function DailyTarotTool() {
         notePlaceholder: "For example: notice whether the same feeling returns, or whether I took one small action.",
         saved: "Tomorrow's return cue is saved",
         save: "Save Tomorrow Cue",
+        copyLink: "Copy return link",
+        mailLink: "Email it to me",
+        linkCopied: "Return link copied",
+        mailOpened: "Email draft opened",
+        linkLabel: "Your Daily Tarot return link",
         quickAction: "Tomorrow Cue",
         savedPrefix: "Saved",
         defaultFocus: "Next step from today's card",
@@ -534,13 +559,28 @@ export function DailyTarotTool() {
     const seededCard = getDailyCard(today, getSeed())
     setCard(seededCard)
     setRecentEntries(readRecentLocalEntries(today))
-    setTodayReturnCommitment(readReturnCommitment(today))
+    const carriedCommitment = readReturnCommitment(today)
+    const linkedFocus = cleanReturnFocus(new URLSearchParams(window.location.search).get("return_focus"))
+    setTodayReturnCommitment(
+      carriedCommitment ||
+        (linkedFocus
+          ? {
+              target_date: today,
+              source_entry_date: today,
+              focus: linkedFocus,
+              note: "",
+              created_at: new Date().toISOString(),
+            }
+          : null),
+    )
 
     const tomorrowCommitment = readReturnCommitment(getNextDateKey(today))
     setTomorrowReturnCommitment(tomorrowCommitment)
     if (tomorrowCommitment) {
       setReturnFocus(tomorrowCommitment.focus)
       setReturnNote(tomorrowCommitment.note)
+    } else if (linkedFocus) {
+      setReturnFocus(linkedFocus)
     }
 
     const localEntry = localStorage.getItem(localDailyKey(today))
@@ -850,6 +890,57 @@ export function DailyTarotTool() {
     setReturnFocus(nextCommitment.focus)
     setReturnNote(nextCommitment.note)
     setReturnCommitmentStatus(returnCopy.saved)
+    setReturnLinkStatus("")
+  }
+
+  const buildDailyReturnPath = (medium: "return_link" | "email_self") => {
+    const focus = cleanReturnFocus(tomorrowReturnCommitment?.focus || returnFocus || returnCopy.defaultFocus) || returnCopy.defaultFocus
+    const params = new URLSearchParams({
+      return_focus: focus,
+      utm_source: "daily-tarot",
+      utm_medium: medium,
+      utm_campaign: "daily-return-cue",
+    })
+
+    return `/daily-tarot?${params.toString()}`
+  }
+
+  const buildDailyReturnUrl = (medium: "return_link" | "email_self") => {
+    return `${window.location.origin}${buildDailyReturnPath(medium)}`
+  }
+
+  const handleCopyReturnLink = async () => {
+    const url = buildDailyReturnUrl("return_link")
+    await navigator.clipboard.writeText(url)
+    setReturnLinkStatus(returnCopy.linkCopied)
+    analyticsApi.track("share_template_copied", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      metadata: {
+        action: "daily_return_link_copied",
+        surface: "daily-tarot",
+        focus: cleanReturnFocus(tomorrowReturnCommitment?.focus || returnFocus),
+      },
+    })
+  }
+
+  const handleEmailReturnLink = () => {
+    const url = buildDailyReturnUrl("email_self")
+    const subject = encodeURIComponent("POPTarot Daily Tarot")
+    const body = encodeURIComponent(`${returnCopy.linkLabel}\n\n${url}`)
+    window.location.href = `mailto:?subject=${subject}&body=${body}`
+    setReturnLinkStatus(returnCopy.mailOpened)
+    analyticsApi.track("share_template_copied", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      metadata: {
+        action: "daily_return_email_opened",
+        surface: "daily-tarot",
+        focus: cleanReturnFocus(tomorrowReturnCommitment?.focus || returnFocus),
+      },
+    })
   }
 
   const scrollToReminder = () => {
@@ -1445,6 +1536,37 @@ export function DailyTarotTool() {
               >
                 {returnCopy.save}
               </button>
+            </div>
+
+            <div
+              data-daily-return-link
+              className="rounded-lg border border-white/10 bg-black/16 p-4"
+            >
+              <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">{returnCopy.linkLabel}</p>
+              <p className="mt-2 break-all text-xs leading-5 text-white/48">
+                {buildDailyReturnPath("return_link")}
+              </p>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                <button
+                  type="button"
+                  data-daily-return-link-copy
+                  onClick={handleCopyReturnLink}
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/28 bg-[#c9c0ff]/[0.08] px-4 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
+                >
+                  <Link2 className="h-4 w-4" aria-hidden="true" />
+                  {returnCopy.copyLink}
+                </button>
+                <button
+                  type="button"
+                  data-daily-return-link-mailto
+                  onClick={handleEmailReturnLink}
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
+                >
+                  <Mail className="h-4 w-4" aria-hidden="true" />
+                  {returnCopy.mailLink}
+                </button>
+              </div>
+              {returnLinkStatus && <p className="mt-3 text-xs text-[#c9c0ff]">{returnLinkStatus}</p>}
             </div>
 
             {returnCommitmentStatus && <p className="text-xs text-[#c9c0ff]">{returnCommitmentStatus}</p>}
