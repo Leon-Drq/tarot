@@ -241,7 +241,7 @@ for (const anchor of ["love", "career", "money", "yes-or-no", "advice"]) {
   assertIncludes(files.cardMeaningPage, `"${anchor}"`, `card page anchor ${anchor}`)
 }
 
-for (const section of ["#spread-positions", "#example-readings", "#combinations", "#faq", "#question-paths", "#daily-practice"]) {
+for (const section of ["#spread-positions", "#example-readings", "#combinations", "#faq", "#question-paths", "#daily-practice", "#context-signals"]) {
   assertIncludes(files.cardMeaningPage, section, `card page section ${section}`)
 }
 
@@ -256,6 +256,11 @@ for (const [needle, label] of [
   ["data-card-quick-answer", "card quick answer visible section hook"],
   ["#card-quick-answer", "card quick answer structured data item list"],
   ["numberOfItems: quickRows.length", "card quick answer row count schema"],
+  ["data-card-context-signal-grid", "English card context signal grid hook"],
+  ["#context-signal-grid", "English card context signal structured data"],
+  ["data-card-context-signal-link", "English card context signal free-spread links"],
+  ["page.locale !== \"en\"", "card context signal English-first guard"],
+  ["Open free spread", "English card context signal CTA"],
   ["cardCombinationHref", "card combination internal-link helper"],
   ["combinationLinkLabel", "card combination localized link label"],
   ["#card-combinations", "card combination structured data item list"],

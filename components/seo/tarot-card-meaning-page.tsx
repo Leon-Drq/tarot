@@ -209,6 +209,7 @@ function cardPageNavItems(page: TarotCardSeoPage) {
     { href: "#upright", label: page.uprightLabel },
     { href: "#reversed", label: page.reversedLabel },
     { href: "#core-meaning", label: copy.coreLabel },
+    ...(page.locale === "en" ? [{ href: "#context-signals", label: "Context signals" }] : []),
     ...page.deepSections.map((section, index) => ({
       href: `#${deepSectionAnchorId(page, index)}`,
       label: section.heading,
@@ -699,6 +700,84 @@ function createRelatedCardLinks(page: TarotCardSeoPage): RelatedCardLink[] {
     })
 }
 
+type CardContextSignalGrid = {
+  navLabel: string
+  eyebrow: string
+  title: string
+  body: string
+  uprightLabel: string
+  reversedLabel: string
+  questionLabel: string
+  actionLabel: string
+  rows: Array<CardPrompt & {
+    context: string
+    upright: string
+    reversed: string
+  }>
+}
+
+function cardContextSignalGrid(
+  page: TarotCardSeoPage,
+  keywords: ReturnType<typeof getCardKeywords>
+): CardContextSignalGrid | null {
+  if (page.locale !== "en") return null
+
+  const name = cardDisplayName(page)
+
+  return {
+    navLabel: "Context signals",
+    eyebrow: "English search guide",
+    title: `${name} by question type`,
+    body: "Use these short signals when you need a fast answer, then open the matching free spread for a full AI reading.",
+    uprightLabel: "Upright signal",
+    reversedLabel: "Reversed signal",
+    questionLabel: "Good next question",
+    actionLabel: "Open free spread",
+    rows: [
+      {
+        label: "Love",
+        context: "Love",
+        upright: `${keywords.upright}. Look for behavior that matches the feeling, not only attraction.`,
+        reversed: `${keywords.reversed}. Slow down if the same relationship pattern keeps creating confusion.`,
+        question: `What does ${name} mean for my love life right now?`,
+        spread: "relationship",
+      },
+      {
+        label: "Career",
+        context: "Career",
+        upright: `${keywords.upright}. Use it as a signal for momentum, responsibility, or the next practical move.`,
+        reversed: `${keywords.reversed}. Check whether pressure, poor timing, or unclear priorities are distorting the decision.`,
+        question: `How should I use ${name} energy in my career this week?`,
+        spread: "job_opportunity",
+      },
+      {
+        label: "Money",
+        context: "Money",
+        upright: `${keywords.upright}. Connect the meaning to real resources, spending, planning, and stability.`,
+        reversed: `${keywords.reversed}. Avoid rushed choices until the risk, cost, or missing information is clear.`,
+        question: `What does ${name} suggest about my money choice right now?`,
+        spread: "shopping_decision",
+      },
+      {
+        label: "Yes or no",
+        context: "Yes or no",
+        upright: `${keywords.upright}. It leans clearer when the question matches the card's active energy.`,
+        reversed: `${keywords.reversed}. Treat the answer as wait, clarify, or repair the pattern before acting.`,
+        question: `Is ${name} a yes or no for my current decision?`,
+        spread: "yes_no",
+      },
+      {
+        label: "Advice",
+        context: "Advice",
+        upright: `${keywords.upright}. Choose one grounded action that works with the card instead of chasing reassurance.`,
+        reversed: `${keywords.reversed}. The useful advice is to correct the imbalance before making the next move.`,
+        question: `What advice does ${name} give me today?`,
+        spread: "three_card",
+      },
+    ],
+  }
+}
+
 export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const keywords = getCardKeywords(page.card, page.locale)
   const meaningsHref = localePath(page.locale, "/tarot-card-meanings")
@@ -715,6 +794,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const stickyCopy = cardStickyCtaCopy(page)
   const navItems = cardPageNavItems(page)
   const quickRows = cardQuickAnswerRows(page, keywords)
+  const contextSignalGrid = cardContextSignalGrid(page, keywords)
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -852,6 +932,24 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           url: `${appUrl}${page.path}#${row.id}`,
         })),
       },
+      ...(contextSignalGrid
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#context-signal-grid`,
+              name: contextSignalGrid.title,
+              description: contextSignalGrid.body,
+              numberOfItems: contextSignalGrid.rows.length,
+              itemListElement: contextSignalGrid.rows.map((row, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: row.context,
+                description: `${contextSignalGrid.uprightLabel}: ${row.upright} ${contextSignalGrid.reversedLabel}: ${row.reversed}`,
+                url: `${appUrl}${cardPromptHref(page, row)}`,
+              })),
+            },
+          ]
+        : []),
       {
         "@type": "FAQPage",
         "@id": `${appUrl}${page.path}#faq`,
@@ -1062,6 +1160,53 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                   ))}
                 </dl>
               </section>
+
+              {contextSignalGrid && (
+                <section
+                  id="context-signals"
+                  data-card-context-signal-grid
+                  className="mt-6 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5"
+                >
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{contextSignalGrid.eyebrow}</p>
+                  <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{contextSignalGrid.title}</h2>
+                  <p className="mt-3 text-sm leading-7 text-white/62">{contextSignalGrid.body}</p>
+                  <div className="mt-5 grid gap-3 lg:grid-cols-2">
+                    {contextSignalGrid.rows.map((row) => (
+                      <article
+                        key={row.context}
+                        className="min-w-0 rounded-lg border border-white/10 bg-black/[0.14] p-4"
+                      >
+                        <h3 className="text-sm font-medium text-[#f1edff]">{row.context}</h3>
+                        <div className="mt-3 space-y-3">
+                          <p className="text-sm leading-6 text-white/62">
+                            <span className="block text-[11px] uppercase tracking-[0.14em] text-[#c9c0ff]/68">
+                              {contextSignalGrid.uprightLabel}
+                            </span>
+                            {row.upright}
+                          </p>
+                          <p className="text-sm leading-6 text-white/56">
+                            <span className="block text-[11px] uppercase tracking-[0.14em] text-white/38">
+                              {contextSignalGrid.reversedLabel}
+                            </span>
+                            {row.reversed}
+                          </p>
+                        </div>
+                        <p className="mt-4 text-[11px] uppercase tracking-[0.14em] text-white/36">
+                          {contextSignalGrid.questionLabel}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-white/68">{row.question}</p>
+                        <Link
+                          href={cardPromptHref(page, row)}
+                          data-card-context-signal-link
+                          className="mt-4 inline-flex min-h-10 items-center text-sm font-medium text-[#c9c0ff] transition hover:text-white"
+                        >
+                          {contextSignalGrid.actionLabel}
+                        </Link>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              )}
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
                 <div id="upright" className="scroll-mt-24 rounded-lg border border-[#bfb6ff]/25 bg-white/[0.04] p-5">
