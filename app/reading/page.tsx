@@ -15,12 +15,22 @@ import { analyticsApi, readingApi, getAccessToken, authApi, setAccessToken, type
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isLocale, isSeoLocale, type Locale, type SeoLocale } from "@/lib/locales"
+import type { SpreadType } from "@/lib/spread-config"
 
 interface Message {
   id: string
   type: "reading" | "followup"
   content: string
   question?: string
+}
+
+type ReadingNextFreeItem = {
+  label: string
+  body: string
+  campaign: string
+  href?: string
+  question?: string
+  spread?: SpreadType
 }
 
 export default function ReadingPage() {
@@ -297,6 +307,98 @@ export default function ReadingPage() {
   const dailyReturnHref = `/daily-tarot?${readingReturnParams}`
   const meaningsReturnHref = `/tarot-card-meanings?${readingReturnParams}`
   const toolsReturnHref = `/free-tarot-tools?${readingReturnParams}`
+  const readingNextFreeCopy =
+    {
+      zh: {
+        eyebrow: "继续免费",
+        title: "下一步先继续问一个具体问题",
+        body: "如果这次解读还没完全清楚，可以换一个高意图问题继续免费抽牌；深度追问、历史保存和月度报告再作为会员功能。",
+        items: [
+          { label: "他爱我吗？", body: "看真实情绪、一致性和下一步。", question: "他爱我吗？这段关系真实的情绪是什么？", spread: "their_thoughts", campaign: "does_he_love_me" },
+          { label: "前任会回来吗？", body: "看复合、联系时机和是否值得等。", question: "前任会回来吗？我该继续等还是放下？", spread: "breakup_recovery", campaign: "ex_return" },
+          { label: "事业下一步", body: "把压力、机会和行动重点分开。", question: "我现在的事业方向需要注意什么？", spread: "job_opportunity", campaign: "career_tarot" },
+          { label: "明天每日塔罗", body: "一张每日牌、连续打卡和日记。", href: dailyReturnHref, campaign: "daily_tarot" },
+        ] satisfies ReadingNextFreeItem[],
+      },
+      en: {
+        eyebrow: "Continue free",
+        title: "Ask one more precise question first",
+        body: "If this reading opened another thread, continue with a focused free question. Deeper follow-ups, saved history, and monthly reports can stay for membership.",
+        items: [
+          { label: "Does he love me?", body: "Check feelings, consistency, and the next move.", question: "Does he love me, and what is the real emotional energy between us?", spread: "their_thoughts", campaign: "does_he_love_me" },
+          { label: "Will my ex come back?", body: "Look at contact, timing, and whether waiting helps.", question: "Will my ex come back, and should I keep waiting or let go?", spread: "breakup_recovery", campaign: "ex_return" },
+          { label: "Career tarot", body: "Separate pressure, opportunity, and one practical step.", question: "What should I understand about my career path right now?", spread: "job_opportunity", campaign: "career_tarot" },
+          { label: "Daily Tarot", body: "One daily card, streaks, and a journal note.", href: dailyReturnHref, campaign: "daily_tarot" },
+        ] satisfies ReadingNextFreeItem[],
+      },
+      ja: {
+        eyebrow: "無料で続ける",
+        title: "次は具体的な質問で続ける",
+        body: "このリーディングから別の疑問が出たら、まず無料の質問で続けられます。深い追質問、履歴保存、月次レポートは会員機能です。",
+        items: [
+          { label: "彼は私を愛している？", body: "感情、一貫性、次の行動を見る。", question: "彼は私を愛していますか？二人の本当の感情は何ですか？", spread: "their_thoughts", campaign: "does_he_love_me" },
+          { label: "元恋人は戻る？", body: "連絡、時期、待つ意味を確認。", question: "元恋人は戻りますか？待つべきですか、それとも手放すべきですか？", spread: "breakup_recovery", campaign: "ex_return" },
+          { label: "仕事の流れ", body: "プレッシャー、機会、次の一歩を分ける。", question: "今の仕事の流れについて何を理解すべきですか？", spread: "job_opportunity", campaign: "career_tarot" },
+          { label: "今日のタロット", body: "一枚引き、連続記録、日記。", href: dailyReturnHref, campaign: "daily_tarot" },
+        ] satisfies ReadingNextFreeItem[],
+      },
+      ko: {
+        eyebrow: "무료로 계속",
+        title: "다음은 더 구체적인 질문으로",
+        body: "이번 리딩에서 새 질문이 생겼다면 먼저 무료 질문으로 이어가세요. 심층 질문, 기록 저장, 월간 리포트는 멤버십에 남겨둡니다.",
+        items: [
+          { label: "그는 나를 사랑할까?", body: "감정, 일관성, 다음 행동을 봅니다.", question: "그는 나를 사랑하나요? 우리 사이의 진짜 감정은 무엇인가요?", spread: "their_thoughts", campaign: "does_he_love_me" },
+          { label: "전 애인이 돌아올까?", body: "연락, 시기, 기다림의 의미를 확인.", question: "전 애인이 돌아올까요? 계속 기다려야 하나요, 내려놓아야 하나요?", spread: "breakup_recovery", campaign: "ex_return" },
+          { label: "커리어 타로", body: "압박, 기회, 다음 실천을 나눠 봅니다.", question: "지금 내 커리어 흐름에서 무엇을 이해해야 하나요?", spread: "job_opportunity", campaign: "career_tarot" },
+          { label: "데일리 타로", body: "하루 한 장, 연속 기록, 저널.", href: dailyReturnHref, campaign: "daily_tarot" },
+        ] satisfies ReadingNextFreeItem[],
+      },
+      es: {
+        eyebrow: "Continua gratis",
+        title: "Haz una pregunta mas precisa primero",
+        body: "Si esta lectura abrio otro hilo, continua con una pregunta gratis enfocada. Las preguntas profundas, el historial y los informes mensuales quedan para membresia.",
+        items: [
+          { label: "Does he love me?", body: "Sentimientos, coherencia y proximo paso.", question: "Does he love me, and what is the real emotional energy between us?", spread: "their_thoughts", campaign: "does_he_love_me" },
+          { label: "Will my ex come back?", body: "Contacto, tiempo y si conviene esperar.", question: "Will my ex come back, and should I keep waiting or let go?", spread: "breakup_recovery", campaign: "ex_return" },
+          { label: "Career tarot", body: "Presion, oportunidad y una accion practica.", question: "What should I understand about my career path right now?", spread: "job_opportunity", campaign: "career_tarot" },
+          { label: "Tarot Diario", body: "Una carta diaria, racha y diario.", href: dailyReturnHref, campaign: "daily_tarot" },
+        ] satisfies ReadingNextFreeItem[],
+      },
+      "pt-br": {
+        eyebrow: "Continue gratis",
+        title: "Faca uma pergunta mais precisa primeiro",
+        body: "Se esta leitura abriu outro tema, continue com uma pergunta gratis focada. Perguntas profundas, historico e relatorios mensais ficam para a assinatura.",
+        items: [
+          { label: "Does he love me?", body: "Sentimentos, consistencia e proximo passo.", question: "Does he love me, and what is the real emotional energy between us?", spread: "their_thoughts", campaign: "does_he_love_me" },
+          { label: "Will my ex come back?", body: "Contato, tempo e se vale esperar.", question: "Will my ex come back, and should I keep waiting or let go?", spread: "breakup_recovery", campaign: "ex_return" },
+          { label: "Career tarot", body: "Pressao, oportunidade e uma acao pratica.", question: "What should I understand about my career path right now?", spread: "job_opportunity", campaign: "career_tarot" },
+          { label: "Tarot Diario", body: "Uma carta diaria, sequencia e diario.", href: dailyReturnHref, campaign: "daily_tarot" },
+        ] satisfies ReadingNextFreeItem[],
+      },
+    }[activeReadingLocale] || {
+      eyebrow: "Continue free",
+      title: "Ask one more precise question first",
+      body: "If this reading opened another thread, continue with a focused free question. Deeper follow-ups, saved history, and monthly reports can stay for membership.",
+      items: [
+        { label: "Does he love me?", body: "Check feelings, consistency, and the next move.", question: "Does he love me, and what is the real emotional energy between us?", spread: "their_thoughts", campaign: "does_he_love_me" },
+        { label: "Will my ex come back?", body: "Look at contact, timing, and whether waiting helps.", question: "Will my ex come back, and should I keep waiting or let go?", spread: "breakup_recovery", campaign: "ex_return" },
+        { label: "Career tarot", body: "Separate pressure, opportunity, and one practical step.", question: "What should I understand about my career path right now?", spread: "job_opportunity", campaign: "career_tarot" },
+        { label: "Daily Tarot", body: "One daily card, streaks, and a journal note.", href: dailyReturnHref, campaign: "daily_tarot" },
+      ] satisfies ReadingNextFreeItem[],
+    }
+  const readingNextFreeHref = (questionText: string, spread: SpreadType, campaign: string) => {
+    const params = new URLSearchParams({
+      q: questionText,
+      auto: "1",
+      source: "reading_result",
+      spread,
+      lang: activeReadingLocale,
+      utm_source: "reading_result",
+      utm_medium: "next_free_question",
+      utm_campaign: campaign,
+    })
+    return `/input?${params.toString()}`
+  }
   const orientationCopy =
     {
       zh: { upright: "正", reversed: "逆" },
@@ -1326,6 +1428,40 @@ export default function ReadingPage() {
                 </div>
               </div>
             )}
+          </div>
+          <div
+            data-reading-next-free-paths
+            className="mt-4 rounded-lg border border-[#c9c0ff]/16 bg-[#c9c0ff]/[0.035] p-5 backdrop-blur-sm"
+          >
+            <div className="max-w-2xl">
+              <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/72">{readingNextFreeCopy.eyebrow}</p>
+              <h2 className="mt-2 text-base font-medium leading-snug text-white/88">{readingNextFreeCopy.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-white/52">{readingNextFreeCopy.body}</p>
+            </div>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {readingNextFreeCopy.items.map((item) => {
+                const href =
+                  item.href ||
+                  readingNextFreeHref(
+                    item.question || question || "What should I ask next?",
+                    item.spread || "three_card",
+                    item.campaign
+                  )
+
+                return (
+                  <Link
+                    key={item.campaign}
+                    href={href}
+                    data-reading-next-free-question
+                    data-reading-next-free-daily={item.href ? "true" : undefined}
+                    className="group min-w-0 rounded-lg border border-white/10 bg-black/18 p-4 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.055]"
+                  >
+                    <p className="break-words text-sm font-medium leading-snug text-[#f2eeff]">{item.label}</p>
+                    <p className="mt-2 text-xs leading-5 text-white/52">{item.body}</p>
+                  </Link>
+                )
+              })}
+            </div>
           </div>
           <div
             data-reading-return-path
