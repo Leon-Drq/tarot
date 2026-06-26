@@ -60,12 +60,17 @@ const pages = [
   {
     path: "/tarot-card-meanings/the-fool",
     name: "card meaning",
-    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]"],
+    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-neighbor-nav]"],
   },
   {
     path: "/es/tarot-card-meanings/the-fool",
     name: "Spanish card meaning",
-    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]"],
+    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-neighbor-nav]"],
+  },
+  {
+    path: "/pt-br/tarot-card-meanings/the-fool",
+    name: "Portuguese card meaning",
+    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-neighbor-nav]"],
   },
   {
     path: "/free-tarot-tools",

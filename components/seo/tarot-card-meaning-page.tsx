@@ -562,6 +562,14 @@ type RelatedCardLink = {
   card: TarotCard
 }
 
+type NeighborCardLink = {
+  eyebrow: string
+  title: string
+  body: string
+  href: string
+  card: TarotCard
+}
+
 function cardNameForLocale(card: TarotCard, page: TarotCardSeoPage) {
   if (page.locale === "zh") return card.name
   if (page.locale === "ja") return card.nameJa || card.nameEn
@@ -700,6 +708,100 @@ function createRelatedCardLinks(page: TarotCardSeoPage): RelatedCardLink[] {
     })
 }
 
+function neighborCardCopy(page: TarotCardSeoPage) {
+  if (page.locale === "zh") {
+    return {
+      eyebrow: "牌义顺序",
+      title: "继续按塔罗顺序浏览",
+      body: "上一张和下一张牌能帮助你把这张牌放回完整牌组，看主题如何向前或向后变化。",
+      previous: "上一张",
+      next: "下一张",
+    }
+  }
+
+  if (page.locale === "ja") {
+    return {
+      eyebrow: "カード順",
+      title: "タロット順で続けて読む",
+      body: "前後のカードを見ると、このカードのテーマがデッキ全体の流れの中でどう変わるか分かります。",
+      previous: "前のカード",
+      next: "次のカード",
+    }
+  }
+
+  if (page.locale === "ko") {
+    return {
+      eyebrow: "카드 순서",
+      title: "타로 순서대로 이어서 보기",
+      body: "앞뒤 카드를 함께 보면 이 카드의 주제가 전체 덱 흐름에서 어떻게 변하는지 더 쉽게 보입니다.",
+      previous: "이전 카드",
+      next: "다음 카드",
+    }
+  }
+
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Orden del tarot",
+      title: "Continúa por el orden del mazo",
+      body: "Las cartas anterior y siguiente ayudan a ubicar este significado dentro del recorrido completo del tarot.",
+      previous: "Carta anterior",
+      next: "Carta siguiente",
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Ordem do tarot",
+      title: "Continue pela ordem do baralho",
+      body: "As cartas anterior e seguinte ajudam a colocar este significado dentro do caminho completo do tarot.",
+      previous: "Carta anterior",
+      next: "Próxima carta",
+    }
+  }
+
+  return {
+    eyebrow: "Tarot order",
+    title: "Continue through the deck",
+    body: "The previous and next cards help you place this meaning inside the full tarot sequence, not as an isolated symbol.",
+    previous: "Previous card",
+    next: "Next card",
+  }
+}
+
+function createNeighborCardLinks(page: TarotCardSeoPage): NeighborCardLink[] {
+  const index = TAROT_CARDS.findIndex((card) => card.id === page.card.id)
+  if (index === -1) return []
+
+  const copy = neighborCardCopy(page)
+  const neighbors = [
+    { eyebrow: copy.previous, card: TAROT_CARDS[(index - 1 + TAROT_CARDS.length) % TAROT_CARDS.length] },
+    { eyebrow: copy.next, card: TAROT_CARDS[(index + 1) % TAROT_CARDS.length] },
+  ]
+
+  return neighbors.map(({ eyebrow, card }) => {
+    const name = cardNameForLocale(card, page)
+
+    return {
+      eyebrow,
+      card,
+      title:
+        page.locale === "zh"
+          ? `${name}牌义`
+          : page.locale === "ja"
+            ? `${name}の意味`
+            : page.locale === "ko"
+              ? `${name} 의미`
+              : page.locale === "es"
+                ? `${name} significado`
+                : page.locale === "pt-br"
+                  ? `${name} significado`
+                  : `${card.nameEn} Tarot Meaning`,
+      body: relatedCardBody(page, name),
+      href: localePath(page.locale, `/tarot-card-meanings/${getCardSlug(card)}`),
+    }
+  })
+}
+
 type CardContextSignalGrid = {
   navLabel: string
   eyebrow: string
@@ -788,6 +890,8 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const questionPaths = questionPathCopy(page)
   const relatedCopy = relatedCardCopy(page)
   const relatedCards = createRelatedCardLinks(page)
+  const neighborCopy = neighborCardCopy(page)
+  const neighborCards = createNeighborCardLinks(page)
   const trustCopy = trustHighlightCopy(page)
   const trustItems = trustHighlightItems(page)
   const guideCopy = cardPageGuideCopy(page)
@@ -1041,6 +1145,19 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         "@id": `${appUrl}${page.path}#related-card-meanings`,
         name: relatedCopy.title,
         itemListElement: relatedCards.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.title,
+          description: item.body,
+          url: `${appUrl}${item.href}`,
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#neighbor-card-meanings`,
+        name: neighborCopy.title,
+        description: neighborCopy.body,
+        itemListElement: neighborCards.map((item, index) => ({
           "@type": "ListItem",
           position: index + 1,
           name: item.title,
@@ -1418,6 +1535,30 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                   ))}
                 </div>
               </div>
+
+              <nav
+                data-card-neighbor-nav
+                aria-label={neighborCopy.title}
+                className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.035] p-5"
+              >
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{neighborCopy.eyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{neighborCopy.title}</h2>
+                <p className="mt-3 text-sm leading-7 text-white/62">{neighborCopy.body}</p>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  {neighborCards.map((item) => (
+                    <Link
+                      key={item.href}
+                      data-card-neighbor-link
+                      href={item.href}
+                      className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                    >
+                      <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">{item.eyebrow}</p>
+                      <h3 className="mt-2 break-words text-sm font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                    </Link>
+                  ))}
+                </div>
+              </nav>
 
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link

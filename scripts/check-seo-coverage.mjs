@@ -296,6 +296,12 @@ for (const [needle, label] of [
   ["combinationLinkLabel", "card combination localized link label"],
   ["#card-combinations", "card combination structured data item list"],
   ["Open paired card", "English paired-card link label"],
+  ["createNeighborCardLinks", "card neighbor navigation helper"],
+  ["data-card-neighbor-nav", "card neighbor visible navigation"],
+  ["data-card-neighbor-link", "card neighbor visible links"],
+  ["#neighbor-card-meanings", "card neighbor structured data item list"],
+  ["Previous card", "English previous card label"],
+  ["Next card", "English next card label"],
 ]) {
   assertIncludes(files.cardMeaningPage, needle, label)
 }
