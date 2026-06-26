@@ -11,6 +11,7 @@ interface MenuButtonProps {
 export function MenuButton({ isOpen, onClick, className }: MenuButtonProps) {
   return (
     <button
+      data-home-menu-button
       onClick={onClick}
       className={cn(
         "z-50 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 flex flex-col items-center justify-center gap-2 sm:gap-2.5 group transition-all duration-300",

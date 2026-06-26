@@ -7,6 +7,13 @@ const pages = [
     path: "/",
     name: "home",
     requiredSelectors: ["[data-home-card]", "[data-home-question-form]", "[data-home-daily-return-panel]"],
+    menuRequiredSelectors: [
+      "[data-menu-free-first-primary]",
+      "[data-menu-free-path-grid]",
+      "[data-menu-trust-paths]",
+      "[data-menu-depth-boundary]",
+      "[data-menu-membership-boundary]",
+    ],
     allowedWideSelector: "mix-blend-color-dodge",
   },
   {
@@ -15,6 +22,13 @@ const pages = [
     userAgent:
       "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/318.0.650947740 Mobile/15E148 Safari/604.1",
     requiredSelectors: ["[data-home-header]", "[data-home-card]", "[data-home-question-form]", "[data-home-daily-return-panel]"],
+    menuRequiredSelectors: [
+      "[data-menu-free-first-primary]",
+      "[data-menu-free-path-grid]",
+      "[data-menu-trust-paths]",
+      "[data-menu-depth-boundary]",
+      "[data-menu-membership-boundary]",
+    ],
     allowedWideSelector: "mix-blend-color-dodge",
     embeddedTopGuard: 112,
   },
@@ -103,6 +117,16 @@ async function checkPage(browser, pageConfig) {
   await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "networkidle", timeout: 45_000 })
   await page.waitForTimeout(500)
 
+  if (pageConfig.menuRequiredSelectors) {
+    await page.click("[data-home-menu-button]")
+    await page.waitForTimeout(350)
+  }
+
+  const allRequiredSelectors = [
+    ...pageConfig.requiredSelectors,
+    ...(pageConfig.menuRequiredSelectors || []),
+  ]
+
   const result = await page.evaluate(({ requiredSelectors, embeddedTopGuard }) => {
     const viewportWidth = document.documentElement.clientWidth
     const missingSelectors = requiredSelectors.filter((selector) => !document.querySelector(selector))
@@ -170,7 +194,7 @@ async function checkPage(browser, pageConfig) {
       wideElements,
       homeLayout,
     }
-  }, { requiredSelectors: pageConfig.requiredSelectors, embeddedTopGuard: pageConfig.embeddedTopGuard || 0 })
+  }, { requiredSelectors: allRequiredSelectors, embeddedTopGuard: pageConfig.embeddedTopGuard || 0 })
 
   await page.close()
 

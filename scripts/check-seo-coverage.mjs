@@ -47,6 +47,14 @@ const files = {
     path: "components/mystic-background.tsx",
     source: read("components/mystic-background.tsx"),
   },
+  menuPanel: {
+    path: "components/menu-panel.tsx",
+    source: read("components/menu-panel.tsx"),
+  },
+  menuButton: {
+    path: "components/menu-button.tsx",
+    source: read("components/menu-button.tsx"),
+  },
   globalStyles: { path: "app/globals.css", source: read("app/globals.css") },
   manifest: { path: "public/manifest.webmanifest", source: read("public/manifest.webmanifest") },
   iconSvg: { path: "public/icon.svg", source: read("public/icon.svg") },
@@ -460,6 +468,24 @@ assertIncludes(files.homeExperience, "data-home-hero-quick-start-link", "homepag
 assertIncludes(files.homeExperience, "\"home_example\"", "homepage example source attribution")
 assertIncludes(files.homeExperience, "utm_medium", "homepage hero attribution")
 assertIncludes(files.homeExperience, "hero_quick_start", "homepage quick-start campaign medium")
+assertIncludes(files.menuButton, "data-home-menu-button", "homepage menu button selector")
+assertIncludes(files.menuPanel, "data-menu-free-first-primary", "menu primary free reading CTA")
+assertIncludes(files.menuPanel, "data-menu-free-first-daily", "menu daily tarot free return CTA")
+assertIncludes(files.menuPanel, "data-menu-free-path-grid", "menu free path grid")
+assertIncludes(files.menuPanel, "data-menu-trust-paths", "menu trust path section")
+assertIncludes(files.menuPanel, "data-menu-depth-boundary", "menu upgrade-later depth boundary")
+assertIncludes(files.menuPanel, "data-menu-membership-boundary", "menu membership demoted to depth section")
+assertIncludes(files.menuPanel, "Upgrade later for deeper follow-ups, saved history, advanced spreads, and monthly reports.", "menu free-first upgrade boundary copy")
+assertMatches(
+  files.menuPanel,
+  /data-menu-free-path-grid[\s\S]*data-menu-trust-paths[\s\S]*data-menu-depth-boundary/,
+  "menu orders free paths before trust paths before depth features",
+)
+assertMatches(
+  files.menuPanel,
+  /data-menu-free-first-primary[\s\S]*data-menu-free-first-daily[\s\S]*href="\/auth\/login"/,
+  "menu shows free reading and Daily Tarot before login prompt",
+)
 for (const spread of ["breakup_recovery", "their_thoughts", "job_opportunity", "yes_no"]) {
   assertIncludes(files.homeExperience, spread, `homepage quick-start spread ${spread}`)
 }

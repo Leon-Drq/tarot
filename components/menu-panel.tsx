@@ -104,52 +104,76 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
   const menuCopy =
     {
       zh: {
+        freeSection: "免费开始",
         freeReading: "免费 AI 解读",
         freeReadingSubtitle: "先提问抽牌，不用先付费",
         cardMeanings: "牌义大全",
         tarotSpreads: "免费牌阵",
         tarotQuestions: "问题入口",
         freeTools: "免费工具",
+        trustSection: "信任与案例",
         monthlyReport: "月度报告",
+        monthlyReportSubtitle: "会员深度报告",
+        depthSection: "深度功能",
+        depthBody: "免费体验足够完整；需要深度追问、保存历史、高级牌阵和月度报告时再升级。",
+        upgradeLater: "之后再升级",
         trust: "关于与隐私",
         reviews: "用户评价",
         examples: "真实案例",
         membershipSubtitle: "深度追问、历史和高级报告",
       },
       en: {
+        freeSection: "Start free",
         freeReading: "Free AI Reading",
         freeReadingSubtitle: "Ask, draw, and read before paying",
         cardMeanings: "Card Meanings",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "Tarot Questions",
         freeTools: "Free Tools",
+        trustSection: "Trust paths",
         monthlyReport: "Monthly Report",
+        monthlyReportSubtitle: "Member depth report",
+        depthSection: "Depth features",
+        depthBody: "The free loop is useful first. Upgrade later for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
+        upgradeLater: "Upgrade later",
         trust: "About & Privacy",
         reviews: "Reviews",
         examples: "Examples",
         membershipSubtitle: "Deep follow-ups, history, reports",
       },
       ja: {
+        freeSection: "無料ではじめる",
         freeReading: "無料 AI リーディング",
         freeReadingSubtitle: "まず質問してカードを引く",
         cardMeanings: "カードの意味",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "質問別タロット",
         freeTools: "Free Tools",
+        trustSection: "信頼と事例",
         monthlyReport: "Monthly Report",
+        monthlyReportSubtitle: "メンバー向け深掘り",
+        depthSection: "深い機能",
+        depthBody: "まず無料ループを使い、深い追質問、履歴保存、高度なスプレッド、月次レポートが必要な時だけアップグレード。",
+        upgradeLater: "あとでアップグレード",
         trust: "About / Privacy",
         reviews: "Reviews",
         examples: "Examples",
         membershipSubtitle: "深い追質問、履歴、高度なレポート",
       },
       ko: {
+        freeSection: "무료로 시작",
         freeReading: "무료 AI 리딩",
         freeReadingSubtitle: "먼저 질문하고 카드를 뽑기",
         cardMeanings: "카드 의미",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "질문별 타로",
         freeTools: "Free Tools",
+        trustSection: "신뢰와 사례",
         monthlyReport: "Monthly Report",
+        monthlyReportSubtitle: "멤버 전용 심층 리포트",
+        depthSection: "심층 기능",
+        depthBody: "무료 루프를 먼저 충분히 쓰고, 심층 질문, 기록 저장, 고급 스프레드, 월간 리포트가 필요할 때 업그레이드하세요.",
+        upgradeLater: "나중에 업그레이드",
         trust: "About / Privacy",
         reviews: "Reviews",
         examples: "Examples",
@@ -164,6 +188,32 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
       }`}
     >
       <div className="px-4 pb-8 pt-16 sm:px-6 sm:pt-24">
+        <button
+          data-menu-free-first-primary
+          onClick={() => handleNavigate("/input")}
+          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-[#aaa1ff]/25 hover:border-[#c8c2ff]/45 bg-[#aaa1ff]/[0.06] hover:bg-[#aaa1ff]/[0.1] transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="relative z-10">
+            <p className="text-[#eeeaff] text-sm tracking-wide font-medium">{menuCopy.freeReading}</p>
+            <p className="text-white/70 text-xs mt-0.5">{menuCopy.freeReadingSubtitle}</p>
+          </div>
+          <ArrowRightIcon className="w-4 h-4 text-[#b8aeff]/65 group-hover:text-[#eeeaff] group-hover:translate-x-0.5 transition-all duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#aaa1ff]/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
+        </button>
+
+        <button
+          data-menu-free-first-daily
+          onClick={() => handleNavigate("/daily-tarot")}
+          className="w-full group flex items-center justify-between p-4 mb-5 rounded-lg border border-[#aaa1ff]/20 hover:border-[#c8c2ff]/40 bg-white/[0.035] hover:bg-[#aaa1ff]/[0.08] transition-all duration-300 relative overflow-hidden"
+        >
+          <div className="relative z-10">
+            <p className="text-[#eeeaff] text-sm tracking-wide font-medium">{t("menu.dailyFortune")}</p>
+            <p className="text-white/70 text-xs mt-0.5">{t("menu.dailyFortuneSubtitle")}</p>
+          </div>
+          <ArrowRightIcon className="w-4 h-4 text-[#b8aeff]/60 group-hover:text-[#eeeaff] group-hover:translate-x-0.5 transition-all duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#aaa1ff]/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
+        </button>
+
         {/* 用户区域 */}
         {isLoading ? (
           <div className="p-4 mb-6 rounded-lg border border-mystic-border bg-mystic-surface/50">
@@ -238,32 +288,9 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
           </Link>
         )}
 
-        <button
-          onClick={() => handleNavigate("/input")}
-          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-[#aaa1ff]/25 hover:border-[#c8c2ff]/45 bg-[#aaa1ff]/[0.06] hover:bg-[#aaa1ff]/[0.1] transition-all duration-300 relative overflow-hidden"
-        >
-          <div className="relative z-10">
-            <p className="text-[#eeeaff] text-sm tracking-wide font-medium">{menuCopy.freeReading}</p>
-            <p className="text-white/70 text-xs mt-0.5">{menuCopy.freeReadingSubtitle}</p>
-          </div>
-          <ArrowRightIcon className="w-4 h-4 text-[#b8aeff]/65 group-hover:text-[#eeeaff] group-hover:translate-x-0.5 transition-all duration-300" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#aaa1ff]/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
-        </button>
-
-        {/* 每日运势入口 */}
-        <button
-          onClick={() => handleNavigate("/daily-tarot")}
-          className="w-full group flex items-center justify-between p-4 mb-4 rounded-lg border border-[#aaa1ff]/20 hover:border-[#c8c2ff]/40 bg-white/[0.035] hover:bg-[#aaa1ff]/[0.08] transition-all duration-300 relative overflow-hidden"
-        >
-          <div className="relative z-10">
-            <p className="text-[#eeeaff] text-sm tracking-wide font-medium">{t("menu.dailyFortune")}</p>
-            <p className="text-white/70 text-xs mt-0.5">{t("menu.dailyFortuneSubtitle")}</p>
-          </div>
-          <ArrowRightIcon className="w-4 h-4 text-[#b8aeff]/60 group-hover:text-[#eeeaff] group-hover:translate-x-0.5 transition-all duration-300" />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#aaa1ff]/10 to-transparent -translate-x-full group-hover:animate-[shineEffect_2s_infinite]" />
-        </button>
-
-        <div className="mb-4 grid grid-cols-2 gap-3">
+        <div data-menu-free-paths className="mb-5">
+          <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.24em] text-white/38">{menuCopy.freeSection}</p>
+          <div data-menu-free-path-grid className="grid grid-cols-2 gap-3">
           <button
             onClick={() => handleNavigate("/tarot-card-meanings")}
             className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
@@ -288,17 +315,17 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
           >
             {menuCopy.freeTools}
           </button>
+          </div>
+        </div>
+
+        <div data-menu-trust-paths className="mb-5">
+          <p className="mb-3 text-[10px] font-medium uppercase tracking-[0.24em] text-white/38">{menuCopy.trustSection}</p>
+          <div className="grid grid-cols-2 gap-3">
           <button
             onClick={() => handleNavigate("/about")}
             className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
           >
             {menuCopy.trust}
-          </button>
-          <button
-            onClick={() => handleNavigate("/monthly-tarot-report")}
-            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
-          >
-            {menuCopy.monthlyReport}
           </button>
           <button
             onClick={() => handleNavigate("/reviews")}
@@ -312,19 +339,41 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
           >
             {menuCopy.examples}
           </button>
+          </div>
         </div>
 
-        {/* 会员入口 */}
-        <button
-          onClick={() => handleNavigate("/membership")}
-          className="w-full group flex items-center justify-between p-4 mb-6 rounded-lg border border-mystic-border hover:border-mystic-foreground/20 bg-mystic-surface/35 hover:bg-mystic-surface/60 transition-all duration-300"
+        <div
+          data-menu-depth-boundary
+          className="mb-6 rounded-lg border border-white/10 bg-white/[0.025] p-3"
         >
-          <div>
-            <p className="text-mystic-foreground text-sm tracking-wide">{t("menu.membership")}</p>
-            <p className="text-mystic-foreground-muted text-xs mt-0.5">{menuCopy.membershipSubtitle}</p>
+          <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-white/38">{menuCopy.depthSection}</p>
+          <p className="mt-2 text-xs leading-5 text-mystic-foreground-muted">{menuCopy.depthBody}</p>
+          <div className="mt-3 grid gap-2">
+            <button
+              data-menu-depth-link="monthly-report"
+              onClick={() => handleNavigate("/monthly-tarot-report")}
+              className="group flex items-center justify-between rounded-lg border border-mystic-border bg-mystic-surface/35 px-3 py-3 text-left transition hover:border-mystic-foreground/20 hover:bg-mystic-surface/55"
+            >
+              <span>
+                <span className="block text-sm tracking-wide text-mystic-foreground">{menuCopy.monthlyReport}</span>
+                <span className="mt-0.5 block text-xs text-mystic-foreground-muted">{menuCopy.monthlyReportSubtitle}</span>
+              </span>
+              <ArrowRightIcon className="w-4 h-4 flex-shrink-0 text-mystic-foreground-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-mystic-foreground" />
+            </button>
+            <button
+              data-menu-membership-boundary
+              data-menu-depth-link="membership"
+              onClick={() => handleNavigate("/membership")}
+              className="group flex items-center justify-between rounded-lg border border-mystic-border bg-mystic-surface/25 px-3 py-3 text-left transition hover:border-mystic-foreground/20 hover:bg-mystic-surface/50"
+            >
+              <span>
+                <span className="block text-sm tracking-wide text-mystic-foreground">{menuCopy.upgradeLater}</span>
+                <span className="mt-0.5 block text-xs text-mystic-foreground-muted">{menuCopy.membershipSubtitle}</span>
+              </span>
+              <ArrowRightIcon className="w-4 h-4 flex-shrink-0 text-mystic-foreground-muted transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-mystic-foreground" />
+            </button>
           </div>
-          <ArrowRightIcon className="w-4 h-4 text-mystic-foreground-muted group-hover:text-mystic-foreground group-hover:translate-x-0.5 transition-all duration-300" />
-        </button>
+        </div>
 
         <h3 className="text-mystic-foreground text-sm font-medium flex items-center gap-2 mb-6">
           <ImageIcon className="w-4 h-4" />
