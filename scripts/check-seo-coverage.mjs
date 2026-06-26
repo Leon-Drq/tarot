@@ -645,6 +645,8 @@ for (const slug of trustSlugs) {
 
 const trustDataCoverage = [
   [files.trustPages, "testimonials: representativeTestimonials", "reviews testimonials"],
+  [files.trustSignals, "actionHref:", "testimonial free action hrefs"],
+  [files.trustSignals, "source=reviews", "testimonial free action attribution"],
   [files.trustPages, "readingExamples:", "reading examples content"],
   [files.trustPages, "startQuestion:", "reading examples direct start questions"],
   [files.trustPages, "spreadType:", "reading examples free spread type"],
@@ -656,6 +658,9 @@ const trustDataCoverage = [
   [files.trustSignals, "Membership second", "membership-second trust highlight"],
   [files.trustSignals, "Responsible AI", "responsible AI trust highlight"],
   [files.trustPageView, "#testimonials", "testimonial structured data"],
+  [files.trustPageView, "data-trust-testimonial-card", "testimonial visible action cards"],
+  [files.trustPageView, "data-trust-testimonial-start", "testimonial visible free start CTA"],
+  [files.trustPageView, "item.actionHref", "testimonial structured direct action"],
   [files.trustPageView, "#sample-readings", "sample reading structured data"],
   [files.trustPageView, "readingExampleStartHref", "sample reading direct-start helper"],
   [files.trustPageView, "data-trust-reading-example-card", "sample reading visible cards"],

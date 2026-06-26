@@ -64,6 +64,11 @@ const pages = [
     requiredSelectors: ["main", "[data-trust-page]"],
   },
   {
+    path: "/reviews",
+    name: "reviews trust page",
+    requiredSelectors: ["[data-trust-page]", "[data-trust-testimonial-start]", "[data-trust-default-free-action]"],
+  },
+  {
     path: "/tarot-reading-examples",
     name: "reading examples trust page",
     requiredSelectors: ["[data-trust-page]", "[data-trust-reading-example-start]", "[data-trust-reading-example-guide]"],

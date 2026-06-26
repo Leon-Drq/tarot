@@ -133,6 +133,13 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   isPartOf: {
                     "@id": `${appUrl}/${page.slug}#webpage`,
                   },
+                  potentialAction: item.actionHref
+                    ? {
+                        "@type": "InteractAction",
+                        name: item.actionLabel || "Start free tarot reading",
+                        target: `${appUrl}${item.actionHref}`,
+                      }
+                    : undefined,
                 },
               })),
             },
@@ -335,9 +342,22 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             <h2 className="font-serif text-2xl text-white">Reader Feedback</h2>
             <div className="mt-5 grid gap-4 md:grid-cols-3">
               {page.testimonials.map((item) => (
-                <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-5">
+                <article
+                  key={item.title}
+                  data-trust-testimonial-card
+                  className="rounded-lg border border-white/10 bg-white/[0.035] p-5"
+                >
                   <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">{item.context}</p>
                   <blockquote className="mt-4 text-base leading-7 text-white/76">"{item.quote}"</blockquote>
+                  {item.actionHref && (
+                    <Link
+                      href={item.actionHref}
+                      data-trust-testimonial-start
+                      className="mt-5 inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-[#bfb6ff]/25 px-4 py-2 text-center text-sm text-[#d8d0ff] transition hover:border-[#bfb6ff]/55 hover:bg-[#bfb6ff]/[0.06] hover:text-white"
+                    >
+                      {item.actionLabel || "Start free tarot reading"}
+                    </Link>
+                  )}
                 </article>
               ))}
             </div>

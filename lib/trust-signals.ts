@@ -55,20 +55,30 @@ export const representativeTestimonials = [
     title: "Daily tarot",
     quote: "The daily card gives me one thing to pay attention to instead of a vague horoscope.",
     context: "Representative feedback from the daily tarot workflow",
+    actionLabel: "Try Daily Tarot free",
+    actionHref: "/daily-tarot?utm_source=reviews&utm_medium=testimonial&utm_campaign=daily_tarot",
   },
   {
     title: "Love reading",
     quote: "It did not just say yes or no. It explained what I could actually observe and ask next.",
     context: "Representative feedback from relationship readings",
+    actionLabel: "Start a love reading free",
+    actionHref:
+      "/input?q=Does+he+love+me%2C+and+what+is+the+real+emotional+energy+between+us%3F&auto=1&source=reviews&spread=their_thoughts&lang=en&utm_source=reviews&utm_medium=testimonial&utm_campaign=love_reading",
   },
   {
     title: "Career reading",
     quote: "The spread helped me separate burnout from a real signal that I needed a practical exit plan.",
     context: "Representative feedback from career questions",
+    actionLabel: "Start a career reading free",
+    actionHref:
+      "/input?q=What+should+I+understand+about+my+career+path+right+now%3F&auto=1&source=reviews&spread=job_opportunity&lang=en&utm_source=reviews&utm_medium=testimonial&utm_campaign=career_reading",
   },
   {
     title: "Card meanings",
     quote: "The upright and reversed meanings were easier to use because the page also explained love, career, money, and advice.",
     context: "Representative feedback from card meaning pages",
+    actionLabel: "Browse card meanings free",
+    actionHref: "/tarot-card-meanings?utm_source=reviews&utm_medium=testimonial&utm_campaign=card_meanings",
   },
 ]

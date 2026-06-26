@@ -18,6 +18,8 @@ export type TrustPage = {
     title: string
     quote: string
     context: string
+    actionLabel?: string
+    actionHref?: string
   }>
   examples?: Array<{
     question: string
