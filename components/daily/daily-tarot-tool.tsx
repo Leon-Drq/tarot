@@ -490,6 +490,30 @@ export function DailyTarotTool() {
       },
     }[language]
 
+  const directReturnCopy =
+    {
+      zh: {
+        eyebrow: "Direct / Mail 回访",
+        title: "邮件发送接通前，先把回访入口发给自己",
+        body: "复制明日链接、打开邮箱草稿或添加日历提醒，明天不用重新搜索也能回到 Daily Tarot。",
+      },
+      ja: {
+        eyebrow: "Direct / Mail 再訪",
+        title: "メール送信の前に、自分用の再訪入口を残す",
+        body: "明日のリンクをコピー、メール下書きを開く、またはカレンダー通知を追加すれば、検索し直さず Daily Tarot に戻れます。",
+      },
+      ko: {
+        eyebrow: "Direct / Mail 재방문",
+        title: "이메일 발송 전에도 나에게 돌아올 경로를 남기세요",
+        body: "내일 링크를 복사하거나 이메일 초안을 열고, 캘린더 알림을 추가하면 다시 검색하지 않고 Daily Tarot으로 돌아올 수 있습니다.",
+      },
+      en: {
+        eyebrow: "Direct / Mail return",
+        title: "Send yourself a return path before scheduled email is live",
+        body: "Copy tomorrow's link, open an email draft, or add a calendar reminder so the next Daily Tarot visit starts directly instead of from search.",
+      },
+    }[language]
+
   const patternCopy =
     {
       zh: {
@@ -1485,6 +1509,58 @@ export function DailyTarotTool() {
             <span className={quickActionTextClass}>{returnCopy.quickAction}</span>
           </button>
         </div>
+
+        <section
+          data-daily-direct-return-actions
+          className="mt-5 border-t border-white/10 pt-5"
+        >
+          <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/76">{directReturnCopy.eyebrow}</p>
+          <div className="mt-2 grid gap-4 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+            <div className="min-w-0">
+              <h2 className="break-words text-base font-medium leading-6 text-white">{directReturnCopy.title}</h2>
+              <p className="mt-2 text-xs leading-5 text-white/52">{directReturnCopy.body}</p>
+            </div>
+            <div className="grid min-w-0 gap-2 min-[420px]:grid-cols-3">
+              <button
+                type="button"
+                data-daily-direct-return-copy
+                onClick={handleCopyReturnLink}
+                className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white"
+              >
+                <Link2 className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className={quickActionTextClass}>{returnCopy.copyLink}</span>
+              </button>
+              <button
+                type="button"
+                data-daily-direct-return-mailto
+                onClick={handleEmailReturnLink}
+                className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/26 bg-[#c9c0ff]/[0.08] px-3 text-xs text-[#f2edff] transition hover:border-[#c9c0ff]/45 hover:bg-[#c9c0ff]/[0.13]"
+              >
+                <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className={quickActionTextClass}>{returnCopy.mailLink}</span>
+              </button>
+              <button
+                type="button"
+                data-daily-direct-return-calendar
+                onClick={handleDownloadCalendarReminder}
+                className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white"
+              >
+                <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className={quickActionTextClass}>{quickActionCopy.calendar}</span>
+              </button>
+            </div>
+          </div>
+          {returnLinkStatus && (
+            <p className="mt-3 text-xs leading-5 text-[#c9c0ff]">
+              {returnLinkStatus}
+            </p>
+          )}
+          {calendarStatus && (
+            <p className="mt-2 text-xs leading-5 text-white/45">
+              {calendarStatus}
+            </p>
+          )}
+        </section>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-[220px_1fr]">
           <div className="mx-auto w-full max-w-[220px]">

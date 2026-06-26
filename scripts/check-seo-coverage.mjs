@@ -434,6 +434,11 @@ assertIncludes(files.dailyTarotTool, "data-daily-return-link-mailto", "Daily Tar
 assertIncludes(files.dailyTarotTool, "return_focus", "Daily Tarot return focus URL parameter")
 assertIncludes(files.dailyTarotTool, "daily_return_email_opened", "Daily Tarot self-email return tracking")
 assertIncludes(files.dailyTarotTool, "daily_return_link_copied", "Daily Tarot copied return link tracking")
+assertIncludes(files.dailyTarotTool, "data-daily-direct-return-actions", "Daily Tarot first-screen direct/mail return actions")
+assertIncludes(files.dailyTarotTool, "data-daily-direct-return-copy", "Daily Tarot first-screen copy return link action")
+assertIncludes(files.dailyTarotTool, "data-daily-direct-return-mailto", "Daily Tarot first-screen mailto return action")
+assertIncludes(files.dailyTarotTool, "data-daily-direct-return-calendar", "Daily Tarot first-screen calendar return action")
+assertIncludes(files.dailyTarotTool, "Direct / Mail return", "Daily Tarot direct/mail return copy")
 
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
 assertIncludes(files.freeToolsPage, "quickStartIntents", "free tools quick-start intent data")

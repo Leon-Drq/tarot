@@ -35,7 +35,7 @@ const pages = [
   {
     path: "/daily-tarot",
     name: "daily tarot",
-    requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-sticky-cta]", "[data-daily-quick-actions]"],
+    requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-sticky-cta]", "[data-daily-quick-actions]", "[data-daily-direct-return-actions]"],
   },
   {
     path: "/tarot-questions?q=love",
