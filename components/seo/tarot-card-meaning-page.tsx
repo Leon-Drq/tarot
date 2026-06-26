@@ -1052,7 +1052,10 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   }
 
   return (
-    <main className="min-h-screen overflow-x-hidden bg-[#080310] pb-[calc(env(safe-area-inset-bottom)+5.75rem)] text-white sm:pb-0">
+    <main
+      data-tarot-card-meaning-page
+      className="min-h-screen overflow-x-hidden bg-[#080310] pb-[calc(env(safe-area-inset-bottom)+5.75rem)] text-white sm:pb-0"
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

@@ -1226,7 +1226,10 @@ export function DailyTarotTool() {
   const stickyPrimaryDisabled = hasReading ? isCreatingShare || isDrawing : isDrawing
 
   return (
-    <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 px-4 pb-[calc(env(safe-area-inset-bottom)+6.75rem)] pt-6 sm:px-8 sm:pb-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:px-10 lg:py-12">
+    <div
+      data-daily-tarot-tool
+      className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 px-4 pb-[calc(env(safe-area-inset-bottom)+6.75rem)] pt-6 sm:px-8 sm:pb-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:px-10 lg:py-12"
+    >
       <div
         data-daily-sticky-cta
         className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-[#090411]/92 px-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] pt-3 shadow-[0_-18px_50px_rgba(0,0,0,0.42)] backdrop-blur-xl sm:hidden"
