@@ -386,6 +386,12 @@ assertIncludes(files.dailyTarotTool, "scrollToReturnCue", "Daily Tarot return cu
 assertIncludes(files.dailyTarotTool, "data-daily-journal-form", "Daily Tarot journal scroll target")
 
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
+assertIncludes(files.freeToolsPage, "quickStartIntents", "free tools quick-start intent data")
+assertIncludes(files.freeToolsPage, "data-free-tools-quick-start", "free tools quick-start visible section")
+assertIncludes(files.freeToolsPage, "data-free-tools-quick-start-card", "free tools quick-start cards")
+assertIncludes(files.freeToolsPage, "data-free-tools-quick-start-start", "free tools quick-start direct CTA")
+assertIncludes(files.freeToolsPage, "utm_medium: \"quick_start\"", "free tools quick-start attribution")
+assertIncludes(files.freeToolsPage, "#quick-start-free-readings", "free tools quick-start structured data")
 assertIncludes(files.freeToolsPage, "data-free-tools-question-start", "free tools direct high-intent start CTA")
 assertIncludes(files.freeToolsPage, "data-free-tools-question-guide", "free tools high-intent guide CTA")
 assertIncludes(files.freeToolsPage, "utm_medium: \"question_grid\"", "free tools high-intent question attribution")

@@ -70,6 +70,45 @@ const conversionSteps = [
 
 const visibleTestimonials = representativeTestimonials.slice(0, 3)
 const sampleReadingExamples = getTrustPage("tarot-reading-examples")?.readingExamples?.slice(0, 3) || []
+const quickStartIntentSources = [
+  {
+    label: "Love",
+    title: "Does he love me?",
+    body: "For mixed signals, unclear feelings, and whether actions match words.",
+    href: "/does-he-love-me-tarot",
+  },
+  {
+    label: "Ex",
+    title: "Will my ex come back?",
+    body: "For reconciliation, contact, timing, closure, and healthy waiting.",
+    href: "/will-my-ex-come-back-tarot",
+  },
+  {
+    label: "Career",
+    title: "Career tarot reading",
+    body: "For work direction, pressure, interviews, choices, and the next practical move.",
+    href: "/career-tarot-reading",
+  },
+  {
+    label: "Yes / No",
+    title: "Yes or no love tarot",
+    body: "For one simple love question when you still want the reason behind the answer.",
+    href: "/yes-or-no-tarot-love",
+  },
+] as const
+
+function quickStartIntentItems() {
+  return quickStartIntentSources.map((source) => {
+    const item = highIntentQuestionLinks.find((link) => link.href === source.href)
+    if (!item) throw new Error(`Missing free tools quick-start intent: ${source.href}`)
+
+    return {
+      ...source,
+      readingHref: quickStartReadingHref(item),
+      guideHref: item.href,
+    }
+  })
+}
 
 function questionSlugFromHref(href: string) {
   return href.replace(/^\//, "")
@@ -94,6 +133,36 @@ function highIntentReadingHref(item: (typeof highIntentQuestionLinks)[number]) {
 
   return `/input?${params.toString()}`
 }
+
+function quickStartReadingHref(item: (typeof highIntentQuestionLinks)[number]) {
+  const slug = questionSlugFromHref(item.href)
+  const page = getSeoPage(slug, "en")
+  const params = new URLSearchParams({
+    q: page?.ctaQuestion || item.title,
+    auto: "1",
+    source: "free_tools",
+    lang: "en",
+    utm_source: "free_tools",
+    utm_medium: "quick_start",
+    utm_campaign: slug,
+  })
+
+  if (page?.recommendedSpread) {
+    params.set("spread", page.recommendedSpread)
+  }
+
+  return `/input?${params.toString()}`
+}
+
+const quickStartIntents = quickStartIntentItems()
+const dailyQuickStart = {
+  label: "Daily",
+  title: "Daily Tarot",
+  body: "For one free card today, a streak, a journal note, and a reason to return tomorrow.",
+  readingHref: "/daily-tarot?utm_source=free_tools&utm_medium=quick_start&utm_campaign=daily_tarot",
+  guideHref: "/daily-tarot",
+}
+const quickStartTools = [...quickStartIntents, dailyQuickStart]
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -128,6 +197,27 @@ const structuredData = {
         name: item.title,
         description: item.body,
         url: `${appUrl}${item.href}`,
+      })),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/free-tarot-tools#quick-start-free-readings`,
+      name: "Quick-start free AI tarot readings",
+      itemListElement: quickStartTools.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": item.guideHref === "/daily-tarot" ? "WebApplication" : "WebPage",
+          name: item.title,
+          description: item.body,
+          url: `${appUrl}${item.guideHref}`,
+          isAccessibleForFree: true,
+          potentialAction: {
+            "@type": "InteractAction",
+            name: "Start free tarot reading",
+            target: `${appUrl}${item.readingHref}`,
+          },
+        },
       })),
     },
     {
@@ -265,7 +355,7 @@ export default function FreeTarotToolsPage() {
         <div className="grid gap-8 border-b border-white/10 pb-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-end">
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-[#c9c0ff]/76">Free AI tarot hub</p>
-            <h1 className="mt-4 max-w-3xl font-serif text-4xl leading-tight text-white sm:text-5xl">
+            <h1 className="mt-4 max-w-3xl font-serif text-3xl leading-tight text-white sm:text-5xl">
               Start free, return daily, go deeper only when needed.
             </h1>
           </div>
@@ -291,6 +381,49 @@ export default function FreeTarotToolsPage() {
             </div>
           </div>
         </div>
+
+        <section data-free-tools-quick-start className="border-b border-white/10 py-8 sm:py-10">
+          <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">Quick start</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+                Start from the question you already have
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/58">
+                Pick the closest intent and go straight into a free reading flow. The guide page stays available
+                when you want more context before drawing cards.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+              {quickStartTools.map((item) => (
+                <article
+                  key={item.title}
+                  data-free-tools-quick-start-card
+                  className="flex min-h-[13rem] min-w-0 flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/42 hover:bg-white/[0.06]"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/72">{item.label}</p>
+                  <h3 className="mt-3 break-words text-base font-medium leading-snug text-white">{item.title}</h3>
+                  <p className="mt-2 text-xs leading-5 text-white/52">{item.body}</p>
+                  <div className="mt-auto grid gap-2 pt-4">
+                    <Link
+                      data-free-tools-quick-start-start
+                      href={item.readingHref}
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-3 py-2 text-xs font-medium text-[#120c22] shadow-[0_12px_28px_rgba(146,132,239,0.18)] transition hover:brightness-110"
+                    >
+                      Start free
+                    </Link>
+                    <Link
+                      href={item.guideHref}
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-xs text-white/62 transition hover:border-[#bfb6ff]/40 hover:text-white"
+                    >
+                      View guide
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <section className="mt-10">
           <div className="max-w-2xl">
