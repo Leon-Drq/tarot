@@ -56,12 +56,14 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/icon.png", sizes: "512x512", type: "image/png" },
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: "/favicon-48x48.png",
+    shortcut: "/favicon.ico",
   },
   manifest: "/manifest.webmanifest",
   openGraph: {
@@ -101,7 +103,7 @@ export const metadata: Metadata = {
   other: {
     "mobile-web-app-capable": "yes",
     "msapplication-TileColor": "#160B2E",
-    "msapplication-TileImage": "/icon-192x192.png",
+    "msapplication-TileImage": "/icon.png",
   },
 }
 

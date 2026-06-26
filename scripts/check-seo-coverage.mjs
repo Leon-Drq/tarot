@@ -700,8 +700,10 @@ for (const [file, needle, label] of structuredDataCoverage) {
 
 const identityMetadataCoverage = [
   [files.layout, "manifest: \"/manifest.webmanifest\"", "web app manifest metadata"],
+  [files.layout, "/favicon.ico", "ICO favicon metadata"],
   [files.layout, "/favicon-48x48.png", "48px favicon metadata"],
   [files.layout, "/favicon-96x96.png", "96px favicon metadata"],
+  [files.layout, "/icon.png", "canonical PNG icon metadata"],
   [files.layout, "/apple-touch-icon.png", "Apple touch icon metadata"],
   [files.layout, "/og-image.jpg", "Open Graph image metadata"],
   [files.manifest, "\"name\": \"POPTarot - Free AI Tarot Reading\"", "manifest product name"],
@@ -710,6 +712,7 @@ const identityMetadataCoverage = [
   [files.manifest, "\"url\": \"/daily-tarot?utm_source=pwa&utm_medium=shortcut&utm_campaign=daily_tarot\"", "Daily Tarot manifest shortcut attribution"],
   [files.manifest, "\"url\": \"/input?source=pwa_shortcut&utm_source=pwa&utm_medium=shortcut&utm_campaign=free_reading\"", "Free Reading manifest shortcut opens tool"],
   [files.manifest, "\"url\": \"/tarot-card-meanings?utm_source=pwa&utm_medium=shortcut&utm_campaign=card_meanings\"", "card meanings manifest shortcut attribution"],
+  [files.manifest, "\"src\": \"/icon.png\"", "canonical PNG manifest icon"],
   [files.manifest, "\"src\": \"/icon-512x512.png\"", "512px manifest icon"],
 ]
 
@@ -802,10 +805,12 @@ for (const [needle, label] of [
 }
 
 for (const [path, label] of [
+  ["public/favicon.ico", "ICO favicon"],
   ["public/favicon-48x48.png", "48px favicon"],
   ["public/favicon-96x96.png", "96px favicon"],
   ["public/apple-touch-icon.png", "Apple touch icon"],
   ["public/icon-192x192.png", "192px app icon"],
+  ["public/icon.png", "canonical PNG app icon"],
   ["public/icon-512x512.png", "512px app icon"],
   ["public/icon.svg", "SVG icon"],
   ["public/og-image.jpg", "Open Graph image"],
