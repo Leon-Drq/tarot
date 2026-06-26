@@ -285,6 +285,11 @@ assertIncludes(files.seoPages, "cardMeaningContext?: CardMeaningContext", "card 
 assertIncludes(files.seoLanding, "#card-context-hubs", "card context hub structured data")
 assertIncludes(files.seoLanding, "data-card-context-hubs", "card context visible hub links")
 assertIncludes(files.seoLanding, "cardIndexHref(cardPage, activeCardIndexMode)", "card context card anchor hrefs")
+assertIncludes(files.seoLanding, "#card-meaning-free-starts", "card meaning free-start structured data")
+assertIncludes(files.seoLanding, "data-card-meaning-free-starts", "card meaning free-start visible section")
+assertIncludes(files.seoLanding, "data-card-meaning-free-start", "card meaning free-start cards")
+assertIncludes(files.seoLanding, "cardMeaningFreeStartHref(page, cardPage, activeCardIndexMode)", "card meaning free-start direct hrefs")
+assertIncludes(files.seoLanding, "utm_medium: \"card_meaning_free_start\"", "card meaning free-start attribution")
 
 const highIntentLongTailSlugs = [
   "will-my-ex-come-back-tarot",

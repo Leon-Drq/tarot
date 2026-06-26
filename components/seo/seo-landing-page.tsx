@@ -2,9 +2,9 @@ import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getAllLocalizedSeoPages, getSeoPage, type CardMeaningContext, type SeoPage } from "@/lib/seo-pages"
-import { SPREAD_CONFIGS, type SpreadConfig } from "@/lib/spread-config"
+import { SPREAD_CONFIGS, type SpreadConfig, type SpreadType } from "@/lib/spread-config"
 import { getAllCardSeoPages, getCardKeywords, getCardSuit } from "@/lib/tarot-card-seo"
-import { TAROT_CARDS } from "@/lib/tarot-cards"
+import { getCardName, TAROT_CARDS } from "@/lib/tarot-cards"
 import {
   appUrl,
   editorialTeamJsonLd,
@@ -197,6 +197,93 @@ const cardMeaningHubSlugs = [
 type CardMeaningPage = ReturnType<typeof getAllCardSeoPages>[number]
 type CardIndexMode = "all" | CardMeaningContext
 
+const cardMeaningFreeStartCopy = {
+  zh: {
+    eyebrow: "免费下一步",
+    title: "从一张牌义进入真实问题",
+    body: "看完牌义后，直接带着这张牌进入免费三牌阵，让 AI 把象征、牌位和你的处境连起来。",
+    action: "用这张牌提问",
+    questions: {
+      all: "{card} 对我现在的情况意味着什么？",
+      love: "{card} 对我现在的感情意味着什么？",
+      career: "{card} 对我的事业下一步意味着什么？",
+      money: "{card} 对我的金钱决定意味着什么？",
+      "yes-or-no": "{card} 对我的问题更偏向是还是否？",
+    },
+  },
+  en: {
+    eyebrow: "Free next step",
+    title: "Turn one card meaning into a real question",
+    body: "After you read a card meaning, start a free spread with that card in mind so the AI can connect symbol, position, and situation.",
+    action: "Ask with this card",
+    questions: {
+      all: "What does {card} mean for my current situation?",
+      love: "What does {card} mean for my love life right now?",
+      career: "What does {card} mean for my next career step?",
+      money: "What does {card} mean for my money decision?",
+      "yes-or-no": "Does {card} lean yes or no for my question?",
+    },
+  },
+  ja: {
+    eyebrow: "無料の次の一歩",
+    title: "1枚の意味から実際の質問へ",
+    body: "カードの意味を読んだら、そのカードを軸に無料スプレッドへ進み、象徴と状況をつなげて読みます。",
+    action: "このカードで質問する",
+    questions: {
+      all: "{card} は今の私の状況で何を意味しますか？",
+      love: "{card} は今の恋愛で何を意味しますか？",
+      career: "{card} は仕事の次の一歩に何を意味しますか？",
+      money: "{card} はお金の判断に何を意味しますか？",
+      "yes-or-no": "{card} は私の質問に Yes と No のどちらを示しますか？",
+    },
+  },
+  ko: {
+    eyebrow: "무료 다음 단계",
+    title: "한 장의 의미를 실제 질문으로 연결",
+    body: "카드 의미를 읽은 뒤 그 카드를 중심으로 무료 스프레드를 시작해 상징, 위치, 상황을 함께 읽어보세요.",
+    action: "이 카드로 질문하기",
+    questions: {
+      all: "{card}는 지금 내 상황에서 무엇을 의미하나요?",
+      love: "{card}는 지금 내 사랑에서 무엇을 의미하나요?",
+      career: "{card}는 내 커리어 다음 단계에 무엇을 의미하나요?",
+      money: "{card}는 내 돈 결정에 무엇을 의미하나요?",
+      "yes-or-no": "{card}는 내 질문에 예 또는 아니오 중 어디에 가깝나요?",
+    },
+  },
+  es: {
+    eyebrow: "Siguiente paso gratis",
+    title: "Convierte una carta en una pregunta real",
+    body: "Después de leer el significado, abre una tirada gratis con esa carta en mente para conectar símbolo, posición y situación.",
+    action: "Preguntar con esta carta",
+    questions: {
+      all: "¿Qué significa {card} para mi situación actual?",
+      love: "¿Qué significa {card} para mi vida amorosa ahora?",
+      career: "¿Qué significa {card} para mi siguiente paso profesional?",
+      money: "¿Qué significa {card} para mi decisión de dinero?",
+      "yes-or-no": "¿{card} se inclina hacia sí o no para mi pregunta?",
+    },
+  },
+  "pt-br": {
+    eyebrow: "Próximo passo grátis",
+    title: "Transforme uma carta em uma pergunta real",
+    body: "Depois de ler o significado, abra uma tiragem grátis com essa carta em mente para conectar símbolo, posição e situação.",
+    action: "Perguntar com esta carta",
+    questions: {
+      all: "O que {card} significa para minha situação atual?",
+      love: "O que {card} significa para minha vida amorosa agora?",
+      career: "O que {card} significa para meu próximo passo profissional?",
+      money: "O que {card} significa para minha decisão financeira?",
+      "yes-or-no": "{card} aponta mais para sim ou não na minha pergunta?",
+    },
+  },
+} satisfies Record<SeoPage["locale"], {
+  eyebrow: string
+  title: string
+  body: string
+  action: string
+  questions: Record<CardIndexMode, string>
+}>
+
 const cardMeaningContextCopy = {
   en: {
     love: {
@@ -342,6 +429,34 @@ function cardContextSummary(cardPage: CardMeaningPage, mode: CardIndexMode | nul
   const context = cardMeaningContextUi(cardPage.locale, mode)
   const section = cardPage.deepSections.find((item) => item.heading.includes(context.headingPart))
   return section?.body || cardPage.description
+}
+
+function cardMeaningFreeStartQuestion(cardPage: CardMeaningPage, locale: SeoPage["locale"], mode: CardIndexMode | null) {
+  const cardName = getCardName(cardPage.card, locale)
+  const questionMode = mode || "all"
+  return cardMeaningFreeStartCopy[locale].questions[questionMode].replace("{card}", cardName)
+}
+
+function cardMeaningFreeStartSpread(mode: CardIndexMode | null): SpreadType {
+  return mode === "yes-or-no" ? "yes_no" : "three_card"
+}
+
+function cardMeaningFreeStartHref(page: SeoPage, cardPage: CardMeaningPage, mode: CardIndexMode | null) {
+  const params = new URLSearchParams({
+    q: cardMeaningFreeStartQuestion(cardPage, page.locale, mode),
+    spread: cardMeaningFreeStartSpread(mode),
+    source: "card_meaning_free_start",
+    card: cardPage.slug,
+    utm_source: page.slug,
+    utm_medium: "card_meaning_free_start",
+    utm_campaign: "card_meanings",
+  })
+
+  if (mode && mode !== "all") {
+    params.set("context", mode)
+  }
+
+  return `/input?${params.toString()}`
 }
 
 function cardMeaningHubPages(page: SeoPage) {
@@ -2186,6 +2301,12 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
           .map((id) => cardPages.find((cardPage) => cardPage.card.id === id))
           .filter((cardPage): cardPage is (typeof cardPages)[number] => Boolean(cardPage))
       : []
+  const cardFreeStartText = cardMeaningFreeStartCopy[page.locale]
+  const cardFreeStartPages = activeCardIndexMode
+    ? combinationPreviewCardIds
+        .map((id) => cardPages.find((cardPage) => cardPage.card.id === id))
+        .filter((cardPage): cardPage is (typeof cardPages)[number] => Boolean(cardPage))
+    : []
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -2301,6 +2422,24 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 description: cardContextSummary(cardPage, activeCardIndexMode) || cardPage.description,
               })),
             },
+            ...(cardFreeStartPages.length > 0
+              ? [
+                  {
+                    "@type": "ItemList",
+                    "@id": `${appUrl}${page.path}#card-meaning-free-starts`,
+                    name: cardFreeStartText.title,
+                    description: cardFreeStartText.body,
+                    numberOfItems: cardFreeStartPages.length,
+                    itemListElement: cardFreeStartPages.map((cardPage, index) => ({
+                      "@type": "ListItem",
+                      position: index + 1,
+                      url: `${appUrl}${cardMeaningFreeStartHref(page, cardPage, activeCardIndexMode)}`,
+                      name: cardMeaningFreeStartQuestion(cardPage, page.locale, activeCardIndexMode),
+                      description: cardPage.description,
+                    })),
+                  },
+                ]
+              : []),
             {
               "@type": "ItemList",
               "@id": `${appUrl}${page.path}#card-groups`,
@@ -2935,6 +3074,47 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                   </section>
                 ) : null,
               )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {cardFreeStartPages.length > 0 && (
+        <section id="card-meaning-free-starts" data-card-meaning-free-starts className="border-b border-white/10 bg-[#0d0618]">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="mb-8 max-w-3xl">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{cardFreeStartText.eyebrow}</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">{cardFreeStartText.title}</h2>
+              <p className="mt-3 text-sm leading-7 text-white/60 sm:text-base">{cardFreeStartText.body}</p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {cardFreeStartPages.map((cardPage) => {
+                const question = cardMeaningFreeStartQuestion(cardPage, page.locale, activeCardIndexMode)
+
+                return (
+                  <Link
+                    key={`${cardPage.path}-free-start`}
+                    href={cardMeaningFreeStartHref(page, cardPage, activeCardIndexMode)}
+                    data-card-meaning-free-start
+                    className="group flex min-w-0 gap-4 rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/50 hover:bg-white/[0.06]"
+                  >
+                    <div className="relative aspect-[7/12] w-12 shrink-0 overflow-hidden rounded-md border border-[#bfb6ff]/28 bg-[#211330] sm:w-14">
+                      <Image src={cardPage.card.image} alt={cardPage.title} fill className="object-cover" sizes="72px" />
+                    </div>
+                    <span className="min-w-0 flex-1 py-0.5">
+                      <span className="block text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">
+                        {cardPage.h1}
+                      </span>
+                      <span className="mt-2 block break-words text-sm font-medium leading-6 text-white/82 group-hover:text-white">
+                        {question}
+                      </span>
+                      <span className="mt-3 block text-sm text-[#c9c0ff]/72 group-hover:text-[#eeeaff]">
+                        {cardFreeStartText.action}
+                      </span>
+                    </span>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         </section>
