@@ -14,9 +14,37 @@ import {
 } from "@/lib/site"
 import { editorialProcess, trustHighlights, trustLastReviewed } from "@/lib/trust-signals"
 
+const defaultTrustActionLinks: NonNullable<TrustPage["actionLinks"]> = [
+  {
+    label: "Start free",
+    title: "Free AI Tarot Reading",
+    body: "Ask one real question and get a free AI tarot interpretation before any membership decision.",
+    href: "/free-ai-tarot-reading",
+  },
+  {
+    label: "Daily return",
+    title: "Daily Tarot",
+    body: "Use one free card each day, keep a streak, save a journal note, and set a reminder path.",
+    href: "/daily-tarot",
+  },
+  {
+    label: "Question paths",
+    title: "Tarot Questions",
+    body: "Open long-tail love, ex, yes-or-no, career, and job-decision pages that start matching spreads.",
+    href: "/tarot-questions",
+  },
+  {
+    label: "Card meanings",
+    title: "Tarot Card Meanings",
+    body: "Browse upright, reversed, love, career, money, yes-or-no, advice, combinations, and FAQ.",
+    href: "/tarot-card-meanings",
+  },
+]
+
 export function TrustPageView({ page }: { page: TrustPage }) {
   const relatedLinks = getRelatedTrustLinks(page.slug)
   const isOfficialChannelsPage = page.slug === "official-channels"
+  const effectiveActionLinks = page.actionLinks?.length ? page.actionLinks : defaultTrustActionLinks
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -43,15 +71,11 @@ export function TrustPageView({ page }: { page: TrustPage }) {
         publisher: {
           "@id": `${appUrl}/#organization`,
         },
-        ...(page.actionLinks
-          ? {
-              potentialAction: page.actionLinks.map((item) => ({
-                "@type": "ReadAction",
-                name: item.title,
-                target: `${appUrl}${item.href}`,
-              })),
-            }
-          : {}),
+        potentialAction: effectiveActionLinks.map((item) => ({
+          "@type": "ReadAction",
+          name: item.title,
+          target: `${appUrl}${item.href}`,
+        })),
       },
       {
         "@type": "BreadcrumbList",
@@ -138,22 +162,18 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             },
           ]
         : []),
-      ...(page.actionLinks
-        ? [
-            {
-              "@type": "ItemList",
-              "@id": `${appUrl}/${page.slug}#next-actions`,
-              name: "Next free tarot actions",
-              itemListElement: page.actionLinks.map((item, index) => ({
-                "@type": "ListItem",
-                position: index + 1,
-                name: item.title,
-                description: item.body,
-                url: `${appUrl}${item.href}`,
-              })),
-            },
-          ]
-        : []),
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}/${page.slug}#next-actions`,
+        name: "Next free tarot actions",
+        itemListElement: effectiveActionLinks.map((item, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: item.title,
+          description: item.body,
+          url: `${appUrl}${item.href}`,
+        })),
+      },
       ...(isOfficialChannelsPage
         ? [
             {
@@ -341,30 +361,29 @@ export function TrustPageView({ page }: { page: TrustPage }) {
           </section>
         )}
 
-        {page.actionLinks && (
-          <section className="mt-12 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
-            <div className="max-w-2xl">
-              <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Try the same paths</p>
-              <h2 className="mt-3 font-serif text-2xl text-white">Turn Trust Signals Into a Free Reading</h2>
-              <p className="mt-3 text-sm leading-7 text-white/58">
-                These links connect the reviews and examples back to the free product flows people actually use first.
-              </p>
-            </div>
-            <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-              {page.actionLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
-                >
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{item.label}</p>
-                  <h3 className="mt-3 break-words text-base font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
+        <section data-trust-default-free-actions className="mt-12 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.04] p-5">
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">Try the same paths</p>
+            <h2 className="mt-3 font-serif text-2xl text-white">Turn Trust Signals Into a Free Reading</h2>
+            <p className="mt-3 text-sm leading-7 text-white/58">
+              These links connect trust and transparency pages back to the free product flows people actually use first.
+            </p>
+          </div>
+          <div className="mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {effectiveActionLinks.map((item) => (
+              <Link
+                key={item.href}
+                data-trust-default-free-action
+                href={item.href}
+                className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+              >
+                <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{item.label}</p>
+                <h3 className="mt-3 break-words text-base font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {page.brandAssets && (
           <section className="mt-12">
