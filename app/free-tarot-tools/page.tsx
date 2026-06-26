@@ -68,6 +68,39 @@ const conversionSteps = [
   },
 ]
 
+const freeUpgradeBoundary = [
+  {
+    area: "First reading",
+    free: "Ask one real question, draw cards, and receive a clear AI tarot interpretation.",
+    upgrade: "Use deeper follow-up questions when the first answer opens a more specific thread.",
+    href: "/free-ai-tarot-reading",
+  },
+  {
+    area: "Daily return",
+    free: "Draw one daily card, keep a streak, save a journal note, and set a return reminder path.",
+    upgrade: "Review longer patterns once saved readings and Daily Tarot entries build enough history.",
+    href: "/daily-tarot",
+  },
+  {
+    area: "Search questions",
+    free: "Open love, ex, yes-or-no, career, and job-decision pages that start matching spreads.",
+    upgrade: "Save the answer history when a question becomes an ongoing decision instead of a one-time check.",
+    href: "/tarot-questions",
+  },
+  {
+    area: "Card meanings",
+    free: "Read upright, reversed, love, career, money, yes-or-no, advice, combinations, and FAQ.",
+    upgrade: "Use saved history and monthly reports when repeated cards need a broader pattern review.",
+    href: "/tarot-card-meanings",
+  },
+  {
+    area: "Advanced work",
+    free: "Start with simple spreads and realistic examples before committing to a larger reading.",
+    upgrade: "Use advanced spreads, saved history, and monthly reports only after the free flow proves useful.",
+    href: "/tarot-spreads",
+  },
+] as const
+
 const visibleTestimonials = representativeTestimonials.slice(0, 3)
 const sampleReadingExamples = getTrustPage("tarot-reading-examples")?.readingExamples?.slice(0, 3) || []
 const quickStartIntentSources = [
@@ -217,6 +250,36 @@ const structuredData = {
             name: "Start free tarot reading",
             target: `${appUrl}${item.readingHref}`,
           },
+        },
+      })),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/free-tarot-tools#free-vs-upgrade-boundary`,
+      name: "POPTarot free versus membership boundary",
+      itemListElement: freeUpgradeBoundary.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "OfferCatalog",
+          name: item.area,
+          url: `${appUrl}${item.href}`,
+          itemListElement: [
+            {
+              "@type": "Offer",
+              name: "Free first",
+              price: "0",
+              priceCurrency: "USD",
+              description: item.free,
+              availability: "https://schema.org/InStock",
+            },
+            {
+              "@type": "Offer",
+              name: "Upgrade later",
+              description: item.upgrade,
+              availability: "https://schema.org/InStock",
+            },
+          ],
         },
       })),
     },
@@ -466,6 +529,55 @@ export default function FreeTarotToolsPage() {
                 <p className="mt-2 text-sm leading-6 text-white/56">{item.body}</p>
               </article>
             ))}
+          </div>
+        </section>
+
+        <section
+          data-free-tools-membership-boundary
+          className="mt-12 border-t border-white/10 pt-8"
+        >
+          <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">Free vs upgrade</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+                Keep the first useful answer free
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/58">
+                POPTarot should not ask for a membership before the reader understands the value. The free path covers
+                the first reading, daily return, search questions, spreads, and card meanings. Upgrade only when depth,
+                memory, or long-term pattern review becomes useful.
+              </p>
+              <Link
+                href="/membership"
+                className="mt-5 inline-flex min-h-10 items-center justify-center rounded-lg border border-[#bfb6ff]/35 px-4 py-2 text-sm text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-white/[0.06]"
+              >
+                See membership boundary
+              </Link>
+            </div>
+            <div className="grid gap-3">
+              {freeUpgradeBoundary.map((item) => (
+                <article
+                  key={item.area}
+                  data-free-tools-membership-boundary-row
+                  className="grid min-w-0 gap-3 rounded-lg border border-white/10 bg-white/[0.03] p-4 sm:grid-cols-[0.72fr_1fr_1fr]"
+                >
+                  <Link href={item.href} className="group min-w-0">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">Area</p>
+                    <h3 className="mt-2 break-words text-base font-medium leading-snug text-white group-hover:text-[#eeeaff]">
+                      {item.area}
+                    </h3>
+                  </Link>
+                  <div className="min-w-0 rounded-md border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.04] p-3">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/74">Free first</p>
+                    <p className="mt-2 text-sm leading-6 text-white/64">{item.free}</p>
+                  </div>
+                  <div className="min-w-0 rounded-md border border-white/10 bg-black/20 p-3">
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-white/38">Upgrade later</p>
+                    <p className="mt-2 text-sm leading-6 text-white/56">{item.upgrade}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
