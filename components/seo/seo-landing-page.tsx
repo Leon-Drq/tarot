@@ -58,6 +58,160 @@ const questionClusterCopy = {
   },
 } satisfies Record<SeoPage["locale"], { title: string; body: string; action: string }>
 
+type QuestionDecisionCategory = "relationship" | "career" | "daily" | "general"
+
+type QuestionDecisionGuide = {
+  eyebrow: string
+  title: string
+  body: string
+  items: Array<{
+    label: string
+    title: string
+    body: string
+  }>
+}
+
+const questionDecisionGuideCopy = {
+  en: {
+    relationship: {
+      eyebrow: "Before you draw",
+      title: "Use the reading to check signals, not to force certainty",
+      body: "Love and reconciliation searches can carry a lot of hope. This quick checklist keeps the free spread grounded before you ask.",
+      items: [
+        { label: "01", title: "Name the real question", body: "Separate feelings, contact, timing, and safety so the spread answers one thing at a time." },
+        { label: "02", title: "Compare cards with behavior", body: "Use the answer as reflection, then check whether real actions match the emotional pattern." },
+        { label: "03", title: "Choose one next step", body: "End with a calm boundary, observation, or conversation instead of repeatedly asking the same question." },
+      ],
+    },
+    career: {
+      eyebrow: "Before you draw",
+      title: "Use the spread to separate stress from a real work signal",
+      body: "Career and money questions need practical grounding. Let the cards organize risk, timing, resources, and the next controllable move.",
+      items: [
+        { label: "01", title: "Define the decision", body: "Ask about one choice: stay, quit, apply, negotiate, wait, or prepare." },
+        { label: "02", title: "List real constraints", body: "Keep money, contracts, health, deadlines, and support outside the reading but visible beside it." },
+        { label: "03", title: "Set a checkpoint", body: "Turn the reading into one action and one date to review what changed." },
+      ],
+    },
+    daily: {
+      eyebrow: "Before you draw",
+      title: "Turn a daily card into one small action",
+      body: "Daily tarot works best as a repeatable check-in. Keep it short, save a note, and come back tomorrow with a little more evidence.",
+      items: [
+        { label: "01", title: "Pick today's focus", body: "Ask about love, career, mood, action, or boundaries instead of trying to solve everything." },
+        { label: "02", title: "Write one sentence", body: "A short journal note makes tomorrow's card more useful than a one-off reading." },
+        { label: "03", title: "Save a return cue", body: "Use Daily Tarot or a calendar reminder so the pattern can build over several days." },
+      ],
+    },
+    general: {
+      eyebrow: "Before you draw",
+      title: "Make the free answer specific enough to use",
+      body: "The best tarot questions are concrete, time-bounded, and connected to a choice you can actually influence.",
+      items: [
+        { label: "01", title: "Ask one question", body: "Remove hidden second questions so the spread does not split its answer." },
+        { label: "02", title: "Look for the pattern", body: "Read what the cards repeat across obstacle, advice, and next-step positions." },
+        { label: "03", title: "Act lightly", body: "Use the insight for reflection and planning, not as professional or guaranteed advice." },
+      ],
+    },
+  },
+  es: {
+    relationship: {
+      eyebrow: "Antes de tirar",
+      title: "Usa la lectura para revisar senales, no para forzar certeza",
+      body: "Las busquedas de amor o reconciliacion pueden venir con mucha esperanza. Esta lista mantiene la tirada gratis mas aterrizada.",
+      items: [
+        { label: "01", title: "Nombra la pregunta real", body: "Separa sentimientos, contacto, tiempo y seguridad para que la tirada responda una cosa." },
+        { label: "02", title: "Compara con acciones", body: "Usa la respuesta como reflexion y observa si los hechos coinciden con el patron emocional." },
+        { label: "03", title: "Elige un paso", body: "Termina con un limite, observacion o conversacion en vez de repetir la misma pregunta." },
+      ],
+    },
+    career: {
+      eyebrow: "Antes de tirar",
+      title: "Separa estres de una senal real de trabajo",
+      body: "Las preguntas de carrera y dinero necesitan tierra firme: riesgo, tiempo, recursos y un siguiente paso controlable.",
+      items: [
+        { label: "01", title: "Define la decision", body: "Pregunta por una eleccion: quedarte, renunciar, aplicar, negociar, esperar o prepararte." },
+        { label: "02", title: "Lista limites reales", body: "Dinero, contratos, salud, plazos y apoyo deben estar visibles junto a la lectura." },
+        { label: "03", title: "Marca una fecha", body: "Convierte la lectura en una accion y una fecha para revisar que cambio." },
+      ],
+    },
+    daily: {
+      eyebrow: "Antes de tirar",
+      title: "Convierte una carta diaria en una accion pequena",
+      body: "El tarot diario funciona mejor como check-in repetible: breve, con nota, y con una razon para volver manana.",
+      items: [
+        { label: "01", title: "Elige el foco", body: "Pregunta por amor, carrera, estado de animo, accion o limites, no por todo a la vez." },
+        { label: "02", title: "Escribe una frase", body: "Una nota corta hace que la carta de manana sea mas util que una lectura aislada." },
+        { label: "03", title: "Guarda el regreso", body: "Usa Daily Tarot o un recordatorio de calendario para formar un patron de varios dias." },
+      ],
+    },
+    general: {
+      eyebrow: "Antes de tirar",
+      title: "Haz que la respuesta gratis sea concreta",
+      body: "Las mejores preguntas de tarot son especificas, tienen tiempo definido y se conectan con algo que puedes influir.",
+      items: [
+        { label: "01", title: "Haz una pregunta", body: "Quita preguntas escondidas para que la tirada no divida su respuesta." },
+        { label: "02", title: "Busca el patron", body: "Lee lo que se repite entre obstaculo, consejo y siguiente paso." },
+        { label: "03", title: "Actua con calma", body: "Usa la lectura para reflexion y planificacion, no como consejo profesional garantizado." },
+      ],
+    },
+  },
+  "pt-br": {
+    relationship: {
+      eyebrow: "Antes de tirar",
+      title: "Use a leitura para checar sinais, nao para forcar certeza",
+      body: "Perguntas de amor ou reconciliacao podem vir com muita esperanca. Esta lista mantem a tiragem gratis mais aterrada.",
+      items: [
+        { label: "01", title: "Nomeie a pergunta real", body: "Separe sentimentos, contato, tempo e seguranca para a tiragem responder uma coisa." },
+        { label: "02", title: "Compare com atitudes", body: "Use a resposta como reflexao e observe se os fatos combinam com o padrao emocional." },
+        { label: "03", title: "Escolha um passo", body: "Termine com um limite, observacao ou conversa em vez de repetir a mesma pergunta." },
+      ],
+    },
+    career: {
+      eyebrow: "Antes de tirar",
+      title: "Separe estresse de um sinal real de trabalho",
+      body: "Perguntas de carreira e dinheiro precisam de base: risco, tempo, recursos e o proximo movimento controlavel.",
+      items: [
+        { label: "01", title: "Defina a decisao", body: "Pergunte sobre uma escolha: ficar, sair, aplicar, negociar, esperar ou se preparar." },
+        { label: "02", title: "Liste limites reais", body: "Dinheiro, contratos, saude, prazos e apoio devem ficar visiveis junto da leitura." },
+        { label: "03", title: "Marque uma data", body: "Transforme a leitura em uma acao e uma data para revisar o que mudou." },
+      ],
+    },
+    daily: {
+      eyebrow: "Antes de tirar",
+      title: "Transforme uma carta diaria em uma acao pequena",
+      body: "O tarot diario funciona melhor como check-in repetivel: curto, com nota, e com um motivo para voltar amanha.",
+      items: [
+        { label: "01", title: "Escolha o foco", body: "Pergunte por amor, carreira, humor, acao ou limites, nao por tudo ao mesmo tempo." },
+        { label: "02", title: "Escreva uma frase", body: "Uma nota curta torna a carta de amanha mais util do que uma leitura isolada." },
+        { label: "03", title: "Guarde o retorno", body: "Use Daily Tarot ou um lembrete de calendario para formar um padrao de varios dias." },
+      ],
+    },
+    general: {
+      eyebrow: "Antes de tirar",
+      title: "Deixe a resposta gratis concreta",
+      body: "As melhores perguntas de tarot sao especificas, tem prazo e se conectam com algo que voce pode influenciar.",
+      items: [
+        { label: "01", title: "Faca uma pergunta", body: "Remova perguntas escondidas para que a tiragem nao divida a resposta." },
+        { label: "02", title: "Procure o padrao", body: "Leia o que se repete entre obstaculo, conselho e proximo passo." },
+        { label: "03", title: "Aja com calma", body: "Use a leitura para reflexao e planejamento, nao como conselho profissional garantido." },
+      ],
+    },
+  },
+} satisfies Partial<Record<SeoPage["locale"], Record<QuestionDecisionCategory, QuestionDecisionGuide>>>
+
+function questionDecisionCategory(slug: string): QuestionDecisionCategory {
+  if (slug.startsWith("daily-")) return "daily"
+  if (/(career|job|money|successful)/.test(slug)) return "career"
+  if (/(love|ex|he|him|soulmate|spouse|relationship|text|contact)/.test(slug)) return "relationship"
+  return "general"
+}
+
+function questionDecisionGuide(page: SeoPage): QuestionDecisionGuide {
+  const category = questionDecisionCategory(page.slug)
+  return questionDecisionGuideCopy[page.locale]?.[category] || questionDecisionGuideCopy.en[category]
+}
+
 const cardIndexCopy = {
   zh: {
     title: "78 张塔罗牌",
@@ -2287,6 +2441,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug] || createFallbackQuestionToolkit(page, recommendedSpread)
   const resultPreview = createResultPreview(page, toolkit, recommendedSpread)
   const isHighIntentQuestion = highIntentQuestionSlugs.has(page.slug)
+  const decisionGuide = isHighIntentQuestion ? questionDecisionGuide(page) : null
   const returnLoopCopy = questionReturnLoopCopy[page.locale]
   const returnLoopItems = isHighIntentQuestion ? questionReturnLoopItems(page, primaryHref) : []
   const cardHubs = activeCardIndexMode ? cardMeaningHubPages(page) : []
@@ -2534,6 +2689,23 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 position: index + 1,
                 name: `${item.position}: ${item.card}`,
                 description: item.meaning,
+              })),
+            },
+          ]
+        : []),
+      ...(decisionGuide
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#decision-checklist`,
+              name: decisionGuide.title,
+              description: decisionGuide.body,
+              numberOfItems: decisionGuide.items.length,
+              itemListElement: decisionGuide.items.map((item, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: item.title,
+                description: item.body,
               })),
             },
           ]
@@ -2813,6 +2985,39 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
           primaryHref={primaryHref}
           clusterRelated={clusterRelated}
         />
+      )}
+
+      {decisionGuide && (
+        <section id="decision-checklist" data-question-decision-checklist className="border-b border-white/10 bg-[#0d0618]">
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="grid gap-7 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+              <div className="max-w-2xl">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{decisionGuide.eyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">{decisionGuide.title}</h2>
+                <p className="mt-4 text-sm leading-7 text-white/62 sm:text-base">{decisionGuide.body}</p>
+              </div>
+              <div className="grid min-w-0 gap-3">
+                {decisionGuide.items.map((item) => (
+                  <article
+                    key={item.title}
+                    data-question-decision-checklist-item
+                    className="min-w-0 rounded-lg border border-white/10 bg-white/[0.035] p-4"
+                  >
+                    <div className="flex min-w-0 items-start gap-4">
+                      <span className="mt-1 inline-flex h-8 w-10 shrink-0 items-center justify-center rounded-md border border-[#bfb6ff]/20 bg-[#bfb6ff]/[0.08] text-[11px] tracking-[0.12em] text-[#c9c0ff]/82">
+                        {item.label}
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block break-words text-base font-medium leading-6 text-white">{item.title}</span>
+                        <span className="mt-2 block text-sm leading-6 text-white/58">{item.body}</span>
+                      </span>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {returnLoopItems.length > 0 && (
