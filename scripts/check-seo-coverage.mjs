@@ -607,6 +607,14 @@ for (const conversionSignal of [
   "SeoQuestionShareActions",
   "\"@type\": \"ShareAction\"",
   "question_share_return",
+  "questionTrustCopy",
+  "#reader-trust-signals",
+  "data-seo-reader-trust",
+  "data-seo-reader-trust-highlights",
+  "data-seo-reader-trust-testimonials",
+  "data-seo-reader-trust-testimonial-start",
+  "representativeTestimonials.slice(0, 3)",
+  "trustHighlights.map",
 ]) {
   assertIncludes(files.seoLanding, conversionSignal, `high-intent question conversion signal ${conversionSignal}`)
 }

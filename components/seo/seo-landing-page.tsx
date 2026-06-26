@@ -15,7 +15,7 @@ import {
   trustLinks,
   websiteJsonLd,
 } from "@/lib/site"
-import { trustLastReviewed } from "@/lib/trust-signals"
+import { representativeTestimonials, trustHighlights, trustLastReviewed } from "@/lib/trust-signals"
 
 const relatedCopy = {
   zh: { title: "相关塔罗入口", body: "继续从一个具体问题开始，直接进入更匹配的牌阵。" },
@@ -64,6 +64,85 @@ const questionClusterCopy = {
     startAction: "Comecar tiragem gratis",
   },
 } satisfies Record<SeoPage["locale"], { title: string; body: string; action: string; startAction: string }>
+
+const questionTrustCopy = {
+  zh: {
+    eyebrow: "信任边界",
+    title: "先免费体验，再决定是否需要深度功能",
+    body: "这些长尾问题页承接搜索流量，所以必须把免费范围、AI 边界和读者反馈说清楚。先完成免费解读，再用历史保存、深度追问或月报做长期复盘。",
+    highlightsLabel: "产品原则",
+    feedbackLabel: "代表性反馈",
+    feedbackAction: "打开免费入口",
+    reviews: "查看反馈",
+    disclaimer: "AI 解读声明",
+    privacy: "隐私说明",
+  },
+  en: {
+    eyebrow: "Trust boundary",
+    title: "Try the free reading first, then upgrade only for depth",
+    body: "Search pages should make the promise clear before asking for commitment. POPTarot keeps the first answer free, frames AI tarot as reflective guidance, and reserves membership for saved history, deeper follow-ups, advanced spreads, and monthly reports.",
+    highlightsLabel: "Product principles",
+    feedbackLabel: "Representative feedback",
+    feedbackAction: "Open free path",
+    reviews: "Read feedback",
+    disclaimer: "AI disclaimer",
+    privacy: "Privacy",
+  },
+  ja: {
+    eyebrow: "信頼の境界",
+    title: "まず無料で試し、深く使う時だけアップグレード",
+    body: "検索ページでは、先に約束を明確にします。最初の答えは無料、AIタロットは内省のガイド、会員機能は履歴保存・深い追質問・高度なスプレッド・月間レポート向けです。",
+    highlightsLabel: "プロダクト原則",
+    feedbackLabel: "代表的なフィードバック",
+    feedbackAction: "無料入口を開く",
+    reviews: "フィードバックを見る",
+    disclaimer: "AI免責事項",
+    privacy: "プライバシー",
+  },
+  ko: {
+    eyebrow: "신뢰 경계",
+    title: "먼저 무료로 경험하고, 깊이가 필요할 때만 업그레이드",
+    body: "검색 페이지는 약속을 먼저 분명히 해야 합니다. 첫 답변은 무료이고, AI 타로는 성찰용 안내이며, 멤버십은 기록 저장, 깊은 후속 질문, 고급 스프레드, 월간 리포트를 위한 기능입니다.",
+    highlightsLabel: "제품 원칙",
+    feedbackLabel: "대표 피드백",
+    feedbackAction: "무료 경로 열기",
+    reviews: "피드백 보기",
+    disclaimer: "AI 안내",
+    privacy: "개인정보",
+  },
+  es: {
+    eyebrow: "Límite de confianza",
+    title: "Prueba gratis primero; mejora solo si necesitas profundidad",
+    body: "Una página de búsqueda debe explicar la promesa antes de pedir compromiso. POPTarot mantiene gratis la primera respuesta, presenta el tarot IA como guía reflexiva y reserva la membresía para historial, preguntas profundas, tiradas avanzadas e informes mensuales.",
+    highlightsLabel: "Principios del producto",
+    feedbackLabel: "Comentarios representativos",
+    feedbackAction: "Abrir ruta gratis",
+    reviews: "Leer comentarios",
+    disclaimer: "Aviso de IA",
+    privacy: "Privacidad",
+  },
+  "pt-br": {
+    eyebrow: "Limite de confiança",
+    title: "Experimente gratis primeiro; assine so quando precisar de profundidade",
+    body: "Uma pagina vinda da busca precisa deixar a promessa clara antes de pedir compromisso. POPTarot mantem a primeira resposta gratis, apresenta tarot IA como guia reflexivo e reserva assinatura para historico, perguntas profundas, tiragens avancadas e relatorios mensais.",
+    highlightsLabel: "Principios do produto",
+    feedbackLabel: "Feedback representativo",
+    feedbackAction: "Abrir caminho gratis",
+    reviews: "Ler feedback",
+    disclaimer: "Aviso de IA",
+    privacy: "Privacidade",
+  },
+} satisfies Record<SeoPage["locale"], {
+  eyebrow: string
+  title: string
+  body: string
+  highlightsLabel: string
+  feedbackLabel: string
+  feedbackAction: string
+  reviews: string
+  disclaimer: string
+  privacy: string
+}>
 
 type QuestionDecisionCategory = "relationship" | "career" | "daily" | "general"
 
@@ -2452,6 +2531,8 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const decisionGuide = isHighIntentQuestion ? questionDecisionGuide(page) : null
   const returnLoopCopy = questionReturnLoopCopy[page.locale]
   const returnLoopItems = isHighIntentQuestion ? questionReturnLoopItems(page, primaryHref) : []
+  const questionTrust = questionTrustCopy[page.locale]
+  const questionTrustTestimonials = representativeTestimonials.slice(0, 3)
   const questionShareDailyParams = new URLSearchParams({
     return_focus: page.ctaQuestion,
     utm_source: "seo",
@@ -2751,6 +2832,33 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 name: item.title,
                 description: item.body,
               })),
+            },
+          ]
+        : []),
+      ...(isHighIntentQuestion
+        ? [
+            {
+              "@type": "ItemList",
+              "@id": `${appUrl}${page.path}#reader-trust-signals`,
+              name: questionTrust.title,
+              description: questionTrust.body,
+              numberOfItems: trustHighlights.length + questionTrustTestimonials.length,
+              itemListElement: [
+                ...trustHighlights.map((item, index) => ({
+                  "@type": "ListItem",
+                  position: index + 1,
+                  name: item.title,
+                  description: item.body,
+                  url: `${appUrl}/free-tarot-tools`,
+                })),
+                ...questionTrustTestimonials.map((item, index) => ({
+                  "@type": "ListItem",
+                  position: trustHighlights.length + index + 1,
+                  name: item.title,
+                  description: item.quote,
+                  url: `${appUrl}${item.actionHref || "/reviews"}`,
+                })),
+              ],
             },
           ]
         : []),
@@ -3104,6 +3212,88 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
           dailyHref={questionShareDailyHref}
           campaign={page.slug}
         />
+      )}
+
+      {isHighIntentQuestion && (
+        <section
+          id="reader-trust-signals"
+          data-seo-reader-trust
+          className="border-b border-white/10 bg-[#0b0415]"
+        >
+          <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8 lg:px-10">
+            <div className="grid gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
+              <div className="min-w-0">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">{questionTrust.eyebrow}</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">{questionTrust.title}</h2>
+                <p className="mt-4 text-sm leading-7 text-white/62 sm:text-base">{questionTrust.body}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  <Link
+                    href="/reviews"
+                    className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/24 px-3 py-2 text-sm text-[#e8e3ff] transition hover:border-[#c9c0ff]/55 hover:bg-white/[0.05]"
+                  >
+                    {questionTrust.reviews}
+                  </Link>
+                  <Link
+                    href="/ai-tarot-disclaimer"
+                    className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-sm text-white/62 transition hover:border-[#c9c0ff]/40 hover:text-white"
+                  >
+                    {questionTrust.disclaimer}
+                  </Link>
+                  <Link
+                    href="/privacy"
+                    className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-sm text-white/62 transition hover:border-[#c9c0ff]/40 hover:text-white"
+                  >
+                    {questionTrust.privacy}
+                  </Link>
+                </div>
+              </div>
+
+              <div className="grid min-w-0 gap-4">
+                <section data-seo-reader-trust-highlights className="min-w-0 border-t border-white/10 pt-5 lg:border-t-0 lg:pt-0">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/78">{questionTrust.highlightsLabel}</p>
+                  <div className="mt-4 grid gap-3 md:grid-cols-3">
+                    {trustHighlights.map((item) => (
+                      <article
+                        key={item.title}
+                        data-seo-reader-trust-highlight
+                        className="min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4"
+                      >
+                        <h3 className="break-words text-sm font-medium leading-6 text-white">{item.title}</h3>
+                        <p className="mt-2 text-xs leading-5 text-white/54">{item.body}</p>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+
+                <section data-seo-reader-trust-testimonials className="min-w-0 border-t border-white/10 pt-5">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/78">{questionTrust.feedbackLabel}</p>
+                  <div className="mt-4 grid gap-3 md:grid-cols-3">
+                    {questionTrustTestimonials.map((item) => (
+                      <article
+                        key={item.title}
+                        data-seo-reader-trust-testimonial
+                        className="flex min-w-0 flex-col rounded-lg border border-white/10 bg-black/[0.16] p-4"
+                      >
+                        <h3 className="break-words text-sm font-medium leading-6 text-white">{item.title}</h3>
+                        <p className="mt-2 text-xs leading-5 text-white/56">{item.quote}</p>
+                        <p className="mt-3 text-[11px] leading-5 text-white/36">{item.context}</p>
+                        {item.actionHref && (
+                          <Link
+                            href={item.actionHref}
+                            data-seo-reader-trust-testimonial-start
+                            className="mt-auto pt-4 text-xs text-[#c9c0ff]/78 transition hover:text-white"
+                          >
+                            {item.actionLabel || questionTrust.feedbackAction}
+                          </Link>
+                        )}
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {toolkit && recommendedSpread && (
