@@ -190,6 +190,7 @@
 @layer components {
   .home-hero-stage {
     --home-hero-browser-offset: min(var(--home-mobile-browser-offset, 0px), 7rem);
+    --home-hero-browser-bottom-offset: min(var(--home-mobile-browser-bottom-offset, 0px), 10rem);
     --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58vh, 28.5rem));
     --home-hero-center-y: var(--home-hero-focal-y);
     --home-hero-visual-center-y: var(--home-hero-center-y);
@@ -201,12 +202,11 @@
     --home-hero-glow-size: min(82vw, 30rem);
     --home-hero-flow-gap: clamp(2.75rem, 7vh, 3.5rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
-    --home-hero-content-reserve: 72rem;
-    --home-hero-after-actions-gap: clamp(8rem, 15vh, 12rem);
-    --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-content-reserve) - var(--home-hero-after-actions-gap));
+    --home-hero-actions-fallback-height: 38rem;
+    --home-hero-after-actions-gap: calc(clamp(4.5rem, 10vh, 6rem) + var(--home-hero-browser-bottom-offset));
+    --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
     --home-hero-shell-min-height: max(
-      205vh,
-      calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+      118vh,
       calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
     );
   }
@@ -219,10 +219,9 @@
     .home-hero-stage {
       --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58svh, 28.5rem));
       --home-hero-flow-gap: clamp(2.75rem, 7svh, 3.5rem);
-      --home-hero-after-actions-gap: clamp(8rem, 15svh, 12rem);
+      --home-hero-after-actions-gap: calc(clamp(4.5rem, 10svh, 6rem) + var(--home-hero-browser-bottom-offset));
       --home-hero-shell-min-height: max(
-        205svh,
-        calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+        118svh,
         calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
       );
     }
@@ -234,12 +233,11 @@
       --home-hero-card-width: 12.25rem;
       --home-hero-card-height: 21rem;
       --home-hero-flow-gap: 3.5rem;
-      --home-hero-content-reserve: 50rem;
-      --home-hero-after-actions-gap: 7rem;
-      --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-content-reserve) - var(--home-hero-after-actions-gap));
+      --home-hero-actions-fallback-height: 32rem;
+      --home-hero-after-actions-gap: 5.5rem;
+      --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
       --home-hero-shell-min-height: max(
-        150vh,
-        calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+        112vh,
         calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
       );
     }
@@ -248,8 +246,7 @@
       .home-hero-stage {
         --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24rem, 52svh, 32rem));
         --home-hero-shell-min-height: max(
-          150svh,
-          calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+          112svh,
           calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
         );
       }
@@ -263,12 +260,11 @@
       --home-hero-card-height: 29.125rem;
       --home-hero-glow-size: 34rem;
       --home-hero-flow-gap: 4.4375rem;
-      --home-hero-content-reserve: 40rem;
+      --home-hero-actions-fallback-height: 28rem;
       --home-hero-after-actions-gap: 5rem;
-      --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-content-reserve) - var(--home-hero-after-actions-gap));
+      --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
       --home-hero-shell-min-height: max(
-        128vh,
-        calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+        108vh,
         calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
       );
     }
@@ -277,8 +273,7 @@
       .home-hero-stage {
         --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(26rem, 55svh, 36rem));
         --home-hero-shell-min-height: max(
-          128svh,
-          calc(var(--home-hero-content-y) + var(--home-hero-content-reserve)),
+          108svh,
           calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
         );
       }

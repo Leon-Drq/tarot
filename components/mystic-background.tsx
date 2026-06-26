@@ -158,7 +158,10 @@ function HomeQuestionForm() {
       >
         <span>{copy.action}</span>
       </button>
-      <div data-home-hero-quick-start className="mt-3 flex flex-wrap justify-center gap-2 pb-1 md:pb-0">
+      <div
+        data-home-hero-quick-start
+        className="scrollbar-hide -mx-1 mt-3 flex snap-x flex-nowrap justify-start gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 md:pb-0"
+      >
         {copy.examples.map((example) => (
           <button
             key={example.campaign}
@@ -166,7 +169,7 @@ function HomeQuestionForm() {
             data-home-example-start
             data-home-hero-quick-start-link
             onClick={() => openExample(example)}
-            className="inline-flex min-h-10 max-w-full items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-center text-[11px] leading-4 text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white"
+            className="inline-flex min-h-10 shrink-0 snap-start items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-center text-[11px] leading-4 text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white sm:max-w-full"
           >
             {example.label}
           </button>
@@ -550,7 +553,7 @@ function HomeScrollContent() {
   return (
     <section
       data-home-scroll-content
-      className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+6rem)] pt-36 sm:pt-28"
+      className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+8rem)] pt-12 sm:pt-20"
     >
       <div className="max-w-2xl">
         <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.eyebrow}</p>
@@ -683,8 +686,12 @@ function MysticContent() {
 
     const updateBrowserOffset = () => {
       const offsetTop = viewport?.offsetTop ?? 0
-      const offset = Number.isFinite(offsetTop) ? Math.min(Math.max(offsetTop, 0), 120) : 0
-      root.style.setProperty("--home-mobile-browser-offset", `${offset}px`)
+      const viewportHeight = viewport?.height ?? window.innerHeight
+      const layoutHeight = document.documentElement.clientHeight || window.innerHeight
+      const topOffset = Number.isFinite(offsetTop) ? Math.min(Math.max(offsetTop, 0), 120) : 0
+      const bottomOffset = Math.min(Math.max(layoutHeight - topOffset - viewportHeight, 0), 160)
+      root.style.setProperty("--home-mobile-browser-offset", `${topOffset}px`)
+      root.style.setProperty("--home-mobile-browser-bottom-offset", `${bottomOffset}px`)
     }
 
     updateBrowserOffset()
@@ -697,6 +704,7 @@ function MysticContent() {
       viewport?.removeEventListener("scroll", updateBrowserOffset)
       window.removeEventListener("orientationchange", updateBrowserOffset)
       root.style.removeProperty("--home-mobile-browser-offset")
+      root.style.removeProperty("--home-mobile-browser-bottom-offset")
     }
   }, [])
 
@@ -792,7 +800,7 @@ function MysticContent() {
 
       <div
         data-home-hero-shell
-        className="home-hero-shell relative overflow-hidden pb-[calc(env(safe-area-inset-bottom)+7.5rem)] md:pb-28"
+        className="home-hero-shell relative overflow-hidden pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+7.5rem)] md:pb-28"
       >
         <section
           data-home-hero-copy
