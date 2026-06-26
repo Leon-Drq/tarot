@@ -683,6 +683,9 @@ function MysticContent() {
   useEffect(() => {
     const root = document.documentElement
     const viewport = window.visualViewport
+    const userAgent = navigator.userAgent || ""
+    const isGoogleAppBrowser = /\bGSA\//i.test(userAgent)
+    const isEmbeddedBrowser = isGoogleAppBrowser || /\b(FBAN|FBAV|FBIOS|Instagram|Line\/|MicroMessenger|Pinterest|TikTok|BytedanceWebview)\b/i.test(userAgent)
 
     const updateBrowserOffset = () => {
       const offsetTop = viewport?.offsetTop ?? 0
@@ -690,8 +693,11 @@ function MysticContent() {
       const layoutHeight = document.documentElement.clientHeight || window.innerHeight
       const topOffset = Number.isFinite(offsetTop) ? Math.min(Math.max(offsetTop, 0), 120) : 0
       const bottomOffset = Math.min(Math.max(layoutHeight - topOffset - viewportHeight, 0), 160)
-      root.style.setProperty("--home-mobile-browser-offset", `${topOffset}px`)
-      root.style.setProperty("--home-mobile-browser-bottom-offset", `${bottomOffset}px`)
+      const mobileWidth = window.innerWidth < 768
+      const embeddedTopOffset = mobileWidth && isEmbeddedBrowser ? (isGoogleAppBrowser ? 112 : 72) : 0
+      const embeddedBottomOffset = mobileWidth && isEmbeddedBrowser ? (isGoogleAppBrowser ? 88 : 64) : 0
+      root.style.setProperty("--home-mobile-browser-offset", `${Math.min(topOffset + embeddedTopOffset, 128)}px`)
+      root.style.setProperty("--home-mobile-browser-bottom-offset", `${Math.min(bottomOffset + embeddedBottomOffset, 184)}px`)
     }
 
     updateBrowserOffset()
@@ -773,7 +779,7 @@ function MysticContent() {
       </div>
 
       {/* Header Area - 确保所有元素垂直居中对齐 */}
-      <header className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1rem)] z-50 flex items-center justify-between px-4 pointer-events-none sm:top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1.5rem)] sm:px-6 md:top-7 md:px-8">
+      <header data-home-header className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1rem)] z-50 flex items-center justify-between px-4 pointer-events-none sm:top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1.5rem)] sm:px-6 md:top-7 md:px-8">
         <div className="flex-1 flex justify-start pointer-events-auto">
           <MenuButton isOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
         </div>

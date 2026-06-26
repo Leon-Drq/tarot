@@ -10,6 +10,15 @@ const pages = [
     allowedWideSelector: "mix-blend-color-dodge",
   },
   {
+    path: "/",
+    name: "home Google app browser",
+    userAgent:
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/318.0.650947740 Mobile/15E148 Safari/604.1",
+    requiredSelectors: ["[data-home-header]", "[data-home-card]", "[data-home-question-form]", "[data-home-daily-return-panel]"],
+    allowedWideSelector: "mix-blend-color-dodge",
+    embeddedTopGuard: 112,
+  },
+  {
     path: "/daily-tarot",
     name: "daily tarot",
     requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-sticky-cta]", "[data-daily-quick-actions]"],
@@ -70,6 +79,7 @@ async function checkPage(browser, pageConfig) {
     deviceScaleFactor: 2,
     isMobile: true,
     hasTouch: true,
+    userAgent: pageConfig.userAgent,
   })
 
   await page.route("**/api/analytics/event", (route) => {
@@ -83,7 +93,7 @@ async function checkPage(browser, pageConfig) {
   await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "networkidle", timeout: 45_000 })
   await page.waitForTimeout(500)
 
-  const result = await page.evaluate((requiredSelectors) => {
+  const result = await page.evaluate(({ requiredSelectors, embeddedTopGuard }) => {
     const viewportWidth = document.documentElement.clientWidth
     const missingSelectors = requiredSelectors.filter((selector) => !document.querySelector(selector))
     const wideElements = Array.from(document.body.querySelectorAll("*"))
@@ -101,6 +111,46 @@ async function checkPage(browser, pageConfig) {
       })
       .filter(Boolean)
 
+    const homeLayout = (() => {
+      const selectors = {
+        header: "[data-home-header]",
+        copy: "[data-home-hero-copy]",
+        card: "[data-home-card]",
+        form: "[data-home-question-form]",
+        daily: "[data-home-daily-return-panel]",
+        nav: "[data-home-secondary-nav]",
+        scroll: "[data-home-scroll-content]",
+      }
+      const rects = {}
+      for (const [key, selector] of Object.entries(selectors)) {
+        const element = document.querySelector(selector)
+        if (!element) return null
+        const rect = element.getBoundingClientRect()
+        rects[key] = {
+          top: Math.round(rect.top),
+          bottom: Math.round(rect.bottom),
+          height: Math.round(rect.height),
+        }
+      }
+
+      const gapChecks = [
+        { name: "copy to card", gap: rects.card.top - rects.copy.bottom, min: 96 },
+        { name: "card to form", gap: rects.form.top - rects.card.bottom, min: 32 },
+        { name: "form to daily panel", gap: rects.daily.top - rects.form.bottom, min: 16 },
+        { name: "daily panel to secondary nav", gap: rects.nav.top - rects.daily.bottom, min: 16 },
+        { name: "secondary nav to scroll content", gap: rects.scroll.top - rects.nav.bottom, min: 56 },
+      ]
+      const violations = gapChecks
+        .filter((check) => check.gap < check.min)
+        .map((check) => `${check.name} ${check.gap}px < ${check.min}px`)
+
+      if (embeddedTopGuard && rects.header.top < embeddedTopGuard) {
+        violations.push(`header top ${rects.header.top}px < embedded browser guard ${embeddedTopGuard}px`)
+      }
+
+      return { rects, violations }
+    })()
+
     return {
       pathname: window.location.pathname,
       title: document.title,
@@ -108,8 +158,9 @@ async function checkPage(browser, pageConfig) {
       scrollHeight: document.documentElement.scrollHeight,
       missingSelectors,
       wideElements,
+      homeLayout,
     }
-  }, pageConfig.requiredSelectors)
+  }, { requiredSelectors: pageConfig.requiredSelectors, embeddedTopGuard: pageConfig.embeddedTopGuard || 0 })
 
   await page.close()
 
@@ -141,6 +192,9 @@ try {
     }
     if (result.missingSelectors.length > 0) {
       failures.push(`${result.name}: missing selectors ${result.missingSelectors.join(", ")}`)
+    }
+    if (result.homeLayout?.violations.length > 0) {
+      failures.push(`${result.name}: home layout gaps ${result.homeLayout.violations.join("; ")}`)
     }
   }
 } finally {
