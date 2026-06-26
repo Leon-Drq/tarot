@@ -116,6 +116,7 @@ function getReminderStartDate(time: string) {
 
 function createDailyReminderCalendar(input: { time: string; summary: string; description: string }) {
   const timezone = getTimezone()
+  const calendarTimezone = timezone.replace(/[";:,]/g, "-")
   const safeTimezone = timezone.replace(/[^A-Za-z0-9_-]/g, "-")
   const start = getReminderStartDate(input.time)
   const lines = [
@@ -125,15 +126,21 @@ function createDailyReminderCalendar(input: { time: string; summary: string; des
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "X-WR-CALNAME:POPTarot Daily Tarot",
+    `X-WR-TIMEZONE:${calendarTimezone}`,
     "BEGIN:VEVENT",
     `UID:poptarot-daily-tarot-${input.time.replace(/[^0-9]/g, "")}-${safeTimezone}@poptarot.com`,
     `DTSTAMP:${formatCalendarDateTime(new Date(), true)}`,
-    `DTSTART:${formatCalendarDateTime(start)}`,
+    `DTSTART;TZID=${calendarTimezone}:${formatCalendarDateTime(start)}`,
     "DURATION:PT10M",
-    "RRULE:FREQ=DAILY",
+    "RRULE:FREQ=DAILY;INTERVAL=1",
     `SUMMARY:${escapeCalendarText(input.summary)}`,
     `DESCRIPTION:${escapeCalendarText(input.description)}`,
     "URL:https://poptarot.com/daily-tarot",
+    "BEGIN:VALARM",
+    "ACTION:DISPLAY",
+    "TRIGGER:-PT10M",
+    `DESCRIPTION:${escapeCalendarText(input.summary)}`,
+    "END:VALARM",
     "END:VEVENT",
     "END:VCALENDAR",
   ]
