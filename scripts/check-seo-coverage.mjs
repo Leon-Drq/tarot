@@ -562,6 +562,10 @@ for (const conversionSignal of [
   "return_focus: page.ctaQuestion",
   "monthly-pattern",
   "#related-question-cluster",
+  "data-question-cluster-card",
+  "data-question-cluster-start",
+  "data-question-cluster-guide",
+  "Start related free tarot spread",
   "data-question-sticky-cta",
   "utm_medium: \"question_prompt\"",
 ]) {

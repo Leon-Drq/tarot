@@ -30,33 +30,39 @@ const questionClusterCopy = {
     title: "同主题问题",
     body: "如果这个问题还不够精确，可以从相邻问题进入更匹配的免费牌阵。",
     action: "打开问题页",
+    startAction: "直接免费抽牌",
   },
   en: {
     title: "Related Tarot Questions",
     body: "If this question is close but not exact, use a nearby long-tail question to open a more precise free spread.",
     action: "Open question",
+    startAction: "Start free spread",
   },
   ja: {
     title: "関連する質問",
     body: "今の質問に近い入口から、より合う無料スプレッドへ進めます。",
     action: "質問を見る",
+    startAction: "無料で始める",
   },
   ko: {
     title: "관련 질문",
     body: "지금 질문과 가까운 롱테일 질문에서 더 정확한 무료 스프레드로 이동하세요.",
     action: "질문 열기",
+    startAction: "무료 스프레드 시작",
   },
   es: {
     title: "Preguntas relacionadas",
     body: "Si esta pregunta se acerca pero no es exacta, abre una pregunta cercana con una tirada gratis más precisa.",
     action: "Abrir pregunta",
+    startAction: "Empezar tirada gratis",
   },
   "pt-br": {
     title: "Perguntas relacionadas",
     body: "Se esta pergunta chega perto mas nao e exata, abra uma pergunta proxima com uma tiragem gratis mais precisa.",
     action: "Abrir pergunta",
+    startAction: "Comecar tiragem gratis",
   },
-} satisfies Record<SeoPage["locale"], { title: string; body: string; action: string }>
+} satisfies Record<SeoPage["locale"], { title: string; body: string; action: string; startAction: string }>
 
 type QuestionDecisionCategory = "relationship" | "career" | "daily" | "general"
 
@@ -2746,6 +2752,11 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                   description: item.intent,
                   url: `${appUrl}${item.path}`,
                   isAccessibleForFree: true,
+                  potentialAction: {
+                    "@type": "InteractAction",
+                    name: "Start related free tarot spread",
+                    target: `${appUrl}${readingHref(item)}`,
+                  },
                 },
               })),
             },
@@ -3378,18 +3389,33 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
             </div>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {clusterRelated.map((item) => (
-                <Link
+                <article
                   key={item.path}
-                  href={item.path}
-                  className="group flex min-h-[11rem] flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/50 hover:bg-white/[0.06]"
+                  data-question-cluster-card
+                  className="group flex min-h-[12rem] min-w-0 flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/50 hover:bg-white/[0.06]"
                 >
                   <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/74">{item.eyebrow}</p>
                   <h3 className="mt-3 text-base font-medium leading-6 text-white group-hover:text-[#f4f0ff]">
                     {item.h1}
                   </h3>
                   <p className="mt-3 line-clamp-3 text-sm leading-6 text-white/56">{item.intent}</p>
-                  <span className="mt-auto pt-4 text-xs text-[#c9c0ff]/72 group-hover:text-[#eeeaff]">{clusterText.action}</span>
-                </Link>
+                  <div className="mt-auto grid gap-2 pt-4">
+                    <Link
+                      href={readingHref(item)}
+                      data-question-cluster-start
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[#c9c0ff] px-3 py-2 text-center text-xs font-medium text-[#120c22] transition hover:bg-[#eeeaff]"
+                    >
+                      {clusterText.startAction}
+                    </Link>
+                    <Link
+                      href={item.path}
+                      data-question-cluster-guide
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-3 py-2 text-center text-xs text-[#c9c0ff]/76 transition hover:border-[#c9c0ff]/40 hover:bg-white/[0.05] hover:text-[#eeeaff]"
+                    >
+                      {clusterText.action}
+                    </Link>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
