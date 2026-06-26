@@ -273,6 +273,12 @@ export type AnalyticsEventName =
   | 'share_created'
   | 'share_session_only'
   | 'share_template_copied'
+  | 'reading_email_self_opened'
+  | 'daily_calendar_reminder_downloaded'
+  | 'daily_install_fallback_shown'
+  | 'daily_install_prompt_opened'
+  | 'daily_install_completed'
+  | 'daily_install_dismissed'
   | 'payment_started'
   | 'payment_completed'
 

@@ -105,6 +105,10 @@ const files = {
     path: "components/seo/seo-landing-page.tsx",
     source: read("components/seo/seo-landing-page.tsx"),
   },
+  seoQuestionShareActions: {
+    path: "components/seo/seo-question-share-actions.tsx",
+    source: read("components/seo/seo-question-share-actions.tsx"),
+  },
   trustPages: { path: "lib/trust-pages.ts", source: read("lib/trust-pages.ts") },
   trustSignals: { path: "lib/trust-signals.ts", source: read("lib/trust-signals.ts") },
   trustPageView: {
@@ -600,8 +604,24 @@ for (const conversionSignal of [
   "Start related free tarot spread",
   "data-question-sticky-cta",
   "utm_medium: \"question_prompt\"",
+  "SeoQuestionShareActions",
+  "\"@type\": \"ShareAction\"",
+  "question_share_return",
 ]) {
   assertIncludes(files.seoLanding, conversionSignal, `high-intent question conversion signal ${conversionSignal}`)
+}
+
+for (const shareSignal of [
+  "data-seo-question-share",
+  "data-seo-question-share-native",
+  "data-seo-question-share-copy",
+  "data-seo-question-daily-return",
+  "data-seo-question-share-start",
+  "navigator.share",
+  "navigator.clipboard?.writeText",
+  "surface: \"seo_question_page\"",
+]) {
+  assertIncludes(files.seoQuestionShareActions, shareSignal, `SEO question share action ${shareSignal}`)
 }
 
 for (const cardMeaningSignal of [

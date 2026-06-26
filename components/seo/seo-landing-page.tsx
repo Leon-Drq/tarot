@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { SeoQuestionShareActions } from "@/components/seo/seo-question-share-actions"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getAllLocalizedSeoPages, getSeoPage, type CardMeaningContext, type SeoPage } from "@/lib/seo-pages"
 import { SPREAD_CONFIGS, type SpreadConfig, type SpreadType } from "@/lib/spread-config"
@@ -215,7 +216,8 @@ function questionDecisionCategory(slug: string): QuestionDecisionCategory {
 
 function questionDecisionGuide(page: SeoPage): QuestionDecisionGuide {
   const category = questionDecisionCategory(page.slug)
-  return questionDecisionGuideCopy[page.locale]?.[category] || questionDecisionGuideCopy.en[category]
+  const localizedCopy = questionDecisionGuideCopy[page.locale as keyof typeof questionDecisionGuideCopy]
+  return localizedCopy?.[category] || questionDecisionGuideCopy.en[category]
 }
 
 const cardIndexCopy = {
@@ -2450,6 +2452,13 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const decisionGuide = isHighIntentQuestion ? questionDecisionGuide(page) : null
   const returnLoopCopy = questionReturnLoopCopy[page.locale]
   const returnLoopItems = isHighIntentQuestion ? questionReturnLoopItems(page, primaryHref) : []
+  const questionShareDailyParams = new URLSearchParams({
+    return_focus: page.ctaQuestion,
+    utm_source: "seo",
+    utm_medium: "question_share_return",
+    utm_campaign: page.slug,
+  })
+  const questionShareDailyHref = `/daily-tarot?${questionShareDailyParams.toString()}`
   const cardHubs = activeCardIndexMode ? cardMeaningHubPages(page) : []
   const cardGroups = cardIndexGroupOrder.map((group) => ({
     key: group,
@@ -2493,11 +2502,22 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         publisher: {
           "@id": `${appUrl}/#organization`,
         },
-        potentialAction: {
-          "@type": "ReadAction",
-          name: "Start free AI tarot reading",
-          target: `${appUrl}${primaryHref}`,
-        },
+        potentialAction: [
+          {
+            "@type": "ReadAction",
+            name: "Start free AI tarot reading",
+            target: `${appUrl}${primaryHref}`,
+          },
+          ...(isHighIntentQuestion
+            ? [
+                {
+                  "@type": "ShareAction",
+                  name: "Share this tarot question",
+                  target: `${appUrl}${page.path}`,
+                },
+              ]
+            : []),
+        ],
       },
       {
         "@type": "Article",
@@ -3071,6 +3091,19 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
             </div>
           </div>
         </section>
+      )}
+
+      {isHighIntentQuestion && (
+        <SeoQuestionShareActions
+          locale={page.locale}
+          title={page.title}
+          description={page.description}
+          question={page.ctaQuestion}
+          url={`${appUrl}${page.path}`}
+          readingHref={primaryHref}
+          dailyHref={questionShareDailyHref}
+          campaign={page.slug}
+        />
       )}
 
       {toolkit && recommendedSpread && (

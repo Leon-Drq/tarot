@@ -117,7 +117,7 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       await handleCopyLink()
     } catch (error) {
       if ((error as Error).name !== "AbortError") {
-        setStatus(copy.failed || copy.linkCopied)
+        setStatus(copy.failed)
       }
     }
   }

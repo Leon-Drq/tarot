@@ -45,17 +45,17 @@ const pages = [
   {
     path: "/will-my-ex-come-back-tarot",
     name: "long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]"],
+    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]"],
   },
   {
     path: "/es/mi-ex-volvera-tarot",
     name: "Spanish long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]"],
+    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]"],
   },
   {
     path: "/pt-br/meu-ex-vai-voltar-tarot",
     name: "Portuguese long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]"],
+    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]"],
   },
   {
     path: "/tarot-card-meanings/the-fool",
