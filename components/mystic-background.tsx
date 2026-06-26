@@ -115,7 +115,7 @@ function HomeQuestionForm() {
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
       </p>
-      <div className="group relative rounded-lg border border-white/14 bg-black/38 p-1 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-md transition focus-within:border-[#aaa1ff]/65">
+      <div className="group relative rounded-lg border border-white/14 bg-[#0d0617]/78 p-1 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-md transition focus-within:border-[#aaa1ff]/65">
         <div className="pointer-events-none absolute -inset-1 rounded-lg bg-[#aaa1ff]/10 opacity-0 blur-xl transition group-focus-within:opacity-100" />
         <div className="relative flex items-center">
           <input
@@ -217,7 +217,7 @@ function HomeDailyReturnPanel() {
     }[language]
 
   return (
-    <div className="relative z-30 mx-auto mt-5 w-[calc(100vw_-_3rem)] max-w-[620px] rounded-lg border border-white/10 bg-black/28 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.26)] backdrop-blur-md sm:mt-6">
+    <div className="relative z-30 mx-auto mt-5 w-[calc(100vw_-_3rem)] max-w-[620px] rounded-lg border border-white/10 bg-[#100720]/82 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.26)] backdrop-blur-md sm:mt-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
           <p className="text-[10px] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">{copy.eyebrow}</p>
@@ -643,6 +643,29 @@ function MysticContent() {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
+  useEffect(() => {
+    const root = document.documentElement
+    const viewport = window.visualViewport
+
+    const updateBrowserOffset = () => {
+      const offsetTop = viewport?.offsetTop ?? 0
+      const offset = Number.isFinite(offsetTop) ? Math.min(Math.max(offsetTop, 0), 120) : 0
+      root.style.setProperty("--home-mobile-browser-offset", `${offset}px`)
+    }
+
+    updateBrowserOffset()
+    viewport?.addEventListener("resize", updateBrowserOffset)
+    viewport?.addEventListener("scroll", updateBrowserOffset)
+    window.addEventListener("orientationchange", updateBrowserOffset)
+
+    return () => {
+      viewport?.removeEventListener("resize", updateBrowserOffset)
+      viewport?.removeEventListener("scroll", updateBrowserOffset)
+      window.removeEventListener("orientationchange", updateBrowserOffset)
+      root.style.removeProperty("--home-mobile-browser-offset")
+    }
+  }, [])
+
   const heroCopy =
     {
       zh: {
@@ -674,7 +697,7 @@ function MysticContent() {
       </div>
 
       {/* Header Area - 确保所有元素垂直居中对齐 */}
-      <header className="absolute top-4 left-0 right-0 sm:top-6 md:top-7 z-50 flex items-center justify-between px-4 sm:px-6 md:px-8 pointer-events-none">
+      <header className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1rem)] z-50 flex items-center justify-between px-4 pointer-events-none sm:top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1.5rem)] sm:px-6 md:top-7 md:px-8">
         <div className="flex-1 flex justify-start pointer-events-auto">
           <MenuButton isOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
         </div>
@@ -705,7 +728,7 @@ function MysticContent() {
       >
         <section
           data-home-hero-copy
-          className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[6.5rem] text-center sm:pt-[8.75rem] md:pt-[9.25rem] lg:pt-[9.75rem]"
+          className="pointer-events-none relative z-30 mx-auto w-[calc(100vw_-_2rem)] max-w-[680px] pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[9.25rem] lg:pt-[9.75rem]"
         >
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
@@ -749,12 +772,12 @@ function MysticContent() {
           </div>
         </div>
 
-        <div className="absolute left-0 right-0 top-[var(--home-hero-content-y)] z-30">
+        <div data-home-hero-actions className="absolute left-0 right-0 top-[var(--home-hero-content-y)] z-30">
           <HomeQuestionForm />
 
           <HomeDailyReturnPanel />
 
-          <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[11px] text-white/52 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
+          <div className="relative z-30 mx-auto mt-5 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#100720]/72 px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.25)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0">
             <a href="/daily-tarot" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
               Daily Tarot
             </a>
