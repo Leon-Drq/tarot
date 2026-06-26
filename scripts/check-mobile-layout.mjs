@@ -73,6 +73,18 @@ const pages = [
     requiredSelectors: ["[data-free-tools-quick-start-start]", "[data-free-tools-social-proof]"],
   },
   {
+    path: "/membership",
+    name: "membership free-first boundary",
+    requiredSelectors: [
+      "[data-membership-free-first]",
+      "[data-membership-free-path-grid]",
+      "[data-membership-depth-boundary]",
+      "[data-membership-plan-section]",
+      "[data-membership-payment-section]",
+      "[data-membership-benefit-comparison]",
+    ],
+  },
+  {
     path: "/about",
     name: "about trust page",
     requiredSelectors: ["main", "[data-trust-page]"],

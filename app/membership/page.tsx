@@ -197,6 +197,8 @@ function MembershipContent() {
         freeCta: "开始免费解读",
         dailyCta: "每日塔罗",
         monthlyCta: "查看月度报告",
+        freeTitle: "现在仍然免费",
+        freeItems: ["首次 AI 解读", "每日一牌与打卡", "78 张牌义查询", "问题型入口页"],
         upgradeTitle: "适合升级的场景",
         items: [
           "深度追问：围绕同一个问题继续追问，而不是反复重新开始。",
@@ -212,6 +214,8 @@ function MembershipContent() {
         freeCta: "Start Free Reading",
         dailyCta: "Daily Tarot",
         monthlyCta: "Preview Monthly Report",
+        freeTitle: "Still free now",
+        freeItems: ["First AI reading", "Daily card and streak", "78 card meanings", "Question entry pages"],
         upgradeTitle: "Upgrade when you need",
         items: [
           "Deeper follow-ups: continue one question instead of restarting the same reading.",
@@ -227,6 +231,8 @@ function MembershipContent() {
         freeCta: "無料で始める",
         dailyCta: "毎日のタロット",
         monthlyCta: "月間レポートを見る",
+        freeTitle: "今も無料で使えるもの",
+        freeItems: ["最初の AI リーディング", "毎日のカードと連続記録", "78 枚のカード意味", "質問別の入口ページ"],
         upgradeTitle: "アップグレードが役立つ時",
         items: [
           "深い追質問: 同じテーマを最初からやり直さずに続けて整理する。",
@@ -242,6 +248,8 @@ function MembershipContent() {
         freeCta: "무료 리딩 시작",
         dailyCta: "데일리 타로",
         monthlyCta: "월간 리포트 보기",
+        freeTitle: "지금도 무료",
+        freeItems: ["첫 AI 리딩", "데일리 카드와 연속 기록", "78장 카드 의미", "질문형 시작 페이지"],
         upgradeTitle: "업그레이드가 필요한 순간",
         items: [
           "심층 후속 질문: 같은 질문을 처음부터 반복하지 않고 이어서 정리합니다.",
@@ -257,6 +265,8 @@ function MembershipContent() {
       freeCta: "Start Free Reading",
       dailyCta: "Daily Tarot",
       monthlyCta: "Preview Monthly Report",
+      freeTitle: "Still free now",
+      freeItems: ["First AI reading", "Daily card and streak", "78 card meanings", "Question entry pages"],
       upgradeTitle: "Upgrade when you need",
       items: [
         "Deeper follow-ups: continue one question instead of restarting the same reading.",
@@ -368,33 +378,50 @@ function MembershipContent() {
         )}
 
         {/* Free-first boundary */}
-        <section className="rounded-xl border border-mystic-foreground/20 bg-mystic-surface/45 p-5 sm:p-6">
+        <section data-membership-free-first className="rounded-xl border border-mystic-foreground/20 bg-mystic-surface/45 p-5 sm:p-6">
           <p className="text-[10px] uppercase tracking-[0.22em] text-mystic-foreground-muted">{membershipBoundary.eyebrow}</p>
           <h2 className="mt-3 font-serif text-2xl leading-tight text-mystic-foreground sm:text-3xl">
             {membershipBoundary.title}
           </h2>
           <p className="mt-4 text-sm leading-7 text-mystic-foreground-muted">{membershipBoundary.body}</p>
+          <div data-membership-free-path-grid className="mt-5 rounded-lg border border-mystic-border bg-black/12 p-4">
+            <p className="text-xs uppercase tracking-[0.18em] text-mystic-foreground-muted">{membershipBoundary.freeTitle}</p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {membershipBoundary.freeItems.map((item) => (
+                <div
+                  key={item}
+                  data-membership-free-path
+                  className="min-h-10 rounded-lg border border-mystic-border/70 bg-mystic-bg/30 px-3 py-2 text-sm leading-5 text-mystic-foreground"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <Link
+              data-membership-free-reading-cta
               href="/free-ai-tarot-reading"
               className="inline-flex min-h-11 items-center justify-center rounded-lg bg-mystic-foreground px-4 py-2.5 text-sm font-medium text-mystic-bg transition hover:bg-mystic-foreground/90"
             >
               {membershipBoundary.freeCta}
             </Link>
             <Link
+              data-membership-daily-cta
               href="/daily-tarot"
               className="inline-flex min-h-11 items-center justify-center rounded-lg border border-mystic-border px-4 py-2.5 text-sm text-mystic-foreground transition hover:border-mystic-foreground/35 hover:bg-mystic-surface"
             >
               {membershipBoundary.dailyCta}
             </Link>
             <Link
+              data-membership-monthly-cta
               href="/monthly-tarot-report"
               className="inline-flex min-h-11 items-center justify-center rounded-lg border border-[#bfb6ff]/25 bg-[#bfb6ff]/[0.06] px-4 py-2.5 text-sm text-mystic-foreground transition hover:border-mystic-foreground/35 hover:bg-mystic-surface sm:col-span-2"
             >
               {membershipBoundary.monthlyCta}
             </Link>
           </div>
-          <div className="mt-5 border-t border-mystic-border pt-5">
+          <div data-membership-depth-boundary className="mt-5 border-t border-mystic-border pt-5">
             <p className="text-xs uppercase tracking-[0.18em] text-mystic-foreground-muted">{membershipBoundary.upgradeTitle}</p>
             <ul className="mt-3 space-y-2">
               {membershipBoundary.items.map((item) => (
@@ -431,7 +458,7 @@ function MembershipContent() {
         </div>
 
         {/* Plan Selection */}
-        <div className="space-y-4">
+        <div data-membership-plan-section className="space-y-4">
           {isLoadingProducts ? (
             <div className="text-center py-8">
               <div className="w-8 h-8 border-2 border-mystic-foreground/30 border-t-mystic-foreground rounded-full animate-spin mx-auto" />
@@ -447,6 +474,7 @@ function MembershipContent() {
               
               return (
                 <button
+                  data-membership-plan-option
                   key={product.type}
                   onClick={() => setSelectedPlan(planType)}
                   className={`relative w-full p-4 sm:p-5 rounded-xl border transition-all duration-300 text-left ${
@@ -503,7 +531,7 @@ function MembershipContent() {
         </div>
 
         {/* Payment Type Selection */}
-        <div className="grid grid-cols-2 gap-3">
+        <div data-membership-payment-section className="grid grid-cols-2 gap-3">
           <button
             onClick={() => setPayType("alipay")}
             className={`py-2.5 rounded-xl border text-sm transition-all ${
@@ -541,6 +569,7 @@ function MembershipContent() {
 
         {/* Subscribe Button */}
         <button
+          data-membership-activate-button
           onClick={handlePurchase}
           disabled={isProcessing}
           className="w-full py-3.5 rounded-xl bg-mystic-foreground text-mystic-bg text-sm tracking-wide font-medium hover:bg-mystic-foreground/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
@@ -669,7 +698,7 @@ function MembershipContent() {
         </div>
 
         {/* Benefits */}
-        <div className="pt-4 space-y-4">
+        <div data-membership-benefit-comparison className="pt-4 space-y-4">
           <p className="text-mystic-foreground-muted text-xs tracking-wide uppercase">{t("membership.memberBenefits")}</p>
           <div className="space-y-3">
             {[

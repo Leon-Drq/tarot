@@ -156,6 +156,10 @@ const files = {
     path: "app/api/monthly-tarot-report/route.ts",
     source: read("app/api/monthly-tarot-report/route.ts"),
   },
+  membershipPage: {
+    path: "app/membership/page.tsx",
+    source: read("app/membership/page.tsx"),
+  },
   readingRoute: {
     path: "app/api/reading/route.ts",
     source: read("app/api/reading/route.ts"),
@@ -472,6 +476,23 @@ assertIncludes(files.tarotSpreadsPage, "data-spread-access={isAdvanced ? \"membe
 assertIncludes(files.tarotSpreadsPage, "data-spread-free-start-mode={isAdvanced ? \"starter\" : \"direct\"}", "tarot spreads free starter CTA mode")
 assertIncludes(files.tarotSpreadsPage, "Start free starter", "tarot spreads advanced free starter CTA")
 assertIncludes(files.tarotSpreadsPage, "isAccessibleForFree: !isAdvanced", "tarot spreads structured free access marker")
+assertIncludes(files.membershipPage, "data-membership-free-first", "membership page free-first section")
+assertIncludes(files.membershipPage, "data-membership-free-path-grid", "membership page free path grid")
+assertIncludes(files.membershipPage, "data-membership-free-path", "membership page free path item")
+assertIncludes(files.membershipPage, "data-membership-depth-boundary", "membership page depth upgrade boundary")
+assertIncludes(files.membershipPage, "data-membership-plan-section", "membership page plan section after free boundary")
+assertIncludes(files.membershipPage, "data-membership-payment-section", "membership page payment section after plans")
+assertIncludes(files.membershipPage, "data-membership-benefit-comparison", "membership page benefit comparison")
+assertIncludes(files.membershipPage, "Membership is not the starting gate", "membership free-first positioning copy")
+assertIncludes(files.membershipPage, "Still free now", "membership current free access copy")
+assertIncludes(files.membershipPage, "First AI reading", "membership first reading remains free")
+assertIncludes(files.membershipPage, "Daily card and streak", "membership Daily Tarot remains free")
+assertIncludes(files.membershipPage, "78 card meanings", "membership card meanings remain free")
+assertMatches(
+  files.membershipPage,
+  /data-membership-free-first[\s\S]*data-membership-free-path-grid[\s\S]*data-membership-depth-boundary[\s\S]*data-membership-plan-section[\s\S]*data-membership-payment-section/,
+  "membership orders free paths before depth boundary before payment",
+)
 assertIncludes(files.homeExperience, "data-home-example-start", "homepage one-tap example start CTA")
 assertIncludes(files.homeExperience, "data-home-hero-quick-start", "homepage quick-start visible section")
 assertIncludes(files.homeExperience, "data-home-hero-quick-start-link", "homepage quick-start link hook")
