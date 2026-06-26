@@ -214,6 +214,10 @@ const files = {
     path: "lib/share-templates.ts",
     source: read("lib/share-templates.ts"),
   },
+  shareCopyActions: {
+    path: "components/share/share-copy-actions.tsx",
+    source: read("components/share/share-copy-actions.tsx"),
+  },
   freeToolsPage: {
     path: "app/free-tarot-tools/page.tsx",
     source: read("app/free-tarot-tools/page.tsx"),
@@ -964,6 +968,14 @@ const publicShareConversionCoverage = [
   [files.sharePage, "#related-question-paths", "public share related question structured data"],
   [files.sharePage, "public_share_related_question", "public share related question attribution"],
   [files.sharePage, "Start related free tarot spread", "public share related question structured action"],
+  [files.shareCopyActions, "data-public-share-copy-actions", "public share visible copy/share action group"],
+  [files.shareCopyActions, "data-public-share-native-share", "public share native share CTA"],
+  [files.shareCopyActions, "data-public-share-copy-link", "public share copy link CTA"],
+  [files.shareCopyActions, "data-public-share-copy-template", "public share social template CTAs"],
+  [files.shareCopyActions, "copyByLanguage", "public share multilingual share action copy"],
+  [files.shareCopyActions, "\"pt-br\"", "public share Portuguese copy"],
+  [files.shareCopyActions, "native_public_share", "public share native-share analytics action"],
+  [files.shareCopyActions, "copy_public_share_url", "public share copy-link analytics action"],
 ]
 
 for (const [file, needle, label] of publicShareConversionCoverage) {
