@@ -2,7 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { Bell, CalendarPlus, Link2, Loader2, Mail, NotebookPen, Share2, Smartphone } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
@@ -500,6 +500,12 @@ export function DailyTarotTool() {
         days: "记录天数",
         journals: "日记数",
         theme: "主要主题",
+        completion: "完成率",
+        upright: "正位",
+        reversed: "逆位",
+        timeline: "最近 7 天轨迹",
+        journalSignal: "日记完成",
+        emptyDay: "未记录",
         askPattern: "免费解读这个模式",
         patternQuestion: "我最近的每日塔罗更偏向「{theme}」，这说明什么？我下一步该怎么做？",
         report: "查看月度报告",
@@ -512,6 +518,12 @@ export function DailyTarotTool() {
         days: "記録日数",
         journals: "日記数",
         theme: "主なテーマ",
+        completion: "完了率",
+        upright: "正位置",
+        reversed: "逆位置",
+        timeline: "最近7日",
+        journalSignal: "日記あり",
+        emptyDay: "未記録",
         askPattern: "このパターンを無料で読む",
         patternQuestion: "最近の Daily Tarot は「{theme}」に寄っています。これは何を示し、次に何をすればいいですか？",
         report: "月間レポート",
@@ -524,6 +536,12 @@ export function DailyTarotTool() {
         days: "기록 일수",
         journals: "저널 수",
         theme: "주요 주제",
+        completion: "완성률",
+        upright: "정방향",
+        reversed: "역방향",
+        timeline: "최근 7일",
+        journalSignal: "저널 기록",
+        emptyDay: "미기록",
         askPattern: "이 패턴 무료로 보기",
         patternQuestion: "최근 Daily Tarot 카드가 「{theme}」 쪽으로 기울어 있습니다. 이것은 무엇을 뜻하고 다음 행동은 무엇인가요?",
         report: "월간 리포트",
@@ -536,6 +554,12 @@ export function DailyTarotTool() {
         days: "Tracked days",
         journals: "Journal notes",
         theme: "Main theme",
+        completion: "Completion",
+        upright: "Upright",
+        reversed: "Reversed",
+        timeline: "Recent 7-day trail",
+        journalSignal: "Journal signal",
+        emptyDay: "Not drawn",
         askPattern: "Ask about this pattern",
         patternQuestion: "My recent Daily Tarot cards lean toward {theme}. What does this pattern mean, and what should I do next?",
         report: "View monthly report",
@@ -548,6 +572,12 @@ export function DailyTarotTool() {
       days: "Tracked days",
       journals: "Journal notes",
       theme: "Main theme",
+      completion: "Completion",
+      upright: "Upright",
+      reversed: "Reversed",
+      timeline: "Recent 7-day trail",
+      journalSignal: "Journal signal",
+      emptyDay: "Not drawn",
       askPattern: "Ask about this pattern",
       patternQuestion: "My recent Daily Tarot cards lean toward {theme}. What does this pattern mean, and what should I do next?",
       report: "View monthly report",
@@ -1227,28 +1257,72 @@ export function DailyTarotTool() {
     }
   }
 
-  const localizedCardName = (item: DrawnCard) =>
-    language === "zh" ? item.name : language === "ja" ? item.nameJa || item.nameEn : language === "ko" ? item.nameKo || item.nameEn : item.nameEn
+  const localizedCardName = useCallback(
+    (item: DrawnCard) =>
+      language === "zh" ? item.name : language === "ja" ? item.nameJa || item.nameEn : language === "ko" ? item.nameKo || item.nameEn : item.nameEn,
+    [language],
+  )
 
   const displayName = card ? localizedCardName(card) : ""
   const dailyPattern = useMemo(() => {
     const trackedDays = recentEntries.length
     const journalCount = recentEntries.filter((item) => Boolean(item.journal?.trim())).length
+    const reversedCount = recentEntries.filter((item) => item.is_reversed).length
+    const uprightCount = Math.max(0, trackedDays - reversedCount)
+    const completionRate = Math.round((trackedDays / 7) * 100)
     const dominantTheme = trackedDays > 0 ? mostCommonTheme(recentEntries, language) : mostCommonTheme([], language)
     const body = trackedDays > 0
       ? patternCopy.activeBody.replace("{theme}", dominantTheme)
       : patternCopy.emptyBody
+    const entryByDate = new Map(recentEntries.map((item) => [item.entry_date, item]))
+    const timeline = (dateKey ? getRecentDateKeys(dateKey).reverse() : recentEntries.map((item) => item.entry_date).reverse()).map(
+      (dayKey) => {
+        const item = entryByDate.get(dayKey)
+        const itemCard = item ? cardFromEntry(item) : null
+        return {
+          date: dayKey,
+          label: dayKey.slice(5),
+          cardName: itemCard ? localizedCardName(itemCard) : item?.card_name || patternCopy.emptyDay,
+          hasEntry: Boolean(item),
+          hasJournal: Boolean(item?.journal?.trim()),
+          isReversed: Boolean(item?.is_reversed),
+          theme: item ? entryTheme(item.card_id, language) : patternCopy.emptyDay,
+        }
+      },
+    )
 
     return {
       body,
       dominantTheme,
+      timeline,
       stats: [
         { label: patternCopy.days, value: `${trackedDays}/7` },
         { label: patternCopy.journals, value: String(journalCount) },
         { label: patternCopy.theme, value: dominantTheme },
       ],
+      detailStats: [
+        { label: patternCopy.completion, value: `${completionRate}%` },
+        { label: patternCopy.upright, value: String(uprightCount) },
+        { label: patternCopy.reversed, value: String(reversedCount) },
+        { label: patternCopy.journalSignal, value: `${journalCount}/${Math.max(trackedDays, 1)}` },
+      ],
     }
-  }, [language, patternCopy.activeBody, patternCopy.days, patternCopy.emptyBody, patternCopy.journals, patternCopy.theme, recentEntries])
+  }, [
+    dateKey,
+    language,
+    localizedCardName,
+    patternCopy.activeBody,
+    patternCopy.completion,
+    patternCopy.days,
+    patternCopy.emptyBody,
+    patternCopy.emptyDay,
+    patternCopy.journalSignal,
+    patternCopy.journals,
+    patternCopy.reversed,
+    patternCopy.theme,
+    patternCopy.upright,
+    recentEntries,
+  ])
   const reminderModeTitle = emailDeliveryEnabled ? copy.emailReminderReadyTitle : copy.calendarFallbackTitle
   const reminderModeBody = emailDeliveryEnabled ? copy.reminderHelp : copy.calendarFallbackBody
   const calendarReminderAvailable = reminderCapability?.calendar_reminder_available ?? true
@@ -1828,11 +1902,45 @@ export function DailyTarotTool() {
           </div>
           <div className="mt-5 grid gap-2 sm:grid-cols-3">
             {dailyPattern.stats.map((item) => (
-              <div key={item.label} className="rounded-lg border border-white/10 bg-black/16 p-3">
+              <div key={item.label} className="min-w-0 rounded-lg border border-white/10 bg-black/16 p-3">
                 <p className="text-[10px] uppercase tracking-[0.16em] text-white/36">{item.label}</p>
                 <p className="mt-2 break-words text-sm font-medium leading-snug text-white">{item.value}</p>
               </div>
             ))}
+          </div>
+          <div data-daily-pattern-detail-stats className="mt-3 grid min-w-0 grid-cols-2 gap-2 sm:grid-cols-4">
+            {dailyPattern.detailStats.map((item) => (
+              <div key={item.label} className="min-w-0 rounded-lg border border-white/10 bg-black/14 p-3">
+                <p className="text-[9px] uppercase leading-snug tracking-[0.14em] text-white/34">{item.label}</p>
+                <p className="mt-2 break-words text-sm font-medium leading-snug text-[#eee9ff]">{item.value}</p>
+              </div>
+            ))}
+          </div>
+          <div data-daily-pattern-timeline className="mt-5 min-w-0">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-white/36">{patternCopy.timeline}</p>
+            <div className="mt-3 grid min-w-0 grid-cols-7 gap-1.5">
+              {dailyPattern.timeline.map((item) => (
+                <div
+                  key={item.date}
+                  data-daily-pattern-day
+                  data-daily-pattern-filled={item.hasEntry ? "true" : "false"}
+                  title={`${item.date}: ${item.cardName}`}
+                  aria-label={`${item.date}: ${item.cardName}`}
+                  className={`min-w-0 rounded-lg border px-1.5 py-2 text-center transition ${
+                    item.hasEntry
+                      ? item.hasJournal
+                        ? "border-[#c9c0ff]/36 bg-[#c9c0ff]/13 text-white"
+                        : "border-[#c9c0ff]/24 bg-[#c9c0ff]/[0.07] text-white/72"
+                      : "border-white/8 bg-black/14 text-white/28"
+                  }`}
+                >
+                  <p className="truncate text-[9px] leading-none">{item.label}</p>
+                  <p className="mt-2 text-[10px] font-medium leading-none">
+                    {item.hasEntry ? (item.isReversed ? "R" : "U") : "-"}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </article>
 
