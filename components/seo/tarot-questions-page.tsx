@@ -11,7 +11,7 @@ import { getTarotSpreadHubPath } from "@/components/seo/tarot-spreads-page"
 import { TarotQuestionSearchResults, type TarotQuestionSearchEntry } from "@/components/seo/tarot-question-search-results"
 
 type TarotQuestionHubLocale = Extract<SeoLocale, "en" | "es" | "pt-br">
-type QuestionGroup = "love" | "career" | "fast"
+type QuestionGroup = "love" | "career" | "daily" | "fast"
 
 type QuestionEntry = {
   slug?: string
@@ -29,6 +29,13 @@ type QuestionGroupCopy = {
   group: QuestionGroup
 }
 
+type QuickStartGroupCopy = {
+  label: string
+  title: string
+  body: string
+  slugs: string[]
+}
+
 type QuestionPageCopy = {
   locale: TarotQuestionHubLocale
   path: string
@@ -43,6 +50,7 @@ type QuestionPageCopy = {
   quickStartEyebrow: string
   quickStartTitle: string
   quickStartBody: string
+  quickStartGroups: QuickStartGroupCopy[]
   groups: QuestionGroupCopy[]
   entries: QuestionEntry[]
   betterEyebrow: string
@@ -60,14 +68,6 @@ const questionHubPaths = {
   es: "/es/preguntas-tarot",
   "pt-br": "/pt-br/perguntas-tarot",
 } satisfies Record<TarotQuestionHubLocale, string>
-
-const quickStartSlugs = [
-  "will-my-ex-come-back-tarot",
-  "does-he-love-me-tarot",
-  "yes-or-no-tarot-love",
-  "career-tarot-reading",
-  "should-i-quit-my-job-tarot",
-]
 
 export function getTarotQuestionHubPath(locale: TarotQuestionHubLocale) {
   return questionHubPaths[locale]
@@ -95,6 +95,32 @@ const copyByLocale = {
     quickStartTitle: "Open a matching free spread in one tap",
     quickStartBody:
       "These are the highest-intent paths for new readers. Each link keeps the real question, spread, locale, and attribution attached.",
+    quickStartGroups: [
+      {
+        label: "Ex and no contact",
+        title: "Reconciliation and silence",
+        body: "For breakup waiting, no contact, reaching out, and whether repair is realistic.",
+        slugs: ["will-my-ex-come-back-tarot", "no-contact-tarot-reading", "will-my-ex-reach-out-tarot"],
+      },
+      {
+        label: "Love signals",
+        title: "Feelings and mixed signals",
+        body: "For whether feelings are mutual, what someone thinks, and whether a crush is real.",
+        slugs: ["does-he-love-me-tarot", "how-does-he-feel-about-me-tarot", "does-my-crush-like-me-tarot"],
+      },
+      {
+        label: "Career decisions",
+        title: "Work, offers, and next moves",
+        body: "For job changes, interviews, quitting, accepting an offer, and money pressure.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-quit-my-job-tarot"],
+      },
+      {
+        label: "Daily return",
+        title: "Come back tomorrow with one focused question",
+        body: "For daily love, work, yes-or-no, mood, and action prompts that build a habit.",
+        slugs: ["daily-love-tarot", "daily-career-tarot", "daily-yes-or-no-tarot"],
+      },
+    ],
     groups: [
       {
         label: "Love",
@@ -107,6 +133,12 @@ const copyByLocale = {
         title: "Career and work questions",
         body: "Use these when a job decision needs both intuition and practical next steps: stay, leave, prepare, negotiate, or change direction.",
         group: "career",
+      },
+      {
+        label: "Daily",
+        title: "Daily tarot return questions",
+        body: "Use these when you want one focused reason to come back: love, career, yes-or-no, mood, or a practical action for today.",
+        group: "daily",
       },
       {
         label: "Fast clarity",
@@ -437,6 +469,46 @@ const copyByLocale = {
         group: "career",
       },
       {
+        slug: "daily-love-tarot",
+        title: "Daily love tarot",
+        query: "What should I understand about today's love energy and one grounded next step?",
+        intent: "For today's relationship energy, feelings, timing, and one action you can actually take.",
+        spread: "relationship",
+        group: "daily",
+      },
+      {
+        slug: "daily-career-tarot",
+        title: "Daily career tarot",
+        query: "What should I focus on at work today, and what practical move would help?",
+        intent: "For daily work pressure, opportunities, preparation, timing, and one practical career move.",
+        spread: "job_opportunity",
+        group: "daily",
+      },
+      {
+        slug: "daily-yes-or-no-tarot",
+        title: "Daily yes or no tarot",
+        query: "Give me a daily yes or no tarot answer with the reason behind it.",
+        intent: "For one simple choice today when you need a quick direction and the reason behind it.",
+        spread: "yes_no",
+        group: "daily",
+      },
+      {
+        slug: "daily-mood-tarot",
+        title: "Daily mood tarot",
+        query: "What is shaping my mood today, and what would help me reset?",
+        intent: "For emotional patterns, triggers, grounding, and a small reset for today.",
+        spread: "three_card",
+        group: "daily",
+      },
+      {
+        slug: "daily-action-tarot",
+        title: "Daily action tarot",
+        query: "What is one grounded action I can take today?",
+        intent: "For turning today's card or question into one clear next step.",
+        spread: "three_card",
+        group: "daily",
+      },
+      {
         slug: "should-i-text-him-tarot",
         title: "Should I text him today?",
         query: "Should I text him today, and what should I consider first?",
@@ -506,6 +578,32 @@ const copyByLocale = {
     quickStartTitle: "Abre una tirada gratis en un toque",
     quickStartBody:
       "Estas son rutas de alta intencion para nuevos lectores. Cada enlace conserva la pregunta, la tirada, el idioma y la atribucion.",
+    quickStartGroups: [
+      {
+        label: "Ex y contacto cero",
+        title: "Reconciliacion y silencio",
+        body: "Para ruptura, espera, contacto cero, mensajes pendientes y si reparar es realista.",
+        slugs: ["will-my-ex-come-back-tarot", "no-contact-tarot-reading", "will-my-ex-reach-out-tarot"],
+      },
+      {
+        label: "Senales de amor",
+        title: "Sentimientos y senales mixtas",
+        body: "Para saber si los sentimientos son mutuos, que piensa alguien y si hay interes real.",
+        slugs: ["does-he-love-me-tarot", "how-does-he-feel-about-me-tarot", "does-my-crush-like-me-tarot"],
+      },
+      {
+        label: "Trabajo",
+        title: "Carrera, ofertas y siguientes pasos",
+        body: "Para cambios de trabajo, entrevistas, renunciar, aceptar una oferta y presion economica.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-quit-my-job-tarot"],
+      },
+      {
+        label: "Diario",
+        title: "Vuelve manana con una pregunta clara",
+        body: "Para amor, carrera, si/no, estado de animo y acciones diarias que crean habito.",
+        slugs: ["daily-love-tarot", "daily-career-tarot", "daily-yes-or-no-tarot"],
+      },
+    ],
     groups: [
       {
         label: "Amor",
@@ -518,6 +616,12 @@ const copyByLocale = {
         title: "Preguntas de carrera y trabajo",
         body: "Usalas cuando una decision laboral necesita intuicion y pasos concretos: quedarte, salir, prepararte, negociar o cambiar de rumbo.",
         group: "career",
+      },
+      {
+        label: "Diario",
+        title: "Preguntas de tarot diario",
+        body: "Usalas cuando quieres una razon concreta para volver: amor, carrera, si/no, animo o una accion practica para hoy.",
+        group: "daily",
       },
       {
         label: "Claridad rapida",
@@ -784,6 +888,46 @@ const copyByLocale = {
         group: "career",
       },
       {
+        slug: "daily-love-tarot",
+        title: "Tarot diario del amor",
+        query: "Que deberia entender sobre la energia amorosa de hoy y un siguiente paso concreto?",
+        intent: "Para energia de relacion de hoy, sentimientos, timing y una accion posible.",
+        spread: "relationship",
+        group: "daily",
+      },
+      {
+        slug: "daily-career-tarot",
+        title: "Tarot diario de carrera",
+        query: "En que deberia enfocarme en el trabajo hoy y que movimiento practico ayudaria?",
+        intent: "Para presion laboral diaria, oportunidades, preparacion, timing y un paso profesional practico.",
+        spread: "job_opportunity",
+        group: "daily",
+      },
+      {
+        slug: "daily-yes-or-no-tarot",
+        title: "Tarot diario si o no",
+        query: "Dame una respuesta diaria de tarot si o no con la razon detras.",
+        intent: "Para una decision simple de hoy cuando necesitas direccion rapida y el motivo.",
+        spread: "yes_no",
+        group: "daily",
+      },
+      {
+        slug: "daily-mood-tarot",
+        title: "Tarot diario del estado de animo",
+        query: "Que esta influyendo en mi estado de animo hoy y que me ayudaria a volver al centro?",
+        intent: "Para patrones emocionales, detonantes, calma y un pequeno reinicio para hoy.",
+        spread: "three_card",
+        group: "daily",
+      },
+      {
+        slug: "daily-action-tarot",
+        title: "Tarot diario de accion",
+        query: "Cual es una accion concreta que puedo tomar hoy?",
+        intent: "Para convertir la carta o pregunta de hoy en un siguiente paso claro.",
+        spread: "three_card",
+        group: "daily",
+      },
+      {
         slug: "should-i-text-him-tarot",
         title: "Deberia escribirle hoy?",
         query: "Deberia escribirle hoy, y que deberia considerar primero?",
@@ -853,6 +997,32 @@ const copyByLocale = {
     quickStartTitle: "Abra uma tiragem gratis em um toque",
     quickStartBody:
       "Estas sao rotas de alta intencao para novos leitores. Cada link mantem a pergunta, a tiragem, o idioma e a atribuicao.",
+    quickStartGroups: [
+      {
+        label: "Ex e contato zero",
+        title: "Reconciliacao e silencio",
+        body: "Para termino, espera, contato zero, mensagens pendentes e se reparar e realista.",
+        slugs: ["will-my-ex-come-back-tarot", "no-contact-tarot-reading", "will-my-ex-reach-out-tarot"],
+      },
+      {
+        label: "Sinais de amor",
+        title: "Sentimentos e sinais mistos",
+        body: "Para saber se os sentimentos sao mutuos, o que alguem pensa e se o interesse e real.",
+        slugs: ["does-he-love-me-tarot", "how-does-he-feel-about-me-tarot", "does-my-crush-like-me-tarot"],
+      },
+      {
+        label: "Trabalho",
+        title: "Carreira, ofertas e proximos passos",
+        body: "Para mudancas de trabalho, entrevistas, pedir demissao, aceitar oferta e pressao financeira.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-quit-my-job-tarot"],
+      },
+      {
+        label: "Diario",
+        title: "Volte amanha com uma pergunta clara",
+        body: "Para amor, carreira, sim/nao, humor e acoes diarias que criam habito.",
+        slugs: ["daily-love-tarot", "daily-career-tarot", "daily-yes-or-no-tarot"],
+      },
+    ],
     groups: [
       {
         label: "Amor",
@@ -865,6 +1035,12 @@ const copyByLocale = {
         title: "Perguntas de carreira e trabalho",
         body: "Use quando uma decisao profissional precisa de intuicao e passos concretos: ficar, sair, se preparar, negociar ou mudar de rumo.",
         group: "career",
+      },
+      {
+        label: "Diario",
+        title: "Perguntas de tarot diario",
+        body: "Use quando voce quer um motivo concreto para voltar: amor, carreira, sim/nao, humor ou uma acao pratica para hoje.",
+        group: "daily",
       },
       {
         label: "Clareza rapida",
@@ -1131,6 +1307,46 @@ const copyByLocale = {
         group: "career",
       },
       {
+        slug: "daily-love-tarot",
+        title: "Tarot diario do amor",
+        query: "O que devo entender sobre a energia amorosa de hoje e um proximo passo concreto?",
+        intent: "Para energia de relacionamento de hoje, sentimentos, timing e uma acao possivel.",
+        spread: "relationship",
+        group: "daily",
+      },
+      {
+        slug: "daily-career-tarot",
+        title: "Tarot diario de carreira",
+        query: "No que devo focar no trabalho hoje e que movimento pratico ajudaria?",
+        intent: "Para pressao diaria no trabalho, oportunidades, preparacao, timing e um passo profissional pratico.",
+        spread: "job_opportunity",
+        group: "daily",
+      },
+      {
+        slug: "daily-yes-or-no-tarot",
+        title: "Tarot diario sim ou nao",
+        query: "Me de uma resposta diaria de tarot sim ou nao com o motivo por tras.",
+        intent: "Para uma decisao simples de hoje quando voce precisa de direcao rapida e do motivo.",
+        spread: "yes_no",
+        group: "daily",
+      },
+      {
+        slug: "daily-mood-tarot",
+        title: "Tarot diario do humor",
+        query: "O que esta influenciando meu humor hoje e o que me ajudaria a voltar ao centro?",
+        intent: "Para padroes emocionais, gatilhos, aterramento e um pequeno recomeco para hoje.",
+        spread: "three_card",
+        group: "daily",
+      },
+      {
+        slug: "daily-action-tarot",
+        title: "Tarot diario de acao",
+        query: "Qual e uma acao concreta que posso tomar hoje?",
+        intent: "Para transformar a carta ou pergunta de hoje em um proximo passo claro.",
+        spread: "three_card",
+        group: "daily",
+      },
+      {
         slug: "should-i-text-him-tarot",
         title: "Devo mandar mensagem hoje?",
         query: "Devo mandar mensagem hoje, e o que devo considerar primeiro?",
@@ -1190,10 +1406,19 @@ function guideHref(entry: QuestionEntry, locale: TarotQuestionHubLocale) {
   return getSeoPage(entry.slug, locale)?.path || `/${entry.slug}`
 }
 
+function quickStartGroupedEntries(copy: QuestionPageCopy) {
+  return copy.quickStartGroups
+    .map((group) => ({
+      ...group,
+      entries: group.slugs
+        .map((slug) => copy.entries.find((entry) => entry.slug === slug))
+        .filter((entry): entry is QuestionEntry => Boolean(entry)),
+    }))
+    .filter((group) => group.entries.length > 0)
+}
+
 function quickStartEntries(copy: QuestionPageCopy) {
-  return quickStartSlugs
-    .map((slug) => copy.entries.find((entry) => entry.slug === slug))
-    .filter((entry): entry is QuestionEntry => Boolean(entry))
+  return quickStartGroupedEntries(copy).flatMap((group) => group.entries)
 }
 
 function readingHref(entry: QuestionEntry, locale: TarotQuestionHubLocale, medium = "question_hub") {
@@ -1412,6 +1637,7 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
   const copy = getQuestionHubCopy(locale)
   const structuredData = buildStructuredData(copy)
   const questionSearchEntries = searchEntries(copy)
+  const quickGroups = quickStartGroupedEntries(copy)
   const quickEntries = quickStartEntries(copy)
 
   return (
@@ -1458,32 +1684,51 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
                   </h2>
                   <p className="mt-3 text-sm leading-6 text-white/58">{copy.quickStartBody}</p>
                 </div>
-                <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
-                  {quickEntries.map((entry) => {
-                    const spread = SPREAD_CONFIGS[entry.spread]
-                    return (
-                      <Link
-                        key={entry.slug || entry.title}
-                        data-question-quick-start-card
-                        data-question-quick-start-slug={entry.slug || undefined}
-                        data-question-quick-start-spread={entry.spread}
-                        href={readingHref(entry, copy.locale, "question_hub_quick_start")}
-                        aria-label={`${copy.startFree}: ${entry.query}`}
-                        className="group flex min-h-[7.5rem] flex-col justify-between rounded-lg border border-white/10 bg-black/[0.2] p-3 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
-                      >
-                        <span className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">
-                          {copy.cardLabel(spread.cardCount, spread.nameEn)}
-                        </span>
-                        <span className="mt-2 break-words text-sm font-medium leading-snug text-white">
-                          {entry.title}
-                        </span>
-                        <span className="mt-3 inline-flex items-center gap-1 text-xs text-white/45 transition group-hover:text-white/72">
-                          {copy.startFree}
-                          <ArrowUpRight className="h-3.5 w-3.5" />
-                        </span>
-                      </Link>
-                    )
-                  })}
+                <div data-question-quick-start-groups className="grid gap-3">
+                  {quickGroups.map((group) => (
+                    <section
+                      key={group.label}
+                      data-question-quick-start-group
+                      data-question-quick-start-group-label={group.label}
+                      className="rounded-lg border border-white/10 bg-black/[0.18] p-3"
+                    >
+                      <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="min-w-0">
+                          <p className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{group.label}</p>
+                          <h3 className="mt-1 break-words text-sm font-medium leading-snug text-white">{group.title}</h3>
+                        </div>
+                        <p className="text-xs leading-5 text-white/45 sm:max-w-[17rem]">{group.body}</p>
+                      </div>
+                      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                        {group.entries.map((entry) => {
+                          const spread = SPREAD_CONFIGS[entry.spread]
+                          return (
+                            <Link
+                              key={entry.slug || entry.title}
+                              data-question-quick-start-card
+                              data-question-quick-start-slug={entry.slug || undefined}
+                              data-question-quick-start-spread={entry.spread}
+                              data-question-quick-start-group-card={group.label}
+                              href={readingHref(entry, copy.locale, "question_hub_quick_start")}
+                              aria-label={`${copy.startFree}: ${entry.query}`}
+                              className="group flex min-h-[7rem] flex-col justify-between rounded-lg border border-white/10 bg-[#0d0618]/72 p-3 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                            >
+                              <span className="text-[10px] uppercase tracking-[0.14em] text-[#c9c0ff]/72">
+                                {copy.cardLabel(spread.cardCount, spread.nameEn)}
+                              </span>
+                              <span className="mt-2 break-words text-sm font-medium leading-snug text-white">
+                                {entry.title}
+                              </span>
+                              <span className="mt-3 inline-flex items-center gap-1 text-xs text-white/45 transition group-hover:text-white/72">
+                                {copy.startFree}
+                                <ArrowUpRight className="h-3.5 w-3.5" />
+                              </span>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    </section>
+                  ))}
                 </div>
               </div>
             </div>

@@ -59,7 +59,14 @@ const pages = [
   {
     path: "/tarot-questions?q=love",
     name: "tarot questions",
-    requiredSelectors: ["main", "[data-question-search-results]"],
+    requiredSelectors: [
+      "main",
+      "[data-question-search-results]",
+      "[data-question-quick-start-groups]",
+      "[data-question-quick-start-group]",
+      "[data-question-quick-start-card]",
+      "[data-question-entry-group=\"daily\"]",
+    ],
   },
   {
     path: "/will-my-ex-come-back-tarot",
