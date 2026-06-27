@@ -41,6 +41,16 @@ type PracticePath = {
   href: string
 }
 
+type DailyReturnCopy = {
+  eyebrow: string
+  navLabel: string
+  title: string
+  body: string
+  focus: string
+  primary: string
+  secondary: string
+}
+
 function cardDisplayName(page: TarotCardSeoPage) {
   if (page.locale === "zh") return page.card.name
   if (page.locale === "ja") return page.card.nameJa || page.card.nameEn
@@ -218,6 +228,7 @@ function cardPageNavItems(page: TarotCardSeoPage) {
     { href: "#combinations", label: page.combinationsLabel },
     { href: "#example-readings", label: page.exampleLabel },
     { href: "#try-reading", label: copy.promptsLabel },
+    { href: "#daily-return", label: cardDailyReturnCopy(page).navLabel },
     { href: "#daily-practice", label: dailyPracticeNavLabel(page) },
     { href: "#question-paths", label: copy.questionsLabel },
     { href: "#related-cards", label: copy.relatedLabel },
@@ -413,6 +424,91 @@ function dailyPracticeNavLabel(page: TarotCardSeoPage) {
   if (page.locale === "es") return "Práctica diaria"
   if (page.locale === "pt-br") return "Prática diária"
   return "Daily practice"
+}
+
+function cardDailyReturnCopy(page: TarotCardSeoPage): DailyReturnCopy {
+  const name = cardDisplayName(page)
+
+  if (page.locale === "zh") {
+    return {
+      eyebrow: "每日塔罗复访",
+      navLabel: "明天继续",
+      title: `明天继续观察${name}`,
+      body: `如果${name}反复出现在你的问题里，把它带到每日塔罗。明天再抽一张牌，你会更容易看出这是一次性的情绪，还是正在形成的主题。`,
+      focus: `${name}在明天的每日塔罗里如何继续显现`,
+      primary: "带到每日塔罗",
+      secondary: "先免费解读",
+    }
+  }
+
+  if (page.locale === "ja") {
+    return {
+      eyebrow: "毎日のタロットへ",
+      navLabel: "明日も続ける",
+      title: `${name}を明日も観察する`,
+      body: `${name}が気になるなら、毎日のタロットに持ち込んでください。明日の一枚と比べることで、一時的な感情か、続いているテーマかを見やすくなります。`,
+      focus: `${name}が明日の毎日のタロットでどう続くか`,
+      primary: "毎日のタロットへ",
+      secondary: "無料で読む",
+    }
+  }
+
+  if (page.locale === "ko") {
+    return {
+      eyebrow: "데일리 타로로 이어가기",
+      navLabel: "내일 이어보기",
+      title: `${name}를 내일도 관찰하기`,
+      body: `${name}가 계속 마음에 남는다면 데일리 타로로 가져가 보세요. 내일의 한 장과 비교하면 일시적인 감정인지, 반복되는 주제인지 더 잘 보입니다.`,
+      focus: `${name}가 내일의 데일리 타로에서 어떻게 이어지는지`,
+      primary: "데일리 타로로 이동",
+      secondary: "무료로 읽기",
+    }
+  }
+
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Vuelve con tarot diario",
+      navLabel: "Volver mañana",
+      title: `Observa ${name} otra vez mañana`,
+      body: `Si ${name} sigue apareciendo en tu pregunta, llévala al Tarot diario. Al comparar otra carta mañana, es más fácil ver si fue una emoción puntual o un tema que se repite.`,
+      focus: `Como se muestra ${name} en mi tarot diario de mañana`,
+      primary: "Usar en Tarot diario",
+      secondary: "Leer gratis primero",
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Volte pelo tarot diário",
+      navLabel: "Voltar amanhã",
+      title: `Observe ${name} de novo amanhã`,
+      body: `Se ${name} continua aparecendo na sua pergunta, leve a carta para o Tarot diário. Comparar com a carta de amanhã ajuda a ver se foi uma emoção pontual ou um tema recorrente.`,
+      focus: `Como ${name} aparece no meu tarot diario de amanha`,
+      primary: "Usar no Tarot diário",
+      secondary: "Ler grátis primeiro",
+    }
+  }
+
+  return {
+    eyebrow: "Daily Tarot return path",
+    navLabel: "Return tomorrow",
+    title: `Track ${name} again tomorrow`,
+    body: `If ${name} keeps showing up in your question, carry it into Daily Tarot. Comparing it with tomorrow's card gives this meaning a second data point instead of making it a one-off search.`,
+    focus: `${name} meaning and how it shows up in tomorrow's Daily Tarot`,
+    primary: "Use in Daily Tarot",
+    secondary: "Read it free first",
+  }
+}
+
+function cardDailyReturnHref(page: TarotCardSeoPage, copy: DailyReturnCopy) {
+  const params = new URLSearchParams({
+    return_focus: copy.focus,
+    utm_source: "seo",
+    utm_medium: "card_daily_return",
+    utm_campaign: page.slug,
+  })
+
+  return `/daily-tarot?${params.toString()}`
 }
 
 function dailyPracticeCopy(page: TarotCardSeoPage) {
@@ -887,6 +983,8 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const primaryHref = readingHref(page)
   const promptCopy = cardPromptCopy(page)
   const practiceCopy = dailyPracticeCopy(page)
+  const dailyReturnCopy = cardDailyReturnCopy(page)
+  const dailyReturnHref = cardDailyReturnHref(page, dailyReturnCopy)
   const questionPaths = questionPathCopy(page)
   const relatedCopy = relatedCardCopy(page)
   const relatedCards = createRelatedCardLinks(page)
@@ -992,6 +1090,9 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           },
           {
             "@id": `${appUrl}${page.path}#card-quick-answer`,
+          },
+          {
+            "@id": `${appUrl}${page.path}#daily-return-path`,
           },
           {
             "@id": `${appUrl}${page.path}#faq`,
@@ -1103,6 +1204,21 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           name: prompt.question,
           url: `${appUrl}${cardPromptHref(page, prompt)}`,
         })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#daily-return-path`,
+        name: dailyReturnCopy.title,
+        description: dailyReturnCopy.body,
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: dailyReturnCopy.primary,
+            description: dailyReturnCopy.focus,
+            url: `${appUrl}${dailyReturnHref}`,
+          },
+        ],
       },
       {
         "@type": "ItemList",
@@ -1452,6 +1568,36 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                   <div className="min-w-0">
                     <h2 className="font-serif text-2xl leading-tight text-white">{practiceCopy.title}</h2>
                     <p className="mt-3 text-sm leading-7 text-white/62">{practiceCopy.body}</p>
+                  </div>
+                </div>
+                <div
+                  id="daily-return"
+                  data-card-daily-return
+                  className="mt-5 scroll-mt-24 rounded-lg border border-[#c9c0ff]/22 bg-[linear-gradient(135deg,rgba(201,192,255,0.105),rgba(143,128,238,0.05))] p-5"
+                >
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/78">{dailyReturnCopy.eyebrow}</p>
+                  <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
+                    <div className="min-w-0">
+                      <h3 className="break-words font-serif text-2xl leading-tight text-white">{dailyReturnCopy.title}</h3>
+                      <p className="mt-3 break-words text-sm leading-7 text-white/64">{dailyReturnCopy.body}</p>
+                      <p className="mt-3 break-words text-xs leading-5 text-[#e6deff]/58">{dailyReturnCopy.focus}</p>
+                    </div>
+                    <div className="grid min-w-0 gap-2 sm:grid-cols-2 lg:w-[22rem]">
+                      <Link
+                        href={dailyReturnHref}
+                        data-card-daily-return-cta
+                        className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 py-3 text-center text-sm font-medium text-[#120c22] shadow-[0_14px_34px_rgba(146,132,239,0.24)] transition hover:brightness-110"
+                      >
+                        <span className="min-w-0 break-words">{dailyReturnCopy.primary}</span>
+                      </Link>
+                      <Link
+                        href={primaryHref}
+                        data-card-daily-return-free-reading
+                        className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-white/14 px-4 py-3 text-center text-sm text-white/72 transition hover:border-white/32 hover:bg-white/[0.05]"
+                      >
+                        <span className="min-w-0 break-words">{dailyReturnCopy.secondary}</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
                 <div className="mt-5 grid gap-3 md:grid-cols-3">

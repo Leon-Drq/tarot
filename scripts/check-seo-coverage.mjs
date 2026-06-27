@@ -310,7 +310,7 @@ for (const anchor of ["love", "career", "money", "yes-or-no", "advice"]) {
   assertIncludes(files.cardMeaningPage, `"${anchor}"`, `card page anchor ${anchor}`)
 }
 
-for (const section of ["#spread-positions", "#example-readings", "#combinations", "#faq", "#question-paths", "#daily-practice", "#context-signals"]) {
+for (const section of ["#spread-positions", "#example-readings", "#combinations", "#faq", "#question-paths", "#daily-practice", "#daily-return", "#context-signals"]) {
   assertIncludes(files.cardMeaningPage, section, `card page section ${section}`)
 }
 
@@ -330,6 +330,14 @@ for (const [needle, label] of [
   ["data-card-context-signal-link", "English card context signal free-spread links"],
   ["page.locale !== \"en\"", "card context signal English-first guard"],
   ["Open free spread", "English card context signal CTA"],
+  ["cardDailyReturnHref", "card meaning Daily Tarot return helper"],
+  ["data-card-daily-return", "card meaning Daily Tarot return panel"],
+  ["data-card-daily-return-cta", "card meaning Daily Tarot return CTA"],
+  ["data-card-daily-return-free-reading", "card meaning Daily Tarot secondary free reading CTA"],
+  ["return_focus: copy.focus", "card meaning Daily Tarot return focus"],
+  ["utm_medium: \"card_daily_return\"", "card meaning Daily Tarot return attribution"],
+  ["#daily-return-path", "card meaning Daily Tarot return structured data"],
+  ["Use in Daily Tarot", "English card meaning Daily Tarot return CTA copy"],
   ["cardCombinationHref", "card combination internal-link helper"],
   ["combinationLinkLabel", "card combination localized link label"],
   ["#card-combinations", "card combination structured data item list"],
