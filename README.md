@@ -36,6 +36,7 @@ CRON_SECRET=shared_secret_for_vercel_cron_authorization
 DAILY_TAROT_UNSUBSCRIBE_SECRET=optional_separate_secret_for_reminder_unsubscribe_links
 RESEND_API_KEY=your_resend_api_key_for_daily_tarot_reminders
 RESEND_FROM_EMAIL="POPTarot <daily@poptarot.com>"
+RESEND_REPLY_TO=optional_support_or_reply_email
 NEXT_PUBLIC_INSTAGRAM_URL=https://www.instagram.com/your_verified_handle
 NEXT_PUBLIC_TIKTOK_URL=https://www.tiktok.com/@your_verified_handle
 NEXT_PUBLIC_X_URL=https://x.com/your_verified_handle
@@ -66,10 +67,10 @@ npx vercel deploy --prod
 After deployment, check:
 
 ```bash
-npm run check:reminders
+REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders
 ```
 
-`can_send_email_reminders` and `unsubscribe_configured` should be `true` before the site promises scheduled email delivery. Use `npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active.
+`can_send_email_reminders` and `unsubscribe_configured` should be `true` before the site promises scheduled email delivery. Use `REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active. The script also accepts `CHECK_REMINDER_APP_URL` for the same target URL.
 
 Official social profiles are optional but should be configured as full `https://` URLs only after the account is active and links back to poptarot.com. Configured profiles appear on `/official-channels` and in Organization structured data as `sameAs` brand signals.
 
@@ -80,5 +81,5 @@ npm run dev
 npm run build
 npm run start
 npm run check:seo
-npm run check:reminders
+REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders
 ```

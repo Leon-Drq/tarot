@@ -2,7 +2,11 @@ const args = new Set(process.argv.slice(2))
 const strict = args.has("--strict")
 const checkCron = args.has("--cron") || args.has("--cron-dry-run")
 const scriptName = "check-reminder-capability"
-const appUrl = process.env.CHECK_REMINDER_APP_URL || process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
+const appUrl =
+  process.env.CHECK_REMINDER_APP_URL ||
+  process.env.REMINDER_CHECK_BASE_URL ||
+  process.env.NEXT_PUBLIC_APP_URL ||
+  "https://poptarot.com"
 const rootUrl = appUrl.replace(/\/$/, "")
 const url = `${rootUrl}/api/daily-tarot/reminder-capability`
 const cronDryRunUrl = `${rootUrl}/api/cron/daily-tarot-reminders?dry_run=1`

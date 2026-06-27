@@ -32,6 +32,8 @@ function assertFileExists(path, label) {
 }
 
 const files = {
+  readme: { path: "README.md", source: read("README.md") },
+  envExample: { path: ".env.example", source: read(".env.example") },
   packageJson: { path: "package.json", source: read("package.json") },
   nextConfig: { path: "next.config.mjs", source: read("next.config.mjs") },
   mobileCheck: { path: "scripts/check-mobile-layout.mjs", source: read("scripts/check-mobile-layout.mjs") },
@@ -516,6 +518,10 @@ assertIncludes(files.dailyTarotTool, "Carried-in question", "Daily Tarot linked 
 assertIncludes(files.mobileCheck, "daily tarot linked return focus", "mobile check linked return focus page")
 assertIncludes(files.mobileCheck, "return_focus=Will%20my%20ex%20come%20back%20tarot", "mobile check linked return focus query")
 assertIncludes(files.mobileCheck, "requiredLocalStorageKeyPrefix: \"poptarot_daily_return_\"", "mobile check linked return focus persistence")
+assertIncludes(files.mobileCheck, "highIntentQuestionRequiredSelectors", "mobile check shared high-intent selector guard")
+assertIncludes(files.mobileCheck, "[data-question-return-loop]", "mobile check long-tail return loop")
+assertIncludes(files.mobileCheck, "[data-question-return-loop-card]", "mobile check long-tail return loop cards")
+assertIncludes(files.mobileCheck, "[data-question-decision-checklist]", "mobile check long-tail decision checklist")
 
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
 assertIncludes(files.freeToolsPage, "quickStartIntents", "free tools quick-start intent data")
@@ -1207,7 +1213,12 @@ const dailyReminderCoverage = [
   [files.reminderCheckScript, "--strict", "reminder capability strict mode"],
   [files.reminderCheckScript, "--cron", "reminder cron dry-run option"],
   [files.reminderCheckScript, "CHECK_REMINDER_CRON_SECRET", "reminder cron dry-run secret env"],
+  [files.reminderCheckScript, "REMINDER_CHECK_BASE_URL", "reminder capability target URL alias"],
   [files.reminderCheckScript, "/api/cron/daily-tarot-reminders?dry_run=1", "reminder cron dry-run endpoint"],
+  [files.readme, "REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders", "production reminder capability README command"],
+  [files.readme, "CHECK_REMINDER_APP_URL", "production reminder capability legacy README env alias"],
+  [files.readme, "RESEND_REPLY_TO=optional_support_or_reply_email", "optional Resend reply-to README env"],
+  [files.envExample, "RESEND_REPLY_TO=", "optional Resend reply-to env example"],
   [files.reminderPrivateGrantMigration, "security definer", "reminder public RPC wrapper definer mode"],
   [files.reminderPrivateGrantMigration, "revoke execute on function private.daily_tarot_reminder_candidates(text, integer) from anon, authenticated", "private reminder candidates direct revoke"],
   [files.reminderPrivateGrantMigration, "revoke execute on function private.mark_daily_tarot_reminder_sent(text, uuid, date) from anon, authenticated", "private reminder sent direct revoke"],

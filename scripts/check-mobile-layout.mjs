@@ -2,6 +2,19 @@ import { chromium } from "playwright"
 
 const baseUrl = process.env.MOBILE_CHECK_BASE_URL || "http://localhost:3000"
 
+const highIntentQuestionRequiredSelectors = [
+  "[data-question-sticky-cta]",
+  "[data-question-hero-spread-summary]",
+  "[data-seo-question-tool-entry]",
+  "[data-question-spread-position-answer]",
+  "[data-question-result-preview]",
+  "[data-question-decision-checklist]",
+  "[data-question-return-loop]",
+  "[data-question-return-loop-card]",
+  "[data-seo-question-share]",
+  "[data-seo-reader-trust]",
+]
+
 const pages = [
   {
     path: "/",
@@ -51,52 +64,52 @@ const pages = [
   {
     path: "/will-my-ex-come-back-tarot",
     name: "long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/should-i-move-on-tarot",
     name: "new breakup long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/no-contact-tarot-reading",
     name: "no contact long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/does-no-contact-work-tarot",
     name: "does no contact work long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/will-my-ex-reach-out-tarot",
     name: "ex reach out long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/should-i-stay-or-leave-tarot",
     name: "stay or leave long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/should-i-give-him-another-chance-tarot",
     name: "second chance long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/does-my-crush-like-me-tarot",
     name: "crush long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/es/mi-ex-volvera-tarot",
     name: "Spanish long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/pt-br/meu-ex-vai-voltar-tarot",
     name: "Portuguese long-tail question",
-    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
     path: "/tarot-card-meanings/the-fool",
