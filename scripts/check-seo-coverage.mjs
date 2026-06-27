@@ -33,6 +33,7 @@ function assertFileExists(path, label) {
 
 const files = {
   packageJson: { path: "package.json", source: read("package.json") },
+  mobileCheck: { path: "scripts/check-mobile-layout.mjs", source: read("scripts/check-mobile-layout.mjs") },
   layout: { path: "app/layout.tsx", source: read("app/layout.tsx") },
   homePage: { path: "app/page.tsx", source: read("app/page.tsx") },
   dailyTarotPage: { path: "app/daily-tarot/page.tsx", source: read("app/daily-tarot/page.tsx") },
@@ -470,6 +471,13 @@ assertIncludes(files.dailyTarotTool, "data-daily-direct-return-copy", "Daily Tar
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-mailto", "Daily Tarot first-screen mailto return action")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-calendar", "Daily Tarot first-screen calendar return action")
 assertIncludes(files.dailyTarotTool, "Direct / Mail return", "Daily Tarot direct/mail return copy")
+assertIncludes(files.dailyTarotTool, "data-daily-linked-return-focus", "Daily Tarot linked return focus visible panel")
+assertIncludes(files.dailyTarotTool, "data-daily-linked-return-focus-edit", "Daily Tarot linked return focus edit CTA")
+assertIncludes(files.dailyTarotTool, "localStorage.setItem(localReturnCommitmentKey(today), JSON.stringify(linkedCommitment))", "Daily Tarot linked return focus persistence")
+assertIncludes(files.dailyTarotTool, "Carried-in question", "Daily Tarot linked return focus English copy")
+assertIncludes(files.mobileCheck, "daily tarot linked return focus", "mobile check linked return focus page")
+assertIncludes(files.mobileCheck, "return_focus=Will%20my%20ex%20come%20back%20tarot", "mobile check linked return focus query")
+assertIncludes(files.mobileCheck, "requiredLocalStorageKeyPrefix: \"poptarot_daily_return_\"", "mobile check linked return focus persistence")
 
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
 assertIncludes(files.freeToolsPage, "quickStartIntents", "free tools quick-start intent data")

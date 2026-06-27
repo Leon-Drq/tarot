@@ -38,6 +38,12 @@ const pages = [
     requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-sticky-cta]", "[data-daily-quick-actions]", "[data-daily-direct-return-actions]"],
   },
   {
+    path: "/daily-tarot?return_focus=Will%20my%20ex%20come%20back%20tarot&utm_source=seo&utm_medium=question_return_loop&utm_campaign=will-my-ex-come-back-tarot",
+    name: "daily tarot linked return focus",
+    requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-linked-return-focus]", "[data-daily-linked-return-focus-edit]", "[data-daily-direct-return-actions]"],
+    requiredLocalStorageKeyPrefix: "poptarot_daily_return_",
+  },
+  {
     path: "/tarot-questions?q=love",
     name: "tarot questions",
     requiredSelectors: ["main", "[data-question-search-results]"],
@@ -149,7 +155,7 @@ async function checkPage(browser, pageConfig) {
     ...(pageConfig.menuRequiredSelectors || []),
   ]
 
-  const result = await page.evaluate(({ requiredSelectors, embeddedTopGuard }) => {
+  const result = await page.evaluate(({ requiredSelectors, embeddedTopGuard, requiredLocalStorageKeyPrefix }) => {
     const viewportWidth = document.documentElement.clientWidth
     const missingSelectors = requiredSelectors.filter((selector) => !document.querySelector(selector))
     const wideElements = Array.from(document.body.querySelectorAll("*"))
@@ -215,8 +221,16 @@ async function checkPage(browser, pageConfig) {
       missingSelectors,
       wideElements,
       homeLayout,
+      missingLocalStoragePrefix:
+        requiredLocalStorageKeyPrefix && !Object.keys(localStorage).some((key) => key.startsWith(requiredLocalStorageKeyPrefix))
+          ? requiredLocalStorageKeyPrefix
+          : "",
     }
-  }, { requiredSelectors: allRequiredSelectors, embeddedTopGuard: pageConfig.embeddedTopGuard || 0 })
+  }, {
+    requiredSelectors: allRequiredSelectors,
+    embeddedTopGuard: pageConfig.embeddedTopGuard || 0,
+    requiredLocalStorageKeyPrefix: pageConfig.requiredLocalStorageKeyPrefix || "",
+  })
 
   await page.close()
 
@@ -248,6 +262,9 @@ try {
     }
     if (result.missingSelectors.length > 0) {
       failures.push(`${result.name}: missing selectors ${result.missingSelectors.join(", ")}`)
+    }
+    if (result.missingLocalStoragePrefix) {
+      failures.push(`${result.name}: missing localStorage key prefix ${result.missingLocalStoragePrefix}`)
     }
     if (result.homeLayout?.violations.length > 0) {
       failures.push(`${result.name}: home layout gaps ${result.homeLayout.violations.join("; ")}`)

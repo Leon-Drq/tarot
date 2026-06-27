@@ -433,6 +433,10 @@ export function DailyTarotTool() {
         quickAction: "明日主题",
         savedPrefix: "已保存",
         defaultFocus: "今日牌的下一步",
+        linkedEyebrow: "已带入的问题",
+        linkedTitle: "今天先看这个主题是否还在重复",
+        linkedBody: "这是从上一次问题或分享链接带来的回访线索。先抽今日牌，再决定是否把它保存成明天的主题。",
+        linkedAction: "编辑明日主题",
         chips: ["爱情", "事业", "情绪", "行动", "边界"],
       },
       ja: {
@@ -453,6 +457,10 @@ export function DailyTarotTool() {
         quickAction: "明日のテーマ",
         savedPrefix: "保存済み",
         defaultFocus: "今日のカードの次の一歩",
+        linkedEyebrow: "引き継いだ質問",
+        linkedTitle: "今日はこのテーマがまだ続いているかを見る",
+        linkedBody: "前回の質問や共有リンクから持ち越した再訪の手がかりです。今日のカードを引いてから、明日のテーマとして保存するか決められます。",
+        linkedAction: "明日のテーマを編集",
         chips: ["恋愛", "仕事", "感情", "行動", "境界線"],
       },
       ko: {
@@ -473,6 +481,10 @@ export function DailyTarotTool() {
         quickAction: "내일 주제",
         savedPrefix: "저장됨",
         defaultFocus: "오늘 카드의 다음 단계",
+        linkedEyebrow: "가져온 질문",
+        linkedTitle: "오늘은 이 주제가 아직 반복되는지 확인하세요",
+        linkedBody: "지난 질문이나 공유 링크에서 이어진 재방문 단서입니다. 오늘의 카드를 뽑은 뒤 내일 주제로 저장할지 정할 수 있습니다.",
+        linkedAction: "내일 주제 편집",
         chips: ["사랑", "커리어", "감정", "행동", "경계"],
       },
       en: {
@@ -493,6 +505,10 @@ export function DailyTarotTool() {
         quickAction: "Tomorrow Cue",
         savedPrefix: "Saved",
         defaultFocus: "Next step from today's card",
+        linkedEyebrow: "Carried-in question",
+        linkedTitle: "Start by checking whether this theme is still repeating",
+        linkedBody: "This return cue came from a previous question or shared link. Draw today's card first, then decide whether to save it as tomorrow's focus.",
+        linkedAction: "Edit tomorrow cue",
         chips: ["Love", "Career", "Mood", "Action", "Boundaries"],
       },
     }[language]
@@ -660,18 +676,20 @@ export function DailyTarotTool() {
     setRecentEntries(readRecentLocalEntries(today))
     const carriedCommitment = readReturnCommitment(today)
     const linkedFocus = cleanReturnFocus(new URLSearchParams(window.location.search).get("return_focus"))
-    setTodayReturnCommitment(
-      carriedCommitment ||
-        (linkedFocus
-          ? {
-              target_date: today,
-              source_entry_date: today,
-              focus: linkedFocus,
-              note: "",
-              created_at: new Date().toISOString(),
-            }
-          : null),
-    )
+    const linkedCommitment =
+      !carriedCommitment && linkedFocus
+        ? {
+            target_date: today,
+            source_entry_date: today,
+            focus: linkedFocus,
+            note: "",
+            created_at: new Date().toISOString(),
+          }
+        : null
+    if (linkedCommitment) {
+      localStorage.setItem(localReturnCommitmentKey(today), JSON.stringify(linkedCommitment))
+    }
+    setTodayReturnCommitment(carriedCommitment || linkedCommitment)
 
     const tomorrowCommitment = readReturnCommitment(getNextDateKey(today))
     setTomorrowReturnCommitment(tomorrowCommitment)
@@ -1467,6 +1485,30 @@ export function DailyTarotTool() {
             </p>
           </div>
         </div>
+
+        {todayReturnCommitment && (
+          <section
+            data-daily-linked-return-focus
+            className="mt-5 rounded-lg border border-[#c9c0ff]/22 bg-[#c9c0ff]/[0.065] p-4"
+          >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/76">{returnCopy.linkedEyebrow}</p>
+                <h2 className="mt-2 break-words text-base font-medium leading-6 text-white">{returnCopy.linkedTitle}</h2>
+                <p className="mt-2 break-words text-sm font-medium leading-6 text-[#f3efff]">{todayReturnCommitment.focus}</p>
+                <p className="mt-2 text-xs leading-5 text-white/52">{returnCopy.linkedBody}</p>
+              </div>
+              <button
+                type="button"
+                data-daily-linked-return-focus-edit
+                onClick={scrollToReturnCue}
+                className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-[#c9c0ff]/30 px-4 text-xs text-[#eee9ff] transition hover:bg-[#c9c0ff]/10"
+              >
+                {returnCopy.linkedAction}
+              </button>
+            </div>
+          </section>
+        )}
 
         <div data-daily-quick-actions className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
           <button
