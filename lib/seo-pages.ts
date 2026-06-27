@@ -1413,6 +1413,44 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "does-she-love-me-tarot",
+    cards: [6, 37, 44],
+    recommendedSpread: "their_thoughts",
+    title: "Does She Love Me Tarot",
+    description: "Ask a free AI tarot reading about her feelings, emotional signals, mixed behavior, and the next step in your connection.",
+    h1: "Does She Love Me Tarot",
+    intent: "Best for reading her emotional energy, mixed signals, communication, and whether the connection is mutual.",
+    question: "Does she love me, and what is the real emotional energy between us?",
+    sections: [
+      { heading: "Read feelings and behavior together", body: "A strong love reading compares emotion, action, fear, and consistency instead of treating one card as proof." },
+      { heading: "Notice your own needs", body: "The cards should also reveal what you need in order to feel secure, respected, and clear." },
+      { heading: "Avoid chasing certainty", body: "If the spread shows confusion, ask what conversation or boundary would bring clarity." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if she loves me?", answer: "It can reveal emotional dynamics and likely feelings, but love also has to be shown through consistent action." },
+      { question: "What if the cards are mixed?", answer: "Mixed cards often mean mixed behavior. Look for the advice card and the pattern across the whole spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "how-does-she-feel-about-me-tarot",
+    cards: [2, 6, 18],
+    recommendedSpread: "their_thoughts",
+    title: "How Does She Feel About Me Tarot",
+    description: "Ask a free AI tarot reading about how she feels about you, what she may be hiding, and whether feelings are likely to become action.",
+    h1: "How Does She Feel About Me Tarot",
+    intent: "Best for mixed signals, crushes, early dating, silence, unclear affection, and separating private emotion from visible behavior.",
+    question: "How does she feel about me, and what should I understand before I act?",
+    sections: [
+      { heading: "Feelings are not always behavior", body: "A strong reading should compare attraction, fear, emotional availability, and whether her feelings are likely to show up consistently." },
+      { heading: "Look for what is hidden", body: "Cards such as The Moon or High Priestess can suggest private emotion, but the spread should also show whether silence protects, avoids, or delays truth." },
+      { heading: "Bring the answer back to you", body: "The useful next step is not only knowing her feelings; it is deciding what conversation, boundary, or pause keeps you clear." },
+    ],
+    faqs: [
+      { question: "Can tarot show how she feels about me?", answer: "Tarot can reflect emotional tone, attraction, fear, and likely relationship dynamics. It should be compared with real behavior and communication." },
+      { question: "What cards suggest she has feelings?", answer: "The Lovers, Two of Cups, Page of Cups, The Star, and Queen of Cups can suggest affection when supported by consistent surrounding cards." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "should-i-break-up-with-him-tarot",
     cards: [11, 13, 21],
     recommendedSpread: "relationship",
@@ -1467,6 +1505,44 @@ seoPageSources.push(
     faqs: [
       { question: "Can tarot reveal his real intentions?", answer: "Tarot can reflect likely motives, fears, attraction, and blocks. Use it to guide observation, not to replace direct communication." },
       { question: "What cards suggest serious intentions?", answer: "The Hierophant, King of Pentacles, Two of Cups, Ten of Pentacles, and The Emperor can support serious intentions when the full spread agrees." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "will-she-text-me-tarot",
+    cards: [8, 14, 20],
+    recommendedSpread: "yes_no",
+    title: "Will She Text Me Tarot",
+    description: "Draw a free AI tarot reading about whether she will text you, what may delay the message, and what you should do while waiting.",
+    h1: "Will She Text Me Tarot",
+    intent: "Best for delayed replies, no-contact periods, dating uncertainty, breakup silence, and deciding whether waiting still helps.",
+    question: "Will she text me, and what should I do while I wait?",
+    sections: [
+      { heading: "A message is action, not just feeling", body: "The reading should separate desire, hesitation, pride, timing, and whether she is likely to turn inner attention into a text." },
+      { heading: "Waiting needs a boundary", body: "A useful answer does not leave you refreshing your phone. It shows what protects your peace if the message comes late or not at all." },
+      { heading: "Prepare your response before it arrives", body: "If contact looks likely, ask what tone keeps the exchange clear. If the answer is no or not yet, choose the action that returns you to yourself." },
+    ],
+    faqs: [
+      { question: "Can tarot predict if she will text me?", answer: "Tarot can show communication energy, blocks, and timing themes, but real contact still depends on choices and circumstances." },
+      { question: "What cards suggest a text is coming?", answer: "Eight of Wands, Page of Cups, Knight of Swords, Judgement, and The Magician can suggest communication when supported by the spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "what-are-her-intentions-tarot",
+    cards: [2, 7, 18],
+    recommendedSpread: "their_thoughts",
+    title: "What Are Her Intentions Tarot",
+    description: "Ask a free AI tarot reading about her intentions, mixed signals, emotional availability, and whether her actions are likely to match her words.",
+    h1: "What Are Her Intentions Tarot",
+    intent: "Best for mixed signals, dating uncertainty, unclear communication, and checking whether attraction is serious, casual, avoidant, or confused.",
+    question: "What are her intentions toward me, and what should I watch in her actions?",
+    sections: [
+      { heading: "Intentions need evidence", body: "A useful reading should compare what she thinks, what she feels, what she wants, and whether her behavior is likely to become consistent." },
+      { heading: "Separate desire from readiness", body: "Someone can feel attraction without being ready for commitment, honesty, or healthy follow-through." },
+      { heading: "Let the advice protect you", body: "The best answer should give you one boundary, conversation, or observation point instead of leaving you guessing." },
+    ],
+    faqs: [
+      { question: "Can tarot reveal her real intentions?", answer: "Tarot can reflect likely motives, fears, attraction, and blocks. Use it to guide observation, not to replace direct communication." },
+      { question: "What cards suggest serious intentions?", answer: "The Hierophant, Queen of Pentacles, Two of Cups, Ten of Pentacles, and The Empress can support serious intentions when the full spread agrees." },
     ],
   }),
   makeQuestionSeoPage({
@@ -3588,6 +3664,82 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       },
     ],
   },
+  "does-she-love-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when her warmth, distance, replies, or mixed signals leave you unsure whether affection is mutual and consistent.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "A useful love reading separates attraction, emotional availability, fear, behavior, and your own need for safety and clarity.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards show love without action, look for what blocks expression. If they show confusion, prioritize a conversation or boundary over guessing.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what would help me know whether this connection is emotionally safe for me?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this love tarot reading free?",
+        answer: "Yes. The first reading can be started for free. Deep follow-up questions and saved reading history are membership features.",
+      },
+      {
+        question: "Can tarot read her true feelings?",
+        answer: "Tarot can reflect emotional dynamics and likely signals, but real love also needs consistent behavior, communication, and respect.",
+      },
+      {
+        question: "What cards suggest love is mutual?",
+        answer: "The Lovers, Two of Cups, Ace of Cups, Ten of Cups, and The Sun often support mutual affection when the surrounding cards agree.",
+      },
+      {
+        question: "What if I get mixed cards?",
+        answer: "Mixed cards often mirror mixed behavior. Read the advice card carefully and ask what clarity or boundary is needed next.",
+      },
+    ],
+  },
+  "how-does-she-feel-about-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when you feel interest, silence, warmth, or hesitation from her but cannot tell whether the feeling is ready to become action.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should separate attraction, private emotion, fear, timing, and whether her behavior can become consistent enough to trust.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards show feeling without readiness, choose patience or a calm conversation. If they show avoidance, protect your clarity instead of decoding every signal.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what concrete signal would show me whether her feelings can become action?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this feelings tarot reading free?",
+        answer: "Yes. You can start this feelings reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot show how she feels?",
+        answer: "Tarot can reflect emotional tone, attraction, fear, and likely dynamics. Compare it with real behavior and respectful communication.",
+      },
+      {
+        question: "What cards suggest she has feelings?",
+        answer: "The Lovers, Two of Cups, Page of Cups, The Star, Queen of Cups, and The Empress can support affection when the full spread agrees.",
+      },
+      {
+        question: "What if the answer says she is unsure?",
+        answer: "Uncertainty is still information. Use the advice card to decide whether to wait, ask gently, or set a boundary around mixed signals.",
+      },
+    ],
+  },
   "yes-or-no-tarot-love": {
     sections: [
       {
@@ -4155,6 +4307,82 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       {
         question: "What spread is best for contact questions?",
         answer: "A yes-or-no spread works for fast direction, while a thoughts and attitude spread gives more context about motive and delay.",
+      },
+    ],
+  },
+  "will-she-text-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when a delayed reply, no-contact period, or sudden silence makes you wonder whether communication from her is still likely.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should separate communication energy, emotional motive, hesitation, timing, and the healthiest way for you to wait or stop waiting.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the answer leans yes, decide your boundary before the message arrives. If it leans no or not yet, choose one action that returns your focus to your life.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what should I do today whether the message arrives or not?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this will she text me tarot reading free?",
+        answer: "Yes. You can start this communication reading for free. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "What if the answer is not yet?",
+        answer: "Not yet usually points to unsettled timing, hesitation, or emotional avoidance. Use the advice card to decide how long waiting is healthy.",
+      },
+      {
+        question: "Should I text her first if the reading says she may text?",
+        answer: "Only if the advice card supports clear communication and the message respects your boundaries. Possible contact is not pressure to chase.",
+      },
+      {
+        question: "What spread is best for contact questions?",
+        answer: "A yes-or-no spread works for fast direction, while a thoughts and attitude spread gives more context about motive and delay.",
+      },
+    ],
+  },
+  "what-are-her-intentions-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when mixed signals, vague messages, or inconsistent dates make you wonder whether she wants something serious, casual, avoidant, or unclear.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should compare desire, emotional availability, fear, intention, and whether her actions are likely to become consistent.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards show interest without action, watch boundaries and consistency. If they show confusion, ask for clarity or protect your energy.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what concrete signal should I observe before investing more?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this intentions tarot reading free?",
+        answer: "Yes. You can start for free. Membership is reserved for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot reveal her real intentions?",
+        answer: "Tarot can reflect likely motives, attraction, fears, and blocks. Use it to guide observation, not to replace direct communication.",
+      },
+      {
+        question: "What cards suggest serious intentions?",
+        answer: "The Hierophant, Queen of Pentacles, Two of Cups, Ten of Pentacles, Justice, and The Empress can support serious intention when the spread agrees.",
+      },
+      {
+        question: "What if the cards show desire but no commitment?",
+        answer: "That suggests chemistry and availability should be separated. The advice card should show whether to set a boundary, talk clearly, or wait.",
       },
     ],
   },

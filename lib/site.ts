@@ -236,6 +236,26 @@ export const highIntentQuestionLinks = [
     href: "/will-he-text-me-tarot",
   },
   {
+    title: "Does she love me tarot",
+    description: "A love-intent tarot path for comparing her feelings, behavior, consistency, and emotional safety.",
+    href: "/does-she-love-me-tarot",
+  },
+  {
+    title: "How does she feel about me tarot",
+    description: "A feelings-focused love tarot path for her attraction, hidden emotion, availability, and whether feelings may become action.",
+    href: "/how-does-she-feel-about-me-tarot",
+  },
+  {
+    title: "Will she text me tarot",
+    description: "A message-focused tarot path for delayed replies, communication blocks, and healthy waiting boundaries.",
+    href: "/will-she-text-me-tarot",
+  },
+  {
+    title: "What are her intentions tarot",
+    description: "A relationship-intent tarot entry for mixed signals, emotional availability, and whether her actions match words.",
+    href: "/what-are-her-intentions-tarot",
+  },
+  {
     title: "Should I break up with him tarot",
     description: "A relationship decision tarot page for repeated conflict, repair conditions, emotional safety, and the healthiest next step.",
     href: "/should-i-break-up-with-him-tarot",

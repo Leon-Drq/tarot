@@ -34,6 +34,7 @@ const requiredSitemapPaths = [
   "/tarot-card-meanings",
   "/will-my-ex-come-back-tarot",
   "/does-he-love-me-tarot",
+  "/does-she-love-me-tarot",
   "/yes-or-no-tarot-love",
   "/career-tarot-reading",
   "/should-i-quit-my-job-tarot",

@@ -863,6 +863,30 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "is-he-thinking-about-me-tarot",
     "yes-or-no-tarot-love",
   ],
+  "does-she-love-me-tarot": [
+    "how-does-she-feel-about-me-tarot",
+    "does-my-crush-like-me-tarot",
+    "what-are-her-intentions-tarot",
+    "will-she-text-me-tarot",
+  ],
+  "how-does-she-feel-about-me-tarot": [
+    "does-she-love-me-tarot",
+    "what-are-her-intentions-tarot",
+    "will-she-text-me-tarot",
+    "does-my-crush-like-me-tarot",
+  ],
+  "will-she-text-me-tarot": [
+    "what-are-her-intentions-tarot",
+    "how-does-she-feel-about-me-tarot",
+    "does-she-love-me-tarot",
+    "yes-or-no-tarot-love",
+  ],
+  "what-are-her-intentions-tarot": [
+    "how-does-she-feel-about-me-tarot",
+    "does-she-love-me-tarot",
+    "will-she-text-me-tarot",
+    "does-my-crush-like-me-tarot",
+  ],
   "should-i-break-up-with-him-tarot": [
     "is-this-relationship-over-tarot",
     "should-i-stay-or-leave-tarot",
@@ -922,6 +946,8 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "will-he-text-me-tarot",
     "does-he-love-me-tarot",
     "what-are-his-intentions-tarot",
+    "will-she-text-me-tarot",
+    "does-she-love-me-tarot",
   ],
   "is-this-relationship-over-tarot": [
     "should-i-break-up-with-him-tarot",
@@ -1534,6 +1560,38 @@ const englishResultSamples: Record<string, {
       "The Lovers and Two of Cups support affection, but Knight of Wands and The Moon warn that intensity is not the same as steady love. The answer asks you to compare feeling with follow-through.",
     nextStep: "Look for consistent behavior before investing more emotional energy.",
   },
+  "does-she-love-me-tarot": {
+    question: "Does she love me, or is this only attraction?",
+    cards: ["The Lovers", "Queen of Cups", "Two of Cups", "The Moon", "Temperance"],
+    meanings: ["real attraction", "emotional depth", "mutual warmth", "unclear fear", "patience and timing"],
+    interpretation:
+      "The Lovers and Two of Cups support affection, while Queen of Cups adds emotional depth. The Moon and Temperance ask you to compare feeling with timing, honesty, and steady behavior.",
+    nextStep: "Look for consistent emotional availability before assuming the connection is ready for more.",
+  },
+  "how-does-she-feel-about-me-tarot": {
+    question: "How does she feel about me, and what is she holding back?",
+    cards: ["The High Priestess", "Page of Cups", "The Moon", "Justice", "The Star"],
+    meanings: ["private emotion", "gentle interest", "uncertainty", "need for truth", "hopeful healing"],
+    interpretation:
+      "This sample suggests feeling is present but not fully expressed. The High Priestess and The Moon point to privacy or uncertainty, while Justice asks you to watch for clear, respectful communication.",
+    nextStep: "Choose one calm way to invite clarity, then let her response show whether the feeling can become action.",
+  },
+  "will-she-text-me-tarot": {
+    question: "Will she text me, and what should I do while I wait?",
+    cards: ["Eight of Wands", "Four of Swords", "Page of Cups", "Justice", "Temperance"],
+    meanings: ["message energy", "pause first", "gentle outreach", "clear response", "patient timing"],
+    interpretation:
+      "Eight of Wands and Page of Cups support communication, but Four of Swords and Temperance show the message may need time. Justice says your reply should stay clear rather than anxious.",
+    nextStep: "Stop refreshing for a set window and prepare one grounded response if the message arrives.",
+  },
+  "what-are-her-intentions-tarot": {
+    question: "What are her intentions, and what should I watch in her actions?",
+    cards: ["Two of Cups", "Seven of Cups", "Queen of Pentacles", "The Moon", "Justice"],
+    meanings: ["mutual pull", "mixed options", "steady potential", "unclear motives", "watch the evidence"],
+    interpretation:
+      "Two of Cups and Queen of Pentacles show potential for real care, but Seven of Cups and The Moon warn against filling in blanks. Justice asks you to judge intentions by consistent action.",
+    nextStep: "Observe one concrete behavior before investing more emotional energy.",
+  },
   "yes-or-no-tarot-love": {
     question: "Is this connection worth pursuing right now?",
     cards: ["Ace of Cups", "Seven of Cups", "Justice"],
@@ -1821,6 +1879,58 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       },
     ],
   },
+  "does-she-love-me-tarot": {
+    label: "Feelings spread",
+    title: "Separate attraction, emotion, and consistent action",
+    body: "This question works best when the reading compares what she may feel with how she behaves. Real love has to show up in safety, respect, and communication.",
+    promptTitle: "Try a sharper feelings question",
+    prompts: [
+      "Does she love me, or is this only attraction?",
+      "What are her true feelings and fears about me?",
+      "What would make this connection emotionally safe for me?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Mutual feeling",
+        body: "Cups, Lovers, Sun, or steady Pentacles can support affection when the surrounding cards show action too.",
+      },
+      {
+        title: "Mixed signal",
+        body: "Moon, Seven of Cups, or reversed court cards often point to uncertainty, projection, or inconsistent expression.",
+      },
+      {
+        title: "Your clarity",
+        body: "Read the advice card as a boundary check. The answer is not only what she feels, but what you need next.",
+      },
+    ],
+  },
+  "how-does-she-feel-about-me-tarot": {
+    label: "Feelings spread",
+    title: "Read private emotion without turning it into certainty",
+    body: "This question is useful when her attention, silence, warmth, or distance feels hard to interpret. The spread compares attraction, fear, readiness, and possible action.",
+    promptTitle: "Try a sharper feelings question",
+    prompts: [
+      "How does she feel about me, and what is she holding back?",
+      "Are her feelings likely to become action?",
+      "What would help me stay clear without chasing certainty?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Hidden feeling",
+        body: "High Priestess, Moon, Page of Cups, or Two of Cups can suggest private emotion when the surrounding cards support care.",
+      },
+      {
+        title: "Readiness",
+        body: "Temperance, Justice, or steady Pentacles ask whether the feeling has enough timing, honesty, and follow-through.",
+      },
+      {
+        title: "Your next move",
+        body: "Use the advice card to choose a calm conversation, a pause, or a boundary instead of trying to decode every signal.",
+      },
+    ],
+  },
   "is-he-thinking-about-me-tarot": {
     label: "Thoughts and attitude spread",
     title: "Read silence without turning it into certainty",
@@ -1896,6 +2006,58 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       {
         title: "One message",
         body: "If you do text, let the reading shape one brief message, not a chain of reassurance-seeking follow-ups.",
+      },
+    ],
+  },
+  "will-she-text-me-tarot": {
+    label: "Communication spread",
+    title: "Read the message question without pausing your life",
+    body: "This yes-or-no reading keeps the focus on communication energy, timing, and what protects your peace while you wait.",
+    promptTitle: "Try a cleaner texting question",
+    prompts: [
+      "Will she text me, and what should I do while I wait?",
+      "What is blocking communication between us?",
+      "How should I respond if she reaches out?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Message energy",
+        body: "Eight of Wands, Page of Cups, Magician, or clear Swords can support contact when the advice card also shows timing.",
+      },
+      {
+        title: "Delay",
+        body: "Four of Swords, Temperance, Hanged Man, or Moon energy usually asks you to stop refreshing and let timing settle.",
+      },
+      {
+        title: "Your response",
+        body: "The advice card should shape one grounded response if she writes, or one self-respecting action if she does not.",
+      },
+    ],
+  },
+  "what-are-her-intentions-tarot": {
+    label: "Intentions spread",
+    title: "Compare attraction with evidence",
+    body: "This question works best when the reading compares what she may want with what she actually does. Intentions become trustworthy when they show up consistently.",
+    promptTitle: "Try a sharper intentions question",
+    prompts: [
+      "What are her intentions toward me?",
+      "Is she serious, unsure, or keeping things casual?",
+      "What concrete sign should I watch before investing more?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Serious signal",
+        body: "Hierophant, Queen of Pentacles, Two of Cups, Ten of Pentacles, or Justice can support real intention when action cards agree.",
+      },
+      {
+        title: "Unclear signal",
+        body: "Moon, Seven of Cups, or reversed court cards can point to mixed motives, uncertainty, or emotion without readiness.",
+      },
+      {
+        title: "Evidence",
+        body: "Use the advice card to decide what action, conversation, or boundary would turn guessing into real clarity.",
       },
     ],
   },
