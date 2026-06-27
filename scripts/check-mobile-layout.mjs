@@ -107,6 +107,16 @@ const pages = [
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
+    path: "/should-i-text-her-tarot",
+    name: "text her long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/should-i-break-up-with-her-tarot",
+    name: "break up with her long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/es/mi-ex-volvera-tarot",
     name: "Spanish long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,

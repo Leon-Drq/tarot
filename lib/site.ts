@@ -226,6 +226,16 @@ export const highIntentQuestionLinks = [
     href: "/should-i-text-him-tarot",
   },
   {
+    title: "Is she thinking about me tarot",
+    description: "A thoughts-and-silence tarot path for mixed signals, no-contact periods, and whether attention may become action.",
+    href: "/is-she-thinking-about-me-tarot",
+  },
+  {
+    title: "Should I text her tarot",
+    description: "A contact-decision tarot path for timing, intention, emotional safety, and one grounded next action.",
+    href: "/should-i-text-her-tarot",
+  },
+  {
     title: "Does my crush like me tarot",
     description: "A crush tarot path for subtle signs, early dating energy, mutual interest, and one low-pressure next step.",
     href: "/does-my-crush-like-me-tarot",
@@ -259,6 +269,11 @@ export const highIntentQuestionLinks = [
     title: "Should I break up with him tarot",
     description: "A relationship decision tarot page for repeated conflict, repair conditions, emotional safety, and the healthiest next step.",
     href: "/should-i-break-up-with-him-tarot",
+  },
+  {
+    title: "Should I break up with her tarot",
+    description: "A relationship decision page for repeated conflict, repair conditions, emotional safety, and the healthiest next step.",
+    href: "/should-i-break-up-with-her-tarot",
   },
   {
     title: "When will I find love tarot",
@@ -329,6 +344,11 @@ export const highIntentQuestionLinks = [
     title: "Should I give him another chance tarot",
     description: "A second-chance tarot path for apologies, changed behavior, broken trust, repair conditions, and emotional safety.",
     href: "/should-i-give-him-another-chance-tarot",
+  },
+  {
+    title: "Should I give her another chance tarot",
+    description: "A second-chance tarot path for apologies, changed behavior, broken trust, repair conditions, and emotional safety.",
+    href: "/should-i-give-her-another-chance-tarot",
   },
   {
     title: "Twin flame tarot reading",

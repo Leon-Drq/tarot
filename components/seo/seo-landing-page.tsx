@@ -827,6 +827,12 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "will-we-get-back-together-tarot",
     "is-this-relationship-over-tarot",
   ],
+  "should-i-give-her-another-chance-tarot": [
+    "should-i-stay-or-leave-tarot",
+    "should-i-break-up-with-her-tarot",
+    "will-we-get-back-together-tarot",
+    "is-this-relationship-over-tarot",
+  ],
   "twin-flame-tarot-reading": [
     "is-he-my-soulmate-tarot",
     "future-spouse-tarot-reading",
@@ -867,30 +873,48 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "how-does-she-feel-about-me-tarot",
     "does-my-crush-like-me-tarot",
     "what-are-her-intentions-tarot",
-    "will-she-text-me-tarot",
+    "is-she-thinking-about-me-tarot",
   ],
   "how-does-she-feel-about-me-tarot": [
     "does-she-love-me-tarot",
     "what-are-her-intentions-tarot",
     "will-she-text-me-tarot",
-    "does-my-crush-like-me-tarot",
+    "is-she-thinking-about-me-tarot",
   ],
   "will-she-text-me-tarot": [
+    "should-i-text-her-tarot",
     "what-are-her-intentions-tarot",
     "how-does-she-feel-about-me-tarot",
-    "does-she-love-me-tarot",
-    "yes-or-no-tarot-love",
+    "is-she-thinking-about-me-tarot",
   ],
   "what-are-her-intentions-tarot": [
     "how-does-she-feel-about-me-tarot",
     "does-she-love-me-tarot",
     "will-she-text-me-tarot",
-    "does-my-crush-like-me-tarot",
+    "should-i-text-her-tarot",
+  ],
+  "is-she-thinking-about-me-tarot": [
+    "how-does-she-feel-about-me-tarot",
+    "will-she-text-me-tarot",
+    "what-are-her-intentions-tarot",
+    "does-she-love-me-tarot",
+  ],
+  "should-i-text-her-tarot": [
+    "will-she-text-me-tarot",
+    "is-she-thinking-about-me-tarot",
+    "what-are-her-intentions-tarot",
+    "does-she-love-me-tarot",
   ],
   "should-i-break-up-with-him-tarot": [
     "is-this-relationship-over-tarot",
     "should-i-stay-or-leave-tarot",
     "should-i-give-him-another-chance-tarot",
+    "should-i-move-on-tarot",
+  ],
+  "should-i-break-up-with-her-tarot": [
+    "is-this-relationship-over-tarot",
+    "should-i-stay-or-leave-tarot",
+    "should-i-give-her-another-chance-tarot",
     "should-i-move-on-tarot",
   ],
   "does-he-love-me-tarot": [
@@ -946,6 +970,7 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "will-he-text-me-tarot",
     "does-he-love-me-tarot",
     "what-are-his-intentions-tarot",
+    "should-i-text-her-tarot",
     "will-she-text-me-tarot",
     "does-she-love-me-tarot",
   ],
@@ -1592,6 +1617,38 @@ const englishResultSamples: Record<string, {
       "Two of Cups and Queen of Pentacles show potential for real care, but Seven of Cups and The Moon warn against filling in blanks. Justice asks you to judge intentions by consistent action.",
     nextStep: "Observe one concrete behavior before investing more emotional energy.",
   },
+  "is-she-thinking-about-me-tarot": {
+    question: "Is she thinking about me, and what is blocking action?",
+    cards: ["The High Priestess", "Six of Cups", "Four of Swords", "Page of Cups", "Justice"],
+    meanings: ["private attention", "memory is active", "pause before action", "gentle feeling", "watch the evidence"],
+    interpretation:
+      "The High Priestess and Six of Cups suggest private attention or memory, but Four of Swords shows a pause before action. Justice asks you to read behavior, not only the possibility that she thinks of you.",
+    nextStep: "Give the silence a clear boundary, then choose one grounded action that does not depend on guessing.",
+  },
+  "should-i-text-her-tarot": {
+    question: "Should I text her today, or should I wait?",
+    cards: ["Temperance", "The Magician", "Two of Cups", "The Moon", "Page of Swords"],
+    meanings: ["timing matters", "clear words help", "mutual warmth", "anxiety can distort", "keep it brief"],
+    interpretation:
+      "This sample does not forbid contact, but it asks for timing and clarity. The Magician and Two of Cups support a simple message, while The Moon warns against texting from anxiety.",
+    nextStep: "Send one calm, specific message only if you can accept any response without chasing.",
+  },
+  "should-i-break-up-with-her-tarot": {
+    question: "Should I break up with her, or is repair still realistic?",
+    cards: ["Justice", "Five of Cups", "Temperance", "Death", "Queen of Swords"],
+    meanings: ["honest review", "hurt is real", "repair needs patience", "a cycle must change", "clear boundary"],
+    interpretation:
+      "Justice and Five of Cups show the decision needs honesty about what has been lost. Temperance leaves room for repair, but Death says the old pattern cannot continue unchanged.",
+    nextStep: "Name the exact behavior that must change before deciding whether to repair or end it.",
+  },
+  "should-i-give-her-another-chance-tarot": {
+    question: "Should I give her another chance, and what would need to change?",
+    cards: ["Judgement", "Two of Cups", "Seven of Swords", "Temperance", "Justice"],
+    meanings: ["second chance energy", "care still exists", "trust issue", "repair takes time", "accountability is required"],
+    interpretation:
+      "Judgement and Two of Cups support the possibility of repair, but Seven of Swords and Justice make accountability non-negotiable. A second chance needs more than regret.",
+    nextStep: "Define one repair condition and wait for consistent behavior before fully reopening trust.",
+  },
   "yes-or-no-tarot-love": {
     question: "Is this connection worth pursuing right now?",
     cards: ["Ace of Cups", "Seven of Cups", "Justice"],
@@ -1957,6 +2014,32 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       },
     ],
   },
+  "is-she-thinking-about-me-tarot": {
+    label: "Thoughts and attitude spread",
+    title: "Read silence without turning it into certainty",
+    body: "This question is useful when no contact or mixed signals make you wonder what is happening internally. The spread compares thoughts with concerns and likely action.",
+    promptTitle: "Try a sharper thoughts question",
+    prompts: [
+      "Is she thinking about me, and what is blocking action?",
+      "Does she miss me or just remember the past?",
+      "What would help me feel clear without waiting for her?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Mental attention",
+        body: "High Priestess, Moon, Six of Cups, or Pages can show private thought, but look for action cards before assuming contact.",
+      },
+      {
+        title: "Avoidance",
+        body: "Four of Swords, Seven of Swords, or reversed court cards can show withdrawal, pride, fear, or inconsistent expression.",
+      },
+      {
+        title: "Your dignity",
+        body: "The advice card should help you stop reading silence as your only source of clarity.",
+      },
+    ],
+  },
   "yes-or-no-tarot-love": {
     label: "Yes or no spread",
     title: "Get a quick answer without losing the reason",
@@ -1991,6 +2074,32 @@ const questionToolkits: Record<string, QuestionToolkit> = {
     prompts: [
       "Should I text him today, or should I wait?",
       "What intention is behind my urge to message him?",
+      "What kind of message would protect my peace?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Text now",
+        body: "Clear Wands, Magician, or balanced Cups can support a direct message when the advice card also shows grounded intention.",
+      },
+      {
+        title: "Wait",
+        body: "Temperance, Hanged Man, Four of Swords, or Moon energy often asks for timing, calm, or more information first.",
+      },
+      {
+        title: "One message",
+        body: "If you do text, let the reading shape one brief message, not a chain of reassurance-seeking follow-ups.",
+      },
+    ],
+  },
+  "should-i-text-her-tarot": {
+    label: "Contact decision spread",
+    title: "Check the timing before you press send",
+    body: "This yes-or-no reading keeps the focus on timing, intention, and emotional safety so a message becomes a clear choice instead of an anxious reflex.",
+    promptTitle: "Try a cleaner texting question",
+    prompts: [
+      "Should I text her today, or should I wait?",
+      "What intention is behind my urge to message her?",
       "What kind of message would protect my peace?",
     ],
     frameTitle: "How to read the answer",
@@ -2058,6 +2167,58 @@ const questionToolkits: Record<string, QuestionToolkit> = {
       {
         title: "Evidence",
         body: "Use the advice card to decide what action, conversation, or boundary would turn guessing into real clarity.",
+      },
+    ],
+  },
+  "should-i-break-up-with-her-tarot": {
+    label: "Relationship decision spread",
+    title: "Separate a hard moment from a harmful pattern",
+    body: "This question works best when the reading compares conflict, repair conditions, emotional safety, and what your wellbeing needs next.",
+    promptTitle: "Try a clearer breakup question",
+    prompts: [
+      "Should I break up with her, or is repair still realistic?",
+      "What pattern would need to change for this relationship to be healthy?",
+      "What boundary would make the next step clear?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Repair signal",
+        body: "Temperance, Justice, Two of Cups, or Star energy can support repair when accountability and changed behavior are also present.",
+      },
+      {
+        title: "Ending signal",
+        body: "Death, Tower, Ten of Swords, Eight of Cups, or repeated heavy cards can point to closure when the pattern keeps hurting you.",
+      },
+      {
+        title: "Safety first",
+        body: "Use the advice card to plan one steady next step, especially if practical safety, support, or timing matters.",
+      },
+    ],
+  },
+  "should-i-give-her-another-chance-tarot": {
+    label: "Second-chance spread",
+    title: "Look for repair, not only regret",
+    body: "A second chance is useful only if the spread shows accountability, changed behavior, timing, and a boundary that protects your self-respect.",
+    promptTitle: "Try a sharper second-chance question",
+    prompts: [
+      "Should I give her another chance, and what would need to change?",
+      "Is her apology becoming real repair?",
+      "What condition would make trust safer to rebuild?",
+    ],
+    frameTitle: "How to read the answer",
+    frames: [
+      {
+        title: "Repair",
+        body: "Judgement, Temperance, Justice, Two of Cups, or Star cards can support repair when action backs the apology.",
+      },
+      {
+        title: "Repeat pattern",
+        body: "Seven of Swords, Devil, Five of Swords, or reversed court cards can warn that regret may not become consistent change.",
+      },
+      {
+        title: "Your condition",
+        body: "The advice card should become a concrete condition, timeline, or boundary before you reopen trust.",
       },
     ],
   },

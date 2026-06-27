@@ -1375,6 +1375,44 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "is-she-thinking-about-me-tarot",
+    cards: [2, 6, 18],
+    recommendedSpread: "their_thoughts",
+    title: "Is She Thinking About Me Tarot",
+    description: "Ask a free AI tarot reading about whether she is thinking about you, what her feelings show, and what action is healthiest next.",
+    h1: "Is She Thinking About Me Tarot",
+    intent: "Best for mixed signals, silence, no-contact periods, crushes, and understanding whether attention is emotional, casual, or unresolved.",
+    question: "Is she thinking about me, and what is the real energy behind her silence?",
+    sections: [
+      { heading: "Read thoughts with behavior", body: "A card can suggest attention, but the full spread should compare thoughts, feelings, fears, and whether those thoughts become real action." },
+      { heading: "Silence has different meanings", body: "No contact can mean processing, avoidance, pride, confusion, or simply moving on. The reading should separate hope from evidence." },
+      { heading: "Return to your clarity", body: "The most useful answer should show what you can do next without waiting indefinitely for a message." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if she is thinking about me?", answer: "Tarot can reflect emotional signals, attention, and likely mental energy, but thoughts matter most when they connect to respectful action." },
+      { question: "What cards suggest she is thinking about me?", answer: "The High Priestess, Page of Cups, Six of Cups, The Lovers, and The Moon can suggest inner focus or unresolved feeling when supported by the spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-text-her-tarot",
+    cards: [1, 11, 14],
+    recommendedSpread: "yes_no",
+    title: "Should I Text Her Tarot",
+    description: "Use a free yes or no AI tarot reading before texting her. Check timing, intention, emotional safety, and the best next step.",
+    h1: "Should I Text Her Tarot",
+    intent: "Best for deciding whether to send a message today, wait, set a boundary, or choose a calmer way to reopen contact.",
+    question: "Should I text her today, and what should I consider before I send it?",
+    sections: [
+      { heading: "Texting is about timing and intention", body: "A yes-or-no answer is most useful when it also shows whether the message comes from clarity, anxiety, care, or pressure." },
+      { heading: "Look for the cost of contact", body: "The spread should show whether texting would open healthy communication or restart an old loop." },
+      { heading: "Make the answer practical", body: "If the cards lean yes, write one clear message. If they lean no or not yet, choose the boundary or pause that protects your peace." },
+    ],
+    faqs: [
+      { question: "Can tarot answer whether I should text her?", answer: "Yes, it can give a quick direction and the reason behind it. Use the answer as reflection, not as pressure to ignore your boundaries." },
+      { question: "What cards suggest I should wait before texting?", answer: "The Hanged Man, Four of Swords, Temperance, The Moon, or reversed communication cards can suggest waiting, clarifying intention, or protecting your energy." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "does-my-crush-like-me-tarot",
     cards: [2, 6, 35],
     recommendedSpread: "their_thoughts",
@@ -1459,6 +1497,25 @@ seoPageSources.push(
     h1: "Should I Break Up With Him Tarot",
     intent: "Best for repeated conflict, emotional distance, broken trust, confusing attachment, and deciding whether repair is still realistic.",
     question: "Should I break up with him, and what is the healthiest next step?",
+    sections: [
+      { heading: "Do not reduce the decision to one card", body: "Breakup questions involve safety, respect, history, communication, and timing. Read the advice card as carefully as the outcome card." },
+      { heading: "Separate conflict from pattern", body: "Some relationships need one honest repair conversation. Others show a repeated cycle that keeps costing your self-respect." },
+      { heading: "Let the answer protect your wellbeing", body: "Whether the spread leans repair or ending, the next step should make your emotional and practical life steadier." },
+    ],
+    faqs: [
+      { question: "Can tarot decide if I should break up?", answer: "Tarot can clarify the pattern, risks, repair conditions, and next step. It should not replace safety planning, support, or direct communication." },
+      { question: "What cards suggest a breakup may be healthier?", answer: "Death, The Tower, Eight of Cups, Ten of Swords, Justice, and The World can point to closure when the full spread supports it." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-break-up-with-her-tarot",
+    cards: [11, 13, 21],
+    recommendedSpread: "relationship",
+    title: "Should I Break Up With Her Tarot",
+    description: "Use a free AI tarot reading to explore whether to break up, repair the relationship, set boundaries, or choose a healthier next step.",
+    h1: "Should I Break Up With Her Tarot",
+    intent: "Best for repeated conflict, emotional distance, broken trust, confusing attachment, and deciding whether repair is still realistic.",
+    question: "Should I break up with her, and what is the healthiest next step?",
     sections: [
       { heading: "Do not reduce the decision to one card", body: "Breakup questions involve safety, respect, history, communication, and timing. Read the advice card as carefully as the outcome card." },
       { heading: "Separate conflict from pattern", body: "Some relationships need one honest repair conversation. Others show a repeated cycle that keeps costing your self-respect." },
@@ -1770,6 +1827,25 @@ seoPageSources.push(
     ],
     faqs: [
       { question: "Can tarot tell if I should give him another chance?", answer: "Tarot can clarify repair potential, repeated patterns, and advice. The decision should also use real behavior, safety, and support." },
+      { question: "What cards suggest a second chance may be healthy?", answer: "Judgement, Temperance, Justice, The Star, Two of Cups, and Six of Cups can support repair when the spread shows accountability." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-give-her-another-chance-tarot",
+    cards: [6, 11, 14],
+    recommendedSpread: "relationship",
+    title: "Should I Give Her Another Chance Tarot",
+    description: "Use a free AI tarot reading to decide whether giving her another chance has repair energy, accountability, changed behavior, and emotional safety.",
+    h1: "Should I Give Her Another Chance Tarot",
+    intent: "Best for second chances, apology after conflict, broken trust, reconciliation conditions, and deciding whether hope has real evidence.",
+    question: "Should I give her another chance, and what would need to change?",
+    sections: [
+      { heading: "A second chance needs evidence", body: "A strong reading should compare words, behavior, accountability, timing, and whether the same pattern is likely to repeat." },
+      { heading: "Look for repair, not only regret", body: "Regret can be real without becoming repair. The spread should show what action, patience, honesty, and boundaries would need to exist." },
+      { heading: "Make the next step specific", body: "If the cards support another chance, define the condition. If they warn against it, choose the boundary that protects your self-respect." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if I should give her another chance?", answer: "Tarot can clarify repair potential, repeated patterns, and advice. The decision should also use real behavior, safety, and support." },
       { question: "What cards suggest a second chance may be healthy?", answer: "Judgement, Temperance, Justice, The Star, Two of Cups, and Six of Cups can support repair when the spread shows accountability." },
     ],
   }),
@@ -4082,6 +4158,44 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       },
     ],
   },
+  "should-i-give-her-another-chance-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when someone apologizes, returns, or promises change, and you need to know whether another chance is grounded or just familiar hope.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The spread should compare remorse, accountability, changed behavior, your trust level, emotional safety, and what pattern could repeat.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards support a chance, make it conditional and observable. If they warn against it, choose the boundary before nostalgia edits the facts.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what would I need to see consistently before I believe this change is real?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this second chance tarot reading free?",
+        answer: "Yes. You can start this second-chance relationship reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot show if she has really changed?",
+        answer: "Tarot can show accountability, intention, and repeated patterns, but real change has to be visible through consistent behavior over time.",
+      },
+      {
+        question: "What cards warn against another chance?",
+        answer: "The Devil, Seven of Swords, The Tower, Ten of Swords, Five of Swords, and reversed Justice can warn of repeated harm when the spread supports it.",
+      },
+      {
+        question: "What spread is best for a second chance?",
+        answer: "A relationship or binary choice spread works well because it compares repair potential, risks, boundaries, and the next honest step.",
+      },
+    ],
+  },
   "twin-flame-tarot-reading": {
     sections: [
       {
@@ -4196,6 +4310,44 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       },
     ],
   },
+  "is-she-thinking-about-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when silence, delayed replies, no contact, or a sudden change in attention makes you wonder whether the connection is still alive.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The cards should separate mental attention, emotional attachment, fear, avoidance, and likely action instead of turning one sign into proof.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the reading shows thought without action, do not wait in place. Let the advice card show whether to pause, ask directly, or refocus on yourself.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what would help me feel clear even if she does not message first?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this thinking about me tarot reading free?",
+        answer: "Yes. You can start this question as a free AI tarot reading. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Does thinking about me mean she will contact me?",
+        answer: "Not always. A reading can show mental energy without action, so look for communication, courage, and consistency cards in the full spread.",
+      },
+      {
+        question: "What if the cards show she misses me but stays silent?",
+        answer: "That often points to pride, fear, unresolved conflict, or emotional avoidance. The advice card should show whether contact would help or hurt.",
+      },
+      {
+        question: "What spread is best for this question?",
+        answer: "A thoughts and attitude spread works well because it compares impression, thoughts, attitude, concerns, and possible action.",
+      },
+    ],
+  },
   "should-i-text-him-tarot": {
     sections: [
       {
@@ -4218,6 +4370,44 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
     faqs: [
       {
         question: "Is this should I text him tarot reading free?",
+        answer: "Yes. You can start the yes-or-no reading for free. Membership is only for deeper follow-ups, saved history, and advanced spreads.",
+      },
+      {
+        question: "Can tarot tell me the best time to text?",
+        answer: "Tarot can show readiness, pressure, and timing themes, but you should also consider real context, boundaries, and whether the message is necessary.",
+      },
+      {
+        question: "What if the answer is not yet?",
+        answer: "Not yet usually means the timing, intention, or emotional state needs to settle first. Wait until the message can be clear and grounded.",
+      },
+      {
+        question: "Should I ask about the exact wording?",
+        answer: "A useful follow-up is: what tone would create the healthiest communication? Then keep the actual message brief and respectful.",
+      },
+    ],
+  },
+  "should-i-text-her-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this before sending a message you might regret, especially after silence, conflict, a breakup, or mixed signals.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should show whether texting now supports clear communication or comes from anxiety, pressure, loneliness, or unfinished attachment.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the answer leans yes, keep the message simple and honest. If it leans no or not yet, use the pause to protect dignity and timing.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the answer, ask: what message, boundary, or silence would respect both my feelings and the situation?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this should I text her tarot reading free?",
         answer: "Yes. You can start the yes-or-no reading for free. Membership is only for deeper follow-ups, saved history, and advanced spreads.",
       },
       {
@@ -4387,6 +4577,44 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
     ],
   },
   "should-i-break-up-with-him-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when repeated conflict, distance, disrespect, broken trust, or emotional exhaustion makes the relationship feel unstable.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The cards should show whether the issue is temporary conflict, a repairable pattern, or a deeper mismatch that keeps harming your wellbeing.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the answer leans repair, look for specific behavior changes. If it leans ending, think through support, timing, and practical safety before acting.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what boundary or conversation would make the healthiest next step clear?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this breakup decision tarot reading free?",
+        answer: "Yes. You can start this relationship clarity reading for free. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot tell me to leave a relationship?",
+        answer: "Tarot can show patterns, risks, and repair conditions, but serious relationship decisions should also include safety, support, and direct reality checks.",
+      },
+      {
+        question: "What if the cards show repair is possible?",
+        answer: "Possible repair still needs behavior, accountability, and timing. Use the advice card to name the first concrete change, not just the hope.",
+      },
+      {
+        question: "What spread is best for breakup decisions?",
+        answer: "A relationship spread works best because it can compare your needs, their energy, the shared pattern, repair conditions, and advice.",
+      },
+    ],
+  },
+  "should-i-break-up-with-her-tarot": {
     sections: [
       {
         heading: "When this question is useful",
