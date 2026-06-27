@@ -173,24 +173,22 @@ function InputContent() {
       button: "View membership",
     }
 
-  const resolveSpreadForAccess = (info: SpreadInfo): SpreadInfo => {
+  const resolveSpreadForAccess = (info: SpreadInfo, serverFreeStarter?: SpreadInfo): SpreadInfo => {
     if (!isAdvancedSpreadType(info.type) || hasAdvancedSpreadAccess) {
       setAdvancedSpreadPrompt(null)
       return info
     }
 
-    const fallback = getFreeSpreadFallback(info.type)
+    const fallback = serverFreeStarter || createLocalSpreadInfo(
+      getFreeSpreadFallback(info.type).type,
+      "Advanced spread reserved for members; using a free starter spread.",
+      Math.min(info.confidence, 0.72),
+    )
     setAdvancedSpreadPrompt({
       requestedName: getLocalizedSpreadName(info.config),
-      fallbackName: getLocalizedSpreadName(fallback),
+      fallbackName: getLocalizedSpreadName(fallback.config),
     })
-    return {
-      type: fallback.type,
-      config: fallback,
-      deckType: fallback.cardCount <= 3 ? "major" : "full",
-      reason: "Advanced spread reserved for members; using a free starter spread.",
-      confidence: Math.min(info.confidence, 0.72),
-    }
+    return fallback
   }
 
   const handleCardsDealt = () => {
@@ -224,13 +222,28 @@ function InputContent() {
     try {
       // 调用问题分类API
       const result = await readingApi.classifyQuestion(q, readingLocale)
+      const serverFreeStarter =
+        result.free_starter_spread_type && result.free_starter_spread_config
+          ? {
+              type: result.free_starter_spread_type,
+              config: result.free_starter_spread_config,
+              deckType:
+                result.free_starter_deck_type ||
+                (result.free_starter_spread_config.cardCount <= 3 ? "major" : "full"),
+              reason:
+                result.free_first_message ||
+                "Advanced spread reserved for members; using a free starter spread.",
+              confidence: Math.min(result.confidence, 0.72),
+            }
+          : undefined
+
       setSpreadInfo(resolveSpreadForAccess({
         type: result.spread_type,
         config: result.spread_config,
         deckType: result.deck_type || 'major',  // 牌组类型
         reason: result.reason,
         confidence: result.confidence,
-      }))
+      }, serverFreeStarter))
     } catch (error) {
       console.error("问题分类失败:", error)
       // 使用默认的三牌阵

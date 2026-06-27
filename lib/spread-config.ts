@@ -45,6 +45,9 @@ export const FREE_SPREAD_TYPES = new Set<SpreadType>([
   'three_card',
 ])
 
+export type SpreadAccessTier = 'free' | 'member_depth'
+export type SpreadUpgradeFeature = 'advanced_spread'
+
 /**
  * 所有牌阵配置
  */
@@ -282,6 +285,14 @@ export function isAdvancedSpreadType(value: string | null | undefined): value is
 
 export function getFreeSpreadFallback(_type?: string | null): SpreadConfig {
   return SPREAD_CONFIGS.three_card
+}
+
+export function getSpreadAccessTier(value: string | null | undefined): SpreadAccessTier {
+  return isAdvancedSpreadType(value) ? 'member_depth' : 'free'
+}
+
+export function getSpreadUpgradeFeature(value: string | null | undefined): SpreadUpgradeFeature | null {
+  return isAdvancedSpreadType(value) ? 'advanced_spread' : null
 }
 
 /**

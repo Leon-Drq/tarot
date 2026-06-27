@@ -470,6 +470,7 @@ export interface SpreadPosition {
 export type DeckType = 'major' | 'full'
 
 export interface SpreadConfig {
+  type?: string
   name: string
   nameEn: string
   nameJa?: string
@@ -482,6 +483,10 @@ export interface SpreadConfig {
   descriptionKo?: string
   deckType?: DeckType  // 牌组类型: major=大阿尔卡纳22张, full=全部78张
   is_advanced?: boolean
+  access_tier?: 'free' | 'member_depth'
+  upgrade_feature?: 'advanced_spread' | null
+  free_starter_spread_type?: string
+  free_starter_spread?: SpreadConfig
   positions: SpreadPosition[]
 }
 
@@ -491,6 +496,14 @@ export interface QuestionClassificationResponse {
   confidence: number
   reason: string
   is_advanced?: boolean
+  access_tier?: 'free' | 'member_depth'
+  upgrade_feature?: 'advanced_spread' | null
+  effective_free_spread_type?: string
+  free_starter_spread_type?: string
+  free_starter_deck_type?: DeckType
+  free_starter_spread_config?: SpreadConfig
+  member_spread_config?: SpreadConfig | null
+  free_first_message?: string
   spread_config: SpreadConfig
 }
 
@@ -549,7 +562,16 @@ export const readingApi = {
   },
   
   // 获取所有牌阵配置
-  getSpreads: async (lang: string = 'zh'): Promise<{ spreads: Array<SpreadConfig & { type: string }> }> => {
+  getSpreads: async (lang: string = 'zh'): Promise<{
+    membership_boundary?: {
+      free_first: boolean
+      free_spread_types: string[]
+      member_features: string[]
+      advanced_spread_feature: 'advanced_spread'
+      default_free_starter_spread_type: string
+    }
+    spreads: Array<SpreadConfig & { type: string }>
+  }> => {
     return request(`/reading/spreads?lang=${lang}`)
   },
 
