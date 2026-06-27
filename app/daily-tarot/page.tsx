@@ -98,6 +98,7 @@ const dailyPromptCards = [
     body: "Use today's card as a light relationship check-in, then open a focused love spread if the feeling needs more context.",
     question: "What should I understand about love today?",
     spread: "love_connection",
+    focus: "love",
   },
   {
     slug: "daily-career-tarot",
@@ -106,6 +107,7 @@ const dailyPromptCards = [
     body: "Turn the daily theme into one practical work signal: what to prepare, avoid, ask, or move forward.",
     question: "What should I focus on in my career today?",
     spread: "job_opportunity",
+    focus: "career",
   },
   {
     slug: "daily-yes-or-no-tarot",
@@ -114,6 +116,7 @@ const dailyPromptCards = [
     body: "When today has one simple choice, get a direct answer with the reason behind yes, no, or not yet.",
     question: "Is this the right move for me today?",
     spread: "yes_no",
+    focus: "yes_no",
   },
   {
     slug: "daily-mood-tarot",
@@ -122,6 +125,7 @@ const dailyPromptCards = [
     body: "Use a short spread to understand the emotional pattern behind today's card and what would help you stay clear.",
     question: "What is my emotional pattern today, and what would help?",
     spread: "three_card",
+    focus: "mood",
   },
   {
     slug: "daily-action-tarot",
@@ -130,6 +134,7 @@ const dailyPromptCards = [
     body: "Translate the daily card into a grounded next step instead of leaving the reading as a vague mood.",
     question: "What is the most grounded action I can take today?",
     spread: "three_card",
+    focus: "action",
   },
 ]
 
@@ -256,6 +261,19 @@ function dailyPromptGuideHref(prompt: (typeof dailyPromptCards)[number]) {
   return `/${prompt.slug}`
 }
 
+function dailyFocusedToolHref(prompt: (typeof dailyPromptCards)[number]) {
+  const params = new URLSearchParams({
+    daily_focus: prompt.focus,
+    return_focus: prompt.question,
+    return_action: "return-cue",
+    utm_source: "daily-tarot",
+    utm_medium: "daily_focus_path",
+    utm_campaign: prompt.slug,
+  })
+
+  return `/daily-tarot?${params.toString()}`
+}
+
 export const metadata: Metadata = {
   title: `${dailyTitle} | Free One Card Tarot`,
   description: dailyDescription,
@@ -361,8 +379,8 @@ const structuredData = {
           isAccessibleForFree: true,
           potentialAction: {
             "@type": "InteractAction",
-            name: "Start free tarot reading",
-            target: `${appUrl}${dailyPromptHref(prompt)}`,
+            name: "Open focused Daily Tarot",
+            target: `${appUrl}${dailyFocusedToolHref(prompt)}`,
           },
         },
       })),
@@ -565,12 +583,20 @@ export default function DailyTarotPage() {
                 </p>
                 <div className="mt-4 grid min-w-0 gap-2">
                   <Link
+                    data-daily-question-path-focus
+                    href={dailyFocusedToolHref(prompt)}
+                    className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_54%,#8f80ee_100%)] px-4 py-2 text-sm font-medium text-[#120c22] shadow-[0_14px_34px_rgba(143,128,238,0.18)] transition hover:brightness-110"
+                    aria-label={`Open ${prompt.title} as a focused daily card`}
+                  >
+                    Open focused daily card
+                  </Link>
+                  <Link
                     data-daily-question-path-start
                     href={dailyPromptHref(prompt)}
-                    className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_54%,#8f80ee_100%)] px-4 py-2 text-sm font-medium text-[#120c22] shadow-[0_14px_34px_rgba(143,128,238,0.18)] transition hover:brightness-110"
+                    className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-[#c9c0ff]/28 bg-[#c9c0ff]/[0.08] px-4 py-2 text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
                     aria-label={`Start ${prompt.title}`}
                   >
-                    Start free reading
+                    Start deeper free spread
                   </Link>
                   <Link
                     data-daily-question-path-guide

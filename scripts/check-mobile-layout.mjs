@@ -58,8 +58,15 @@ const pages = [
       "[data-daily-question-paths]",
       "[data-daily-question-path]",
       "[data-daily-question-path-guide]",
+      "[data-daily-question-path-focus]",
       "[data-daily-question-path-start]",
     ],
+  },
+  {
+    path: "/daily-tarot?daily_focus=love&return_focus=What%20should%20I%20understand%20about%20love%20today%3F&utm_source=seo&utm_medium=daily_focus_path&utm_campaign=daily-love-tarot",
+    name: "daily tarot focused love entry",
+    requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-focused-entry]", "[data-daily-focus=\"love\"]", "[data-daily-focused-entry-draw]", "[data-daily-return-setup]", "[data-daily-direct-return-actions]"],
+    requiredLocalStorageKeyPrefix: "poptarot_daily_return_",
   },
   {
     path: "/daily-tarot?return_focus=Will%20my%20ex%20come%20back%20tarot&return_action=reminder&utm_source=seo&utm_medium=question_return_loop&utm_campaign=will-my-ex-come-back-tarot",

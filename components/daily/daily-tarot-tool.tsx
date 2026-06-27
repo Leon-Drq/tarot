@@ -43,6 +43,246 @@ type DailyReturnCommitment = {
   created_at: string
 }
 
+type DailyFocusId = "love" | "career" | "yes_no" | "mood" | "action"
+
+type DailyFocusPreset = {
+  id: DailyFocusId
+  label: string
+  title: string
+  body: string
+  question: string
+  returnFocus: string
+  analyticsKeyword: string
+}
+
+const dailyFocusAliases: Record<string, DailyFocusId> = {
+  love: "love",
+  relationship: "love",
+  "daily-love-tarot": "love",
+  career: "career",
+  work: "career",
+  job: "career",
+  "daily-career-tarot": "career",
+  yes: "yes_no",
+  no: "yes_no",
+  "yes-no": "yes_no",
+  yes_no: "yes_no",
+  "daily-yes-or-no-tarot": "yes_no",
+  mood: "mood",
+  emotion: "mood",
+  "daily-mood-tarot": "mood",
+  action: "action",
+  next_step: "action",
+  "daily-action-tarot": "action",
+}
+
+function normalizeDailyFocus(value: string | null) {
+  const key = (value || "").trim().toLowerCase().replace(/\s+/g, "-")
+  return dailyFocusAliases[key] || null
+}
+
+function getDailyFocusPresets(language: string): Record<DailyFocusId, DailyFocusPreset> {
+  const localized =
+    {
+      zh: {
+        love: {
+          label: "爱情",
+          title: "今天先看感情主题",
+          body: "这张每日牌会先放进关系、暧昧、复合或沟通的语境里读，再留下一个明天可回看的线索。",
+          question: "今天我在感情里最需要看见什么？",
+          returnFocus: "今天的感情主题是否还在重复",
+        },
+        career: {
+          label: "事业",
+          title: "今天先看工作主题",
+          body: "把每日牌当作一个工作信号：哪里需要准备，哪里该减压，今天最现实的一步是什么。",
+          question: "今天我在事业和工作上应该关注什么？",
+          returnFocus: "今天的事业信号是否延续到明天",
+        },
+        yes_no: {
+          label: "是/否",
+          title: "今天先看一个选择",
+          body: "适合一个当天的小决定：不是绝对预测，而是看这一步现在更像 yes、no 还是 not yet。",
+          question: "今天这一步对我来说合适吗？",
+          returnFocus: "今天这个选择是否仍然成立",
+        },
+        mood: {
+          label: "情绪",
+          title: "今天先看情绪模式",
+          body: "把每日牌用来识别今天最容易重复的情绪、触发点，以及让你稳定下来的做法。",
+          question: "今天我的情绪模式是什么，我该如何照顾自己？",
+          returnFocus: "今天的情绪模式是否重复出现",
+        },
+        action: {
+          label: "行动",
+          title: "今天先看一个行动",
+          body: "把象征变成一个可执行的小动作，避免每日牌只停留在感觉上。",
+          question: "今天我能采取的最踏实行动是什么？",
+          returnFocus: "今天的行动是否已经发生",
+        },
+      },
+      ja: {
+        love: {
+          label: "恋愛",
+          title: "今日は恋愛テーマで読む",
+          body: "今日のカードを関係、片思い、復縁、対話の文脈で読み、明日見返せる手がかりを残します。",
+          question: "今日、恋愛で何に気づく必要がありますか？",
+          returnFocus: "今日の恋愛テーマが明日も続いているか",
+        },
+        career: {
+          label: "仕事",
+          title: "今日は仕事テーマで読む",
+          body: "今日のカードを仕事のサインとして読み、準備、負荷、現実的な一歩を見ます。",
+          question: "今日、仕事で何に集中すべきですか？",
+          returnFocus: "今日の仕事のサインが明日も続くか",
+        },
+        yes_no: {
+          label: "Yes/No",
+          title: "今日は一つの選択を見る",
+          body: "小さな日々の判断に使えます。絶対の予言ではなく、今は yes、no、not yet のどれに近いかを見ます。",
+          question: "今日、この一歩は私に合っていますか？",
+          returnFocus: "今日の選択がまだ有効か",
+        },
+        mood: {
+          label: "気分",
+          title: "今日は感情パターンを見る",
+          body: "今日繰り返しやすい感情、きっかけ、落ち着くための小さな方法を読みます。",
+          question: "今日の感情パターンは何で、どう整えればいいですか？",
+          returnFocus: "今日の感情パターンが繰り返すか",
+        },
+        action: {
+          label: "行動",
+          title: "今日は一つの行動を見る",
+          body: "カードの象徴を、今日できる現実的な一歩に変えます。",
+          question: "今日、私が取れる一番現実的な行動は何ですか？",
+          returnFocus: "今日の行動を実行できたか",
+        },
+      },
+      ko: {
+        love: {
+          label: "사랑",
+          title: "오늘은 사랑 주제로 보기",
+          body: "오늘의 카드를 관계, 썸, 재회, 대화의 맥락에서 읽고 내일 다시 볼 단서를 남깁니다.",
+          question: "오늘 사랑에서 내가 알아차려야 할 것은 무엇인가요?",
+          returnFocus: "오늘의 사랑 주제가 내일도 반복되는지",
+        },
+        career: {
+          label: "커리어",
+          title: "오늘은 일 주제로 보기",
+          body: "오늘의 카드를 업무 신호로 읽어 준비할 것, 줄일 압박, 현실적인 한 걸음을 봅니다.",
+          question: "오늘 일과 커리어에서 무엇에 집중해야 하나요?",
+          returnFocus: "오늘의 커리어 신호가 내일도 이어지는지",
+        },
+        yes_no: {
+          label: "예/아니오",
+          title: "오늘은 하나의 선택 보기",
+          body: "작은 하루 결정에 사용하세요. 절대 예측이 아니라 지금 yes, no, not yet 중 어디에 가까운지 봅니다.",
+          question: "오늘 이 행동은 나에게 맞는 선택인가요?",
+          returnFocus: "오늘의 선택이 아직 유효한지",
+        },
+        mood: {
+          label: "기분",
+          title: "오늘은 감정 패턴 보기",
+          body: "오늘 반복되기 쉬운 감정, 트리거, 나를 안정시키는 방법을 읽습니다.",
+          question: "오늘 나의 감정 패턴은 무엇이고 어떻게 돌봐야 하나요?",
+          returnFocus: "오늘의 감정 패턴이 반복되는지",
+        },
+        action: {
+          label: "행동",
+          title: "오늘은 하나의 행동 보기",
+          body: "카드의 상징을 오늘 할 수 있는 현실적인 한 걸음으로 바꿉니다.",
+          question: "오늘 내가 할 수 있는 가장 현실적인 행동은 무엇인가요?",
+          returnFocus: "오늘의 행동을 실제로 했는지",
+        },
+      },
+      en: {
+        love: {
+          label: "Love",
+          title: "Read today's card through love",
+          body: "Use one daily card for relationship energy, attraction, reconciliation anxiety, communication, or the next gentle step.",
+          question: "What should I understand about love today?",
+          returnFocus: "Whether today's love theme is repeating",
+        },
+        career: {
+          label: "Career",
+          title: "Read today's card through career",
+          body: "Turn one daily card into a work signal: what to prepare, where to reduce pressure, and what practical move helps today.",
+          question: "What should I focus on in my career today?",
+          returnFocus: "Whether today's career signal continues tomorrow",
+        },
+        yes_no: {
+          label: "Yes or no",
+          title: "Read today's card for one choice",
+          body: "Use this for one small daily decision. The card points to yes, no, or not yet with a reason, not a fixed prediction.",
+          question: "Is this the right move for me today?",
+          returnFocus: "Whether today's choice still feels right",
+        },
+        mood: {
+          label: "Mood",
+          title: "Read today's card through mood",
+          body: "Use the card to notice the emotional pattern, trigger, or support that would help you stay clear today.",
+          question: "What is my emotional pattern today, and what would help?",
+          returnFocus: "Whether today's mood pattern repeats",
+        },
+        action: {
+          label: "Action",
+          title: "Read today's card as an action cue",
+          body: "Turn the symbol into one grounded move you can actually do today.",
+          question: "What is the most grounded action I can take today?",
+          returnFocus: "Whether today's action happened",
+        },
+      },
+    }[language] || {}
+
+  const english = {
+    love: {
+      label: "Love",
+      title: "Read today's card through love",
+      body: "Use one daily card for relationship energy, attraction, reconciliation anxiety, communication, or the next gentle step.",
+      question: "What should I understand about love today?",
+      returnFocus: "Whether today's love theme is repeating",
+    },
+    career: {
+      label: "Career",
+      title: "Read today's card through career",
+      body: "Turn one daily card into a work signal: what to prepare, where to reduce pressure, and what practical move helps today.",
+      question: "What should I focus on in my career today?",
+      returnFocus: "Whether today's career signal continues tomorrow",
+    },
+    yes_no: {
+      label: "Yes or no",
+      title: "Read today's card for one choice",
+      body: "Use this for one small daily decision. The card points to yes, no, or not yet with a reason, not a fixed prediction.",
+      question: "Is this the right move for me today?",
+      returnFocus: "Whether today's choice still feels right",
+    },
+    mood: {
+      label: "Mood",
+      title: "Read today's card through mood",
+      body: "Use the card to notice the emotional pattern, trigger, or support that would help you stay clear today.",
+      question: "What is my emotional pattern today, and what would help?",
+      returnFocus: "Whether today's mood pattern repeats",
+    },
+    action: {
+      label: "Action",
+      title: "Read today's card as an action cue",
+      body: "Turn the symbol into one grounded move you can actually do today.",
+      question: "What is the most grounded action I can take today?",
+      returnFocus: "Whether today's action happened",
+    },
+  } satisfies Record<DailyFocusId, Omit<DailyFocusPreset, "id" | "analyticsKeyword">>
+
+  return (Object.keys(english) as DailyFocusId[]).reduce((result, id) => {
+    const copy = localized[id] || english[id]
+    result[id] = {
+      id,
+      ...copy,
+      analyticsKeyword: `daily tarot ${id.replace("_", " ")}`,
+    }
+    return result
+  }, {} as Record<DailyFocusId, DailyFocusPreset>)
+}
+
 function getSeed() {
   if (typeof window === "undefined") return "guest"
   const existing = localStorage.getItem(storageKey)
@@ -243,6 +483,7 @@ export function DailyTarotTool() {
   const { user, isLoggedIn, refreshUser } = useAuth()
   const { language } = useLanguage()
   const copy = useMemo(() => getDailyTarotCopy(language), [language])
+  const dailyFocusPresets = useMemo(() => getDailyFocusPresets(language), [language])
   const quickActionCopy = useMemo(
     () => ({
       draw: copy.draw === "Draw Today's Card" ? "Draw Card" : copy.draw,
@@ -260,6 +501,7 @@ export function DailyTarotTool() {
   const [reminderEmail, setReminderEmail] = useState("")
   const [reminderTime, setReminderTime] = useState("08:30")
   const [reminderEnabled, setReminderEnabled] = useState(false)
+  const [dailyFocusId, setDailyFocusId] = useState<DailyFocusId | null>(null)
   const [emailDeliveryEnabled, setEmailDeliveryEnabled] = useState(false)
   const [reminderCapability, setReminderCapability] = useState<DailyReminderCapability | null>(null)
   const [streak, setStreak] = useState(0)
@@ -280,6 +522,9 @@ export function DailyTarotTool() {
   const [isDrawing, setIsDrawing] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [status, setStatus] = useState("")
+  const activeDailyFocus = dailyFocusId ? dailyFocusPresets[dailyFocusId] : null
+  const activeDailyQuestion = activeDailyFocus?.question || dailyTarotQuestion
+  const dailyAnalyticsKeyword = activeDailyFocus?.analyticsKeyword || "daily tarot"
 
   const shareCopy =
     {
@@ -657,18 +902,25 @@ export function DailyTarotTool() {
 
   useEffect(() => {
     const today = getLocalDateKey()
+    const searchParams = new URLSearchParams(window.location.search)
+    const requestedFocus = normalizeDailyFocus(
+      searchParams.get("daily_focus") || searchParams.get("daily_theme") || searchParams.get("focus"),
+    )
+    const requestedFocusPreset = requestedFocus ? getDailyFocusPresets(language)[requestedFocus] : null
     setDateKey(today)
+    setDailyFocusId(requestedFocus)
     const seededCard = getDailyCard(today, getSeed())
     setCard(seededCard)
     setRecentEntries(readRecentLocalEntries(today))
     const carriedCommitment = readReturnCommitment(today)
-    const linkedFocus = cleanReturnFocus(new URLSearchParams(window.location.search).get("return_focus"))
+    const linkedFocus = cleanReturnFocus(searchParams.get("return_focus"))
+    const effectiveLinkedFocus = linkedFocus || requestedFocusPreset?.returnFocus || ""
     const linkedCommitment =
-      !carriedCommitment && linkedFocus
+      !carriedCommitment && effectiveLinkedFocus
         ? {
             target_date: today,
             source_entry_date: today,
-            focus: linkedFocus,
+            focus: effectiveLinkedFocus,
             note: "",
             created_at: new Date().toISOString(),
           }
@@ -683,8 +935,8 @@ export function DailyTarotTool() {
     if (tomorrowCommitment) {
       setReturnFocus(tomorrowCommitment.focus)
       setReturnNote(tomorrowCommitment.note)
-    } else if (linkedFocus) {
-      setReturnFocus(linkedFocus)
+    } else if (effectiveLinkedFocus) {
+      setReturnFocus(effectiveLinkedFocus)
     }
 
     const localEntry = localStorage.getItem(localDailyKey(today))
@@ -806,7 +1058,7 @@ export function DailyTarotTool() {
       card_id: card.id,
       card_name: card.nameEn,
       is_reversed: card.isReversed,
-      question: dailyTarotQuestion,
+      question: activeDailyQuestion,
       interpretation: input.interpretation ?? existing?.interpretation ?? interpretation,
       journal: input.journal ?? existing?.journal ?? journal,
       mood: input.mood ?? existing?.mood ?? mood,
@@ -856,17 +1108,17 @@ export function DailyTarotTool() {
       analyticsApi.track("question_submitted", {
         ...getCurrentAttribution(),
         locale: language,
-        keyword: "daily tarot",
-        metadata: { surface: "daily-tarot" },
+        keyword: dailyAnalyticsKeyword,
+        metadata: { surface: "daily-tarot", daily_focus: activeDailyFocus?.id || "general" },
       })
 
       let fullText = ""
       try {
-        const response = await readingApi.interpret(dailyTarotQuestion, [card], false, undefined, undefined, language, "one_card")
+        const response = await readingApi.interpret(activeDailyQuestion, [card], false, undefined, undefined, language, "one_card")
         if (!response.ok) throw new Error("Daily reading failed")
         fullText = await readStream(response, setInterpretation)
       } catch {
-        fullText = createFallbackDailyInterpretation(card, language)
+        fullText = createFallbackDailyInterpretation(card, language, activeDailyFocus?.returnFocus || activeDailyQuestion)
         setInterpretation(fullText)
       }
 
@@ -888,8 +1140,8 @@ export function DailyTarotTool() {
       analyticsApi.track("reading_completed", {
         ...getCurrentAttribution(),
         locale: language,
-        keyword: "daily tarot",
-        metadata: { surface: "daily-tarot", card_id: card.id },
+        keyword: dailyAnalyticsKeyword,
+        metadata: { surface: "daily-tarot", card_id: card.id, daily_focus: activeDailyFocus?.id || "general" },
       })
     } finally {
       setIsDrawing(false)
@@ -1049,6 +1301,7 @@ export function DailyTarotTool() {
       utm_medium: medium,
       utm_campaign: "daily-return-cue",
     })
+    if (activeDailyFocus) params.set("daily_focus", activeDailyFocus.id)
 
     return `/daily-tarot?${params.toString()}`
   }
@@ -1197,7 +1450,7 @@ export function DailyTarotTool() {
       }[language] || "Daily Card"
 
     const result = await readingApi.createShare({
-      question: dailyTarotQuestion,
+      question: activeDailyQuestion,
       cards: [{ ...card, position: dailyPosition }],
       interpretation,
       spread_type: "one_card",
@@ -1213,6 +1466,7 @@ export function DailyTarotTool() {
       metadata: {
         surface: "daily-tarot",
         spread_type: "one_card",
+        daily_focus: activeDailyFocus?.id || "general",
       },
     })
     return absoluteUrl
@@ -1224,6 +1478,7 @@ export function DailyTarotTool() {
       utm_medium: "fallback_share",
       utm_campaign: "daily_tarot",
     })
+    if (activeDailyFocus) params.set("daily_focus", activeDailyFocus.id)
     return `${window.location.origin}/daily-tarot?${params.toString()}`
   }
 
@@ -1232,7 +1487,7 @@ export function DailyTarotTool() {
     return createShareTemplate({
       platform,
       locale: language,
-      question: dailyTarotQuestion,
+      question: activeDailyQuestion,
       cards: [
         {
           name: localizedCardName(card),
@@ -1261,6 +1516,7 @@ export function DailyTarotTool() {
         platform,
         channel,
         surface: "daily-tarot",
+        daily_focus: activeDailyFocus?.id || "general",
       },
     })
   }
@@ -1295,7 +1551,7 @@ export function DailyTarotTool() {
       if (navigator.share) {
         await navigator.share({
           title: "POPTarot Daily Tarot",
-          text: dailyTarotQuestion,
+          text: activeDailyQuestion,
           url: absoluteUrl,
         })
         setShareStatus(shareCopy.generated)
@@ -1330,6 +1586,7 @@ export function DailyTarotTool() {
         metadata: {
           platform,
           surface: "daily-tarot",
+          daily_focus: activeDailyFocus?.id || "general",
         },
       })
       setShareStatus(shareCopy.templateCopied)
@@ -1629,6 +1886,32 @@ export function DailyTarotTool() {
             <span className={quickActionTextClass}>{returnCopy.quickAction}</span>
           </button>
         </div>
+
+        {activeDailyFocus && (
+          <section
+            data-daily-focused-entry
+            data-daily-focus={activeDailyFocus.id}
+            className="mt-5 rounded-lg border border-[#c9c0ff]/24 bg-[#c9c0ff]/[0.055] p-4"
+          >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div className="min-w-0">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/76">{activeDailyFocus.label}</p>
+                <h2 className="mt-2 break-words text-base font-medium leading-6 text-white">{activeDailyFocus.title}</h2>
+                <p className="mt-2 text-sm leading-6 text-white/56">{activeDailyFocus.body}</p>
+                <p className="mt-3 break-words text-xs leading-5 text-[#dcd5ff]/78">{activeDailyQuestion}</p>
+              </div>
+              <button
+                type="button"
+                data-daily-focused-entry-draw
+                onClick={handleDraw}
+                disabled={isDrawing}
+                className="inline-flex min-h-10 shrink-0 items-center justify-center rounded-lg border border-[#c9c0ff]/30 bg-[#c9c0ff]/[0.08] px-4 text-xs text-[#eee9ff] transition hover:bg-[#c9c0ff]/12 disabled:opacity-55"
+              >
+                {isDrawing ? copy.drawing : quickActionCopy.draw}
+              </button>
+            </div>
+          </section>
+        )}
 
         <section
           data-daily-direct-return-actions

@@ -45,20 +45,21 @@ export function getDailyCard(dateKey: string, seed: string): DrawnCard {
   }
 }
 
-export function createFallbackDailyInterpretation(card: DrawnCard, locale: Locale) {
+export function createFallbackDailyInterpretation(card: DrawnCard, locale: Locale, focus?: string) {
   const name = locale === "zh" ? card.name : locale === "ja" ? card.nameJa || card.nameEn : locale === "ko" ? card.nameKo || card.nameEn : card.nameEn
+  const normalizedFocus = focus?.trim()
 
   if (locale === "zh") {
     const orientation = card.isReversed ? card.meaning.reversed : card.meaning.upright
-    return `今天的牌是${name}${card.isReversed ? "逆位" : "正位"}。关键词是：${orientation}。把它当作一个温和提醒：先看清自己真正能掌控的部分，再做下一步。`
+    return `今天的牌是${name}${card.isReversed ? "逆位" : "正位"}。关键词是：${orientation}。${normalizedFocus ? `把它放在“${normalizedFocus}”这个主题里看：` : ""}先看清自己真正能掌控的部分，再做下一步。`
   }
   if (locale === "ja") {
-    return `今日のカードは${name}${card.isReversed ? "逆位置" : "正位置"}です。今日は、急いで結論を出すより、自分が動かせる一歩に意識を向けてみてください。`
+    return `今日のカードは${name}${card.isReversed ? "逆位置" : "正位置"}です。${normalizedFocus ? `テーマは「${normalizedFocus}」。` : ""}今日は、急いで結論を出すより、自分が動かせる一歩に意識を向けてみてください。`
   }
   if (locale === "ko") {
-    return `오늘의 카드는 ${name} ${card.isReversed ? "역방향" : "정방향"}입니다. 오늘은 결론을 서두르기보다 내가 선택할 수 있는 한 가지 행동에 집중해 보세요.`
+    return `오늘의 카드는 ${name} ${card.isReversed ? "역방향" : "정방향"}입니다. ${normalizedFocus ? `오늘의 초점은 "${normalizedFocus}"입니다. ` : ""}오늘은 결론을 서두르기보다 내가 선택할 수 있는 한 가지 행동에 집중해 보세요.`
   }
-  return `Today's card is ${name} ${card.isReversed ? "reversed" : "upright"}. Let it be a practical reminder: notice what is actually within your control, then choose one clear next step.`
+  return `Today's card is ${name} ${card.isReversed ? "reversed" : "upright"}. ${normalizedFocus ? `Read it through this focus: ${normalizedFocus}. ` : ""}Let it be a practical reminder: notice what is actually within your control, then choose one clear next step.`
 }
 
 export function getDailyTarotCopy(locale: Locale) {
