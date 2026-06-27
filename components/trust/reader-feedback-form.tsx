@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useState, type FormEvent } from "react"
+import { useEffect, useMemo, useState, type FormEvent } from "react"
 import { getAccessToken } from "@/lib/api"
 
 const feedbackTypes = [
@@ -12,7 +12,24 @@ const feedbackTypes = [
   { value: "other", label: "Other" },
 ] as const
 
+const feedbackTypeValues = new Set(feedbackTypes.map((item) => item.value))
+const feedbackLocales = new Set(["zh", "en", "ja", "ko", "es", "pt-br"])
+
 type SubmitState = "idle" | "submitting" | "success" | "error"
+
+function safeSurface(value: string | null) {
+  const surface = (value || "").trim().toLowerCase().slice(0, 80)
+  return /^[a-z0-9_/-]+$/.test(surface) ? surface : "reviews"
+}
+
+function safeContext(value: string | null) {
+  return (value || "").trim().replace(/\s+/g, " ").slice(0, 80)
+}
+
+function safeLocale(value: string | null) {
+  const locale = (value || "").trim().toLowerCase()
+  return feedbackLocales.has(locale) ? locale : "en"
+}
 
 export function ReaderFeedbackForm() {
   const [rating, setRating] = useState(5)
@@ -20,6 +37,9 @@ export function ReaderFeedbackForm() {
   const [quote, setQuote] = useState("")
   const [email, setEmail] = useState("")
   const [permissionToFeature, setPermissionToFeature] = useState(false)
+  const [surface, setSurface] = useState("reviews")
+  const [locale, setLocale] = useState("en")
+  const [sourceContext, setSourceContext] = useState("")
   const [website, setWebsite] = useState("")
   const [state, setState] = useState<SubmitState>("idle")
   const [error, setError] = useState("")
@@ -27,6 +47,23 @@ export function ReaderFeedbackForm() {
   const trimmedQuote = quote.trim()
   const remaining = 800 - quote.length
   const canSubmit = useMemo(() => trimmedQuote.length >= 12 && state !== "submitting", [state, trimmedQuote.length])
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const type = params.get("type")
+    if (type && feedbackTypeValues.has(type as (typeof feedbackTypes)[number]["value"])) {
+      setFeedbackType(type as (typeof feedbackTypes)[number]["value"])
+    }
+
+    const nextRating = Number(params.get("rating"))
+    if (Number.isInteger(nextRating) && nextRating >= 1 && nextRating <= 5) {
+      setRating(nextRating)
+    }
+
+    setSurface(safeSurface(params.get("surface")))
+    setLocale(safeLocale(params.get("locale") || params.get("lang")))
+    setSourceContext(safeContext(params.get("context") || params.get("from")))
+  }, [])
 
   async function submitFeedback(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -51,8 +88,8 @@ export function ReaderFeedbackForm() {
           quote: trimmedQuote,
           email: email.trim() || null,
           permission_to_feature: permissionToFeature,
-          locale: "en",
-          surface: "reviews",
+          locale,
+          surface,
           path: window.location.pathname,
           website,
         }),
@@ -83,6 +120,11 @@ export function ReaderFeedbackForm() {
         <p className="mt-3 text-sm leading-7 text-white/62">
           Share what felt useful or confusing. Submissions are private by default and only become public after editorial review and explicit permission.
         </p>
+        {sourceContext && (
+          <p data-reader-feedback-source className="mt-3 rounded-lg border border-white/10 bg-black/18 px-3 py-2 text-xs leading-5 text-white/52">
+            Feedback source: {sourceContext}
+          </p>
+        )}
       </div>
 
       <form onSubmit={submitFeedback} className="mt-6 space-y-5">

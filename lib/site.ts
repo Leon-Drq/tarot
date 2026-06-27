@@ -6,7 +6,7 @@ export const siteTitle = "POPTarot - Free AI Tarot Reading"
 export const siteDescription =
   "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
 export const brandLogoPath = "/logo.png"
-export const brandFaviconPath = "/favicon-48x48.png"
+export const brandFaviconPath = "/favicon.png"
 export const brandSvgIconPath = "/icon.svg"
 export const brandOpenGraphPath = "/og-image.jpg"
 
@@ -102,7 +102,7 @@ export const brandVerificationFacts = [
   {
     label: "Favicon source",
     value: brandFaviconPath,
-    body: "The 48 x 48 favicon is the stable search crawler source referenced by root metadata and browser icon links.",
+    body: "The 96 x 96 favicon is the stable search crawler source referenced by root metadata and browser icon links.",
     href: brandFaviconPath,
   },
   {

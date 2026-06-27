@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { Bell, CalendarPlus, Link2, Loader2, Mail, NotebookPen, Share2, Smartphone } from "lucide-react"
+import { Bell, CalendarPlus, Link2, Loader2, Mail, MessageSquare, NotebookPen, Share2, Smartphone } from "lucide-react"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import {
@@ -295,6 +295,7 @@ export function DailyTarotTool() {
         fallbackCopied: "分享文案已复制；登录后可创建公开结果页。",
         xhs: "复制小红书文案",
         instagram: "复制 Instagram 文案",
+        feedback: "提交反馈",
         templateCopied: "分享文案已复制",
       },
       en: {
@@ -309,6 +310,7 @@ export function DailyTarotTool() {
         fallbackCopied: "Share caption copied. Log in to create a public Daily Tarot page.",
         xhs: "Copy Xiaohongshu",
         instagram: "Copy Instagram",
+        feedback: "Leave feedback",
         templateCopied: "Share caption copied",
       },
       ja: {
@@ -323,6 +325,7 @@ export function DailyTarotTool() {
         fallbackCopied: "共有テキストをコピーしました。ログインすると公開 Daily Tarot ページを作成できます。",
         xhs: "小紅書テキストをコピー",
         instagram: "Instagramをコピー",
+        feedback: "感想を送る",
         templateCopied: "投稿文をコピーしました",
       },
       ko: {
@@ -337,6 +340,7 @@ export function DailyTarotTool() {
         fallbackCopied: "공유 문구를 복사했습니다. 로그인하면 공개 Daily Tarot 페이지를 만들 수 있습니다.",
         xhs: "샤오홍슈 문구 복사",
         instagram: "Instagram 복사",
+        feedback: "피드백 남기기",
         templateCopied: "공유 문구 복사됨",
       },
     }[language]
@@ -1325,6 +1329,15 @@ export function DailyTarotTool() {
     })
     return `/input?${params.toString()}`
   }, [dailyPattern.dominantTheme, language, patternCopy.patternQuestion])
+  const dailyFeedbackHref = useMemo(() => {
+    const params = new URLSearchParams({
+      type: "daily_tarot",
+      surface: "daily_tarot_tool",
+      context: "Daily Tarot",
+      locale: language,
+    })
+    return `/reviews?${params.toString()}#reader-feedback`
+  }, [language])
   const hasReading = Boolean(interpretation)
   const stickyPrimaryLabel = hasReading ? shareCopy.button : isDrawing ? copy.drawing : quickActionCopy.draw
   const stickyPrimaryTitle = hasReading ? shareCopy.button : copy.draw
@@ -1715,6 +1728,14 @@ export function DailyTarotTool() {
                 >
                   {shareCopy.instagram}
                 </button>
+                <Link
+                  href={dailyFeedbackHref}
+                  data-daily-feedback-link
+                  className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/66 transition hover:border-[#bfb6ff]/35 hover:bg-white/[0.045]"
+                >
+                  <MessageSquare className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  {shareCopy.feedback}
+                </Link>
               </div>
               {shareStatus && <p className="mt-3 text-xs text-white/45">{shareStatus}</p>}
             </div>

@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
-import { Archive, CalendarPlus, Copy, Instagram, Mail, Share2 } from "lucide-react"
+import { Archive, CalendarPlus, Copy, Instagram, Mail, MessageSquare, Share2 } from "lucide-react"
 import type { DrawnCard } from "@/lib/tarot-cards"
 import { getCardName } from "@/lib/tarot-cards"
 import BlurText from "@/components/ui/blur-text"
@@ -74,6 +74,7 @@ export default function ReadingPage() {
         xhs: "小红书文案",
         instagram: "Instagram 文案",
         emailSelf: "发到我的邮箱",
+        feedback: "提交反馈",
         emailSubject: "我的 POPTarot 解读",
         emailIntro: "这是我在 POPTarot 的免费 AI 塔罗解读，留给自己明天再看。",
         emailCardsLabel: "抽到的牌",
@@ -102,6 +103,7 @@ export default function ReadingPage() {
         xhs: "Xiaohongshu copy",
         instagram: "Instagram caption",
         emailSelf: "Email to myself",
+        feedback: "Leave feedback",
         emailSubject: "My POPTarot reading",
         emailIntro: "Here is my free AI tarot reading from POPTarot, saved so I can revisit it tomorrow.",
         emailCardsLabel: "Cards",
@@ -130,6 +132,7 @@ export default function ReadingPage() {
         xhs: "小紅書テキスト",
         instagram: "Instagramキャプション",
         emailSelf: "自分にメール",
+        feedback: "感想を送る",
         emailSubject: "POPTarot リーディング",
         emailIntro: "POPTarot の無料 AI タロットリーディングを、明日見返すために保存します。",
         emailCardsLabel: "カード",
@@ -158,6 +161,7 @@ export default function ReadingPage() {
         xhs: "샤오홍슈 문구",
         instagram: "Instagram 캡션",
         emailSelf: "내 이메일로 보내기",
+        feedback: "피드백 남기기",
         emailSubject: "나의 POPTarot 리딩",
         emailIntro: "내일 다시 보기 위해 POPTarot 무료 AI 타로 리딩을 저장합니다.",
         emailCardsLabel: "카드",
@@ -186,6 +190,7 @@ export default function ReadingPage() {
         xhs: "Texto Xiaohongshu",
         instagram: "Caption Instagram",
         emailSelf: "Enviarme por email",
+        feedback: "Dejar feedback",
         emailSubject: "Mi lectura POPTarot",
         emailIntro: "Esta es mi lectura gratis de tarot con IA en POPTarot, guardada para revisarla manana.",
         emailCardsLabel: "Cartas",
@@ -214,6 +219,7 @@ export default function ReadingPage() {
         xhs: "Texto Xiaohongshu",
         instagram: "Legenda Instagram",
         emailSelf: "Enviar para meu email",
+        feedback: "Enviar feedback",
         emailSubject: "Minha leitura POPTarot",
         emailIntro: "Esta e minha leitura gratis de tarot com IA no POPTarot, salva para rever amanha.",
         emailCardsLabel: "Cartas",
@@ -242,6 +248,7 @@ export default function ReadingPage() {
       xhs: "Xiaohongshu copy",
       instagram: "Instagram caption",
       emailSelf: "Email to myself",
+      feedback: "Leave feedback",
       emailSubject: "My POPTarot reading",
       emailIntro: "Here is my free AI tarot reading from POPTarot, saved so I can revisit it tomorrow.",
       emailCardsLabel: "Cards",
@@ -437,6 +444,13 @@ export default function ReadingPage() {
   const dailyReturnHref = `/daily-tarot?${readingReturnParams}`
   const meaningsReturnHref = `/tarot-card-meanings?${readingReturnParams}`
   const toolsReturnHref = `/free-tarot-tools?${readingReturnParams}`
+  const readingFeedbackParams = new URLSearchParams({
+    type: "free_reading",
+    surface: "reading_result",
+    context: "Free AI tarot reading",
+    locale: activeReadingLocale,
+  })
+  const readingFeedbackHref = `/reviews?${readingFeedbackParams.toString()}#reader-feedback`
   const readingNextFreeCopy =
     {
       zh: {
@@ -1611,6 +1625,14 @@ export default function ReadingPage() {
                   <Mail className="h-3.5 w-3.5 shrink-0" />
                   <span className="min-w-0 break-words text-center leading-4">{shareCopy.emailSelf}</span>
                 </button>
+                <Link
+                  href={readingFeedbackHref}
+                  data-reading-feedback-link
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/10 px-3 py-2 text-xs text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
+                >
+                  <MessageSquare className="h-3.5 w-3.5 shrink-0" />
+                  <span className="min-w-0 break-words text-center leading-4">{shareCopy.feedback}</span>
+                </Link>
               </div>
 
               {shareStatus && <p className="mt-3 text-xs text-white/45">{shareStatus}</p>}

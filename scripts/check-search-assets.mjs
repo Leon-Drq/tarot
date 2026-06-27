@@ -6,6 +6,7 @@ const rootUrl = (
 
 const requiredAssets = [
   { path: "/favicon.ico", contentType: "image/" },
+  { path: "/favicon.png", contentType: "image/png" },
   { path: "/favicon-16x16.png", contentType: "image/png" },
   { path: "/favicon-32x32.png", contentType: "image/png" },
   { path: "/favicon-48x48.png", contentType: "image/png" },
@@ -141,6 +142,7 @@ try {
   }
 
   for (const snippet of [
+    "/favicon.png",
     "/favicon-48x48.png",
     "/favicon.ico",
     "/apple-touch-icon.png",
@@ -155,7 +157,7 @@ try {
   }
 
   for (const snippet of [
-    "48 x 48 search favicon",
+    "96 x 96 search favicon",
     "/favicon.ico",
     "/icon.svg",
     "/og-image.jpg",

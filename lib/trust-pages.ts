@@ -118,7 +118,7 @@ export const trustPages: TrustPage[] = [
       { heading: "Canonical logo", body: "The primary POPTarot logo signal is the PT monogram logo used in Organization structured data, search identity, app metadata, and brand verification." },
       { heading: "Search and preview consistency", body: "The logo, favicon, favicon.ico, SVG icon, apple touch icon, app icon, and Open Graph image point back to the same brand identity so search engines and social previews read one consistent source." },
       { heading: "Official source", body: "Use only assets hosted under poptarot.com for brand verification. New public channels should link back to this page or the official channels page." },
-      { heading: "Search crawler source", body: "Search results should use the stable 48 x 48 search favicon and favicon.ico files. If Google still shows a default icon, it means its favicon cache has not refreshed yet, not that POPTarot lacks icon files." },
+      { heading: "Search crawler source", body: "Search results should use the stable 96 x 96 search favicon, 48 x 48 fallback, and favicon.ico files. If Google still shows a default icon, it means its favicon cache has not refreshed yet, not that POPTarot lacks icon files." },
       { heading: "Free-first positioning", body: "POPTarot should be described as a free AI tarot tool first. Membership is for deeper follow-ups, saved history, advanced spreads, and longer reports." },
       { heading: "AI tarot boundary", body: "Brand descriptions should keep readings framed as reflective guidance, not professional medical, legal, financial, psychological, or safety advice." },
       { heading: "Update policy", body: "When icons or sharing images change, this page, metadata, manifest, and Organization schema should be updated together." },
@@ -135,11 +135,11 @@ export const trustPages: TrustPage[] = [
       },
       {
         label: "Favicon",
-        title: "48 x 48 search favicon",
+        title: "96 x 96 search favicon",
         description: "Small brand icon used by browser tabs and search result favicon crawlers.",
         src: brandFaviconPath,
-        width: 48,
-        height: 48,
+        width: 96,
+        height: 96,
         href: brandFaviconPath,
       },
       {
