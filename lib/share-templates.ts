@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/locales"
+import type { SeoLocale } from "@/lib/locales"
 
 type ShareCard = {
   name: string
@@ -16,12 +16,14 @@ function normalizeText(value: string, maxLength: number) {
   return normalized.length > maxLength ? `${normalized.slice(0, maxLength - 1)}...` : normalized
 }
 
-function cardLine(cards: ShareCard[], locale: Locale) {
+function cardLine(cards: ShareCard[], locale: SeoLocale) {
   const reversed = {
     zh: "逆",
     en: "R",
     ja: "逆",
     ko: "역",
+    es: "inv",
+    "pt-br": "inv",
   }[locale]
 
   return cards
@@ -35,7 +37,7 @@ function cardLine(cards: ShareCard[], locale: Locale) {
 
 export function createShareTemplate(input: {
   platform: ShareTemplatePlatform
-  locale: Locale
+  locale: SeoLocale
   question: string
   cards: ShareCard[]
   interpretation: string
@@ -51,6 +53,8 @@ export function createShareTemplate(input: {
       en: `Today's tarot: ${question}\n\nCards: ${cards}\n\nAI insight: ${excerpt}\n\nFull reading: ${input.url}\n\n#tarot #aitarot #dailyreading #poptarot`,
       ja: `今日のタロット：${question}\n\nカード：${cards}\n\nAIリーディング：${excerpt}\n\n全文：${input.url}\n\n#タロット #AIタロット #今日の占い #POPTarot`,
       ko: `오늘의 타로: ${question}\n\n카드: ${cards}\n\nAI 해석: ${excerpt}\n\n전체 리딩: ${input.url}\n\n#타로 #AI타로 #오늘의타로 #POPTarot`,
+      es: `Tarot de hoy: ${question}\n\nCartas: ${cards}\n\nLectura IA: ${excerpt}\n\nLectura completa: ${input.url}\n\n#tarot #tarotia #tarotgratis #poptarot`,
+      "pt-br": `Tarot de hoje: ${question}\n\nCartas: ${cards}\n\nLeitura IA: ${excerpt}\n\nLeitura completa: ${input.url}\n\n#tarot #tarotia #tarotgratis #poptarot`,
     }
     return templates[input.locale]
   }
@@ -60,6 +64,8 @@ export function createShareTemplate(input: {
     en: `POPTarot reading\n\n"${question}"\n\nCards: ${cards}\n\n${excerpt}\n\n${input.url}\n\n#tarot #aitarot #poptarot`,
     ja: `POPTarot reading\n\n「${question}」\n\nCards: ${cards}\n\n${excerpt}\n\n${input.url}\n\n#tarot #aitarot #poptarot`,
     ko: `POPTarot reading\n\n"${question}"\n\nCards: ${cards}\n\n${excerpt}\n\n${input.url}\n\n#tarot #aitarot #poptarot`,
+    es: `Lectura POPTarot\n\n"${question}"\n\nCartas: ${cards}\n\n${excerpt}\n\n${input.url}\n\n#tarot #tarotia #poptarot`,
+    "pt-br": `Leitura POPTarot\n\n"${question}"\n\nCartas: ${cards}\n\n${excerpt}\n\n${input.url}\n\n#tarot #tarotia #poptarot`,
   }
   return templates[input.locale]
 }
