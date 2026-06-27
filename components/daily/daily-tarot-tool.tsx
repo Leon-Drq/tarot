@@ -480,11 +480,22 @@ export function DailyTarotTool() {
         journals: "日记数",
         theme: "主要主题",
         completion: "完成率",
+        missed: "缺失天数",
+        noteRate: "日记率",
         upright: "正位",
         reversed: "逆位",
         timeline: "最近 7 天轨迹",
         journalSignal: "日记完成",
         emptyDay: "未记录",
+        nextActionLabel: "下一步复访动作",
+        nextActionDraw: "先抽今天的牌，让 7 日轨迹有新的锚点。",
+        nextActionJournal: "给最近一次记录补一句日记，明天回看时才有对照。",
+        nextActionReturn: "保存明日主题，让下一次打开 Daily Tarot 有连续线索。",
+        nextActionReview: "你的复访路径已经建立，可以免费解读最近 7 日模式。",
+        drawAction: "抽今日牌",
+        journalAction: "写一句日记",
+        returnAction: "保存明日主题",
+        reviewAction: "解读 7 日模式",
         askPattern: "免费解读这个模式",
         patternQuestion: "我最近的每日塔罗更偏向「{theme}」，这说明什么？我下一步该怎么做？",
         report: "查看月度报告",
@@ -498,11 +509,22 @@ export function DailyTarotTool() {
         journals: "日記数",
         theme: "主なテーマ",
         completion: "完了率",
+        missed: "空いた日",
+        noteRate: "日記率",
         upright: "正位置",
         reversed: "逆位置",
         timeline: "最近7日",
         journalSignal: "日記あり",
         emptyDay: "未記録",
+        nextActionLabel: "次の再訪アクション",
+        nextActionDraw: "まず今日のカードを引き、7日パターンに新しい軸を作りましょう。",
+        nextActionJournal: "直近の記録に一文だけ日記を足すと、明日見返しやすくなります。",
+        nextActionReturn: "明日のテーマを保存し、次回の Daily Tarot に連続性を残しましょう。",
+        nextActionReview: "再訪の流れができています。最近7日のパターンを無料で読めます。",
+        drawAction: "今日のカード",
+        journalAction: "一文を書く",
+        returnAction: "明日のテーマ",
+        reviewAction: "7日パターンを読む",
         askPattern: "このパターンを無料で読む",
         patternQuestion: "最近の Daily Tarot は「{theme}」に寄っています。これは何を示し、次に何をすればいいですか？",
         report: "月間レポート",
@@ -516,11 +538,22 @@ export function DailyTarotTool() {
         journals: "저널 수",
         theme: "주요 주제",
         completion: "완성률",
+        missed: "빠진 날",
+        noteRate: "저널률",
         upright: "정방향",
         reversed: "역방향",
         timeline: "최근 7일",
         journalSignal: "저널 기록",
         emptyDay: "미기록",
+        nextActionLabel: "다음 재방문 행동",
+        nextActionDraw: "먼저 오늘의 카드를 뽑아 7일 흐름에 새 기준점을 만드세요.",
+        nextActionJournal: "최근 기록에 한 문장만 더하면 내일 다시 볼 때 비교가 쉬워집니다.",
+        nextActionReturn: "내일 주제를 저장해 다음 Daily Tarot 방문이 이어지게 하세요.",
+        nextActionReview: "재방문 흐름이 준비되었습니다. 최근 7일 패턴을 무료로 해석해 보세요.",
+        drawAction: "오늘 카드 뽑기",
+        journalAction: "한 문장 쓰기",
+        returnAction: "내일 주제 저장",
+        reviewAction: "7일 패턴 보기",
         askPattern: "이 패턴 무료로 보기",
         patternQuestion: "최근 Daily Tarot 카드가 「{theme}」 쪽으로 기울어 있습니다. 이것은 무엇을 뜻하고 다음 행동은 무엇인가요?",
         report: "월간 리포트",
@@ -534,11 +567,22 @@ export function DailyTarotTool() {
         journals: "Journal notes",
         theme: "Main theme",
         completion: "Completion",
+        missed: "Missed days",
+        noteRate: "Note rate",
         upright: "Upright",
         reversed: "Reversed",
         timeline: "Recent 7-day trail",
         journalSignal: "Journal signal",
         emptyDay: "Not drawn",
+        nextActionLabel: "Next return action",
+        nextActionDraw: "Draw today's card first so the 7-day trail has a fresh anchor.",
+        nextActionJournal: "Add one sentence to your latest record so tomorrow has something real to compare.",
+        nextActionReturn: "Save tomorrow's focus so the next Daily Tarot visit starts with continuity.",
+        nextActionReview: "Your return path is ready. Ask a free reading about the recent 7-day pattern.",
+        drawAction: "Draw today's card",
+        journalAction: "Write one note",
+        returnAction: "Save tomorrow cue",
+        reviewAction: "Read 7-day pattern",
         askPattern: "Ask about this pattern",
         patternQuestion: "My recent Daily Tarot cards lean toward {theme}. What does this pattern mean, and what should I do next?",
         report: "View monthly report",
@@ -552,11 +596,22 @@ export function DailyTarotTool() {
       journals: "Journal notes",
       theme: "Main theme",
       completion: "Completion",
+      missed: "Missed days",
+      noteRate: "Note rate",
       upright: "Upright",
       reversed: "Reversed",
       timeline: "Recent 7-day trail",
       journalSignal: "Journal signal",
       emptyDay: "Not drawn",
+      nextActionLabel: "Next return action",
+      nextActionDraw: "Draw today's card first so the 7-day trail has a fresh anchor.",
+      nextActionJournal: "Add one sentence to your latest record so tomorrow has something real to compare.",
+      nextActionReturn: "Save tomorrow's focus so the next Daily Tarot visit starts with continuity.",
+      nextActionReview: "Your return path is ready. Ask a free reading about the recent 7-day pattern.",
+      drawAction: "Draw today's card",
+      journalAction: "Write one note",
+      returnAction: "Save tomorrow cue",
+      reviewAction: "Read 7-day pattern",
       askPattern: "Ask about this pattern",
       patternQuestion: "My recent Daily Tarot cards lean toward {theme}. What does this pattern mean, and what should I do next?",
       report: "View monthly report",
@@ -1259,11 +1314,20 @@ export function DailyTarotTool() {
     const journalCount = recentEntries.filter((item) => Boolean(item.journal?.trim())).length
     const reversedCount = recentEntries.filter((item) => item.is_reversed).length
     const uprightCount = Math.max(0, trackedDays - reversedCount)
+    const missedDays = Math.max(0, 7 - trackedDays)
     const completionRate = Math.round((trackedDays / 7) * 100)
+    const noteRate = trackedDays > 0 ? Math.round((journalCount / trackedDays) * 100) : 0
     const dominantTheme = trackedDays > 0 ? mostCommonTheme(recentEntries, language) : mostCommonTheme([], language)
     const body = trackedDays > 0
       ? patternCopy.activeBody.replace("{theme}", dominantTheme)
       : patternCopy.emptyBody
+    const nextAction = !entry
+      ? { type: "draw", label: patternCopy.drawAction, body: patternCopy.nextActionDraw }
+      : journalCount < trackedDays
+        ? { type: "journal", label: patternCopy.journalAction, body: patternCopy.nextActionJournal }
+        : !tomorrowReturnCommitment
+          ? { type: "return", label: patternCopy.returnAction, body: patternCopy.nextActionReturn }
+          : { type: "review", label: patternCopy.reviewAction, body: patternCopy.nextActionReview }
     const entryByDate = new Map(recentEntries.map((item) => [item.entry_date, item]))
     const timeline = (dateKey ? getRecentDateKeys(dateKey).reverse() : recentEntries.map((item) => item.entry_date).reverse()).map(
       (dayKey) => {
@@ -1284,6 +1348,7 @@ export function DailyTarotTool() {
     return {
       body,
       dominantTheme,
+      nextAction,
       timeline,
       stats: [
         { label: patternCopy.days, value: `${trackedDays}/7` },
@@ -1292,6 +1357,8 @@ export function DailyTarotTool() {
       ],
       detailStats: [
         { label: patternCopy.completion, value: `${completionRate}%` },
+        { label: patternCopy.missed, value: String(missedDays) },
+        { label: patternCopy.noteRate, value: `${noteRate}%` },
         { label: patternCopy.upright, value: String(uprightCount) },
         { label: patternCopy.reversed, value: String(reversedCount) },
         { label: patternCopy.journalSignal, value: `${journalCount}/${Math.max(trackedDays, 1)}` },
@@ -1299,19 +1366,31 @@ export function DailyTarotTool() {
     }
   }, [
     dateKey,
+    entry,
     language,
     localizedCardName,
     patternCopy.activeBody,
     patternCopy.completion,
     patternCopy.days,
+    patternCopy.drawAction,
     patternCopy.emptyBody,
     patternCopy.emptyDay,
     patternCopy.journalSignal,
+    patternCopy.journalAction,
     patternCopy.journals,
+    patternCopy.missed,
+    patternCopy.nextActionDraw,
+    patternCopy.nextActionJournal,
+    patternCopy.nextActionReturn,
+    patternCopy.nextActionReview,
+    patternCopy.noteRate,
     patternCopy.reversed,
+    patternCopy.returnAction,
+    patternCopy.reviewAction,
     patternCopy.theme,
     patternCopy.upright,
     recentEntries,
+    tomorrowReturnCommitment,
   ])
   const reminderModeTitle = emailDeliveryEnabled ? copy.emailReminderReadyTitle : copy.calendarFallbackTitle
   const reminderModeBody = emailDeliveryEnabled ? copy.reminderHelp : copy.calendarFallbackBody
@@ -1998,6 +2077,40 @@ export function DailyTarotTool() {
                 <p className="mt-2 break-words text-sm font-medium leading-snug text-[#eee9ff]">{item.value}</p>
               </div>
             ))}
+          </div>
+          <div
+            data-daily-pattern-next-action
+            className="mt-4 grid min-w-0 gap-3 rounded-lg border border-[#c9c0ff]/18 bg-black/18 p-4 sm:grid-cols-[1fr_auto] sm:items-center"
+          >
+            <div className="min-w-0">
+              <p className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{patternCopy.nextActionLabel}</p>
+              <p className="mt-2 text-sm leading-6 text-white/58">{dailyPattern.nextAction.body}</p>
+            </div>
+            {dailyPattern.nextAction.type === "review" ? (
+              <Link
+                data-daily-pattern-next-action-review
+                href={dailyPatternHref}
+                className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg border border-[#c9c0ff]/30 bg-[#c9c0ff]/[0.08] px-4 text-center text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14"
+              >
+                {dailyPattern.nextAction.label}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                data-daily-pattern-next-action-button
+                onClick={
+                  dailyPattern.nextAction.type === "draw"
+                    ? handleDraw
+                    : dailyPattern.nextAction.type === "journal"
+                      ? scrollToJournal
+                      : scrollToReturnCue
+                }
+                disabled={dailyPattern.nextAction.type === "draw" && isDrawing}
+                className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg border border-[#c9c0ff]/30 bg-[#c9c0ff]/[0.08] px-4 text-center text-sm text-[#eee9ff] transition hover:bg-[#c9c0ff]/14 disabled:opacity-55"
+              >
+                {dailyPattern.nextAction.label}
+              </button>
+            )}
           </div>
           <div data-daily-pattern-timeline className="mt-5 min-w-0">
             <p className="text-[10px] uppercase tracking-[0.18em] text-white/36">{patternCopy.timeline}</p>
