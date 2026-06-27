@@ -4,6 +4,7 @@ const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 
 export default function robots(): MetadataRoute.Robots {
   const brandAssets = [
+    "/search-favicon.png",
     "/favicon.ico",
     "/favicon.png",
     "/favicon-16x16.png",

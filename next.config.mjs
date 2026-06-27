@@ -18,13 +18,28 @@ const nextConfig = {
       },
     ]
 
-    return [
+    const crawlerRefreshHeaders = [
+      {
+        key: "Cache-Control",
+        value: "public, max-age=86400, s-maxage=86400",
+      },
+      {
+        key: "X-Robots-Tag",
+        value: "index, follow",
+      },
+    ]
+
+    const crawlerRefreshAssets = [
+      "/search-favicon.png",
       "/favicon.ico",
       "/favicon.png",
       "/favicon-16x16.png",
       "/favicon-32x32.png",
       "/favicon-48x48.png",
       "/favicon-96x96.png",
+    ]
+
+    const longCacheAssets = [
       "/apple-touch-icon.png",
       "/icon.png",
       "/icon-192x192.png",
@@ -35,10 +50,18 @@ const nextConfig = {
       "/og-image.jpg",
       "/manifest.webmanifest",
       "/site.webmanifest",
-    ].map((source) => ({
-      source,
-      headers: brandAssetHeaders,
-    }))
+    ]
+
+    return [
+      ...crawlerRefreshAssets.map((source) => ({
+        source,
+        headers: crawlerRefreshHeaders,
+      })),
+      ...longCacheAssets.map((source) => ({
+        source,
+        headers: brandAssetHeaders,
+      })),
+    ]
   },
   async redirects() {
     return [

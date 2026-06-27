@@ -46,10 +46,18 @@ function localizeSpreadFallbackName(value: string | undefined, locale: string) {
     es: {
       "past present future": "Pasado Presente Futuro",
       "yes or no": "Si o No",
+      "free reconciliation starter": "Inicio gratis de reconciliacion",
+      "free love starter": "Inicio gratis de amor",
+      "free career starter": "Inicio gratis de carrera",
+      "free decision starter": "Inicio gratis de decision",
     },
     "pt-br": {
       "past present future": "Passado Presente Futuro",
       "yes or no": "Sim ou Nao",
+      "free reconciliation starter": "Inicio gratis de reconciliacao",
+      "free love starter": "Inicio gratis de amor",
+      "free career starter": "Inicio gratis de carreira",
+      "free decision starter": "Inicio gratis de decisao",
     },
   }
   return dictionaries[locale]?.[normalized] || value

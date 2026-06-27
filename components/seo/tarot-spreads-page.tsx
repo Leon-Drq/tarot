@@ -406,6 +406,10 @@ function getSpreadCopy(type: SpreadType, locale: TarotSpreadHubLocale) {
       {
         yes_no: "Should I text first?",
         daily_fashion: "What energy should guide my style today?",
+        reconciliation_starter: "What remains between us, and what is the healthiest next step?",
+        love_starter: "What is the real love energy here, and what should I do next?",
+        career_starter: "What pressure, opportunity, and next move should I notice in my career?",
+        decision_starter: "What is the core choice, hidden cost, and next action?",
         breakup_recovery: "Will my ex come back, and what should I understand before I act?",
         exam_fortune: "What should I focus on before this exam?",
         shopping_decision: "Is this purchase actually worth it for me?",

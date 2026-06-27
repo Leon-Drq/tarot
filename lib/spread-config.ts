@@ -6,6 +6,10 @@
 export type SpreadType = 
   | 'yes_no'           // Yes or No
   | 'daily_fashion'    // 每日穿搭提示
+  | 'reconciliation_starter' // 免费复合 starter
+  | 'love_starter'      // 免费爱情 starter
+  | 'career_starter'    // 免费事业 starter
+  | 'decision_starter'  // 免费决策 starter
   | 'breakup_recovery' // 分手挽回
   | 'exam_fortune'     // 考试运势
   | 'shopping_decision'// 购物决策
@@ -39,6 +43,10 @@ export interface SpreadConfig {
 export const FREE_SPREAD_TYPES = new Set<SpreadType>([
   'yes_no',
   'daily_fashion',
+  'reconciliation_starter',
+  'love_starter',
+  'career_starter',
+  'decision_starter',
   'shopping_decision',
   'binary_choice',
   'triple_choice',
@@ -78,6 +86,70 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
       { name: '今日风格', nameEn: 'Today\'s Style', description: '今天适合的穿搭风格和颜色' }
     ],
     keywords: ['穿什么', '穿搭', '穿衣', '搭配', '衣服', '风格', '今天穿', 'fashion', '造型']
+  },
+
+  reconciliation_starter: {
+    type: 'reconciliation_starter',
+    name: '复合免费起始牌阵',
+    nameEn: 'Free Reconciliation Starter',
+    cardCount: 3,
+    icon: 'EX',
+    description: '先用三张牌免费查看复合线索、阻碍和健康下一步',
+    descriptionEn: 'A free three-card starter for reconciliation signals, blocks, and the healthiest next step.',
+    positions: [
+      { name: '仍在延续的能量', nameEn: 'What Remains', description: '这段关系里仍然活跃的情绪、牵挂或未完成主题' },
+      { name: '真正的阻碍', nameEn: 'Real Block', description: '阻止联系、修复或放下的关键因素' },
+      { name: '健康下一步', nameEn: 'Healthiest Next Step', description: '现在最能保护你、也最有建设性的行动' },
+    ],
+    keywords: [],
+  },
+
+  love_starter: {
+    type: 'love_starter',
+    name: '爱情免费起始牌阵',
+    nameEn: 'Free Love Starter',
+    cardCount: 3,
+    icon: 'LOVE3',
+    description: '先用三张牌免费查看感情能量、对方信号和你的下一步',
+    descriptionEn: 'A free three-card starter for love energy, the other person’s signal, and your next step.',
+    positions: [
+      { name: '当前感情能量', nameEn: 'Current Love Energy', description: '这段感情或吸引力现在最明显的状态' },
+      { name: '对方信号', nameEn: 'Their Signal', description: '对方行为、情绪或可观察信号的核心倾向' },
+      { name: '你的下一步', nameEn: 'Your Next Step', description: '你可以采取的更清醒、更自尊的行动' },
+    ],
+    keywords: [],
+  },
+
+  career_starter: {
+    type: 'career_starter',
+    name: '事业免费起始牌阵',
+    nameEn: 'Free Career Starter',
+    cardCount: 3,
+    icon: 'JOB3',
+    description: '先用三张牌免费查看工作压力、机会和现实行动',
+    descriptionEn: 'A free three-card starter for work pressure, opportunity, and one practical move.',
+    positions: [
+      { name: '当前压力', nameEn: 'Current Pressure', description: '工作、求职或事业方向里最需要看清的压力' },
+      { name: '可用机会', nameEn: 'Available Opportunity', description: '现在可以利用的资源、优势或窗口' },
+      { name: '现实行动', nameEn: 'Practical Move', description: '接下来最稳妥、最可执行的一步' },
+    ],
+    keywords: [],
+  },
+
+  decision_starter: {
+    type: 'decision_starter',
+    name: '决策免费起始牌阵',
+    nameEn: 'Free Decision Starter',
+    cardCount: 3,
+    icon: 'ACT',
+    description: '先用三张牌免费查看核心选择、隐藏代价和下一步行动',
+    descriptionEn: 'A free three-card starter for the core choice, hidden cost, and next action.',
+    positions: [
+      { name: '核心选择', nameEn: 'Core Choice', description: '这个问题真正要求你选择或承认的部分' },
+      { name: '隐藏代价', nameEn: 'Hidden Cost', description: '如果继续拖延或冲动行动，容易忽视的代价' },
+      { name: '下一步行动', nameEn: 'Next Action', description: '现在最能带来清晰度的实际动作' },
+    ],
+    keywords: [],
   },
 
   breakup_recovery: {
@@ -283,7 +355,20 @@ export function isAdvancedSpreadType(value: string | null | undefined): value is
   return !FREE_SPREAD_TYPES.has(value)
 }
 
-export function getFreeSpreadFallback(_type?: string | null): SpreadConfig {
+const FREE_STARTER_FALLBACKS: Partial<Record<SpreadType, SpreadType>> = {
+  breakup_recovery: 'reconciliation_starter',
+  relationship: 'love_starter',
+  their_thoughts: 'love_starter',
+  love_connection: 'love_starter',
+  job_opportunity: 'career_starter',
+  exam_fortune: 'career_starter',
+  interpersonal: 'decision_starter',
+}
+
+export function getFreeSpreadFallback(type?: string | null): SpreadConfig {
+  if (isKnownSpreadType(type)) {
+    return SPREAD_CONFIGS[FREE_STARTER_FALLBACKS[type] || 'three_card']
+  }
   return SPREAD_CONFIGS.three_card
 }
 

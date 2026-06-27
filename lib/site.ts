@@ -7,6 +7,7 @@ export const siteDescription =
   "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
 export const brandLogoPath = "/logo.png"
 export const brandFaviconPath = "/favicon.png"
+export const brandSearchFaviconPath = "/search-favicon.png"
 export const brandSvgIconPath = "/icon.svg"
 export const brandOpenGraphPath = "/og-image.jpg"
 
@@ -101,9 +102,9 @@ export const brandVerificationFacts = [
   },
   {
     label: "Favicon source",
-    value: brandFaviconPath,
-    body: "The 96 x 96 favicon is the stable search crawler source referenced by root metadata and browser icon links.",
-    href: brandFaviconPath,
+    value: brandSearchFaviconPath,
+    body: "The 48 x 48 search favicon is the first browser icon link and the stable crawler source for search result identity.",
+    href: brandSearchFaviconPath,
   },
   {
     label: "Social preview image",

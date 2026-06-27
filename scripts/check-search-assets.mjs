@@ -10,6 +10,7 @@ const canonicalUrl = (process.env.SEARCH_ASSET_CANONICAL_URL || process.env.NEXT
 )
 
 const requiredAssets = [
+  { path: "/search-favicon.png", contentType: "image/png" },
   { path: "/favicon.ico", contentType: "image/" },
   { path: "/favicon.png", contentType: "image/png" },
   { path: "/favicon-16x16.png", contentType: "image/png" },
@@ -24,6 +25,16 @@ const requiredAssets = [
   { path: "/site.webmanifest", contentType: "application/manifest+json" },
   { path: "/og-image.jpg", contentType: "image/jpeg" },
 ]
+
+const crawlerRefreshAssetPaths = new Set([
+  "/search-favicon.png",
+  "/favicon.ico",
+  "/favicon.png",
+  "/favicon-16x16.png",
+  "/favicon-32x32.png",
+  "/favicon-48x48.png",
+  "/favicon-96x96.png",
+])
 
 const requiredSitemapPaths = [
   "/",
@@ -105,7 +116,11 @@ async function checkAsset({ path, contentType }) {
   }
 
   const cacheControl = response.headers.get("cache-control") || ""
-  if (!cacheControl.includes("max-age=31536000") || !cacheControl.includes("immutable")) {
+  if (crawlerRefreshAssetPaths.has(path)) {
+    if (!cacheControl.includes("max-age=86400")) {
+      fail(`${path} returned cache-control ${cacheControl || "(missing)"}, expected one-day crawler refresh cache`)
+    }
+  } else if (!cacheControl.includes("max-age=31536000") || !cacheControl.includes("immutable")) {
     fail(`${path} returned cache-control ${cacheControl || "(missing)"}, expected one-year immutable cache`)
   }
 
@@ -179,6 +194,7 @@ try {
     fail("robots Googlebot-Image brand asset rule missing")
   }
   for (const path of [
+    "/search-favicon.png",
     "/favicon.ico",
     "/favicon.png",
     "/favicon-48x48.png",
@@ -193,6 +209,7 @@ try {
   }
 
   for (const snippet of [
+    "/search-favicon.png",
     "/favicon.png",
     "/favicon-48x48.png",
     "/favicon.ico",
@@ -211,7 +228,9 @@ try {
   }
 
   for (const snippet of [
-    "96 x 96 search favicon",
+    "48 x 48 search favicon",
+    "96 x 96 browser favicon",
+    "/search-favicon.png",
     "/favicon.ico",
     "/icon.svg",
     "/og-image.jpg",
