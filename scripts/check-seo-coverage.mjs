@@ -480,6 +480,47 @@ for (const slug of highIntentLongTailSlugs) {
   )
 }
 
+const sheFocusedRegionalQuestionSlugs = [
+  "what-does-she-think-of-me-tarot",
+  "will-she-contact-me-tarot",
+  "is-she-my-soulmate-tarot",
+]
+
+for (const slug of sheFocusedRegionalQuestionSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `she-focused regional SEO page ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en", "es", "pt-br"]', `she-focused regional locale control ${slug}`)
+  assertIncludes(files.tarotQuestions, `slug: "${slug}"`, `regional question hub entry ${slug}`)
+}
+
+for (const [localizedSlug, label] of [
+  ["que-piensa-ella-de-mi-tarot", "Spanish what does she think localized slug"],
+  ["ella-me-contactara-tarot", "Spanish will she contact localized slug"],
+  ["ella-es-mi-alma-gemela-tarot", "Spanish she soulmate localized slug"],
+  ["o-que-ela-pensa-de-mim-tarot", "Portuguese what does she think localized slug"],
+  ["ela-vai-entrar-em-contato-tarot", "Portuguese will she contact localized slug"],
+  ["ela-e-minha-alma-gemea-tarot", "Portuguese she soulmate localized slug"],
+]) {
+  assertIncludes(files.seoPages, `"${localizedSlug}"`, label)
+}
+
+for (const regionalCopy of [
+  "Tarot: ¿qué piensa ella de mí?",
+  "Tarot: ¿ella me contactará?",
+  "Tarot: ¿ella es mi alma gemela?",
+  "Tarot: o que ela pensa de mim?",
+  "Tarot: ela vai entrar em contato?",
+  "Tarot: ela é minha alma gêmea?",
+  "Que piensa ella de mi?",
+  "Ella me contactara?",
+  "Ella es mi alma gemela?",
+  "O que ela pensa de mim?",
+  "Ela vai entrar em contato?",
+  "Ela e minha alma gemea?",
+]) {
+  const file = regionalCopy.startsWith("Tarot:") ? files.seoPages : files.tarotQuestions
+  assertIncludes(file, regionalCopy, `she-focused regional copy ${regionalCopy}`)
+}
+
 const dailyIntentSlugs = [
   "daily-love-tarot",
   "daily-career-tarot",
