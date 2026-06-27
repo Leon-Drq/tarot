@@ -245,11 +245,15 @@ function dailyPromptHref(prompt: (typeof dailyPromptCards)[number]) {
     lang: "en",
     source: "daily-tarot",
     utm_source: "daily-tarot",
-    utm_medium: "daily_prompt",
+    utm_medium: "daily_question_path",
     utm_campaign: prompt.slug,
   })
 
   return `/input?${params.toString()}`
+}
+
+function dailyPromptGuideHref(prompt: (typeof dailyPromptCards)[number]) {
+  return `/${prompt.slug}`
 }
 
 export const metadata: Metadata = {
@@ -341,9 +345,10 @@ const structuredData = {
     },
     {
       "@type": "ItemList",
-      "@id": `${appUrl}/daily-tarot#daily-question-prompts`,
-      name: "Daily tarot question prompts",
-      description: "Free follow-up tarot prompts that turn a daily card into love, career, yes-or-no, mood, or action readings.",
+      "@id": `${appUrl}/daily-tarot#daily-question-paths`,
+      name: "Daily Tarot question paths",
+      description:
+        "Crawlable Daily Tarot question pages that explain love, career, yes-or-no, mood, and action intents before opening the matching free spread.",
       numberOfItems: dailyPromptCards.length,
       itemListElement: dailyPromptCards.map((prompt, index) => ({
         "@type": "ListItem",
@@ -352,10 +357,10 @@ const structuredData = {
           "@type": "WebPage",
           name: prompt.title,
           description: prompt.body,
-          url: `${appUrl}${dailyPromptHref(prompt)}`,
+          url: `${appUrl}${dailyPromptGuideHref(prompt)}`,
           isAccessibleForFree: true,
           potentialAction: {
-            "@type": "Action",
+            "@type": "InteractAction",
             name: "Start free tarot reading",
             target: `${appUrl}${dailyPromptHref(prompt)}`,
           },
@@ -528,31 +533,55 @@ export default function DailyTarotPage() {
           </div>
         </div>
       </section>
-      <section className="border-t border-white/10 bg-[#080310]">
+      <section id="daily-question-paths" data-daily-question-paths className="border-t border-white/10 bg-[#080310]">
         <div className="mx-auto grid max-w-6xl gap-7 px-4 py-12 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-16">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">After the daily card</p>
             <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">
-              Turn today&apos;s card into a precise free question
+              Turn today&apos;s card into a rankable question path
             </h2>
             <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
-              A daily card works best when it gives you one next question. These prompts move from the one-card habit into the right free spread without pushing membership first.
+              A daily card works best when it gives you one next question. Each path has a crawlable guide for search and a direct free spread start, so Daily Tarot can grow from Google visits and repeat use.
             </p>
           </div>
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {dailyPromptCards.map((prompt) => (
-              <Link
+              <article
                 key={prompt.slug}
-                href={dailyPromptHref(prompt)}
-                className="group flex min-h-[12rem] flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.055]"
+                data-daily-question-path
+                className="flex min-h-[14rem] min-w-0 flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4"
               >
                 <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{prompt.label}</p>
-                <h3 className="mt-3 text-base font-medium leading-snug text-white group-hover:text-[#f4f0ff]">{prompt.title}</h3>
+                <Link
+                  data-daily-question-path-guide
+                  href={dailyPromptGuideHref(prompt)}
+                  className="mt-3 block min-w-0 text-base font-medium leading-snug text-white transition hover:text-[#f4f0ff]"
+                >
+                  {prompt.title}
+                </Link>
                 <p className="mt-3 text-sm leading-6 text-white/56">{prompt.body}</p>
-                <p className="mt-auto pt-4 text-xs leading-5 text-[#c9c0ff]/72 group-hover:text-[#eeeaff]">
+                <p className="mt-auto pt-4 text-xs leading-5 text-[#c9c0ff]/72">
                   {prompt.question}
                 </p>
-              </Link>
+                <div className="mt-4 grid min-w-0 gap-2">
+                  <Link
+                    data-daily-question-path-start
+                    href={dailyPromptHref(prompt)}
+                    className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_54%,#8f80ee_100%)] px-4 py-2 text-sm font-medium text-[#120c22] shadow-[0_14px_34px_rgba(143,128,238,0.18)] transition hover:brightness-110"
+                    aria-label={`Start ${prompt.title}`}
+                  >
+                    Start free reading
+                  </Link>
+                  <Link
+                    data-daily-question-path-guide
+                    href={dailyPromptGuideHref(prompt)}
+                    className="inline-flex min-h-11 min-w-0 items-center justify-center rounded-lg border border-white/12 px-4 py-2 text-sm text-white/68 transition hover:border-[#c9c0ff]/40 hover:bg-[#c9c0ff]/[0.06] hover:text-white"
+                    aria-label={`Read ${prompt.title} guide`}
+                  >
+                    Read guide
+                  </Link>
+                </div>
+              </article>
             ))}
           </div>
         </div>
