@@ -19,6 +19,20 @@ function assertNotIncludes(file, needle, label) {
   }
 }
 
+function assertBefore(file, first, second, label) {
+  const firstIndex = file.source.indexOf(first)
+  const secondIndex = file.source.indexOf(second)
+  if (firstIndex === -1) {
+    throw new Error(`${file.path} is missing ${label} first marker: ${first}`)
+  }
+  if (secondIndex === -1) {
+    throw new Error(`${file.path} is missing ${label} second marker: ${second}`)
+  }
+  if (firstIndex > secondIndex) {
+    throw new Error(`${file.path} should place ${label} before fallback: ${first} before ${second}`)
+  }
+}
+
 function assertMatches(file, pattern, label) {
   if (!pattern.test(file.source)) {
     throw new Error(`${file.path} is missing ${label}: ${pattern}`)
@@ -1278,6 +1292,7 @@ const identityMetadataCoverage = [
   [files.layout, "thumbnail: `${appUrl}${brandLogoPath}`", "absolute thumbnail logo metadata"],
   [files.layout, "\"og:logo\": `${appUrl}${brandLogoPath}`", "absolute Open Graph logo metadata"],
   [files.layout, "property=\"og:logo\"", "standard Open Graph logo property metadata"],
+  [files.layout, "href={brandSearchFaviconPath} sizes=\"48x48\"", "explicit search favicon head link"],
   [files.layout, "href=\"/favicon.ico\" sizes=\"any\"", "explicit ICO favicon head link"],
   [files.layout, "/favicon.png", "canonical search favicon metadata"],
   [files.layout, "/favicon.ico", "ICO favicon metadata"],
@@ -1329,6 +1344,8 @@ const identityMetadataCoverage = [
 for (const [file, needle, label] of identityMetadataCoverage) {
   assertIncludes(file, needle, label)
 }
+assertBefore(files.layout, "href={brandSearchFaviconPath} sizes=\"48x48\"", "href=\"/favicon.ico\" sizes=\"any\"", "search favicon head link order")
+assertBefore(files.layout, "{ url: brandSearchFaviconPath, sizes: \"48x48\", type: \"image/png\" }", "{ url: \"/favicon.ico\", sizes: \"any\" }", "search favicon metadata order")
 
 for (const unstableFavicon of ["favicon-48x48.png?v=", "favicon-96x96.png?v=", "favicon.ico?v="]) {
   assertNotIncludes(files.layout, unstableFavicon, "stable search favicon metadata")

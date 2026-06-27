@@ -176,6 +176,14 @@ function assertNotIncludes(source, needle, label) {
   if (source.includes(needle)) fail(`${label} should not include: ${needle}`)
 }
 
+function assertBefore(source, first, second, label) {
+  const firstIndex = source.indexOf(first)
+  const secondIndex = source.indexOf(second)
+  if (firstIndex === -1) fail(`${label} missing first marker: ${first}`)
+  if (secondIndex === -1) fail(`${label} missing second marker: ${second}`)
+  if (firstIndex > secondIndex) fail(`${label} expected ${first} before ${second}`)
+}
+
 function robotsLines(source) {
   return source
     .split(/\r?\n/)
@@ -273,6 +281,7 @@ try {
   for (const snippet of ["favicon-48x48.png?v=", "favicon-96x96.png?v=", "favicon.ico?v="]) {
     assertNotIncludes(home, snippet, `homepage stable favicon URL ${snippet}`)
   }
+  assertBefore(home, 'href="/search-favicon.png"', 'href="/favicon.ico"', "homepage search favicon link order")
 
   for (const snippet of [
     "48 x 48 search favicon",

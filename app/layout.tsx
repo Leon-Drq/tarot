@@ -56,21 +56,21 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: brandSearchFaviconPath, sizes: "48x48", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: "/favicon.png", sizes: "96x96", type: "image/png" },
       { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.png", sizes: "512x512", type: "image/png" },
       { url: "/icon.svg", type: "image/svg+xml" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
       { url: brandSearchFaviconPath, sizes: "48x48", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
     ],
   },
   manifest: "/manifest.webmanifest",
@@ -132,9 +132,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/favicon-48x48.png" sizes="48x48" type="image/png" />
         <link rel="icon" href={brandSearchFaviconPath} sizes="48x48" type="image/png" />
+        <link rel="icon" href="/favicon-48x48.png" sizes="48x48" type="image/png" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" type="image/png" />
         <meta property="og:logo" content={`${appUrl}${brandLogoPath}`} />
         <meta property="og:logo:width" content="512" />
