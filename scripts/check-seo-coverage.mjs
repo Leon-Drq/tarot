@@ -87,6 +87,18 @@ const files = {
     path: "app/pt-br/tarot-card-meanings/[card]/page.tsx",
     source: read("app/pt-br/tarot-card-meanings/[card]/page.tsx"),
   },
+  chineseTarotCardRoute: {
+    path: "app/zh/tarot-card-meanings/[card]/page.tsx",
+    source: read("app/zh/tarot-card-meanings/[card]/page.tsx"),
+  },
+  japaneseTarotCardRoute: {
+    path: "app/ja/tarot-card-meanings/[card]/page.tsx",
+    source: read("app/ja/tarot-card-meanings/[card]/page.tsx"),
+  },
+  koreanTarotCardRoute: {
+    path: "app/ko/tarot-card-meanings/[card]/page.tsx",
+    source: read("app/ko/tarot-card-meanings/[card]/page.tsx"),
+  },
   seoPages: { path: "lib/seo-pages.ts", source: read("lib/seo-pages.ts") },
   site: { path: "lib/site.ts", source: read("lib/site.ts") },
   spreadConfig: { path: "lib/spread-config.ts", source: read("lib/spread-config.ts") },
@@ -884,6 +896,18 @@ const dynamicOgCoverage = [
 
 for (const [file, needle, label] of dynamicOgCoverage) {
   assertIncludes(file, needle, label)
+}
+
+for (const route of [
+  files.tarotCardRoute,
+  files.spanishTarotCardRoute,
+  files.portugueseTarotCardRoute,
+  files.chineseTarotCardRoute,
+  files.japaneseTarotCardRoute,
+  files.koreanTarotCardRoute,
+]) {
+  assertIncludes(route, "seoLocales", `full SEO locale hreflang set in ${route.path}`)
+  assertIncludes(route, "cardAlternates(page.slug)", `card alternate metadata in ${route.path}`)
 }
 
 const tarotCardRankingCoverage = [

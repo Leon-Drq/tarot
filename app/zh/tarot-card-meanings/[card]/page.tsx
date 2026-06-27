@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { TarotCardMeaningPageView } from "@/components/seo/tarot-card-meaning-page"
-import { localeOpenGraph, locales, localePath } from "@/lib/locales"
+import { localeOpenGraph, seoLocales, localePath } from "@/lib/locales"
 import { getCardBySlug, getCardSlug, getTarotCardSeoPage } from "@/lib/tarot-card-seo"
 import { TAROT_CARDS } from "@/lib/tarot-cards"
 
@@ -12,7 +12,7 @@ type Params = {
 }
 
 function cardAlternates(slug: string) {
-  return Object.fromEntries(locales.map((item) => [item, localePath(item, `/tarot-card-meanings/${slug}`)]))
+  return Object.fromEntries(seoLocales.map((item) => [item, localePath(item, `/tarot-card-meanings/${slug}`)]))
 }
 
 export function generateStaticParams() {
