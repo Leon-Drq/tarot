@@ -51,27 +51,27 @@ const pages = [
   {
     path: "/will-my-ex-come-back-tarot",
     name: "long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
     path: "/should-i-move-on-tarot",
     name: "new breakup long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
     path: "/does-my-crush-like-me-tarot",
     name: "crush long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
     path: "/es/mi-ex-volvera-tarot",
     name: "Spanish long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
     path: "/pt-br/meu-ex-vai-voltar-tarot",
     name: "Portuguese long-tail question",
-    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
     path: "/tarot-card-meanings/the-fool",

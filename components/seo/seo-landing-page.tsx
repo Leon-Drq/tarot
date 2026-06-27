@@ -3,7 +3,7 @@ import Link from "next/link"
 import { SeoQuestionShareActions } from "@/components/seo/seo-question-share-actions"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { getAllLocalizedSeoPages, getSeoPage, type CardMeaningContext, type SeoPage } from "@/lib/seo-pages"
-import { SPREAD_CONFIGS, type SpreadConfig, type SpreadType } from "@/lib/spread-config"
+import { SPREAD_CONFIGS, type SpreadConfig, type SpreadPosition, type SpreadType } from "@/lib/spread-config"
 import { getAllCardSeoPages, getCardKeywords, getCardSuit } from "@/lib/tarot-card-seo"
 import { getCardName, TAROT_CARDS } from "@/lib/tarot-cards"
 import {
@@ -1692,6 +1692,32 @@ function spreadNameForLocale(spread: SpreadConfig, locale: SeoPage["locale"]) {
   return locale === "zh" ? spread.name : spread.nameEn
 }
 
+function spreadPositionNameForLocale(page: SeoPage, position: SpreadPosition) {
+  return page.locale === "zh" ? position.name : position.nameEn
+}
+
+function spreadPositionDescriptionForLocale(page: SeoPage, position: SpreadPosition) {
+  const name = spreadPositionNameForLocale(page, position)
+
+  if (page.locale === "zh") return position.description
+  if (page.locale === "ja") return `${name}のカードで、質問の中で確認すべき角度を具体的に見ます。`
+  if (page.locale === "ko") return `${name} 카드는 이 질문에서 확인해야 할 핵심 관점을 구체적으로 보여줍니다.`
+  if (page.locale === "es") return `Esta carta revisa la parte de ${name} para que la respuesta sea concreta y accionable.`
+  if (page.locale === "pt-br") return `Esta carta revisa a parte de ${name} para deixar a resposta concreta e acionavel.`
+  return `This card checks the ${name.toLowerCase()} part of the question so the reading gives a usable angle instead of a vague answer.`
+}
+
+function spreadSummaryForHero(page: SeoPage, toolkit: QuestionToolkit, recommendedSpread: SpreadConfig) {
+  const positions = heroPositionNames(page, toolkit, recommendedSpread).slice(0, 3).join(" / ")
+
+  if (page.locale === "zh") return `${recommendedSpread.cardCount} 张牌 · ${positions}`
+  if (page.locale === "ja") return `${recommendedSpread.cardCount}枚 · ${positions}`
+  if (page.locale === "ko") return `${recommendedSpread.cardCount}장 · ${positions}`
+  if (page.locale === "es") return `${recommendedSpread.cardCount} cartas · ${positions}`
+  if (page.locale === "pt-br") return `${recommendedSpread.cardCount} cartas · ${positions}`
+  return `${recommendedSpread.cardCount} cards · ${positions}`
+}
+
 function createFallbackQuestionToolkit(page: SeoPage, recommendedSpread: SpreadConfig | undefined): QuestionToolkit | undefined {
   if (!recommendedSpread || !highIntentQuestionSlugs.has(page.slug)) return undefined
 
@@ -2355,6 +2381,7 @@ function QuestionHeroStart({
 }) {
   const copy = questionHeroToolCopy[page.locale]
   const spreadName = toolkit.spreadTitle || spreadNameForLocale(recommendedSpread, page.locale)
+  const spreadSummary = spreadSummaryForHero(page, toolkit, recommendedSpread)
 
   return (
     <div
@@ -2364,6 +2391,7 @@ function QuestionHeroStart({
     >
       <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/80">{copy.label}</p>
       <p className="mt-2 text-sm font-medium leading-6 text-white">{page.ctaQuestion}</p>
+      <p data-question-hero-spread-summary className="mt-2 break-words text-xs leading-5 text-white/48">{spreadSummary}</p>
       <div className="mt-4 flex flex-col gap-2 min-[420px]:flex-row">
         <Link
           href={primaryHref}
@@ -2396,6 +2424,7 @@ function QuestionHeroTool({
   const copy = questionHeroToolCopy[page.locale]
   const positionNames = heroPositionNames(page, toolkit, recommendedSpread)
   const spreadName = toolkit.spreadTitle || spreadNameForLocale(recommendedSpread, page.locale)
+  const spreadSummary = spreadSummaryForHero(page, toolkit, recommendedSpread)
   const promptRows = toolkit.prompts.slice(0, 3)
 
   return (
@@ -2419,6 +2448,7 @@ function QuestionHeroTool({
       <div className="border-b border-white/10 py-5">
         <p className="text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.spread}</p>
         <h2 className="mt-2 font-serif text-2xl leading-tight text-white">{spreadName}</h2>
+        <p data-question-hero-spread-summary className="mt-2 break-words text-xs leading-5 text-[#c9c0ff]/64">{spreadSummary}</p>
         <p className="mt-3 text-sm leading-6 text-white/58">{toolkit.spreadBody || recommendedSpread.descriptionEn}</p>
         <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-white/38">{copy.positions}</p>
         <div className="mt-3 flex flex-wrap gap-2">
@@ -2789,8 +2819,8 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
               itemListElement: recommendedSpread.positions.map((position, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
-                name: position.nameEn,
-                description: position.description,
+                name: spreadPositionNameForLocale(page, position),
+                description: spreadPositionDescriptionForLocale(page, position),
               })),
             },
           ]
@@ -2997,7 +3027,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                   "@type": "ListItem",
                   position: index + 1,
                   name: toolkit.positionNames?.[index] || position.nameEn,
-                  description: position.description,
+                  description: spreadPositionDescriptionForLocale(page, position),
                   url: `${appUrl}${primaryHref}`,
                 })),
               },
@@ -3348,9 +3378,14 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 <p className="mt-3 text-sm leading-7 text-white/62">{toolkit.spreadBody || recommendedSpread.descriptionEn}</p>
                 <div className="mt-5 grid gap-2 sm:grid-cols-2">
                   {recommendedSpread.positions.map((position, index) => (
-                    <div key={position.nameEn} className="rounded-lg border border-white/10 bg-black/[0.18] p-3">
+                    <div
+                      key={position.nameEn}
+                      data-question-spread-position-answer
+                      className="min-w-0 rounded-lg border border-white/10 bg-black/[0.18] p-3"
+                    >
                       <p className="text-xs uppercase tracking-[0.16em] text-white/38">{toolkitCopy.card} {index + 1}</p>
-                      <p className="mt-1 text-sm font-medium text-white">{toolkit.positionNames?.[index] || position.nameEn}</p>
+                      <p className="mt-1 break-words text-sm font-medium leading-6 text-white">{toolkit.positionNames?.[index] || spreadPositionNameForLocale(page, position)}</p>
+                      <p className="mt-2 text-xs leading-5 text-white/50">{spreadPositionDescriptionForLocale(page, position)}</p>
                     </div>
                   ))}
                 </div>
