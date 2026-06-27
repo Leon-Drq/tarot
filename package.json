@@ -12,7 +12,8 @@
     "check:search-assets": "node scripts/check-search-assets.mjs",
     "check:reminders": "node scripts/check-reminder-capability.mjs",
     "check:reminders:strict": "node scripts/check-reminder-capability.mjs --strict",
-    "check:reminders:cron": "node scripts/check-reminder-capability.mjs --cron"
+    "check:reminders:cron": "node scripts/check-reminder-capability.mjs --cron",
+    "check:reminders:schedule": "node --no-warnings scripts/check-reminder-schedule.mjs"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
