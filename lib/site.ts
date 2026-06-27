@@ -227,6 +227,21 @@ export const highIntentQuestionLinks = [
     href: "/should-i-text-him-tarot",
   },
   {
+    title: "Does my crush like me tarot",
+    description: "A crush tarot path for subtle signs, early dating energy, mutual interest, and one low-pressure next step.",
+    href: "/does-my-crush-like-me-tarot",
+  },
+  {
+    title: "Will he text me tarot",
+    description: "A message-focused tarot path for delayed replies, no-contact waiting, communication blocks, and healthy boundaries.",
+    href: "/will-he-text-me-tarot",
+  },
+  {
+    title: "Should I break up with him tarot",
+    description: "A relationship decision tarot page for repeated conflict, repair conditions, emotional safety, and the healthiest next step.",
+    href: "/should-i-break-up-with-him-tarot",
+  },
+  {
     title: "When will I find love tarot",
     description: "A love timing tarot entry for readiness, dating energy, soulmate themes, and the pattern that needs to shift first.",
     href: "/when-will-i-find-love-tarot",

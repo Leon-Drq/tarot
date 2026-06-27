@@ -1375,6 +1375,63 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "does-my-crush-like-me-tarot",
+    cards: [2, 6, 35],
+    recommendedSpread: "their_thoughts",
+    title: "Does My Crush Like Me Tarot",
+    description: "Ask a free AI tarot reading about whether your crush likes you, what signs are real, and whether interest may become action.",
+    h1: "Does My Crush Like Me Tarot",
+    intent: "Best for crushes, early dating, subtle signs, mixed attention, and checking whether interest is mutual or only imagined.",
+    question: "Does my crush like me, and what signs should I trust?",
+    sections: [
+      { heading: "Read signs without forcing certainty", body: "A crush reading is most useful when it compares attraction, nervousness, timing, and visible behavior instead of treating one moment as proof." },
+      { heading: "Interest needs action", body: "The cards can show warmth or curiosity, but the spread should also ask whether that interest has enough confidence to become communication." },
+      { heading: "Choose a grounded next move", body: "A good answer gives you one low-pressure step: observe, start a simple conversation, wait, or protect your dignity if the signal stays unclear." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if my crush likes me?", answer: "Tarot can reflect attraction signals and emotional tone, but the clearest answer still comes from respectful behavior and real communication." },
+      { question: "What cards suggest a crush likes me?", answer: "Page of Cups, The Lovers, Two of Cups, The Sun, and The Star can suggest interest when the whole spread supports mutual warmth." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "will-he-text-me-tarot",
+    cards: [8, 14, 20],
+    recommendedSpread: "yes_no",
+    title: "Will He Text Me Tarot",
+    description: "Draw a free AI tarot reading about whether he will text you, what may delay the message, and what you should do while waiting.",
+    h1: "Will He Text Me Tarot",
+    intent: "Best for delayed replies, no-contact periods, dating uncertainty, breakup silence, and deciding whether waiting still helps.",
+    question: "Will he text me, and what should I do while I wait?",
+    sections: [
+      { heading: "A message is action, not just feeling", body: "The reading should separate desire, hesitation, pride, timing, and whether he is likely to turn inner attention into a text." },
+      { heading: "Waiting needs a boundary", body: "A useful answer does not leave you refreshing your phone. It shows what protects your peace if the message comes late or not at all." },
+      { heading: "Prepare your response before it arrives", body: "If contact looks likely, ask what tone keeps the exchange clear. If the answer is no or not yet, choose the action that returns you to yourself." },
+    ],
+    faqs: [
+      { question: "Can tarot predict if he will text me?", answer: "Tarot can show communication energy, blocks, and timing themes, but real contact still depends on choices and circumstances." },
+      { question: "What cards suggest a text is coming?", answer: "Eight of Wands, Page of Cups, Knight of Swords, Judgement, and The Magician can suggest communication when supported by the spread." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-break-up-with-him-tarot",
+    cards: [11, 13, 21],
+    recommendedSpread: "relationship",
+    title: "Should I Break Up With Him Tarot",
+    description: "Use a free AI tarot reading to explore whether to break up, repair the relationship, set boundaries, or choose a healthier next step.",
+    h1: "Should I Break Up With Him Tarot",
+    intent: "Best for repeated conflict, emotional distance, broken trust, confusing attachment, and deciding whether repair is still realistic.",
+    question: "Should I break up with him, and what is the healthiest next step?",
+    sections: [
+      { heading: "Do not reduce the decision to one card", body: "Breakup questions involve safety, respect, history, communication, and timing. Read the advice card as carefully as the outcome card." },
+      { heading: "Separate conflict from pattern", body: "Some relationships need one honest repair conversation. Others show a repeated cycle that keeps costing your self-respect." },
+      { heading: "Let the answer protect your wellbeing", body: "Whether the spread leans repair or ending, the next step should make your emotional and practical life steadier." },
+    ],
+    faqs: [
+      { question: "Can tarot decide if I should break up?", answer: "Tarot can clarify the pattern, risks, repair conditions, and next step. It should not replace safety planning, support, or direct communication." },
+      { question: "What cards suggest a breakup may be healthier?", answer: "Death, The Tower, Eight of Cups, Ten of Swords, Justice, and The World can point to closure when the full spread supports it." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "when-will-i-find-love-tarot",
     cards: [3, 10, 17],
     recommendedSpread: "love_connection",
@@ -1688,6 +1745,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "future-spouse-tarot-reading": "lectura-tarot-futuro-esposo",
     "is-he-thinking-about-me-tarot": "esta-pensando-en-mi-tarot",
     "should-i-text-him-tarot": "deberia-escribirle-tarot",
+    "does-my-crush-like-me-tarot": "le-gusto-a-mi-crush-tarot",
+    "will-he-text-me-tarot": "me-escribira-tarot",
+    "should-i-break-up-with-him-tarot": "deberia-terminar-con-el-tarot",
     "when-will-i-find-love-tarot": "cuando-encontrare-amor-tarot",
     "what-are-his-intentions-tarot": "cuales-son-sus-intenciones-tarot",
     "will-we-get-back-together-tarot": "volveremos-a-estar-juntos-tarot",
@@ -1732,6 +1792,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "future-spouse-tarot-reading": "leitura-tarot-futuro-conjuge",
     "is-he-thinking-about-me-tarot": "ele-esta-pensando-em-mim-tarot",
     "should-i-text-him-tarot": "devo-mandar-mensagem-tarot",
+    "does-my-crush-like-me-tarot": "meu-crush-gosta-de-mim-tarot",
+    "will-he-text-me-tarot": "ele-vai-mandar-mensagem-tarot",
+    "should-i-break-up-with-him-tarot": "devo-terminar-com-ele-tarot",
     "when-will-i-find-love-tarot": "quando-vou-encontrar-amor-tarot",
     "what-are-his-intentions-tarot": "quais-sao-as-intencoes-dele-tarot",
     "will-we-get-back-together-tarot": "vamos-voltar-tarot",
@@ -2166,6 +2229,60 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "¿El tarot puede responder si debo escribirle?", answer: "Sí, puede dar dirección rápida y la razón detrás. Úsalo como reflexión, no como presión para ignorar tus límites." },
         { question: "¿Qué cartas sugieren esperar antes de escribir?", answer: "El Colgado, Cuatro de Espadas, Templanza, La Luna o cartas de comunicación invertidas pueden sugerir esperar." },
+      ],
+    },
+    "does-my-crush-like-me-tarot": {
+      title: "Tarot: ¿le gusto a mi crush?",
+      description: "Lectura gratis con IA sobre si le gustas a tu crush, qué señales son reales y si el interés puede volverse acción.",
+      eyebrow: "Crush y señales",
+      h1: "Tarot: ¿le gusto a mi crush?",
+      intro: "Pregunta si le gustas a tu crush y qué señales deberías confiar. La lectura separa atracción, nervios, timing y conducta visible.",
+      intent: "Ideal para crushes, citas iniciales, señales sutiles, atención mixta y saber si el interés es mutuo o imaginado.",
+      ctaQuestion: "¿Le gusto a mi crush y qué señales debería confiar?",
+      sections: [
+        { heading: "Lee señales sin forzar certeza", body: "Una lectura de crush sirve más cuando compara atracción, nervios, timing y conducta visible en vez de tomar un gesto como prueba." },
+        { heading: "El interés necesita acción", body: "Las cartas pueden mostrar calidez o curiosidad, pero la tirada también debe revisar si eso puede convertirse en comunicación." },
+        { heading: "Elige un paso tranquilo", body: "La respuesta útil propone un movimiento de baja presión: observar, iniciar una conversación simple, esperar o cuidar tu dignidad." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decir si le gusto a mi crush?", answer: "Puede reflejar señales de atracción y tono emocional, pero la respuesta más clara también aparece en conducta respetuosa y comunicación real." },
+        { question: "¿Qué cartas sugieren que le gusto?", answer: "Paje de Copas, Los Enamorados, Dos de Copas, El Sol y La Estrella pueden sugerir interés si la tirada lo apoya." },
+      ],
+    },
+    "will-he-text-me-tarot": {
+      title: "Tarot: ¿me escribirá?",
+      description: "Lectura gratis con IA sobre si te escribirá, qué puede retrasar el mensaje y qué hacer mientras esperas.",
+      eyebrow: "Mensaje y espera",
+      h1: "Tarot: ¿me escribirá?",
+      intro: "Pregunta si te escribirá y cómo cuidar tu paz mientras esperas. La lectura mira deseo, orgullo, timing y bloqueos de comunicación.",
+      intent: "Ideal para respuestas tardías, contacto cero, citas inciertas, silencio tras ruptura y decidir si esperar todavía ayuda.",
+      ctaQuestion: "¿Me escribirá y qué debo hacer mientras espero?",
+      sections: [
+        { heading: "Un mensaje es acción", body: "La lectura debe separar deseo, duda, orgullo, timing y si él puede convertir atención interna en un texto real." },
+        { heading: "Esperar necesita límite", body: "Una respuesta útil no te deja revisando el teléfono. Muestra qué protege tu paz si el mensaje llega tarde o no llega." },
+        { heading: "Prepara tu respuesta", body: "Si el contacto parece probable, pregunta qué tono mantiene claridad. Si no o todavía no, vuelve a una acción que te centre." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede predecir si me escribirá?", answer: "Puede mostrar energía de comunicación, bloqueos y timing, pero el contacto real depende de decisiones y circunstancias." },
+        { question: "¿Qué cartas sugieren que llegará un mensaje?", answer: "Ocho de Bastos, Paje de Copas, Caballero de Espadas, El Juicio y El Mago pueden sugerir comunicación si la tirada acompaña." },
+      ],
+    },
+    "should-i-break-up-with-him-tarot": {
+      title: "Tarot: ¿debería terminar con él?",
+      description: "Lectura gratis con IA para explorar si conviene terminar, reparar, poner límites o elegir un paso más sano.",
+      eyebrow: "Relación y decisión",
+      h1: "Tarot: ¿debería terminar con él?",
+      intro: "Pregunta si deberías terminar con él y cuál es el siguiente paso más sano. La lectura mira seguridad, respeto, patrón y posibilidad de reparación.",
+      intent: "Ideal para conflicto repetido, distancia emocional, confianza rota, apego confuso y saber si reparar sigue siendo realista.",
+      ctaQuestion: "¿Debería terminar con él y cuál es el siguiente paso más sano?",
+      sections: [
+        { heading: "No reduzcas la decisión a una carta", body: "Terminar implica seguridad, respeto, historia, comunicación y timing. Lee la carta de consejo con tanto cuidado como la de resultado." },
+        { heading: "Separa conflicto de patrón", body: "Algunas relaciones necesitan una conversación honesta. Otras muestran un ciclo repetido que sigue costando autoestima." },
+        { heading: "Protege tu bienestar", body: "Ya sea reparación o cierre, el siguiente paso debe hacer más estable tu vida emocional y práctica." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decidir si debo terminar?", answer: "Puede aclarar patrón, riesgos, condiciones de reparación y próximo paso. No reemplaza apoyo, seguridad ni comunicación directa." },
+        { question: "¿Qué cartas sugieren que terminar puede ser más sano?", answer: "La Muerte, La Torre, Ocho de Copas, Diez de Espadas, Justicia y El Mundo pueden apuntar a cierre si la tirada lo confirma." },
       ],
     },
     "when-will-i-find-love-tarot": {
@@ -2798,6 +2915,60 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "O tarot pode responder se devo mandar mensagem?", answer: "Sim, pode dar uma direção rápida e a razão por trás. Use como reflexão, não como pressão para ignorar limites." },
         { question: "Que cartas sugerem esperar antes de mandar mensagem?", answer: "O Enforcado, Quatro de Espadas, Temperança, A Lua ou cartas de comunicação invertidas podem sugerir esperar." },
+      ],
+    },
+    "does-my-crush-like-me-tarot": {
+      title: "Tarot: meu crush gosta de mim?",
+      description: "Leitura grátis com IA sobre se seu crush gosta de você, quais sinais são reais e se o interesse pode virar ação.",
+      eyebrow: "Crush e sinais",
+      h1: "Tarot: meu crush gosta de mim?",
+      intro: "Pergunte se seu crush gosta de você e quais sinais merecem confiança. A leitura separa atração, nervosismo, timing e comportamento visível.",
+      intent: "Ideal para crushes, início de encontros, sinais sutis, atenção mista e saber se o interesse é mútuo ou imaginado.",
+      ctaQuestion: "Meu crush gosta de mim e quais sinais devo confiar?",
+      sections: [
+        { heading: "Leia sinais sem forçar certeza", body: "Uma leitura de crush ajuda mais quando compara atração, nervosismo, timing e comportamento visível em vez de tomar um gesto como prova." },
+        { heading: "Interesse precisa de ação", body: "As cartas podem mostrar carinho ou curiosidade, mas a tiragem também deve ver se isso tem confiança para virar comunicação." },
+        { heading: "Escolha um passo calmo", body: "A resposta útil propõe um movimento de baixa pressão: observar, iniciar conversa simples, esperar ou proteger sua dignidade." },
+      ],
+      faqs: [
+        { question: "O tarot pode dizer se meu crush gosta de mim?", answer: "Pode refletir sinais de atração e tom emocional, mas a resposta mais clara também aparece em comportamento respeitoso e comunicação real." },
+        { question: "Que cartas sugerem que meu crush gosta de mim?", answer: "Pajem de Copas, Os Enamorados, Dois de Copas, O Sol e A Estrela podem sugerir interesse se a tiragem apoiar." },
+      ],
+    },
+    "will-he-text-me-tarot": {
+      title: "Tarot: ele vai mandar mensagem?",
+      description: "Leitura grátis com IA sobre se ele vai mandar mensagem, o que pode atrasar e o que fazer enquanto espera.",
+      eyebrow: "Mensagem e espera",
+      h1: "Tarot: ele vai mandar mensagem?",
+      intro: "Pergunte se ele vai mandar mensagem e como cuidar da sua paz enquanto espera. A leitura olha desejo, orgulho, timing e bloqueios de comunicação.",
+      intent: "Ideal para respostas demoradas, contato zero, encontros incertos, silêncio depois de término e decidir se esperar ainda ajuda.",
+      ctaQuestion: "Ele vai mandar mensagem e o que devo fazer enquanto espero?",
+      sections: [
+        { heading: "Mensagem é ação", body: "A leitura deve separar desejo, hesitação, orgulho, timing e se ele tende a transformar atenção interna em texto real." },
+        { heading: "Esperar precisa de limite", body: "Uma resposta útil não deixa você atualizando o celular. Mostra o que protege sua paz se a mensagem vier tarde ou não vier." },
+        { heading: "Prepare sua resposta", body: "Se o contato parece provável, pergunte que tom mantém clareza. Se for não ou ainda não, escolha uma ação que devolva você para si." },
+      ],
+      faqs: [
+        { question: "O tarot pode prever se ele vai mandar mensagem?", answer: "Pode mostrar energia de comunicação, bloqueios e timing, mas contato real depende de decisões e circunstâncias." },
+        { question: "Que cartas sugerem que uma mensagem vem?", answer: "Oito de Paus, Pajem de Copas, Cavaleiro de Espadas, O Julgamento e O Mago podem sugerir comunicação se a tiragem apoiar." },
+      ],
+    },
+    "should-i-break-up-with-him-tarot": {
+      title: "Tarot: devo terminar com ele?",
+      description: "Leitura grátis com IA para explorar se convém terminar, reparar a relação, colocar limites ou escolher um passo mais saudável.",
+      eyebrow: "Relacionamento e decisão",
+      h1: "Tarot: devo terminar com ele?",
+      intro: "Pergunte se deve terminar com ele e qual é o próximo passo mais saudável. A leitura olha segurança, respeito, padrão e possibilidade de reparo.",
+      intent: "Ideal para conflito repetido, distância emocional, confiança quebrada, apego confuso e decidir se reparar ainda é realista.",
+      ctaQuestion: "Devo terminar com ele e qual é o próximo passo mais saudável?",
+      sections: [
+        { heading: "Não reduza a decisão a uma carta", body: "Terminar envolve segurança, respeito, história, comunicação e timing. Leia a carta de conselho com tanto cuidado quanto a de resultado." },
+        { heading: "Separe conflito de padrão", body: "Algumas relações precisam de uma conversa honesta. Outras mostram um ciclo repetido que continua custando autoestima." },
+        { heading: "Proteja seu bem-estar", body: "Se a tiragem inclinar para reparo ou fim, o próximo passo deve tornar sua vida emocional e prática mais estável." },
+      ],
+      faqs: [
+        { question: "O tarot pode decidir se devo terminar?", answer: "Pode clarear padrão, riscos, condições de reparo e próximo passo. Não substitui apoio, segurança nem comunicação direta." },
+        { question: "Que cartas sugerem que terminar pode ser mais saudável?", answer: "A Morte, A Torre, Oito de Copas, Dez de Espadas, Justiça e O Mundo podem apontar para encerramento se a tiragem confirmar." },
       ],
     },
     "when-will-i-find-love-tarot": {
@@ -3433,6 +3604,120 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       {
         question: "Should I ask about the exact wording?",
         answer: "A useful follow-up is: what tone would create the healthiest communication? Then keep the actual message brief and respectful.",
+      },
+    ],
+  },
+  "does-my-crush-like-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when you notice glances, replies, nervousness, or small gestures but cannot tell whether the interest is mutual.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The cards should separate attraction, curiosity, shyness, timing, and likely action so a small sign does not become false certainty.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the reading shows warmth, choose a simple low-pressure opening. If it shows ambiguity, keep your dignity and look for consistent behavior.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what is the safest next step for me to learn the truth without chasing?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this crush tarot reading free?",
+        answer: "Yes. You can start this crush reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Does a positive card mean my crush will make a move?",
+        answer: "Not always. A positive card can show warmth or curiosity, while action depends on confidence, timing, and the surrounding cards.",
+      },
+      {
+        question: "Should I ask again after every interaction?",
+        answer: "No. Ask again only after something meaningful changes. Repeating the same question often turns intuition into anxiety.",
+      },
+      {
+        question: "What spread is best for crush questions?",
+        answer: "A thoughts and attitude spread works well because it compares impression, thoughts, concerns, possible action, and advice.",
+      },
+    ],
+  },
+  "will-he-text-me-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when a delayed reply, no-contact period, or sudden silence makes you wonder whether communication is still likely.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should separate communication energy, emotional motive, pride, avoidance, timing, and the healthiest way for you to wait or stop waiting.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the answer leans yes, decide your boundary before the message arrives. If it leans no or not yet, choose one action that returns your focus to your life.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what should I do today whether the message arrives or not?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this will he text me tarot reading free?",
+        answer: "Yes. You can start this communication reading for free. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "What if the answer is not yet?",
+        answer: "Not yet usually points to unsettled timing, hesitation, or emotional avoidance. Use the advice card to decide how long waiting is healthy.",
+      },
+      {
+        question: "Should I text him first if the reading says he may text?",
+        answer: "Only if the advice card supports clear communication and the message respects your boundaries. Possible contact is not pressure to chase.",
+      },
+      {
+        question: "What spread is best for contact questions?",
+        answer: "A yes-or-no spread works for fast direction, while a thoughts and attitude spread gives more context about motive and delay.",
+      },
+    ],
+  },
+  "should-i-break-up-with-him-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when repeated conflict, distance, disrespect, broken trust, or emotional exhaustion makes the relationship feel unstable.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The cards should show whether the issue is temporary conflict, a repairable pattern, or a deeper mismatch that keeps harming your wellbeing.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the answer leans repair, look for specific behavior changes. If it leans ending, think through support, timing, and practical safety before acting.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what boundary or conversation would make the healthiest next step clear?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this breakup decision tarot reading free?",
+        answer: "Yes. You can start this relationship clarity reading for free. Membership is for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot tell me to leave a relationship?",
+        answer: "Tarot can show patterns, risks, and repair conditions, but serious relationship decisions should also include safety, support, and direct reality checks.",
+      },
+      {
+        question: "What if the cards show repair is possible?",
+        answer: "Possible repair still needs behavior, accountability, and timing. Use the advice card to name the first concrete change, not just the hope.",
+      },
+      {
+        question: "What spread is best for breakup decisions?",
+        answer: "A relationship spread works best because it can compare your needs, their energy, the shared pattern, repair conditions, and advice.",
       },
     ],
   },
