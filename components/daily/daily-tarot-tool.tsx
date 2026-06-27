@@ -942,6 +942,7 @@ export function DailyTarotTool() {
       setStatus(localStatus)
       setReminderStatus(localStatus)
       const syncedEntry = await syncEntry(localEntry)
+      const syncedToCloud = Boolean(syncedEntry)
       if (syncedEntry) {
         saveLocalEntry(syncedEntry)
         const syncedStatus = reminderEnabled
@@ -952,6 +953,21 @@ export function DailyTarotTool() {
         setStatus(syncedStatus)
         setReminderStatus(syncedStatus)
       }
+      analyticsApi.track("daily_reminder_preference_saved", {
+        ...getCurrentAttribution(),
+        locale: language,
+        keyword: "daily tarot",
+        metadata: {
+          surface: "daily-tarot",
+          reminder_enabled: reminderEnabled,
+          reminder_time: reminderTime,
+          has_email: Boolean(reminderEnabled && normalizedEmail),
+          email_delivery_enabled: emailDeliveryEnabled,
+          delivery_status: reminderCapability?.delivery_status || (emailDeliveryEnabled ? "ready" : "setup_required"),
+          synced_to_cloud: syncedToCloud,
+          missing_capabilities: reminderCapability?.missing_capabilities || [],
+        },
+      })
     } finally {
       setIsSaving(false)
     }

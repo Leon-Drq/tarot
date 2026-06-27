@@ -275,6 +275,7 @@ export type AnalyticsEventName =
   | 'share_template_copied'
   | 'reading_email_self_opened'
   | 'daily_calendar_reminder_downloaded'
+  | 'daily_reminder_preference_saved'
   | 'daily_install_fallback_shown'
   | 'daily_install_prompt_opened'
   | 'daily_install_completed'

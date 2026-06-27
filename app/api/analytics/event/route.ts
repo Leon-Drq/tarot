@@ -11,6 +11,7 @@ const eventNames = new Set([
   "share_template_copied",
   "reading_email_self_opened",
   "daily_calendar_reminder_downloaded",
+  "daily_reminder_preference_saved",
   "daily_install_prompt_opened",
   "daily_install_completed",
   "daily_install_dismissed",
