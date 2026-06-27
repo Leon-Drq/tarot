@@ -32,6 +32,7 @@ function assertFileExists(path, label) {
 }
 
 const files = {
+  packageJson: { path: "package.json", source: read("package.json") },
   layout: { path: "app/layout.tsx", source: read("app/layout.tsx") },
   homePage: { path: "app/page.tsx", source: read("app/page.tsx") },
   dailyTarotPage: { path: "app/daily-tarot/page.tsx", source: read("app/daily-tarot/page.tsx") },
@@ -253,6 +254,10 @@ const files = {
     source: read("app/free-tarot-tools/page.tsx"),
   },
   sitemap: { path: "app/sitemap.ts", source: read("app/sitemap.ts") },
+  searchAssetCheck: {
+    path: "scripts/check-search-assets.mjs",
+    source: read("scripts/check-search-assets.mjs"),
+  },
 }
 
 const cardCoverage = [
@@ -905,6 +910,35 @@ const identityMetadataCoverage = [
 ]
 
 for (const [file, needle, label] of identityMetadataCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+const searchAssetRuntimeCoverage = [
+  [files.packageJson, "\"check:search-assets\": \"node scripts/check-search-assets.mjs\"", "search asset package script"],
+  [files.searchAssetCheck, "SEARCH_ASSET_BASE_URL", "search asset production base URL override"],
+  [files.searchAssetCheck, "requiredAssets", "search asset runtime asset registry"],
+  [files.searchAssetCheck, "\"/favicon-48x48.png\"", "search asset 48px favicon check"],
+  [files.searchAssetCheck, "\"/favicon.ico\"", "search asset ICO check"],
+  [files.searchAssetCheck, "\"/logo.png\"", "search asset canonical logo check"],
+  [files.searchAssetCheck, "\"/logo.svg\"", "search asset SVG logo check"],
+  [files.searchAssetCheck, "\"/og-image.jpg\"", "search asset OG image check"],
+  [files.searchAssetCheck, "requiredSitemapPaths", "search asset sitemap path registry"],
+  [files.searchAssetCheck, "\"/free-tarot-tools\"", "search asset free hub sitemap check"],
+  [files.searchAssetCheck, "\"/daily-tarot\"", "search asset Daily Tarot sitemap check"],
+  [files.searchAssetCheck, "\"/will-my-ex-come-back-tarot\"", "search asset long-tail sitemap check"],
+  [files.searchAssetCheck, "\"/es/mi-ex-volvera-tarot\"", "search asset Spanish long-tail sitemap check"],
+  [files.searchAssetCheck, "\"/pt-br/meu-ex-vai-voltar-tarot\"", "search asset Portuguese long-tail sitemap check"],
+  [files.searchAssetCheck, "\"/brand-assets\"", "search asset brand page sitemap check"],
+  [files.searchAssetCheck, "\"/reviews\"", "search asset reviews sitemap check"],
+  [files.searchAssetCheck, "blockedSitemapPaths", "search asset private flow sitemap guard"],
+  [files.searchAssetCheck, "robotsDisallows", "search asset robots disallow guard"],
+  [files.searchAssetCheck, "publicRobotsPaths", "search asset public robots guard"],
+  [files.searchAssetCheck, "hreflang=\"x-default\"", "search asset hreflang guard"],
+  [files.searchAssetCheck, "homepage search asset", "search asset homepage metadata guard"],
+  [files.searchAssetCheck, "brand assets page signal", "search asset brand page signal guard"],
+]
+
+for (const [file, needle, label] of searchAssetRuntimeCoverage) {
   assertIncludes(file, needle, label)
 }
 
