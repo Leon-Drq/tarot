@@ -429,6 +429,9 @@ const highIntentLongTailSlugs = [
   "should-i-quit-my-job-tarot",
   "is-he-thinking-about-me-tarot",
   "should-i-text-him-tarot",
+  "does-he-miss-me-tarot",
+  "is-he-hiding-his-feelings-tarot",
+  "why-did-he-pull-away-tarot",
   "is-she-thinking-about-me-tarot",
   "should-i-text-her-tarot",
   "does-my-crush-like-me-tarot",
@@ -519,6 +522,52 @@ for (const regionalCopy of [
 ]) {
   const file = regionalCopy.startsWith("Tarot:") ? files.seoPages : files.tarotQuestions
   assertIncludes(file, regionalCopy, `she-focused regional copy ${regionalCopy}`)
+}
+
+const maleEmotionRegionalQuestionSlugs = [
+  "does-he-miss-me-tarot",
+  "is-he-hiding-his-feelings-tarot",
+  "why-did-he-pull-away-tarot",
+]
+
+for (const slug of maleEmotionRegionalQuestionSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `male emotion regional SEO page ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en", "es", "pt-br"]', `male emotion regional locale control ${slug}`)
+  assertIncludes(files.tarotQuestions, `slug: "${slug}"`, `regional male emotion question hub entry ${slug}`)
+  assertMatches(
+    files.seoLanding,
+    new RegExp(`"${slug}"\\s*:\\s*\\[`),
+    `male emotion related question cluster for ${slug}`,
+  )
+}
+
+for (const [localizedSlug, label] of [
+  ["el-me-extrana-tarot", "Spanish does he miss me localized slug"],
+  ["oculta-sus-sentimientos-tarot", "Spanish hiding feelings localized slug"],
+  ["por-que-se-alejo-tarot", "Spanish pull away localized slug"],
+  ["ele-sente-minha-falta-tarot", "Portuguese does he miss me localized slug"],
+  ["ele-esconde-os-sentimentos-tarot", "Portuguese hiding feelings localized slug"],
+  ["por-que-ele-se-afastou-tarot", "Portuguese pull away localized slug"],
+]) {
+  assertIncludes(files.seoPages, `"${localizedSlug}"`, label)
+}
+
+for (const regionalCopy of [
+  "Tarot: ¿él me extraña?",
+  "Tarot: ¿oculta sus sentimientos?",
+  "Tarot: ¿por qué se alejó?",
+  "Tarot: ele sente minha falta?",
+  "Tarot: ele esconde os sentimentos?",
+  "Tarot: por que ele se afastou?",
+  "El me extrana?",
+  "Oculta sus sentimientos?",
+  "Por que se alejo?",
+  "Ele sente minha falta?",
+  "Ele esconde os sentimentos?",
+  "Por que ele se afastou?",
+]) {
+  const file = regionalCopy.startsWith("Tarot:") ? files.seoPages : files.tarotQuestions
+  assertIncludes(file, regionalCopy, `male emotion regional copy ${regionalCopy}`)
 }
 
 const careerFocusedRegionalQuestionSlugs = [
@@ -1000,6 +1049,9 @@ for (const localizedSlug of [
   "leitura-tarot-futuro-conjuge",
   "esta-pensando-en-mi-tarot",
   "deberia-escribirle-tarot",
+  "el-me-extrana-tarot",
+  "oculta-sus-sentimientos-tarot",
+  "por-que-se-alejo-tarot",
   "cuando-encontrare-amor-tarot",
   "cuales-son-sus-intenciones-tarot",
   "volveremos-a-estar-juntos-tarot",
@@ -1020,6 +1072,9 @@ for (const localizedSlug of [
   "ele-esta-pensando-em-mim-tarot",
   "tarot-amor-sim-ou-nao",
   "devo-mandar-mensagem-tarot",
+  "ele-sente-minha-falta-tarot",
+  "ele-esconde-os-sentimentos-tarot",
+  "por-que-ele-se-afastou-tarot",
   "quando-vou-encontrar-amor-tarot",
   "quais-sao-as-intencoes-dele-tarot",
   "vamos-voltar-tarot",

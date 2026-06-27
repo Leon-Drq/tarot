@@ -228,6 +228,21 @@ export const highIntentQuestionLinks = [
     href: "/should-i-text-him-tarot",
   },
   {
+    title: "Does he miss me tarot",
+    description: "A silence-and-longing tarot path for whether he misses you, what distance means, and whether feelings may become action.",
+    href: "/does-he-miss-me-tarot",
+  },
+  {
+    title: "Is he hiding his feelings tarot",
+    description: "A guarded-feelings tarot path for mixed signals, private emotion, fear, and what to observe before acting.",
+    href: "/is-he-hiding-his-feelings-tarot",
+  },
+  {
+    title: "Why did he pull away tarot",
+    description: "A distance-focused tarot path for sudden silence, avoidant behavior, what changed, and the healthiest next step.",
+    href: "/why-did-he-pull-away-tarot",
+  },
+  {
     title: "Is she thinking about me tarot",
     description: "A thoughts-and-silence tarot path for mixed signals, no-contact periods, and whether attention may become action.",
     href: "/is-she-thinking-about-me-tarot",
