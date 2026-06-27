@@ -1725,34 +1725,43 @@ export function DailyTarotTool() {
               <p className="mt-2 text-sm leading-6 text-white/56">{copy.returnSetupBody}</p>
             </div>
           </div>
-          <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <div className="mt-4 grid gap-2 sm:grid-cols-3">
             <button
               type="button"
               data-daily-return-setup-calendar
               onClick={handleDownloadCalendarReminder}
-              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/40 bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-sm font-medium text-[#130d24] shadow-[0_16px_42px_rgba(146,132,239,0.18)] transition hover:brightness-110"
+              className="inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/40 bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-4 text-sm font-medium text-[#130d24] shadow-[0_16px_42px_rgba(146,132,239,0.18)] transition hover:brightness-110"
             >
-              <CalendarPlus className="h-4 w-4" aria-hidden="true" />
-              {copy.returnSetupCalendar}
+              <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className={quickActionTextClass}>{copy.returnSetupCalendar}</span>
+            </button>
+            <button
+              type="button"
+              data-daily-return-setup-mailto
+              onClick={handleEmailReturnLink}
+              className="inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/26 bg-[#c9c0ff]/[0.08] px-4 text-sm text-[#f2edff] transition hover:border-[#c9c0ff]/45 hover:bg-[#c9c0ff]/[0.13]"
+            >
+              <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className={quickActionTextClass}>{copy.returnSetupMail}</span>
             </button>
             <button
               type="button"
               data-daily-return-setup-reminder
               onClick={scrollToReminder}
-              className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
+              className="inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
             >
-              <Bell className="h-4 w-4" aria-hidden="true" />
-              {copy.returnSetupReminder}
+              <Bell className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className={quickActionTextClass}>{copy.returnSetupReminder}</span>
             </button>
             {showInstallPrompt && (
               <button
                 type="button"
                 data-daily-return-setup-install
                 onClick={handleInstallPrompt}
-                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white sm:col-span-2"
+                className="inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white sm:col-span-3"
               >
-                <Smartphone className="h-4 w-4" aria-hidden="true" />
-                {copy.returnSetupHome}
+                <Smartphone className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className={quickActionTextClass}>{copy.returnSetupHome}</span>
               </button>
             )}
           </div>
