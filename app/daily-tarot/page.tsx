@@ -90,6 +90,65 @@ const returnLoopItems = [
   },
 ]
 
+const dailyChallengeDays = [
+  {
+    day: "Day 1",
+    title: "Start with love energy",
+    body: "Notice how connection, boundaries, attraction, or reconciliation hopes shape the day before asking anything deeper.",
+    focus: "love",
+    question: "What should I understand about love today?",
+    campaign: "daily-love-tarot",
+  },
+  {
+    day: "Day 2",
+    title: "Check career pressure",
+    body: "Use one card to name the work signal: preparation, patience, visibility, pressure, or the next practical move.",
+    focus: "career",
+    question: "What should I focus on in my career today?",
+    campaign: "daily-career-tarot",
+  },
+  {
+    day: "Day 3",
+    title: "Ask one yes-or-no choice",
+    body: "Bring one small decision, then read the reason behind yes, no, or not yet instead of forcing certainty.",
+    focus: "yes_no",
+    question: "Is this the right move for me today?",
+    campaign: "daily-yes-or-no-tarot",
+  },
+  {
+    day: "Day 4",
+    title: "Name the mood pattern",
+    body: "Track the emotional tone behind the card and save one sentence so tomorrow has context.",
+    focus: "mood",
+    question: "What is my emotional pattern today, and what would help?",
+    campaign: "daily-mood-tarot",
+  },
+  {
+    day: "Day 5",
+    title: "Turn insight into action",
+    body: "Choose one grounded action you can actually take today, even if the card feels symbolic or subtle.",
+    focus: "action",
+    question: "What is the most grounded action I can take today?",
+    campaign: "daily-action-tarot",
+  },
+  {
+    day: "Day 6",
+    title: "Review the repeated theme",
+    body: "Look for what kept returning across the week: a person, work pressure, timing, avoidance, or a next step.",
+    focus: "mood",
+    question: "What theme has been repeating in my daily tarot this week?",
+    campaign: "daily-weekly-pattern",
+  },
+  {
+    day: "Day 7",
+    title: "Set tomorrow's return cue",
+    body: "End the first week by choosing what to watch tomorrow so Daily Tarot becomes a habit, not a one-off search.",
+    focus: "action",
+    question: "What should I carry into tomorrow's daily tarot check-in?",
+    campaign: "daily-return-cue",
+  },
+]
+
 const dailyPromptCards = [
   {
     slug: "daily-love-tarot",
@@ -274,6 +333,20 @@ function dailyFocusedToolHref(prompt: (typeof dailyPromptCards)[number]) {
   return `/daily-tarot?${params.toString()}`
 }
 
+function dailyChallengeHref(item: (typeof dailyChallengeDays)[number], index: number) {
+  const params = new URLSearchParams({
+    daily_focus: item.focus,
+    return_focus: item.question,
+    return_action: "return-cue",
+    utm_source: "daily-tarot",
+    utm_medium: "seven_day_challenge",
+    utm_campaign: item.campaign,
+    utm_content: `day-${index + 1}`,
+  })
+
+  return `/daily-tarot?${params.toString()}`
+}
+
 export const metadata: Metadata = {
   title: `${dailyTitle} | Free One Card Tarot`,
   description: dailyDescription,
@@ -383,6 +456,21 @@ const structuredData = {
             target: `${appUrl}${dailyFocusedToolHref(prompt)}`,
           },
         },
+      })),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/daily-tarot#seven-day-return-plan`,
+      name: "Seven-day free Daily Tarot return plan",
+      description:
+        "A seven-day free Daily Tarot sequence that turns love, career, yes-or-no, mood, action, weekly pattern, and tomorrow return cues into repeat visits.",
+      numberOfItems: dailyChallengeDays.length,
+      itemListElement: dailyChallengeDays.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.title,
+        description: item.body,
+        url: `${appUrl}${dailyChallengeHref(item, index)}`,
       })),
     },
     {
@@ -608,6 +696,34 @@ export default function DailyTarotPage() {
                   </Link>
                 </div>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section id="seven-day-return-plan" data-daily-seven-day-plan className="border-t border-white/10 bg-[#0b0415]">
+        <div className="mx-auto grid max-w-6xl gap-7 px-4 py-12 sm:px-8 lg:grid-cols-[0.72fr_1.28fr] lg:px-10 lg:py-16">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-[#c9c0ff]/75">7-day free return plan</p>
+            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-4xl">
+              Give the first week a reason to come back
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/60 sm:text-base">
+              A daily habit needs a next visit before it needs a membership pitch. This plan turns seven free one-card check-ins into love, career, choice, mood, action, pattern, and return-cue days.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {dailyChallengeDays.map((item, index) => (
+              <Link
+                key={`${item.day}-${item.campaign}`}
+                data-daily-seven-day-link
+                href={dailyChallengeHref(item, index)}
+                className="group flex min-h-[13rem] min-w-0 flex-col rounded-lg border border-white/10 bg-white/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.055]"
+              >
+                <p className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{item.day}</p>
+                <h3 className="mt-3 text-base font-medium leading-snug text-white group-hover:text-[#f4f0ff]">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-white/56">{item.body}</p>
+                <p className="mt-auto pt-4 text-xs leading-5 text-[#c9c0ff]/72">{item.question}</p>
+              </Link>
             ))}
           </div>
         </div>

@@ -60,6 +60,8 @@ const pages = [
       "[data-daily-question-path-guide]",
       "[data-daily-question-path-focus]",
       "[data-daily-question-path-start]",
+      "[data-daily-seven-day-plan]",
+      "[data-daily-seven-day-link]",
     ],
   },
   {
