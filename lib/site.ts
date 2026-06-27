@@ -293,6 +293,21 @@ export const highIntentQuestionLinks = [
     href: "/will-she-contact-me-tarot",
   },
   {
+    title: "Does she miss me tarot",
+    description: "A silence-and-longing tarot path for whether she misses you, what distance means, and whether feelings may become action.",
+    href: "/does-she-miss-me-tarot",
+  },
+  {
+    title: "Is she hiding her feelings tarot",
+    description: "A guarded-feelings tarot path for mixed signals, private emotion, fear, and what to observe before acting.",
+    href: "/is-she-hiding-her-feelings-tarot",
+  },
+  {
+    title: "Why did she pull away tarot",
+    description: "A distance-focused tarot path for sudden silence, avoidant behavior, what changed, and the healthiest next step.",
+    href: "/why-did-she-pull-away-tarot",
+  },
+  {
     title: "Should I break up with him tarot",
     description: "A relationship decision tarot page for repeated conflict, repair conditions, emotional safety, and the healthiest next step.",
     href: "/should-i-break-up-with-him-tarot",
