@@ -4,7 +4,7 @@ import { useState } from "react"
 import { CalendarPlus, Copy, Instagram, Link2, Mail, Share2 } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, type ReadingShareCard } from "@/lib/api"
-import { downloadDailyReturnCalendar } from "@/lib/client-calendar-reminder"
+import { createGoogleCalendarDailyReturnUrl, downloadDailyReturnCalendar } from "@/lib/client-calendar-reminder"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 
@@ -33,7 +33,9 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailOpenLabel: "打开完整解读",
       emailDailyLabel: "明天继续每日塔罗",
       calendar: "添加日历提醒",
+      googleCalendar: "Google Calendar",
       calendarSaved: "日历提醒已下载",
+      googleCalendarOpened: "Google Calendar 已打开",
       calendarSummary: "POPTarot 每日塔罗",
       calendarDescription: "回到 POPTarot 抽一张每日免费塔罗牌，保存日记并延续连续打卡。",
       linkCopied: "链接已复制",
@@ -55,7 +57,9 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailOpenLabel: "Open full reading",
       emailDailyLabel: "Continue with Daily Tarot tomorrow",
       calendar: "Add Calendar",
+      googleCalendar: "Google Calendar",
       calendarSaved: "Calendar reminder downloaded",
+      googleCalendarOpened: "Google Calendar opened",
       calendarSummary: "POPTarot Daily Tarot",
       calendarDescription: "Return to POPTarot for one free daily tarot card, a journal note, and your streak.",
       linkCopied: "Link copied",
@@ -77,7 +81,9 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailOpenLabel: "全文を開く",
       emailDailyLabel: "明日も Daily Tarot を続ける",
       calendar: "カレンダーに追加",
+      googleCalendar: "Google Calendar",
       calendarSaved: "カレンダーリマインダーを保存しました",
+      googleCalendarOpened: "Google Calendarを開きました",
       calendarSummary: "POPTarot Daily Tarot",
       calendarDescription: "POPTarotで無料の毎日カードを引き、日記と連続記録を続けましょう。",
       linkCopied: "リンクをコピーしました",
@@ -99,7 +105,9 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailOpenLabel: "전체 리딩 열기",
       emailDailyLabel: "내일 Daily Tarot 이어가기",
       calendar: "캘린더에 추가",
+      googleCalendar: "Google Calendar",
       calendarSaved: "캘린더 알림이 저장되었습니다",
+      googleCalendarOpened: "Google Calendar가 열렸습니다",
       calendarSummary: "POPTarot Daily Tarot",
       calendarDescription: "POPTarot에서 무료 데일리 카드를 뽑고 저널과 연속 기록을 이어가세요.",
       linkCopied: "링크가 복사되었습니다",
@@ -121,7 +129,9 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailOpenLabel: "Abrir lectura completa",
       emailDailyLabel: "Continuar con Daily Tarot manana",
       calendar: "Agregar calendario",
+      googleCalendar: "Google Calendar",
       calendarSaved: "Recordatorio de calendario descargado",
+      googleCalendarOpened: "Google Calendar abierto",
       calendarSummary: "POPTarot Tarot Diario",
       calendarDescription: "Vuelve a POPTarot por una carta diaria gratis, una nota de diario y tu racha.",
       linkCopied: "Enlace copiado",
@@ -143,7 +153,9 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailOpenLabel: "Abrir leitura completa",
       emailDailyLabel: "Continuar com Daily Tarot amanha",
       calendar: "Adicionar calendario",
+      googleCalendar: "Google Calendar",
       calendarSaved: "Lembrete de calendario baixado",
+      googleCalendarOpened: "Google Calendar aberto",
       calendarSummary: "POPTarot Tarot Diario",
       calendarDescription: "Volte ao POPTarot para uma carta diaria gratis, uma nota no diario e sua sequencia.",
       linkCopied: "Link copiado",
@@ -253,6 +265,30 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
     setStatus(copy.calendarSaved)
   }
 
+  const handleGoogleCalendarReminder = () => {
+    const googleCalendarUrl = createGoogleCalendarDailyReturnUrl({
+      time: "08:30",
+      summary: copy.calendarSummary,
+      description: copy.calendarDescription,
+      url: dailyReturnUrl,
+    })
+    const opened = window.open(googleCalendarUrl, "_blank", "noopener,noreferrer")
+    if (!opened) window.location.href = googleCalendarUrl
+    analyticsApi.track("daily_calendar_reminder_downloaded", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: question,
+      share_slug: shareSlug,
+      metadata: {
+        action: "public_share_google_calendar_opened",
+        provider: "google_calendar",
+        surface: "public_share_page",
+        reminder_time: "08:30",
+      },
+    })
+    setStatus(copy.googleCalendarOpened)
+  }
+
   const handleNativeShare = async () => {
     try {
       if (navigator.share) {
@@ -330,10 +366,18 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
         <button
           onClick={handleCalendarReminder}
           data-public-share-calendar-reminder
-          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/25 bg-[#c9c0ff]/[0.06] px-3 py-2 text-xs text-[#eeeaff] transition hover:border-[#c9c0ff]/50 hover:bg-[#c9c0ff]/[0.1]"
+          className="inline-flex min-h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/25 bg-[#c9c0ff]/[0.06] px-3 py-2 text-xs text-[#eeeaff] transition hover:border-[#c9c0ff]/50 hover:bg-[#c9c0ff]/[0.1]"
         >
-          <CalendarPlus className="h-3.5 w-3.5" />
-          {copy.calendar}
+          <CalendarPlus className="h-3.5 w-3.5 shrink-0" />
+          <span className="min-w-0 break-words text-center leading-4">{copy.calendar}</span>
+        </button>
+        <button
+          onClick={handleGoogleCalendarReminder}
+          data-public-share-google-calendar
+          className="inline-flex min-h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/25 bg-[#c9c0ff]/[0.06] px-3 py-2 text-xs text-[#eeeaff] transition hover:border-[#c9c0ff]/50 hover:bg-[#c9c0ff]/[0.1]"
+        >
+          <CalendarPlus className="h-3.5 w-3.5 shrink-0" />
+          <span className="min-w-0 break-words text-center leading-4">{copy.googleCalendar}</span>
         </button>
         <button
           onClick={() => handleCopy("xhs")}

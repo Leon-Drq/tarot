@@ -12,7 +12,7 @@ import ReactMarkdown from "react-markdown"
 import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, readingApi, getAccessToken, authApi, setAccessToken, type SpreadConfig } from "@/lib/api"
-import { downloadDailyReturnCalendar } from "@/lib/client-calendar-reminder"
+import { createGoogleCalendarDailyReturnUrl, downloadDailyReturnCalendar } from "@/lib/client-calendar-reminder"
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isLocale, isSeoLocale, type Locale, type SeoLocale } from "@/lib/locales"
@@ -362,7 +362,9 @@ export default function ReadingPage() {
         body: "明天回来抽一张免费每日牌，连续打卡并写下日记，看看这次问题是否正在形成某种反复出现的主题。",
         daily: "打开每日塔罗",
         calendar: "添加日历提醒",
+        googleCalendar: "Google Calendar",
         calendarSaved: "日历提醒已下载",
+        googleCalendarOpened: "Google Calendar 已打开",
         calendarSummary: "POPTarot 每日塔罗",
         calendarDescription: "回到 POPTarot 抽一张每日免费塔罗牌，保存日记并延续连续打卡。",
         meanings: "查看牌义",
@@ -374,7 +376,9 @@ export default function ReadingPage() {
         body: "Come back for one free daily card, keep a streak, and use your journal to see whether this reading becomes a pattern.",
         daily: "Open Daily Tarot",
         calendar: "Add Calendar",
+        googleCalendar: "Google Calendar",
         calendarSaved: "Calendar reminder downloaded",
+        googleCalendarOpened: "Google Calendar opened",
         calendarSummary: "POPTarot Daily Tarot",
         calendarDescription: "Return to POPTarot for one free daily tarot card, a journal note, and your streak.",
         meanings: "Read Card Meanings",
@@ -386,7 +390,9 @@ export default function ReadingPage() {
         body: "明日また無料の1枚を引き、連続記録と日記で、このテーマが繰り返されているか見てみましょう。",
         daily: "デイリータロット",
         calendar: "カレンダーに追加",
+        googleCalendar: "Google Calendar",
         calendarSaved: "カレンダーリマインダーを保存しました",
+        googleCalendarOpened: "Google Calendarを開きました",
         calendarSummary: "POPTarot Daily Tarot",
         calendarDescription: "POPTarotで無料の毎日カードを引き、日記と連続記録を続けましょう。",
         meanings: "カードの意味",
@@ -398,7 +404,9 @@ export default function ReadingPage() {
         body: "내일 무료 일일 카드를 뽑고, 연속 기록과 저널로 이 주제가 반복되는지 살펴보세요.",
         daily: "데일리 타로 열기",
         calendar: "캘린더에 추가",
+        googleCalendar: "Google Calendar",
         calendarSaved: "캘린더 알림이 저장되었습니다",
+        googleCalendarOpened: "Google Calendar가 열렸습니다",
         calendarSummary: "POPTarot Daily Tarot",
         calendarDescription: "POPTarot에서 무료 데일리 카드를 뽑고 저널과 연속 기록을 이어가세요.",
         meanings: "카드 의미 보기",
@@ -410,7 +418,9 @@ export default function ReadingPage() {
         body: "Vuelve por una carta diaria gratis, mantiene una racha y usa el diario para ver si esta lectura se convierte en un patron.",
         daily: "Abrir Tarot Diario",
         calendar: "Agregar calendario",
+        googleCalendar: "Google Calendar",
         calendarSaved: "Recordatorio de calendario descargado",
+        googleCalendarOpened: "Google Calendar abierto",
         calendarSummary: "POPTarot Tarot Diario",
         calendarDescription: "Vuelve a POPTarot por una carta diaria gratis, una nota de diario y tu racha.",
         meanings: "Leer significados",
@@ -422,7 +432,9 @@ export default function ReadingPage() {
         body: "Volte para tirar uma carta diaria gratis, manter uma sequencia e usar o diario para perceber se esta leitura vira um padrao.",
         daily: "Abrir Tarot Diario",
         calendar: "Adicionar calendario",
+        googleCalendar: "Google Calendar",
         calendarSaved: "Lembrete de calendario baixado",
+        googleCalendarOpened: "Google Calendar aberto",
         calendarSummary: "POPTarot Tarot Diario",
         calendarDescription: "Volte ao POPTarot para uma carta diaria gratis, uma nota no diario e sua sequencia.",
         meanings: "Ler significados",
@@ -434,7 +446,9 @@ export default function ReadingPage() {
       body: "Come back for one free daily card, keep a streak, and use your journal to see whether this reading becomes a pattern.",
       daily: "Open Daily Tarot",
       calendar: "Add Calendar",
+      googleCalendar: "Google Calendar",
       calendarSaved: "Calendar reminder downloaded",
+      googleCalendarOpened: "Google Calendar opened",
       calendarSummary: "POPTarot Daily Tarot",
       calendarDescription: "Return to POPTarot for one free daily tarot card, a journal note, and your streak.",
       meanings: "Read Card Meanings",
@@ -923,6 +937,31 @@ export default function ReadingPage() {
       },
     })
     setShareStatus(readingReturnCopy.calendarSaved)
+  }
+
+  const handleOpenReadingReturnGoogleCalendar = () => {
+    const url = createGoogleCalendarDailyReturnUrl({
+      time: "08:30",
+      summary: readingReturnCopy.calendarSummary,
+      description: readingReturnCopy.calendarDescription,
+      url: `${window.location.origin}${dailyReturnHref}`,
+    })
+    const opened = window.open(url, "_blank", "noopener,noreferrer")
+    if (!opened) window.location.href = url
+    analyticsApi.track("daily_calendar_reminder_downloaded", {
+      ...getCurrentAttribution(),
+      locale: activeReadingLocale,
+      keyword: question,
+      reading_id: readingId,
+      metadata: {
+        action: "reading_google_calendar_opened",
+        provider: "google_calendar",
+        surface: "reading_result",
+        reminder_time: "08:30",
+        return_href: dailyReturnHref,
+      },
+    })
+    setShareStatus(readingReturnCopy.googleCalendarOpened)
   }
 
   const trackFallbackShare = (platform: ShareTemplatePlatform, channel: "native" | "clipboard") => {
@@ -1726,12 +1765,12 @@ export default function ReadingPage() {
                 <h2 className="mt-2 text-base font-medium text-white/88">{readingReturnCopy.title}</h2>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-white/52">{readingReturnCopy.body}</p>
               </div>
-              <div className="grid min-w-0 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid min-w-0 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                 <Link
                   href={dailyReturnHref}
-                  className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[#c9c0ff] px-4 py-2 text-sm font-medium text-[#130d27] transition hover:bg-[#eeeaff]"
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg bg-[#c9c0ff] px-4 py-2 text-sm font-medium text-[#130d27] transition hover:bg-[#eeeaff]"
                 >
-                  {readingReturnCopy.daily}
+                  <span className="min-w-0 text-center leading-tight">{readingReturnCopy.daily}</span>
                 </Link>
                 <button
                   type="button"
@@ -1742,17 +1781,26 @@ export default function ReadingPage() {
                   <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
                   <span className="min-w-0 text-center leading-tight">{readingReturnCopy.calendar}</span>
                 </button>
+                <button
+                  type="button"
+                  onClick={handleOpenReadingReturnGoogleCalendar}
+                  data-reading-return-google-calendar
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/24 px-4 py-2 text-sm text-[#eeeaff] transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05]"
+                >
+                  <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span className="min-w-0 text-center leading-tight">{readingReturnCopy.googleCalendar}</span>
+                </button>
                 <Link
                   href={meaningsReturnHref}
-                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
                 >
-                  {readingReturnCopy.meanings}
+                  <span className="min-w-0 text-center leading-tight">{readingReturnCopy.meanings}</span>
                 </Link>
                 <Link
                   href={toolsReturnHref}
-                  className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
+                  className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg border border-white/10 px-4 py-2 text-sm text-white/68 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.05] hover:text-white"
                 >
-                  {readingReturnCopy.tools}
+                  <span className="min-w-0 text-center leading-tight">{readingReturnCopy.tools}</span>
                 </Link>
               </div>
             </div>
