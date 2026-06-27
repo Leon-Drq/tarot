@@ -1103,6 +1103,7 @@ function makeQuestionSeoPage(input: {
   slug: string
   cards: number[]
   recommendedSpread: SpreadType
+  locales?: SeoLocale[]
   title: string
   description: string
   h1: string
@@ -1115,6 +1116,7 @@ function makeQuestionSeoPage(input: {
     slug: input.slug,
     cards: input.cards,
     recommendedSpread: input.recommendedSpread,
+    locales: input.locales,
     content: {
       en: withSharedCta("en", {
         title: input.title,
@@ -1923,6 +1925,66 @@ seoPageSources.push(
     faqs: [
       { question: "Can tarot help me decide whether to take a job?", answer: "Yes. It can clarify tradeoffs, motives, risk, and growth potential, especially when paired with practical facts." },
       { question: "What cards warn against accepting a job?", answer: "The Devil, Five of Pentacles, Seven of Swords, Ten of Wands, or The Moon can warn of pressure, weak fit, hidden terms, or burnout." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-accept-this-job-offer-tarot",
+    locales: ["en"],
+    cards: [1, 11, 63],
+    recommendedSpread: "binary_choice",
+    title: "Should I Accept This Job Offer Tarot",
+    description: "Use a free AI tarot reading to compare accepting a job offer, negotiating, waiting, or choosing a better-fit opportunity.",
+    h1: "Should I Accept This Job Offer Tarot",
+    intent: "Best for evaluating a job offer, salary, culture fit, stability, negotiation, growth potential, and the risks that may not be obvious yet.",
+    question: "Should I accept this job offer, and what should I compare before deciding?",
+    sections: [
+      { heading: "Compare the real offer, not just the title", body: "A job offer reading should weigh money, culture, manager fit, growth, stability, workload, commute, and whether the role matches the life you are building." },
+      { heading: "Use the spread to test negotiation", body: "The answer may lean yes, no, or yes after a condition changes. Read whether asking for clearer terms would improve the outcome." },
+      { heading: "Keep practical facts beside the cards", body: "Use tarot for reflection, then check contract terms, benefits, schedule, references, finances, and realistic alternatives before committing." },
+    ],
+    faqs: [
+      { question: "Can tarot help me decide whether to accept a job offer?", answer: "Yes, as reflection. It can clarify fit, risk, growth, and timing, but it should be paired with real offer details and practical judgment." },
+      { question: "What tarot cards suggest accepting a job offer?", answer: "Ace of Pentacles, Three of Pentacles, The Sun, Six of Wands, The World, and The Magician can support accepting when the spread also shows stability and fit." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "will-i-get-promoted-tarot",
+    locales: ["en"],
+    cards: [1, 7, 19],
+    recommendedSpread: "job_opportunity",
+    title: "Will I Get Promoted Tarot",
+    description: "Ask a free AI career tarot reading about promotion chances, workplace visibility, timing, support, and the next practical move.",
+    h1: "Will I Get Promoted Tarot",
+    intent: "Best for promotion timing, recognition, performance reviews, salary growth, workplace politics, and choosing the next professional action.",
+    question: "Will I get promoted, and what should I do to improve my chances?",
+    sections: [
+      { heading: "Promotion is visibility plus evidence", body: "A useful promotion reading should look at your current momentum, how visible your work is, who supports you, and what proof of value still needs to be clearer." },
+      { heading: "Read timing with preparation", body: "The cards can show whether the moment is opening, delayed, competitive, or asking for one more conversation before you push." },
+      { heading: "Turn the answer into a work move", body: "End the reading with one practical action: ask for feedback, document wins, prepare a review, clarify expectations, or strengthen one skill." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if I will get promoted?", answer: "Tarot can reflect momentum, support, obstacles, and timing themes. Promotion still depends on performance, company needs, budget, and real decisions." },
+      { question: "What cards suggest a promotion?", answer: "The Chariot, The Sun, Six of Wands, The Magician, Ace of Pentacles, and Three of Pentacles can support promotion when the spread shows recognition and readiness." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "what-career-is-right-for-me-tarot",
+    locales: ["en"],
+    cards: [1, 9, 21],
+    recommendedSpread: "job_opportunity",
+    title: "What Career Is Right for Me Tarot",
+    description: "Ask a free AI career tarot reading about direction, strengths, work style, purpose, and the next step toward a better-fit path.",
+    h1: "What Career Is Right for Me Tarot",
+    intent: "Best for career direction, feeling stuck, choosing a path, changing industries, creative work, and finding the kind of work that fits your strengths.",
+    question: "What career path is right for me, and what next step should I explore?",
+    sections: [
+      { heading: "Look for strengths before titles", body: "A career path reading works best when it reveals patterns: how you solve problems, what drains you, what gives momentum, and what kind of environment helps you thrive." },
+      { heading: "Do not force one fixed destiny", body: "The cards can suggest themes such as leadership, service, craft, analysis, communication, business, or creative independence without pretending one job title is guaranteed." },
+      { heading: "Turn direction into an experiment", body: "The best next step is small and testable: talk to someone in the field, build a sample project, update a portfolio, take a class, or apply to one aligned role." },
+    ],
+    faqs: [
+      { question: "Can tarot tell me what career is right for me?", answer: "Tarot can help reflect on strengths, motivations, work style, and direction. It should complement research, experience, mentoring, and practical planning." },
+      { question: "What cards suggest career direction?", answer: "The Magician, The Hermit, The World, Eight of Pentacles, Three of Pentacles, and The Chariot can suggest skill, mastery, completion, and forward movement when read in context." },
     ],
   }),
   makeQuestionSeoPage({

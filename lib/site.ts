@@ -373,6 +373,21 @@ export const highIntentQuestionLinks = [
     href: "/should-i-take-this-job-tarot",
   },
   {
+    title: "Should I accept this job offer tarot",
+    description: "A job offer decision tarot path for accepting, negotiating, waiting, and comparing role fit before committing.",
+    href: "/should-i-accept-this-job-offer-tarot",
+  },
+  {
+    title: "Will I get promoted tarot",
+    description: "A promotion tarot path for recognition, workplace visibility, timing, support, and the next professional action.",
+    href: "/will-i-get-promoted-tarot",
+  },
+  {
+    title: "What career is right for me tarot",
+    description: "A career direction tarot path for strengths, work style, purpose, better-fit roles, and one testable next step.",
+    href: "/what-career-is-right-for-me-tarot",
+  },
+  {
     title: "Should I start a business tarot",
     description: "A business decision tarot page for comparing launch timing, preparation, money risk, resources, and the first test.",
     href: "/should-i-start-a-business-tarot",

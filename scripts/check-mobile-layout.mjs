@@ -163,6 +163,11 @@ const pages = [
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
+    path: "/will-i-get-promoted-tarot",
+    name: "promotion long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/es/mi-ex-volvera-tarot",
     name: "Spanish long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,
