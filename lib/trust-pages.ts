@@ -225,9 +225,10 @@ export const trustPages: TrustPage[] = [
     title: "POPTarot Reader Feedback",
     description: "Representative reader feedback patterns for POPTarot daily tarot, love readings, career readings, and free AI tarot guidance.",
     eyebrow: "Reader Feedback",
-    intro: "These representative feedback patterns show the product experience we are optimizing for: clear, quick, reflective, and easy to return to.",
+    intro: "These representative feedback patterns show the product experience we are optimizing for: clear, quick, reflective, easy to return to, and open to real reader submissions.",
     sections: [
       { heading: "How to read this feedback", body: "Feedback shown here is representative product language written to describe the user experience we optimize for. It should not be read as guaranteed outcomes from any tarot reading." },
+      { heading: "Real submissions", body: "Readers can now send feedback privately from this page. POPTarot only turns a submission into a public review after editorial review and explicit permission to quote it." },
       { heading: "Daily tarot", body: "The daily card feels useful because it gives one clear focus instead of overwhelming me with a huge spread." },
       { heading: "Love readings", body: "The relationship answers are calmer than generic yes/no tools. I liked that the advice told me what I could actually do next." },
       { heading: "Career readings", body: "The career spread helped me separate burnout from a real signal that I needed to make a plan." },

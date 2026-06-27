@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
+import { ReaderFeedbackForm } from "@/components/trust/reader-feedback-form"
 import { getRelatedTrustLinks, type TrustPage } from "@/lib/trust-pages"
 import {
   appUrl,
@@ -61,6 +62,7 @@ function readingExampleStartHref(item: NonNullable<TrustPage["readingExamples"]>
 export function TrustPageView({ page }: { page: TrustPage }) {
   const relatedLinks = getRelatedTrustLinks(page.slug)
   const isOfficialChannelsPage = page.slug === "official-channels"
+  const isReviewsPage = page.slug === "reviews"
   const effectiveActionLinks = page.actionLinks?.length ? page.actionLinks : defaultTrustActionLinks
   const structuredData = {
     "@context": "https://schema.org",
@@ -363,6 +365,8 @@ export function TrustPageView({ page }: { page: TrustPage }) {
             </div>
           </section>
         )}
+
+        {isReviewsPage && <ReaderFeedbackForm />}
 
         {page.examples && (
           <section className="mt-12">

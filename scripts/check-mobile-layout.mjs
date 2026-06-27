@@ -108,7 +108,14 @@ const pages = [
   {
     path: "/reviews",
     name: "reviews trust page",
-    requiredSelectors: ["[data-trust-page]", "[data-trust-testimonial-start]", "[data-trust-default-free-action]"],
+    requiredSelectors: [
+      "[data-trust-page]",
+      "[data-trust-testimonial-start]",
+      "[data-trust-default-free-action]",
+      "[data-reader-feedback-form]",
+      "[data-reader-feedback-rating]",
+      "[data-reader-feedback-submit]",
+    ],
   },
   {
     path: "/tarot-reading-examples",

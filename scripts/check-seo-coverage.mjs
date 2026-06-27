@@ -130,6 +130,18 @@ const files = {
     path: "components/trust/trust-page.tsx",
     source: read("components/trust/trust-page.tsx"),
   },
+  readerFeedbackForm: {
+    path: "components/trust/reader-feedback-form.tsx",
+    source: read("components/trust/reader-feedback-form.tsx"),
+  },
+  feedbackRoute: {
+    path: "app/api/feedback/route.ts",
+    source: read("app/api/feedback/route.ts"),
+  },
+  readerFeedbackMigration: {
+    path: "supabase/migrations/20260627122534_create_reader_feedback.sql",
+    source: read("supabase/migrations/20260627122534_create_reader_feedback.sql"),
+  },
   reminderCapability: {
     path: "app/api/daily-tarot/reminder-capability/route.ts",
     source: read("app/api/daily-tarot/reminder-capability/route.ts"),
@@ -842,6 +854,36 @@ const trustDataCoverage = [
 for (const [file, needle, label] of trustDataCoverage) {
   assertIncludes(file, needle, label)
 }
+
+const readerFeedbackCoverage = [
+  [files.trustPageView, "ReaderFeedbackForm", "reviews page feedback form component"],
+  [files.trustPageView, "isReviewsPage && <ReaderFeedbackForm />", "reviews-only feedback form mount"],
+  [files.trustPages, "Real submissions", "reviews page real submission copy"],
+  [files.readerFeedbackForm, "data-reader-feedback-form", "reader feedback form selector"],
+  [files.readerFeedbackForm, "data-reader-feedback-rating", "reader feedback rating selector"],
+  [files.readerFeedbackForm, "data-reader-feedback-submit", "reader feedback submit selector"],
+  [files.readerFeedbackForm, "permission_to_feature", "reader feedback quote permission"],
+  [files.readerFeedbackForm, "website", "reader feedback honeypot"],
+  [files.feedbackRoute, "reader_feedback", "reader feedback API insert"],
+  [files.feedbackRoute, "getBearerToken", "reader feedback optional authenticated submit"],
+  [files.feedbackRoute, "permission_to_feature", "reader feedback API quote permission"],
+  [files.feedbackRoute, "user_agent", "reader feedback privacy-limited request metadata"],
+  [files.readerFeedbackMigration, "create table if not exists public.reader_feedback", "reader feedback table migration"],
+  [files.readerFeedbackMigration, "alter table public.reader_feedback enable row level security", "reader feedback RLS"],
+  [files.readerFeedbackMigration, "grant insert on table public.reader_feedback to anon, authenticated", "reader feedback public insert grant"],
+  [files.readerFeedbackMigration, "for insert", "reader feedback insert policies"],
+  [files.readerFeedbackMigration, "permission_to_feature", "reader feedback public quote permission column"],
+]
+
+for (const [file, needle, label] of readerFeedbackCoverage) {
+  assertIncludes(file, needle, label)
+}
+
+assertNotIncludes(
+  files.readerFeedbackMigration,
+  "grant select on table public.reader_feedback to anon",
+  "anonymous reader feedback select grant",
+)
 
 const structuredDataCoverage = [
   [files.site, "logo: {", "Organization logo"],
