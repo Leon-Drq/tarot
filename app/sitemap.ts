@@ -11,6 +11,7 @@ type SitemapRoute = {
   path: string
   priority: number
   alternates?: Record<string, string>
+  images?: string[]
 }
 
 function absoluteUrl(pathOrUrl: string) {
@@ -20,6 +21,13 @@ function absoluteUrl(pathOrUrl: string) {
 function absoluteAlternates(alternates: Record<string, string>) {
   return Object.fromEntries(Object.entries(alternates).map(([language, path]) => [language, absoluteUrl(path)]))
 }
+
+const brandIdentityImages = [
+  "/logo.png",
+  "/search-favicon.png",
+  "/favicon.png",
+  "/og-image.jpg",
+]
 
 const spreadHubAlternates = {
   en: "/tarot-spreads",
@@ -50,9 +58,9 @@ function cardAlternates(cardSlug: string) {
 }
 
 const baseRoutes = [
-  { path: "/", priority: 1 },
-  { path: "/free-tarot-tools", priority: 0.91 },
-  { path: "/daily-tarot", priority: 0.92 },
+  { path: "/", priority: 1, images: brandIdentityImages },
+  { path: "/free-tarot-tools", priority: 0.91, images: ["/logo.png", "/og-image.jpg"] },
+  { path: "/daily-tarot", priority: 0.92, images: ["/logo.png", "/og-image.jpg"] },
   { path: "/tarot-card-combinations", priority: 0.84 },
   { path: "/membership", priority: 0.4 },
 ] satisfies SitemapRoute[]
@@ -74,7 +82,11 @@ const seoRoutes = getAllLocalizedSeoPages().map((page) => ({
   priority: 0.86,
   alternates: seoPageAlternates(page.slug),
 })) satisfies SitemapRoute[]
-const trustRoutes = trustPages.map((page) => ({ path: `/${page.slug}`, priority: 0.58 })) satisfies SitemapRoute[]
+const trustRoutes = trustPages.map((page) => ({
+  path: `/${page.slug}`,
+  priority: 0.58,
+  ...(page.slug === "brand-assets" || page.slug === "official-channels" ? { images: brandIdentityImages } : {}),
+})) satisfies SitemapRoute[]
 
 const cardRoutes = TAROT_CARDS.flatMap((card) =>
   seoLocales.map((locale) => {
@@ -104,6 +116,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified,
     changeFrequency: route.path === "/" ? "daily" : "weekly",
     priority: route.priority,
+    ...(route.images ? { images: route.images.map(absoluteUrl) } : {}),
     ...(route.alternates
       ? {
           alternates: {

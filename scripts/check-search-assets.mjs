@@ -169,6 +169,15 @@ try {
     assertIncludes(sitemap, `<loc>${canonical(path)}</loc>`, `sitemap loc ${path}`)
   }
 
+  for (const snippet of [
+    `<image:loc>${canonical("/logo.png")}</image:loc>`,
+    `<image:loc>${canonical("/search-favicon.png")}</image:loc>`,
+    `<image:loc>${canonical("/favicon.png")}</image:loc>`,
+    `<image:loc>${canonical("/og-image.jpg")}</image:loc>`,
+  ]) {
+    assertIncludes(sitemap, snippet, `sitemap brand image ${snippet}`)
+  }
+
   for (const path of blockedSitemapPaths) {
     assertNotIncludes(sitemap, `<loc>${canonical(path)}</loc>`, `sitemap private flow ${path}`)
   }
