@@ -521,6 +521,47 @@ for (const regionalCopy of [
   assertIncludes(file, regionalCopy, `she-focused regional copy ${regionalCopy}`)
 }
 
+const careerFocusedRegionalQuestionSlugs = [
+  "should-i-accept-this-job-offer-tarot",
+  "will-i-get-promoted-tarot",
+  "what-career-is-right-for-me-tarot",
+]
+
+for (const slug of careerFocusedRegionalQuestionSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `career-focused regional SEO page ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en", "es", "pt-br"]', `career-focused regional locale control ${slug}`)
+  assertIncludes(files.tarotQuestions, `slug: "${slug}"`, `regional career question hub entry ${slug}`)
+}
+
+for (const [localizedSlug, label] of [
+  ["debo-aceptar-esta-oferta-de-trabajo-tarot", "Spanish accept job offer localized slug"],
+  ["conseguire-un-ascenso-tarot", "Spanish promotion localized slug"],
+  ["que-carrera-es-para-mi-tarot", "Spanish career direction localized slug"],
+  ["devo-aceitar-esta-oferta-de-trabalho-tarot", "Portuguese accept job offer localized slug"],
+  ["vou-ser-promovido-tarot", "Portuguese promotion localized slug"],
+  ["qual-carreira-combina-comigo-tarot", "Portuguese career direction localized slug"],
+]) {
+  assertIncludes(files.seoPages, `"${localizedSlug}"`, label)
+}
+
+for (const regionalCopy of [
+  "Tarot: ¿debo aceptar esta oferta de trabajo?",
+  "Tarot: ¿conseguiré un ascenso?",
+  "Tarot: ¿qué carrera es para mí?",
+  "Tarot: devo aceitar esta oferta de trabalho?",
+  "Tarot: vou ser promovido?",
+  "Tarot: qual carreira combina comigo?",
+  "Deberia aceptar esta oferta de trabajo?",
+  "Conseguire un ascenso?",
+  "Que carrera es para mi?",
+  "Devo aceitar esta oferta de trabalho?",
+  "Vou ser promovido?",
+  "Qual carreira combina comigo?",
+]) {
+  const file = regionalCopy.startsWith("Tarot:") ? files.seoPages : files.tarotQuestions
+  assertIncludes(file, regionalCopy, `career-focused regional copy ${regionalCopy}`)
+}
+
 const dailyIntentSlugs = [
   "daily-love-tarot",
   "daily-career-tarot",
@@ -972,6 +1013,9 @@ for (const localizedSlug of [
   "me-casare-tarot",
   "conseguire-el-trabajo-tarot",
   "deberia-aceptar-este-trabajo-tarot",
+  "debo-aceptar-esta-oferta-de-trabajo-tarot",
+  "conseguire-un-ascenso-tarot",
+  "que-carrera-es-para-mi-tarot",
   "tendre-exito-tarot",
   "ele-esta-pensando-em-mim-tarot",
   "tarot-amor-sim-ou-nao",
@@ -991,6 +1035,9 @@ for (const localizedSlug of [
   "vou-me-casar-tarot",
   "vou-conseguir-o-emprego-tarot",
   "devo-aceitar-este-trabalho-tarot",
+  "devo-aceitar-esta-oferta-de-trabalho-tarot",
+  "vou-ser-promovido-tarot",
+  "qual-carreira-combina-comigo-tarot",
   "vou-ter-sucesso-tarot",
 ]) {
   assertIncludes(files.seoPages, localizedSlug, `localized long-tail slug ${localizedSlug}`)
@@ -1145,6 +1192,8 @@ const identityMetadataCoverage = [
   [files.layout, "{ url: \"/favicon.ico\", sizes: \"any\" }", "ICO shortcut favicon fallback metadata"],
   [files.layout, "thumbnail: `${appUrl}${brandLogoPath}`", "absolute thumbnail logo metadata"],
   [files.layout, "\"og:logo\": `${appUrl}${brandLogoPath}`", "absolute Open Graph logo metadata"],
+  [files.layout, "property=\"og:logo\"", "standard Open Graph logo property metadata"],
+  [files.layout, "href=\"/favicon.ico\" sizes=\"any\"", "explicit ICO favicon head link"],
   [files.layout, "/favicon.png", "canonical search favicon metadata"],
   [files.layout, "/favicon.ico", "ICO favicon metadata"],
   [files.layout, "/favicon-16x16.png", "16px favicon metadata"],
