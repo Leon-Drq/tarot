@@ -45,6 +45,7 @@ function makeIco(images) {
   return Buffer.concat([header, ...entries, ...images.map((image) => image.buffer)])
 }
 
+const favicon16 = await png(16, "favicon-16x16.png")
 const favicon32 = await png(32, "favicon-32x32.png")
 const favicon48 = await png(48, "favicon-48x48.png")
 const favicon96 = await png(96, "favicon-96x96.png")
@@ -61,6 +62,7 @@ await png(32, "icon-dark-32x32.png")
 await writeFile(
   join(publicDir, "favicon.ico"),
   makeIco([
+    { size: 16, buffer: favicon16 },
     { size: 32, buffer: favicon32 },
     { size: 48, buffer: favicon48 },
     { size: 96, buffer: favicon96 },

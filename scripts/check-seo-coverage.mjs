@@ -869,8 +869,10 @@ const identityMetadataCoverage = [
   [files.layout, "shortcut: \"/favicon.ico\"", "stable shortcut favicon metadata"],
   [files.layout, "`/favicon-48x48.png?v=${brandIconVersion}`", "versioned 48px favicon metadata"],
   [files.layout, "`/favicon.ico?v=${brandIconVersion}`", "versioned ICO favicon metadata"],
-  [files.layout, "thumbnail: brandLogoPath", "thumbnail logo metadata"],
+  [files.layout, "thumbnail: `${appUrl}${brandLogoPath}`", "absolute thumbnail logo metadata"],
+  [files.layout, "\"og:logo\": `${appUrl}${brandLogoPath}`", "absolute Open Graph logo metadata"],
   [files.layout, "/favicon.ico", "ICO favicon metadata"],
+  [files.layout, "/favicon-16x16.png", "16px favicon metadata"],
   [files.layout, "/favicon-32x32.png", "32px favicon metadata"],
   [files.layout, "/favicon-48x48.png", "48px favicon metadata"],
   [files.layout, "/favicon-96x96.png", "96px favicon metadata"],
@@ -1004,6 +1006,7 @@ for (const [needle, label] of [
 
 for (const [path, label] of [
   ["public/favicon.ico", "ICO favicon"],
+  ["public/favicon-16x16.png", "16px favicon"],
   ["public/favicon-32x32.png", "32px favicon"],
   ["public/favicon-48x48.png", "48px favicon"],
   ["public/favicon-96x96.png", "96px favicon"],
