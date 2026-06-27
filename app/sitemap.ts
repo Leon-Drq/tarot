@@ -53,6 +53,7 @@ const baseRoutes = [
   { path: "/", priority: 1 },
   { path: "/free-tarot-tools", priority: 0.91 },
   { path: "/daily-tarot", priority: 0.92 },
+  { path: "/tarot-card-combinations", priority: 0.84 },
   { path: "/membership", priority: 0.4 },
 ] satisfies SitemapRoute[]
 

@@ -39,6 +39,11 @@ const homeFreePaths = [
     description: "Browse 78 tarot card meanings with upright, reversed, love, career, money, yes-or-no, advice, combinations, and FAQ.",
     href: "/tarot-card-meanings",
   },
+  {
+    title: "Tarot Card Combinations",
+    description: "Compare common tarot card pairs, then start a free spread when the pair needs to answer your real question.",
+    href: "/tarot-card-combinations",
+  },
 ]
 
 const homeQuickStartPaths = [

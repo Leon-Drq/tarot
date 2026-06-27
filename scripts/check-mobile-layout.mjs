@@ -142,6 +142,18 @@ const pages = [
     requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-context-signal-grid]", "[data-card-context-signal-link]", "[data-card-daily-return]", "[data-card-daily-return-cta]", "[data-card-neighbor-nav]"],
   },
   {
+    path: "/tarot-card-combinations",
+    name: "card combinations hub",
+    requiredSelectors: [
+      "[data-card-combinations-hub]",
+      "[data-card-combination-start-free]",
+      "[data-card-combination-hub-link]",
+      "[data-card-combination-method]",
+      "[data-card-combination-daily-return]",
+      "[data-card-combination-faq]",
+    ],
+  },
+  {
     path: "/free-tarot-tools",
     name: "free tools",
     requiredSelectors: ["[data-free-tools-quick-start-start]", "[data-free-tools-social-proof]"],

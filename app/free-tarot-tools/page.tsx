@@ -42,6 +42,12 @@ const toolPaths = [
     label: "Read meanings",
   },
   {
+    title: "Tarot Card Combinations",
+    body: "Compare common card pairs, learn how combinations change by question context, and open a free spread when you need the pair read together.",
+    href: "/tarot-card-combinations",
+    label: "Read pairs",
+  },
+  {
     title: "Reading Examples",
     body: "See realistic examples for love, reconciliation, career, daily guidance, and yes-or-no questions.",
     href: "/tarot-reading-examples",
@@ -89,7 +95,7 @@ const freeUpgradeBoundary = [
   },
   {
     area: "Card meanings",
-    free: "Read upright, reversed, love, career, money, yes-or-no, advice, combinations, and FAQ.",
+    free: "Read upright, reversed, love, career, money, yes-or-no, advice, combinations, pair guides, and FAQ.",
     upgrade: "Use saved history and monthly reports when repeated cards need a broader pattern review.",
     href: "/tarot-card-meanings",
   },

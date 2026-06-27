@@ -303,6 +303,7 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "适合快速判断，但保留 AI 解释。" },
           { href: "/love-tarot-reading", title: "爱情塔罗", body: "感情、复合、对方想法专项入口。" },
           { href: "/tarot-card-meanings", title: "牌义大全", body: "78 张牌的正位、逆位和场景解读。" },
+          { href: "/tarot-card-combinations", title: "牌组组合", body: "从常见配对进入更具体的免费牌阵。" },
         ],
         trustItems: [
           { href: "/about", title: "关于" },
@@ -367,6 +368,7 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "A quick answer with the reason behind it." },
           { href: "/love-tarot-reading", title: "Love Tarot", body: "Feelings, reconnection, and relationship clarity." },
           { href: "/tarot-card-meanings", title: "Card Meanings", body: "Upright, reversed, love, career, money, and advice." },
+          { href: "/tarot-card-combinations", title: "Card Combinations", body: "Compare common pairs, then open a free spread for your question." },
         ],
         trustItems: [
           { href: "/about", title: "About" },
@@ -435,6 +437,7 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "短い答えと理由を確認。" },
           { href: "/love-tarot-reading", title: "恋愛タロット", body: "気持ち、復縁、関係の流れ。" },
           { href: "/tarot-card-meanings", title: "カードの意味", body: "正位置、逆位置、恋愛、仕事、金運。" },
+          { href: "/tarot-card-combinations", title: "カードの組み合わせ", body: "よくあるペアから無料リーディングへ進みます。" },
         ],
         trustItems: [
           { href: "/about", title: "About" },
@@ -499,6 +502,7 @@ function HomeScrollContent() {
           { href: "/yes-or-no-tarot", title: "Yes / No Tarot", body: "빠른 답과 그 이유." },
           { href: "/love-tarot-reading", title: "연애 타로", body: "감정, 재회, 관계 흐름." },
           { href: "/tarot-card-meanings", title: "카드 의미", body: "정방향, 역방향, 사랑, 커리어, 조언." },
+          { href: "/tarot-card-combinations", title: "카드 조합", body: "자주 나오는 조합에서 무료 스프레드로 이어집니다." },
         ],
         trustItems: [
           { href: "/about", title: "About" },

@@ -108,6 +108,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "免费 AI 解读",
         freeReadingSubtitle: "先提问抽牌，不用先付费",
         cardMeanings: "牌义大全",
+        cardCombinations: "牌组组合",
         tarotSpreads: "免费牌阵",
         tarotQuestions: "问题入口",
         freeTools: "免费工具",
@@ -127,6 +128,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "Free AI Reading",
         freeReadingSubtitle: "Ask, draw, and read before paying",
         cardMeanings: "Card Meanings",
+        cardCombinations: "Card Combinations",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "Tarot Questions",
         freeTools: "Free Tools",
@@ -146,6 +148,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "無料 AI リーディング",
         freeReadingSubtitle: "まず質問してカードを引く",
         cardMeanings: "カードの意味",
+        cardCombinations: "カード組み合わせ",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "質問別タロット",
         freeTools: "Free Tools",
@@ -165,6 +168,7 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
         freeReading: "무료 AI 리딩",
         freeReadingSubtitle: "먼저 질문하고 카드를 뽑기",
         cardMeanings: "카드 의미",
+        cardCombinations: "카드 조합",
         tarotSpreads: "Tarot Spreads",
         tarotQuestions: "질문별 타로",
         freeTools: "Free Tools",
@@ -296,6 +300,12 @@ export function MenuPanel({ isOpen, frontImage, backImage, onFrontChange, onBack
             className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
           >
             {menuCopy.cardMeanings}
+          </button>
+          <button
+            onClick={() => handleNavigate("/tarot-card-combinations")}
+            className="rounded-lg border border-mystic-border bg-mystic-surface/45 px-3 py-3 text-left text-xs text-mystic-foreground-subtle transition hover:border-mystic-foreground/20 hover:text-mystic-foreground"
+          >
+            {menuCopy.cardCombinations}
           </button>
           <button
             onClick={() => handleNavigate("/tarot-spreads")}

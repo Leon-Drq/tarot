@@ -76,6 +76,10 @@ const files = {
     path: "components/seo/tarot-card-meaning-page.tsx",
     source: read("components/seo/tarot-card-meaning-page.tsx"),
   },
+  tarotCardCombinationsPage: {
+    path: "app/tarot-card-combinations/page.tsx",
+    source: read("app/tarot-card-combinations/page.tsx"),
+  },
   seoOgImage: {
     path: "lib/seo-og-image.tsx",
     source: read("lib/seo-og-image.tsx"),
@@ -555,6 +559,32 @@ assertIncludes(files.freeToolsPage, "#reader-feedback", "free tools reader feedb
 assertIncludes(files.freeToolsPage, "#example-readings", "free tools example readings structured data")
 assertIncludes(files.freeToolsPage, "representativeTestimonials.slice(0, 3)", "free tools representative testimonial reuse")
 assertIncludes(files.freeToolsPage, "getTrustPage(\"tarot-reading-examples\")", "free tools sample reading example reuse")
+assertIncludes(files.freeToolsPage, "Tarot Card Combinations", "free tools card combinations path")
+assertIncludes(files.homePage, "Tarot Card Combinations", "homepage card combinations path")
+assertIncludes(files.homeExperience, "/tarot-card-combinations", "homepage scroll card combinations path")
+assertIncludes(files.menuPanel, "/tarot-card-combinations", "menu card combinations path")
+assertIncludes(files.site, "Tarot Card Combinations", "site graph card combinations core tool")
+assertIncludes(files.site, "Tarot card combinations", "application feature list card combinations")
+assertIncludes(files.sitemap, 'path: "/tarot-card-combinations"', "card combinations sitemap route")
+
+for (const [needle, label] of [
+  ["data-card-combinations-hub", "card combinations visible page hook"],
+  ["Tarot Card Combinations", "card combinations page title"],
+  ["Common Tarot Card Combination Paths", "card combinations path section"],
+  ["getTarotCardSeoPage(source, \"en\")", "card combinations reuse English card SEO data"],
+  ["`${sourcePage.path}#combinations`", "card combinations source page anchor links"],
+  ["data-card-combination-hub-link", "card combinations hub internal links"],
+  ["data-card-combination-start-free", "card combinations free reading CTA"],
+  ["data-card-combination-daily-return", "card combinations Daily Tarot return CTA"],
+  ["data-card-combination-method", "card combinations method section hook"],
+  ["data-card-combination-faq", "card combinations FAQ section hook"],
+  ["\"@type\": \"CollectionPage\"", "card combinations CollectionPage schema"],
+  ["\"@type\": \"HowTo\"", "card combinations HowTo schema"],
+  ["\"@type\": \"FAQPage\"", "card combinations FAQ schema"],
+  ["isAccessibleForFree: true", "card combinations free access schema"],
+]) {
+  assertIncludes(files.tarotCardCombinationsPage, needle, label)
+}
 assertIncludes(files.tarotSpreadsPage, "data-spread-access-boundary", "tarot spreads visible free/member boundary")
 assertIncludes(files.tarotSpreadsPage, "#free-starter-spread-boundary", "tarot spreads boundary structured data")
 assertIncludes(files.tarotSpreadsPage, "isAdvancedSpreadType(type)", "tarot spreads advanced spread detection")
@@ -1044,6 +1074,7 @@ const searchAssetRuntimeCoverage = [
   [files.searchAssetCheck, "requiredSitemapPaths", "search asset sitemap path registry"],
   [files.searchAssetCheck, "\"/free-tarot-tools\"", "search asset free hub sitemap check"],
   [files.searchAssetCheck, "\"/daily-tarot\"", "search asset Daily Tarot sitemap check"],
+  [files.searchAssetCheck, "\"/tarot-card-combinations\"", "search asset card combinations sitemap check"],
   [files.searchAssetCheck, "\"/will-my-ex-come-back-tarot\"", "search asset long-tail sitemap check"],
   [files.searchAssetCheck, "\"/es/mi-ex-volvera-tarot\"", "search asset Spanish long-tail sitemap check"],
   [files.searchAssetCheck, "\"/pt-br/meu-ex-vai-voltar-tarot\"", "search asset Portuguese long-tail sitemap check"],

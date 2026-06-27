@@ -32,6 +32,7 @@ const requiredSitemapPaths = [
   "/tarot-questions",
   "/tarot-spreads",
   "/tarot-card-meanings",
+  "/tarot-card-combinations",
   "/will-my-ex-come-back-tarot",
   "/does-he-love-me-tarot",
   "/does-she-love-me-tarot",
@@ -58,7 +59,15 @@ const requiredSitemapPaths = [
 
 const blockedSitemapPaths = ["/input", "/reading", "/reveal", "/loading-reading", "/profile", "/analytics"]
 const robotsDisallows = ["/api/", "/auth/", "/profile", "/input", "/reading", "/reveal", "/loading-reading", "/analytics"]
-const publicRobotsPaths = ["/", "/free-tarot-tools", "/daily-tarot", "/tarot-questions", "/brand-assets", "/reviews"]
+const publicRobotsPaths = [
+  "/",
+  "/free-tarot-tools",
+  "/daily-tarot",
+  "/tarot-questions",
+  "/tarot-card-combinations",
+  "/brand-assets",
+  "/reviews",
+]
 
 function absolute(path) {
   return new URL(path, rootUrl).toString()
