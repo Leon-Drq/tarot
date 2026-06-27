@@ -5,7 +5,6 @@ export const siteName = "POPTarot"
 export const siteTitle = "POPTarot - Free AI Tarot Reading"
 export const siteDescription =
   "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
-export const brandIconVersion = "20260627"
 export const brandLogoPath = "/logo.png"
 export const brandFaviconPath = "/favicon-48x48.png"
 export const brandSvgIconPath = "/icon.svg"

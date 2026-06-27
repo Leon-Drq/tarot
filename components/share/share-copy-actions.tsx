@@ -1,9 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { Copy, Instagram, Link2, Mail, Share2 } from "lucide-react"
+import { CalendarPlus, Copy, Instagram, Link2, Mail, Share2 } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
 import { analyticsApi, type ReadingShareCard } from "@/lib/api"
+import { downloadDailyReturnCalendar } from "@/lib/client-calendar-reminder"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 
@@ -31,6 +32,10 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailInsightLabel: "解读摘录",
       emailOpenLabel: "打开完整解读",
       emailDailyLabel: "明天继续每日塔罗",
+      calendar: "添加日历提醒",
+      calendarSaved: "日历提醒已下载",
+      calendarSummary: "POPTarot 每日塔罗",
+      calendarDescription: "回到 POPTarot 抽一张每日免费塔罗牌，保存日记并延续连续打卡。",
       linkCopied: "链接已复制",
       shared: "分享面板已打开",
       copied: "文案已复制",
@@ -49,6 +54,10 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailInsightLabel: "Insight excerpt",
       emailOpenLabel: "Open full reading",
       emailDailyLabel: "Continue with Daily Tarot tomorrow",
+      calendar: "Add Calendar",
+      calendarSaved: "Calendar reminder downloaded",
+      calendarSummary: "POPTarot Daily Tarot",
+      calendarDescription: "Return to POPTarot for one free daily tarot card, a journal note, and your streak.",
       linkCopied: "Link copied",
       shared: "Share sheet opened",
       copied: "Caption copied",
@@ -67,6 +76,10 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailInsightLabel: "解釈の抜粋",
       emailOpenLabel: "全文を開く",
       emailDailyLabel: "明日も Daily Tarot を続ける",
+      calendar: "カレンダーに追加",
+      calendarSaved: "カレンダーリマインダーを保存しました",
+      calendarSummary: "POPTarot Daily Tarot",
+      calendarDescription: "POPTarotで無料の毎日カードを引き、日記と連続記録を続けましょう。",
       linkCopied: "リンクをコピーしました",
       shared: "共有シートを開きました",
       copied: "テキストをコピーしました",
@@ -85,6 +98,10 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailInsightLabel: "해석 요약",
       emailOpenLabel: "전체 리딩 열기",
       emailDailyLabel: "내일 Daily Tarot 이어가기",
+      calendar: "캘린더에 추가",
+      calendarSaved: "캘린더 알림이 저장되었습니다",
+      calendarSummary: "POPTarot Daily Tarot",
+      calendarDescription: "POPTarot에서 무료 데일리 카드를 뽑고 저널과 연속 기록을 이어가세요.",
       linkCopied: "링크가 복사되었습니다",
       shared: "공유 창을 열었습니다",
       copied: "문구를 복사했습니다",
@@ -103,6 +120,10 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailInsightLabel: "Extracto de la lectura",
       emailOpenLabel: "Abrir lectura completa",
       emailDailyLabel: "Continuar con Daily Tarot manana",
+      calendar: "Agregar calendario",
+      calendarSaved: "Recordatorio de calendario descargado",
+      calendarSummary: "POPTarot Tarot Diario",
+      calendarDescription: "Vuelve a POPTarot por una carta diaria gratis, una nota de diario y tu racha.",
       linkCopied: "Enlace copiado",
       shared: "Panel de compartir abierto",
       copied: "Texto copiado",
@@ -121,6 +142,10 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       emailInsightLabel: "Trecho da leitura",
       emailOpenLabel: "Abrir leitura completa",
       emailDailyLabel: "Continuar com Daily Tarot amanha",
+      calendar: "Adicionar calendario",
+      calendarSaved: "Lembrete de calendario baixado",
+      calendarSummary: "POPTarot Tarot Diario",
+      calendarDescription: "Volte ao POPTarot para uma carta diaria gratis, uma nota no diario e sua sequencia.",
       linkCopied: "Link copiado",
       shared: "Painel de compartilhamento aberto",
       copied: "Texto copiado",
@@ -131,6 +156,10 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
 
   const copy = copyByLanguage[language as keyof typeof copyByLanguage] || copyByLanguage.en
   const shareSlug = url.split("/share/")[1]?.split(/[?#]/)[0]
+  const dailyReturnUrl =
+    typeof window === "undefined"
+      ? "https://poptarot.com/daily-tarot?utm_source=public_share&utm_medium=calendar_reminder&utm_campaign=shared_reading"
+      : `${window.location.origin}/daily-tarot?utm_source=public_share&utm_medium=calendar_reminder&utm_campaign=shared_reading`
 
   const trackShareAction = (action: string) => {
     analyticsApi.track("share_template_copied", {
@@ -201,6 +230,27 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
     })
     window.location.href = `mailto:?subject=${subject}&body=${body}`
     setStatus(copy.emailOpened)
+  }
+
+  const handleCalendarReminder = () => {
+    downloadDailyReturnCalendar({
+      time: "08:30",
+      summary: copy.calendarSummary,
+      description: copy.calendarDescription,
+      url: dailyReturnUrl,
+      filename: "poptarot-shared-reading-daily-return.ics",
+    })
+    analyticsApi.track("daily_calendar_reminder_downloaded", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: question,
+      share_slug: shareSlug,
+      metadata: {
+        surface: "public_share_page",
+        reminder_time: "08:30",
+      },
+    })
+    setStatus(copy.calendarSaved)
   }
 
   const handleNativeShare = async () => {
@@ -276,6 +326,14 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
         >
           <Mail className="h-3.5 w-3.5" />
           {copy.emailSelf}
+        </button>
+        <button
+          onClick={handleCalendarReminder}
+          data-public-share-calendar-reminder
+          className="inline-flex min-h-10 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/25 bg-[#c9c0ff]/[0.06] px-3 py-2 text-xs text-[#eeeaff] transition hover:border-[#c9c0ff]/50 hover:bg-[#c9c0ff]/[0.1]"
+        >
+          <CalendarPlus className="h-3.5 w-3.5" />
+          {copy.calendar}
         </button>
         <button
           onClick={() => handleCopy("xhs")}

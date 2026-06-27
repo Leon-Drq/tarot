@@ -41,6 +41,10 @@ const files = {
     path: "components/daily/daily-tarot-tool.tsx",
     source: read("components/daily/daily-tarot-tool.tsx"),
   },
+  clientCalendarReminder: {
+    path: "lib/client-calendar-reminder.ts",
+    source: read("lib/client-calendar-reminder.ts"),
+  },
   analyticsEventRoute: {
     path: "app/api/analytics/event/route.ts",
     source: read("app/api/analytics/event/route.ts"),
@@ -925,8 +929,6 @@ for (const [file, needle, label] of structuredDataCoverage) {
 const identityMetadataCoverage = [
   [files.layout, "manifest: \"/manifest.webmanifest\"", "web app manifest metadata"],
   [files.layout, "shortcut: \"/favicon.ico\"", "stable shortcut favicon metadata"],
-  [files.layout, "`/favicon-48x48.png?v=${brandIconVersion}`", "versioned 48px favicon metadata"],
-  [files.layout, "`/favicon.ico?v=${brandIconVersion}`", "versioned ICO favicon metadata"],
   [files.layout, "thumbnail: `${appUrl}${brandLogoPath}`", "absolute thumbnail logo metadata"],
   [files.layout, "\"og:logo\": `${appUrl}${brandLogoPath}`", "absolute Open Graph logo metadata"],
   [files.layout, "/favicon.ico", "ICO favicon metadata"],
@@ -964,6 +966,10 @@ const identityMetadataCoverage = [
 
 for (const [file, needle, label] of identityMetadataCoverage) {
   assertIncludes(file, needle, label)
+}
+
+for (const unstableFavicon of ["favicon-48x48.png?v=", "favicon-96x96.png?v=", "favicon.ico?v="]) {
+  assertNotIncludes(files.layout, unstableFavicon, "stable search favicon metadata")
 }
 
 const searchAssetRuntimeCoverage = [
@@ -1154,11 +1160,13 @@ const dailyReminderCoverage = [
   [files.dailyTarotTool, "data-daily-return-setup", "Daily Tarot return setup panel"],
   [files.dailyTarotTool, "data-daily-return-setup-calendar", "Daily Tarot prominent calendar reminder CTA"],
   [files.dailyTarotTool, "data-daily-return-setup-reminder", "Daily Tarot reminder preference CTA"],
-  [files.dailyTarotTool, "X-WR-TIMEZONE", "Daily Tarot calendar timezone"],
-  [files.dailyTarotTool, "DTSTART;TZID=", "Daily Tarot calendar timezone-aware start"],
-  [files.dailyTarotTool, "RRULE:FREQ=DAILY;INTERVAL=1", "Daily Tarot recurring calendar rule"],
-  [files.dailyTarotTool, "BEGIN:VALARM", "Daily Tarot calendar alarm block"],
-  [files.dailyTarotTool, "TRIGGER:-PT10M", "Daily Tarot calendar notification trigger"],
+  [files.clientCalendarReminder, "downloadDailyReturnCalendar", "shared Daily Tarot calendar download helper"],
+  [files.clientCalendarReminder, "X-WR-TIMEZONE", "Daily Tarot calendar timezone"],
+  [files.clientCalendarReminder, "DTSTART;TZID=", "Daily Tarot calendar timezone-aware start"],
+  [files.clientCalendarReminder, "RRULE:FREQ=DAILY;INTERVAL=1", "Daily Tarot recurring calendar rule"],
+  [files.clientCalendarReminder, "BEGIN:VALARM", "Daily Tarot calendar alarm block"],
+  [files.clientCalendarReminder, "TRIGGER:-PT10M", "Daily Tarot calendar notification trigger"],
+  [files.dailyTarotTool, "downloadDailyReturnCalendar", "Daily Tarot uses shared calendar helper"],
   [files.dailyTarotTool, "daily_calendar_reminder_downloaded", "Daily Tarot calendar reminder analytics event"],
   [files.dailyTarotTool, "daily_reminder_preference_saved", "Daily Tarot reminder preference analytics event"],
   [files.dailyTarotTool, "synced_to_cloud", "Daily Tarot reminder preference cloud sync metadata"],
@@ -1254,6 +1262,9 @@ const publicShareConversionCoverage = [
   [files.shareCopyActions, "data-public-share-native-share", "public share native share CTA"],
   [files.shareCopyActions, "data-public-share-copy-link", "public share copy link CTA"],
   [files.shareCopyActions, "data-public-share-email-self", "public share self-email CTA"],
+  [files.shareCopyActions, "data-public-share-calendar-reminder", "public share calendar return CTA"],
+  [files.shareCopyActions, "downloadDailyReturnCalendar", "public share calendar helper"],
+  [files.shareCopyActions, "surface: \"public_share_page\"", "public share calendar analytics surface"],
   [files.shareCopyActions, "mailto:?subject=", "public share self-email mailto"],
   [files.shareCopyActions, "reading_email_self_opened", "public share self-email analytics event"],
   [files.shareCopyActions, "public_share_email", "public share self-email Daily Tarot attribution"],
@@ -1331,6 +1342,10 @@ const freeFirstReadingCoverage = [
   [files.readingPage, "mailto:?subject=", "free reading self-email mailto"],
   [files.readingPage, "reading_email_self_opened", "free reading self-email analytics event"],
   [files.analyticsEventRoute, "reading_email_self_opened", "analytics self-email event allowlist"],
+  [files.readingPage, "data-reading-return-calendar", "free reading result calendar return CTA"],
+  [files.readingPage, "handleDownloadReadingReturnCalendar", "free reading result calendar handler"],
+  [files.readingPage, "surface: \"reading_result\"", "free reading result calendar analytics surface"],
+  [files.readingPage, "poptarot-reading-daily-return.ics", "free reading result calendar filename"],
   [files.readingPage, "data-reading-free-share-loop", "free reading visible share loop"],
   [files.readingPage, "data-reading-free-share-step", "free reading share loop steps"],
   [files.readingPage, "Share and revisit first, upgrade later", "free reading share-before-upgrade copy"],

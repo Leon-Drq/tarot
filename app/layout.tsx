@@ -6,7 +6,7 @@ import { AuthProvider } from "@/contexts/auth-context"
 import { LanguageProvider } from "@/contexts/language-context"
 import { AudioProvider } from "@/contexts/audio-context"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
-import { appUrl, brandIconVersion, brandLogoPath, siteDescription, siteName, siteTitle } from "@/lib/site"
+import { appUrl, brandLogoPath, siteDescription, siteName, siteTitle } from "@/lib/site"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -57,15 +57,12 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
-      { url: `/favicon-48x48.png?v=${brandIconVersion}`, sizes: "48x48", type: "image/png" },
       { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon.ico", sizes: "any" },
       { url: "/icon.png", sizes: "512x512", type: "image/png" },
       { url: "/icon.svg", type: "image/svg+xml" },
-      { url: `/favicon-96x96.png?v=${brandIconVersion}`, sizes: "96x96", type: "image/png" },
-      { url: `/favicon.ico?v=${brandIconVersion}`, sizes: "any" },
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: "/favicon.ico",

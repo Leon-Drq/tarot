@@ -150,6 +150,9 @@ try {
   ]) {
     assertIncludes(home, snippet, `homepage search asset ${snippet}`)
   }
+  for (const snippet of ["favicon-48x48.png?v=", "favicon-96x96.png?v=", "favicon.ico?v="]) {
+    assertNotIncludes(home, snippet, `homepage stable favicon URL ${snippet}`)
+  }
 
   for (const snippet of [
     "48 x 48 search favicon",
