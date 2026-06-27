@@ -1320,6 +1320,7 @@ function questionReturnLoopItems(page: SeoPage, primaryHref: string): QuestionRe
   const copy = questionReturnLoopCopy[page.locale]
   const dailyParams = new URLSearchParams({
     return_focus: page.ctaQuestion,
+    return_action: "reminder",
     utm_source: "seo",
     utm_medium: "question_return_loop",
     utm_campaign: page.slug,
@@ -2954,6 +2955,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const questionTrustTestimonials = representativeTestimonials.slice(0, 3)
   const questionShareDailyParams = new URLSearchParams({
     return_focus: page.ctaQuestion,
+    return_action: "reminder",
     utm_source: "seo",
     utm_medium: "question_share_return",
     utm_campaign: page.slug,

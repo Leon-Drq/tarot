@@ -62,9 +62,9 @@ const pages = [
     ],
   },
   {
-    path: "/daily-tarot?return_focus=Will%20my%20ex%20come%20back%20tarot&utm_source=seo&utm_medium=question_return_loop&utm_campaign=will-my-ex-come-back-tarot",
+    path: "/daily-tarot?return_focus=Will%20my%20ex%20come%20back%20tarot&return_action=reminder&utm_source=seo&utm_medium=question_return_loop&utm_campaign=will-my-ex-come-back-tarot",
     name: "daily tarot linked return focus",
-    requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-linked-return-focus]", "[data-daily-linked-return-focus-edit]", "[data-daily-direct-return-actions]", "[data-daily-return-setup-mailto]"],
+    requiredSelectors: ["[data-daily-tarot-tool]", "[data-daily-linked-return-focus]", "[data-daily-linked-return-focus-edit]", "[data-daily-return-setup]", "[data-daily-direct-return-actions]", "[data-daily-return-setup-mailto]"],
     requiredLocalStorageKeyPrefix: "poptarot_daily_return_",
   },
   {

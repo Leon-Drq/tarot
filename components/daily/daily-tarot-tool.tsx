@@ -1113,6 +1113,23 @@ export function DailyTarotTool() {
     })
   }
 
+  useEffect(() => {
+    const action = new URLSearchParams(window.location.search).get("return_action")
+    if (action !== "reminder" && action !== "return-cue") return
+
+    const timeout = window.setTimeout(() => {
+      if (action === "reminder") {
+        const target = document.querySelector("[data-daily-return-setup]") || document.querySelector("[data-daily-reminder-form]")
+        target?.scrollIntoView({ behavior: "smooth", block: "center" })
+        return
+      }
+
+      scrollToReturnCue()
+    }, 450)
+
+    return () => window.clearTimeout(timeout)
+  }, [])
+
   const handleInstallPrompt = async () => {
     if (!installPrompt) {
       setInstallStatus(copy.installFallback)
