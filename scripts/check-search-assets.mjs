@@ -200,6 +200,9 @@ try {
     "/manifest.webmanifest",
     "/og-image.jpg",
     `${canonicalUrl}/logo.png`,
+    `"primaryImageOfPage":{"@id":"${canonicalUrl}/#logo"}`,
+    `"image":{"@id":"${canonicalUrl}/#logo"}`,
+    `"thumbnailUrl":"${canonicalUrl}/logo.png"`,
   ]) {
     assertIncludes(home, snippet, `homepage search asset ${snippet}`)
   }

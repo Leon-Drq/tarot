@@ -128,6 +128,13 @@ const homeStructuredData = {
       dateModified: trustLastReviewed,
       isAccessibleForFree: true,
       inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
+      primaryImageOfPage: {
+        "@id": `${appUrl}/#logo`,
+      },
+      image: {
+        "@id": `${appUrl}/#logo`,
+      },
+      thumbnailUrl: `${appUrl}/logo.png`,
       about: {
         "@id": `${appUrl}/#app`,
       },
