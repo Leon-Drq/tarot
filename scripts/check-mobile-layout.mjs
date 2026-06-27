@@ -101,17 +101,17 @@ const pages = [
   {
     path: "/tarot-card-meanings/the-fool",
     name: "card meaning",
-    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-daily-return]", "[data-card-daily-return-cta]", "[data-card-neighbor-nav]"],
+    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-context-signal-grid]", "[data-card-context-signal-link]", "[data-card-daily-return]", "[data-card-daily-return-cta]", "[data-card-neighbor-nav]"],
   },
   {
     path: "/es/tarot-card-meanings/the-fool",
     name: "Spanish card meaning",
-    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-daily-return]", "[data-card-daily-return-cta]", "[data-card-neighbor-nav]"],
+    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-context-signal-grid]", "[data-card-context-signal-link]", "[data-card-daily-return]", "[data-card-daily-return-cta]", "[data-card-neighbor-nav]"],
   },
   {
     path: "/pt-br/tarot-card-meanings/the-fool",
     name: "Portuguese card meaning",
-    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-daily-return]", "[data-card-daily-return-cta]", "[data-card-neighbor-nav]"],
+    requiredSelectors: ["[data-tarot-card-meaning-page]", "[data-card-sticky-cta]", "[data-card-context-signal-grid]", "[data-card-context-signal-link]", "[data-card-daily-return]", "[data-card-daily-return-cta]", "[data-card-neighbor-nav]"],
   },
   {
     path: "/free-tarot-tools",

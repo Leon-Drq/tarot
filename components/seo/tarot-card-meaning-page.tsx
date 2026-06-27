@@ -214,12 +214,16 @@ function cardQuickAnswerRows(page: TarotCardSeoPage, keywords: ReturnType<typeof
 
 function cardPageNavItems(page: TarotCardSeoPage) {
   const copy = cardPageGuideCopy(page)
+  const contextSignalNavLabel =
+    page.locale === "es" ? "Señales por contexto" : page.locale === "pt-br" ? "Sinais por contexto" : "Context signals"
 
   return [
     { href: "#upright", label: page.uprightLabel },
     { href: "#reversed", label: page.reversedLabel },
     { href: "#core-meaning", label: copy.coreLabel },
-    ...(page.locale === "en" ? [{ href: "#context-signals", label: "Context signals" }] : []),
+    ...(page.locale === "en" || page.locale === "es" || page.locale === "pt-br"
+      ? [{ href: "#context-signals", label: contextSignalNavLabel }]
+      : []),
     ...page.deepSections.map((section, index) => ({
       href: `#${deepSectionAnchorId(page, index)}`,
       label: section.heading,
@@ -918,9 +922,119 @@ function cardContextSignalGrid(
   page: TarotCardSeoPage,
   keywords: ReturnType<typeof getCardKeywords>
 ): CardContextSignalGrid | null {
-  if (page.locale !== "en") return null
-
   const name = cardDisplayName(page)
+
+  if (page.locale === "es") {
+    return {
+      navLabel: "Señales por contexto",
+      eyebrow: "Guía de búsqueda",
+      title: `${name} por tipo de pregunta`,
+      body: "Usa estas señales rápidas cuando necesites una respuesta clara, luego abre la tirada gratuita que mejor encaja con tu pregunta.",
+      uprightLabel: "Señal en posición normal",
+      reversedLabel: "Señal invertida",
+      questionLabel: "Buena pregunta siguiente",
+      actionLabel: "Abrir tirada gratis",
+      rows: [
+        {
+          label: "Amor",
+          context: "Amor",
+          upright: `${keywords.upright}. Observa si la conducta sostiene el sentimiento, no solo la atracción.`,
+          reversed: `${keywords.reversed}. Ve más despacio si el mismo patrón de relación vuelve a crear confusión.`,
+          question: `Que significa ${name} para mi vida amorosa ahora?`,
+          spread: "relationship",
+        },
+        {
+          label: "Carrera",
+          context: "Carrera",
+          upright: `${keywords.upright}. Úsalo como señal de impulso, responsabilidad o el próximo movimiento práctico.`,
+          reversed: `${keywords.reversed}. Revisa si la presión, el mal timing o prioridades poco claras distorsionan la decisión.`,
+          question: `Como puedo usar la energia de ${name} en mi carrera esta semana?`,
+          spread: "job_opportunity",
+        },
+        {
+          label: "Dinero",
+          context: "Dinero",
+          upright: `${keywords.upright}. Conecta el significado con recursos reales, gastos, planificación y estabilidad.`,
+          reversed: `${keywords.reversed}. Evita decisiones apresuradas hasta aclarar riesgo, costo o información faltante.`,
+          question: `Que debo entender sobre ${name} y mi decision de dinero ahora?`,
+          spread: "shopping_decision",
+        },
+        {
+          label: "Si o no",
+          context: "Si o no",
+          upright: `${keywords.upright}. La respuesta se vuelve más clara cuando la pregunta coincide con la energía activa de la carta.`,
+          reversed: `${keywords.reversed}. Tómalo como espera, aclara o repara el patrón antes de actuar.`,
+          question: `${name} sugiere si o no para mi decision actual?`,
+          spread: "yes_no",
+        },
+        {
+          label: "Consejo",
+          context: "Consejo",
+          upright: `${keywords.upright}. Elige una acción concreta que trabaje con la carta en vez de buscar seguridad repetida.`,
+          reversed: `${keywords.reversed}. El consejo útil es corregir el desequilibrio antes del siguiente movimiento.`,
+          question: `Que consejo me da ${name} hoy?`,
+          spread: "three_card",
+        },
+      ],
+    }
+  }
+
+  if (page.locale === "pt-br") {
+    return {
+      navLabel: "Sinais por contexto",
+      eyebrow: "Guia de busca",
+      title: `${name} por tipo de pergunta`,
+      body: "Use estes sinais rápidos quando precisar de uma resposta clara, depois abra a tiragem grátis que combina com sua pergunta.",
+      uprightLabel: "Sinal em posição normal",
+      reversedLabel: "Sinal invertido",
+      questionLabel: "Boa próxima pergunta",
+      actionLabel: "Abrir tiragem grátis",
+      rows: [
+        {
+          label: "Amor",
+          context: "Amor",
+          upright: `${keywords.upright}. Observe se o comportamento sustenta o sentimento, não só a atração.`,
+          reversed: `${keywords.reversed}. Vá mais devagar se o mesmo padrão de relacionamento continua criando confusão.`,
+          question: `O que ${name} significa para minha vida amorosa agora?`,
+          spread: "relationship",
+        },
+        {
+          label: "Carreira",
+          context: "Carreira",
+          upright: `${keywords.upright}. Use como sinal de impulso, responsabilidade ou próximo movimento prático.`,
+          reversed: `${keywords.reversed}. Veja se pressão, timing ruim ou prioridades confusas estão distorcendo a decisão.`,
+          question: `Como posso usar a energia de ${name} na minha carreira esta semana?`,
+          spread: "job_opportunity",
+        },
+        {
+          label: "Dinheiro",
+          context: "Dinheiro",
+          upright: `${keywords.upright}. Conecte o significado a recursos reais, gastos, planejamento e estabilidade.`,
+          reversed: `${keywords.reversed}. Evite escolhas apressadas até entender risco, custo ou informação faltante.`,
+          question: `O que preciso entender sobre ${name} e minha escolha de dinheiro agora?`,
+          spread: "shopping_decision",
+        },
+        {
+          label: "Sim ou nao",
+          context: "Sim ou nao",
+          upright: `${keywords.upright}. A resposta fica mais clara quando a pergunta combina com a energia ativa da carta.`,
+          reversed: `${keywords.reversed}. Trate como espera, esclarecimento ou reparo do padrão antes de agir.`,
+          question: `${name} sugere sim ou nao para minha decisao atual?`,
+          spread: "yes_no",
+        },
+        {
+          label: "Conselho",
+          context: "Conselho",
+          upright: `${keywords.upright}. Escolha uma ação concreta que trabalhe com a carta em vez de buscar garantia repetida.`,
+          reversed: `${keywords.reversed}. O conselho útil é corrigir o desequilíbrio antes do próximo movimento.`,
+          question: `Que conselho ${name} me da hoje?`,
+          spread: "three_card",
+        },
+      ],
+    }
+  }
+
+  if (page.locale !== "en") return null
 
   return {
     navLabel: "Context signals",
