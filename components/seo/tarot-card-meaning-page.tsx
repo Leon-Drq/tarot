@@ -7,7 +7,7 @@ import { getCardKeywords, getCardSlug, getCardSuit, type TarotCardSeoPage } from
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
 import type { SpreadType } from "@/lib/spread-config"
 import { TAROT_CARDS, type TarotCard } from "@/lib/tarot-cards"
-import { trustHighlights, trustLastReviewed } from "@/lib/trust-signals"
+import { representativeTestimonials, trustHighlights, trustLastReviewed } from "@/lib/trust-signals"
 
 function readingHref(page: TarotCardSeoPage) {
   const params = new URLSearchParams({
@@ -216,11 +216,24 @@ function cardPageNavItems(page: TarotCardSeoPage) {
   const copy = cardPageGuideCopy(page)
   const contextSignalNavLabel =
     page.locale === "es" ? "Señales por contexto" : page.locale === "pt-br" ? "Sinais por contexto" : "Context signals"
+  const trustNavLabel =
+    page.locale === "zh"
+      ? "信任说明"
+      : page.locale === "ja"
+        ? "信頼"
+        : page.locale === "ko"
+          ? "신뢰"
+          : page.locale === "es"
+            ? "Confianza"
+            : page.locale === "pt-br"
+              ? "Confiança"
+              : "Trust"
 
   return [
     { href: "#upright", label: page.uprightLabel },
     { href: "#reversed", label: page.reversedLabel },
     { href: "#core-meaning", label: copy.coreLabel },
+    { href: "#reader-trust", label: trustNavLabel },
     ...(page.locale === "en" || page.locale === "es" || page.locale === "pt-br"
       ? [{ href: "#context-signals", label: contextSignalNavLabel }]
       : []),
@@ -631,12 +644,70 @@ function dailyPracticeCopy(page: TarotCardSeoPage) {
 }
 
 function trustHighlightCopy(page: TarotCardSeoPage) {
-  if (page.locale === "zh") return { eyebrow: "为什么先免费读", title: "先理解牌义，再决定是否深入", action: "阅读信任说明" }
-  if (page.locale === "ja") return { eyebrow: "無料で始める理由", title: "意味を理解してから深く読む", action: "信頼ページを見る" }
-  if (page.locale === "ko") return { eyebrow: "무료로 먼저 읽기", title: "카드 의미를 이해한 뒤 더 깊게 보기", action: "신뢰 안내 보기" }
-  if (page.locale === "es") return { eyebrow: "Por qué empezar gratis", title: "Entiende la carta antes de profundizar", action: "Ver páginas de confianza" }
-  if (page.locale === "pt-br") return { eyebrow: "Por que começar grátis", title: "Entenda a carta antes de aprofundar", action: "Ver páginas de confiança" }
-  return { eyebrow: "Why start free", title: "Understand the card before you go deeper", action: "Read trust pages" }
+  if (page.locale === "zh") {
+    return {
+      eyebrow: "读者信任",
+      title: "先理解牌义，再决定是否深入",
+      body: "这张牌义页免费开放，并连接编辑说明、AI 边界、隐私政策、评价和真实案例，方便你判断 POPTarot 是否值得继续使用。",
+      action: "阅读信任说明",
+      feedbackLabel: "代表性读者反馈",
+      linksLabel: "信任入口",
+      reviewedLabel: "最近审核",
+    }
+  }
+  if (page.locale === "ja") {
+    return {
+      eyebrow: "信頼",
+      title: "意味を理解してから深く読む",
+      body: "このカード意味ページは無料で、編集方針、AI の限界、プライバシー、レビュー、実例につながっています。",
+      action: "信頼ページを見る",
+      feedbackLabel: "代表的な読者の声",
+      linksLabel: "信頼ページ",
+      reviewedLabel: "最終確認",
+    }
+  }
+  if (page.locale === "ko") {
+    return {
+      eyebrow: "독자 신뢰",
+      title: "카드 의미를 이해한 뒤 더 깊게 보기",
+      body: "이 카드 의미 페이지는 무료이며 편집 원칙, AI 한계, 개인정보, 리뷰, 실제 예시와 연결됩니다.",
+      action: "신뢰 안내 보기",
+      feedbackLabel: "대표 독자 피드백",
+      linksLabel: "신뢰 페이지",
+      reviewedLabel: "최근 검토",
+    }
+  }
+  if (page.locale === "es") {
+    return {
+      eyebrow: "Confianza del lector",
+      title: "Entiende la carta antes de profundizar",
+      body: "Esta página de significado es gratis y conecta la política editorial, los límites de IA, privacidad, reseñas y ejemplos reales.",
+      action: "Ver páginas de confianza",
+      feedbackLabel: "Comentario representativo",
+      linksLabel: "Páginas de confianza",
+      reviewedLabel: "Ultima revision",
+    }
+  }
+  if (page.locale === "pt-br") {
+    return {
+      eyebrow: "Confiança do leitor",
+      title: "Entenda a carta antes de aprofundar",
+      body: "Esta página de significado é grátis e conecta política editorial, limites de IA, privacidade, avaliações e exemplos reais.",
+      action: "Ver páginas de confiança",
+      feedbackLabel: "Feedback representativo",
+      linksLabel: "Páginas de confiança",
+      reviewedLabel: "Ultima revisão",
+    }
+  }
+  return {
+    eyebrow: "Reader trust",
+    title: "Understand the card before you go deeper",
+    body: "This meaning page stays free and connects the editorial policy, AI limits, privacy stance, reviews, and real examples so a search visitor can judge the product before upgrading.",
+    action: "Read trust pages",
+    feedbackLabel: "Representative reader feedback",
+    linksLabel: "Trust pages",
+    reviewedLabel: "Last reviewed",
+  }
 }
 
 function trustHighlightItems(page: TarotCardSeoPage) {
@@ -681,6 +752,11 @@ function trustHighlightItems(page: TarotCardSeoPage) {
   }
 
   return trustHighlights
+}
+
+function cardReaderTrustLinks() {
+  const priority = new Set(["/about", "/editorial-policy", "/ai-tarot-disclaimer", "/privacy", "/reviews", "/tarot-reading-examples"])
+  return trustLinks.filter((link) => priority.has(link.href))
 }
 
 type RelatedCardLink = {
@@ -1135,6 +1211,9 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const neighborCards = createNeighborCardLinks(page)
   const trustCopy = trustHighlightCopy(page)
   const trustItems = trustHighlightItems(page)
+  const readerTrustLinks = cardReaderTrustLinks()
+  const cardMeaningFeedback =
+    representativeTestimonials.find((item) => item.title === "Card meanings") ?? representativeTestimonials[0]
   const guideCopy = cardPageGuideCopy(page)
   const stickyCopy = cardStickyCtaCopy(page)
   const navItems = cardPageNavItems(page)
@@ -1236,6 +1315,9 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
             "@id": `${appUrl}${page.path}#card-quick-answer`,
           },
           {
+            "@id": `${appUrl}${page.path}#reader-trust`,
+          },
+          {
             "@id": `${appUrl}${page.path}#daily-return-path`,
           },
           {
@@ -1280,6 +1362,40 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
           description: row.body,
           url: `${appUrl}${page.path}#${row.id}`,
         })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${page.path}#reader-trust`,
+        name: trustCopy.title,
+        description: trustCopy.body,
+        numberOfItems: trustItems.length + readerTrustLinks.length,
+        itemListElement: [
+          ...trustItems.map((item, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.title,
+            description: item.body,
+            url: `${appUrl}${page.path}#reader-trust`,
+          })),
+          ...readerTrustLinks.map((link, index) => ({
+            "@type": "ListItem",
+            position: trustItems.length + index + 1,
+            name: link.label,
+            url: `${appUrl}${link.href}`,
+          })),
+        ],
+      },
+      {
+        "@type": "CreativeWork",
+        "@id": `${appUrl}${page.path}#reader-feedback`,
+        name: cardMeaningFeedback.title,
+        text: cardMeaningFeedback.quote,
+        isPartOf: {
+          "@id": `${appUrl}/reviews#webpage`,
+        },
+        about: {
+          "@id": `${appUrl}${page.path}#defined-term`,
+        },
       },
       ...(contextSignalGrid
         ? [
@@ -1554,6 +1670,64 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 </dl>
               </section>
 
+              <section
+                id="reader-trust"
+                data-card-reader-trust
+                className="mt-6 scroll-mt-24 rounded-lg border border-[#bfb6ff]/20 bg-[linear-gradient(135deg,rgba(191,182,255,0.065),rgba(255,255,255,0.025))] p-5"
+              >
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="min-w-0">
+                    <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/78">{trustCopy.eyebrow}</p>
+                    <h2 className="mt-3 break-words font-serif text-2xl leading-tight text-white">{trustCopy.title}</h2>
+                    <p className="mt-3 max-w-2xl text-sm leading-7 text-white/62">{trustCopy.body}</p>
+                  </div>
+                  <div
+                    data-card-reader-trust-review
+                    className="shrink-0 rounded-lg border border-white/10 bg-black/[0.16] px-4 py-3 text-xs leading-5 text-white/58 lg:max-w-[13rem]"
+                  >
+                    <span className="block uppercase tracking-[0.16em] text-[#c9c0ff]/70">{trustCopy.reviewedLabel}</span>
+                    <span className="mt-1 block text-white/72">{trustLastReviewed}</span>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                  {trustItems.map((item) => (
+                    <article key={item.title} data-card-reader-trust-item className="rounded-lg border border-white/10 bg-black/[0.14] p-4">
+                      <h3 className="text-sm font-medium text-white">{item.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                    </article>
+                  ))}
+                </div>
+                <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_1.1fr]">
+                  <figure
+                    data-card-reader-trust-feedback
+                    className="min-w-0 rounded-lg border border-white/10 bg-black/[0.16] p-4"
+                  >
+                    <figcaption className="text-[11px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">
+                      {trustCopy.feedbackLabel}
+                    </figcaption>
+                    <blockquote className="mt-3 text-sm leading-7 text-white/68">
+                      {cardMeaningFeedback.quote}
+                    </blockquote>
+                    <p className="mt-3 text-xs leading-5 text-white/42">{cardMeaningFeedback.context}</p>
+                  </figure>
+                  <div className="min-w-0 rounded-lg border border-white/10 bg-black/[0.12] p-4">
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-white/42">{trustCopy.linksLabel}</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {readerTrustLinks.map((link) => (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          data-card-reader-trust-link
+                          className="inline-flex min-h-10 min-w-0 items-center rounded-lg border border-white/10 px-3 py-2 text-sm text-[#d8d0ff] transition hover:border-[#bfb6ff]/45 hover:text-white"
+                        >
+                          <span className="min-w-0 break-words">{link.label}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </section>
+
               {contextSignalGrid && (
                 <section
                   id="context-signals"
@@ -1819,24 +1993,6 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                       </article>
                     )
                   })}
-                </div>
-              </div>
-
-              <div className="mt-8 rounded-lg border border-[#bfb6ff]/18 bg-[#bfb6ff]/[0.035] p-5">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{trustCopy.eyebrow}</p>
-                <div className="mt-3 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-                  <h2 className="max-w-2xl font-serif text-2xl leading-tight text-white">{trustCopy.title}</h2>
-                  <Link href="/about" className="inline-flex min-h-10 items-center text-sm text-[#c9c0ff] transition hover:text-white">
-                    {trustCopy.action}
-                  </Link>
-                </div>
-                <div className="mt-5 grid gap-3 md:grid-cols-3">
-                  {trustItems.map((item) => (
-                    <article key={item.title} className="rounded-lg border border-white/10 bg-black/[0.14] p-4">
-                      <h3 className="text-sm font-medium text-white">{item.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
-                    </article>
-                  ))}
                 </div>
               </div>
 

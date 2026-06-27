@@ -325,7 +325,7 @@ for (const anchor of ["love", "career", "money", "yes-or-no", "advice"]) {
   assertIncludes(files.cardMeaningPage, `"${anchor}"`, `card page anchor ${anchor}`)
 }
 
-for (const section of ["#spread-positions", "#example-readings", "#combinations", "#faq", "#question-paths", "#daily-practice", "#daily-return", "#context-signals"]) {
+for (const section of ["#spread-positions", "#example-readings", "#combinations", "#faq", "#question-paths", "#daily-practice", "#daily-return", "#context-signals", "#reader-trust"]) {
   assertIncludes(files.cardMeaningPage, section, `card page section ${section}`)
 }
 
@@ -340,6 +340,20 @@ for (const [needle, label] of [
   ["data-card-quick-answer", "card quick answer visible section hook"],
   ["#card-quick-answer", "card quick answer structured data item list"],
   ["numberOfItems: quickRows.length", "card quick answer row count schema"],
+  ["representativeTestimonials.find", "card page representative testimonial reuse"],
+  ["#reader-trust", "card reader trust structured data item list"],
+  ["#reader-feedback", "card reader feedback structured data"],
+  ["data-card-reader-trust", "card reader trust visible section"],
+  ["data-card-reader-trust-review", "card reader trust review date"],
+  ["data-card-reader-trust-item", "card reader trust signal cards"],
+  ["data-card-reader-trust-feedback", "card reader trust representative feedback"],
+  ["data-card-reader-trust-link", "card reader trust links"],
+  ["cardReaderTrustLinks", "card reader trust link helper"],
+  ["\"/editorial-policy\"", "card reader trust editorial policy link"],
+  ["\"/ai-tarot-disclaimer\"", "card reader trust AI disclaimer link"],
+  ["\"/privacy\"", "card reader trust privacy link"],
+  ["\"/reviews\"", "card reader trust reviews link"],
+  ["\"/tarot-reading-examples\"", "card reader trust examples link"],
   ["data-card-context-signal-grid", "English card context signal grid hook"],
   ["#context-signal-grid", "English card context signal structured data"],
   ["data-card-context-signal-link", "English card context signal free-spread links"],
@@ -1210,10 +1224,14 @@ const tarotCardRankingCoverage = [
   [files.tarotCardSeo, "regionalCardNames", "Spanish and Portuguese card names"],
   [files.cardMeaningPage, "id=\"upright\"", "card page upright anchor"],
   [files.cardMeaningPage, "id=\"reversed\"", "card page reversed anchor"],
+  [files.cardMeaningPage, "id=\"reader-trust\"", "card page reader trust anchor"],
   [files.cardMeaningPage, "id=\"context-signals\"", "card page context signal anchor"],
   [files.cardMeaningPage, "id=\"combinations\"", "card page combinations anchor"],
   [files.cardMeaningPage, "id=\"example-readings\"", "card page example readings anchor"],
   [files.cardMeaningPage, "id=\"faq\"", "card page FAQ anchor"],
+  [files.cardMeaningPage, "Reader trust", "English card reader trust copy"],
+  [files.cardMeaningPage, "Confianza del lector", "Spanish card reader trust copy"],
+  [files.cardMeaningPage, "Confiança do leitor", "Portuguese card reader trust copy"],
   [files.cardMeaningPage, "data-card-context-signal-grid", "card page context grid"],
   [files.cardMeaningPage, "data-card-context-signal-link", "card page context grid free spread links"],
   [files.cardMeaningPage, "Señales por contexto", "Spanish card context grid copy"],

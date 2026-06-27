@@ -176,6 +176,10 @@ const pages = [
     requiredSelectors: [
       "[data-tarot-card-meaning-page]",
       "[data-card-sticky-cta]",
+      "[data-card-reader-trust]",
+      "[data-card-reader-trust-review]",
+      "[data-card-reader-trust-feedback]",
+      "[data-card-reader-trust-link]",
       "[data-card-context-signal-grid]",
       "[data-card-context-signal-link]",
       "[data-card-daily-return]",
@@ -193,6 +197,10 @@ const pages = [
     requiredSelectors: [
       "[data-tarot-card-meaning-page]",
       "[data-card-sticky-cta]",
+      "[data-card-reader-trust]",
+      "[data-card-reader-trust-review]",
+      "[data-card-reader-trust-feedback]",
+      "[data-card-reader-trust-link]",
       "[data-card-context-signal-grid]",
       "[data-card-context-signal-link]",
       "[data-card-daily-return]",
@@ -210,6 +218,10 @@ const pages = [
     requiredSelectors: [
       "[data-tarot-card-meaning-page]",
       "[data-card-sticky-cta]",
+      "[data-card-reader-trust]",
+      "[data-card-reader-trust-review]",
+      "[data-card-reader-trust-feedback]",
+      "[data-card-reader-trust-link]",
       "[data-card-context-signal-grid]",
       "[data-card-context-signal-link]",
       "[data-card-daily-return]",
