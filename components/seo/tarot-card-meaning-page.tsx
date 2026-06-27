@@ -2,7 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { EditorialByline } from "@/components/trust/editorial-byline"
 import { localePath } from "@/lib/locales"
-import { getSeoPage } from "@/lib/seo-pages"
+import { getAllLocalizedSeoPages, getSeoPage } from "@/lib/seo-pages"
 import { getCardKeywords, getCardSlug, getCardSuit, type TarotCardSeoPage } from "@/lib/tarot-card-seo"
 import { appUrl, editorialTeamJsonLd, organizationJsonLd, trustLinks, websiteJsonLd } from "@/lib/site"
 import type { SpreadType } from "@/lib/spread-config"
@@ -256,6 +256,34 @@ function cardPromptHref(page: TarotCardSeoPage, prompt: CardPrompt) {
 
 function cardExampleHref(page: TarotCardSeoPage, hrefSlug: string) {
   return getSeoPage(hrefSlug, page.locale)?.path || localePath(page.locale, `/${hrefSlug}`)
+}
+
+function questionPathActionCopy(page: TarotCardSeoPage) {
+  if (page.locale === "zh") return { guide: "打开问题页", start: "直接免费抽牌" }
+  if (page.locale === "ja") return { guide: "質問を見る", start: "無料で始める" }
+  if (page.locale === "ko") return { guide: "질문 열기", start: "무료 스프레드 시작" }
+  if (page.locale === "es") return { guide: "Abrir pregunta", start: "Empezar tirada gratis" }
+  if (page.locale === "pt-br") return { guide: "Abrir pergunta", start: "Comecar tiragem gratis" }
+  return { guide: "Open question", start: "Start free spread" }
+}
+
+function cardQuestionPathStartHref(page: TarotCardSeoPage, item: QuestionPath, localizedSeoPages = getAllLocalizedSeoPages()) {
+  const seoPage = localizedSeoPages.find((candidate) => candidate.locale === page.locale && candidate.path === item.href)
+  if (!seoPage?.recommendedSpread) return null
+
+  const params = new URLSearchParams({
+    q: seoPage.ctaQuestion,
+    auto: "1",
+    lang: page.locale,
+    spread: seoPage.recommendedSpread,
+    source: "card_meaning_question_path",
+    utm_source: "seo",
+    utm_medium: "card_question_path",
+    utm_campaign: page.slug,
+    utm_content: seoPage.slug,
+  })
+
+  return `/input?${params.toString()}`
 }
 
 function cardCombinationHref(page: TarotCardSeoPage, item: TarotCardSeoPage["combinations"][number]) {
@@ -1100,6 +1128,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const dailyReturnCopy = cardDailyReturnCopy(page)
   const dailyReturnHref = cardDailyReturnHref(page, dailyReturnCopy)
   const questionPaths = questionPathCopy(page)
+  const questionPathActions = questionPathActionCopy(page)
   const relatedCopy = relatedCardCopy(page)
   const relatedCards = createRelatedCardLinks(page)
   const neighborCopy = neighborCardCopy(page)
@@ -1111,6 +1140,7 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
   const navItems = cardPageNavItems(page)
   const quickRows = cardQuickAnswerRows(page, keywords)
   const contextSignalGrid = cardContextSignalGrid(page, keywords)
+  const localizedSeoPages = getAllLocalizedSeoPages()
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -1362,13 +1392,26 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
         "@type": "ItemList",
         "@id": `${appUrl}${page.path}#question-paths`,
         name: questionPaths.title,
-        itemListElement: questionPaths.paths.map((item, index) => ({
-          "@type": "ListItem",
-          position: index + 1,
-          name: item.title,
-          description: item.body,
-          url: `${appUrl}${item.href}`,
-        })),
+        itemListElement: questionPaths.paths.map((item, index) => {
+          const startHref = cardQuestionPathStartHref(page, item, localizedSeoPages)
+
+          return {
+            "@type": "ListItem",
+            position: index + 1,
+            name: item.title,
+            description: item.body,
+            url: `${appUrl}${item.href}`,
+            ...(startHref
+              ? {
+                  potentialAction: {
+                    "@type": "InteractAction",
+                    name: questionPathActions.start,
+                    target: `${appUrl}${startHref}`,
+                  },
+                }
+              : {}),
+          }
+        }),
       },
       {
         "@type": "ItemList",
@@ -1729,21 +1772,53 @@ export function TarotCardMeaningPageView({ page }: { page: TarotCardSeoPage }) {
                 </div>
               </section>
 
-              <div id="question-paths" className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5">
+              <div
+                id="question-paths"
+                data-card-question-paths
+                className="mt-8 scroll-mt-24 rounded-lg border border-white/10 bg-white/[0.03] p-5"
+              >
                 <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/75">{questionPaths.eyebrow}</p>
                 <h2 className="mt-3 font-serif text-2xl leading-tight text-white">{questionPaths.title}</h2>
                 <p className="mt-3 text-sm leading-7 text-white/62">{questionPaths.body}</p>
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
-                  {questionPaths.paths.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="group min-w-0 rounded-lg border border-white/10 bg-black/[0.14] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
-                    >
-                      <h3 className="break-words text-sm font-medium text-white group-hover:text-[#eeeaff]">{item.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
-                    </Link>
-                  ))}
+                  {questionPaths.paths.map((item) => {
+                    const startHref = cardQuestionPathStartHref(page, item, localizedSeoPages)
+
+                    return (
+                      <article
+                        key={item.href}
+                        data-card-question-path
+                        className="min-w-0 rounded-lg border border-white/10 bg-black/[0.14] p-4"
+                      >
+                        <Link
+                          href={item.href}
+                          data-card-question-path-guide
+                          className="block break-words text-sm font-medium text-white transition hover:text-[#eeeaff]"
+                        >
+                          {item.title}
+                        </Link>
+                        <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
+                        <div className="mt-4 grid min-w-0 gap-2 sm:grid-cols-2">
+                          <Link
+                            href={item.href}
+                            data-card-question-path-guide
+                            className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-center text-xs text-white/68 transition hover:border-[#c9c0ff]/40 hover:bg-[#c9c0ff]/[0.06] hover:text-white"
+                          >
+                            <span className="min-w-0 break-words">{questionPathActions.guide}</span>
+                          </Link>
+                          {startHref && (
+                            <Link
+                              href={startHref}
+                              data-card-question-path-start
+                              className="inline-flex min-h-10 min-w-0 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-3 py-2 text-center text-xs font-medium text-[#120c22] shadow-[0_12px_28px_rgba(146,132,239,0.18)] transition hover:brightness-110"
+                            >
+                              <span className="min-w-0 break-words">{questionPathActions.start}</span>
+                            </Link>
+                          )}
+                        </div>
+                      </article>
+                    )
+                  })}
                 </div>
               </div>
 
