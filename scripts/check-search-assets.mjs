@@ -37,6 +37,8 @@ const requiredSitemapPaths = [
   "/yes-or-no-tarot-love",
   "/career-tarot-reading",
   "/should-i-quit-my-job-tarot",
+  "/no-contact-tarot-reading",
+  "/should-i-stay-or-leave-tarot",
   "/es/mi-ex-volvera-tarot",
   "/pt-br/meu-ex-vai-voltar-tarot",
   "/about",

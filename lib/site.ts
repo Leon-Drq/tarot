@@ -286,6 +286,16 @@ export const highIntentQuestionLinks = [
     href: "/should-i-move-on-tarot",
   },
   {
+    title: "No contact tarot reading",
+    description: "A no-contact tarot path for silence, delayed replies, breakup distance, waiting boundaries, and whether contact would help.",
+    href: "/no-contact-tarot-reading",
+  },
+  {
+    title: "Should I stay or leave tarot",
+    description: "A relationship decision tarot path for staying, leaving, repair conditions, emotional safety, and one grounded next step.",
+    href: "/should-i-stay-or-leave-tarot",
+  },
+  {
     title: "Twin flame tarot reading",
     description: "A twin-flame tarot entry for intense connection, lessons, separation, reunion hopes, and grounded emotional safety.",
     href: "/twin-flame-tarot-reading",

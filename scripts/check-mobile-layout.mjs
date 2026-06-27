@@ -59,6 +59,16 @@ const pages = [
     requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
+    path: "/no-contact-tarot-reading",
+    name: "no contact long-tail question",
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+  },
+  {
+    path: "/should-i-stay-or-leave-tarot",
+    name: "stay or leave long-tail question",
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+  },
+  {
     path: "/does-my-crush-like-me-tarot",
     name: "crush long-tail question",
     requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],

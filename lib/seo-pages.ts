@@ -1603,6 +1603,44 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "no-contact-tarot-reading",
+    cards: [12, 18, 20],
+    recommendedSpread: "breakup_recovery",
+    title: "No Contact Tarot Reading",
+    description: "Draw a free AI tarot reading for no contact, silence after a breakup, delayed messages, emotional distance, and the healthiest next step.",
+    h1: "No Contact Tarot Reading",
+    intent: "Best for breakup silence, delayed replies, emotional distance, waiting boundaries, and whether contact would help or hurt.",
+    question: "What should I understand during no contact, and what is the healthiest next step?",
+    sections: [
+      { heading: "Read silence without chasing", body: "A no-contact reading should separate genuine processing from avoidance, pride, fear, closure, or a cycle that keeps you waiting." },
+      { heading: "Look for contact and repair conditions", body: "The cards should show whether communication may return, what still blocks it, and whether contact would create healing or reopen the same wound." },
+      { heading: "Give waiting a boundary", body: "The most useful answer names what you can do today: keep silence, send one clear message, stop checking, or move your energy back to yourself." },
+    ],
+    faqs: [
+      { question: "Is this no contact tarot reading free?", answer: "Yes. You can start this no-contact reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports." },
+      { question: "Can tarot tell if they will break no contact?", answer: "Tarot can show communication energy, blocks, timing themes, and motives, but real contact still depends on choices and circumstances." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-stay-or-leave-tarot",
+    cards: [11, 13, 21],
+    recommendedSpread: "relationship",
+    title: "Should I Stay or Leave Tarot",
+    description: "Use a free AI tarot reading to compare staying, leaving, repair conditions, emotional safety, and the next grounded relationship step.",
+    h1: "Should I Stay or Leave Tarot",
+    intent: "Best for relationship uncertainty, repeated conflict, repair conditions, emotional safety, and deciding whether staying still protects your wellbeing.",
+    question: "Should I stay or leave, and what is the healthiest next step?",
+    sections: [
+      { heading: "Compare the real cost of both paths", body: "A stay-or-leave reading should not force a dramatic answer. It should compare what staying requires, what leaving protects, and what pattern repeats." },
+      { heading: "Look for repair conditions", body: "If the cards show repair, they should also show what behavior, accountability, timing, and boundaries would need to change." },
+      { heading: "Let safety and self-respect lead", body: "The most useful answer gives one next step that stabilizes you: a conversation, boundary, support plan, pause, or clean exit." },
+    ],
+    faqs: [
+      { question: "Can tarot decide whether I should stay or leave?", answer: "Tarot can clarify patterns, risks, repair conditions, and advice. Serious relationship choices should also include safety, support, and direct reality checks." },
+      { question: "What cards suggest it may be time to leave?", answer: "Death, The Tower, Justice, Eight of Cups, Ten of Swords, and The World can suggest closure when the whole spread supports it." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "twin-flame-tarot-reading",
     cards: [6, 14, 17],
     recommendedSpread: "love_connection",
@@ -1760,6 +1798,8 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "will-he-contact-me-tarot": "me-contactara-tarot",
     "is-this-relationship-over-tarot": "esta-relacion-termino-tarot",
     "should-i-move-on-tarot": "deberia-seguir-adelante-tarot",
+    "no-contact-tarot-reading": "lectura-tarot-contacto-cero",
+    "should-i-stay-or-leave-tarot": "deberia-quedarme-o-irme-tarot",
     "twin-flame-tarot-reading": "lectura-tarot-llama-gemela",
     "will-i-get-married-tarot": "me-casare-tarot",
     "will-i-get-the-job-tarot": "conseguire-el-trabajo-tarot",
@@ -1807,6 +1847,8 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "will-he-contact-me-tarot": "ele-vai-entrar-em-contato-tarot",
     "is-this-relationship-over-tarot": "este-relacionamento-acabou-tarot",
     "should-i-move-on-tarot": "devo-seguir-em-frente-tarot",
+    "no-contact-tarot-reading": "leitura-tarot-contato-zero",
+    "should-i-stay-or-leave-tarot": "devo-ficar-ou-ir-embora-tarot",
     "twin-flame-tarot-reading": "leitura-tarot-chama-gemea",
     "will-i-get-married-tarot": "vou-me-casar-tarot",
     "will-i-get-the-job-tarot": "vou-conseguir-o-emprego-tarot",
@@ -2481,6 +2523,42 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "¿El tarot puede decir si una relación terminó?", answer: "Puede mostrar el patrón actual, qué se está cayendo y si queda energía de reparación. Debe guiar reflexión, no forzar una ruptura." },
         { question: "¿Qué cartas sugieren final de relación?", answer: "La Muerte, La Torre, Diez de Espadas, Ocho de Copas y El Mundo pueden sugerir cierre cuando la tirada confirma." },
+      ],
+    },
+    "no-contact-tarot-reading": {
+      title: "Lectura de tarot contacto cero",
+      description: "Lectura gratis con IA para contacto cero, silencio tras una ruptura, mensajes demorados, distancia emocional y el paso más sano.",
+      eyebrow: "Contacto cero",
+      h1: "Lectura de tarot contacto cero",
+      intro: "Pregunta qué debes entender durante el contacto cero y cuál es el siguiente paso más sano. La lectura separa silencio, orgullo, evasión, cierre y posible comunicación.",
+      intent: "Ideal para silencio después de ruptura, respuestas demoradas, distancia emocional, límites al esperar y si contactar ayudaría o dañaría.",
+      ctaQuestion: "¿Qué debo entender durante el contacto cero y cuál es el siguiente paso más sano?",
+      sections: [
+        { heading: "Lee el silencio sin perseguir", body: "Una lectura de contacto cero debe separar procesamiento real de evasión, orgullo, miedo, cierre o un ciclo que te deja esperando." },
+        { heading: "Mira condiciones de contacto", body: "Las cartas deben mostrar si la comunicación puede volver, qué la bloquea y si contactar sanaría o reabriría la misma herida." },
+        { heading: "Pon límite a la espera", body: "La respuesta útil nombra qué puedes hacer hoy: mantener silencio, enviar un mensaje claro, dejar de revisar o volver tu energía a ti." },
+      ],
+      faqs: [
+        { question: "¿Esta lectura de contacto cero es gratis?", answer: "Sí. Puedes empezar gratis. La membresía queda para seguimientos profundos, historial guardado, tiradas avanzadas e informes." },
+        { question: "¿El tarot puede decir si romperá el contacto cero?", answer: "Puede mostrar energía de comunicación, bloqueos y timing, pero el contacto real depende de decisiones y circunstancias." },
+      ],
+    },
+    "should-i-stay-or-leave-tarot": {
+      title: "Tarot: ¿debería quedarme o irme?",
+      description: "Lectura gratis con IA para comparar quedarte, irte, condiciones de reparación, seguridad emocional y el siguiente paso.",
+      eyebrow: "Decisión de relación",
+      h1: "Tarot: ¿debería quedarme o irme?",
+      intro: "Pregunta si deberías quedarte o irte y cuál es el siguiente paso más sano. La lectura mira costo emocional, reparación, límites y seguridad.",
+      intent: "Ideal para incertidumbre de relación, conflicto repetido, condiciones de reparación, seguridad emocional y si quedarte todavía protege tu bienestar.",
+      ctaQuestion: "¿Debería quedarme o irme y cuál es el siguiente paso más sano?",
+      sections: [
+        { heading: "Compara el costo real", body: "La lectura no debe forzar una respuesta dramática. Debe comparar qué exige quedarte, qué protege irte y qué patrón se repite." },
+        { heading: "Busca condiciones de reparación", body: "Si las cartas muestran reparación, también deben nombrar qué conducta, responsabilidad, timing y límites tendrían que cambiar." },
+        { heading: "Deja que la seguridad lidere", body: "La respuesta útil da un paso que te estabiliza: conversación, límite, apoyo, pausa o salida clara." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decidir si debo quedarme o irme?", answer: "Puede aclarar patrones, riesgos, condiciones de reparación y consejo. Las decisiones serias también necesitan seguridad, apoyo y realidad directa." },
+        { question: "¿Qué cartas sugieren irme?", answer: "La Muerte, La Torre, Justicia, Ocho de Copas, Diez de Espadas y El Mundo pueden indicar cierre si la tirada completa lo apoya." },
       ],
     },
     "will-i-get-the-job-tarot": {
@@ -3169,6 +3247,42 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
         { question: "Que cartas sugerem fim de relacionamento?", answer: "A Morte, A Torre, Dez de Espadas, Oito de Copas e O Mundo podem sugerir fechamento quando a tiragem confirma." },
       ],
     },
+    "no-contact-tarot-reading": {
+      title: "Leitura de tarot contato zero",
+      description: "Leitura grátis com IA para contato zero, silêncio depois do término, mensagens demoradas, distância emocional e o próximo passo saudável.",
+      eyebrow: "Contato zero",
+      h1: "Leitura de tarot contato zero",
+      intro: "Pergunte o que entender durante o contato zero e qual é o próximo passo mais saudável. A leitura separa silêncio, orgulho, evasão, fechamento e possível comunicação.",
+      intent: "Ideal para silêncio após término, respostas demoradas, distância emocional, limites de espera e se contato ajudaria ou machucaria.",
+      ctaQuestion: "O que devo entender durante o contato zero e qual é o próximo passo mais saudável?",
+      sections: [
+        { heading: "Leia o silêncio sem correr atrás", body: "Uma leitura de contato zero deve separar processamento real de evasão, orgulho, medo, fechamento ou um ciclo que mantém você esperando." },
+        { heading: "Veja condições de contato", body: "As cartas devem mostrar se a comunicação pode voltar, o que bloqueia e se contato curaria ou reabriria a mesma ferida." },
+        { heading: "Dê limite à espera", body: "A resposta útil nomeia o que fazer hoje: manter silêncio, enviar uma mensagem clara, parar de checar ou trazer a energia de volta para você." },
+      ],
+      faqs: [
+        { question: "Esta leitura de contato zero é grátis?", answer: "Sim. Você pode começar grátis. A assinatura fica para acompanhamentos profundos, histórico salvo, tiragens avançadas e relatórios." },
+        { question: "O tarot pode dizer se a pessoa vai quebrar contato zero?", answer: "Pode mostrar energia de comunicação, bloqueios e timing, mas contato real depende de escolhas e circunstâncias." },
+      ],
+    },
+    "should-i-stay-or-leave-tarot": {
+      title: "Tarot: devo ficar ou ir embora?",
+      description: "Leitura grátis com IA para comparar ficar, ir embora, condições de reparo, segurança emocional e o próximo passo.",
+      eyebrow: "Decisão de relacionamento",
+      h1: "Tarot: devo ficar ou ir embora?",
+      intro: "Pergunte se deve ficar ou ir embora e qual é o próximo passo mais saudável. A leitura olha custo emocional, reparo, limites e segurança.",
+      intent: "Ideal para incerteza de relacionamento, conflito repetido, condições de reparo, segurança emocional e se ficar ainda protege seu bem-estar.",
+      ctaQuestion: "Devo ficar ou ir embora e qual é o próximo passo mais saudável?",
+      sections: [
+        { heading: "Compare o custo real", body: "A leitura não deve forçar uma resposta dramática. Deve comparar o que ficar exige, o que ir embora protege e que padrão se repete." },
+        { heading: "Procure condições de reparo", body: "Se as cartas mostram reparo, também devem nomear que comportamento, responsabilidade, timing e limites precisam mudar." },
+        { heading: "Deixe segurança liderar", body: "A resposta útil dá um passo que estabiliza você: conversa, limite, apoio, pausa ou saída clara." },
+      ],
+      faqs: [
+        { question: "O tarot pode decidir se devo ficar ou ir embora?", answer: "Pode clarear padrões, riscos, condições de reparo e conselho. Decisões sérias também precisam de segurança, apoio e realidade direta." },
+        { question: "Que cartas sugerem ir embora?", answer: "A Morte, A Torre, Justiça, Oito de Copas, Dez de Espadas e O Mundo podem indicar encerramento se a tiragem completa apoiar." },
+      ],
+    },
     "will-i-get-the-job-tarot": {
       title: "Tarot: vou conseguir o emprego?",
       description: "Leitura grátis com IA sobre oferta, entrevista, obstáculos ocultos e como fortalecer suas chances.",
@@ -3452,6 +3566,82 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       {
         question: "What spread is best for moving on?",
         answer: "A breakup recovery spread works well because it checks what ended, what remains, what can heal, and what next step protects your peace.",
+      },
+    ],
+  },
+  "no-contact-tarot-reading": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when silence has become the whole relationship: no replies, blocked contact, delayed messages, or a breakup boundary that still feels emotionally loud.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The spread should separate true processing, avoidance, pride, fear, unfinished emotion, and whether contact would create repair or restart the same anxious cycle.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards show waiting, give the wait a boundary. If they show contact, decide the tone before reaching out. If they show closure, protect your attention from checking loops.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what action would keep me calm, self-respecting, and emotionally honest during this silence?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this no contact tarot reading free?",
+        answer: "Yes. You can start this no-contact tarot reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot tell if no contact is working?",
+        answer: "Tarot can show whether silence is creating reflection, avoidance, distance, or repair conditions. It should be compared with real behavior and your own wellbeing.",
+      },
+      {
+        question: "What cards suggest contact after silence?",
+        answer: "Eight of Wands, Page of Cups, Judgement, The Magician, Temperance, and Six of Cups can suggest communication when the surrounding cards support movement.",
+      },
+      {
+        question: "What spread is best for no contact?",
+        answer: "A breakup recovery spread works well because it checks what ended, what remains, what blocks contact, and what next step protects your peace.",
+      },
+    ],
+  },
+  "should-i-stay-or-leave-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when the relationship is not simply good or bad, but the cost of staying and the cost of leaving both feel real.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The spread should compare repair potential, repeated conflict, emotional safety, accountability, fear, attachment, and what each path asks of you.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards support staying, name the repair conditions clearly. If they support leaving, build a practical support plan instead of making the decision in panic.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what boundary or conversation would reveal whether this relationship can become healthier in real life?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this stay-or-leave tarot reading free?",
+        answer: "Yes. You can start this relationship decision reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot decide a breakup for me?",
+        answer: "No. Tarot can clarify patterns, risks, and advice, but the decision should also consider safety, support, real behavior, and practical circumstances.",
+      },
+      {
+        question: "What cards suggest a relationship can still heal?",
+        answer: "Temperance, The Star, Two of Cups, Six of Cups, Justice, and Judgement can suggest repair when the spread also shows accountability and changed behavior.",
+      },
+      {
+        question: "What spread is best for stay-or-leave questions?",
+        answer: "A relationship or binary choice spread works best because it compares staying, leaving, hidden costs, repair conditions, and one grounded next step.",
       },
     ],
   },
