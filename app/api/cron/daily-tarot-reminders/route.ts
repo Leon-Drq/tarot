@@ -1,6 +1,6 @@
 import { jsonError, jsonResponse } from "@/lib/server/supabase"
 import { dailyReminderUnsubscribeUrl } from "@/lib/server/daily-reminder-unsubscribe"
-import { dailyTarotReminderHtml, hasEmailProvider, sendEmail } from "@/lib/server/email"
+import { dailyTarotReminderHtml, dailyTarotReminderText, emailProviderStatus, hasEmailProvider, sendEmail } from "@/lib/server/email"
 import {
   checkDailyReminderDatabaseAccess,
   listDailyReminderCandidates,
@@ -81,6 +81,7 @@ export async function GET(req: Request) {
       ok: true,
       dry_run: true,
       email_provider_configured: hasEmailProvider(),
+      email_provider: emailProviderStatus(),
       ...results,
     })
   }
@@ -89,6 +90,7 @@ export async function GET(req: Request) {
 
   for (const row of candidates) {
     const { date } = localParts(row.reminder_timezone || "UTC")
+    const unsubscribeUrl = dailyReminderUnsubscribeUrl(appUrl, row.user_id)
     try {
       await sendEmail({
         to: row.reminder_email || "",
@@ -98,8 +100,23 @@ export async function GET(req: Request) {
           cardName: row.card_name,
           isReversed: row.is_reversed,
           streakCount: row.streak_count,
-          unsubscribeUrl: dailyReminderUnsubscribeUrl(appUrl, row.user_id),
+          unsubscribeUrl,
         }),
+        text: dailyTarotReminderText({
+          appUrl,
+          cardName: row.card_name,
+          isReversed: row.is_reversed,
+          streakCount: row.streak_count,
+          unsubscribeUrl,
+        }),
+        headers: {
+          "List-Unsubscribe": `<${unsubscribeUrl}>`,
+          "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+        },
+        tags: [
+          { name: "surface", value: "daily_tarot" },
+          { name: "type", value: "reminder" },
+        ],
         idempotencyKey: `daily-tarot-reminder-${row.user_id}-${date}`,
       })
 

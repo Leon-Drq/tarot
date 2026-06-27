@@ -41,6 +41,7 @@ async function checkCronDryRun() {
   line("cron_sent", String(Number(data.sent || 0)))
   line("cron_failed", String(Number(data.failed || 0)))
   line("cron_email_provider_configured", String(Boolean(data.email_provider_configured)))
+  line("cron_email_provider", data.email_provider?.provider || data.email_provider || "unknown")
 }
 
 try {
@@ -59,7 +60,10 @@ try {
   console.log(`${scriptName}: ${url}`)
   line("delivery_status", data.delivery_status || "unknown")
   line("can_send_email_reminders", String(Boolean(data.can_send_email_reminders)))
+  line("email_provider", data.email_provider || data.email_provider_status?.provider || "unknown")
   line("email_provider_configured", String(Boolean(data.email_provider_configured)))
+  line("email_from_configured", String(Boolean(data.email_from_configured)))
+  line("email_reply_to_configured", String(Boolean(data.email_reply_to_configured)))
   line("service_database_configured", String(Boolean(data.service_database_configured)))
   line("cron_authorization_configured", String(Boolean(data.cron_authorization_configured)))
   line("unsubscribe_configured", String(Boolean(data.unsubscribe_configured)))

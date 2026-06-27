@@ -1,4 +1,4 @@
-import { hasEmailProvider } from "@/lib/server/email"
+import { emailProviderStatus, hasEmailProvider } from "@/lib/server/email"
 import {
   checkDailyReminderDatabaseAccess,
   checkDailyReminderUnsubscribeAccess,
@@ -6,6 +6,7 @@ import {
 } from "@/lib/server/daily-reminder-rpc"
 
 export async function GET() {
+  const providerStatus = emailProviderStatus()
   const emailProviderConfigured = hasEmailProvider()
   const cronSecretConfigured = hasReminderCronSecret()
   const serviceDatabaseConfigured = await checkDailyReminderDatabaseAccess()
@@ -36,6 +37,10 @@ export async function GET() {
       calendar_reminder_available: true,
       setup_required: !scheduledDeliveryEnabled,
       email_provider_configured: emailProviderConfigured,
+      email_provider: providerStatus.provider,
+      email_provider_status: providerStatus,
+      email_from_configured: providerStatus.from_configured,
+      email_reply_to_configured: providerStatus.reply_to_configured,
       service_database_configured: serviceDatabaseConfigured,
       unsubscribe_configured: unsubscribeConfigured,
       reminder_database_access_mode: serviceDatabaseConfigured ? "cron_secret_rpc" : "unavailable",

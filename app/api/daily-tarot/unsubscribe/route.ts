@@ -27,12 +27,22 @@ function htmlResponse(title: string, body: string, status = 200) {
   )
 }
 
-export async function GET(req: Request) {
+function jsonResponse(body: Record<string, unknown>, status = 200) {
+  return Response.json(body, {
+    status,
+    headers: {
+      "Cache-Control": "no-store",
+    },
+  })
+}
+
+async function unsubscribe(req: Request, mode: "html" | "json") {
   const url = new URL(req.url)
   const userId = url.searchParams.get("u") || ""
   const token = url.searchParams.get("t") || ""
 
   if (!userId || !token || !userIdPattern.test(userId)) {
+    if (mode === "json") return jsonResponse({ ok: false, error: "Invalid unsubscribe link" }, 400)
     return htmlResponse("Invalid unsubscribe link", "This reminder link is missing required information.", 400)
   }
 
@@ -44,10 +54,12 @@ export async function GET(req: Request) {
   }
 
   if (!isValid) {
+    if (mode === "json") return jsonResponse({ ok: false, error: "Invalid unsubscribe link" }, 400)
     return htmlResponse("Invalid unsubscribe link", "This reminder link is expired or could not be verified.", 400)
   }
 
   if (!hasReminderCronSecret()) {
+    if (mode === "json") return jsonResponse({ ok: false, error: "Reminder settings unavailable" }, 503)
     return htmlResponse("Reminder settings unavailable", "Please open Daily Tarot and update your reminder preferences there.", 503)
   }
 
@@ -55,8 +67,11 @@ export async function GET(req: Request) {
   try {
     count = await disableDailyReminders(userId)
   } catch {
+    if (mode === "json") return jsonResponse({ ok: false, error: "Could not turn off reminders" }, 500)
     return htmlResponse("Could not turn off reminders", "Please open Daily Tarot and update your reminder preferences there.", 500)
   }
+
+  if (mode === "json") return jsonResponse({ ok: true, disabled_count: count })
 
   const body =
     count > 0
@@ -64,4 +79,12 @@ export async function GET(req: Request) {
       : "Daily Tarot email reminders were already turned off for this account."
 
   return htmlResponse("Reminders turned off", body)
+}
+
+export async function GET(req: Request) {
+  return unsubscribe(req, "html")
+}
+
+export async function POST(req: Request) {
+  return unsubscribe(req, "json")
 }
