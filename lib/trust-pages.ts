@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { appUrl, siteName, trustLinks } from "@/lib/site"
+import { appUrl, brandFaviconPath, brandLogoPath, brandOpenGraphPath, brandSvgIconPath, siteName, trustLinks } from "@/lib/site"
 import type { SpreadType } from "@/lib/spread-config"
 import { representativeTestimonials } from "@/lib/trust-signals"
 
@@ -50,6 +50,7 @@ export type TrustPage = {
     title: string
     description: string
     src: string
+    previewSrc?: string
     width: number
     height: number
     href: string
@@ -115,8 +116,9 @@ export const trustPages: TrustPage[] = [
     intro: "These are the canonical POPTarot visual assets used by poptarot.com, structured data, app metadata, social previews, and saved-home-screen icons.",
     sections: [
       { heading: "Canonical logo", body: "The primary POPTarot logo signal is the PT monogram logo used in Organization structured data, search identity, app metadata, and brand verification." },
-      { heading: "Search and preview consistency", body: "The logo, favicon, SVG icon, apple touch icon, app icon, and Open Graph image point back to the same brand identity so search engines and social previews read one consistent source." },
+      { heading: "Search and preview consistency", body: "The logo, favicon, favicon.ico, SVG icon, apple touch icon, app icon, and Open Graph image point back to the same brand identity so search engines and social previews read one consistent source." },
       { heading: "Official source", body: "Use only assets hosted under poptarot.com for brand verification. New public channels should link back to this page or the official channels page." },
+      { heading: "Search crawler source", body: "Search results should use the stable 48 x 48 search favicon and favicon.ico files. If Google still shows a default icon, it means its favicon cache has not refreshed yet, not that POPTarot lacks icon files." },
       { heading: "Free-first positioning", body: "POPTarot should be described as a free AI tarot tool first. Membership is for deeper follow-ups, saved history, advanced spreads, and longer reports." },
       { heading: "AI tarot boundary", body: "Brand descriptions should keep readings framed as reflective guidance, not professional medical, legal, financial, psychological, or safety advice." },
       { heading: "Update policy", body: "When icons or sharing images change, this page, metadata, manifest, and Organization schema should be updated together." },
@@ -126,19 +128,38 @@ export const trustPages: TrustPage[] = [
         label: "Logo",
         title: "512 x 512 PT monogram logo",
         description: "Primary image used in Organization structured data, search identity, and brand verification.",
-        src: "/logo.png",
+        src: brandLogoPath,
         width: 512,
         height: 512,
-        href: "/logo.png",
+        href: brandLogoPath,
       },
       {
         label: "Favicon",
         title: "48 x 48 search favicon",
         description: "Small brand icon used by browser tabs and search result favicon crawlers.",
-        src: "/favicon-48x48.png",
+        src: brandFaviconPath,
         width: 48,
         height: 48,
-        href: "/favicon-48x48.png",
+        href: brandFaviconPath,
+      },
+      {
+        label: "ICO",
+        title: "Multi-size favicon.ico",
+        description: "Stable fallback favicon file served at the root for browsers and crawlers that prefer ICO format.",
+        src: brandFaviconPath,
+        width: 48,
+        height: 48,
+        href: "/favicon.ico",
+      },
+      {
+        label: "SVG",
+        title: "512 x 512 SVG icon",
+        description: "Vector version of the POPTarot icon for crawlers, browsers, and public brand verification checks.",
+        src: brandSvgIconPath,
+        previewSrc: "/icon.png",
+        width: 512,
+        height: 512,
+        href: brandSvgIconPath,
       },
       {
         label: "App icon",
@@ -162,10 +183,10 @@ export const trustPages: TrustPage[] = [
         label: "Preview",
         title: "Open Graph share image",
         description: "Default image for social sharing, rich previews, and brand context.",
-        src: "/og-image.jpg",
+        src: brandOpenGraphPath,
         width: 1200,
         height: 630,
-        href: "/og-image.jpg",
+        href: brandOpenGraphPath,
       },
     ],
   },

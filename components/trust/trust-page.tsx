@@ -473,7 +473,7 @@ export function TrustPageView({ page }: { page: TrustPage }) {
                   <div className="flex items-center gap-4">
                     <div className="relative flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/10 bg-[#12091f]">
                       <Image
-                        src={item.src}
+                        src={item.previewSrc ?? item.src}
                         alt={item.title}
                         width={item.width}
                         height={item.height}

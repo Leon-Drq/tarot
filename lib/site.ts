@@ -5,8 +5,11 @@ export const siteName = "POPTarot"
 export const siteTitle = "POPTarot - Free AI Tarot Reading"
 export const siteDescription =
   "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
-export const brandIconVersion = "20260626"
+export const brandIconVersion = "20260627"
 export const brandLogoPath = "/logo.png"
+export const brandFaviconPath = "/favicon-48x48.png"
+export const brandSvgIconPath = "/icon.svg"
+export const brandOpenGraphPath = "/og-image.jpg"
 
 function verifiedExternalUrl(value: string | undefined) {
   if (!value) return ""
@@ -55,7 +58,7 @@ export const officialVerificationLinks = [
   {
     label: "Logo source",
     title: "POPTarot Brand Assets",
-    body: "Canonical logo, app icon, favicon, and social preview assets referenced by metadata, manifest, and structured data.",
+    body: "Canonical logo, search favicon, SVG icon, app icon, and social preview assets referenced by metadata, manifest, and structured data.",
     href: "/brand-assets",
   },
   {
@@ -96,6 +99,18 @@ export const brandVerificationFacts = [
     value: brandLogoPath,
     body: "The 512 x 512 PT monogram logo is the canonical Organization logo used for search identity, structured data, and brand verification.",
     href: "/brand-assets",
+  },
+  {
+    label: "Favicon source",
+    value: brandFaviconPath,
+    body: "The 48 x 48 favicon is the stable search crawler source referenced by root metadata and browser icon links.",
+    href: brandFaviconPath,
+  },
+  {
+    label: "Social preview image",
+    value: brandOpenGraphPath,
+    body: "The Open Graph image is the canonical large preview used for shared links and rich search context.",
+    href: brandOpenGraphPath,
   },
   {
     label: "Sitemap",

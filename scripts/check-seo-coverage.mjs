@@ -824,9 +824,12 @@ for (const [file, needle, label] of trustDataCoverage) {
 const structuredDataCoverage = [
   [files.site, "logo: {", "Organization logo"],
   [files.site, "brandLogoPath = \"/logo.png\"", "canonical logo path constant"],
+  [files.site, "brandFaviconPath = \"/favicon-48x48.png\"", "canonical favicon path constant"],
   [files.site, "`${appUrl}${brandLogoPath}`", "Organization logo asset"],
   [files.site, "Official brand name", "Organization official brand fact"],
   [files.site, "Canonical domain", "Organization canonical domain fact"],
+  [files.site, "Favicon source", "Organization favicon verification fact"],
+  [files.site, "Social preview image", "Organization social preview verification fact"],
   [files.site, "Free product stance", "Organization free product stance fact"],
   [files.site, "data.sameAs = socialLinks.map", "verified sameAs emission"],
   [files.site, "makesOffer:", "free offer on Organization"],
@@ -883,7 +886,11 @@ const identityMetadataCoverage = [
   [files.iconSvg, "#B8A5FF", "POPTarot lavender icon mark"],
   [files.trustPages, "PT monogram logo", "brand asset PT monogram copy"],
   [files.trustPages, "48 x 48 search favicon", "brand asset favicon copy"],
+  [files.trustPages, "Multi-size favicon.ico", "brand asset ICO favicon copy"],
   [files.trustPages, "SVG icon", "brand asset SVG icon consistency copy"],
+  [files.trustPages, "512 x 512 SVG icon", "brand asset SVG icon card"],
+  [files.trustPages, "Search crawler source", "brand asset search crawler explanation"],
+  [files.trustPageView, "previewSrc ?? item.src", "brand asset preview fallback"],
 ]
 
 for (const [file, needle, label] of identityMetadataCoverage) {
