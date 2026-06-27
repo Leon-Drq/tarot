@@ -68,6 +68,20 @@ const pages = [
     requiredLocalStorageKeyPrefix: "poptarot_daily_return_",
   },
   {
+    path: "/input?q=Will%20my%20ex%20come%20back%3F&auto=1&spread=breakup_recovery&source=mobile_free_first_check",
+    name: "input advanced spread free-first fallback",
+    waitMs: 1800,
+    allowedWideSelector: "rounded-full pointer-events-none",
+    requiredSelectors: [
+      "[data-input-page]",
+      "[data-input-advanced-spread-prompt]",
+      "[data-input-free-first-boundary]",
+      "[data-input-free-starter-spread]",
+      "[data-input-member-spread-name]",
+      "[data-input-member-upgrade-cta]",
+    ],
+  },
+  {
     path: "/tarot-questions?q=love",
     name: "tarot questions",
     requiredSelectors: [
@@ -279,7 +293,7 @@ async function checkPage(browser, pageConfig) {
   })
 
   await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "networkidle", timeout: 45_000 })
-  await page.waitForTimeout(500)
+  await page.waitForTimeout(pageConfig.waitMs || 500)
 
   if (pageConfig.menuRequiredSelectors) {
     await page.click("[data-home-menu-button]")

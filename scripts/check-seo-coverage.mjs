@@ -563,6 +563,10 @@ assertIncludes(files.mobileCheck, "daily tarot linked return focus", "mobile che
 assertIncludes(files.mobileCheck, "return_focus=Will%20my%20ex%20come%20back%20tarot", "mobile check linked return focus query")
 assertIncludes(files.mobileCheck, "return_action=reminder", "mobile check linked return reminder action")
 assertIncludes(files.mobileCheck, "requiredLocalStorageKeyPrefix: \"poptarot_daily_return_\"", "mobile check linked return focus persistence")
+assertIncludes(files.mobileCheck, "input advanced spread free-first fallback", "mobile check advanced spread free-first fallback page")
+assertIncludes(files.mobileCheck, "spread=breakup_recovery", "mobile check advanced spread query")
+assertIncludes(files.mobileCheck, "[data-input-free-starter-spread]", "mobile check advanced spread free starter selector")
+assertIncludes(files.mobileCheck, "[data-input-member-spread-name]", "mobile check advanced spread member selector")
 assertIncludes(files.mobileCheck, "highIntentQuestionRequiredSelectors", "mobile check shared high-intent selector guard")
 assertIncludes(files.mobileCheck, "[data-question-return-loop]", "mobile check long-tail return loop")
 assertIncludes(files.mobileCheck, "[data-question-return-loop-card]", "mobile check long-tail return loop cards")
@@ -1518,6 +1522,11 @@ const freeFirstReadingCoverage = [
   [files.inputPage, "result.free_starter_spread_config", "input consumes API free starter config"],
   [files.inputPage, "result.free_first_message", "input consumes API free-first message"],
   [files.inputPage, "Switched to a free starter spread", "advanced spread downgrade copy"],
+  [files.inputPage, "data-input-advanced-spread-prompt", "input advanced spread prompt selector"],
+  [files.inputPage, "data-input-free-first-boundary", "input free-first boundary selector"],
+  [files.inputPage, "data-input-free-starter-spread", "input visible free starter spread"],
+  [files.inputPage, "data-input-member-spread-name", "input visible member spread name"],
+  [files.inputPage, "data-input-member-upgrade-cta", "input visible member upgrade CTA"],
   [files.inputPage, "data-input-intent-hint", "input matched SEO intent hint"],
   [files.inputPage, "data-input-mobile-intent-compact", "input matched SEO intent mobile compact hint"],
   [files.inputPage, "data-input-entry-context", "input advanced spread entry context"],

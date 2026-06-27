@@ -140,36 +140,50 @@ function InputContent() {
       zh: {
         title: "已切换为免费三牌阵",
         body: "{requested} 是会员高级牌阵。你可以先用 {fallback} 免费解读，之后再升级查看完整牌阵。",
+        freeLabel: "免费先开始",
+        memberLabel: "会员完整牌阵",
         button: "查看会员功能",
       },
       en: {
         title: "Switched to a free starter spread",
         body: "{requested} is an advanced member spread. Start free with {fallback}, then upgrade when you want the full spread.",
+        freeLabel: "Start free",
+        memberLabel: "Member full spread",
         button: "View membership",
       },
       ja: {
         title: "無料スタータースプレッドに切り替えました",
         body: "{requested} はメンバー向けの高度なスプレッドです。まず {fallback} で無料リーディングを始められます。",
+        freeLabel: "まず無料",
+        memberLabel: "メンバー完全版",
         button: "メンバー機能を見る",
       },
       ko: {
         title: "무료 기본 스프레드로 전환했습니다",
         body: "{requested}은 멤버용 고급 스프레드입니다. 먼저 {fallback}으로 무료 리딩을 시작할 수 있습니다.",
+        freeLabel: "무료 먼저",
+        memberLabel: "멤버 전체 스프레드",
         button: "멤버십 보기",
       },
       es: {
         title: "Cambiamos a una tirada inicial gratis",
         body: "{requested} es una tirada avanzada para miembros. Empieza gratis con {fallback} y mejora cuando quieras la tirada completa.",
+        freeLabel: "Empieza gratis",
+        memberLabel: "Tirada completa",
         button: "Ver membresia",
       },
       "pt-br": {
         title: "Mudamos para uma tiragem inicial gratis",
         body: "{requested} e uma tiragem avancada para membros. Comece gratis com {fallback} e faca upgrade quando quiser a tiragem completa.",
+        freeLabel: "Comece gratis",
+        memberLabel: "Tiragem completa",
         button: "Ver assinatura",
       },
     }[readingLocale] || {
       title: "Switched to a free starter spread",
       body: "{requested} is an advanced member spread. Start free with {fallback}, then upgrade when you want the full spread.",
+      freeLabel: "Start free",
+      memberLabel: "Member full spread",
       button: "View membership",
     }
 
@@ -425,7 +439,10 @@ function InputContent() {
       )}
 
       {advancedSpreadPrompt && (pageState === "selecting" || pageState === "collecting") && (
-        <div className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.875rem)] z-40 w-[min(92vw,34rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/20 bg-[#11091f]/78 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.38)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4">
+        <div
+          data-input-advanced-spread-prompt
+          className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.875rem)] z-40 w-[min(92vw,34rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/20 bg-[#11091f]/78 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.38)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4"
+        >
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <p className="text-sm font-medium text-[#eeeaff]">{advancedSpreadCopy.title}</p>
@@ -434,6 +451,25 @@ function InputContent() {
                   .replace("{requested}", advancedSpreadPrompt.requestedName)
                   .replace("{fallback}", advancedSpreadPrompt.fallbackName)}
               </p>
+              <div
+                data-input-free-first-boundary
+                className="mt-3 grid gap-2 sm:grid-cols-2"
+              >
+                <div
+                  data-input-free-starter-spread
+                  className="min-w-0 rounded-lg border border-[#c9c0ff]/24 bg-[#c9c0ff]/[0.08] px-3 py-2"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{advancedSpreadCopy.freeLabel}</p>
+                  <p className="mt-1 truncate text-xs font-medium text-[#f4f0ff]">{advancedSpreadPrompt.fallbackName}</p>
+                </div>
+                <div
+                  data-input-member-spread-name
+                  className="min-w-0 rounded-lg border border-white/10 bg-black/18 px-3 py-2"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">{advancedSpreadCopy.memberLabel}</p>
+                  <p className="mt-1 truncate text-xs font-medium text-white/64">{advancedSpreadPrompt.requestedName}</p>
+                </div>
+              </div>
               {hasEntryQuestionContext && (
                 <div
                   data-input-entry-context
@@ -447,6 +483,7 @@ function InputContent() {
               )}
             </div>
             <button
+              data-input-member-upgrade-cta
               onClick={() => router.push("/membership")}
               className="shrink-0 rounded-full border border-[#c9c0ff]/35 px-3 py-2 text-xs font-medium text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10"
             >
