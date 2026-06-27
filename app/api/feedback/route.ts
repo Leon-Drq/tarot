@@ -65,6 +65,7 @@ export async function POST(req: Request) {
   const path = cleanString((payload as { path?: unknown }).path, 180) || "/reviews"
   const metadata = {
     path,
+    source_context: cleanString((payload as { source_context?: unknown }).source_context, 80) || null,
     referrer: cleanString(req.headers.get("referer"), 240) || null,
     user_agent: cleanString(req.headers.get("user-agent"), 240) || null,
   }

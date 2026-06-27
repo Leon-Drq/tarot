@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useEffect, useMemo, useState, type FormEvent } from "react"
 import { getAccessToken } from "@/lib/api"
 
@@ -14,6 +15,23 @@ const feedbackTypes = [
 
 const feedbackTypeValues = new Set(feedbackTypes.map((item) => item.value))
 const feedbackLocales = new Set(["zh", "en", "ja", "ko", "es", "pt-br"])
+const successActions = [
+  {
+    label: "Open Daily Tarot",
+    href: "/daily-tarot?utm_source=reviews&utm_medium=feedback_success&utm_campaign=daily_return",
+    body: "One free card, streak, journal, and reminder setup.",
+  },
+  {
+    label: "Ask another free question",
+    href: "/free-ai-tarot-reading?utm_source=reviews&utm_medium=feedback_success&utm_campaign=free_reading",
+    body: "Start with a real question before any upgrade.",
+  },
+  {
+    label: "See reading examples",
+    href: "/tarot-reading-examples?utm_source=reviews&utm_medium=feedback_success&utm_campaign=examples",
+    body: "Compare how clear tarot questions become useful readings.",
+  },
+] as const
 
 type SubmitState = "idle" | "submitting" | "success" | "error"
 
@@ -90,6 +108,7 @@ export function ReaderFeedbackForm() {
           permission_to_feature: permissionToFeature,
           locale,
           surface,
+          source_context: sourceContext || null,
           path: window.location.pathname,
           website,
         }),
@@ -226,10 +245,43 @@ export function ReaderFeedbackForm() {
           >
             {state === "submitting" ? "Submitting..." : "Submit feedback"}
           </button>
-          {state === "success" && <p className="text-sm leading-6 text-[#c9c0ff]">Thank you. Your feedback is saved for review.</p>}
+          {state === "success" && (
+            <p data-reader-feedback-success-summary className="text-sm leading-6 text-[#c9c0ff]">
+              Thank you. Your feedback is saved privately for editorial review.
+            </p>
+          )}
           {state === "error" && <p className="text-sm leading-6 text-[#ffb4c1]">{error}</p>}
         </div>
       </form>
+
+      {state === "success" && (
+        <section
+          data-reader-feedback-success
+          aria-live="polite"
+          className="mt-8 border-t border-white/10 pt-6"
+        >
+          <div className="max-w-2xl">
+            <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/75">What happens next</p>
+            <h3 className="mt-3 font-serif text-2xl text-white">Keep the Free Loop Going</h3>
+            <p className="mt-3 text-sm leading-7 text-white/62">
+              We review feedback before anything becomes public. While it is saved, continue with the free paths that help POPTarot learn what readers return for.
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {successActions.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                data-reader-feedback-next-action
+                className="min-w-0 border-l border-[#bfb6ff]/28 bg-black/10 px-4 py-3 transition hover:border-[#c9c0ff] hover:bg-[#bfb6ff]/[0.06]"
+              >
+                <span className="block break-words text-sm font-medium text-white">{item.label}</span>
+                <span className="mt-2 block text-sm leading-6 text-white/54">{item.body}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </section>
   )
 }
