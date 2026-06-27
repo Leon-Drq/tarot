@@ -957,7 +957,9 @@ for (const [file, needle, label] of structuredDataCoverage) {
 
 const identityMetadataCoverage = [
   [files.layout, "manifest: \"/manifest.webmanifest\"", "web app manifest metadata"],
-  [files.layout, "shortcut: \"/favicon.ico\"", "stable shortcut favicon metadata"],
+  [files.layout, "shortcut: [", "stable shortcut favicon metadata"],
+  [files.layout, "{ url: \"/favicon-48x48.png\", sizes: \"48x48\", type: \"image/png\" }", "preferred 48px shortcut favicon metadata"],
+  [files.layout, "{ url: \"/favicon.ico\", sizes: \"any\" }", "ICO shortcut favicon fallback metadata"],
   [files.layout, "thumbnail: `${appUrl}${brandLogoPath}`", "absolute thumbnail logo metadata"],
   [files.layout, "\"og:logo\": `${appUrl}${brandLogoPath}`", "absolute Open Graph logo metadata"],
   [files.layout, "/favicon.png", "canonical search favicon metadata"],
