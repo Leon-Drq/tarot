@@ -835,9 +835,9 @@ const relatedQuestionClusters: Record<string, string[]> = {
   ],
   "twin-flame-tarot-reading": [
     "is-he-my-soulmate-tarot",
+    "is-she-my-soulmate-tarot",
     "future-spouse-tarot-reading",
     "when-will-i-find-love-tarot",
-    "does-he-love-me-tarot",
   ],
   "will-i-get-married-tarot": [
     "future-spouse-tarot-reading",
@@ -871,39 +871,51 @@ const relatedQuestionClusters: Record<string, string[]> = {
   ],
   "does-she-love-me-tarot": [
     "how-does-she-feel-about-me-tarot",
-    "does-my-crush-like-me-tarot",
+    "what-does-she-think-of-me-tarot",
     "what-are-her-intentions-tarot",
     "is-she-thinking-about-me-tarot",
   ],
   "how-does-she-feel-about-me-tarot": [
     "does-she-love-me-tarot",
     "what-are-her-intentions-tarot",
-    "will-she-text-me-tarot",
+    "what-does-she-think-of-me-tarot",
     "is-she-thinking-about-me-tarot",
   ],
   "will-she-text-me-tarot": [
     "should-i-text-her-tarot",
+    "will-she-contact-me-tarot",
     "what-are-her-intentions-tarot",
-    "how-does-she-feel-about-me-tarot",
     "is-she-thinking-about-me-tarot",
   ],
   "what-are-her-intentions-tarot": [
     "how-does-she-feel-about-me-tarot",
     "does-she-love-me-tarot",
+    "what-does-she-think-of-me-tarot",
+    "should-i-text-her-tarot",
+  ],
+  "what-does-she-think-of-me-tarot": [
+    "how-does-she-feel-about-me-tarot",
+    "what-are-her-intentions-tarot",
+    "does-she-love-me-tarot",
+    "is-she-thinking-about-me-tarot",
+  ],
+  "will-she-contact-me-tarot": [
     "will-she-text-me-tarot",
     "should-i-text-her-tarot",
+    "is-she-thinking-about-me-tarot",
+    "what-are-her-intentions-tarot",
   ],
   "is-she-thinking-about-me-tarot": [
     "how-does-she-feel-about-me-tarot",
+    "what-does-she-think-of-me-tarot",
+    "will-she-contact-me-tarot",
     "will-she-text-me-tarot",
-    "what-are-her-intentions-tarot",
-    "does-she-love-me-tarot",
   ],
   "should-i-text-her-tarot": [
     "will-she-text-me-tarot",
+    "will-she-contact-me-tarot",
     "is-she-thinking-about-me-tarot",
     "what-are-her-intentions-tarot",
-    "does-she-love-me-tarot",
   ],
   "should-i-break-up-with-him-tarot": [
     "is-this-relationship-over-tarot",
@@ -949,9 +961,15 @@ const relatedQuestionClusters: Record<string, string[]> = {
   ],
   "is-he-my-soulmate-tarot": [
     "twin-flame-tarot-reading",
+    "is-she-my-soulmate-tarot",
     "future-spouse-tarot-reading",
     "will-i-get-married-tarot",
-    "does-he-love-me-tarot",
+  ],
+  "is-she-my-soulmate-tarot": [
+    "twin-flame-tarot-reading",
+    "is-he-my-soulmate-tarot",
+    "future-spouse-tarot-reading",
+    "will-i-get-married-tarot",
   ],
   "when-will-i-find-love-tarot": [
     "future-spouse-tarot-reading",

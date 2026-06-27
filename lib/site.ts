@@ -268,6 +268,16 @@ export const highIntentQuestionLinks = [
     href: "/what-are-her-intentions-tarot",
   },
   {
+    title: "What does she think of me tarot",
+    description: "A perception-focused love tarot entry for mixed signals, silence, private thoughts, and whether her attention may become action.",
+    href: "/what-does-she-think-of-me-tarot",
+  },
+  {
+    title: "Will she contact me tarot",
+    description: "A contact-focused tarot path for delayed replies, no-contact periods, breakup silence, and healthy waiting boundaries.",
+    href: "/will-she-contact-me-tarot",
+  },
+  {
     title: "Should I break up with him tarot",
     description: "A relationship decision tarot page for repeated conflict, repair conditions, emotional safety, and the healthiest next step.",
     href: "/should-i-break-up-with-him-tarot",
@@ -296,6 +306,11 @@ export const highIntentQuestionLinks = [
     title: "Is he my soulmate tarot",
     description: "A soulmate tarot entry for intense connections, compatibility, lessons, timing, and healthy reciprocity.",
     href: "/is-he-my-soulmate-tarot",
+  },
+  {
+    title: "Is she my soulmate tarot",
+    description: "A soulmate tarot entry for intense connection, compatibility, lessons, timing, and whether the bond is grounded and mutual.",
+    href: "/is-she-my-soulmate-tarot",
   },
   {
     title: "Money tarot reading",
