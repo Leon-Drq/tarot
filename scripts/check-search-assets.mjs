@@ -4,6 +4,11 @@ const rootUrl = (
   "https://poptarot.com"
 ).replace(/\/$/, "")
 
+const canonicalUrl = (process.env.SEARCH_ASSET_CANONICAL_URL || process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com").replace(
+  /\/$/,
+  "",
+)
+
 const requiredAssets = [
   { path: "/favicon.ico", contentType: "image/" },
   { path: "/favicon.png", contentType: "image/png" },
@@ -52,6 +57,10 @@ function absolute(path) {
   return new URL(path, rootUrl).toString()
 }
 
+function canonical(path) {
+  return new URL(path, canonicalUrl).toString()
+}
+
 function fail(message) {
   throw new Error(message)
 }
@@ -79,7 +88,17 @@ async function checkAsset({ path, contentType }) {
     fail(`${path} returned content-type ${actualType || "(missing)"}, expected ${contentType}`)
   }
 
-  return { path, contentType: actualType }
+  const cacheControl = response.headers.get("cache-control") || ""
+  if (!cacheControl.includes("max-age=31536000") || !cacheControl.includes("immutable")) {
+    fail(`${path} returned cache-control ${cacheControl || "(missing)"}, expected one-year immutable cache`)
+  }
+
+  const robotsTag = response.headers.get("x-robots-tag") || ""
+  if (!robotsTag.includes("index") || !robotsTag.includes("follow")) {
+    fail(`${path} returned x-robots-tag ${robotsTag || "(missing)"}, expected index, follow`)
+  }
+
+  return { path, contentType: actualType, cacheControl, robotsTag }
 }
 
 function assertIncludes(source, needle, label) {
@@ -113,23 +132,23 @@ try {
   const robotRules = robotsLines(robots)
 
   for (const path of requiredSitemapPaths) {
-    assertIncludes(sitemap, `<loc>${absolute(path)}</loc>`, `sitemap loc ${path}`)
+    assertIncludes(sitemap, `<loc>${canonical(path)}</loc>`, `sitemap loc ${path}`)
   }
 
   for (const path of blockedSitemapPaths) {
-    assertNotIncludes(sitemap, `<loc>${absolute(path)}</loc>`, `sitemap private flow ${path}`)
+    assertNotIncludes(sitemap, `<loc>${canonical(path)}</loc>`, `sitemap private flow ${path}`)
   }
 
   for (const snippet of [
-    `hreflang="x-default" href="${absolute("/daily-tarot")}"`,
-    `hreflang="es" href="${absolute("/es/mi-ex-volvera-tarot")}"`,
-    `hreflang="pt-br" href="${absolute("/pt-br/meu-ex-vai-voltar-tarot")}"`,
-    `hreflang="x-default" href="${absolute("/will-my-ex-come-back-tarot")}"`,
+    `hreflang="x-default" href="${canonical("/daily-tarot")}"`,
+    `hreflang="es" href="${canonical("/es/mi-ex-volvera-tarot")}"`,
+    `hreflang="pt-br" href="${canonical("/pt-br/meu-ex-vai-voltar-tarot")}"`,
+    `hreflang="x-default" href="${canonical("/will-my-ex-come-back-tarot")}"`,
   ]) {
     assertIncludes(sitemap, snippet, "sitemap hreflang")
   }
 
-  assertIncludes(robots, `Sitemap: ${absolute("/sitemap.xml")}`, "robots sitemap")
+  assertIncludes(robots, `Sitemap: ${canonical("/sitemap.xml")}`, "robots sitemap")
   for (const path of robotsDisallows) {
     if (!robotRules.includes(`Disallow: ${path}`)) {
       fail(`robots disallow ${path} missing: Disallow: ${path}`)
@@ -140,6 +159,22 @@ try {
       fail(`robots public path ${path} should not include exact rule: Disallow: ${path}`)
     }
   }
+  if (!robotRules.includes("User-Agent: Googlebot-Image")) {
+    fail("robots Googlebot-Image brand asset rule missing")
+  }
+  for (const path of [
+    "/favicon.ico",
+    "/favicon.png",
+    "/favicon-48x48.png",
+    "/favicon-96x96.png",
+    "/logo.png",
+    "/logo.svg",
+    "/og-image.jpg",
+  ]) {
+    if (!robotRules.includes(`Allow: ${path}`)) {
+      fail(`robots Googlebot-Image allow missing: Allow: ${path}`)
+    }
+  }
 
   for (const snippet of [
     "/favicon.png",
@@ -148,7 +183,7 @@ try {
     "/apple-touch-icon.png",
     "/manifest.webmanifest",
     "/og-image.jpg",
-    `${rootUrl}/logo.png`,
+    `${canonicalUrl}/logo.png`,
   ]) {
     assertIncludes(home, snippet, `homepage search asset ${snippet}`)
   }
@@ -165,9 +200,9 @@ try {
     assertIncludes(brand, snippet, `brand assets page signal ${snippet}`)
   }
 
-  console.log(`check-search-assets: ${rootUrl}`)
+  console.log(`check-search-assets: ${rootUrl} canonical ${canonicalUrl}`)
   for (const result of assetResults) {
-    console.log(`${result.path.padEnd(26)} ${result.contentType}`)
+    console.log(`${result.path.padEnd(26)} ${result.contentType} ${result.cacheControl}`)
   }
   console.log(`sitemap paths checked       ${requiredSitemapPaths.length}`)
   console.log("Search asset checks passed.")

@@ -33,6 +33,7 @@ function assertFileExists(path, label) {
 
 const files = {
   packageJson: { path: "package.json", source: read("package.json") },
+  nextConfig: { path: "next.config.mjs", source: read("next.config.mjs") },
   mobileCheck: { path: "scripts/check-mobile-layout.mjs", source: read("scripts/check-mobile-layout.mjs") },
   layout: { path: "app/layout.tsx", source: read("app/layout.tsx") },
   homePage: { path: "app/page.tsx", source: read("app/page.tsx") },
@@ -984,6 +985,13 @@ const identityMetadataCoverage = [
   [files.trustPages, "512 x 512 SVG icon", "brand asset SVG icon card"],
   [files.trustPages, "Search crawler source", "brand asset search crawler explanation"],
   [files.trustPageView, "previewSrc ?? item.src", "brand asset preview fallback"],
+  [files.nextConfig, "brandAssetHeaders", "brand asset cache header registry"],
+  [files.nextConfig, "max-age=31536000, immutable", "long-lived brand asset cache header"],
+  [files.nextConfig, "X-Robots-Tag", "brand asset crawler index header"],
+  [files.nextConfig, "/favicon.ico", "favicon ICO header coverage"],
+  [files.nextConfig, "/favicon.png", "favicon PNG header coverage"],
+  [files.nextConfig, "/logo.png", "logo header coverage"],
+  [files.nextConfig, "/manifest.webmanifest", "manifest header coverage"],
 ]
 
 for (const [file, needle, label] of identityMetadataCoverage) {
@@ -1014,6 +1022,9 @@ const searchAssetRuntimeCoverage = [
   [files.searchAssetCheck, "blockedSitemapPaths", "search asset private flow sitemap guard"],
   [files.searchAssetCheck, "robotsDisallows", "search asset robots disallow guard"],
   [files.searchAssetCheck, "publicRobotsPaths", "search asset public robots guard"],
+  [files.searchAssetCheck, "max-age=31536000", "search asset cache header guard"],
+  [files.searchAssetCheck, "x-robots-tag", "search asset robots header guard"],
+  [files.searchAssetCheck, "Googlebot-Image", "search asset Googlebot Image guard"],
   [files.searchAssetCheck, "hreflang=\"x-default\"", "search asset hreflang guard"],
   [files.searchAssetCheck, "homepage search asset", "search asset homepage metadata guard"],
   [files.searchAssetCheck, "brand assets page signal", "search asset brand page signal guard"],
@@ -1099,6 +1110,10 @@ const crawlHygieneCoverage = [
   [files.robots, '"/reading"', "reading flow robots disallow"],
   [files.robots, '"/reveal"', "reveal flow robots disallow"],
   [files.robots, '"/loading-reading"', "loading flow robots disallow"],
+  [files.robots, '"Googlebot-Image"', "Googlebot Image brand asset allow"],
+  [files.robots, "brandAssets", "brand asset robots registry"],
+  [files.robots, '"/favicon.png"', "favicon robots allow"],
+  [files.robots, '"/logo.png"', "logo robots allow"],
   [files.inputLayout, "index: false", "input noindex metadata"],
   [files.inputLayout, "follow: false", "input nofollow metadata"],
   [files.readingLayout, "index: false", "reading noindex metadata"],
