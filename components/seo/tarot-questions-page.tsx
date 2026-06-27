@@ -1137,7 +1137,10 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
                       <Link
                         key={entry.slug || entry.title}
                         data-question-quick-start-card
+                        data-question-quick-start-slug={entry.slug || undefined}
+                        data-question-quick-start-spread={entry.spread}
                         href={readingHref(entry, copy.locale, "question_hub_quick_start")}
+                        aria-label={`${copy.startFree}: ${entry.query}`}
                         className="group flex min-h-[7.5rem] flex-col justify-between rounded-lg border border-white/10 bg-black/[0.2] p-3 transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
                       >
                         <span className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">
@@ -1188,7 +1191,14 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
                     .map((entry) => {
                       const spread = SPREAD_CONFIGS[entry.spread]
                       return (
-                        <article key={entry.title} className="rounded-lg border border-white/10 bg-[#0d0618]/72 p-4">
+                        <article
+                          key={entry.title}
+                          data-question-entry-card
+                          data-question-entry-slug={entry.slug || undefined}
+                          data-question-entry-spread={entry.spread}
+                          data-question-entry-group={entry.group}
+                          className="rounded-lg border border-white/10 bg-[#0d0618]/72 p-4"
+                        >
                           <div className="flex items-start justify-between gap-3">
                             <div className="min-w-0">
                               <p className="text-[11px] uppercase tracking-[0.18em] text-[#c9c0ff]/70">
@@ -1201,14 +1211,18 @@ export function TarotQuestionsPageView({ locale }: { locale: TarotQuestionHubLoc
                           <p className="mt-3 text-sm leading-6 text-white/58">{entry.intent}</p>
                           <div className="mt-4 flex flex-col gap-2 sm:flex-row">
                             <Link
+                              data-question-entry-start
                               href={readingHref(entry, copy.locale)}
+                              aria-label={`${copy.startFree}: ${entry.query}`}
                               className="inline-flex min-h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_50%,#8f80ee_100%)] px-3 py-2 text-sm font-medium text-[#120c22] shadow-[0_16px_34px_rgba(143,128,238,0.18)] transition hover:brightness-110"
                             >
                               {copy.startFree}
                               <ArrowUpRight className="h-4 w-4" />
                             </Link>
                             <Link
+                              data-question-entry-guide
                               href={guideHref(entry, copy.locale)}
+                              aria-label={`${copy.readGuide}: ${entry.title}`}
                               className="inline-flex min-h-10 flex-1 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-sm text-white/68 transition hover:border-[#bfb6ff]/40 hover:text-white"
                             >
                               {copy.readGuide}
