@@ -49,16 +49,20 @@ type Params = {
 async function getShare(slug: string): Promise<ReadingShare | null> {
   if (!/^[a-z0-9-]{8,64}$/.test(slug)) return null
 
-  const supabase = createAnonSupabase()
-  const { data, error } = await supabase
-    .from("reading_shares")
-    .select("slug,question,cards,spread_type,interpretation_excerpt,created_at")
-    .eq("slug", slug)
-    .eq("is_active", true)
-    .single()
+  try {
+    const supabase = createAnonSupabase()
+    const { data, error } = await supabase
+      .from("reading_shares")
+      .select("slug,question,cards,spread_type,interpretation_excerpt,created_at")
+      .eq("slug", slug)
+      .eq("is_active", true)
+      .single()
 
-  if (error || !data) return null
-  return data as ReadingShare
+    if (error || !data) return null
+    return data as ReadingShare
+  } catch {
+    return null
+  }
 }
 
 function cardLabel(card: ReadingShareCard) {

@@ -273,6 +273,10 @@ const files = {
     path: "app/share/[slug]/page.tsx",
     source: read("app/share/[slug]/page.tsx"),
   },
+  shareNotFound: {
+    path: "app/share/not-found.tsx",
+    source: read("app/share/not-found.tsx"),
+  },
   shareRoute: {
     path: "app/api/reading/share/route.ts",
     source: read("app/api/reading/share/route.ts"),
@@ -1511,6 +1515,20 @@ const publicShareConversionCoverage = [
   [files.shareCopyActions, "\"pt-br\"", "public share Portuguese copy"],
   [files.shareCopyActions, "native_public_share", "public share native-share analytics action"],
   [files.shareCopyActions, "copy_public_share_url", "public share copy-link analytics action"],
+  [files.shareNotFound, "data-public-share-not-found", "missing public share fallback page"],
+  [files.shareNotFound, "data-public-share-not-found-start", "missing public share free start CTA"],
+  [files.shareNotFound, "data-public-share-not-found-daily", "missing public share Daily Tarot CTA"],
+  [files.shareNotFound, "data-public-share-not-found-trust", "missing public share trust section"],
+  [files.shareNotFound, "data-public-share-not-found-path", "missing public share path cards"],
+  [files.shareNotFound, "public_share_missing", "missing public share attribution source"],
+  [files.shareNotFound, "missing_share", "missing public share attribution medium"],
+  [files.shareNotFound, "Start a fresh free reading", "missing public share free-first copy"],
+  [files.shareNotFound, "Review%20a%20question%20from%20a%20shared%20reading", "missing public share Daily Tarot return focus"],
+  [files.shareNotFound, "/free-tarot-tools", "missing public share free tools path"],
+  [files.shareNotFound, "/reviews", "missing public share reviews path"],
+  [files.shareNotFound, "/ai-tarot-disclaimer", "missing public share AI disclaimer path"],
+  [files.shareNotFound, "/privacy", "missing public share privacy path"],
+  [files.shareNotFound, "/tarot-reading-examples", "missing public share examples path"],
 ]
 
 for (const [file, needle, label] of publicShareConversionCoverage) {

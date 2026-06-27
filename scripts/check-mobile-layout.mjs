@@ -253,6 +253,17 @@ const pages = [
     requiredSelectors: ["[data-free-tools-quick-start-start]", "[data-free-tools-social-proof]"],
   },
   {
+    path: "/share/missing-public-share-for-mobile-check",
+    name: "missing public share",
+    requiredSelectors: [
+      "[data-public-share-not-found]",
+      "[data-public-share-not-found-start]",
+      "[data-public-share-not-found-daily]",
+      "[data-public-share-not-found-trust]",
+      "[data-public-share-not-found-path]",
+    ],
+  },
+  {
     path: "/membership",
     name: "membership free-first boundary",
     requiredSelectors: [
