@@ -99,3 +99,21 @@ export function downloadDailyReturnCalendar(input: DailyReturnCalendarInput) {
   link.remove()
   window.setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
+
+export function createGoogleCalendarDailyReturnUrl(input: DailyReturnCalendarInput) {
+  const timezone = getClientTimezone()
+  const start = getReminderStartDate(input.time)
+  const end = new Date(start.getTime() + 10 * 60 * 1000)
+  const url = input.url || "https://poptarot.com/daily-tarot"
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: input.summary,
+    dates: `${formatCalendarDateTime(start)}/${formatCalendarDateTime(end)}`,
+    details: `${input.description}\n\n${url}`,
+    location: url,
+    ctz: timezone,
+    recur: "RRULE:FREQ=DAILY;INTERVAL=1",
+  })
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`
+}

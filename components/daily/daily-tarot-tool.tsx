@@ -16,7 +16,7 @@ import {
   type DailyTarotEntry,
 } from "@/lib/api"
 import { getCurrentAttribution } from "@/lib/client-analytics"
-import { downloadDailyReturnCalendar } from "@/lib/client-calendar-reminder"
+import { createGoogleCalendarDailyReturnUrl, downloadDailyReturnCalendar } from "@/lib/client-calendar-reminder"
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import {
   createFallbackDailyInterpretation,
@@ -983,6 +983,7 @@ export function DailyTarotTool() {
       time: reminderTime,
       summary: copy.calendarReminderSummary,
       description: copy.calendarReminderDescription,
+      url: buildDailyReturnUrl("return_link"),
       filename: "poptarot-daily-tarot.ics",
     })
     setCalendarStatus(copy.calendarReminderSaved)
@@ -991,6 +992,30 @@ export function DailyTarotTool() {
       locale: language,
       keyword: "daily tarot",
       metadata: {
+        surface: "daily-tarot",
+        reminder_time: reminderTime,
+        email_delivery_enabled: emailDeliveryEnabled,
+      },
+    })
+  }
+
+  const handleOpenGoogleCalendarReminder = () => {
+    const url = createGoogleCalendarDailyReturnUrl({
+      time: reminderTime,
+      summary: copy.calendarReminderSummary,
+      description: copy.calendarReminderDescription,
+      url: buildDailyReturnUrl("return_link"),
+    })
+    const opened = window.open(url, "_blank", "noopener,noreferrer")
+    if (!opened) window.location.href = url
+    setCalendarStatus(copy.googleCalendarOpened)
+    analyticsApi.track("daily_calendar_reminder_downloaded", {
+      ...getCurrentAttribution(),
+      locale: language,
+      keyword: "daily tarot",
+      metadata: {
+        action: "daily_google_calendar_opened",
+        provider: "google_calendar",
         surface: "daily-tarot",
         reminder_time: reminderTime,
         email_delivery_enabled: emailDeliveryEnabled,
@@ -1598,7 +1623,7 @@ export function DailyTarotTool() {
               <h2 className="break-words text-base font-medium leading-6 text-white">{directReturnCopy.title}</h2>
               <p className="mt-2 text-xs leading-5 text-white/52">{directReturnCopy.body}</p>
             </div>
-            <div className="grid min-w-0 gap-2 min-[420px]:grid-cols-3">
+            <div className="grid min-w-0 gap-2 min-[420px]:grid-cols-2">
               <button
                 type="button"
                 data-daily-direct-return-copy
@@ -1625,6 +1650,15 @@ export function DailyTarotTool() {
               >
                 <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span className={quickActionTextClass}>{quickActionCopy.calendar}</span>
+              </button>
+              <button
+                type="button"
+                data-daily-direct-return-google-calendar
+                onClick={handleOpenGoogleCalendarReminder}
+                className="inline-flex min-h-11 min-w-0 items-center justify-center gap-2 rounded-lg border border-white/12 bg-white/[0.035] px-3 text-xs text-white/72 transition hover:border-[#c9c0ff]/35 hover:text-white"
+              >
+                <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span className={quickActionTextClass}>{copy.googleCalendarReminder}</span>
               </button>
             </div>
           </div>
@@ -1725,7 +1759,7 @@ export function DailyTarotTool() {
               <p className="mt-2 text-sm leading-6 text-white/56">{copy.returnSetupBody}</p>
             </div>
           </div>
-          <div className="mt-4 grid gap-2 sm:grid-cols-3">
+          <div className="mt-4 grid gap-2 sm:grid-cols-2">
             <button
               type="button"
               data-daily-return-setup-calendar
@@ -1734,6 +1768,15 @@ export function DailyTarotTool() {
             >
               <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
               <span className={quickActionTextClass}>{copy.returnSetupCalendar}</span>
+            </button>
+            <button
+              type="button"
+              data-daily-return-setup-google-calendar
+              onClick={handleOpenGoogleCalendarReminder}
+              className="inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/26 bg-[#c9c0ff]/[0.08] px-4 text-sm text-[#f2edff] transition hover:border-[#c9c0ff]/45 hover:bg-[#c9c0ff]/[0.13]"
+            >
+              <CalendarPlus className="h-4 w-4 shrink-0" aria-hidden="true" />
+              <span className={quickActionTextClass}>{copy.googleCalendarReminder}</span>
             </button>
             <button
               type="button"
@@ -1758,7 +1801,7 @@ export function DailyTarotTool() {
                 type="button"
                 data-daily-return-setup-install
                 onClick={handleInstallPrompt}
-                className="inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white sm:col-span-3"
+                className="inline-flex min-h-11 min-w-0 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-4 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white sm:col-span-2"
               >
                 <Smartphone className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span className={quickActionTextClass}>{copy.returnSetupHome}</span>

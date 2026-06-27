@@ -502,6 +502,7 @@ assertIncludes(files.dailyTarotTool, "data-daily-direct-return-actions", "Daily 
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-copy", "Daily Tarot first-screen copy return link action")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-mailto", "Daily Tarot first-screen mailto return action")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-calendar", "Daily Tarot first-screen calendar return action")
+assertIncludes(files.dailyTarotTool, "data-daily-direct-return-google-calendar", "Daily Tarot first-screen Google Calendar return action")
 assertIncludes(files.dailyTarotTool, "Direct / Mail return", "Daily Tarot direct/mail return copy")
 assertIncludes(files.dailyTarotTool, "data-daily-linked-return-focus", "Daily Tarot linked return focus visible panel")
 assertIncludes(files.dailyTarotTool, "data-daily-linked-return-focus-edit", "Daily Tarot linked return focus edit CTA")
@@ -1213,16 +1214,28 @@ const dailyReminderCoverage = [
   [files.reminderUnsubscribeToken, "timingSafeEqual", "safe unsubscribe token comparison"],
   [files.dailyTarotTool, "data-daily-return-setup", "Daily Tarot return setup panel"],
   [files.dailyTarotTool, "data-daily-return-setup-calendar", "Daily Tarot prominent calendar reminder CTA"],
+  [files.dailyTarotTool, "data-daily-return-setup-google-calendar", "Daily Tarot prominent Google Calendar CTA"],
   [files.dailyTarotTool, "data-daily-return-setup-mailto", "Daily Tarot prominent self-email return CTA"],
   [files.dailyTarotTool, "data-daily-return-setup-reminder", "Daily Tarot reminder preference CTA"],
   [files.dailyTarotTool, "returnSetupMail", "Daily Tarot self-email return setup localized copy"],
   [files.clientCalendarReminder, "downloadDailyReturnCalendar", "shared Daily Tarot calendar download helper"],
+  [files.clientCalendarReminder, "createGoogleCalendarDailyReturnUrl", "shared Daily Tarot Google Calendar helper"],
+  [files.clientCalendarReminder, "https://calendar.google.com/calendar/render", "Google Calendar render URL"],
+  [files.clientCalendarReminder, "ctz: timezone", "Google Calendar timezone parameter"],
+  [files.clientCalendarReminder, "recur: \"RRULE:FREQ=DAILY;INTERVAL=1\"", "Google Calendar recurring rule"],
   [files.clientCalendarReminder, "X-WR-TIMEZONE", "Daily Tarot calendar timezone"],
   [files.clientCalendarReminder, "DTSTART;TZID=", "Daily Tarot calendar timezone-aware start"],
   [files.clientCalendarReminder, "RRULE:FREQ=DAILY;INTERVAL=1", "Daily Tarot recurring calendar rule"],
   [files.clientCalendarReminder, "BEGIN:VALARM", "Daily Tarot calendar alarm block"],
   [files.clientCalendarReminder, "TRIGGER:-PT10M", "Daily Tarot calendar notification trigger"],
   [files.dailyTarotTool, "downloadDailyReturnCalendar", "Daily Tarot uses shared calendar helper"],
+  [files.dailyTarotTool, "createGoogleCalendarDailyReturnUrl", "Daily Tarot uses shared Google Calendar helper"],
+  [files.dailyTarotTool, "handleOpenGoogleCalendarReminder", "Daily Tarot Google Calendar handler"],
+  [files.dailyTarotTool, "daily_google_calendar_opened", "Daily Tarot Google Calendar analytics action"],
+  [files.dailyTarotTool, "provider: \"google_calendar\"", "Daily Tarot Google Calendar analytics provider"],
+  [files.dailyTarotTool, "googleCalendarReminder", "Daily Tarot Google Calendar localized copy"],
+  [files.dailyTarotTool, "googleCalendarOpened", "Daily Tarot Google Calendar status copy"],
+  [files.dailyTarotTool, "url: buildDailyReturnUrl(\"return_link\")", "Daily Tarot calendar events use direct return URL"],
   [files.dailyTarotTool, "daily_calendar_reminder_downloaded", "Daily Tarot calendar reminder analytics event"],
   [files.dailyTarotTool, "daily_reminder_preference_saved", "Daily Tarot reminder preference analytics event"],
   [files.dailyTarotTool, "synced_to_cloud", "Daily Tarot reminder preference cloud sync metadata"],
