@@ -372,6 +372,16 @@ export const highIntentQuestionLinks = [
     href: "/should-i-take-this-job-tarot",
   },
   {
+    title: "Should I start a business tarot",
+    description: "A business decision tarot page for comparing launch timing, preparation, money risk, resources, and the first test.",
+    href: "/should-i-start-a-business-tarot",
+  },
+  {
+    title: "Will my business succeed tarot",
+    description: "A business success tarot page for demand, money pressure, customer fit, operating focus, and the next practical move.",
+    href: "/will-my-business-succeed-tarot",
+  },
+  {
     title: "Will I be successful tarot",
     description: "A goal-focused tarot entry for projects, exams, launches, creative work, and the next controllable action.",
     href: "/will-i-be-successful-tarot",

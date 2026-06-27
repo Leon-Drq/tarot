@@ -1926,6 +1926,44 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "should-i-start-a-business-tarot",
+    cards: [1, 3, 50],
+    recommendedSpread: "binary_choice",
+    title: "Should I Start a Business Tarot",
+    description: "Use a free AI tarot reading to compare starting a business now with waiting, preparing, or choosing a safer next step.",
+    h1: "Should I Start a Business Tarot",
+    intent: "Best for startup ideas, side hustles, self-employment, business timing, money risk, and deciding what to prepare before launching.",
+    question: "Should I start this business, and what should I prepare before I move?",
+    sections: [
+      { heading: "Test readiness, not just excitement", body: "A business reading is most useful when it separates real opportunity from urgency, fantasy, pressure, or fear of missing out." },
+      { heading: "Compare risk and resources", body: "Use the spread to compare starting now with preparing first: money, time, support, market fit, energy, and the first practical test." },
+      { heading: "Turn the answer into an experiment", body: "Instead of treating the cards as a guarantee, choose one small validation step: talk to customers, price an offer, build a prototype, or reduce risk." },
+    ],
+    faqs: [
+      { question: "Can tarot tell me whether to start a business?", answer: "Tarot can clarify readiness, risk, timing, and the next step. It should support planning, not replace research, budgets, contracts, or professional advice." },
+      { question: "What cards support entrepreneurship?", answer: "The Magician, The Empress, Ace of Pentacles, Three of Pentacles, The Chariot, and King of Pentacles can support business energy when the whole spread is coherent." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "will-my-business-succeed-tarot",
+    cards: [1, 52, 63],
+    recommendedSpread: "job_opportunity",
+    title: "Will My Business Succeed Tarot",
+    description: "Draw a free AI tarot reading about business success, timing, money pressure, customer fit, and the next practical move.",
+    h1: "Will My Business Succeed Tarot",
+    intent: "Best for existing businesses, side hustles, launches, sales momentum, money pressure, customer fit, and what to focus on next.",
+    question: "Will my business succeed, and what should I focus on next?",
+    sections: [
+      { heading: "Define what success means", body: "A business success reading should name whether success means profit, steady customers, launch completion, creative traction, stability, or learning fast." },
+      { heading: "Read demand, resources, and timing", body: "The cards should show where momentum exists, what is under-resourced, what risk needs management, and whether timing supports expansion or patience." },
+      { heading: "Make the message operational", body: "The best answer becomes one practical operating move: refine the offer, test demand, manage cash, improve delivery, ask for help, or simplify the plan." },
+    ],
+    faqs: [
+      { question: "Can tarot predict business success?", answer: "Tarot can show momentum, blocks, resources, and likely direction. Business outcomes still depend on customers, execution, cash flow, and market reality." },
+      { question: "What cards suggest business success?", answer: "The Magician, Ace of Pentacles, Three of Pentacles, Six of Wands, The Sun, The World, and King of Pentacles can support success when the spread agrees." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "will-i-be-successful-tarot",
     cards: [1, 19, 21],
     recommendedSpread: "three_card",
@@ -2016,6 +2054,8 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "will-i-get-married-tarot": "me-casare-tarot",
     "will-i-get-the-job-tarot": "conseguire-el-trabajo-tarot",
     "should-i-take-this-job-tarot": "deberia-aceptar-este-trabajo-tarot",
+    "should-i-start-a-business-tarot": "deberia-empezar-un-negocio-tarot",
+    "will-my-business-succeed-tarot": "tendra-exito-mi-negocio-tarot",
     "will-i-be-successful-tarot": "tendre-exito-tarot",
   },
   "pt-br": {
@@ -2068,6 +2108,8 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "will-i-get-married-tarot": "vou-me-casar-tarot",
     "will-i-get-the-job-tarot": "vou-conseguir-o-emprego-tarot",
     "should-i-take-this-job-tarot": "devo-aceitar-este-trabalho-tarot",
+    "should-i-start-a-business-tarot": "devo-comecar-um-negocio-tarot",
+    "will-my-business-succeed-tarot": "meu-negocio-vai-dar-certo-tarot",
     "will-i-be-successful-tarot": "vou-ter-sucesso-tarot",
   },
 }
@@ -2866,6 +2908,42 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
         { question: "¿Qué cartas advierten no aceptar?", answer: "El Diablo, Cinco de Oros, Siete de Espadas, Diez de Bastos o La Luna pueden advertir presión, mal encaje o términos ocultos." },
       ],
     },
+    "should-i-start-a-business-tarot": {
+      title: "Tarot: ¿deberia empezar un negocio?",
+      description: "Lectura gratis con IA para comparar empezar un negocio ahora con esperar, preparar mejor o reducir riesgo.",
+      eyebrow: "Decision de negocio",
+      h1: "Tarot: ¿deberia empezar un negocio?",
+      intro: "Pregunta si conviene empezar este negocio y que preparar antes de avanzar. La lectura mira oportunidad, riesgo, dinero, energia y primer paso.",
+      intent: "Ideal para emprendimientos, ideas de negocio, side hustles, trabajo por cuenta propia, timing y preparacion antes de lanzar.",
+      ctaQuestion: "¿Deberia empezar este negocio y que debo preparar antes de avanzar?",
+      sections: [
+        { heading: "Evalua preparacion, no solo emocion", body: "Una lectura de negocio ayuda a separar oportunidad real de urgencia, fantasia, presion o miedo a perder el momento." },
+        { heading: "Compara riesgo y recursos", body: "La tirada compara empezar ahora con preparar primero: dinero, tiempo, apoyo, demanda, energia y primer experimento." },
+        { heading: "Convierte la respuesta en prueba", body: "El mejor siguiente paso es validar: hablar con clientes, poner precio, crear prototipo, simplificar oferta o reducir riesgo." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decir si debo empezar un negocio?", answer: "Puede aclarar preparacion, riesgo, timing y siguiente paso. Combinalo con investigacion, presupuesto y asesoria profesional." },
+        { question: "¿Que cartas apoyan emprender?", answer: "El Mago, La Emperatriz, As de Oros, Tres de Oros, El Carro y Rey de Oros pueden apoyar energia de negocio si la tirada acompaña." },
+      ],
+    },
+    "will-my-business-succeed-tarot": {
+      title: "Tarot: ¿tendra exito mi negocio?",
+      description: "Lectura gratis con IA sobre exito de negocio, timing, presion de dinero, clientes y proximo movimiento practico.",
+      eyebrow: "Negocio y crecimiento",
+      h1: "Tarot: ¿tendra exito mi negocio?",
+      intro: "Pregunta si tu negocio puede tener exito y en que enfocarte ahora. La lectura revisa demanda, recursos, riesgo y accion concreta.",
+      intent: "Ideal para negocios activos, lanzamientos, ventas, presion economica, clientes, foco operativo y siguiente paso.",
+      ctaQuestion: "¿Tendra exito mi negocio y en que debo enfocarme ahora?",
+      sections: [
+        { heading: "Define que significa exito", body: "La lectura debe aclarar si exito significa ganancias, clientes constantes, completar lanzamiento, estabilidad o aprender rapido." },
+        { heading: "Lee demanda, recursos y timing", body: "Las cartas muestran donde hay impulso, que falta, que riesgo gestionar y si conviene expandir o tener paciencia." },
+        { heading: "Hazlo operativo", body: "Convierte el mensaje en una accion: ajustar oferta, probar demanda, cuidar caja, mejorar entrega, pedir ayuda o simplificar el plan." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede predecir el exito de un negocio?", answer: "Puede mostrar impulso, bloqueos, recursos y direccion probable. El resultado tambien depende de clientes, ejecucion, caja y mercado." },
+        { question: "¿Que cartas sugieren exito en negocios?", answer: "El Mago, As de Oros, Tres de Oros, Seis de Bastos, El Sol, El Mundo y Rey de Oros pueden apoyar exito si la tirada coincide." },
+      ],
+    },
     "will-i-be-successful-tarot": {
       title: "Tarot: ¿tendré éxito?",
       description: "Lectura gratis con IA sobre éxito, obstáculos, timing, crecimiento personal y la próxima acción que mejora tus posibilidades.",
@@ -3640,6 +3718,42 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "O tarot ajuda a decidir se aceito um trabalho?", answer: "Sim. Clareia custos, motivos, risco e potencial de crescimento, especialmente quando combinado com dados reais." },
         { question: "Que cartas alertam para não aceitar?", answer: "O Diabo, Cinco de Ouros, Sete de Espadas, Dez de Paus ou A Lua podem alertar pressão, mau encaixe ou termos ocultos." },
+      ],
+    },
+    "should-i-start-a-business-tarot": {
+      title: "Tarot: devo comecar um negocio?",
+      description: "Leitura grátis com IA para comparar comecar um negocio agora com esperar, preparar melhor ou reduzir risco.",
+      eyebrow: "Decisão de negócio",
+      h1: "Tarot: devo comecar um negocio?",
+      intro: "Pergunte se vale comecar este negocio e o que preparar antes de avançar. A leitura olha oportunidade, risco, dinheiro, energia e primeiro passo.",
+      intent: "Ideal para empreendedorismo, ideias de negocio, side hustles, trabalho por conta propria, timing e preparo antes de lancar.",
+      ctaQuestion: "Devo comecar este negocio e o que devo preparar antes de avancar?",
+      sections: [
+        { heading: "Teste preparo, nao so entusiasmo", body: "Uma leitura de negocio ajuda a separar oportunidade real de urgencia, fantasia, pressao ou medo de perder o momento." },
+        { heading: "Compare risco e recursos", body: "A tiragem compara comecar agora com preparar primeiro: dinheiro, tempo, apoio, demanda, energia e primeiro experimento." },
+        { heading: "Transforme a resposta em teste", body: "O melhor proximo passo e validar: falar com clientes, definir preco, criar prototipo, simplificar oferta ou reduzir risco." },
+      ],
+      faqs: [
+        { question: "O tarot pode dizer se devo comecar um negocio?", answer: "Pode clarear preparo, risco, timing e proximo passo. Combine com pesquisa, orcamento, contratos e orientacao profissional." },
+        { question: "Que cartas apoiam empreender?", answer: "O Mago, A Imperatriz, As de Ouros, Tres de Ouros, O Carro e Rei de Ouros podem apoiar energia de negocio se a tiragem concorda." },
+      ],
+    },
+    "will-my-business-succeed-tarot": {
+      title: "Tarot: meu negocio vai dar certo?",
+      description: "Leitura grátis com IA sobre sucesso do negocio, timing, pressao financeira, clientes e proximo movimento pratico.",
+      eyebrow: "Negócio e crescimento",
+      h1: "Tarot: meu negocio vai dar certo?",
+      intro: "Pergunte se seu negocio pode dar certo e em que focar agora. A leitura revisa demanda, recursos, risco e acao concreta.",
+      intent: "Ideal para negocios ativos, lancamentos, vendas, pressao financeira, clientes, foco operacional e proximo passo.",
+      ctaQuestion: "Meu negocio vai dar certo e em que devo focar agora?",
+      sections: [
+        { heading: "Defina o que e sucesso", body: "A leitura deve clarear se sucesso significa lucro, clientes constantes, concluir lancamento, estabilidade ou aprender rapido." },
+        { heading: "Leia demanda, recursos e timing", body: "As cartas mostram onde ha impulso, o que falta, que risco gerir e se convem expandir ou ter paciencia." },
+        { heading: "Torne operacional", body: "Converta a mensagem em acao: ajustar oferta, testar demanda, cuidar do caixa, melhorar entrega, pedir ajuda ou simplificar o plano." },
+      ],
+      faqs: [
+        { question: "O tarot pode prever sucesso de negocio?", answer: "Pode mostrar impulso, bloqueios, recursos e direcao provavel. O resultado tambem depende de clientes, execucao, caixa e mercado." },
+        { question: "Que cartas sugerem sucesso nos negocios?", answer: "O Mago, As de Ouros, Tres de Ouros, Seis de Paus, O Sol, O Mundo e Rei de Ouros podem apoiar sucesso se a tiragem concorda." },
       ],
     },
     "will-i-be-successful-tarot": {

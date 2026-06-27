@@ -432,6 +432,8 @@ const highIntentLongTailSlugs = [
   "will-i-get-married-tarot",
   "will-i-get-the-job-tarot",
   "should-i-take-this-job-tarot",
+  "should-i-start-a-business-tarot",
+  "will-my-business-succeed-tarot",
   "will-i-be-successful-tarot",
 ]
 

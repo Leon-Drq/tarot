@@ -135,6 +135,11 @@ const pages = [
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
+    path: "/should-i-start-a-business-tarot",
+    name: "business startup long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/es/mi-ex-volvera-tarot",
     name: "Spanish long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,

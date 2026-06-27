@@ -111,8 +111,8 @@ const copyByLocale = {
       {
         label: "Career decisions",
         title: "Work, offers, and next moves",
-        body: "For job changes, interviews, quitting, accepting an offer, and money pressure.",
-        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-quit-my-job-tarot"],
+        body: "For job changes, interviews, quitting, accepting an offer, business timing, and money pressure.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-start-a-business-tarot", "should-i-quit-my-job-tarot"],
       },
       {
         label: "Daily return",
@@ -445,6 +445,22 @@ const copyByLocale = {
         group: "career",
       },
       {
+        slug: "should-i-start-a-business-tarot",
+        title: "Should I start a business?",
+        query: "Should I start this business, and what should I prepare before I move?",
+        intent: "For startup ideas, side hustles, self-employment, launch timing, money risk, and the first validation step.",
+        spread: "binary_choice",
+        group: "career",
+      },
+      {
+        slug: "will-my-business-succeed-tarot",
+        title: "Will my business succeed?",
+        query: "Will my business succeed, and what should I focus on next?",
+        intent: "For business launches, customer fit, sales momentum, cash pressure, resources, and operating focus.",
+        spread: "job_opportunity",
+        group: "career",
+      },
+      {
         slug: "will-i-be-successful-tarot",
         title: "Will I be successful?",
         query: "Will I be successful, and what should I focus on next?",
@@ -594,8 +610,8 @@ const copyByLocale = {
       {
         label: "Trabajo",
         title: "Carrera, ofertas y siguientes pasos",
-        body: "Para cambios de trabajo, entrevistas, renunciar, aceptar una oferta y presion economica.",
-        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-quit-my-job-tarot"],
+        body: "Para cambios de trabajo, entrevistas, renunciar, aceptar una oferta, emprender y presion economica.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-start-a-business-tarot", "should-i-quit-my-job-tarot"],
       },
       {
         label: "Diario",
@@ -864,6 +880,22 @@ const copyByLocale = {
         group: "career",
       },
       {
+        slug: "should-i-start-a-business-tarot",
+        title: "Deberia empezar un negocio?",
+        query: "Deberia empezar este negocio y que debo preparar antes de avanzar?",
+        intent: "Para ideas de negocio, emprendimiento, trabajo por cuenta propia, timing, riesgo de dinero y primera prueba.",
+        spread: "binary_choice",
+        group: "career",
+      },
+      {
+        slug: "will-my-business-succeed-tarot",
+        title: "Tendra exito mi negocio?",
+        query: "Tendra exito mi negocio y en que debo enfocarme ahora?",
+        intent: "Para lanzamientos, ventas, clientes, presion economica, recursos y foco operativo.",
+        spread: "job_opportunity",
+        group: "career",
+      },
+      {
         slug: "will-i-be-successful-tarot",
         title: "Tendre exito?",
         query: "Tendre exito, y en que deberia enfocarme ahora?",
@@ -1013,8 +1045,8 @@ const copyByLocale = {
       {
         label: "Trabalho",
         title: "Carreira, ofertas e proximos passos",
-        body: "Para mudancas de trabalho, entrevistas, pedir demissao, aceitar oferta e pressao financeira.",
-        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-quit-my-job-tarot"],
+        body: "Para mudancas de trabalho, entrevistas, pedir demissao, aceitar oferta, empreender e pressao financeira.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-start-a-business-tarot", "should-i-quit-my-job-tarot"],
       },
       {
         label: "Diario",
@@ -1280,6 +1312,22 @@ const copyByLocale = {
         query: "Devo aceitar este trabalho, e o que devo comparar antes de decidir?",
         intent: "Para comparar salario, cultura, crescimento, risco, estabilidade e se convem negociar.",
         spread: "binary_choice",
+        group: "career",
+      },
+      {
+        slug: "should-i-start-a-business-tarot",
+        title: "Devo comecar um negocio?",
+        query: "Devo comecar este negocio e o que devo preparar antes de avancar?",
+        intent: "Para ideias de negocio, empreendedorismo, trabalho por conta propria, timing, risco financeiro e primeiro teste.",
+        spread: "binary_choice",
+        group: "career",
+      },
+      {
+        slug: "will-my-business-succeed-tarot",
+        title: "Meu negocio vai dar certo?",
+        query: "Meu negocio vai dar certo e em que devo focar agora?",
+        intent: "Para lancamentos, vendas, clientes, pressao financeira, recursos e foco operacional.",
+        spread: "job_opportunity",
         group: "career",
       },
       {
