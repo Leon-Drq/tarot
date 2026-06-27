@@ -267,6 +267,21 @@ export const highIntentQuestionLinks = [
     href: "/is-this-relationship-over-tarot",
   },
   {
+    title: "Should I move on tarot",
+    description: "A breakup clarity tarot page for closure, waiting, attachment, and the healthiest next step after uncertainty.",
+    href: "/should-i-move-on-tarot",
+  },
+  {
+    title: "Twin flame tarot reading",
+    description: "A twin-flame tarot entry for intense connection, lessons, separation, reunion hopes, and grounded emotional safety.",
+    href: "/twin-flame-tarot-reading",
+  },
+  {
+    title: "Will I get married tarot",
+    description: "A marriage tarot entry for long-term love, commitment readiness, partnership timing, and practical relationship growth.",
+    href: "/will-i-get-married-tarot",
+  },
+  {
     title: "Will I get the job tarot",
     description: "A job outcome tarot entry for interviews, pending offers, applications, promotion chances, and practical follow-up.",
     href: "/will-i-get-the-job-tarot",

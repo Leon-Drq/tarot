@@ -48,6 +48,11 @@ const pages = [
     requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
+    path: "/should-i-move-on-tarot",
+    name: "new breakup long-tail question",
+    requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+  },
+  {
     path: "/es/mi-ex-volvera-tarot",
     name: "Spanish long-tail question",
     requiredSelectors: ["[data-seo-question-tool-entry]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],

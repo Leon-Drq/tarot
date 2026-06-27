@@ -1527,6 +1527,63 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "should-i-move-on-tarot",
+    cards: [13, 21, 43],
+    recommendedSpread: "breakup_recovery",
+    title: "Should I Move On Tarot",
+    description: "Ask a free AI tarot reading about whether to move on, keep waiting, seek closure, or choose a healthier next step after uncertainty.",
+    h1: "Should I Move On Tarot",
+    intent: "Best for breakup limbo, no-contact waiting, attachment, unfinished feelings, closure, and deciding whether holding on is still healthy.",
+    question: "Should I move on, and what would help me choose closure with self-respect?",
+    sections: [
+      { heading: "Moving on is a decision and a process", body: "A move-on reading should not shame hope. It should show whether the bond still has repair energy or whether your peace is asking for closure." },
+      { heading: "Separate attachment from signal", body: "The cards can compare longing, fear, habit, unfinished emotion, and real evidence of change so you do not mistake waiting for intuition." },
+      { heading: "Choose one grounded next step", body: "The best answer points to one action: stop checking, set a date, write the message, keep the boundary, or make space for a new chapter." },
+    ],
+    faqs: [
+      { question: "Can tarot tell me whether to move on?", answer: "Tarot can clarify the current pattern, remaining attachment, possible repair, and what action protects your self-respect. Treat it as reflection, not pressure." },
+      { question: "What cards suggest moving on?", answer: "Death, The World, Eight of Cups, Six of Swords, and Ten of Swords can support closure when the whole spread points to completion." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "twin-flame-tarot-reading",
+    cards: [6, 14, 17],
+    recommendedSpread: "love_connection",
+    title: "Twin Flame Tarot Reading",
+    description: "Draw a free AI tarot reading about twin flame energy, separation, reunion hopes, lessons, mirroring, and the healthiest next step.",
+    h1: "Twin Flame Tarot Reading",
+    intent: "Best for intense connections, twin-flame questions, separation, reunion hopes, spiritual lessons, mirroring, and checking whether the bond is grounded and reciprocal.",
+    question: "What should I understand about this twin flame connection and my healthiest next step?",
+    sections: [
+      { heading: "Intensity is not the whole answer", body: "A twin flame reading should look beyond chemistry and synchronicity to emotional safety, maturity, timing, and whether the connection supports real growth." },
+      { heading: "Read the lesson and the pattern", body: "The spread can show what is mirrored, what needs healing, and whether separation is creating clarity or repeating an old cycle." },
+      { heading: "Keep the next step grounded", body: "The answer should leave you with a boundary, conversation, pause, or self-return practice rather than asking you to chase an unstable bond." },
+    ],
+    faqs: [
+      { question: "Can tarot confirm a twin flame?", answer: "Tarot can explore intense connection themes, lessons, separation, and reciprocity. It should not be used to justify unhealthy behavior or endless waiting." },
+      { question: "What cards suggest twin flame energy?", answer: "The Lovers, Temperance, The Star, The Devil, Two of Cups, and Judgement can show intense mirroring or reunion themes when the full spread supports it." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "will-i-get-married-tarot",
+    cards: [5, 6, 59],
+    recommendedSpread: "love_connection",
+    title: "Will I Get Married Tarot",
+    description: "Ask a free AI tarot reading about marriage timing, commitment readiness, future partnership, and what helps lasting love become realistic.",
+    h1: "Will I Get Married Tarot",
+    intent: "Best for marriage questions, long-term love, commitment readiness, future spouse energy, relationship timing, and the practical growth that supports partnership.",
+    question: "Will I get married, and what should I understand about long-term love readiness?",
+    sections: [
+      { heading: "Marriage tarot should read readiness", body: "A marriage reading is strongest when it looks at commitment, values, timing, emotional maturity, and what kind of partnership you are actually preparing for." },
+      { heading: "Look for conditions, not guarantees", body: "The cards may show commitment energy, delays, or growth work. The useful message is what makes lasting love more possible in real life." },
+      { heading: "Turn the answer into preparation", body: "Use the reading to choose one practical step: clarify standards, strengthen communication, heal a pattern, or make room for a stable relationship." },
+    ],
+    faqs: [
+      { question: "Can tarot predict if I will get married?", answer: "Tarot can explore commitment themes, timing, readiness, and relationship patterns. It should be read as guidance, not a fixed guarantee." },
+      { question: "What cards suggest marriage?", answer: "The Hierophant, The Lovers, Ten of Pentacles, Four of Wands, Two of Cups, and The Empress can support marriage themes when the spread is coherent." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "will-i-get-the-job-tarot",
     cards: [1, 7, 50],
     recommendedSpread: "job_opportunity",
@@ -1642,6 +1699,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "what-does-he-think-of-me-tarot": "que-piensa-de-mi-tarot",
     "will-he-contact-me-tarot": "me-contactara-tarot",
     "is-this-relationship-over-tarot": "esta-relacion-termino-tarot",
+    "should-i-move-on-tarot": "deberia-seguir-adelante-tarot",
+    "twin-flame-tarot-reading": "lectura-tarot-llama-gemela",
+    "will-i-get-married-tarot": "me-casare-tarot",
     "will-i-get-the-job-tarot": "conseguire-el-trabajo-tarot",
     "should-i-take-this-job-tarot": "deberia-aceptar-este-trabajo-tarot",
     "will-i-be-successful-tarot": "tendre-exito-tarot",
@@ -1683,6 +1743,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "what-does-he-think-of-me-tarot": "o-que-ele-pensa-de-mim-tarot",
     "will-he-contact-me-tarot": "ele-vai-entrar-em-contato-tarot",
     "is-this-relationship-over-tarot": "este-relacionamento-acabou-tarot",
+    "should-i-move-on-tarot": "devo-seguir-em-frente-tarot",
+    "twin-flame-tarot-reading": "leitura-tarot-chama-gemea",
+    "will-i-get-married-tarot": "vou-me-casar-tarot",
     "will-i-get-the-job-tarot": "vou-conseguir-o-emprego-tarot",
     "should-i-take-this-job-tarot": "devo-aceitar-este-trabalho-tarot",
     "will-i-be-successful-tarot": "vou-ter-sucesso-tarot",
@@ -3180,6 +3243,120 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       {
         question: "What spread is best before quitting?",
         answer: "Use a career or job opportunity spread that checks current pressure, hidden risks, available resources, timing, and the next safest step.",
+      },
+    ],
+  },
+  "should-i-move-on-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when part of you still hopes for repair but another part knows waiting may be keeping you stuck.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The spread should show what still has life, what has already completed, what your attachment is protecting, and what closure would actually require.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards lean toward moving on, choose a concrete boundary. If they show unfinished repair, look for real accountability rather than repeating the same hope.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what action would help me stop abandoning myself while I wait for clarity?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this move on tarot reading free?",
+        answer: "Yes. You can start this breakup clarity reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "What if I still love them?",
+        answer: "Still loving someone does not always mean staying attached is healthy. The reading should separate love, habit, fear, and realistic repair.",
+      },
+      {
+        question: "Can tarot tell me when to stop waiting?",
+        answer: "Tarot can show whether waiting has a meaningful signal or has become a loop. Pair the answer with real behavior, time, and your own wellbeing.",
+      },
+      {
+        question: "What spread is best for moving on?",
+        answer: "A breakup recovery spread works well because it checks what ended, what remains, what can heal, and what next step protects your peace.",
+      },
+    ],
+  },
+  "twin-flame-tarot-reading": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when a connection feels spiritually charged, repetitive, or hard to release, and you need to know whether the pattern is growth or instability.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should separate mirroring, attachment, avoidance, timing, reciprocity, and emotional safety instead of labeling intensity as destiny.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards show a lesson, turn it into a boundary or healing step. If they show reunion energy, still look for consistent behavior and mutual respect.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first reading, ask: what part of this connection asks me to choose myself more clearly?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this twin flame tarot reading free?",
+        answer: "Yes. You can start this twin flame reading for free. Membership is for deeper follow-ups, saved history, advanced spreads, and long-form reports.",
+      },
+      {
+        question: "Can tarot prove someone is my twin flame?",
+        answer: "No reading can prove a label. Tarot can explore connection themes, lessons, separation, reunion energy, and whether the bond is healthy in practice.",
+      },
+      {
+        question: "What if the reading shows separation?",
+        answer: "Separation can mean timing, healing, avoidance, or a pattern that needs space. The advice card should show what restores your clarity now.",
+      },
+      {
+        question: "What spread is best for twin flame questions?",
+        answer: "A love connection spread is stronger than one card because it checks chemistry, readiness, timing, advice, and reciprocity together.",
+      },
+    ],
+  },
+  "will-i-get-married-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when you want a grounded look at commitment, long-term partnership, timing, and what kind of relationship future you are preparing for.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "A marriage reading should show readiness, values, emotional maturity, relationship patterns, and whether commitment energy is supported by real behavior.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards support marriage, focus on the qualities and actions that make commitment sustainable. If they show delay, ask what growth is being requested.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what relationship pattern should I strengthen before choosing long-term commitment?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this marriage tarot reading free?",
+        answer: "Yes. You can start this marriage tarot reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot give an exact marriage date?",
+        answer: "Tarot is better for timing themes, readiness, and relationship conditions than exact dates. Use the reading to prepare, not to wait passively.",
+      },
+      {
+        question: "What if I am single?",
+        answer: "The reading can still explore readiness, patterns, future partner qualities, and the actions that make lasting love easier to recognize.",
+      },
+      {
+        question: "What spread is best for marriage questions?",
+        answer: "A love connection spread works well because it looks at compatibility, readiness, timing, advice, and long-term partnership energy.",
       },
     ],
   },

@@ -789,7 +789,25 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "will-he-come-back-tarot",
     "will-my-ex-come-back-tarot",
     "is-this-relationship-over-tarot",
+    "should-i-move-on-tarot",
+  ],
+  "should-i-move-on-tarot": [
+    "is-this-relationship-over-tarot",
+    "will-we-get-back-together-tarot",
     "will-he-contact-me-tarot",
+    "daily-love-tarot",
+  ],
+  "twin-flame-tarot-reading": [
+    "is-he-my-soulmate-tarot",
+    "future-spouse-tarot-reading",
+    "when-will-i-find-love-tarot",
+    "does-he-love-me-tarot",
+  ],
+  "will-i-get-married-tarot": [
+    "future-spouse-tarot-reading",
+    "when-will-i-find-love-tarot",
+    "is-he-my-soulmate-tarot",
+    "twin-flame-tarot-reading",
   ],
   "will-he-contact-me-tarot": [
     "does-my-ex-miss-me-tarot",
@@ -834,22 +852,22 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "what-does-he-think-of-me-tarot",
   ],
   "is-he-my-soulmate-tarot": [
+    "twin-flame-tarot-reading",
     "future-spouse-tarot-reading",
+    "will-i-get-married-tarot",
     "does-he-love-me-tarot",
-    "when-will-i-find-love-tarot",
-    "what-are-his-intentions-tarot",
   ],
   "when-will-i-find-love-tarot": [
     "future-spouse-tarot-reading",
+    "will-i-get-married-tarot",
     "is-he-my-soulmate-tarot",
-    "does-he-love-me-tarot",
-    "yes-or-no-tarot-love",
+    "twin-flame-tarot-reading",
   ],
   "future-spouse-tarot-reading": [
     "when-will-i-find-love-tarot",
+    "will-i-get-married-tarot",
     "is-he-my-soulmate-tarot",
-    "does-he-love-me-tarot",
-    "yes-or-no-tarot-love",
+    "twin-flame-tarot-reading",
   ],
   "yes-or-no-tarot-love": [
     "should-i-text-him-tarot",
@@ -858,10 +876,10 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "is-this-relationship-over-tarot",
   ],
   "is-this-relationship-over-tarot": [
+    "should-i-move-on-tarot",
     "will-we-get-back-together-tarot",
     "will-my-ex-come-back-tarot",
     "will-he-contact-me-tarot",
-    "yes-or-no-tarot-love",
   ],
   "career-tarot-reading": [
     "will-i-get-the-job-tarot",
