@@ -588,6 +588,21 @@ for (const localeRoute of [
 assertIncludes(files.seoPages, "sourceSupportsLocale", "SEO source locale filtering")
 assertIncludes(files.seoPages, "supportedLocales", "SEO alternates locale filtering")
 
+const sitemapHreflangCoverage = [
+  [files.sitemap, "getSeoAlternates", "SEO page sitemap hreflang alternates"],
+  [files.sitemap, "absoluteAlternates", "absolute sitemap alternate URLs"],
+  [files.sitemap, "spreadHubAlternates", "spread hub sitemap alternates"],
+  [files.sitemap, "questionHubAlternates", "question hub sitemap alternates"],
+  [files.sitemap, "cardAlternates", "card page sitemap alternates"],
+  [files.sitemap, "\"x-default\"", "sitemap x-default alternates"],
+  [files.sitemap, "alternates: {", "sitemap alternate output"],
+  [files.sitemap, "languages: absoluteAlternates(route.alternates)", "sitemap hreflang language map"],
+]
+
+for (const [file, needle, label] of sitemapHreflangCoverage) {
+  assertIncludes(file, needle, label)
+}
+
 for (const conversionSignal of [
   "const highIntentQuestionSlugs = new Set",
   "createFallbackQuestionToolkit(page, recommendedSpread)",
