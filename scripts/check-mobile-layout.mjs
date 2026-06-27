@@ -64,8 +64,23 @@ const pages = [
     requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {
+    path: "/does-no-contact-work-tarot",
+    name: "does no contact work long-tail question",
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+  },
+  {
+    path: "/will-my-ex-reach-out-tarot",
+    name: "ex reach out long-tail question",
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+  },
+  {
     path: "/should-i-stay-or-leave-tarot",
     name: "stay or leave long-tail question",
+    requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
+  },
+  {
+    path: "/should-i-give-him-another-chance-tarot",
+    name: "second chance long-tail question",
     requiredSelectors: ["[data-question-hero-spread-summary]", "[data-seo-question-tool-entry]", "[data-question-spread-position-answer]", "[data-question-result-preview]", "[data-seo-question-share]", "[data-seo-reader-trust]"],
   },
   {

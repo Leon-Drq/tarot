@@ -1622,6 +1622,44 @@ seoPageSources.push(
     ],
   }),
   makeQuestionSeoPage({
+    slug: "does-no-contact-work-tarot",
+    cards: [12, 14, 20],
+    recommendedSpread: "breakup_recovery",
+    title: "Does No Contact Work Tarot",
+    description: "Use a free AI tarot reading to understand whether no contact is creating reflection, distance, repair conditions, or a healthier closure path.",
+    h1: "Does No Contact Work Tarot",
+    intent: "Best for no-contact strategy, breakup silence, emotional distance, whether waiting is helping, and when to stop checking for signs.",
+    question: "Is no contact working, and what should I do next?",
+    sections: [
+      { heading: "Define what working means", body: "No contact may work by creating space, calming a cycle, revealing avoidance, or helping you detach. The spread should clarify which outcome is actually happening." },
+      { heading: "Watch for repair conditions", body: "A useful reading should show whether silence is building accountability, fear, curiosity, resentment, or real readiness for healthier communication." },
+      { heading: "Protect your attention", body: "The answer should not leave you counting days. It should name one boundary, timeline, or self-return action that keeps your life moving." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if no contact is working?", answer: "Tarot can show whether silence is creating reflection, avoidance, distance, or repair conditions. It should be compared with real behavior and your own wellbeing." },
+      { question: "What cards suggest no contact is helping?", answer: "Temperance, The Hanged Man, Four of Swords, Judgement, and The Star can suggest useful space when the full spread supports healing." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "will-my-ex-reach-out-tarot",
+    cards: [8, 14, 20],
+    recommendedSpread: "breakup_recovery",
+    title: "Will My Ex Reach Out Tarot",
+    description: "Draw a free AI tarot reading about whether your ex will reach out, what may delay contact, and how to respond with self-respect.",
+    h1: "Will My Ex Reach Out Tarot",
+    intent: "Best for breakup silence, delayed messages, no contact, reconciliation hopes, and preparing a calm response before a message arrives.",
+    question: "Will my ex reach out, and how should I respond if they do?",
+    sections: [
+      { heading: "Contact is not the whole answer", body: "A reach-out reading should show the motive behind contact: guilt, longing, curiosity, accountability, loneliness, or a real wish to repair." },
+      { heading: "Read delays without spiraling", body: "The cards can show pride, fear, confusion, timing, or practical blocks, but they should also show what waiting is costing you." },
+      { heading: "Prepare your response now", body: "If contact looks likely, decide your boundary before emotions spike. If contact looks unlikely, choose the step that returns your focus to yourself." },
+    ],
+    faqs: [
+      { question: "Can tarot predict if my ex will reach out?", answer: "Tarot can show communication energy, blocks, and likely dynamics, but a real message still depends on choices and circumstances." },
+      { question: "What cards suggest an ex may reach out?", answer: "Eight of Wands, Page of Cups, Judgement, Six of Cups, The Magician, and Knight of Swords can suggest movement when the spread supports it." },
+    ],
+  }),
+  makeQuestionSeoPage({
     slug: "should-i-stay-or-leave-tarot",
     cards: [11, 13, 21],
     recommendedSpread: "relationship",
@@ -1638,6 +1676,25 @@ seoPageSources.push(
     faqs: [
       { question: "Can tarot decide whether I should stay or leave?", answer: "Tarot can clarify patterns, risks, repair conditions, and advice. Serious relationship choices should also include safety, support, and direct reality checks." },
       { question: "What cards suggest it may be time to leave?", answer: "Death, The Tower, Justice, Eight of Cups, Ten of Swords, and The World can suggest closure when the whole spread supports it." },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "should-i-give-him-another-chance-tarot",
+    cards: [6, 11, 14],
+    recommendedSpread: "relationship",
+    title: "Should I Give Him Another Chance Tarot",
+    description: "Use a free AI tarot reading to decide whether giving him another chance has repair energy, accountability, changed behavior, and emotional safety.",
+    h1: "Should I Give Him Another Chance Tarot",
+    intent: "Best for second chances, apology after conflict, broken trust, reconciliation conditions, and deciding whether hope has real evidence.",
+    question: "Should I give him another chance, and what would need to change?",
+    sections: [
+      { heading: "A second chance needs evidence", body: "A strong reading should compare words, behavior, accountability, timing, and whether the same pattern is likely to repeat." },
+      { heading: "Look for repair, not only regret", body: "Regret can be real without becoming repair. The spread should show what action, patience, honesty, and boundaries would need to exist." },
+      { heading: "Make the next step specific", body: "If the cards support another chance, define the condition. If they warn against it, choose the boundary that protects your self-respect." },
+    ],
+    faqs: [
+      { question: "Can tarot tell if I should give him another chance?", answer: "Tarot can clarify repair potential, repeated patterns, and advice. The decision should also use real behavior, safety, and support." },
+      { question: "What cards suggest a second chance may be healthy?", answer: "Judgement, Temperance, Justice, The Star, Two of Cups, and Six of Cups can support repair when the spread shows accountability." },
     ],
   }),
   makeQuestionSeoPage({
@@ -1799,7 +1856,10 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "is-this-relationship-over-tarot": "esta-relacion-termino-tarot",
     "should-i-move-on-tarot": "deberia-seguir-adelante-tarot",
     "no-contact-tarot-reading": "lectura-tarot-contacto-cero",
+    "does-no-contact-work-tarot": "funciona-contacto-cero-tarot",
+    "will-my-ex-reach-out-tarot": "mi-ex-me-buscara-tarot",
     "should-i-stay-or-leave-tarot": "deberia-quedarme-o-irme-tarot",
+    "should-i-give-him-another-chance-tarot": "deberia-darle-otra-oportunidad-tarot",
     "twin-flame-tarot-reading": "lectura-tarot-llama-gemela",
     "will-i-get-married-tarot": "me-casare-tarot",
     "will-i-get-the-job-tarot": "conseguire-el-trabajo-tarot",
@@ -1848,7 +1908,10 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "is-this-relationship-over-tarot": "este-relacionamento-acabou-tarot",
     "should-i-move-on-tarot": "devo-seguir-em-frente-tarot",
     "no-contact-tarot-reading": "leitura-tarot-contato-zero",
+    "does-no-contact-work-tarot": "contato-zero-funciona-tarot",
+    "will-my-ex-reach-out-tarot": "meu-ex-vai-me-procurar-tarot",
     "should-i-stay-or-leave-tarot": "devo-ficar-ou-ir-embora-tarot",
+    "should-i-give-him-another-chance-tarot": "devo-dar-outra-chance-tarot",
     "twin-flame-tarot-reading": "leitura-tarot-chama-gemea",
     "will-i-get-married-tarot": "vou-me-casar-tarot",
     "will-i-get-the-job-tarot": "vou-conseguir-o-emprego-tarot",
@@ -2543,6 +2606,42 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
         { question: "¿El tarot puede decir si romperá el contacto cero?", answer: "Puede mostrar energía de comunicación, bloqueos y timing, pero el contacto real depende de decisiones y circunstancias." },
       ],
     },
+    "does-no-contact-work-tarot": {
+      title: "Tarot: ¿funciona el contacto cero?",
+      description: "Lectura gratis con IA para saber si el contacto cero está creando reflexión, distancia, reparación o cierre saludable.",
+      eyebrow: "Contacto cero",
+      h1: "Tarot: ¿funciona el contacto cero?",
+      intro: "Pregunta si el contacto cero está funcionando y qué hacer después. La lectura mira silencio, ansiedad, reparación, evasión y límites.",
+      intent: "Ideal para estrategia de contacto cero, silencio después de ruptura, distancia emocional, si esperar ayuda y cuándo dejar de revisar señales.",
+      ctaQuestion: "¿El contacto cero está funcionando y qué debo hacer ahora?",
+      sections: [
+        { heading: "Define qué significa funcionar", body: "El contacto cero puede crear espacio, calmar un ciclo, revelar evasión o ayudarte a soltar. La tirada aclara qué está pasando." },
+        { heading: "Busca condiciones de reparación", body: "La lectura debe mostrar si el silencio trae responsabilidad, miedo, curiosidad, resentimiento o disposición real a comunicarse mejor." },
+        { heading: "Protege tu atención", body: "La respuesta no debe dejarte contando días. Debe nombrar un límite, plazo o acción que mantenga tu vida en movimiento." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decir si el contacto cero funciona?", answer: "Puede mostrar si el silencio crea reflexión, evasión, distancia o condiciones de reparación. Compáralo con conducta real y bienestar." },
+        { question: "¿Qué cartas sugieren que el contacto cero ayuda?", answer: "Templanza, El Colgado, Cuatro de Espadas, El Juicio y La Estrella pueden sugerir espacio útil si la tirada acompaña." },
+      ],
+    },
+    "will-my-ex-reach-out-tarot": {
+      title: "Tarot: ¿mi ex me buscará?",
+      description: "Lectura gratis con IA sobre si tu ex te buscará, qué puede retrasar el contacto y cómo responder con autoestima.",
+      eyebrow: "Ex y contacto",
+      h1: "Tarot: ¿mi ex me buscará?",
+      intro: "Pregunta si tu ex te buscará y cómo responder si lo hace. La lectura revisa motivo, timing, orgullo, miedo y límites.",
+      intent: "Ideal para silencio después de ruptura, contacto cero, mensajes demorados, esperanza de reconciliación y preparar una respuesta tranquila.",
+      ctaQuestion: "¿Mi ex me buscará y cómo debo responder si lo hace?",
+      sections: [
+        { heading: "El contacto no es toda la respuesta", body: "Una lectura debe mostrar el motivo: culpa, nostalgia, curiosidad, responsabilidad, soledad o deseo real de reparar." },
+        { heading: "Lee demoras sin entrar en espiral", body: "Las cartas pueden mostrar orgullo, miedo, confusión, timing o bloqueos, pero también deben mostrar qué te cuesta esperar." },
+        { heading: "Prepara tu respuesta ahora", body: "Si parece probable que te busque, decide tu límite antes de emocionarte. Si no, elige el paso que te devuelve a ti." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede predecir si mi ex me buscará?", answer: "Puede mostrar energía de comunicación, bloqueos y dinámicas probables, pero un mensaje real depende de decisiones y circunstancias." },
+        { question: "¿Qué cartas sugieren que un ex puede buscarme?", answer: "Ocho de Bastos, Paje de Copas, El Juicio, Seis de Copas, El Mago y Caballero de Espadas pueden sugerir movimiento." },
+      ],
+    },
     "should-i-stay-or-leave-tarot": {
       title: "Tarot: ¿debería quedarme o irme?",
       description: "Lectura gratis con IA para comparar quedarte, irte, condiciones de reparación, seguridad emocional y el siguiente paso.",
@@ -2559,6 +2658,24 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "¿El tarot puede decidir si debo quedarme o irme?", answer: "Puede aclarar patrones, riesgos, condiciones de reparación y consejo. Las decisiones serias también necesitan seguridad, apoyo y realidad directa." },
         { question: "¿Qué cartas sugieren irme?", answer: "La Muerte, La Torre, Justicia, Ocho de Copas, Diez de Espadas y El Mundo pueden indicar cierre si la tirada completa lo apoya." },
+      ],
+    },
+    "should-i-give-him-another-chance-tarot": {
+      title: "Tarot: ¿debería darle otra oportunidad?",
+      description: "Lectura gratis con IA para decidir si otra oportunidad tiene reparación, responsabilidad, cambio real y seguridad emocional.",
+      eyebrow: "Segunda oportunidad",
+      h1: "Tarot: ¿debería darle otra oportunidad?",
+      intro: "Pregunta si conviene darle otra oportunidad y qué tendría que cambiar. La lectura mira disculpas, hechos, confianza y límites.",
+      intent: "Ideal para segundas oportunidades, disculpas después de conflicto, confianza rota, condiciones de reconciliación y si la esperanza tiene evidencia.",
+      ctaQuestion: "¿Debería darle otra oportunidad y qué tendría que cambiar?",
+      sections: [
+        { heading: "Una segunda oportunidad necesita evidencia", body: "La lectura debe comparar palabras, conducta, responsabilidad, timing y si el mismo patrón puede repetirse." },
+        { heading: "Busca reparación, no solo arrepentimiento", body: "El arrepentimiento puede ser real sin convertirse en reparación. La tirada debe mostrar acción, paciencia, honestidad y límites." },
+        { heading: "Haz específico el próximo paso", body: "Si las cartas apoyan otra oportunidad, define la condición. Si advierten en contra, elige el límite que protege tu autoestima." },
+      ],
+      faqs: [
+        { question: "¿El tarot puede decir si debo darle otra oportunidad?", answer: "Puede aclarar potencial de reparación, patrones repetidos y consejo. La decisión también necesita conducta real, seguridad y apoyo." },
+        { question: "¿Qué cartas sugieren una segunda oportunidad sana?", answer: "El Juicio, Templanza, Justicia, La Estrella, Dos de Copas y Seis de Copas pueden apoyar reparación si hay responsabilidad." },
       ],
     },
     "will-i-get-the-job-tarot": {
@@ -3265,6 +3382,42 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
         { question: "O tarot pode dizer se a pessoa vai quebrar contato zero?", answer: "Pode mostrar energia de comunicação, bloqueios e timing, mas contato real depende de escolhas e circunstâncias." },
       ],
     },
+    "does-no-contact-work-tarot": {
+      title: "Tarot: contato zero funciona?",
+      description: "Leitura grátis com IA para saber se o contato zero está criando reflexão, distância, reparo ou fechamento saudável.",
+      eyebrow: "Contato zero",
+      h1: "Tarot: contato zero funciona?",
+      intro: "Pergunte se o contato zero está funcionando e o que fazer depois. A leitura olha silêncio, ansiedade, reparo, evasão e limites.",
+      intent: "Ideal para estratégia de contato zero, silêncio após término, distância emocional, se esperar ajuda e quando parar de buscar sinais.",
+      ctaQuestion: "O contato zero está funcionando e o que devo fazer agora?",
+      sections: [
+        { heading: "Defina o que significa funcionar", body: "Contato zero pode criar espaço, acalmar um ciclo, revelar evasão ou ajudar você a soltar. A tiragem esclarece o que está acontecendo." },
+        { heading: "Procure condições de reparo", body: "A leitura deve mostrar se o silêncio traz responsabilidade, medo, curiosidade, ressentimento ou disposição real para comunicação melhor." },
+        { heading: "Proteja sua atenção", body: "A resposta não deve deixar você contando dias. Deve nomear limite, prazo ou ação que mantém sua vida em movimento." },
+      ],
+      faqs: [
+        { question: "O tarot pode dizer se contato zero funciona?", answer: "Pode mostrar se o silêncio cria reflexão, evasão, distância ou condições de reparo. Compare com comportamento real e bem-estar." },
+        { question: "Que cartas sugerem que contato zero ajuda?", answer: "Temperança, O Enforcado, Quatro de Espadas, O Julgamento e A Estrela podem sugerir espaço útil se a tiragem apoiar." },
+      ],
+    },
+    "will-my-ex-reach-out-tarot": {
+      title: "Tarot: meu ex vai me procurar?",
+      description: "Leitura grátis com IA sobre se seu ex vai procurar você, o que pode atrasar contato e como responder com autoestima.",
+      eyebrow: "Ex e contato",
+      h1: "Tarot: meu ex vai me procurar?",
+      intro: "Pergunte se seu ex vai procurar você e como responder se isso acontecer. A leitura revisa motivo, timing, orgulho, medo e limites.",
+      intent: "Ideal para silêncio após término, contato zero, mensagens demoradas, esperança de reconciliação e preparar uma resposta calma.",
+      ctaQuestion: "Meu ex vai me procurar e como devo responder se isso acontecer?",
+      sections: [
+        { heading: "Contato não é toda a resposta", body: "Uma leitura deve mostrar o motivo: culpa, nostalgia, curiosidade, responsabilidade, solidão ou desejo real de reparar." },
+        { heading: "Leia atrasos sem entrar em espiral", body: "As cartas podem mostrar orgulho, medo, confusão, timing ou bloqueios, mas também devem mostrar o custo de esperar." },
+        { heading: "Prepare sua resposta agora", body: "Se parece provável que procure, decida seu limite antes da emoção subir. Se não, escolha o passo que devolve você para si." },
+      ],
+      faqs: [
+        { question: "O tarot pode prever se meu ex vai me procurar?", answer: "Pode mostrar energia de comunicação, bloqueios e dinâmicas prováveis, mas uma mensagem real depende de escolhas e circunstâncias." },
+        { question: "Que cartas sugerem que um ex pode procurar?", answer: "Oito de Paus, Pajem de Copas, O Julgamento, Seis de Copas, O Mago e Cavaleiro de Espadas podem sugerir movimento." },
+      ],
+    },
     "should-i-stay-or-leave-tarot": {
       title: "Tarot: devo ficar ou ir embora?",
       description: "Leitura grátis com IA para comparar ficar, ir embora, condições de reparo, segurança emocional e o próximo passo.",
@@ -3281,6 +3434,24 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "O tarot pode decidir se devo ficar ou ir embora?", answer: "Pode clarear padrões, riscos, condições de reparo e conselho. Decisões sérias também precisam de segurança, apoio e realidade direta." },
         { question: "Que cartas sugerem ir embora?", answer: "A Morte, A Torre, Justiça, Oito de Copas, Dez de Espadas e O Mundo podem indicar encerramento se a tiragem completa apoiar." },
+      ],
+    },
+    "should-i-give-him-another-chance-tarot": {
+      title: "Tarot: devo dar outra chance?",
+      description: "Leitura grátis com IA para decidir se outra chance tem reparo, responsabilidade, mudança real e segurança emocional.",
+      eyebrow: "Segunda chance",
+      h1: "Tarot: devo dar outra chance?",
+      intro: "Pergunte se vale dar outra chance e o que teria que mudar. A leitura olha desculpas, atitudes, confiança e limites.",
+      intent: "Ideal para segunda chance, pedido de desculpas depois de conflito, confiança quebrada, condições de reconciliação e se a esperança tem evidência.",
+      ctaQuestion: "Devo dar outra chance e o que teria que mudar?",
+      sections: [
+        { heading: "Uma segunda chance precisa de evidência", body: "A leitura deve comparar palavras, comportamento, responsabilidade, timing e se o mesmo padrão pode se repetir." },
+        { heading: "Procure reparo, não só arrependimento", body: "Arrependimento pode ser real sem virar reparo. A tiragem deve mostrar ação, paciência, honestidade e limites." },
+        { heading: "Torne o próximo passo específico", body: "Se as cartas apoiam outra chance, defina a condição. Se alertam contra, escolha o limite que protege sua autoestima." },
+      ],
+      faqs: [
+        { question: "O tarot pode dizer se devo dar outra chance?", answer: "Pode clarear potencial de reparo, padrões repetidos e conselho. A decisão também precisa de comportamento real, segurança e apoio." },
+        { question: "Que cartas sugerem uma segunda chance saudável?", answer: "O Julgamento, Temperança, Justiça, A Estrela, Dois de Copas e Seis de Copas podem apoiar reparo se houver responsabilidade." },
       ],
     },
     "will-i-get-the-job-tarot": {
@@ -3607,6 +3778,82 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       },
     ],
   },
+  "does-no-contact-work-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when you are using no contact but cannot tell whether the silence is creating repair, distance, detachment, or another waiting loop.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The spread should show what silence is doing to both sides: calming, avoiding, testing, healing, or making the relationship easier to release.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If no contact is helping, keep the boundary clean. If it is only feeding anxiety, choose a timeline, support step, or closure action.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what would I do differently if I stopped using silence to measure my worth?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this no contact tarot reading free?",
+        answer: "Yes. You can start this no-contact reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot show if no contact is making them miss me?",
+        answer: "Tarot can show longing, avoidance, reflection, or distance, but missing you is only useful if it connects to respectful action and repair.",
+      },
+      {
+        question: "What cards suggest no contact is not working?",
+        answer: "The Devil, Seven of Swords, Five of Cups, The Moon, or reversed communication cards can suggest fixation, avoidance, confusion, or a loop that needs a clearer boundary.",
+      },
+      {
+        question: "Should I break no contact if the cards are positive?",
+        answer: "A positive spread does not always mean message now. Look for the advice card, your emotional state, and whether contact would be calm and self-respecting.",
+      },
+    ],
+  },
+  "will-my-ex-reach-out-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when you are waiting for a message after a breakup and need to separate real contact energy from checking, guessing, and replaying the past.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The reading should show whether contact is likely, what motive may drive it, what delays it, and whether responding would help or reopen the old wound.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If outreach appears likely, decide the boundary before the message arrives. If it does not, use the answer to stop pausing your life around their timing.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what response would protect my peace if they reach out from nostalgia rather than real accountability?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this ex reach-out tarot reading free?",
+        answer: "Yes. You can start this ex contact reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot tell when my ex will reach out?",
+        answer: "Tarot can show timing themes and blocks, but exact dates are less reliable than motive, readiness, and the next grounded action.",
+      },
+      {
+        question: "What cards suggest my ex may message me?",
+        answer: "Eight of Wands, Page of Cups, Knight of Swords, Judgement, Six of Cups, and The Magician can support contact when the spread is coherent.",
+      },
+      {
+        question: "What if my ex reaches out but nothing changes?",
+        answer: "Then contact is not the same as repair. The reading should help you name the boundary or conversation that tests whether behavior is actually different.",
+      },
+    ],
+  },
   "should-i-stay-or-leave-tarot": {
     sections: [
       {
@@ -3642,6 +3889,44 @@ const questionSeoEnhancements: Record<string, SeoContentEnhancement> = {
       {
         question: "What spread is best for stay-or-leave questions?",
         answer: "A relationship or binary choice spread works best because it compares staying, leaving, hidden costs, repair conditions, and one grounded next step.",
+      },
+    ],
+  },
+  "should-i-give-him-another-chance-tarot": {
+    sections: [
+      {
+        heading: "When this question is useful",
+        body: "Ask this when someone apologizes, returns, or promises change, and you need to know whether another chance is grounded or just familiar hope.",
+      },
+      {
+        heading: "What the spread should clarify",
+        body: "The spread should compare remorse, accountability, changed behavior, your trust level, emotional safety, and what pattern could repeat.",
+      },
+      {
+        heading: "How to act on the answer",
+        body: "If the cards support a chance, make it conditional and observable. If they warn against it, choose the boundary before nostalgia edits the facts.",
+      },
+      {
+        heading: "A better follow-up",
+        body: "After the first answer, ask: what would I need to see consistently before I believe this change is real?",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this second chance tarot reading free?",
+        answer: "Yes. You can start this second-chance relationship reading for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+      {
+        question: "Can tarot show if he has really changed?",
+        answer: "Tarot can show accountability, intention, and repeated patterns, but real change has to be visible through consistent behavior over time.",
+      },
+      {
+        question: "What cards warn against another chance?",
+        answer: "The Devil, Seven of Swords, The Tower, Ten of Swords, Five of Swords, and reversed Justice can warn of repeated harm when the spread supports it.",
+      },
+      {
+        question: "What spread is best for a second chance?",
+        answer: "A relationship or binary choice spread works well because it compares repair potential, risks, boundaries, and the next honest step.",
       },
     ],
   },

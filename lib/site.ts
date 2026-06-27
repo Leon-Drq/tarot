@@ -291,9 +291,24 @@ export const highIntentQuestionLinks = [
     href: "/no-contact-tarot-reading",
   },
   {
+    title: "Does no contact work tarot",
+    description: "A no-contact strategy tarot path for whether silence is creating reflection, repair conditions, distance, or closure.",
+    href: "/does-no-contact-work-tarot",
+  },
+  {
+    title: "Will my ex reach out tarot",
+    description: "An ex-contact tarot path for delayed messages, no-contact waiting, outreach motives, and a calm response plan.",
+    href: "/will-my-ex-reach-out-tarot",
+  },
+  {
     title: "Should I stay or leave tarot",
     description: "A relationship decision tarot path for staying, leaving, repair conditions, emotional safety, and one grounded next step.",
     href: "/should-i-stay-or-leave-tarot",
+  },
+  {
+    title: "Should I give him another chance tarot",
+    description: "A second-chance tarot path for apologies, changed behavior, broken trust, repair conditions, and emotional safety.",
+    href: "/should-i-give-him-another-chance-tarot",
   },
   {
     title: "Twin flame tarot reading",

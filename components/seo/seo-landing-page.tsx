@@ -771,7 +771,7 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "will-he-come-back-tarot",
     "does-my-ex-miss-me-tarot",
     "will-we-get-back-together-tarot",
-    "no-contact-tarot-reading",
+    "will-my-ex-reach-out-tarot",
   ],
   "does-my-ex-miss-me-tarot": [
     "will-he-come-back-tarot",
@@ -788,8 +788,8 @@ const relatedQuestionClusters: Record<string, string[]> = {
   "will-we-get-back-together-tarot": [
     "will-he-come-back-tarot",
     "will-my-ex-come-back-tarot",
+    "should-i-give-him-another-chance-tarot",
     "is-this-relationship-over-tarot",
-    "should-i-move-on-tarot",
   ],
   "should-i-move-on-tarot": [
     "is-this-relationship-over-tarot",
@@ -798,16 +798,34 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "no-contact-tarot-reading",
   ],
   "no-contact-tarot-reading": [
+    "does-no-contact-work-tarot",
+    "will-my-ex-reach-out-tarot",
     "will-he-contact-me-tarot",
-    "does-my-ex-miss-me-tarot",
-    "will-my-ex-come-back-tarot",
     "should-i-move-on-tarot",
+  ],
+  "does-no-contact-work-tarot": [
+    "no-contact-tarot-reading",
+    "will-my-ex-reach-out-tarot",
+    "does-my-ex-miss-me-tarot",
+    "should-i-move-on-tarot",
+  ],
+  "will-my-ex-reach-out-tarot": [
+    "will-he-contact-me-tarot",
+    "no-contact-tarot-reading",
+    "will-my-ex-come-back-tarot",
+    "does-my-ex-miss-me-tarot",
   ],
   "should-i-stay-or-leave-tarot": [
     "is-this-relationship-over-tarot",
     "should-i-break-up-with-him-tarot",
+    "should-i-give-him-another-chance-tarot",
     "should-i-move-on-tarot",
-    "does-he-love-me-tarot",
+  ],
+  "should-i-give-him-another-chance-tarot": [
+    "should-i-stay-or-leave-tarot",
+    "should-i-break-up-with-him-tarot",
+    "will-we-get-back-together-tarot",
+    "is-this-relationship-over-tarot",
   ],
   "twin-flame-tarot-reading": [
     "is-he-my-soulmate-tarot",
@@ -822,8 +840,8 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "twin-flame-tarot-reading",
   ],
   "will-he-contact-me-tarot": [
+    "will-my-ex-reach-out-tarot",
     "will-he-text-me-tarot",
-    "does-my-ex-miss-me-tarot",
     "should-i-text-him-tarot",
     "no-contact-tarot-reading",
   ],
@@ -848,8 +866,8 @@ const relatedQuestionClusters: Record<string, string[]> = {
   "should-i-break-up-with-him-tarot": [
     "is-this-relationship-over-tarot",
     "should-i-stay-or-leave-tarot",
+    "should-i-give-him-another-chance-tarot",
     "should-i-move-on-tarot",
-    "will-we-get-back-together-tarot",
   ],
   "does-he-love-me-tarot": [
     "how-does-he-feel-about-me-tarot",
