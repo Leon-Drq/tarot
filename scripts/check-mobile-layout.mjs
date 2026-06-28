@@ -230,6 +230,21 @@ const pages = [
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
+    path: "/weekly-tarot-reading",
+    name: "weekly tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/weekly-love-tarot",
+    name: "weekly love return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/weekly-career-tarot",
+    name: "weekly career return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/will-i-get-promoted-tarot",
     name: "promotion long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,

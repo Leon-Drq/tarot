@@ -936,16 +936,16 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "will-i-be-successful-tarot",
   ],
   "daily-love-tarot": [
+    "weekly-love-tarot",
     "daily-mood-tarot",
     "does-he-love-me-tarot",
     "yes-or-no-tarot-love",
-    "daily-action-tarot",
   ],
   "daily-career-tarot": [
+    "weekly-career-tarot",
     "daily-action-tarot",
     "career-tarot-reading",
     "should-i-quit-my-job-tarot",
-    "daily-yes-or-no-tarot",
   ],
   "daily-yes-or-no-tarot": [
     "daily-action-tarot",
@@ -960,10 +960,29 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "daily-yes-or-no-tarot",
   ],
   "daily-action-tarot": [
+    "weekly-tarot-reading",
     "daily-yes-or-no-tarot",
     "daily-career-tarot",
     "daily-love-tarot",
     "will-i-be-successful-tarot",
+  ],
+  "weekly-tarot-reading": [
+    "daily-tarot",
+    "weekly-love-tarot",
+    "weekly-career-tarot",
+    "monthly-tarot-report",
+  ],
+  "weekly-love-tarot": [
+    "daily-love-tarot",
+    "weekly-tarot-reading",
+    "does-he-love-me-tarot",
+    "yes-or-no-tarot-love",
+  ],
+  "weekly-career-tarot": [
+    "daily-career-tarot",
+    "weekly-tarot-reading",
+    "career-tarot-reading",
+    "will-i-get-promoted-tarot",
   ],
   "will-my-ex-come-back-tarot": [
     "will-he-come-back-tarot",

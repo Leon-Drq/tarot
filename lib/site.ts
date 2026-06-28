@@ -206,6 +206,21 @@ export const highIntentQuestionLinks = [
     href: "/daily-action-tarot",
   },
   {
+    title: "Weekly tarot reading",
+    description: "A free week-ahead tarot path for the week's theme, what to watch, and one practical focus.",
+    href: "/weekly-tarot-reading",
+  },
+  {
+    title: "Weekly love tarot",
+    description: "A weekly relationship check-in for love energy, communication, timing, and one calm next step.",
+    href: "/weekly-love-tarot",
+  },
+  {
+    title: "Weekly career tarot",
+    description: "A weekly work-focused tarot path for pressure, opportunities, timing, and one practical career move.",
+    href: "/weekly-career-tarot",
+  },
+  {
     title: "Yes or no tarot love",
     description: "A quick love decision page that explains the reason behind yes, no, or not yet.",
     href: "/yes-or-no-tarot-love",

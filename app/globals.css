@@ -280,6 +280,17 @@
       }
     }
   }
+
+  @media (min-width: 768px) and (max-height: 820px) {
+    .home-hero-stage {
+      --home-hero-flow-gap: 0.75rem;
+      --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
+    }
+
+    [data-home-hero-quick-start] {
+      display: none !important;
+    }
+  }
 }
 
 /* Add scrollbar-hide utility class */

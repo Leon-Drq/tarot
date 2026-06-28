@@ -697,6 +697,123 @@ export const seoPageSources: SeoPageSource[] = [
       },
     ],
   }),
+  makeQuestionSeoPage({
+    slug: "weekly-tarot-reading",
+    cards: [10, 14, 21],
+    recommendedSpread: "three_card",
+    locales: ["en", "es", "pt-br"],
+    title: "Weekly Tarot Reading",
+    description:
+      "Start a free weekly tarot reading for the theme of your week, what to watch, and one grounded focus before returning to Daily Tarot.",
+    h1: "Weekly Tarot Reading",
+    intent:
+      "Best for a Sunday or Monday check-in, a week-ahead focus, repeated daily card themes, and one practical priority for the next seven days.",
+    question: "What theme should guide my week, and what practical focus should I keep?",
+    sections: [
+      {
+        heading: "Read the week as a pattern",
+        body: "A weekly tarot reading works best when it names a theme, a pressure point, and one action you can return to across several days.",
+      },
+      {
+        heading: "Do not turn it into a fixed prediction",
+        body: "Use the cards as a planning frame. The useful question is what to notice and adjust, not whether the whole week is already decided.",
+      },
+      {
+        heading: "Connect it with Daily Tarot",
+        body: "Draw the weekly reading first, then use Daily Tarot during the week to see whether the same cards, moods, or decisions keep repeating.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is the weekly tarot reading free?",
+        answer:
+          "Yes. You can start the weekly tarot reading free. Membership is only for deeper follow-ups, saved history, advanced spreads, and longer reports.",
+      },
+      {
+        question: "When should I do a weekly tarot reading?",
+        answer:
+          "Many readers use it on Sunday night or Monday morning, then compare it with Daily Tarot entries during the week.",
+      },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "weekly-love-tarot",
+    cards: [6, 2, 17],
+    recommendedSpread: "relationship",
+    locales: ["en", "es", "pt-br"],
+    title: "Weekly Love Tarot Reading",
+    description:
+      "Start a free weekly love tarot reading for relationship energy, communication, timing, and one calm next step for the week.",
+    h1: "Weekly Love Tarot Reading",
+    intent:
+      "Best for relationship check-ins, crushes, reconciliation anxiety, mixed signals, and deciding how to move through love this week.",
+    question: "What should I understand about love this week, and what action keeps me clear?",
+    sections: [
+      {
+        heading: "Separate feeling from action",
+        body: "A weekly love reading should show emotional tone, communication pressure, and the action that keeps the connection healthier.",
+      },
+      {
+        heading: "Look for consistency",
+        body: "One romantic signal can be exciting, but the week matters because it reveals whether care, respect, and timing become consistent.",
+      },
+      {
+        heading: "Use Daily Tarot for the small moments",
+        body: "After the weekly love spread, come back to Daily Tarot when a message, silence, date, or mixed signal needs a calmer check-in.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What should I ask in a weekly love tarot reading?",
+        answer:
+          "Ask what to understand about love this week, what pattern deserves attention, and what action protects emotional clarity.",
+      },
+      {
+        question: "Can weekly love tarot predict a relationship outcome?",
+        answer:
+          "It can explore energy, blocks, and likely dynamics, but it should guide your choices rather than replace communication or boundaries.",
+      },
+    ],
+  }),
+  makeQuestionSeoPage({
+    slug: "weekly-career-tarot",
+    cards: [1, 7, 21],
+    recommendedSpread: "job_opportunity",
+    locales: ["en", "es", "pt-br"],
+    title: "Weekly Career Tarot Reading",
+    description:
+      "Start a free weekly career tarot reading for work focus, pressure, opportunities, timing, and one practical move for the week.",
+    h1: "Weekly Career Tarot Reading",
+    intent:
+      "Best for planning the work week, job search energy, interviews, business projects, promotion pressure, and choosing a practical priority.",
+    question: "What should I focus on in my career this week, and what move would help?",
+    sections: [
+      {
+        heading: "Choose one work focus",
+        body: "A useful weekly career reading should not create ten tasks. It should identify the main pressure and the next professional move.",
+      },
+      {
+        heading: "Pair intuition with facts",
+        body: "Use the spread to reflect on momentum, risk, timing, and resources, then compare the answer with deadlines, money, people, and data.",
+      },
+      {
+        heading: "Review the week with evidence",
+        body: "Daily Tarot and journal notes can show whether the same career theme keeps appearing, which makes later monthly reports more meaningful.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is weekly career tarot useful for work decisions?",
+        answer:
+          "It can help you reflect on focus, timing, and next steps. It should be paired with real-world information, not treated as professional advice.",
+      },
+      {
+        question: "Is this weekly career reading free?",
+        answer:
+          "Yes. The first weekly career reading can start free. Membership is reserved for deeper follow-ups, saved history, advanced spreads, and reports.",
+      },
+    ],
+  }),
   {
     slug: "monthly-tarot-report",
     cards: [18, 20, 21],
@@ -2419,6 +2536,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "daily-yes-or-no-tarot": "tarot-diario-si-o-no",
     "daily-mood-tarot": "tarot-diario-estado-de-animo",
     "daily-action-tarot": "tarot-diario-accion",
+    "weekly-tarot-reading": "lectura-tarot-semanal",
+    "weekly-love-tarot": "tarot-semanal-amor",
+    "weekly-career-tarot": "tarot-semanal-carrera",
     "monthly-tarot-report": "informe-mensual-tarot",
     "yes-or-no-tarot": "tarot-si-o-no",
     "career-tarot": "tarot-profesional",
@@ -2488,6 +2608,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "daily-yes-or-no-tarot": "tarot-diario-sim-ou-nao",
     "daily-mood-tarot": "tarot-diario-humor",
     "daily-action-tarot": "tarot-diario-acao",
+    "weekly-tarot-reading": "leitura-tarot-semanal",
+    "weekly-love-tarot": "tarot-semanal-amor",
+    "weekly-career-tarot": "tarot-semanal-carreira",
     "monthly-tarot-report": "relatorio-mensal-tarot",
     "yes-or-no-tarot": "tarot-sim-ou-nao",
     "career-tarot": "tarot-carreira",
@@ -2747,6 +2870,60 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "¿Qué es el tarot diario de acción?", answer: "Es una lectura gratis enfocada en un paso práctico para hoy, no en una predicción amplia del futuro." },
         { question: "¿Puedo usarlo después de mi carta diaria?", answer: "Sí. Funciona bien como seguimiento cuando la carta diaria da un tema y quieres convertirlo en acción." },
+      ],
+    },
+    "weekly-tarot-reading": {
+      title: "Lectura de tarot semanal",
+      description: "Empieza una lectura semanal gratis para ver el tema de la semana, que observar y un foco practico antes de volver al Tarot Diario.",
+      eyebrow: "Semana gratis",
+      h1: "Lectura de tarot semanal",
+      intro: "Una lectura semanal de tarot te ayuda a nombrar el patron de los proximos dias: tema central, punto de presion y una accion que puedas sostener.",
+      intent: "Ideal para domingo o lunes, planear la semana, revisar cartas diarias repetidas y elegir una prioridad clara.",
+      ctaQuestion: "Que tema debe guiar mi semana y que foco practico debo mantener?",
+      sections: [
+        { heading: "Lee la semana como patron", body: "No se trata de predecir cada dia. La lectura semanal sirve para detectar el tono general y una decision que puedes revisar durante varios dias." },
+        { heading: "Elige un foco", body: "Si la lectura abre demasiadas tareas, vuelve a una pregunta simple: que debo observar, que debo evitar y cual es el siguiente paso." },
+        { heading: "Conectalo con Tarot Diario", body: "Despues de la lectura semanal, usa Tarot Diario para ver si aparecen las mismas cartas, emociones o decisiones." },
+      ],
+      faqs: [
+        { question: "La lectura semanal de tarot es gratis?", answer: "Si. Puedes empezar gratis. La membresia queda para seguimientos profundos, historial guardado, tiradas avanzadas e informes largos." },
+        { question: "Cuando conviene hacer tarot semanal?", answer: "Muchas personas lo usan el domingo por la noche o lunes por la manana, y luego comparan el tema con sus lecturas diarias." },
+      ],
+    },
+    "weekly-love-tarot": {
+      title: "Tarot semanal del amor",
+      description: "Empieza una lectura semanal gratis del amor para revisar energia de relacion, comunicacion, timing y un siguiente paso tranquilo.",
+      eyebrow: "Amor semanal",
+      h1: "Tarot semanal del amor",
+      intro: "El tarot semanal del amor mira la energia afectiva de los proximos dias sin convertir cada gesto en una certeza.",
+      intent: "Ideal para relaciones, crushes, reconciliacion, senales mixtas y decidir como moverte en el amor esta semana.",
+      ctaQuestion: "Que debo entender sobre el amor esta semana y que accion me mantiene clara?",
+      sections: [
+        { heading: "Separa sentimiento y accion", body: "Una buena lectura de amor muestra tono emocional, presion de comunicacion y que accion mantiene la conexion mas sana." },
+        { heading: "Observa consistencia", body: "Una senal romantica puede emocionar, pero la semana muestra si cuidado, respeto y timing se vuelven consistentes." },
+        { heading: "Vuelve para momentos pequenos", body: "Despues de la tirada semanal, usa Tarot Diario cuando un mensaje, silencio o senal mixta necesite una revision mas calma." },
+      ],
+      faqs: [
+        { question: "Que preguntar en tarot semanal del amor?", answer: "Pregunta que entender sobre el amor esta semana, que patron merece atencion y que accion protege tu claridad emocional." },
+        { question: "Puede predecir el resultado de una relacion?", answer: "Puede explorar energia, bloqueos y dinamicas probables, pero debe guiar tus decisiones, no reemplazar comunicacion ni limites." },
+      ],
+    },
+    "weekly-career-tarot": {
+      title: "Tarot semanal de carrera",
+      description: "Empieza una lectura semanal gratis para trabajo, oportunidades, presion, timing y un movimiento practico para la semana.",
+      eyebrow: "Carrera semanal",
+      h1: "Tarot semanal de carrera",
+      intro: "El tarot semanal de carrera te ayuda a elegir un foco profesional para la semana antes de dispersarte en demasiadas tareas.",
+      intent: "Ideal para planear la semana laboral, busqueda de empleo, entrevistas, proyectos, ascensos y prioridades practicas.",
+      ctaQuestion: "En que debo enfocarme en mi carrera esta semana y que movimiento ayudaria?",
+      sections: [
+        { heading: "Elige una prioridad laboral", body: "Una lectura util no crea diez tareas. Senala la presion principal y el movimiento profesional que puede destrabar energia." },
+        { heading: "Une intuicion y hechos", body: "Usa la tirada para reflexionar sobre impulso, riesgo, timing y recursos, y compara la respuesta con datos reales." },
+        { heading: "Revisa con evidencia", body: "Tarot Diario y notas breves muestran si el mismo tema profesional se repite, lo que vuelve mas utiles los informes mensuales." },
+      ],
+      faqs: [
+        { question: "Sirve para decisiones de trabajo?", answer: "Puede ayudarte a reflexionar sobre foco, timing y siguiente paso. No reemplaza datos reales ni consejo profesional." },
+        { question: "Esta lectura semanal de carrera es gratis?", answer: "Si. Puedes empezar gratis. La membresia se reserva para seguimientos, historial, tiradas avanzadas e informes." },
       ],
     },
     "monthly-tarot-report": {
@@ -3850,6 +4027,60 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "O que é tarot diário de ação?", answer: "É uma leitura grátis focada em um passo prático para hoje, não em uma previsão ampla sobre o futuro." },
         { question: "Posso usar depois da minha carta diária?", answer: "Sim. Funciona bem como acompanhamento quando a carta diária dá um tema e você quer transformá-lo em ação." },
+      ],
+    },
+    "weekly-tarot-reading": {
+      title: "Leitura de tarot semanal",
+      description: "Comece uma leitura semanal gratis para ver o tema da semana, o que observar e um foco pratico antes de voltar ao Tarot Diario.",
+      eyebrow: "Semana gratis",
+      h1: "Leitura de tarot semanal",
+      intro: "Uma leitura semanal de tarot ajuda a nomear o padrao dos proximos dias: tema central, ponto de pressao e uma acao que voce consegue sustentar.",
+      intent: "Ideal para domingo ou segunda, planejar a semana, revisar cartas diarias repetidas e escolher uma prioridade clara.",
+      ctaQuestion: "Que tema deve guiar minha semana e que foco pratico devo manter?",
+      sections: [
+        { heading: "Leia a semana como padrao", body: "Nao se trata de prever cada dia. A leitura semanal serve para detectar o tom geral e uma decisao que voce pode revisar por varios dias." },
+        { heading: "Escolha um foco", body: "Se a leitura abrir tarefas demais, volte a uma pergunta simples: o que observar, o que evitar e qual e o proximo passo." },
+        { heading: "Conecte com o Tarot Diario", body: "Depois da leitura semanal, use o Tarot Diario para ver se as mesmas cartas, emocoes ou decisoes aparecem de novo." },
+      ],
+      faqs: [
+        { question: "A leitura semanal de tarot e gratis?", answer: "Sim. Voce pode comecar gratis. A assinatura fica para acompanhamentos profundos, historico salvo, tiragens avancadas e relatorios longos." },
+        { question: "Quando fazer tarot semanal?", answer: "Muitas pessoas usam no domingo a noite ou segunda de manha, depois comparam o tema com as leituras diarias." },
+      ],
+    },
+    "weekly-love-tarot": {
+      title: "Tarot semanal do amor",
+      description: "Comece uma leitura semanal gratis do amor para revisar energia de relacionamento, comunicacao, timing e um proximo passo tranquilo.",
+      eyebrow: "Amor semanal",
+      h1: "Tarot semanal do amor",
+      intro: "O tarot semanal do amor olha a energia afetiva dos proximos dias sem transformar cada gesto em certeza.",
+      intent: "Ideal para relacionamentos, crushes, reconciliacao, sinais confusos e decidir como se mover no amor esta semana.",
+      ctaQuestion: "O que devo entender sobre amor esta semana e que acao me mantem clara?",
+      sections: [
+        { heading: "Separe sentimento e acao", body: "Uma boa leitura de amor mostra tom emocional, pressao de comunicacao e que acao deixa a conexao mais saudavel." },
+        { heading: "Observe consistencia", body: "Um sinal romantico pode animar, mas a semana mostra se cuidado, respeito e timing ficam consistentes." },
+        { heading: "Volte para momentos pequenos", body: "Depois da tiragem semanal, use o Tarot Diario quando uma mensagem, silencio ou sinal misto pedir uma revisao mais calma." },
+      ],
+      faqs: [
+        { question: "O que perguntar no tarot semanal do amor?", answer: "Pergunte o que entender sobre amor esta semana, que padrao merece atencao e que acao protege sua clareza emocional." },
+        { question: "Pode prever o resultado de uma relacao?", answer: "Pode explorar energia, bloqueios e dinamicas provaveis, mas deve orientar escolhas, nao substituir comunicacao nem limites." },
+      ],
+    },
+    "weekly-career-tarot": {
+      title: "Tarot semanal de carreira",
+      description: "Comece uma leitura semanal gratis para trabalho, oportunidades, pressao, timing e um movimento pratico para a semana.",
+      eyebrow: "Carreira semanal",
+      h1: "Tarot semanal de carreira",
+      intro: "O tarot semanal de carreira ajuda a escolher um foco profissional para a semana antes de voce se espalhar em tarefas demais.",
+      intent: "Ideal para planejar a semana de trabalho, busca de emprego, entrevistas, projetos, promocoes e prioridades praticas.",
+      ctaQuestion: "No que devo focar na carreira esta semana e que movimento ajudaria?",
+      sections: [
+        { heading: "Escolha uma prioridade profissional", body: "Uma leitura util nao cria dez tarefas. Ela aponta a pressao principal e o movimento profissional que pode destravar energia." },
+        { heading: "Una intuicao e fatos", body: "Use a tiragem para refletir sobre impulso, risco, timing e recursos, depois compare a resposta com dados reais." },
+        { heading: "Revise com evidencia", body: "Tarot Diario e notas breves mostram se o mesmo tema profissional se repete, tornando relatorios mensais mais uteis." },
+      ],
+      faqs: [
+        { question: "Ajuda em decisoes de trabalho?", answer: "Pode ajudar voce a refletir sobre foco, timing e proximo passo. Nao substitui dados reais nem aconselhamento profissional." },
+        { question: "Esta leitura semanal de carreira e gratis?", answer: "Sim. Voce pode comecar gratis. A assinatura e reservada para acompanhamentos, historico, tiragens avancadas e relatorios." },
       ],
     },
     "monthly-tarot-report": {

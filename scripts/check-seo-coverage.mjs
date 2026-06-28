@@ -516,6 +516,9 @@ const highIntentLongTailSlugs = [
   "will-i-get-money-tarot",
   "should-i-spend-money-tarot",
   "financial-future-tarot-reading",
+  "weekly-tarot-reading",
+  "weekly-love-tarot",
+  "weekly-career-tarot",
   "what-does-he-think-of-me-tarot",
   "will-he-contact-me-tarot",
   "is-this-relationship-over-tarot",
@@ -787,6 +790,47 @@ for (const slug of dailyIntentSlugs) {
   assertIncludes(files.site, `href: "/${slug}"`, `daily intent site link ${slug}`)
   assertIncludes(files.dailyTarotPage, `slug: "${slug}"`, `daily tarot prompt card ${slug}`)
   assertIncludes(files.seoLanding, `"${slug}"`, `daily intent related cluster ${slug}`)
+}
+
+const weeklyReturnSlugs = [
+  "weekly-tarot-reading",
+  "weekly-love-tarot",
+  "weekly-career-tarot",
+]
+
+for (const slug of weeklyReturnSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `weekly return SEO page ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en", "es", "pt-br"]', `weekly return regional locale control ${slug}`)
+  assertIncludes(files.site, `href: "/${slug}"`, `weekly return site link ${slug}`)
+  assertIncludes(files.tarotQuestions, `slug: "${slug}"`, `tarot questions weekly return entry ${slug}`)
+  assertIncludes(files.mobileCheck, `/${slug}`, `mobile check weekly return page ${slug}`)
+  assertMatches(
+    files.seoLanding,
+    new RegExp(`"${slug}"\\s*:\\s*\\[`),
+    `weekly return related question cluster for ${slug}`,
+  )
+}
+
+for (const [localizedSlug, label] of [
+  ["lectura-tarot-semanal", "Spanish weekly tarot localized slug"],
+  ["tarot-semanal-amor", "Spanish weekly love localized slug"],
+  ["tarot-semanal-carrera", "Spanish weekly career localized slug"],
+  ["leitura-tarot-semanal", "Portuguese weekly tarot localized slug"],
+  ["tarot-semanal-amor", "Portuguese weekly love localized slug"],
+  ["tarot-semanal-carreira", "Portuguese weekly career localized slug"],
+]) {
+  assertIncludes(files.seoPages, `"${localizedSlug}"`, label)
+}
+
+for (const regionalCopy of [
+  "Lectura de tarot semanal",
+  "Tarot semanal del amor",
+  "Tarot semanal de carrera",
+  "Leitura de tarot semanal",
+  "Tarot semanal do amor",
+  "Tarot semanal de carreira",
+]) {
+  assertIncludes(files.seoPages, regionalCopy, `weekly return regional copy ${regionalCopy}`)
 }
 
 const regionalDailyIntentSlugs = {
