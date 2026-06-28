@@ -104,9 +104,13 @@ try {
   line("email_provider_configured", String(Boolean(data.email_provider_configured)))
   line("email_from_configured", String(Boolean(data.email_from_configured)))
   line("email_reply_to_configured", String(Boolean(data.email_reply_to_configured)))
+  line("server_service_key_configured", String(Boolean(data.server_service_key_configured)))
+  line("database_rpc_accessible", String(Boolean(data.database_rpc_accessible)))
   line("service_database_configured", String(Boolean(data.service_database_configured)))
   line("cron_authorization_configured", String(Boolean(data.cron_authorization_configured)))
+  line("unsubscribe_rpc_accessible", String(Boolean(data.unsubscribe_rpc_accessible)))
   line("unsubscribe_configured", String(Boolean(data.unsubscribe_configured)))
+  line("reminder_database_access_mode", data.reminder_database_access_mode || "unknown")
   line("calendar_reminder_available", String(Boolean(data.calendar_reminder_available)))
 
   const missing = Array.isArray(data.missing_capabilities) ? data.missing_capabilities : []

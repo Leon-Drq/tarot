@@ -71,7 +71,7 @@ REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders
 PWA_CHECK_BASE_URL=https://poptarot.com npm run check:pwa
 ```
 
-`can_send_email_reminders` and `unsubscribe_configured` should be `true` before the site promises scheduled email delivery. Use `REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active. The script also accepts `CHECK_REMINDER_APP_URL` for the same target URL.
+`server_service_key_configured`, `database_rpc_accessible`, `unsubscribe_rpc_accessible`, and `can_send_email_reminders` should be `true` before the site promises scheduled email delivery. Use `REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active. The script also accepts `CHECK_REMINDER_APP_URL` for the same target URL.
 
 After `RESEND_API_KEY` is configured, send one protected test reminder before waiting for the hourly cron:
 
