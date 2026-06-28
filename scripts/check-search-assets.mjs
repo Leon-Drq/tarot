@@ -195,6 +195,16 @@ async function fetchText(path) {
   return { response, body }
 }
 
+async function fetchBuffer(path) {
+  const response = await fetch(absolute(path), {
+    headers: { Accept: "image/*,*/*" },
+    cache: "no-store",
+  })
+  const arrayBuffer = await response.arrayBuffer()
+  if (!response.ok) fail(`${path} returned HTTP ${response.status}`)
+  return Buffer.from(arrayBuffer)
+}
+
 async function checkAsset({ path, contentType }) {
   const response = await fetch(absolute(path), {
     method: "HEAD",
@@ -223,6 +233,49 @@ async function checkAsset({ path, contentType }) {
   }
 
   return { path, contentType: actualType, cacheControl, robotsTag }
+}
+
+function parseIcoSizes(buffer) {
+  if (buffer.length < 6) fail("/favicon.ico is malformed: missing ICO header")
+  const reserved = buffer.readUInt16LE(0)
+  const type = buffer.readUInt16LE(2)
+  const count = buffer.readUInt16LE(4)
+
+  if (reserved !== 0 || type !== 1 || count < 1) {
+    fail(`/favicon.ico is malformed: reserved=${reserved}, type=${type}, count=${count}`)
+  }
+
+  const sizes = []
+  for (let index = 0; index < count; index += 1) {
+    const offset = 6 + index * 16
+    if (offset + 16 > buffer.length) {
+      fail(`/favicon.ico is malformed: entry ${index + 1} exceeds file length`)
+    }
+
+    const widthByte = buffer.readUInt8(offset)
+    const heightByte = buffer.readUInt8(offset + 1)
+    sizes.push({
+      width: widthByte === 0 ? 256 : widthByte,
+      height: heightByte === 0 ? 256 : heightByte,
+    })
+  }
+
+  return sizes
+}
+
+async function checkIcoSizes() {
+  const requiredIcoSizes = [16, 32, 48, 96]
+  const sizes = parseIcoSizes(await fetchBuffer("/favicon.ico"))
+
+  for (const required of requiredIcoSizes) {
+    const hasRequiredSize = sizes.some((size) => size.width === required && size.height === required)
+    if (!hasRequiredSize) {
+      const actualSizes = sizes.map((size) => `${size.width}x${size.height}`).join(", ")
+      fail(`/favicon.ico missing ${required}x${required}; found ${actualSizes}`)
+    }
+  }
+
+  return sizes.map((size) => `${size.width}x${size.height}`).join(", ")
 }
 
 function assertIncludes(source, needle, label) {
@@ -259,11 +312,12 @@ function sitemapUrlBlock(source, path) {
 }
 
 try {
-  const [sitemapResult, robotsResult, homeResult, brandResult, ...assetResults] = await Promise.all([
+  const [sitemapResult, robotsResult, homeResult, brandResult, icoSizes, ...assetResults] = await Promise.all([
     fetchText("/sitemap.xml"),
     fetchText("/robots.txt"),
     fetchText("/"),
     fetchText("/brand-assets"),
+    checkIcoSizes(),
     ...requiredAssets.map(checkAsset),
   ])
 
@@ -372,6 +426,7 @@ try {
   }
 
   console.log(`check-search-assets: ${rootUrl} canonical ${canonicalUrl}`)
+  console.log(`/favicon.ico sizes        ${icoSizes}`)
   for (const result of assetResults) {
     console.log(`${result.path.padEnd(26)} ${result.contentType} ${result.cacheControl}`)
   }
