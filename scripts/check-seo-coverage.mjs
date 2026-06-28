@@ -307,6 +307,10 @@ const files = {
     path: "app/input/page.tsx",
     source: read("app/input/page.tsx"),
   },
+  questionInput: {
+    path: "components/tarot/question-input.tsx",
+    source: read("components/tarot/question-input.tsx"),
+  },
   inputLayout: {
     path: "app/input/layout.tsx",
     source: read("app/input/layout.tsx"),
@@ -1257,6 +1261,8 @@ assertIncludes(files.homePage, "InteractAction", "homepage quick-start structure
 assertIncludes(files.globalStyles, "overscroll-behavior-y: auto", "vertical desktop wheel scrolling remains enabled")
 assertNotIncludes(files.globalStyles, "overscroll-behavior: none", "global vertical scroll lock")
 assertNotIncludes(files.globalStyles, "body:has(.allow-scroll)::-webkit-scrollbar", "desktop scrollbar is not hidden on scroll-enabled pages")
+assertIncludes(files.globalStyles, "scrollbar-color: rgba(201, 192, 255, 0.58) #080310", "desktop native scrollbar affordance stays visible")
+assertIncludes(files.globalStyles, "html::-webkit-scrollbar", "desktop webkit scrollbar affordance")
 assertIncludes(files.globalStyles, "--home-hero-browser-offset: min(var(--home-mobile-browser-offset, 0px), 7rem)", "homepage browser chrome offset variable")
 assertIncludes(files.globalStyles, "--home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58svh, 28.5rem))", "homepage mobile focal centering with browser chrome offset")
 assertIncludes(files.globalStyles, "--home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857)", "homepage card size variable")
@@ -2295,6 +2301,14 @@ const freeFirstReadingCoverage = [
   [files.inputPage, "data-input-mobile-intent-compact", "input matched SEO intent mobile compact hint"],
   [files.inputPage, "data-input-entry-context", "input advanced spread entry context"],
   [files.inputPage, "locale={readingLocale}", "input SEO locale propagation to card controls"],
+  [files.inputPage, "localeOverride={readingLocale}", "input SEO locale propagation to question entry"],
+  [files.inputPage, "Analizando tu pregunta", "input Spanish loading copy"],
+  [files.inputPage, "Analisando sua pergunta", "input Portuguese loading copy"],
+  [files.questionInput, "localeOverride?: SeoLocale", "question input supports SEO locale override"],
+  [files.questionInput, "Cuéntame tu pregunta real", "question input Spanish copy"],
+  [files.questionInput, "Conte sua pergunta real", "question input Portuguese copy"],
+  [files.mobileCheck, "input Spanish free-tools question entry", "mobile check regional question input entry"],
+  [files.mobileCheck, "requiredText", "mobile check regional visible text assertions"],
   [files.inputPage, "Matched free spread", "input matched free spread copy"],
   [files.inputPage, "searchParams.get(\"source\")", "input source attribution label"],
   [files.inputPage, "router.push(\"/membership\")", "advanced spread upgrade CTA"],

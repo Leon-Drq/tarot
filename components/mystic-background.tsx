@@ -387,7 +387,7 @@ function HomeScrollCue() {
     <a
       data-home-scroll-cue
       href="#home-free-paths"
-      className="mx-auto mt-3 min-h-9 w-fit items-center gap-2 rounded-full border border-white/10 bg-[#0b0314]/72 px-4 text-xs text-white/56 shadow-[0_10px_28px_rgba(0,0,0,0.24)] backdrop-blur-md transition hover:border-[#bfb6ff]/38 hover:text-white max-md:hidden md:flex"
+      className="mx-auto mt-3 min-h-9 w-fit items-center gap-2 rounded-full border border-[#c9c0ff]/24 bg-[#10071e]/86 px-4 text-xs text-[#f5f2ff]/76 shadow-[0_14px_36px_rgba(0,0,0,0.32)] backdrop-blur-md transition hover:border-[#c9c0ff]/48 hover:text-white max-md:hidden md:flex"
     >
       <span>{copy}</span>
       <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
@@ -409,7 +409,7 @@ function HomeDesktopScrollAffordance({ visible }: { visible: boolean }) {
     <a
       data-home-scroll-affordance
       href="#home-free-paths"
-      className={`fixed bottom-16 right-5 z-40 hidden min-h-11 items-center gap-2 rounded-full border border-[#bfb6ff]/38 bg-[#12091f]/90 px-4 text-xs font-medium text-[#f5f2ff]/90 shadow-[0_16px_42px_rgba(0,0,0,0.38)] backdrop-blur-xl transition duration-300 hover:border-[#c9c0ff]/58 hover:text-white md:inline-flex ${
+      className={`fixed bottom-8 right-6 z-40 hidden min-h-12 items-center gap-2 rounded-full border border-[#c9c0ff]/48 bg-[#12091f]/94 px-5 text-sm font-medium text-[#f5f2ff]/92 shadow-[0_18px_54px_rgba(0,0,0,0.46),0_0_30px_rgba(170,161,255,0.16)] backdrop-blur-xl transition duration-300 hover:border-[#dfd9ff]/70 hover:text-white md:inline-flex ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
       }`}
     >

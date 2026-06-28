@@ -93,6 +93,13 @@ const pages = [
     ],
   },
   {
+    path: "/input?source=free_tools&lang=es&utm_source=free_tools_es&utm_medium=hero",
+    name: "input Spanish free-tools question entry",
+    requiredSelectors: ["[data-input-page]"],
+    requiredText: ["Cuéntame tu pregunta real", "Elegir cartas"],
+    allowedWideSelector: "rounded-full pointer-events-none",
+  },
+  {
     path: "/tarot-questions?q=love",
     name: "tarot questions",
     requiredSelectors: [
@@ -553,6 +560,13 @@ async function checkPage(browser, pageConfig) {
   await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "domcontentloaded", timeout: 45_000 })
   await page.locator("body").waitFor({ state: "attached", timeout: 15_000 })
   await waitForSelectors(page, pageConfig.requiredSelectors)
+  if (pageConfig.requiredText?.length) {
+    await page
+      .waitForFunction((requiredText) => requiredText.every((text) => (document.body.innerText || "").includes(text)), pageConfig.requiredText, {
+        timeout: 12_000,
+      })
+      .catch(() => {})
+  }
   if (pageConfig.embeddedTopGuard) {
     await page
       .waitForFunction(
@@ -584,9 +598,11 @@ async function checkPage(browser, pageConfig) {
     ...(pageConfig.menuRequiredSelectors || []),
   ]
 
-  const result = await page.evaluate(({ requiredSelectors, embeddedTopGuard, requiredLocalStorageKeyPrefix }) => {
+  const result = await page.evaluate(({ requiredSelectors, requiredText, embeddedTopGuard, requiredLocalStorageKeyPrefix }) => {
     const viewportWidth = document.documentElement.clientWidth
     const missingSelectors = requiredSelectors.filter((selector) => !document.querySelector(selector))
+    const bodyText = document.body.innerText || ""
+    const missingText = requiredText.filter((text) => !bodyText.includes(text))
     const wideElements = Array.from(document.body.querySelectorAll("*"))
       .map((element) => {
         const rect = element.getBoundingClientRect()
@@ -648,6 +664,7 @@ async function checkPage(browser, pageConfig) {
       overflowX: document.documentElement.scrollWidth - viewportWidth,
       scrollHeight: document.documentElement.scrollHeight,
       missingSelectors,
+      missingText,
       wideElements,
       homeLayout,
       missingLocalStoragePrefix:
@@ -657,6 +674,7 @@ async function checkPage(browser, pageConfig) {
     }
   }, {
     requiredSelectors: allRequiredSelectors,
+    requiredText: pageConfig.requiredText || [],
     embeddedTopGuard: pageConfig.embeddedTopGuard || 0,
     requiredLocalStorageKeyPrefix: pageConfig.requiredLocalStorageKeyPrefix || "",
   })
@@ -691,6 +709,9 @@ try {
     }
     if (result.missingSelectors.length > 0) {
       failures.push(`${result.name}: missing selectors ${result.missingSelectors.join(", ")}`)
+    }
+    if (result.missingText.length > 0) {
+      failures.push(`${result.name}: missing text ${result.missingText.join(", ")}`)
     }
     if (result.missingLocalStoragePrefix) {
       failures.push(`${result.name}: missing localStorage key prefix ${result.missingLocalStoragePrefix}`)

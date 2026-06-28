@@ -524,7 +524,9 @@ function InputContent() {
                 en: 'Analyzing your question...',
                 ja: '質問を分析しています...',
                 ko: '질문을 분석 중...',
-              }[language] || '正在分析你的问题...'}
+                es: 'Analizando tu pregunta...',
+                "pt-br": 'Analisando sua pergunta...',
+              }[readingLocale] || 'Analyzing your question...'}
             </p>
             <p className="text-white/40 text-sm">
               {{
@@ -532,13 +534,20 @@ function InputContent() {
                 en: 'Finding the best spread for you',
                 ja: '最適なスプレッドを見つけています',
                 ko: '최적의 스프레드를 찾는 중',
-              }[language] || '为你匹配最适合的牌阵'}
+                es: 'Buscando la tirada mas adecuada',
+                "pt-br": 'Encontrando a melhor tiragem para voce',
+              }[readingLocale] || 'Finding the best spread for you'}
             </p>
           </div>
         </>
       )}
 
-      <QuestionInput visible={pageState === "input"} onSubmit={handleQuestionSubmit} initialQuestion={initialQuestion} />
+      <QuestionInput
+        visible={pageState === "input"}
+        onSubmit={handleQuestionSubmit}
+        initialQuestion={initialQuestion}
+        localeOverride={readingLocale}
+      />
     </div>
   )
 }

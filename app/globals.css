@@ -176,6 +176,26 @@
   body:has(.allow-scroll) {
     overflow-y: auto;
   }
+  @media (pointer: fine) {
+    html {
+      scrollbar-color: rgba(201, 192, 255, 0.58) #080310;
+      scrollbar-width: thin;
+    }
+    html::-webkit-scrollbar {
+      width: 12px;
+    }
+    html::-webkit-scrollbar-track {
+      background: #080310;
+    }
+    html::-webkit-scrollbar-thumb {
+      border: 3px solid #080310;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(244, 240, 255, 0.72), rgba(143, 128, 238, 0.62));
+    }
+    html::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(170, 161, 255, 0.76));
+    }
+  }
   /* Reset Next.js portal positioning */
   nextjs-portal {
     left: initial !important;
