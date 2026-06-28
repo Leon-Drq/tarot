@@ -13,9 +13,16 @@ type Props = {
   cards: ReadingShareCard[]
   interpretation: string
   url: string
+  dailyReturnUrl?: string
 }
 
-export function ShareCopyActions({ question, cards, interpretation, url }: Props) {
+function absoluteDailyReturnUrl(pathOrUrl: string) {
+  if (pathOrUrl.startsWith("http")) return pathOrUrl
+  if (typeof window === "undefined") return `https://poptarot.com${pathOrUrl}`
+  return `${window.location.origin}${pathOrUrl}`
+}
+
+export function ShareCopyActions({ question, cards, interpretation, url, dailyReturnUrl }: Props) {
   const { language } = useLanguage()
   const [status, setStatus] = useState("")
 
@@ -168,10 +175,25 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
 
   const copy = copyByLanguage[language as keyof typeof copyByLanguage] || copyByLanguage.en
   const shareSlug = url.split("/share/")[1]?.split(/[?#]/)[0]
-  const dailyReturnUrl =
-    typeof window === "undefined"
-      ? "https://poptarot.com/daily-tarot?utm_source=public_share&utm_medium=calendar_reminder&utm_campaign=shared_reading"
-      : `${window.location.origin}/daily-tarot?utm_source=public_share&utm_medium=calendar_reminder&utm_campaign=shared_reading`
+  const focusedDailyReturnUrl = absoluteDailyReturnUrl(
+    dailyReturnUrl ||
+      `/daily-tarot?${new URLSearchParams({
+        return_focus: question,
+        return_action: "reminder",
+        utm_source: "public_share",
+        utm_medium: "calendar_reminder",
+        utm_campaign: "shared_reading",
+      }).toString()}`,
+  )
+  const selfEmailDailyReturnUrl = (() => {
+    try {
+      const url = new URL(focusedDailyReturnUrl)
+      url.searchParams.set("utm_medium", "public_share_email")
+      return url.toString()
+    } catch {
+      return focusedDailyReturnUrl
+    }
+  })()
 
   const trackShareAction = (action: string) => {
     analyticsApi.track("share_template_copied", {
@@ -201,7 +223,6 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       "pt-br": { upright: "upright", reversed: "reversed" },
     } as const
     const orientation = orientationCopy[language as keyof typeof orientationCopy] || orientationCopy.en
-    const dailyUrl = `${window.location.origin}/daily-tarot?utm_source=public_share_email&utm_medium=email_self&utm_campaign=shared_reading`
     const cardSummary = cards
       .slice(0, 8)
       .map((card) => {
@@ -223,7 +244,7 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       excerpt,
       "",
       `${copy.emailOpenLabel}: ${url}`,
-      `${copy.emailDailyLabel}: ${dailyUrl}`,
+      `${copy.emailDailyLabel}: ${selfEmailDailyReturnUrl}`,
     ].join("\n")
   }
 
@@ -249,7 +270,7 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       time: "08:30",
       summary: copy.calendarSummary,
       description: copy.calendarDescription,
-      url: dailyReturnUrl,
+      url: focusedDailyReturnUrl,
       filename: "poptarot-shared-reading-daily-return.ics",
     })
     analyticsApi.track("daily_calendar_reminder_downloaded", {
@@ -270,7 +291,7 @@ export function ShareCopyActions({ question, cards, interpretation, url }: Props
       time: "08:30",
       summary: copy.calendarSummary,
       description: copy.calendarDescription,
-      url: dailyReturnUrl,
+      url: focusedDailyReturnUrl,
     })
     const opened = window.open(googleCalendarUrl, "_blank", "noopener,noreferrer")
     if (!opened) window.location.href = googleCalendarUrl

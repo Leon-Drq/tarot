@@ -21,7 +21,6 @@ export const dynamic = "force-dynamic"
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 const freeReadingHref = "/input?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
-const dailyTarotHref = "/daily-tarot?utm_source=share&utm_medium=public_share&utm_campaign=shared_reading"
 const shareDailyReturnFeatures = [
   {
     title: "Daily card",
@@ -103,6 +102,18 @@ function sharedReadingHref(share: ReadingShare) {
   if (share.spread_type) params.set("spread", share.spread_type)
 
   return `/input?${params.toString()}`
+}
+
+function publicShareDailyReturnHref(question: string) {
+  const params = new URLSearchParams({
+    return_focus: question,
+    return_action: "reminder",
+    utm_source: "share",
+    utm_medium: "public_share_daily_return",
+    utm_campaign: "shared_reading",
+  })
+
+  return `/daily-tarot?${params.toString()}`
 }
 
 function questionSlugFromHref(href: string) {
@@ -226,6 +237,7 @@ export default async function SharePage({ params }: Params) {
   if (!share) notFound()
   const description = share.interpretation_excerpt || "A shared AI tarot reading from POPTarot."
   const sameQuestionHref = sharedReadingHref(share)
+  const dailyReturnHref = publicShareDailyReturnHref(share.question)
   const spread = getShareSpreadContext(share.spread_type)
   const spreadName = spread.nameEn || spread.name
   const relatedQuestions = publicShareRelatedQuestions(share)
@@ -460,8 +472,9 @@ export default async function SharePage({ params }: Params) {
                 </ul>
               </div>
               <Link
-                href={dailyTarotHref}
+                href={dailyReturnHref}
                 data-public-share-daily-return-cta
+                data-public-share-daily-return-focus
                 className="mt-5 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/32 bg-[#c9c0ff]/[0.09] px-5 py-2.5 text-sm font-medium text-[#eeeaff] transition hover:border-[#c9c0ff]/55 hover:bg-[#c9c0ff]/[0.14] sm:w-auto"
               >
                 Open Daily Tarot
@@ -533,7 +546,7 @@ export default async function SharePage({ params }: Params) {
                 Start a New Question
               </Link>
               <Link
-                href={dailyTarotHref}
+                href={dailyReturnHref}
                 className="inline-flex min-h-12 w-full items-center justify-center rounded-lg border border-white/14 px-7 py-3 text-sm text-white/72 transition hover:border-[#c9c0ff]/40 hover:bg-white/[0.05] sm:w-auto"
               >
                 Try Daily Tarot
@@ -545,6 +558,7 @@ export default async function SharePage({ params }: Params) {
               cards={share.cards}
               interpretation={share.interpretation_excerpt}
               url={`${appUrl}/share/${share.slug}`}
+              dailyReturnUrl={`${appUrl}${dailyReturnHref}`}
             />
 
             <div className="mx-auto mt-9 grid w-full max-w-3xl grid-cols-2 gap-2 sm:grid-cols-3">

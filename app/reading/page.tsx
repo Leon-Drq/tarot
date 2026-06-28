@@ -454,10 +454,18 @@ export default function ReadingPage() {
       meanings: "Read Card Meanings",
       tools: "Free Tools",
     }
-  const readingReturnParams = `utm_source=reading_result&utm_medium=return_path&utm_campaign=free_reading&lang=${activeReadingLocale}`
-  const dailyReturnHref = `/daily-tarot?${readingReturnParams}`
-  const meaningsReturnHref = `/tarot-card-meanings?${readingReturnParams}`
-  const toolsReturnHref = `/free-tarot-tools?${readingReturnParams}`
+  const readingReturnParams = new URLSearchParams({
+    return_focus: question || "Review this tarot reading",
+    return_action: "reminder",
+    utm_source: "reading_result",
+    utm_medium: "return_path",
+    utm_campaign: "free_reading",
+    lang: activeReadingLocale,
+  })
+  const readingReturnQuery = readingReturnParams.toString()
+  const dailyReturnHref = `/daily-tarot?${readingReturnQuery}`
+  const meaningsReturnHref = `/tarot-card-meanings?${readingReturnQuery}`
+  const toolsReturnHref = `/free-tarot-tools?${readingReturnQuery}`
   const readingFeedbackParams = new URLSearchParams({
     type: "free_reading",
     surface: "reading_result",
