@@ -11,6 +11,8 @@ const pages = [
 const viewports = [
   { name: "large desktop", width: 1440, height: 900 },
   { name: "short desktop", width: 1280, height: 720 },
+  { name: "very short desktop", width: 1180, height: 680 },
+  { name: "browser chrome desktop", width: 1536, height: 746 },
   { name: "compact desktop", width: 1024, height: 768 },
   { name: "narrow desktop", width: 907, height: 778 },
 ]
@@ -32,26 +34,36 @@ try {
       })
       await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "networkidle", timeout: 45_000 })
 
-      const initialResult = await page.evaluate(() => ({
-        homeQuestionFormBottom: document.querySelector("[data-home-question-form]")
-          ? Math.round(document.querySelector("[data-home-question-form]").getBoundingClientRect().bottom)
-          : null,
-        homeScrollCueBottom: document.querySelector("[data-home-scroll-cue]")
-          ? Math.round(document.querySelector("[data-home-scroll-cue]").getBoundingClientRect().bottom)
-          : null,
-        homeDailyPanelTop: document.querySelector("[data-home-daily-return-panel]")
-          ? Math.round(document.querySelector("[data-home-daily-return-panel]").getBoundingClientRect().top)
-          : null,
-        homeScrollContentTop: document.querySelector("[data-home-scroll-content]")
-          ? Math.round(document.querySelector("[data-home-scroll-content]").getBoundingClientRect().top)
-          : null,
-        homeSecondaryNavTop: document.querySelector("[data-home-secondary-nav]")
-          ? Math.round(document.querySelector("[data-home-secondary-nav]").getBoundingClientRect().top)
-          : null,
-        homeSecondaryNavBottom: document.querySelector("[data-home-secondary-nav]")
-          ? Math.round(document.querySelector("[data-home-secondary-nav]").getBoundingClientRect().bottom)
-          : null,
-      }))
+      const initialResult = await page.evaluate(() => {
+        const rect = (selector) => {
+          const element = document.querySelector(selector)
+          if (!element) return null
+          const bounds = element.getBoundingClientRect()
+          return {
+            top: Math.round(bounds.top),
+            right: Math.round(bounds.right),
+            bottom: Math.round(bounds.bottom),
+            left: Math.round(bounds.left),
+          }
+        }
+        const questionForm = rect("[data-home-question-form]")
+        const scrollCue = rect("[data-home-scroll-cue]")
+        const scrollAffordance = rect("[data-home-scroll-affordance]")
+        const dailyPanel = rect("[data-home-daily-return-panel]")
+        const scrollContent = rect("[data-home-scroll-content]")
+        const secondaryNav = rect("[data-home-secondary-nav]")
+
+        return {
+          homeQuestionFormBottom: questionForm?.bottom ?? null,
+          homeScrollCueBottom: scrollCue?.bottom ?? null,
+          homeScrollAffordanceTop: scrollAffordance?.top ?? null,
+          homeScrollAffordanceBottom: scrollAffordance?.bottom ?? null,
+          homeDailyPanelTop: dailyPanel?.top ?? null,
+          homeScrollContentTop: scrollContent?.top ?? null,
+          homeSecondaryNavTop: secondaryNav?.top ?? null,
+          homeSecondaryNavBottom: secondaryNav?.bottom ?? null,
+        }
+      })
 
       await page.mouse.move(Math.round(viewport.width / 2), Math.round(viewport.height / 2))
       await page.mouse.wheel(0, 1200)
@@ -102,8 +114,16 @@ try {
       if (pageConfig.path === "/" && initialResult.homeQuestionFormBottom > result.clientHeight - 24) {
         failures.push(`${label}: homepage question form is clipped below the desktop viewport`)
       }
-      if (pageConfig.path === "/" && (!initialResult.homeScrollCueBottom || initialResult.homeScrollCueBottom > result.clientHeight + 4)) {
-        failures.push(`${label}: homepage scroll cue is not visible in the desktop viewport`)
+      const hasVisibleScrollCue =
+        Boolean(initialResult.homeScrollCueBottom && initialResult.homeScrollCueBottom <= result.clientHeight + 4) ||
+        Boolean(
+          initialResult.homeScrollAffordanceTop !== null &&
+            initialResult.homeScrollAffordanceBottom !== null &&
+            initialResult.homeScrollAffordanceTop >= 0 &&
+            initialResult.homeScrollAffordanceBottom <= result.clientHeight - 4,
+        )
+      if (pageConfig.path === "/" && !hasVisibleScrollCue) {
+        failures.push(`${label}: homepage scroll cue or desktop affordance is not visible in the desktop viewport`)
       }
       if (pageConfig.path === "/" && initialResult.homeDailyPanelTop <= initialResult.homeQuestionFormBottom) {
         failures.push(`${label}: daily return panel should sit below the first-screen question form`)
@@ -118,6 +138,7 @@ try {
         pageConfig.path === "/" &&
         initialResult.homeSecondaryNavTop &&
         initialResult.homeScrollCueBottom &&
+        initialResult.homeScrollCueBottom <= result.clientHeight + 4 &&
         initialResult.homeSecondaryNavTop < initialResult.homeScrollCueBottom + 4
       ) {
         failures.push(`${label}: desktop next-section nav overlaps the scroll cue`)

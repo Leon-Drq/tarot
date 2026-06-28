@@ -395,6 +395,30 @@ function HomeScrollCue() {
   )
 }
 
+function HomeDesktopScrollAffordance({ visible }: { visible: boolean }) {
+  const { language } = useLanguage()
+  const copy =
+    {
+      zh: "更多免费入口",
+      en: "More free paths",
+      ja: "無料入口を見る",
+      ko: "무료 경로 보기",
+    }[language]
+
+  return (
+    <a
+      data-home-scroll-affordance
+      href="#home-free-paths"
+      className={`fixed bottom-16 right-5 z-40 hidden min-h-11 items-center gap-2 rounded-full border border-[#c9c0ff]/24 bg-[#0b0314]/82 px-4 text-xs font-medium text-[#eeeaff]/82 shadow-[0_14px_38px_rgba(0,0,0,0.34)] backdrop-blur-xl transition duration-300 hover:border-[#c9c0ff]/48 hover:text-white md:inline-flex ${
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
+      }`}
+    >
+      <span>{copy}</span>
+      <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
+    </a>
+  )
+}
+
 function HomeSecondaryNav({ placement }: { placement: "hero" | "content" }) {
   const className =
     placement === "hero"
@@ -822,12 +846,23 @@ function MysticContent() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [customFront, setCustomFront] = useState<string | null>(null)
   const [customBack, setCustomBack] = useState<string | null>(null)
+  const [showDesktopScrollAffordance, setShowDesktopScrollAffordance] = useState(true)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  useEffect(() => {
+    const updateScrollAffordance = () => {
+      setShowDesktopScrollAffordance(window.scrollY < 48)
+    }
+
+    updateScrollAffordance()
+    window.addEventListener("scroll", updateScrollAffordance, { passive: true })
+    return () => window.removeEventListener("scroll", updateScrollAffordance)
   }, [])
 
   useEffect(() => {
@@ -1029,6 +1064,8 @@ function MysticContent() {
       </div>
 
       <HomeScrollContent />
+
+      <HomeDesktopScrollAffordance visible={showDesktopScrollAffordance} />
 
       {/* Global animations */}
       <MysticAnimations />
