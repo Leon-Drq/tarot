@@ -103,6 +103,19 @@ const pages = [
     ],
   },
   {
+    path: "/tarot-card-meanings",
+    name: "card meanings hub",
+    requiredSelectors: [
+      "[data-card-meaning-context-guide]",
+      "[data-card-meaning-context-guide-item]",
+      "[data-card-meaning-context-guide-link]",
+      "[data-card-context-hubs]",
+      "[data-card-meaning-free-starts]",
+      "[data-card-meaning-free-start]",
+      "[data-card-combination-paths]",
+    ],
+  },
+  {
     path: "/one-card-tarot-reading",
     name: "one-card free spread format",
     requiredSelectors: highIntentQuestionRequiredSelectors,

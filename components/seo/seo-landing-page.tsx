@@ -427,6 +427,77 @@ const cardCombinationCopy = {
   },
 } satisfies Record<SeoPage["locale"], { title: string; body: string; action: string }>
 
+type CardMeaningContextGuideKind =
+  | "upright-reversed"
+  | "love"
+  | "career"
+  | "money"
+  | "yes-or-no"
+  | "advice"
+  | "combinations"
+
+const cardMeaningContextGuideCopy = {
+  eyebrow: "Meaning layers",
+  title: "Choose the meaning layer before you open a card",
+  body: "A tarot card is easier to read when you know which layer you need: basic meaning, relationship context, career timing, money decisions, yes-or-no clarity, advice, or card combinations.",
+  action: "Open path",
+  items: [
+    {
+      kind: "upright-reversed",
+      label: "Basics",
+      title: "Upright and reversed",
+      body: "Start with the active meaning, then check whether the reversed meaning points to delay, imbalance, or inner work.",
+    },
+    {
+      kind: "love",
+      label: "Love",
+      title: "Love meanings",
+      body: "Read each card through attraction, trust, emotional availability, timing, commitment, and boundaries.",
+    },
+    {
+      kind: "career",
+      label: "Career",
+      title: "Career meanings",
+      body: "Use the card to frame work choices, interviews, pressure, skill, momentum, and the next practical move.",
+    },
+    {
+      kind: "money",
+      label: "Money",
+      title: "Money meanings",
+      body: "Connect the card to stability, spending, saving, risk, resources, value, and material decisions.",
+    },
+    {
+      kind: "yes-or-no",
+      label: "Yes / No",
+      title: "Yes or no meanings",
+      body: "Check whether the card leans yes, no, not yet, or conditional, then read the reason behind the answer.",
+    },
+    {
+      kind: "advice",
+      label: "Advice",
+      title: "Turn meaning into action",
+      body: "Use the card as a reflective prompt and turn the symbol into one grounded step you can take today.",
+    },
+    {
+      kind: "combinations",
+      label: "Pairs",
+      title: "Common card combinations",
+      body: "When two cards appear together, the second card can strengthen, soften, or redirect the first card's message.",
+    },
+  ],
+} satisfies {
+  eyebrow: string
+  title: string
+  body: string
+  action: string
+  items: Array<{
+    kind: CardMeaningContextGuideKind
+    label: string
+    title: string
+    body: string
+  }>
+}
+
 const cardIndexGroupOrder = ["major", "wands", "cups", "pentacles", "swords"] as const
 const combinationPreviewCardIds = [0, 1, 2, 6, 10, 13, 15, 16, 17, 18, 19, 20]
 const cardMeaningHubSlugs = [
@@ -1197,6 +1268,48 @@ function readingHref(page: SeoPage) {
   }
 
   return `/input?${params.toString()}`
+}
+
+function cardMeaningContextGuideHref(page: SeoPage, kind: CardMeaningContextGuideKind) {
+  const contextSlugs: Partial<Record<CardMeaningContextGuideKind, string>> = {
+    love: "love-tarot-card-meanings",
+    career: "career-tarot-card-meanings",
+    money: "money-tarot-card-meanings",
+    "yes-or-no": "yes-or-no-tarot-card-meanings",
+  }
+  const contextSlug = contextSlugs[kind]
+
+  if (contextSlug) {
+    return getSeoPage(contextSlug, page.locale)?.path || `/${contextSlug}`
+  }
+
+  if (kind === "combinations") return "/tarot-card-combinations"
+  if (kind === "upright-reversed") return `${page.path}#card-index`
+
+  const params = new URLSearchParams({
+    q: "What advice do these cards have for me right now?",
+    auto: "1",
+    spread: "three_card",
+    source: "card_meaning_context_guide",
+    lang: page.locale,
+    utm_source: page.slug,
+    utm_medium: "context_guide",
+    utm_campaign: "advice",
+  })
+
+  return `/input?${params.toString()}`
+}
+
+function cardMeaningContextGuide(page: SeoPage) {
+  if (page.locale !== "en") return null
+
+  return {
+    ...cardMeaningContextGuideCopy,
+    items: cardMeaningContextGuideCopy.items.map((item) => ({
+      ...item,
+      href: cardMeaningContextGuideHref(page, item.kind),
+    })),
+  }
 }
 
 type QuestionToolkit = {
@@ -3108,6 +3221,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         .map((id) => cardPages.find((cardPage) => cardPage.card.id === id))
         .filter((cardPage): cardPage is (typeof cardPages)[number] => Boolean(cardPage))
     : []
+  const contextGuide = activeCardIndexMode ? cardMeaningContextGuide(page) : null
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -3203,6 +3317,24 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
       },
       ...(cardPages.length > 0
         ? [
+            ...(contextGuide
+              ? [
+                  {
+                    "@type": "ItemList",
+                    "@id": `${appUrl}${page.path}#card-meaning-context-guide`,
+                    name: contextGuide.title,
+                    description: contextGuide.body,
+                    numberOfItems: contextGuide.items.length,
+                    itemListElement: contextGuide.items.map((item, index) => ({
+                      "@type": "ListItem",
+                      position: index + 1,
+                      url: `${appUrl}${item.href}`,
+                      name: item.title,
+                      description: item.body,
+                    })),
+                  },
+                ]
+              : []),
             ...(cardHubs.length > 0
               ? [
                   {
@@ -3964,6 +4096,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
 
       {cardPages.length > 0 && (
         <section
+          id="card-index"
           data-card-context-index={activeCardIndexMode && activeCardIndexMode !== "all" ? activeCardIndexMode : undefined}
           className="border-b border-white/10 bg-[#080310]"
         >
@@ -3977,6 +4110,44 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
                 {page.primaryCta}
               </Link>
             </div>
+            {contextGuide && (
+              <section
+                id="card-meaning-context-guide"
+                data-card-meaning-context-guide
+                aria-labelledby="card-meaning-context-guide-title"
+                className="mb-9 border-y border-[#9fd8d0]/18 py-7"
+              >
+                <div className="mb-6 max-w-3xl">
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-[#9fd8d0]/75">{contextGuide.eyebrow}</p>
+                  <h3 id="card-meaning-context-guide-title" className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+                    {contextGuide.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-7 text-white/60">{contextGuide.body}</p>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {contextGuide.items.map((item) => (
+                    <Link
+                      key={item.kind}
+                      href={item.href}
+                      data-card-meaning-context-guide-item
+                      className="group flex min-h-[12.5rem] min-w-0 flex-col rounded-lg border border-[#9fd8d0]/16 bg-[#9fd8d0]/[0.035] p-4 transition hover:border-[#9fd8d0]/46 hover:bg-[#9fd8d0]/[0.065]"
+                    >
+                      <span className="text-[11px] uppercase tracking-[0.16em] text-[#9fd8d0]/78">{item.label}</span>
+                      <span className="mt-3 block text-base font-medium leading-6 text-white group-hover:text-[#f2fffc]">
+                        {item.title}
+                      </span>
+                      <span className="mt-3 line-clamp-4 text-sm leading-6 text-white/58">{item.body}</span>
+                      <span
+                        data-card-meaning-context-guide-link
+                        className="mt-auto inline-flex min-h-10 items-center pt-4 text-sm text-[#9fd8d0] group-hover:text-white"
+                      >
+                        {contextGuide.action}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
             {cardHubs.length > 0 && (
               <div data-card-context-hubs className="mb-9 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 {cardHubs.map((hub) => (

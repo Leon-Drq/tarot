@@ -434,6 +434,12 @@ for (const [slug, context, anchor] of [
   assertIncludes(files.seoLanding, `anchor: "${anchor}"`, `card context anchor link ${anchor}`)
 }
 assertIncludes(files.seoPages, "cardMeaningContext?: CardMeaningContext", "card context SEO page model")
+assertIncludes(files.seoLanding, "#card-meaning-context-guide", "card meaning context guide structured data")
+assertIncludes(files.seoLanding, "data-card-meaning-context-guide", "card meaning context guide visible section")
+assertIncludes(files.seoLanding, "data-card-meaning-context-guide-item", "card meaning context guide item cards")
+assertIncludes(files.seoLanding, "data-card-meaning-context-guide-link", "card meaning context guide visible links")
+assertIncludes(files.seoLanding, "cardMeaningContextGuideHref", "card meaning context guide href helper")
+assertIncludes(files.seoLanding, "What advice do these cards have for me right now?", "card meaning context guide advice free spread")
 assertIncludes(files.seoLanding, "#card-context-hubs", "card context hub structured data")
 assertIncludes(files.seoLanding, "data-card-context-hubs", "card context visible hub links")
 assertIncludes(files.seoLanding, "cardIndexHref(cardPage, activeCardIndexMode)", "card context card anchor hrefs")
