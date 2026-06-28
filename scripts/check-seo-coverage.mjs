@@ -61,6 +61,10 @@ const files = {
     path: "components/daily/daily-tarot-tool.tsx",
     source: read("components/daily/daily-tarot-tool.tsx"),
   },
+  dailyTarotApiRoute: {
+    path: "app/api/daily-tarot/route.ts",
+    source: read("app/api/daily-tarot/route.ts"),
+  },
   clientCalendarReminder: {
     path: "lib/client-calendar-reminder.ts",
     source: read("lib/client-calendar-reminder.ts"),
@@ -1017,11 +1021,16 @@ assertIncludes(files.dailyTarotTool, "savePendingReminderPreference", "Daily Tar
 assertIncludes(files.dailyTarotTool, "data-daily-reminder-pending-email-input", "Daily Tarot pending reminder email input remains usable")
 assertIncludes(files.dailyTarotTool, "data-daily-reminder-pending-save", "Daily Tarot pending reminder preference save CTA")
 assertIncludes(files.dailyTarotTool, "pending_reminder_preference_saved", "Daily Tarot pending reminder preference tracking")
+assertIncludes(files.dailyTarotTool, "reminder_email: nextReminderEmail || null", "Daily Tarot retains pending reminder email locally")
+assertIncludes(files.dailyTarotTool, "const syncedEntry = localEntry ? await syncEntry(localEntry) : null", "Daily Tarot syncs pending reminder preference when possible")
 assertIncludes(files.dailyTarotTool, "disabled={!emailDeliveryEnabled}", "Daily Tarot disables scheduled email toggle until provider is ready")
 assertIncludes(files.dailyTarotTool, "copy.emailSetupPendingAction", "Daily Tarot explains scheduled email setup state")
 assertIncludes(files.dailyTarotCopy, "saveEmailPreference", "Daily Tarot save email preference copy")
+assertIncludes(files.dailyTarotCopy, "reminderSavedPendingSynced", "Daily Tarot synced pending reminder copy")
 assertIncludes(files.dailyTarotCopy, "emailSetupDisabled", "Daily Tarot email-disabled copy")
 assertIncludes(files.dailyTarotCopy, "emailSetupPendingAction", "Daily Tarot email setup pending copy")
+assertIncludes(files.dailyTarotApiRoute, "if (rawReminderEmail && !normalizedReminderEmail)", "Daily Tarot API validates disabled pending reminder emails")
+assertIncludes(files.dailyTarotApiRoute, "reminder_email: normalizedReminderEmail", "Daily Tarot API preserves disabled pending reminder emails")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-actions", "Daily Tarot first-screen direct/mail return actions")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-copy", "Daily Tarot first-screen copy return link action")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-mailto", "Daily Tarot first-screen mailto return action")

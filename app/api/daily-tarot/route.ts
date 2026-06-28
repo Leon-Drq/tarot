@@ -122,7 +122,9 @@ export async function POST(req: Request) {
 
   const streakCount = await getEntryStreakForSave(auth.supabase, auth.user.id, entryDate)
   const reminderEnabled = bool(record.reminder_enabled)
+  const rawReminderEmail = text(record.reminder_email, 320)
   const normalizedReminderEmail = reminderEmail(record.reminder_email)
+  if (rawReminderEmail && !normalizedReminderEmail) return jsonError("A valid reminder email is required")
   if (reminderEnabled && !normalizedReminderEmail) return jsonError("A valid reminder email is required")
 
   const payload = {
@@ -137,7 +139,7 @@ export async function POST(req: Request) {
     mood: text(record.mood, 80),
     streak_count: streakCount,
     reminder_enabled: reminderEnabled,
-    reminder_email: reminderEnabled ? normalizedReminderEmail : null,
+    reminder_email: normalizedReminderEmail,
     reminder_time: reminderTime(record.reminder_time),
     reminder_timezone: text(record.reminder_timezone, 80) || "UTC",
     source: "daily-tarot",
@@ -171,7 +173,9 @@ export async function PATCH(req: Request) {
   if ("mood" in record) patch.mood = text(record.mood, 80)
   if ("reminder_enabled" in record || "reminder_email" in record) {
     const enabled = "reminder_enabled" in record ? bool(record.reminder_enabled) : undefined
+    const rawEmail = text(record.reminder_email, 320)
     const normalizedEmail = reminderEmail(record.reminder_email)
+    if ("reminder_email" in record && rawEmail && !normalizedEmail) return jsonError("A valid reminder email is required")
     if (enabled === true && !normalizedEmail) return jsonError("A valid reminder email is required")
     if (enabled !== undefined) patch.reminder_enabled = enabled
     if (enabled === false) patch.reminder_email = null

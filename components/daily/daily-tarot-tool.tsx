@@ -1130,7 +1130,7 @@ export function DailyTarotTool() {
       mood: input.mood ?? existing?.mood ?? mood,
       streak_count: nextStreak,
       reminder_enabled: nextReminderEnabled,
-      reminder_email: nextReminderEnabled ? nextReminderEmail : null,
+      reminder_email: nextReminderEmail || null,
       reminder_time: input.reminderTime ?? existing?.reminder_time ?? reminderTime,
       reminder_timezone: getTimezone(),
     }
@@ -1254,12 +1254,16 @@ export function DailyTarotTool() {
         setReminderEnabled(false)
         const localEntry = createLocalEntry({
           reminderEnabled: false,
-          reminderEmail: null,
+          reminderEmail: normalizedEmail || null,
           reminderTime,
         })
         if (localEntry) saveLocalEntry(localEntry)
-        setStatus(copy.reminderSavedPending)
-        setReminderStatus(copy.reminderSavedPending)
+        const syncedEntry = localEntry ? await syncEntry(localEntry) : null
+        const syncedToCloud = Boolean(syncedEntry)
+        if (syncedEntry) saveLocalEntry(syncedEntry)
+        const pendingStatus = syncedToCloud ? copy.reminderSavedPendingSynced : copy.reminderSavedPending
+        setStatus(pendingStatus)
+        setReminderStatus(pendingStatus)
         analyticsApi.track("daily_reminder_preference_saved", {
           ...getCurrentAttribution(),
           locale: language,
@@ -1272,7 +1276,7 @@ export function DailyTarotTool() {
             pending_reminder_preference_saved: true,
             email_delivery_enabled: false,
             delivery_status: reminderCapability?.delivery_status || "setup_required",
-            synced_to_cloud: false,
+            synced_to_cloud: syncedToCloud,
             missing_capabilities: reminderCapability?.missing_capabilities || [],
           },
         })
