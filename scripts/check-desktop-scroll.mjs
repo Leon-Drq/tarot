@@ -40,13 +40,7 @@ try {
             const cue = document.querySelector("[data-home-scroll-cue]")
             const content = document.querySelector("[data-home-scroll-content]")
             const stage = document.querySelector(".home-hero-stage")
-            return Boolean(
-              cue &&
-                content &&
-                stage &&
-                getComputedStyle(cue).display === "none" &&
-                stage.style.getPropertyValue("--home-hero-actions-bottom"),
-            )
+            return Boolean(cue && content && stage && stage.style.getPropertyValue("--home-hero-actions-bottom"))
           }, null, { timeout: 5_000 })
           .catch(() => {})
       }
