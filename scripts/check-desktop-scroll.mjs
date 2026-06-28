@@ -64,18 +64,44 @@ try {
         const dailyPanel = rect("[data-home-daily-return-panel]")
         const scrollContent = rect("[data-home-scroll-content]")
         const secondaryNav = rect("[data-home-secondary-nav]")
+        const affordanceElement = document.querySelector("[data-home-scroll-affordance]")
+        const affordanceStyle = affordanceElement ? getComputedStyle(affordanceElement) : null
 
         return {
           homeQuestionFormBottom: questionForm?.bottom ?? null,
           homeScrollCueBottom: scrollCue?.bottom ?? null,
           homeScrollAffordanceTop: scrollAffordance?.top ?? null,
           homeScrollAffordanceBottom: scrollAffordance?.bottom ?? null,
+          homeScrollAffordanceHref: affordanceElement?.getAttribute("href") ?? null,
+          homeScrollAffordanceVisible: affordanceElement?.getAttribute("data-home-scroll-affordance-visible") ?? null,
+          homeScrollAffordanceOpacity: affordanceStyle ? Number(affordanceStyle.opacity) : null,
+          homeScrollAffordancePointerEvents: affordanceStyle?.pointerEvents ?? null,
           homeDailyPanelTop: dailyPanel?.top ?? null,
           homeScrollContentTop: scrollContent?.top ?? null,
           homeSecondaryNavTop: secondaryNav?.top ?? null,
           homeSecondaryNavBottom: secondaryNav?.bottom ?? null,
         }
       })
+
+      let clickResult = null
+      if (pageConfig.path === "/") {
+        await page.locator("[data-home-scroll-affordance]").click({ timeout: 5_000 })
+        await page.waitForTimeout(700)
+        clickResult = await page.evaluate(() => {
+          const content = document.querySelector("[data-home-scroll-content]")
+          const bounds = content?.getBoundingClientRect()
+          return {
+            hash: window.location.hash,
+            scrollY: Math.round(window.scrollY),
+            contentTop: bounds ? Math.round(bounds.top) : null,
+          }
+        })
+        await page.evaluate(() => {
+          window.history.replaceState(null, "", window.location.pathname + window.location.search)
+          window.scrollTo(0, 0)
+        })
+        await page.waitForTimeout(250)
+      }
 
       await page.mouse.move(Math.round(viewport.width / 2), Math.round(viewport.height / 2))
       await page.mouse.wheel(0, 1200)
@@ -136,6 +162,24 @@ try {
         )
       if (pageConfig.path === "/" && !hasVisibleScrollCue) {
         failures.push(`${label}: homepage scroll cue or desktop affordance is not visible in the desktop viewport`)
+      }
+      if (pageConfig.path === "/" && initialResult.homeScrollAffordanceHref !== "#home-free-paths") {
+        failures.push(`${label}: desktop scroll affordance should link to #home-free-paths`)
+      }
+      if (pageConfig.path === "/" && initialResult.homeScrollAffordanceVisible !== "true") {
+        failures.push(`${label}: desktop scroll affordance should be marked visible at page top`)
+      }
+      if (pageConfig.path === "/" && (initialResult.homeScrollAffordanceOpacity ?? 0) < 0.9) {
+        failures.push(`${label}: desktop scroll affordance opacity is too low at page top`)
+      }
+      if (pageConfig.path === "/" && initialResult.homeScrollAffordancePointerEvents === "none") {
+        failures.push(`${label}: desktop scroll affordance must be clickable at page top`)
+      }
+      if (pageConfig.path === "/" && (!clickResult || clickResult.scrollY < pageConfig.minScrollY)) {
+        failures.push(`${label}: desktop scroll affordance click only moved to ${clickResult?.scrollY ?? "unknown"}px`)
+      }
+      if (pageConfig.path === "/" && clickResult?.hash !== "#home-free-paths") {
+        failures.push(`${label}: desktop scroll affordance click should preserve the #home-free-paths hash`)
       }
       if (pageConfig.path === "/" && initialResult.homeDailyPanelTop <= initialResult.homeQuestionFormBottom) {
         failures.push(`${label}: daily return panel should sit below the first-screen question form`)

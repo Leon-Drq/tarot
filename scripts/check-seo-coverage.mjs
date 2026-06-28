@@ -1074,6 +1074,8 @@ assertIncludes(files.mobileCheck, "attempt < 3", "mobile check retries mobile me
 assertIncludes(files.packageJson, "\"check:desktop-scroll\": \"node scripts/check-desktop-scroll.mjs\"", "desktop scroll package script")
 assertIncludes(files.desktopScrollCheck, "page.mouse.wheel", "desktop scroll mouse wheel assertion")
 assertIncludes(files.desktopScrollCheck, "htmlOverscrollY", "desktop scroll overscroll guard")
+assertIncludes(files.desktopScrollCheck, "page.locator(\"[data-home-scroll-affordance]\").click", "desktop scroll affordance click assertion")
+assertIncludes(files.desktopScrollCheck, "clickResult.scrollY < pageConfig.minScrollY", "desktop scroll affordance click must move page")
 assertIncludes(files.seoLanding, "return_action: \"reminder\"", "long-tail Daily Tarot return action parameter")
 
 assertIncludes(files.freeToolsPage, "freeToolsHubAlternates", "English free tools metadata alternates")
@@ -1304,6 +1306,8 @@ assertIncludes(files.homeExperience, "bg-[#0b0314]", "homepage solid mobile pane
 assertIncludes(files.homeExperience, "data-home-daily-return-panel", "homepage daily return panel measurement hook")
 assertIncludes(files.homeExperience, "data-home-secondary-nav", "homepage secondary nav measurement hook")
 assertIncludes(files.homeExperience, "data-home-scroll-cue", "homepage desktop scroll affordance hook")
+assertIncludes(files.homeExperience, "data-home-scroll-affordance-visible", "homepage desktop scroll affordance visible state hook")
+assertIncludes(files.homeExperience, "scrollIntoView({ behavior: \"smooth\", block: \"start\" })", "homepage desktop scroll affordance click fallback")
 assertIncludes(files.homeExperience, "data-home-scroll-content", "homepage scroll content measurement hook")
 assertIncludes(files.homeExperience, "data-home-focal-glow", "homepage focal glow hook")
 assertIncludes(files.homeExperience, "data-home-card-anchor", "homepage card anchor hook")

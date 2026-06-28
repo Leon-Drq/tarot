@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState, Suspense, type FormEvent } from "react"
+import { useEffect, useRef, useState, Suspense, type FormEvent, type MouseEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ChevronDown } from "lucide-react"
 import { BackgroundGradient } from "./mystic/background-gradient"
@@ -17,6 +17,7 @@ import type { SpreadType } from "@/lib/spread-config"
 
 const DEFAULT_FRONT = "/images/0.png"
 const DEFAULT_BACK = "/images/back1.jpg"
+const HOME_SCROLL_TARGET_ID = "home-free-paths"
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>
@@ -27,6 +28,19 @@ function isStandalonePwa() {
   if (typeof window === "undefined") return false
   const navigatorWithStandalone = window.navigator as Navigator & { standalone?: boolean }
   return window.matchMedia("(display-mode: standalone)").matches || navigatorWithStandalone.standalone === true
+}
+
+function scrollToHomeContent(event: MouseEvent<HTMLAnchorElement>) {
+  event.preventDefault()
+
+  const target = document.getElementById(HOME_SCROLL_TARGET_ID)
+  if (!target) {
+    window.location.hash = HOME_SCROLL_TARGET_ID
+    return
+  }
+
+  target.scrollIntoView({ behavior: "smooth", block: "start" })
+  window.history.replaceState(null, "", `#${HOME_SCROLL_TARGET_ID}`)
 }
 
 // 单独提取 searchParams 相关逻辑
@@ -386,7 +400,8 @@ function HomeScrollCue() {
   return (
     <a
       data-home-scroll-cue
-      href="#home-free-paths"
+      href={`#${HOME_SCROLL_TARGET_ID}`}
+      onClick={scrollToHomeContent}
       className="mx-auto mt-3 min-h-9 w-fit items-center gap-2 rounded-full border border-[#c9c0ff]/24 bg-[#10071e]/86 px-4 text-xs text-[#f5f2ff]/76 shadow-[0_14px_36px_rgba(0,0,0,0.32)] backdrop-blur-md transition hover:border-[#c9c0ff]/48 hover:text-white max-md:hidden md:flex"
     >
       <span>{copy}</span>
@@ -400,7 +415,7 @@ function HomeDesktopScrollAffordance({ visible }: { visible: boolean }) {
   const copy =
     {
       zh: "向下滚动",
-      en: "Scroll down",
+      en: "More below",
       ja: "下へスクロール",
       ko: "아래로 스크롤",
     }[language]
@@ -408,8 +423,11 @@ function HomeDesktopScrollAffordance({ visible }: { visible: boolean }) {
   return (
     <a
       data-home-scroll-affordance
-      href="#home-free-paths"
-      className={`fixed bottom-8 right-6 z-40 hidden min-h-12 items-center gap-2 rounded-full border border-[#c9c0ff]/48 bg-[#12091f]/94 px-5 text-sm font-medium text-[#f5f2ff]/92 shadow-[0_18px_54px_rgba(0,0,0,0.46),0_0_30px_rgba(170,161,255,0.16)] backdrop-blur-xl transition duration-300 hover:border-[#dfd9ff]/70 hover:text-white md:inline-flex ${
+      data-home-scroll-affordance-visible={visible ? "true" : "false"}
+      href={`#${HOME_SCROLL_TARGET_ID}`}
+      onClick={scrollToHomeContent}
+      aria-label={copy}
+      className={`fixed bottom-8 right-6 z-40 hidden min-h-12 items-center gap-2 rounded-full border border-[#c9c0ff]/58 bg-[#12091f]/96 px-5 text-sm font-medium text-[#f5f2ff]/94 shadow-[0_18px_54px_rgba(0,0,0,0.46),0_0_34px_rgba(170,161,255,0.2)] backdrop-blur-xl transition duration-300 hover:border-[#dfd9ff]/78 hover:text-white md:inline-flex ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
       }`}
     >
@@ -727,7 +745,7 @@ function HomeScrollContent() {
 
   return (
     <section
-      id="home-free-paths"
+      id={HOME_SCROLL_TARGET_ID}
       data-home-scroll-content
       className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+8rem)] pt-10 sm:pt-12 md:-mt-10 md:pt-8"
     >
