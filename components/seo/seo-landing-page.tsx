@@ -436,66 +436,174 @@ type CardMeaningContextGuideKind =
   | "advice"
   | "combinations"
 
-const cardMeaningContextGuideCopy = {
-  eyebrow: "Meaning layers",
-  title: "Choose the meaning layer before you open a card",
-  body: "A tarot card is easier to read when you know which layer you need: basic meaning, relationship context, career timing, money decisions, yes-or-no clarity, advice, or card combinations.",
-  action: "Open path",
-  items: [
-    {
-      kind: "upright-reversed",
-      label: "Basics",
-      title: "Upright and reversed",
-      body: "Start with the active meaning, then check whether the reversed meaning points to delay, imbalance, or inner work.",
-    },
-    {
-      kind: "love",
-      label: "Love",
-      title: "Love meanings",
-      body: "Read each card through attraction, trust, emotional availability, timing, commitment, and boundaries.",
-    },
-    {
-      kind: "career",
-      label: "Career",
-      title: "Career meanings",
-      body: "Use the card to frame work choices, interviews, pressure, skill, momentum, and the next practical move.",
-    },
-    {
-      kind: "money",
-      label: "Money",
-      title: "Money meanings",
-      body: "Connect the card to stability, spending, saving, risk, resources, value, and material decisions.",
-    },
-    {
-      kind: "yes-or-no",
-      label: "Yes / No",
-      title: "Yes or no meanings",
-      body: "Check whether the card leans yes, no, not yet, or conditional, then read the reason behind the answer.",
-    },
-    {
-      kind: "advice",
-      label: "Advice",
-      title: "Turn meaning into action",
-      body: "Use the card as a reflective prompt and turn the symbol into one grounded step you can take today.",
-    },
-    {
-      kind: "combinations",
-      label: "Pairs",
-      title: "Common card combinations",
-      body: "When two cards appear together, the second card can strengthen, soften, or redirect the first card's message.",
-    },
-  ],
-} satisfies {
+type CardMeaningContextGuideCopy = {
   eyebrow: string
   title: string
   body: string
   action: string
+  adviceQuestion: string
   items: Array<{
     kind: CardMeaningContextGuideKind
     label: string
     title: string
     body: string
   }>
+}
+
+const cardMeaningContextGuideCopy: Partial<Record<SeoPage["locale"], CardMeaningContextGuideCopy>> = {
+  en: {
+    eyebrow: "Meaning layers",
+    title: "Choose the meaning layer before you open a card",
+    body: "A tarot card is easier to read when you know which layer you need: basic meaning, relationship context, career timing, money decisions, yes-or-no clarity, advice, or card combinations.",
+    action: "Open path",
+    adviceQuestion: "What advice do these cards have for me right now?",
+    items: [
+      {
+        kind: "upright-reversed",
+        label: "Basics",
+        title: "Upright and reversed",
+        body: "Start with the active meaning, then check whether the reversed meaning points to delay, imbalance, or inner work.",
+      },
+      {
+        kind: "love",
+        label: "Love",
+        title: "Love meanings",
+        body: "Read each card through attraction, trust, emotional availability, timing, commitment, and boundaries.",
+      },
+      {
+        kind: "career",
+        label: "Career",
+        title: "Career meanings",
+        body: "Use the card to frame work choices, interviews, pressure, skill, momentum, and the next practical move.",
+      },
+      {
+        kind: "money",
+        label: "Money",
+        title: "Money meanings",
+        body: "Connect the card to stability, spending, saving, risk, resources, value, and material decisions.",
+      },
+      {
+        kind: "yes-or-no",
+        label: "Yes / No",
+        title: "Yes or no meanings",
+        body: "Check whether the card leans yes, no, not yet, or conditional, then read the reason behind the answer.",
+      },
+      {
+        kind: "advice",
+        label: "Advice",
+        title: "Turn meaning into action",
+        body: "Use the card as a reflective prompt and turn the symbol into one grounded step you can take today.",
+      },
+      {
+        kind: "combinations",
+        label: "Pairs",
+        title: "Common card combinations",
+        body: "When two cards appear together, the second card can strengthen, soften, or redirect the first card's message.",
+      },
+    ],
+  },
+  es: {
+    eyebrow: "Capas de significado",
+    title: "Elige la capa antes de abrir una carta",
+    body: "Una carta de tarot se lee mejor cuando sabes que necesitas: significado basico, amor, carrera, dinero, si o no, consejo o combinaciones.",
+    action: "Abrir ruta",
+    adviceQuestion: "Que consejo tienen estas cartas para mi ahora?",
+    items: [
+      {
+        kind: "upright-reversed",
+        label: "Base",
+        title: "Normal e invertida",
+        body: "Empieza con el significado activo y luego revisa si la carta invertida senala demora, bloqueo, desequilibrio o trabajo interno.",
+      },
+      {
+        kind: "love",
+        label: "Amor",
+        title: "Significados en amor",
+        body: "Lee cada carta desde atraccion, confianza, disponibilidad emocional, tiempos, compromiso y limites.",
+      },
+      {
+        kind: "career",
+        label: "Carrera",
+        title: "Significados en carrera",
+        body: "Usa la carta para decisiones laborales, entrevistas, presion, habilidades, impulso y el siguiente paso practico.",
+      },
+      {
+        kind: "money",
+        label: "Dinero",
+        title: "Significados en dinero",
+        body: "Conecta la carta con estabilidad, gastos, ahorro, riesgo, recursos, valor y decisiones materiales.",
+      },
+      {
+        kind: "yes-or-no",
+        label: "Si / No",
+        title: "Significados si o no",
+        body: "Mira si la carta se inclina a si, no, todavia no o una respuesta condicional, y lee la razon.",
+      },
+      {
+        kind: "advice",
+        label: "Consejo",
+        title: "Convierte el simbolo en accion",
+        body: "Usa la carta como una pregunta de reflexion y termina con un paso concreto que puedas hacer hoy.",
+      },
+      {
+        kind: "combinations",
+        label: "Pares",
+        title: "Combinaciones comunes",
+        body: "Cuando dos cartas aparecen juntas, la segunda puede reforzar, suavizar o cambiar el mensaje de la primera.",
+      },
+    ],
+  },
+  "pt-br": {
+    eyebrow: "Camadas de significado",
+    title: "Escolha a camada antes de abrir uma carta",
+    body: "Uma carta de tarot fica mais facil de ler quando voce sabe o que precisa: significado basico, amor, carreira, dinheiro, sim ou nao, conselho ou combinacoes.",
+    action: "Abrir caminho",
+    adviceQuestion: "Que conselho estas cartas tem para mim agora?",
+    items: [
+      {
+        kind: "upright-reversed",
+        label: "Base",
+        title: "Em pe e invertida",
+        body: "Comece pelo significado ativo e depois veja se a carta invertida aponta atraso, bloqueio, desequilibrio ou trabalho interno.",
+      },
+      {
+        kind: "love",
+        label: "Amor",
+        title: "Significados no amor",
+        body: "Leia cada carta por atracao, confianca, disponibilidade emocional, tempo, compromisso e limites.",
+      },
+      {
+        kind: "career",
+        label: "Carreira",
+        title: "Significados na carreira",
+        body: "Use a carta para decisoes profissionais, entrevistas, pressao, habilidade, ritmo e o proximo passo pratico.",
+      },
+      {
+        kind: "money",
+        label: "Dinheiro",
+        title: "Significados em dinheiro",
+        body: "Conecte a carta a estabilidade, gastos, poupanca, risco, recursos, valor e decisoes materiais.",
+      },
+      {
+        kind: "yes-or-no",
+        label: "Sim / Nao",
+        title: "Significados sim ou nao",
+        body: "Veja se a carta aponta para sim, nao, ainda nao ou uma resposta condicional, e leia o motivo.",
+      },
+      {
+        kind: "advice",
+        label: "Conselho",
+        title: "Transforme simbolo em acao",
+        body: "Use a carta como uma pergunta de reflexao e termine com um passo concreto que voce pode dar hoje.",
+      },
+      {
+        kind: "combinations",
+        label: "Pares",
+        title: "Combinacoes comuns",
+        body: "Quando duas cartas aparecem juntas, a segunda pode reforcar, suavizar ou mudar a mensagem da primeira.",
+      },
+    ],
+  },
 }
 
 const cardIndexGroupOrder = ["major", "wands", "cups", "pentacles", "swords"] as const
@@ -1270,7 +1378,7 @@ function readingHref(page: SeoPage) {
   return `/input?${params.toString()}`
 }
 
-function cardMeaningContextGuideHref(page: SeoPage, kind: CardMeaningContextGuideKind) {
+function cardMeaningContextGuideHref(page: SeoPage, kind: CardMeaningContextGuideKind, adviceQuestion: string) {
   const contextSlugs: Partial<Record<CardMeaningContextGuideKind, string>> = {
     love: "love-tarot-card-meanings",
     career: "career-tarot-card-meanings",
@@ -1287,7 +1395,7 @@ function cardMeaningContextGuideHref(page: SeoPage, kind: CardMeaningContextGuid
   if (kind === "upright-reversed") return `${page.path}#card-index`
 
   const params = new URLSearchParams({
-    q: "What advice do these cards have for me right now?",
+    q: adviceQuestion,
     auto: "1",
     spread: "three_card",
     source: "card_meaning_context_guide",
@@ -1301,13 +1409,14 @@ function cardMeaningContextGuideHref(page: SeoPage, kind: CardMeaningContextGuid
 }
 
 function cardMeaningContextGuide(page: SeoPage) {
-  if (page.locale !== "en") return null
+  const copy = cardMeaningContextGuideCopy[page.locale]
+  if (!copy) return null
 
   return {
-    ...cardMeaningContextGuideCopy,
-    items: cardMeaningContextGuideCopy.items.map((item) => ({
+    ...copy,
+    items: copy.items.map((item) => ({
       ...item,
-      href: cardMeaningContextGuideHref(page, item.kind),
+      href: cardMeaningContextGuideHref(page, item.kind, copy.adviceQuestion),
     })),
   }
 }

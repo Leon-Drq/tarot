@@ -116,6 +116,30 @@ const pages = [
     ],
   },
   {
+    path: "/es/significados-cartas-tarot",
+    name: "Spanish card meanings hub",
+    requiredSelectors: [
+      "[data-card-meaning-context-guide]",
+      "[data-card-meaning-context-guide-item]",
+      "[data-card-meaning-context-guide-link]",
+      "[data-card-context-hubs]",
+      "[data-card-meaning-free-starts]",
+      "[data-card-meaning-free-start]",
+    ],
+  },
+  {
+    path: "/pt-br/significados-cartas-tarot",
+    name: "Portuguese card meanings hub",
+    requiredSelectors: [
+      "[data-card-meaning-context-guide]",
+      "[data-card-meaning-context-guide-item]",
+      "[data-card-meaning-context-guide-link]",
+      "[data-card-context-hubs]",
+      "[data-card-meaning-free-starts]",
+      "[data-card-meaning-free-start]",
+    ],
+  },
+  {
     path: "/one-card-tarot-reading",
     name: "one-card free spread format",
     requiredSelectors: highIntentQuestionRequiredSelectors,
