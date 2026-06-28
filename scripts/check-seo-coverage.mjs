@@ -794,6 +794,30 @@ for (const slug of dailyIntentSlugs) {
   assertIncludes(files.site, `href: "/${slug}"`, `daily intent site link ${slug}`)
   assertIncludes(files.dailyTarotPage, `slug: "${slug}"`, `daily tarot prompt card ${slug}`)
   assertIncludes(files.seoLanding, `"${slug}"`, `daily intent related cluster ${slug}`)
+  assertIncludes(files.mobileCheck, `/${slug}`, `mobile check daily intent page ${slug}`)
+  assertIncludes(files.searchAssetCheck, `"/${slug}"`, `search asset daily intent sitemap check ${slug}`)
+}
+
+for (const localizedSlug of [
+  "/es/tarot-diario-amor",
+  "/es/tarot-diario-carrera",
+  "/es/tarot-diario-si-o-no",
+  "/es/tarot-diario-estado-de-animo",
+  "/es/tarot-diario-accion",
+  "/pt-br/tarot-diario-amor",
+  "/pt-br/tarot-diario-carreira",
+  "/pt-br/tarot-diario-sim-ou-nao",
+  "/pt-br/tarot-diario-humor",
+  "/pt-br/tarot-diario-acao",
+]) {
+  assertIncludes(files.searchAssetCheck, `"${localizedSlug}"`, `search asset regional daily intent sitemap check ${localizedSlug}`)
+}
+
+for (const localizedSlug of [
+  "/es/tarot-diario-amor",
+  "/pt-br/tarot-diario-amor",
+]) {
+  assertIncludes(files.mobileCheck, `"${localizedSlug}"`, `mobile check regional daily intent page ${localizedSlug}`)
 }
 
 const dailyCardReturnSlugs = [

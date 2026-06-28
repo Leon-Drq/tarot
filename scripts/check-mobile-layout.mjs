@@ -245,6 +245,41 @@ const pages = [
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
+    path: "/daily-love-tarot",
+    name: "daily love tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/daily-career-tarot",
+    name: "daily career tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/daily-yes-or-no-tarot",
+    name: "daily yes or no tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/daily-mood-tarot",
+    name: "daily mood tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/daily-action-tarot",
+    name: "daily action tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/es/tarot-diario-amor",
+    name: "Spanish daily love tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/pt-br/tarot-diario-amor",
+    name: "Portuguese daily love tarot return question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/weekly-tarot-reading",
     name: "weekly tarot return question",
     requiredSelectors: highIntentQuestionRequiredSelectors,
