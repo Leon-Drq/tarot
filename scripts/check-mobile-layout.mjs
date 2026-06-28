@@ -54,6 +54,8 @@ const pages = [
       "[data-daily-quick-actions]",
       "[data-daily-direct-return-actions]",
       "[data-daily-return-setup-mailto]",
+      "[data-daily-reminder-pending-email-input]",
+      "[data-daily-reminder-pending-save]",
       "[data-daily-pattern-next-action]",
       "[data-daily-question-paths]",
       "[data-daily-question-path]",

@@ -51,7 +51,7 @@ ZPAY_QUERY_URL=https://zpayz.cn/api.php
 
 Stripe variables are optional until the Stripe payment flow is implemented.
 
-Daily Tarot email reminders require the Vercel cron in `vercel.json`, `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET`, `RESEND_API_KEY`, and `RESEND_FROM_EMAIL` in the Vercel Production environment. `DAILY_TAROT_UNSUBSCRIBE_SECRET` is optional; when omitted, unsubscribe links fall back to `CRON_SECRET` for signing. Without the required variables, users can still save local reminders, download a calendar reminder, and keep daily journal entries, but scheduled reminder emails cannot be delivered.
+Daily Tarot email reminders require the Vercel cron in `vercel.json`, `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET`, `RESEND_API_KEY`, and `RESEND_FROM_EMAIL` in the Vercel Production environment. `DAILY_TAROT_UNSUBSCRIBE_SECRET` is optional; when omitted, unsubscribe links fall back to `CRON_SECRET` for signing. Without the required variables, users can still save an email/time preference locally, download a calendar reminder, email themselves a return link, and keep daily journal entries, but scheduled reminder emails cannot be delivered.
 
 Production reminder setup:
 

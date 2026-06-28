@@ -362,9 +362,12 @@ export interface DailyReminderCapability {
   setup_required?: boolean
   scheduled_delivery_enabled?: boolean
   email_provider_configured?: boolean
+  server_service_key_configured?: boolean
+  database_rpc_accessible?: boolean
   service_database_configured?: boolean
+  unsubscribe_rpc_accessible?: boolean
   unsubscribe_configured?: boolean
-  reminder_database_access_mode?: "cron_secret_rpc" | "unavailable"
+  reminder_database_access_mode?: "missing_service_role_key" | "service_role_rpc" | "cron_secret_rpc" | "unavailable"
   cron_authorization_configured?: boolean
   cron_path_configured?: boolean
   missing_capabilities?: string[]

@@ -43,6 +43,13 @@ type DailyReturnCommitment = {
   created_at: string
 }
 
+type PendingDailyReminderPreference = {
+  email: string
+  time: string
+  timezone: string
+  saved_at: string
+}
+
 type DailyFocusId = "love" | "career" | "yes_no" | "mood" | "action"
 
 type DailyFocusPreset = {
@@ -321,6 +328,43 @@ function localDailyKey(dateKey: string) {
 
 function localReturnCommitmentKey(dateKey: string) {
   return `poptarot_daily_return_${dateKey}`
+}
+
+function pendingReminderPreferenceKey() {
+  return "poptarot_daily_pending_reminder"
+}
+
+function normalizeReminderTime(value: string) {
+  return /^([01]?\d|2[0-3]):[0-5]\d$/.test(value) ? value : "08:30"
+}
+
+function readPendingReminderPreference(): PendingDailyReminderPreference | null {
+  if (typeof window === "undefined") return null
+  const value = localStorage.getItem(pendingReminderPreferenceKey())
+  if (!value) return null
+  try {
+    const parsed = JSON.parse(value) as Partial<PendingDailyReminderPreference>
+    const email = normalizeReminderEmail(parsed.email || "")
+    return {
+      email: isValidReminderEmail(email) ? email : "",
+      time: normalizeReminderTime(parsed.time || "08:30"),
+      timezone: parsed.timezone || getTimezone(),
+      saved_at: parsed.saved_at || new Date().toISOString(),
+    }
+  } catch {
+    return null
+  }
+}
+
+function savePendingReminderPreference(input: { email: string; time: string }) {
+  if (typeof window === "undefined") return
+  const preference: PendingDailyReminderPreference = {
+    email: normalizeReminderEmail(input.email),
+    time: normalizeReminderTime(input.time),
+    timezone: getTimezone(),
+    saved_at: new Date().toISOString(),
+  }
+  localStorage.setItem(pendingReminderPreferenceKey(), JSON.stringify(preference))
 }
 
 function getPreviousDateKey(dateKey: string) {
@@ -939,6 +983,9 @@ export function DailyTarotTool() {
       setReturnFocus(effectiveLinkedFocus)
     }
 
+    const pendingReminderPreference = readPendingReminderPreference()
+    let localReminderEmail = ""
+    let localReminderTime = "08:30"
     const localEntry = localStorage.getItem(localDailyKey(today))
     if (localEntry) {
       try {
@@ -949,13 +996,20 @@ export function DailyTarotTool() {
         setInterpretation(parsed.interpretation || "")
         setJournal(parsed.journal || "")
         setMood(parsed.mood || "")
-        setReminderEmail(parsed.reminder_email || "")
-        setReminderTime(parsed.reminder_time || "08:30")
+        localReminderEmail = parsed.reminder_email || ""
+        localReminderTime = parsed.reminder_time || "08:30"
+        setReminderEmail(localReminderEmail)
+        setReminderTime(localReminderTime)
         setReminderEnabled(parsed.reminder_enabled)
         setStreak(parsed.streak_count || 1)
       } catch {
         // Ignore corrupt local cache.
       }
+    }
+
+    if (pendingReminderPreference && !localReminderEmail) {
+      setReminderEmail(pendingReminderPreference.email)
+      setReminderTime(pendingReminderPreference.time || localReminderTime)
     }
   }, [])
 
@@ -1014,8 +1068,14 @@ export function DailyTarotTool() {
         setInterpretation(data.entry.interpretation || "")
         setJournal(data.entry.journal || "")
         setMood(data.entry.mood || "")
-        setReminderEmail(data.entry.reminder_email || "")
-        setReminderTime(data.entry.reminder_time || "08:30")
+        const pendingReminderPreference = readPendingReminderPreference()
+        const hasCloudReminderEmail = Boolean(data.entry.reminder_email)
+        setReminderEmail(data.entry.reminder_email || pendingReminderPreference?.email || "")
+        setReminderTime(
+          hasCloudReminderEmail
+            ? data.entry.reminder_time || "08:30"
+            : pendingReminderPreference?.time || data.entry.reminder_time || "08:30",
+        )
         setReminderEnabled(data.entry.reminder_enabled)
       })
       .catch(() => undefined)
@@ -1180,9 +1240,17 @@ export function DailyTarotTool() {
     if (!dateKey) return
     const normalizedEmail = normalizeReminderEmail(reminderEmail)
     if (!emailDeliveryEnabled) {
+      if (normalizedEmail && !isValidReminderEmail(normalizedEmail)) {
+        setStatus(copy.reminderEmailInvalid)
+        setReminderStatus(copy.reminderEmailInvalid)
+        return
+      }
+
       setIsSaving(true)
       setReminderStatus("")
       try {
+        savePendingReminderPreference({ email: normalizedEmail, time: reminderTime })
+        setReminderEmail(normalizedEmail)
         setReminderEnabled(false)
         const localEntry = createLocalEntry({
           reminderEnabled: false,
@@ -1190,8 +1258,8 @@ export function DailyTarotTool() {
           reminderTime,
         })
         if (localEntry) saveLocalEntry(localEntry)
-        setStatus(copy.emailSetupPendingAction)
-        setReminderStatus(copy.emailSetupPendingAction)
+        setStatus(copy.reminderSavedPending)
+        setReminderStatus(copy.reminderSavedPending)
         analyticsApi.track("daily_reminder_preference_saved", {
           ...getCurrentAttribution(),
           locale: language,
@@ -1200,7 +1268,8 @@ export function DailyTarotTool() {
             surface: "daily-tarot",
             reminder_enabled: false,
             reminder_time: reminderTime,
-            attempted_email: Boolean(normalizedEmail),
+            has_email: Boolean(normalizedEmail),
+            pending_reminder_preference_saved: true,
             email_delivery_enabled: false,
             delivery_status: reminderCapability?.delivery_status || "setup_required",
             synced_to_cloud: false,
@@ -2390,10 +2459,9 @@ export function DailyTarotTool() {
                   setReminderEmail(nextEmail)
                   if (emailDeliveryEnabled && normalizeReminderEmail(nextEmail) && !reminderEnabled) setReminderEnabled(true)
                 }}
-                disabled={!emailDeliveryEnabled}
-                aria-disabled={!emailDeliveryEnabled}
+                data-daily-reminder-pending-email-input={!emailDeliveryEnabled ? "true" : undefined}
                 placeholder={copy.reminderEmail}
-                className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55 disabled:cursor-not-allowed disabled:opacity-45"
+                className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
               />
               <input
                 type="time"
@@ -2417,11 +2485,12 @@ export function DailyTarotTool() {
             <div className="mt-4 grid gap-2 sm:grid-cols-3">
               <button
                 onClick={handleSaveReminder}
-                disabled={!emailDeliveryEnabled || isSaving || (!reminderEmail && reminderEnabled)}
+                disabled={isSaving || (emailDeliveryEnabled && !reminderEmail && reminderEnabled)}
                 data-daily-reminder-save-email
+                data-daily-reminder-pending-save={!emailDeliveryEnabled ? "true" : undefined}
                 className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
               >
-                {emailDeliveryEnabled ? copy.saveReminder : copy.emailSetupDisabled}
+                {emailDeliveryEnabled ? copy.saveReminder : copy.saveEmailPreference}
               </button>
               <button
                 onClick={handleDownloadCalendarReminder}
