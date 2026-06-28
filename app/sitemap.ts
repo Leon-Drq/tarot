@@ -29,6 +29,13 @@ const brandIdentityImages = [
   "/og-image.jpg",
 ]
 
+const freeToolsHubAlternates = {
+  en: "/free-tarot-tools",
+  es: "/es/herramientas-tarot-gratis",
+  "pt-br": "/pt-br/ferramentas-tarot-gratis",
+  "x-default": "/free-tarot-tools",
+}
+
 const spreadHubAlternates = {
   en: "/tarot-spreads",
   es: "/es/tiradas-tarot",
@@ -66,9 +73,14 @@ function cardAlternates(cardSlug: string) {
 
 const baseRoutes = [
   { path: "/", priority: 1, images: brandIdentityImages },
-  { path: "/free-tarot-tools", priority: 0.91, images: ["/logo.png", "/og-image.jpg"] },
   { path: "/daily-tarot", priority: 0.92, images: ["/logo.png", "/og-image.jpg"] },
   { path: "/membership", priority: 0.4 },
+] satisfies SitemapRoute[]
+
+const freeToolsHubRoutes = [
+  { path: "/free-tarot-tools", priority: 0.91, alternates: freeToolsHubAlternates, images: ["/logo.png", "/og-image.jpg"] },
+  { path: "/es/herramientas-tarot-gratis", priority: 0.86, alternates: freeToolsHubAlternates, images: ["/logo.png", "/og-image.jpg"] },
+  { path: "/pt-br/ferramentas-tarot-gratis", priority: 0.86, alternates: freeToolsHubAlternates, images: ["/logo.png", "/og-image.jpg"] },
 ] satisfies SitemapRoute[]
 
 const spreadHubRoutes = [
@@ -115,6 +127,7 @@ const routes: SitemapRoute[] = Array.from(
   new Map(
     [
       ...baseRoutes,
+      ...freeToolsHubRoutes,
       ...spreadHubRoutes,
       ...questionHubRoutes,
       ...combinationHubRoutes,

@@ -331,6 +331,18 @@ const files = {
     path: "app/free-tarot-tools/page.tsx",
     source: read("app/free-tarot-tools/page.tsx"),
   },
+  localizedFreeToolsPage: {
+    path: "components/seo/free-tools-localized-page.tsx",
+    source: read("components/seo/free-tools-localized-page.tsx"),
+  },
+  spanishFreeToolsRoute: {
+    path: "app/es/herramientas-tarot-gratis/page.tsx",
+    source: read("app/es/herramientas-tarot-gratis/page.tsx"),
+  },
+  portugueseFreeToolsRoute: {
+    path: "app/pt-br/ferramentas-tarot-gratis/page.tsx",
+    source: read("app/pt-br/ferramentas-tarot-gratis/page.tsx"),
+  },
   sitemap: { path: "app/sitemap.ts", source: read("app/sitemap.ts") },
   searchAssetCheck: {
     path: "scripts/check-search-assets.mjs",
@@ -856,6 +868,7 @@ assertIncludes(files.desktopScrollCheck, "page.mouse.wheel", "desktop scroll mou
 assertIncludes(files.desktopScrollCheck, "htmlOverscrollY", "desktop scroll overscroll guard")
 assertIncludes(files.seoLanding, "return_action: \"reminder\"", "long-tail Daily Tarot return action parameter")
 
+assertIncludes(files.freeToolsPage, "freeToolsHubAlternates", "English free tools metadata alternates")
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
 assertIncludes(files.freeToolsPage, "quickStartIntents", "free tools quick-start intent data")
 assertIncludes(files.freeToolsPage, "data-free-tools-quick-start", "free tools quick-start visible section")
@@ -888,6 +901,33 @@ assertIncludes(files.freeToolsPage, "#reader-feedback", "free tools reader feedb
 assertIncludes(files.freeToolsPage, "#example-readings", "free tools example readings structured data")
 assertIncludes(files.freeToolsPage, "representativeTestimonials.slice(0, 3)", "free tools representative testimonial reuse")
 assertIncludes(files.freeToolsPage, "getTrustPage(\"tarot-reading-examples\")", "free tools sample reading example reuse")
+assertIncludes(files.sitemap, "freeToolsHubAlternates", "free tools sitemap alternates")
+assertIncludes(files.sitemap, 'path: "/es/herramientas-tarot-gratis"', "Spanish free tools sitemap route")
+assertIncludes(files.sitemap, 'path: "/pt-br/ferramentas-tarot-gratis"', "Portuguese free tools sitemap route")
+assertIncludes(files.mobileCheck, 'path: "/es/herramientas-tarot-gratis"', "Spanish free tools mobile check")
+assertIncludes(files.mobileCheck, 'path: "/pt-br/ferramentas-tarot-gratis"', "Portuguese free tools mobile check")
+assertIncludes(files.searchAssetCheck, '"/es/herramientas-tarot-gratis"', "Spanish free tools search asset route")
+assertIncludes(files.searchAssetCheck, '"/pt-br/ferramentas-tarot-gratis"', "Portuguese free tools search asset route")
+assertIncludes(files.spanishFreeToolsRoute, 'getLocalizedFreeToolsMetadata("es")', "Spanish free tools route metadata")
+assertIncludes(files.portugueseFreeToolsRoute, 'getLocalizedFreeToolsMetadata("pt-br")', "Portuguese free tools route metadata")
+assertIncludes(files.spanishFreeToolsRoute, 'locale="es"', "Spanish free tools route locale")
+assertIncludes(files.portugueseFreeToolsRoute, 'locale="pt-br"', "Portuguese free tools route locale")
+for (const [needle, label] of [
+  ["Herramientas de Tarot Gratis con IA", "Spanish free tools title"],
+  ["Ferramentas de Tarot Gratis com IA", "Portuguese free tools title"],
+  ["localizedFreeToolsPaths", "localized free tools paths"],
+  ["freeToolsHubAlternates", "localized free tools hreflang alternates"],
+  ["data-free-tools-quick-start-start", "localized free tools quick-start CTA"],
+  ["data-free-tools-spread-formats", "localized free tools spread section"],
+  ["data-free-tools-spread-format-start", "localized free tools spread CTA"],
+  ["data-free-tools-spread-format-guide", "localized free tools spread guide"],
+  ["data-free-tools-social-proof", "localized free tools trust section"],
+  ["getSeoPage(item.slug, copy.locale)", "localized free tools uses localized SEO pages"],
+  ["localizedHubPath", "localized free tools hub links"],
+  ["isAccessibleForFree: true", "localized free tools free schema"],
+]) {
+  assertIncludes(files.localizedFreeToolsPage, needle, label)
+}
 assertIncludes(files.freeToolsPage, "Tarot Card Combinations", "free tools card combinations path")
 assertIncludes(files.homePage, "Tarot Card Combinations", "homepage card combinations path")
 assertIncludes(files.homeExperience, "/tarot-card-combinations", "homepage scroll card combinations path")
@@ -1025,6 +1065,7 @@ assertIncludes(files.homeExperience, "overflow-x-auto", "homepage mobile quick-s
 assertIncludes(files.homeExperience, "bg-[#0b0314]", "homepage solid mobile panels prevent text bleed-through")
 assertIncludes(files.homeExperience, "data-home-daily-return-panel", "homepage daily return panel measurement hook")
 assertIncludes(files.homeExperience, "data-home-secondary-nav", "homepage secondary nav measurement hook")
+assertIncludes(files.homeExperience, "data-home-scroll-cue", "homepage desktop scroll affordance hook")
 assertIncludes(files.homeExperience, "data-home-scroll-content", "homepage scroll content measurement hook")
 assertIncludes(files.homeExperience, "data-home-focal-glow", "homepage focal glow hook")
 assertIncludes(files.homeExperience, "data-home-card-anchor", "homepage card anchor hook")
@@ -1486,6 +1527,8 @@ const searchAssetRuntimeCoverage = [
   [files.searchAssetCheck, "\"/og-image.jpg\"", "search asset OG image check"],
   [files.searchAssetCheck, "requiredSitemapPaths", "search asset sitemap path registry"],
   [files.searchAssetCheck, "\"/free-tarot-tools\"", "search asset free hub sitemap check"],
+  [files.searchAssetCheck, "\"/es/herramientas-tarot-gratis\"", "search asset Spanish free tools sitemap check"],
+  [files.searchAssetCheck, "\"/pt-br/ferramentas-tarot-gratis\"", "search asset Portuguese free tools sitemap check"],
   [files.searchAssetCheck, "\"/daily-tarot\"", "search asset Daily Tarot sitemap check"],
   [files.searchAssetCheck, "\"/tarot-card-combinations\"", "search asset card combinations sitemap check"],
   [files.searchAssetCheck, "\"/es/combinaciones-cartas-tarot\"", "search asset Spanish card combinations sitemap check"],

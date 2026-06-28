@@ -340,6 +340,28 @@ const pages = [
     ],
   },
   {
+    path: "/es/herramientas-tarot-gratis",
+    name: "Spanish free tools",
+    requiredSelectors: [
+      "[data-free-tools-quick-start-start]",
+      "[data-free-tools-spread-formats]",
+      "[data-free-tools-spread-format-start]",
+      "[data-free-tools-spread-format-guide]",
+      "[data-free-tools-social-proof]",
+    ],
+  },
+  {
+    path: "/pt-br/ferramentas-tarot-gratis",
+    name: "Portuguese free tools",
+    requiredSelectors: [
+      "[data-free-tools-quick-start-start]",
+      "[data-free-tools-spread-formats]",
+      "[data-free-tools-spread-format-start]",
+      "[data-free-tools-spread-format-guide]",
+      "[data-free-tools-social-proof]",
+    ],
+  },
+  {
     path: "/share/missing-public-share-for-mobile-check",
     name: "missing public share",
     requiredSelectors: [
@@ -467,9 +489,9 @@ async function checkPage(browser, pageConfig) {
       const gapChecks = [
         { name: "copy to card", gap: rects.card.top - rects.copy.bottom, min: 96 },
         { name: "card to form", gap: rects.form.top - rects.card.bottom, min: 32 },
-        { name: "form to daily panel", gap: rects.daily.top - rects.form.bottom, min: 16 },
-        { name: "daily panel to secondary nav", gap: rects.nav.top - rects.daily.bottom, min: 16 },
+        { name: "form to secondary nav", gap: rects.nav.top - rects.form.bottom, min: 16 },
         { name: "secondary nav to scroll content", gap: rects.scroll.top - rects.nav.bottom, min: 56 },
+        { name: "scroll content to daily panel", gap: rects.daily.top - rects.scroll.top, min: 32 },
       ]
       const violations = gapChecks
         .filter((check) => check.gap < check.min)

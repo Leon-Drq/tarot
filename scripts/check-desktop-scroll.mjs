@@ -28,6 +28,12 @@ try {
       homeQuestionFormBottom: document.querySelector("[data-home-question-form]")
         ? Math.round(document.querySelector("[data-home-question-form]").getBoundingClientRect().bottom)
         : null,
+      homeScrollCueBottom: document.querySelector("[data-home-scroll-cue]")
+        ? Math.round(document.querySelector("[data-home-scroll-cue]").getBoundingClientRect().bottom)
+        : null,
+      homeDailyPanelTop: document.querySelector("[data-home-daily-return-panel]")
+        ? Math.round(document.querySelector("[data-home-daily-return-panel]").getBoundingClientRect().top)
+        : null,
       homeScrollContentTop: document.querySelector("[data-home-scroll-content]")
         ? Math.round(document.querySelector("[data-home-scroll-content]").getBoundingClientRect().top)
         : null,
@@ -81,7 +87,13 @@ try {
     if (pageConfig.path === "/" && initialResult.homeQuestionFormBottom > result.clientHeight - 24) {
       failures.push(`${pageConfig.name}: homepage question form is clipped below the desktop viewport`)
     }
-    if (pageConfig.path === "/" && initialResult.homeScrollContentTop > result.clientHeight + 360) {
+    if (pageConfig.path === "/" && (!initialResult.homeScrollCueBottom || initialResult.homeScrollCueBottom > result.clientHeight + 4)) {
+      failures.push(`${pageConfig.name}: homepage scroll cue is not visible in the desktop viewport`)
+    }
+    if (pageConfig.path === "/" && initialResult.homeDailyPanelTop <= initialResult.homeQuestionFormBottom) {
+      failures.push(`${pageConfig.name}: daily return panel should sit below the first-screen question form`)
+    }
+    if (pageConfig.path === "/" && initialResult.homeScrollContentTop > result.clientHeight + 260) {
       failures.push(`${pageConfig.name}: scroll content starts too far below the desktop viewport`)
     }
 

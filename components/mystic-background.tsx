@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, Suspense, type FormEvent } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
+import { ChevronDown } from "lucide-react"
 import { BackgroundGradient } from "./mystic/background-gradient"
 import { StarsLayer } from "./mystic/stars-layer"
 import { CoreLight } from "./mystic/core-light"
@@ -321,7 +322,7 @@ function HomeDailyReturnPanel() {
   return (
     <div
       data-home-daily-return-panel
-      className="relative z-30 mx-auto mt-6 w-[calc(100vw_-_3rem)] max-w-[620px] rounded-lg border border-white/10 bg-[#0b0314] p-4 shadow-[0_18px_50px_rgba(0,0,0,0.34)] backdrop-blur-md sm:mt-6"
+      className="relative z-30 mx-auto w-[calc(100vw_-_3rem)] max-w-[620px] rounded-lg border border-white/10 bg-[#0b0314] p-4 shadow-[0_18px_50px_rgba(0,0,0,0.34)] backdrop-blur-md"
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
@@ -369,6 +370,28 @@ function HomeDailyReturnPanel() {
         </div>
       </div>
     </div>
+  )
+}
+
+function HomeScrollCue() {
+  const { language } = useLanguage()
+  const copy =
+    {
+      zh: "继续向下",
+      en: "Explore below",
+      ja: "下へ進む",
+      ko: "아래로 보기",
+    }[language]
+
+  return (
+    <a
+      data-home-scroll-cue
+      href="#home-free-paths"
+      className="mx-auto mt-3 hidden min-h-9 w-fit items-center gap-2 rounded-full border border-white/10 bg-[#0b0314]/72 px-4 text-xs text-white/56 shadow-[0_10px_28px_rgba(0,0,0,0.24)] backdrop-blur-md transition hover:border-[#bfb6ff]/38 hover:text-white md:flex"
+    >
+      <span>{copy}</span>
+      <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
+    </a>
   )
 }
 
@@ -644,10 +667,12 @@ function HomeScrollContent() {
 
   return (
     <section
+      id="home-free-paths"
       data-home-scroll-content
       className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+8rem)] pt-12 sm:pt-20"
     >
-      <div className="max-w-2xl">
+      <HomeDailyReturnPanel />
+      <div className="mt-10 max-w-2xl sm:mt-12">
         <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.eyebrow}</p>
         <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{copy.title}</h2>
         <p className="mt-4 text-sm leading-7 text-white/58 sm:text-base">{copy.body}</p>
@@ -964,11 +989,11 @@ function MysticContent() {
         >
           <HomeQuestionForm />
 
-          <HomeDailyReturnPanel />
+          <HomeScrollCue />
 
           <div
             data-home-secondary-nav
-            className="relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314] px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:mt-6 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0"
+            className="relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314] px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:mt-3 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0"
           >
             <a href="/daily-tarot" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
               Daily Tarot

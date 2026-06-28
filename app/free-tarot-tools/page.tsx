@@ -10,6 +10,7 @@ import {
 import { getSeoPage } from "@/lib/seo-pages"
 import { getTrustPage } from "@/lib/trust-pages"
 import { representativeTestimonials, trustLastReviewed } from "@/lib/trust-signals"
+import { freeToolsHubAlternates } from "@/components/seo/free-tools-localized-page"
 
 const toolPaths = [
   {
@@ -426,6 +427,7 @@ export const metadata: Metadata = {
     "Start with free AI tarot readings, Daily Tarot, tarot questions, tarot spreads, 78 card meanings, reading examples, and trust pages on POPTarot.",
   alternates: {
     canonical: "/free-tarot-tools",
+    languages: freeToolsHubAlternates,
   },
   openGraph: {
     title: "Free AI Tarot Tools | POPTarot",

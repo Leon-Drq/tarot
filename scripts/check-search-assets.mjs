@@ -39,6 +39,8 @@ const crawlerRefreshAssetPaths = new Set([
 const requiredSitemapPaths = [
   "/",
   "/free-tarot-tools",
+  "/es/herramientas-tarot-gratis",
+  "/pt-br/ferramentas-tarot-gratis",
   "/daily-tarot",
   "/tarot-questions",
   "/tarot-spreads",
@@ -114,6 +116,8 @@ const robotsDisallows = ["/api/", "/auth/", "/profile", "/input", "/reading", "/
 const publicRobotsPaths = [
   "/",
   "/free-tarot-tools",
+  "/es/herramientas-tarot-gratis",
+  "/pt-br/ferramentas-tarot-gratis",
   "/daily-tarot",
   "/tarot-questions",
   "/tarot-card-combinations",

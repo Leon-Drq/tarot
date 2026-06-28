@@ -253,25 +253,25 @@
 
   @media (min-width: 768px) {
     .home-hero-stage {
-      --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(22rem, 49vh, 29rem));
+      --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(20.25rem, 45vh, 25.5rem));
       --home-hero-card-width: 14rem;
       --home-hero-card-height: 24rem;
       --home-hero-glow-size: 34rem;
-      --home-hero-flow-gap: 2.25rem;
-      --home-hero-actions-fallback-height: 24rem;
-      --home-hero-after-actions-gap: 4rem;
+      --home-hero-flow-gap: 2rem;
+      --home-hero-actions-fallback-height: 15rem;
+      --home-hero-after-actions-gap: 2.75rem;
       --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
       --home-hero-shell-min-height: max(
-        104vh,
+        98vh,
         calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
       );
     }
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(22rem, 49svh, 29rem));
+        --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(20.25rem, 45svh, 25.5rem));
         --home-hero-shell-min-height: max(
-          104svh,
+          98svh,
           calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
         );
       }
