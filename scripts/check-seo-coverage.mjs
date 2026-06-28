@@ -1056,6 +1056,9 @@ assertIncludes(files.mobileCheck, "daily tarot linked return focus", "mobile che
 assertIncludes(files.mobileCheck, "return_focus=Will%20my%20ex%20come%20back%20tarot", "mobile check linked return focus query")
 assertIncludes(files.mobileCheck, "return_action=reminder", "mobile check linked return reminder action")
 assertIncludes(files.mobileCheck, "requiredLocalStorageKeyPrefix: \"poptarot_daily_return_\"", "mobile check linked return focus persistence")
+for (const slug of ["does-he-love-me-tarot", "yes-or-no-tarot-love", "career-tarot-reading", "should-i-quit-my-job-tarot"]) {
+  assertIncludes(files.mobileCheck, `path: "/${slug}"`, `mobile check core long-tail page ${slug}`)
+}
 assertIncludes(files.mobileCheck, "input advanced spread free-first fallback", "mobile check advanced spread free-first fallback page")
 assertIncludes(files.mobileCheck, "spread=breakup_recovery", "mobile check advanced spread query")
 assertIncludes(files.mobileCheck, "[data-input-free-starter-spread]", "mobile check advanced spread free starter selector")

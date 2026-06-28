@@ -170,6 +170,26 @@ const pages = [
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
+    path: "/does-he-love-me-tarot",
+    name: "does he love me core long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/yes-or-no-tarot-love",
+    name: "yes or no love core long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/career-tarot-reading",
+    name: "career core long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/should-i-quit-my-job-tarot",
+    name: "quit job core long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/should-i-move-on-tarot",
     name: "new breakup long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,
