@@ -123,20 +123,39 @@ const cardRoutes = TAROT_CARDS.flatMap((card) =>
   }),
 ) satisfies SitemapRoute[]
 
-const routes: SitemapRoute[] = Array.from(
-  new Map(
-    [
-      ...baseRoutes,
-      ...freeToolsHubRoutes,
-      ...spreadHubRoutes,
-      ...questionHubRoutes,
-      ...combinationHubRoutes,
-      ...seoRoutes,
-      ...trustRoutes,
-      ...cardRoutes,
-    ].map((route) => [route.path, route]),
-  ).values(),
-)
+function mergeSitemapRoutes(routeList: SitemapRoute[]) {
+  const merged = new Map<string, SitemapRoute>()
+
+  for (const route of routeList) {
+    const existing = merged.get(route.path)
+    if (!existing) {
+      merged.set(route.path, route)
+      continue
+    }
+
+    merged.set(route.path, {
+      path: route.path,
+      priority: Math.max(existing.priority, route.priority),
+      ...(existing.alternates || route.alternates
+        ? { alternates: { ...(existing.alternates || {}), ...(route.alternates || {}) } }
+        : {}),
+      ...(existing.images || route.images ? { images: Array.from(new Set([...(existing.images || []), ...(route.images || [])])) } : {}),
+    })
+  }
+
+  return Array.from(merged.values())
+}
+
+const routes: SitemapRoute[] = mergeSitemapRoutes([
+  ...baseRoutes,
+  ...freeToolsHubRoutes,
+  ...spreadHubRoutes,
+  ...questionHubRoutes,
+  ...combinationHubRoutes,
+  ...seoRoutes,
+  ...trustRoutes,
+  ...cardRoutes,
+])
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date()

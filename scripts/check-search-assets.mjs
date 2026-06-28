@@ -248,6 +248,16 @@ function robotsLines(source) {
     .filter(Boolean)
 }
 
+function sitemapUrlBlock(source, path) {
+  const loc = `<loc>${canonical(path)}</loc>`
+  const locIndex = source.indexOf(loc)
+  if (locIndex === -1) fail(`sitemap loc ${path} missing`)
+  const blockStart = source.lastIndexOf("<url>", locIndex)
+  const blockEnd = source.indexOf("</url>", locIndex)
+  if (blockStart === -1 || blockEnd === -1) fail(`sitemap url block ${path} malformed`)
+  return source.slice(blockStart, blockEnd + "</url>".length)
+}
+
 try {
   const [sitemapResult, robotsResult, homeResult, brandResult, ...assetResults] = await Promise.all([
     fetchText("/sitemap.xml"),
@@ -287,6 +297,16 @@ try {
     `hreflang="x-default" href="${canonical("/will-my-ex-come-back-tarot")}"`,
   ]) {
     assertIncludes(sitemap, snippet, "sitemap hreflang")
+  }
+
+  const dailyTarotSitemapBlock = sitemapUrlBlock(sitemap, "/daily-tarot")
+  for (const snippet of [
+    `<priority>0.92</priority>`,
+    `<image:loc>${canonical("/logo.png")}</image:loc>`,
+    `<image:loc>${canonical("/og-image.jpg")}</image:loc>`,
+    `hreflang="x-default" href="${canonical("/daily-tarot")}"`,
+  ]) {
+    assertIncludes(dailyTarotSitemapBlock, snippet, `daily tarot sitemap merged signal ${snippet}`)
   }
 
   assertIncludes(robots, `Sitemap: ${canonical("/sitemap.xml")}`, "robots sitemap")
