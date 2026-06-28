@@ -56,8 +56,23 @@ try {
             right: Math.round(bounds.right),
             bottom: Math.round(bounds.bottom),
             left: Math.round(bounds.left),
+            width: Math.round(bounds.width),
+            height: Math.round(bounds.height),
           }
         }
+        const center = (selector) => {
+          const element = document.querySelector(selector)
+          if (!element) return null
+          const bounds = element.getBoundingClientRect()
+          return {
+            x: Math.round(bounds.left + bounds.width / 2),
+            y: Math.round(bounds.top + bounds.height / 2),
+          }
+        }
+        const heroCopy = rect("[data-home-hero-copy]")
+        const heroCard = rect("[data-home-card]")
+        const heroCardCenter = center("[data-home-card]")
+        const heroGlowCenter = center("[data-home-focal-glow]")
         const questionForm = rect("[data-home-question-form]")
         const scrollCue = rect("[data-home-scroll-cue]")
         const scrollAffordance = rect("[data-home-scroll-affordance]")
@@ -66,8 +81,19 @@ try {
         const secondaryNav = rect("[data-home-secondary-nav]")
         const affordanceElement = document.querySelector("[data-home-scroll-affordance]")
         const affordanceStyle = affordanceElement ? getComputedStyle(affordanceElement) : null
+        const cardRotator = document.querySelector("[data-home-card-rotator]")
+        const cardAnimationStyle = cardRotator ? getComputedStyle(cardRotator) : null
 
         return {
+          homeHeroCopyBottom: heroCopy?.bottom ?? null,
+          homeHeroCardTop: heroCard?.top ?? null,
+          homeHeroCardBottom: heroCard?.bottom ?? null,
+          homeHeroCardCenter: heroCardCenter,
+          homeHeroGlowCenter: heroGlowCenter,
+          homeCardAnimationName: cardAnimationStyle?.animationName ?? null,
+          homeCardAnimationDuration: cardAnimationStyle?.animationDuration ?? null,
+          homeCardAnimationTimingFunction: cardAnimationStyle?.animationTimingFunction ?? null,
+          homeQuestionFormTop: questionForm?.top ?? null,
           homeQuestionFormBottom: questionForm?.bottom ?? null,
           homeScrollCueBottom: scrollCue?.bottom ?? null,
           homeScrollAffordanceTop: scrollAffordance?.top ?? null,
@@ -151,6 +177,54 @@ try {
       }
       if (pageConfig.path === "/" && initialResult.homeQuestionFormBottom > result.clientHeight - 24) {
         failures.push(`${label}: homepage question form is clipped below the desktop viewport`)
+      }
+      if (
+        pageConfig.path === "/" &&
+        initialResult.homeHeroCopyBottom !== null &&
+        initialResult.homeHeroCardTop !== null &&
+        initialResult.homeHeroCopyBottom > initialResult.homeHeroCardTop - 12
+      ) {
+        failures.push(
+          `${label}: homepage hero copy overlaps the tarot card ` +
+            `(copy bottom ${initialResult.homeHeroCopyBottom}, card top ${initialResult.homeHeroCardTop})`,
+        )
+      }
+      if (
+        pageConfig.path === "/" &&
+        initialResult.homeHeroCardBottom !== null &&
+        initialResult.homeQuestionFormTop !== null &&
+        initialResult.homeQuestionFormTop < initialResult.homeHeroCardBottom + 20
+      ) {
+        failures.push(
+          `${label}: homepage question form sits too close to the tarot card ` +
+            `(form top ${initialResult.homeQuestionFormTop}, card bottom ${initialResult.homeHeroCardBottom})`,
+        )
+      }
+      if (
+        pageConfig.path === "/" &&
+        initialResult.homeHeroCardCenter &&
+        initialResult.homeHeroGlowCenter &&
+        (Math.abs(initialResult.homeHeroCardCenter.x - initialResult.homeHeroGlowCenter.x) > 3 ||
+          Math.abs(initialResult.homeHeroCardCenter.y - initialResult.homeHeroGlowCenter.y) > 3)
+      ) {
+        failures.push(
+          `${label}: homepage tarot card is not centered on the focal glow ` +
+            `(card ${initialResult.homeHeroCardCenter.x},${initialResult.homeHeroCardCenter.y}; ` +
+            `glow ${initialResult.homeHeroGlowCenter.x},${initialResult.homeHeroGlowCenter.y})`,
+        )
+      }
+      if (pageConfig.path === "/" && initialResult.homeCardAnimationName !== "rotateCard") {
+        failures.push(`${label}: homepage tarot card should use rotateCard animation`)
+      }
+      if (pageConfig.path === "/" && initialResult.homeCardAnimationTimingFunction !== "linear") {
+        failures.push(
+          `${label}: homepage tarot card rotation should be linear, got ${initialResult.homeCardAnimationTimingFunction}`,
+        )
+      }
+      if (pageConfig.path === "/" && initialResult.homeCardAnimationDuration !== "16s") {
+        failures.push(
+          `${label}: homepage tarot card rotation should run at a steady 16s cycle, got ${initialResult.homeCardAnimationDuration}`,
+        )
       }
       const hasVisibleScrollCue =
         Boolean(initialResult.homeScrollCueBottom && initialResult.homeScrollCueBottom <= result.clientHeight + 4) ||

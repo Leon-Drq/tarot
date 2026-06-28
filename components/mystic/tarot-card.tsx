@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { useEffect, useState, type CSSProperties } from "react"
 
 interface TarotCardProps {
   frontImage: string
@@ -52,12 +52,14 @@ export function TarotCard({ frontImage, backImage, tiltAngle = -15, rotationDura
       }}
     >
       <div
+        data-home-card-rotator
         className="relative z-10 h-full w-full origin-center"
         style={{
+          "--tarot-card-tilt": `${tiltAngle}deg`,
           transformStyle: "preserve-3d",
           transform: `rotateZ(${tiltAngle}deg)`,
           animation: shouldAnimate ? `rotateCard ${rotationDuration}s linear infinite` : "none",
-        }}
+        } as CSSProperties}
       >
         {/* Front face */}
         <div

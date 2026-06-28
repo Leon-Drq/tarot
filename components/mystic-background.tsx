@@ -161,7 +161,7 @@ function HomeQuestionForm() {
     <form
       data-home-question-form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto w-[calc(100vw_-_3rem)] max-w-[460px] md:max-w-[560px] lg:max-w-[620px]"
+      className="relative z-30 mx-auto w-[calc(100vw_-_3rem)] max-w-[460px] md:max-w-[520px] lg:max-w-[560px]"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
@@ -986,19 +986,19 @@ function MysticContent() {
       </div>
 
       {/* Header Area - 确保所有元素垂直居中对齐 */}
-      <header data-home-header className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1rem)] z-50 flex items-center justify-between px-4 pointer-events-none sm:top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1.5rem)] sm:px-6 md:top-7 md:px-8">
+      <header data-home-header className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1rem)] z-50 flex items-center justify-between px-4 pointer-events-none sm:top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1.35rem)] sm:px-6 md:top-6 md:px-8">
         <div className="flex-1 flex justify-start pointer-events-auto">
           <MenuButton isOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
         </div>
         
-        <h1 className="pointer-events-auto flex items-center justify-center gap-2 whitespace-nowrap font-serif text-lg font-semibold tracking-[0.12em] text-mystic-foreground drop-shadow-[0_0_15px_var(--mystic-glow)] sm:gap-3 sm:text-2xl sm:tracking-[0.18em] md:text-3xl md:tracking-[0.24em] lg:text-4xl">
+        <h1 className="pointer-events-auto flex items-center justify-center gap-2 whitespace-nowrap font-serif text-lg font-semibold tracking-[0.12em] text-mystic-foreground drop-shadow-[0_0_15px_var(--mystic-glow)] sm:gap-3 sm:text-2xl sm:tracking-[0.18em] md:text-[1.7rem] md:tracking-[0.22em] lg:text-3xl">
           <img
             data-home-brand-logo
             src="/logo.png"
             width="36"
             height="36"
             alt="POPTarot logo"
-            className="h-7 w-7 shrink-0 rounded-lg sm:h-9 sm:w-9 md:h-10 md:w-10"
+            className="h-7 w-7 shrink-0 rounded-lg sm:h-9 sm:w-9 md:h-9 md:w-9 lg:h-10 lg:w-10"
             loading="eager"
             fetchPriority="high"
           />
@@ -1027,12 +1027,12 @@ function MysticContent() {
       >
         <section
           data-home-hero-copy
-          className="pointer-events-none absolute left-1/2 top-0 z-30 w-[calc(100vw_-_2rem)] max-w-[680px] -translate-x-1/2 pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[9.25rem] lg:pt-[9.75rem]"
+          className="pointer-events-none absolute left-1/2 top-0 z-30 w-[calc(100vw_-_2rem)] max-w-[600px] -translate-x-1/2 pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[7.75rem] lg:pt-[8.1rem]"
         >
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
-          <p className="mx-auto mt-3 max-w-[20rem] break-words text-xs leading-6 text-white/58 [overflow-wrap:anywhere] sm:max-w-[34rem] sm:text-sm md:text-base">
+          <p className="mx-auto mt-2 max-w-[20rem] break-words text-xs leading-6 text-white/58 [overflow-wrap:anywhere] sm:max-w-[32rem] sm:text-sm md:text-sm lg:text-base">
             {heroCopy.line}
           </p>
         </section>
@@ -1065,7 +1065,7 @@ function MysticContent() {
                 frontImage={customFront || DEFAULT_FRONT}
                 backImage={customBack || DEFAULT_BACK}
                 tiltAngle={-15}
-                rotationDuration={12}
+                rotationDuration={16}
               />
             </div>
           </div>
