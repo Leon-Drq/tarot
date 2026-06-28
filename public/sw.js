@@ -1,4 +1,4 @@
-const CACHE_VERSION = "poptarot-return-v3"
+const CACHE_VERSION = "poptarot-return-v4"
 const NAVIGATION_CACHE = `${CACHE_VERSION}-navigation`
 const FALLBACK_URLS = ["/daily-tarot"]
 const NAVIGATION_CACHE_EXCLUDE_PATHS = ["/"]

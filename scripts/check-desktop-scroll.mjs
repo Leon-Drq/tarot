@@ -140,14 +140,15 @@ try {
       if (pageConfig.path === "/" && initialResult.homeDailyPanelTop <= initialResult.homeQuestionFormBottom) {
         failures.push(`${label}: daily return panel should sit below the first-screen question form`)
       }
+      const nextSectionPeek = 24
       const hasNextSectionHint =
-        Boolean(initialResult.homeScrollContentTop !== null && initialResult.homeScrollContentTop <= result.clientHeight - 8) ||
+        Boolean(initialResult.homeScrollContentTop !== null && initialResult.homeScrollContentTop <= result.clientHeight - nextSectionPeek) ||
         Boolean(initialResult.homeDailyPanelTop !== null && initialResult.homeDailyPanelTop <= result.clientHeight - 8) ||
         Boolean(
           initialResult.homeSecondaryNavTop !== null &&
             initialResult.homeSecondaryNavBottom !== null &&
             initialResult.homeSecondaryNavBottom > initialResult.homeSecondaryNavTop &&
-            initialResult.homeSecondaryNavTop <= result.clientHeight - 8,
+            initialResult.homeSecondaryNavTop <= result.clientHeight - nextSectionPeek,
         )
 
       if (pageConfig.path === "/" && !hasNextSectionHint) {
