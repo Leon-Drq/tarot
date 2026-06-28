@@ -513,6 +513,15 @@ function describeWideElement(item) {
   return `${item.tag}${item.id ? `#${item.id}` : ""}${item.className ? `.${item.className}` : ""} ${item.left}-${item.right}px`
 }
 
+async function waitForSelectors(page, selectors, timeout = 12_000) {
+  if (selectors.length === 0) return
+  await page
+    .waitForFunction((requiredSelectors) => requiredSelectors.every((selector) => document.querySelector(selector)), selectors, {
+      timeout,
+    })
+    .catch(() => {})
+}
+
 async function checkPage(browser, pageConfig) {
   const page = await browser.newPage({
     viewport: { width: 390, height: 844 },
@@ -530,11 +539,32 @@ async function checkPage(browser, pageConfig) {
     })
   })
 
-  await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "networkidle", timeout: 45_000 })
+  await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "domcontentloaded", timeout: 45_000 })
+  await page.locator("body").waitFor({ state: "attached", timeout: 15_000 })
+  await waitForSelectors(page, pageConfig.requiredSelectors)
+  if (pageConfig.embeddedTopGuard) {
+    await page
+      .waitForFunction(
+        ({ selector, guard }) => {
+          const element = document.querySelector(selector)
+          if (!element) return false
+          return element.getBoundingClientRect().top >= guard
+        },
+        { selector: "[data-home-header]", guard: pageConfig.embeddedTopGuard },
+        { timeout: 8_000 },
+      )
+      .catch(() => {})
+  }
   await page.waitForTimeout(pageConfig.waitMs || 500)
 
   if (pageConfig.menuRequiredSelectors) {
-    await page.click("[data-home-menu-button]")
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      await page.click("[data-home-menu-button]", { force: true })
+      await waitForSelectors(page, pageConfig.menuRequiredSelectors, 3_000)
+      const menuOpen = await page.evaluate((selectors) => selectors.every((selector) => document.querySelector(selector)), pageConfig.menuRequiredSelectors)
+      if (menuOpen) break
+      await page.waitForTimeout(300)
+    }
     await page.waitForTimeout(350)
   }
 
