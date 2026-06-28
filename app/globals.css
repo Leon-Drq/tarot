@@ -203,10 +203,13 @@
       118vh,
       calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
     );
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
   .home-hero-shell {
     min-height: var(--home-hero-shell-min-height);
+    overflow: clip;
   }
 
   @supports (height: 100svh) {

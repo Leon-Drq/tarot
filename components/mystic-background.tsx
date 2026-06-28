@@ -861,7 +861,7 @@ function MysticContent() {
     }[language]
 
   return (
-    <div ref={stageRef} className="allow-scroll home-hero-stage relative min-h-screen overflow-x-hidden bg-mystic-bg">
+    <div ref={stageRef} className="allow-scroll home-hero-stage relative min-h-screen bg-mystic-bg">
       <div className="absolute inset-0 z-0 min-h-full pointer-events-none">
         {/* 1. Background gradient */}
         <BackgroundGradient />
@@ -908,7 +908,7 @@ function MysticContent() {
 
       <div
         data-home-hero-shell
-        className="home-hero-shell relative overflow-hidden pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+7.5rem)] md:pb-28"
+        className="home-hero-shell relative pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+7.5rem)] md:pb-28"
       >
         <section
           data-home-hero-copy

@@ -34,6 +34,12 @@ try {
       clientHeight: document.documentElement.clientHeight,
       htmlOverscrollY: getComputedStyle(document.documentElement).overscrollBehaviorY,
       bodyOverscrollY: getComputedStyle(document.body).overscrollBehaviorY,
+      homeStageOverflowY: document.querySelector(".home-hero-stage")
+        ? getComputedStyle(document.querySelector(".home-hero-stage")).overflowY
+        : null,
+      homeShellOverflow: document.querySelector("[data-home-hero-shell]")
+        ? getComputedStyle(document.querySelector("[data-home-hero-shell]")).overflow
+        : null,
       scrollbarWidth: window.innerWidth - document.documentElement.clientWidth,
     }))
 
@@ -46,6 +52,12 @@ try {
     }
     if (result.htmlOverscrollY === "none" || result.bodyOverscrollY === "none") {
       failures.push(`${pageConfig.name}: vertical overscroll is locked`)
+    }
+    if (pageConfig.path === "/" && result.homeStageOverflowY !== "visible") {
+      failures.push(`${pageConfig.name}: home stage should not create a nested vertical scroll container`)
+    }
+    if (pageConfig.path === "/" && !["clip", "visible"].includes(result.homeShellOverflow)) {
+      failures.push(`${pageConfig.name}: home hero shell should clip visuals without becoming a scroll container`)
     }
 
     await page.close()
