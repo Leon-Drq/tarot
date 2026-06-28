@@ -30,6 +30,13 @@ type SpreadFormatCard = {
   slug: string
 }
 
+type QuestionClusterCard = {
+  key: string
+  title: string
+  body: string
+  slugs: string[]
+}
+
 type FreeToolsCopy = {
   locale: FreeToolsLocale
   path: string
@@ -60,10 +67,14 @@ type FreeToolsCopy = {
   trustTitle: string
   trustBody: string
   trustCta: string
+  clusterEyebrow: string
+  clusterTitle: string
+  clusterBody: string
   question: string
   tools: ToolCard[]
   quickStarts: QuickStartCard[]
   spreadFormats: SpreadFormatCard[]
+  clusters: QuestionClusterCard[]
   boundaries: Array<{ area: string; free: string; upgrade: string; href: string }>
 }
 
@@ -138,6 +149,10 @@ const copyByLocale = {
     trustBody:
       "Las paginas de reseñas, ejemplos, politica editorial, privacidad y canales oficiales hacen que nuevos usuarios entiendan quien esta detras del producto.",
     trustCta: "Leer reseñas",
+    clusterEyebrow: "Preguntas por situacion",
+    clusterTitle: "Encuentra la entrada gratis que coincide con el momento",
+    clusterBody:
+      "Las busquedas de tarot suelen venir de amor, silencio de un ex, habito diario, carrera o decisiones rapidas. Estos grupos convierten esas busquedas en lecturas gratis directas.",
     question: "Que necesito entender ahora?",
     tools: [
       {
@@ -212,6 +227,32 @@ const copyByLocale = {
       { title: "Tres cartas", body: "Situacion, obstaculo y consejo, o pasado, presente y futuro.", slug: "three-card-tarot-reading" },
       { title: "Pasado presente futuro", body: "Una linea de tiempo clara para entender direccion y accion.", slug: "past-present-future-tarot" },
     ],
+    clusters: [
+      {
+        key: "amor_senales",
+        title: "Amor y senales",
+        body: "Para sentimientos, senales mixtas, intenciones y si las acciones coinciden con las palabras.",
+        slugs: ["does-he-love-me-tarot", "how-does-he-feel-about-me-tarot", "what-does-he-think-of-me-tarot", "does-my-crush-like-me-tarot"],
+      },
+      {
+        key: "ex_contacto",
+        title: "Ex y contacto cero",
+        body: "Para reconciliacion, silencio, contacto pendiente, esperar o empezar a soltar.",
+        slugs: ["will-my-ex-come-back-tarot", "does-my-ex-miss-me-tarot", "will-my-ex-reach-out-tarot", "no-contact-tarot-reading"],
+      },
+      {
+        key: "diario_habito",
+        title: "Diario y semanal",
+        body: "Para volver cada dia o cada semana con una carta, una nota y una accion concreta.",
+        slugs: ["tarot-card-of-the-day", "daily-tarot-card", "daily-love-tarot", "daily-career-tarot", "weekly-tarot-reading"],
+      },
+      {
+        key: "carrera_dinero",
+        title: "Carrera y dinero",
+        body: "Para entrevistas, ofertas, renuncia, direccion profesional y presion economica.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-take-this-job-tarot", "should-i-quit-my-job-tarot", "will-i-get-money-tarot"],
+      },
+    ],
     boundaries: [
       {
         area: "Primera lectura",
@@ -269,6 +310,10 @@ const copyByLocale = {
     trustBody:
       "Paginas de avaliacoes, exemplos, politica editorial, privacidade e canais oficiais ajudam novos usuarios a entender quem esta por tras do produto.",
     trustCta: "Ler avaliacoes",
+    clusterEyebrow: "Perguntas por situacao",
+    clusterTitle: "Encontre a entrada gratis que combina com o momento",
+    clusterBody:
+      "Buscas de tarot quase sempre nascem de amor, silencio de ex, habito diario, carreira ou decisoes rapidas. Estes grupos transformam a busca em uma leitura gratis direta.",
     question: "O que eu preciso entender agora?",
     tools: [
       {
@@ -343,6 +388,32 @@ const copyByLocale = {
       { title: "Tres cartas", body: "Situacao, obstaculo e conselho, ou passado, presente e futuro.", slug: "three-card-tarot-reading" },
       { title: "Passado presente futuro", body: "Uma linha do tempo clara para entender direcao e acao.", slug: "past-present-future-tarot" },
     ],
+    clusters: [
+      {
+        key: "amor_sinais",
+        title: "Amor e sinais",
+        body: "Para sentimentos, sinais mistos, intencoes e se as atitudes combinam com as palavras.",
+        slugs: ["does-he-love-me-tarot", "how-does-he-feel-about-me-tarot", "what-does-he-think-of-me-tarot", "does-my-crush-like-me-tarot"],
+      },
+      {
+        key: "ex_contato",
+        title: "Ex e contato zero",
+        body: "Para reconciliacao, silencio, contato pendente, esperar ou comecar a soltar.",
+        slugs: ["will-my-ex-come-back-tarot", "does-my-ex-miss-me-tarot", "will-my-ex-reach-out-tarot", "no-contact-tarot-reading"],
+      },
+      {
+        key: "diario_habito",
+        title: "Diario e semanal",
+        body: "Para voltar todo dia ou toda semana com uma carta, uma nota e uma acao concreta.",
+        slugs: ["tarot-card-of-the-day", "daily-tarot-card", "daily-love-tarot", "daily-career-tarot", "weekly-tarot-reading"],
+      },
+      {
+        key: "carreira_dinheiro",
+        title: "Carreira e dinheiro",
+        body: "Para entrevistas, ofertas, demissao, direcao profissional e pressao financeira.",
+        slugs: ["career-tarot-reading", "will-i-get-the-job-tarot", "should-i-take-this-job-tarot", "should-i-quit-my-job-tarot", "will-i-get-money-tarot"],
+      },
+    ],
     boundaries: [
       {
         area: "Primeira leitura",
@@ -393,6 +464,38 @@ function readingHref(copy: FreeToolsCopy, item: QuickStartCard | SpreadFormatCar
 function guideHref(copy: FreeToolsCopy, item: QuickStartCard | SpreadFormatCard) {
   if ("href" in item && item.href) return item.href
   return "slug" in item && item.slug ? seoPath(item.slug, copy.locale) : copy.path
+}
+
+function questionClusterItems(copy: FreeToolsCopy, cluster: QuestionClusterCard) {
+  return cluster.slugs.map((slug) => {
+    const page = getSeoPage(slug, copy.locale) || getSeoPage(slug, "en")
+    if (!page) throw new Error(`Missing localized free tools cluster SEO page: ${slug}`)
+
+    return {
+      slug,
+      title: page.title,
+      body: page.description,
+      guideHref: seoPath(slug, copy.locale),
+      readingHref: questionClusterReadingHref(copy, slug, cluster.key),
+    }
+  })
+}
+
+function questionClusterReadingHref(copy: FreeToolsCopy, slug: string, clusterKey: string) {
+  const page = getSeoPage(slug, copy.locale) || getSeoPage(slug, "en")
+  const params = new URLSearchParams({
+    q: page?.ctaQuestion || copy.question,
+    auto: "1",
+    source: "free_tools",
+    lang: copy.locale,
+    utm_source: copy.locale === "es" ? "free_tools_es" : "free_tools_pt_br",
+    utm_medium: "question_cluster",
+    utm_campaign: slug,
+    utm_content: clusterKey,
+  })
+
+  if (page?.recommendedSpread) params.set("spread", page.recommendedSpread)
+  return `/input?${params.toString()}`
 }
 
 function structuredData(copy: FreeToolsCopy) {
@@ -458,6 +561,36 @@ function structuredData(copy: FreeToolsCopy) {
           name: item.area,
           description: `${copy.freeLabel}: ${item.free} ${copy.upgradeLabel}: ${item.upgrade}`,
           url: `${appUrl}${item.href}`,
+        })),
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${appUrl}${copy.path}#question-clusters`,
+        name: copy.clusterTitle,
+        itemListElement: copy.clusters.map((cluster, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "ItemList",
+            name: cluster.title,
+            description: cluster.body,
+            itemListElement: questionClusterItems(copy, cluster).map((item, itemIndex) => ({
+              "@type": "ListItem",
+              position: itemIndex + 1,
+              item: {
+                "@type": "WebPage",
+                name: item.title,
+                description: item.body,
+                url: `${appUrl}${item.guideHref}`,
+                isAccessibleForFree: true,
+                potentialAction: {
+                  "@type": "InteractAction",
+                  name: copy.startFree,
+                  target: `${appUrl}${item.readingHref}`,
+                },
+              },
+            })),
+          },
         })),
       },
       {
@@ -671,6 +804,63 @@ export function LocalizedFreeToolsPage({ locale }: { locale: FreeToolsLocale }) 
                   <div className="min-w-0 rounded-md border border-white/10 bg-black/20 p-3">
                     <p className="text-[10px] uppercase tracking-[0.18em] text-white/38">{copy.upgradeLabel}</p>
                     <p className="mt-2 text-sm leading-6 text-white/56">{item.upgrade}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section data-free-tools-question-clusters className="mt-12 border-t border-white/10 pt-8">
+          <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.clusterEyebrow}</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.clusterTitle}</h2>
+              <p className="mt-4 text-sm leading-7 text-white/58">{copy.clusterBody}</p>
+            </div>
+            <div className="grid gap-4">
+              {copy.clusters.map((cluster) => (
+                <article
+                  key={cluster.key}
+                  data-free-tools-question-cluster
+                  className="min-w-0 rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4"
+                >
+                  <div className="grid gap-2 border-b border-white/10 pb-4 sm:grid-cols-[0.52fr_1fr] sm:items-end">
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/72">
+                        {cluster.key.replace(/_/g, " ")}
+                      </p>
+                      <h3 className="mt-2 break-words text-lg font-medium leading-snug text-white">{cluster.title}</h3>
+                    </div>
+                    <p className="text-sm leading-6 text-white/56">{cluster.body}</p>
+                  </div>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {questionClusterItems(copy, cluster).map((item) => (
+                      <div
+                        key={`${cluster.key}-${item.slug}`}
+                        data-free-tools-question-cluster-link
+                        className="min-w-0 border-t border-white/8 pt-3 first:border-t-0 first:pt-0 sm:first:border-t sm:first:pt-3"
+                      >
+                        <h4 className="break-words text-sm font-medium leading-snug text-[#f3efff]">{item.title}</h4>
+                        <p className="mt-2 line-clamp-3 text-xs leading-5 text-white/48">{item.body}</p>
+                        <div className="mt-3 grid grid-cols-2 gap-2">
+                          <Link
+                            data-free-tools-question-cluster-start
+                            href={item.readingHref}
+                            className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-3 py-2 text-center text-xs font-medium text-[#120c22] shadow-[0_12px_28px_rgba(146,132,239,0.16)] transition hover:brightness-110"
+                          >
+                            {copy.startFree}
+                          </Link>
+                          <Link
+                            data-free-tools-question-cluster-guide
+                            href={item.guideHref}
+                            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-center text-xs text-white/64 transition hover:border-[#bfb6ff]/40 hover:text-white"
+                          >
+                            {copy.viewGuide}
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </article>
               ))}
