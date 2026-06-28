@@ -387,7 +387,7 @@ function HomeScrollCue() {
     <a
       data-home-scroll-cue
       href="#home-free-paths"
-      className="mx-auto mt-3 hidden min-h-9 w-fit items-center gap-2 rounded-full border border-white/10 bg-[#0b0314]/72 px-4 text-xs text-white/56 shadow-[0_10px_28px_rgba(0,0,0,0.24)] backdrop-blur-md transition hover:border-[#bfb6ff]/38 hover:text-white md:flex"
+      className="mx-auto mt-3 min-h-9 w-fit items-center gap-2 rounded-full border border-white/10 bg-[#0b0314]/72 px-4 text-xs text-white/56 shadow-[0_10px_28px_rgba(0,0,0,0.24)] backdrop-blur-md transition hover:border-[#bfb6ff]/38 hover:text-white max-md:hidden md:flex"
     >
       <span>{copy}</span>
       <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
@@ -399,17 +399,17 @@ function HomeDesktopScrollAffordance({ visible }: { visible: boolean }) {
   const { language } = useLanguage()
   const copy =
     {
-      zh: "更多免费入口",
-      en: "More free paths",
-      ja: "無料入口を見る",
-      ko: "무료 경로 보기",
+      zh: "向下滚动",
+      en: "Scroll down",
+      ja: "下へスクロール",
+      ko: "아래로 스크롤",
     }[language]
 
   return (
     <a
       data-home-scroll-affordance
       href="#home-free-paths"
-      className={`fixed bottom-16 right-5 z-40 hidden min-h-11 items-center gap-2 rounded-full border border-[#c9c0ff]/24 bg-[#0b0314]/82 px-4 text-xs font-medium text-[#eeeaff]/82 shadow-[0_14px_38px_rgba(0,0,0,0.34)] backdrop-blur-xl transition duration-300 hover:border-[#c9c0ff]/48 hover:text-white md:inline-flex ${
+      className={`fixed bottom-16 right-5 z-40 hidden min-h-11 items-center gap-2 rounded-full border border-[#bfb6ff]/38 bg-[#12091f]/90 px-4 text-xs font-medium text-[#f5f2ff]/90 shadow-[0_16px_42px_rgba(0,0,0,0.38)] backdrop-blur-xl transition duration-300 hover:border-[#c9c0ff]/58 hover:text-white md:inline-flex ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
       }`}
     >

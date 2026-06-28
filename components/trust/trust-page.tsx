@@ -270,7 +270,7 @@ export function TrustPageView({ page }: { page: TrustPage }) {
   }
 
   return (
-    <main data-trust-page className="min-h-screen bg-[#080310] text-white">
+    <main data-trust-page data-trust-page-slug={page.slug} className="min-h-screen bg-[#080310] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{

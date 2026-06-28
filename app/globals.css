@@ -218,6 +218,18 @@
     touch-action: pan-y;
   }
 
+  @media (max-width: 767.98px) {
+    [data-home-scroll-cue] {
+      display: none !important;
+    }
+  }
+
+  @media (min-width: 768px) {
+    [data-home-scroll-cue] {
+      display: flex !important;
+    }
+  }
+
   @supports (height: 100svh) {
     .home-hero-stage {
       --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58svh, 28.5rem));
@@ -315,8 +327,7 @@
       padding-top: calc(var(--home-hero-browser-offset, 0px) + 6.25rem) !important;
     }
 
-    [data-home-question-form] > p,
-    [data-home-scroll-cue] {
+    [data-home-question-form] > p {
       display: none !important;
     }
   }

@@ -144,6 +144,7 @@ const requiredSitemapPaths = [
   "/es/mi-ex-volvera-tarot",
   "/pt-br/meu-ex-vai-voltar-tarot",
   "/about",
+  "/what-is-poptarot",
   "/official-channels",
   "/brand-assets",
   "/editorial-policy",
@@ -165,6 +166,7 @@ const publicRobotsPaths = [
   "/tarot-card-combinations",
   "/es/combinaciones-cartas-tarot",
   "/pt-br/combinacoes-cartas-tarot",
+  "/what-is-poptarot",
   "/brand-assets",
   "/reviews",
 ]

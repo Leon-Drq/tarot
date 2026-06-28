@@ -84,6 +84,68 @@ export const trustPages: TrustPage[] = [
     ],
   },
   {
+    slug: "what-is-poptarot",
+    type: "WebPage",
+    title: "What Is POPTarot?",
+    description:
+      "The official POPTarot brand page: POPTarot is the free AI tarot tool at poptarot.com for readings, Daily Tarot, card meanings, and responsible AI guidance.",
+    eyebrow: "Official Brand",
+    intro:
+      "POPTarot is the free AI tarot tool at poptarot.com. This page helps readers and search engines connect the brand name, canonical domain, logo, favicon, free product stance, and AI tarot boundaries in one crawlable source.",
+    sections: [
+      {
+        heading: "Official meaning",
+        body: "POPTarot means the free AI tarot reading product hosted at poptarot.com. It includes the first AI reading, Daily Tarot, question-based tarot pages, tarot spreads, card meanings, combinations, examples, and trust pages.",
+      },
+      {
+        heading: "Not a placeholder profile",
+        body: "POPTarot does not publish placeholder social handles or unofficial account links. Official public channels appear only after they are active, verified, and linked back to poptarot.com.",
+      },
+      {
+        heading: "Search identity",
+        body: "The canonical identity signals are the POPTarot name, https://poptarot.com, the PT monogram logo, the search favicon, the Open Graph image, the sitemap, and Organization structured data.",
+      },
+      {
+        heading: "Free AI tarot tool",
+        body: "The product should be described as a free AI tarot tool first. Membership is reserved for deeper follow-up questions, saved history, advanced spreads, and monthly reports.",
+      },
+      {
+        heading: "Responsible use",
+        body: "POPTarot readings are symbolic and reflective. They can support better questions and next steps, but they are not medical, legal, financial, psychological, or safety advice.",
+      },
+      {
+        heading: "Brand disambiguation",
+        body: "If search results mention unrelated Pop Tarot artwork, profiles, marketplace listings, or another concept, use this page, About, Brand Assets, and Official Channels to verify the POPTarot product identity.",
+      },
+    ],
+    actionLinks: [
+      {
+        label: "Official source",
+        title: "Official POPTarot Channels",
+        body: "Verify canonical links, brand channels, and safe ways to recognize poptarot.com.",
+        href: "/official-channels",
+      },
+      {
+        label: "Logo source",
+        title: "POPTarot Brand Assets",
+        body: "Open the official logo, favicon, app icon, SVG icon, and social preview image.",
+        href: "/brand-assets",
+      },
+      {
+        label: "Start free",
+        title: "Free AI Tarot Reading",
+        body: "Use the product identity page as a doorway back into the free reading flow.",
+        href: "/free-ai-tarot-reading",
+      },
+      {
+        label: "Daily return",
+        title: "Daily Tarot",
+        body: "Come back for one free daily card, a streak, a journal note, and reminder options.",
+        href: "/daily-tarot",
+      },
+    ],
+  },
+  {
     slug: "editorial-policy",
     type: "WebPage",
     title: "Editorial Policy",

@@ -166,6 +166,10 @@ const files = {
     source: read("components/seo/seo-question-share-actions.tsx"),
   },
   trustPages: { path: "lib/trust-pages.ts", source: read("lib/trust-pages.ts") },
+  whatIsPoptarotPage: {
+    path: "app/what-is-poptarot/page.tsx",
+    source: read("app/what-is-poptarot/page.tsx"),
+  },
   trustSignals: { path: "lib/trust-signals.ts", source: read("lib/trust-signals.ts") },
   trustPageView: {
     path: "components/trust/trust-page.tsx",
@@ -1476,6 +1480,7 @@ for (const localizedSlug of [
 
 const trustSlugs = [
   "about",
+  "what-is-poptarot",
   "official-channels",
   "brand-assets",
   "editorial-policy",
@@ -1491,6 +1496,16 @@ for (const slug of trustSlugs) {
 }
 
 const trustDataCoverage = [
+  [files.whatIsPoptarotPage, 'getTrustMetadata("what-is-poptarot")', "What Is POPTarot route metadata"],
+  [files.whatIsPoptarotPage, 'getTrustPage("what-is-poptarot")', "What Is POPTarot route data"],
+  [files.trustPages, "Brand disambiguation", "brand disambiguation trust page copy"],
+  [files.trustPages, "free AI tarot tool at poptarot.com", "official POPTarot meaning copy"],
+  [files.trustPages, "unrelated Pop Tarot artwork", "brand confusion disambiguation copy"],
+  [files.site, "Brand meaning", "official verification brand meaning link"],
+  [files.site, "Brand disambiguation", "brand verification disambiguation fact"],
+  [files.trustPageView, "data-trust-page-slug", "trust page slug selector"],
+  [files.mobileCheck, 'path: "/what-is-poptarot"', "brand disambiguation mobile check route"],
+  [files.mobileCheck, '[data-trust-page-slug=\\"what-is-poptarot\\"]', "brand disambiguation mobile selector"],
   [files.trustPages, "testimonials: representativeTestimonials", "reviews testimonials"],
   [files.trustSignals, "actionHref:", "testimonial free action hrefs"],
   [files.trustSignals, "source=reviews", "testimonial free action attribution"],
@@ -1588,6 +1603,7 @@ const structuredDataCoverage = [
   [files.site, "brandFaviconPath = \"/favicon.png\"", "canonical favicon path constant"],
   [files.site, "`${appUrl}${brandLogoPath}`", "Organization logo asset"],
   [files.site, "Official brand name", "Organization official brand fact"],
+  [files.site, "Brand disambiguation", "Organization brand disambiguation fact"],
   [files.site, "Canonical domain", "Organization canonical domain fact"],
   [files.site, "Favicon source", "Organization favicon verification fact"],
   [files.site, "Social preview image", "Organization social preview verification fact"],
@@ -1726,6 +1742,8 @@ const searchAssetRuntimeCoverage = [
   [files.searchAssetCheck, "\"/will-my-ex-come-back-tarot\"", "search asset long-tail sitemap check"],
   [files.searchAssetCheck, "\"/es/mi-ex-volvera-tarot\"", "search asset Spanish long-tail sitemap check"],
   [files.searchAssetCheck, "\"/pt-br/meu-ex-vai-voltar-tarot\"", "search asset Portuguese long-tail sitemap check"],
+  [files.searchAssetCheck, "\"/what-is-poptarot\"", "search asset brand disambiguation sitemap check"],
+  [files.searchAssetCheck, "publicRobotsPaths", "search asset public robots allowlist"],
   [files.searchAssetCheck, "\"/brand-assets\"", "search asset brand page sitemap check"],
   [files.searchAssetCheck, "\"/reviews\"", "search asset reviews sitemap check"],
   [files.searchAssetCheck, "blockedSitemapPaths", "search asset private flow sitemap guard"],

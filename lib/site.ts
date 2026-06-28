@@ -33,6 +33,7 @@ export const socialLinks = [
 
 export const trustLinks = [
   { label: "About", href: "/about" },
+  { label: "What Is POPTarot", href: "/what-is-poptarot" },
   { label: "Official Channels", href: "/official-channels" },
   { label: "Brand Assets", href: "/brand-assets" },
   { label: "Editorial Policy", href: "/editorial-policy" },
@@ -54,6 +55,12 @@ export const officialVerificationLinks = [
     title: "Free AI Tarot Tools",
     body: "A crawlable map of the free reading flow, Daily Tarot, question pages, spreads, card meanings, examples, and trust pages.",
     href: "/free-tarot-tools",
+  },
+  {
+    label: "Brand meaning",
+    title: "What Is POPTarot?",
+    body: "Official brand identity and disambiguation for POPTarot as the free AI tarot tool at poptarot.com.",
+    href: "/what-is-poptarot",
   },
   {
     label: "Logo source",
@@ -86,7 +93,13 @@ export const brandVerificationFacts = [
     label: "Official brand name",
     value: "POPTarot",
     body: "Use POPTarot as the canonical product and brand name in search, app metadata, structured data, and public references.",
-    href: "/about",
+    href: "/what-is-poptarot",
+  },
+  {
+    label: "Brand disambiguation",
+    value: "Free AI tarot tool at poptarot.com",
+    body: "POPTarot refers to the official free AI tarot product on poptarot.com, not unrelated Pop Tarot artwork, profiles, or marketplace listings.",
+    href: "/what-is-poptarot",
   },
   {
     label: "Canonical domain",
