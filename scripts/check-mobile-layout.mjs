@@ -496,7 +496,7 @@ async function checkPage(browser, pageConfig) {
         card: "[data-home-card]",
         form: "[data-home-question-form]",
         daily: "[data-home-daily-return-panel]",
-        nav: "[data-home-secondary-nav]",
+        nav: "[data-home-secondary-nav-mobile], [data-home-secondary-nav]",
         scroll: "[data-home-scroll-content]",
       }
       const rects = {}

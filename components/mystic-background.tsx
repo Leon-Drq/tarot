@@ -395,6 +395,38 @@ function HomeScrollCue() {
   )
 }
 
+function HomeSecondaryNav({ placement }: { placement: "hero" | "content" }) {
+  const className =
+    placement === "hero"
+      ? "relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314] px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:hidden"
+      : "mb-8 hidden w-full items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314]/68 px-4 py-2 text-xs text-white/48 shadow-[0_14px_40px_rgba(0,0,0,0.26)] backdrop-blur-md md:flex"
+
+  return (
+    <nav
+      data-home-secondary-nav={placement === "content" ? "desktop" : undefined}
+      data-home-secondary-nav-mobile={placement === "hero" ? "true" : undefined}
+      className={className}
+      aria-label="Primary tarot paths"
+    >
+      <a href="/daily-tarot" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
+        Daily Tarot
+      </a>
+      <span className="h-1 w-1 rounded-full bg-white/24" />
+      <a href="/tarot-spreads" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
+        Spreads
+      </a>
+      <span className="h-1 w-1 rounded-full bg-white/24" />
+      <a href="/tarot-card-meanings" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
+        Card Meanings
+      </a>
+      <span className="h-1 w-1 rounded-full bg-white/24" />
+      <a href="/about" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
+        About
+      </a>
+    </nav>
+  )
+}
+
 function HomeScrollContent() {
   const { language } = useLanguage()
   const copy =
@@ -669,8 +701,9 @@ function HomeScrollContent() {
     <section
       id="home-free-paths"
       data-home-scroll-content
-      className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+8rem)] pt-12 sm:pt-20"
+      className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+8rem)] pt-10 sm:pt-12 md:-mt-10 md:pt-8"
     >
+      <HomeSecondaryNav placement="content" />
       <HomeDailyReturnPanel />
       <div className="mt-10 max-w-2xl sm:mt-12">
         <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.eyebrow}</p>
@@ -886,7 +919,7 @@ function MysticContent() {
     }[language]
 
   return (
-    <div ref={stageRef} className="allow-scroll home-hero-stage relative min-h-screen bg-mystic-bg">
+    <div ref={stageRef} className="allow-scroll home-hero-stage relative bg-mystic-bg">
       <div className="absolute inset-0 z-0 min-h-full pointer-events-none">
         {/* 1. Background gradient */}
         <BackgroundGradient />
@@ -933,7 +966,7 @@ function MysticContent() {
 
       <div
         data-home-hero-shell
-        className="home-hero-shell relative pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+7.5rem)] md:pb-28"
+        className="home-hero-shell relative pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+7.5rem)] md:pb-0"
       >
         <section
           data-home-hero-copy
@@ -991,26 +1024,7 @@ function MysticContent() {
 
           <HomeScrollCue />
 
-          <div
-            data-home-secondary-nav
-            className="relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314] px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:mt-3 md:border-0 md:bg-transparent md:px-0 md:py-0 md:text-xs md:text-white/44 md:shadow-none md:backdrop-blur-0"
-          >
-            <a href="/daily-tarot" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-              Daily Tarot
-            </a>
-            <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/tarot-spreads" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-              Spreads
-            </a>
-            <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/tarot-card-meanings" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-              Card Meanings
-            </a>
-            <span className="h-1 w-1 rounded-full bg-white/24" />
-            <a href="/about" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-              About
-            </a>
-          </div>
+          <HomeSecondaryNav placement="hero" />
         </div>
       </div>
 

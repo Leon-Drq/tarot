@@ -166,7 +166,9 @@
   /* Keep vertical page scrolling native; only suppress sideways overscroll. */
   html,
   body {
+    min-height: 100%;
     overflow-x: hidden;
+    overflow-y: auto;
     overscroll-behavior-x: none;
     overscroll-behavior-y: auto;
   }
@@ -203,6 +205,7 @@
       118vh,
       calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
     );
+    min-height: var(--home-hero-shell-min-height);
     overflow-x: clip;
     overflow-y: visible;
   }
@@ -259,10 +262,10 @@
       --home-hero-glow-size: 34rem;
       --home-hero-flow-gap: 2rem;
       --home-hero-actions-fallback-height: 15rem;
-      --home-hero-after-actions-gap: 2.75rem;
+      --home-hero-after-actions-gap: 0.75rem;
       --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
       --home-hero-shell-min-height: max(
-        98vh,
+        92vh,
         calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
       );
     }
@@ -271,7 +274,7 @@
       .home-hero-stage {
         --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(20.25rem, 45svh, 25.5rem));
         --home-hero-shell-min-height: max(
-          98svh,
+          92svh,
           calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
         );
       }

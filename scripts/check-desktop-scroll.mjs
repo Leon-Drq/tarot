@@ -37,6 +37,12 @@ try {
       homeScrollContentTop: document.querySelector("[data-home-scroll-content]")
         ? Math.round(document.querySelector("[data-home-scroll-content]").getBoundingClientRect().top)
         : null,
+      homeSecondaryNavTop: document.querySelector("[data-home-secondary-nav]")
+        ? Math.round(document.querySelector("[data-home-secondary-nav]").getBoundingClientRect().top)
+        : null,
+      homeSecondaryNavBottom: document.querySelector("[data-home-secondary-nav]")
+        ? Math.round(document.querySelector("[data-home-secondary-nav]").getBoundingClientRect().bottom)
+        : null,
     }))
 
     await page.mouse.move(720, 450)
@@ -95,6 +101,17 @@ try {
     }
     if (pageConfig.path === "/" && initialResult.homeScrollContentTop > result.clientHeight + 260) {
       failures.push(`${pageConfig.name}: scroll content starts too far below the desktop viewport`)
+    }
+    if (pageConfig.path === "/" && initialResult.homeScrollContentTop >= result.clientHeight) {
+      failures.push(`${pageConfig.name}: no next-section hint is visible in the desktop viewport`)
+    }
+    if (
+      pageConfig.path === "/" &&
+      initialResult.homeSecondaryNavTop &&
+      initialResult.homeScrollCueBottom &&
+      initialResult.homeSecondaryNavTop < initialResult.homeScrollCueBottom + 4
+    ) {
+      failures.push(`${pageConfig.name}: desktop next-section nav overlaps the scroll cue`)
     }
 
     await page.close()
