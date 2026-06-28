@@ -181,6 +181,21 @@ export const highIntentQuestionLinks = [
     href: "/future-spouse-tarot-reading",
   },
   {
+    title: "Tarot card of the day",
+    description: "A free one-card daily tarot entry for today's energy, message, and one practical next step.",
+    href: "/tarot-card-of-the-day",
+  },
+  {
+    title: "Daily tarot card",
+    description: "A daily card habit page for one quick AI interpretation, a note, and a return tomorrow.",
+    href: "/daily-tarot-card",
+  },
+  {
+    title: "Love tarot card of the day",
+    description: "A daily love card path for relationship energy, feelings, communication, and one calm next step.",
+    href: "/love-tarot-card-of-the-day",
+  },
+  {
     title: "Daily love tarot",
     description: "A daily relationship check-in for today's love energy, feelings, timing, and one grounded next step.",
     href: "/daily-love-tarot",

@@ -498,6 +498,126 @@ export const seoPageSources: SeoPageSource[] = [
     },
   },
   makeDailyIntentSeoPage({
+    slug: "tarot-card-of-the-day",
+    cards: [19, 14, 1],
+    recommendedSpread: "single_card",
+    title: "Tarot Card of the Day",
+    description:
+      "Draw a free tarot card of the day for today's energy, one clear message, and a practical next step before returning tomorrow.",
+    h1: "Tarot Card of the Day",
+    ctaQuestion: "What tarot card should guide my day today?",
+    intro:
+      "Tarot card of the day is the simplest free ritual on POPTarot: one card, one message, one grounded action, and a reason to return tomorrow.",
+    intent:
+      "Best for a morning check-in, a quick daily focus, or a low-pressure way to build a tarot habit without starting with membership.",
+    sections: [
+      {
+        heading: "Start with one card",
+        body: "A single card is enough when the question is about today. The point is not to predict the whole future, but to name the energy that deserves attention.",
+      },
+      {
+        heading: "Turn the card into a next step",
+        body: "After the card appears, ask what it changes about your choices today: wait, speak, prepare, rest, act, or notice a pattern.",
+      },
+      {
+        heading: "Return tomorrow for the pattern",
+        body: "The value grows when you compare several daily cards. Repeated themes can reveal relationship, work, mood, or timing patterns.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is the tarot card of the day free?",
+        answer:
+          "Yes. You can draw a free card of the day and read the AI interpretation. Membership is reserved for deeper follow-ups, saved history, advanced spreads, and monthly reports.",
+      },
+      {
+        question: "Should I draw more than one card for today?",
+        answer:
+          "Start with one card. If the message raises a specific love, career, or yes-or-no question, open a focused spread after the daily card.",
+      },
+    ],
+  }),
+  makeDailyIntentSeoPage({
+    slug: "daily-tarot-card",
+    cards: [0, 10, 20],
+    recommendedSpread: "single_card",
+    title: "Daily Tarot Card",
+    description:
+      "Get a free daily tarot card with an AI interpretation for today's theme, advice, mood, and one practical action.",
+    h1: "Daily Tarot Card",
+    ctaQuestion: "What is my daily tarot card trying to show me?",
+    intro:
+      "A daily tarot card gives the day a small reflective anchor. Draw once, read the message, save a note, and compare the pattern tomorrow.",
+    intent:
+      "Best for readers searching for a quick daily card, a free tarot habit, and a simple way to combine card meaning with AI guidance.",
+    sections: [
+      {
+        heading: "Read the card in today's context",
+        body: "The same card can mean different things in love, work, money, or mood. Use the daily card as a lens for what is actually happening today.",
+      },
+      {
+        heading: "Keep the ritual repeatable",
+        body: "A daily card should be fast enough to return to. Draw, read, write one sentence, and choose one action rather than overloading the spread.",
+      },
+      {
+        heading: "Use notes before upgrading",
+        body: "You do not need to pay before the habit proves useful. Membership matters later when saved history, deeper follow-ups, and reports become valuable.",
+      },
+    ],
+    faqs: [
+      {
+        question: "What is a daily tarot card?",
+        answer:
+          "It is one card drawn for today's energy, advice, or reflection. POPTarot adds an AI interpretation so the meaning connects to a practical next step.",
+      },
+      {
+        question: "Can I use the same daily card for love or career?",
+        answer:
+          "Yes. Start with the daily card, then open a love, career, mood, action, or yes-or-no path if you need a more specific reading.",
+      },
+    ],
+  }),
+  makeDailyIntentSeoPage({
+    slug: "love-tarot-card-of-the-day",
+    cards: [6, 17, 2],
+    recommendedSpread: "love_connection",
+    title: "Love Tarot Card of the Day",
+    description:
+      "Draw a free love tarot card of the day for relationship energy, feelings, communication, and one grounded next step.",
+    h1: "Love Tarot Card of the Day",
+    ctaQuestion: "What love energy should I understand today?",
+    intro:
+      "Love tarot card of the day reads one card through relationship energy: feelings, communication, attraction, boundaries, and what to do gently today.",
+    intent:
+      "Best for crushes, relationships, no-contact anxiety, dating uncertainty, or a daily love check-in that stays calm and practical.",
+    sections: [
+      {
+        heading: "Read love as today's energy",
+        body: "The card does not need to decide the whole relationship. It should name what is active today: warmth, distance, patience, honesty, or a boundary.",
+      },
+      {
+        heading: "Compare feelings with behavior",
+        body: "A useful love card asks whether the emotional signal is matched by actions, consistency, and respect.",
+      },
+      {
+        heading: "Return when the pattern repeats",
+        body: "If similar love cards repeat across several days, save notes and open a deeper love spread only when the pattern becomes clear.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is the love tarot card of the day free?",
+        answer:
+          "Yes. You can start free. Paid features are for deeper follow-up questions, saved history, advanced relationship spreads, and longer reports.",
+      },
+      {
+        question: "Can one card answer a love question?",
+        answer:
+          "One card can show the emotional theme of the day. For complex relationship choices, use it as a first signal and then open a focused love spread.",
+      },
+    ],
+  }),
+  makeDailyIntentSeoPage({
     slug: "daily-love-tarot",
     cards: [6, 17, 2],
     recommendedSpread: "love_connection",
@@ -2536,6 +2656,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "daily-yes-or-no-tarot": "tarot-diario-si-o-no",
     "daily-mood-tarot": "tarot-diario-estado-de-animo",
     "daily-action-tarot": "tarot-diario-accion",
+    "tarot-card-of-the-day": "carta-tarot-del-dia",
+    "daily-tarot-card": "carta-diaria-tarot",
+    "love-tarot-card-of-the-day": "carta-tarot-amor-del-dia",
     "weekly-tarot-reading": "lectura-tarot-semanal",
     "weekly-love-tarot": "tarot-semanal-amor",
     "weekly-career-tarot": "tarot-semanal-carrera",
@@ -2608,6 +2731,9 @@ export const localizedSeoSlugs: Partial<Record<SeoLocale, Record<string, string>
     "daily-yes-or-no-tarot": "tarot-diario-sim-ou-nao",
     "daily-mood-tarot": "tarot-diario-humor",
     "daily-action-tarot": "tarot-diario-acao",
+    "tarot-card-of-the-day": "carta-tarot-do-dia",
+    "daily-tarot-card": "carta-diaria-tarot",
+    "love-tarot-card-of-the-day": "carta-tarot-amor-do-dia",
     "weekly-tarot-reading": "leitura-tarot-semanal",
     "weekly-love-tarot": "tarot-semanal-amor",
     "weekly-career-tarot": "tarot-semanal-carreira",
@@ -2870,6 +2996,60 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "¿Qué es el tarot diario de acción?", answer: "Es una lectura gratis enfocada en un paso práctico para hoy, no en una predicción amplia del futuro." },
         { question: "¿Puedo usarlo después de mi carta diaria?", answer: "Sí. Funciona bien como seguimiento cuando la carta diaria da un tema y quieres convertirlo en acción." },
+      ],
+    },
+    "tarot-card-of-the-day": {
+      title: "Carta de tarot del día",
+      description: "Saca una carta de tarot del día gratis para ver la energía de hoy, un mensaje claro y un siguiente paso práctico.",
+      eyebrow: "Carta del día",
+      h1: "Carta de tarot del día",
+      intro: "La carta de tarot del día es el ritual gratuito más simple: una carta, un mensaje, una acción concreta y una razón para volver mañana.",
+      intent: "Ideal para empezar la mañana, enfocar el día o crear un hábito de tarot sin empezar por una membresía.",
+      ctaQuestion: "¿Qué carta de tarot debe guiar mi día hoy?",
+      sections: [
+        { heading: "Empieza con una carta", body: "Una sola carta basta cuando la pregunta es sobre hoy. No predice todo el futuro; señala la energía que merece atención." },
+        { heading: "Convierte la carta en acción", body: "Después de verla, pregunta qué cambia en tus decisiones de hoy: esperar, hablar, preparar, descansar, actuar o notar un patrón." },
+        { heading: "Vuelve mañana por el patrón", body: "El valor crece cuando comparas varias cartas diarias. Los temas repetidos muestran patrones de amor, trabajo, ánimo o timing." },
+      ],
+      faqs: [
+        { question: "¿La carta de tarot del día es gratis?", answer: "Sí. Puedes sacar una carta gratis y leer la interpretación con IA. La membresía queda para seguimientos, historial, tiradas avanzadas e informes mensuales." },
+        { question: "¿Debo sacar más de una carta hoy?", answer: "Empieza con una. Si aparece una pregunta específica de amor, trabajo o sí/no, abre una tirada enfocada después." },
+      ],
+    },
+    "daily-tarot-card": {
+      title: "Carta diaria de tarot",
+      description: "Obtén una carta diaria de tarot gratis con interpretación de IA para tema, consejo, ánimo y una acción práctica de hoy.",
+      eyebrow: "Carta diaria",
+      h1: "Carta diaria de tarot",
+      intro: "Una carta diaria de tarot da al día un ancla pequeña: saca una carta, lee el mensaje, guarda una nota y compara el patrón mañana.",
+      intent: "Ideal para quienes buscan una carta diaria rápida, un hábito gratuito y una guía que combine significado de tarot con IA.",
+      ctaQuestion: "¿Qué intenta mostrarme mi carta diaria de tarot?",
+      sections: [
+        { heading: "Lee la carta en contexto", body: "La misma carta cambia en amor, trabajo, dinero o ánimo. Usa la carta diaria como lente para lo que realmente ocurre hoy." },
+        { heading: "Haz el ritual repetible", body: "La carta diaria debe ser rápida: sacar, leer, escribir una frase y elegir una acción sin sobrecargar la tirada." },
+        { heading: "Usa notas antes de pagar", body: "No necesitas pagar antes de comprobar si el hábito ayuda. La membresía importa después para historial, seguimientos y reportes." },
+      ],
+      faqs: [
+        { question: "¿Qué es una carta diaria de tarot?", answer: "Es una carta para la energía, consejo o reflexión de hoy. POPTarot añade interpretación con IA para conectarla con un paso práctico." },
+        { question: "¿Puedo usar la carta diaria para amor o carrera?", answer: "Sí. Empieza con la carta diaria y luego abre amor, carrera, ánimo, acción o sí/no si necesitas algo más específico." },
+      ],
+    },
+    "love-tarot-card-of-the-day": {
+      title: "Carta de tarot del amor del día",
+      description: "Saca una carta gratis de tarot del amor del día para energía de relación, sentimientos, comunicación y un siguiente paso claro.",
+      eyebrow: "Amor del día",
+      h1: "Carta de tarot del amor del día",
+      intro: "La carta de tarot del amor del día lee una carta desde la energía de relación: sentimientos, comunicación, atracción, límites y qué hacer hoy con calma.",
+      intent: "Ideal para crushes, relaciones, ansiedad por contacto cero, citas inciertas o un chequeo diario de amor que siga siendo práctico.",
+      ctaQuestion: "¿Qué energía de amor debo entender hoy?",
+      sections: [
+        { heading: "Lee el amor como energía de hoy", body: "La carta no tiene que decidir toda la relación. Debe nombrar qué está activo hoy: calidez, distancia, paciencia, honestidad o límite." },
+        { heading: "Compara sentimiento y conducta", body: "Una carta de amor útil pregunta si la señal emocional coincide con acciones, constancia y respeto." },
+        { heading: "Vuelve si el patrón se repite", body: "Si cartas similares aparecen varios días, guarda notas y abre una tirada de amor más profunda cuando el patrón sea claro." },
+      ],
+      faqs: [
+        { question: "¿La carta de tarot del amor del día es gratis?", answer: "Sí. Puedes empezar gratis. Las funciones pagas son para seguimientos, historial, tiradas avanzadas de relación e informes largos." },
+        { question: "¿Una carta puede responder una pregunta de amor?", answer: "Una carta puede mostrar el tema emocional del día. Para decisiones complejas, úsala como primera señal y abre una tirada de amor enfocada." },
       ],
     },
     "weekly-tarot-reading": {
@@ -4027,6 +4207,60 @@ const regionalSeoCopy: Record<RegionalLocale, Partial<Record<string, RegionalPag
       faqs: [
         { question: "O que é tarot diário de ação?", answer: "É uma leitura grátis focada em um passo prático para hoje, não em uma previsão ampla sobre o futuro." },
         { question: "Posso usar depois da minha carta diária?", answer: "Sim. Funciona bem como acompanhamento quando a carta diária dá um tema e você quer transformá-lo em ação." },
+      ],
+    },
+    "tarot-card-of-the-day": {
+      title: "Carta de tarot do dia",
+      description: "Tire uma carta de tarot do dia grátis para ver a energia de hoje, uma mensagem clara e um próximo passo prático.",
+      eyebrow: "Carta do dia",
+      h1: "Carta de tarot do dia",
+      intro: "A carta de tarot do dia é o ritual gratuito mais simples: uma carta, uma mensagem, uma ação concreta e um motivo para voltar amanhã.",
+      intent: "Ideal para começar a manhã, focar o dia ou criar um hábito de tarot sem começar por uma assinatura.",
+      ctaQuestion: "Que carta de tarot deve guiar meu dia hoje?",
+      sections: [
+        { heading: "Comece com uma carta", body: "Uma carta basta quando a pergunta é sobre hoje. Ela não prevê todo o futuro; aponta a energia que merece atenção." },
+        { heading: "Transforme a carta em ação", body: "Depois da carta, pergunte o que muda nas suas escolhas de hoje: esperar, falar, preparar, descansar, agir ou notar um padrão." },
+        { heading: "Volte amanhã pelo padrão", body: "O valor cresce quando você compara várias cartas diárias. Temas repetidos mostram padrões de amor, trabalho, humor ou timing." },
+      ],
+      faqs: [
+        { question: "A carta de tarot do dia é grátis?", answer: "Sim. Você pode tirar uma carta grátis e ler a interpretação com IA. A assinatura fica para acompanhamentos, histórico, tiragens avançadas e relatórios mensais." },
+        { question: "Devo tirar mais de uma carta hoje?", answer: "Comece com uma. Se surgir uma pergunta específica de amor, carreira ou sim/não, abra uma tiragem focada depois." },
+      ],
+    },
+    "daily-tarot-card": {
+      title: "Carta diária de tarot",
+      description: "Receba uma carta diária de tarot grátis com interpretação de IA para tema, conselho, humor e uma ação prática de hoje.",
+      eyebrow: "Carta diária",
+      h1: "Carta diária de tarot",
+      intro: "Uma carta diária de tarot dá ao dia uma pequena âncora: tire uma carta, leia a mensagem, salve uma nota e compare o padrão amanhã.",
+      intent: "Ideal para quem busca uma carta diária rápida, um hábito gratuito e uma orientação que combina significado de tarot com IA.",
+      ctaQuestion: "O que minha carta diária de tarot quer me mostrar?",
+      sections: [
+        { heading: "Leia a carta em contexto", body: "A mesma carta muda em amor, trabalho, dinheiro ou humor. Use a carta diária como lente para o que realmente acontece hoje." },
+        { heading: "Torne o ritual repetível", body: "A carta diária deve ser rápida: tirar, ler, escrever uma frase e escolher uma ação sem sobrecarregar a tiragem." },
+        { heading: "Use notas antes de pagar", body: "Você não precisa pagar antes de saber se o hábito ajuda. A assinatura importa depois para histórico, acompanhamentos e relatórios." },
+      ],
+      faqs: [
+        { question: "O que é uma carta diária de tarot?", answer: "É uma carta para energia, conselho ou reflexão de hoje. POPTarot adiciona interpretação com IA para conectar isso a um passo prático." },
+        { question: "Posso usar a carta diária para amor ou carreira?", answer: "Sim. Comece com a carta diária e depois abra amor, carreira, humor, ação ou sim/não se precisar de algo mais específico." },
+      ],
+    },
+    "love-tarot-card-of-the-day": {
+      title: "Carta de tarot do amor do dia",
+      description: "Tire uma carta grátis de tarot do amor do dia para energia de relacionamento, sentimentos, comunicação e um próximo passo claro.",
+      eyebrow: "Amor do dia",
+      h1: "Carta de tarot do amor do dia",
+      intro: "A carta de tarot do amor do dia lê uma carta pela energia de relacionamento: sentimentos, comunicação, atração, limites e o que fazer hoje com calma.",
+      intent: "Ideal para crushes, relacionamentos, ansiedade por contato zero, encontros incertos ou um check-in diário de amor que continue prático.",
+      ctaQuestion: "Que energia de amor devo entender hoje?",
+      sections: [
+        { heading: "Leia o amor como energia de hoje", body: "A carta não precisa decidir toda a relação. Ela deve nomear o que está ativo hoje: calor, distância, paciência, honestidade ou limite." },
+        { heading: "Compare sentimento e comportamento", body: "Uma carta de amor útil pergunta se o sinal emocional combina com ações, consistência e respeito." },
+        { heading: "Volte se o padrão repetir", body: "Se cartas parecidas aparecem por vários dias, salve notas e abra uma tiragem de amor mais profunda quando o padrão ficar claro." },
+      ],
+      faqs: [
+        { question: "A carta de tarot do amor do dia é grátis?", answer: "Sim. Você pode começar grátis. Recursos pagos são para acompanhamentos, histórico, tiragens avançadas de relacionamento e relatórios longos." },
+        { question: "Uma carta pode responder uma pergunta de amor?", answer: "Uma carta pode mostrar o tema emocional do dia. Para decisões complexas, use como primeiro sinal e abra uma tiragem de amor focada." },
       ],
     },
     "weekly-tarot-reading": {

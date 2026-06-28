@@ -792,6 +792,54 @@ for (const slug of dailyIntentSlugs) {
   assertIncludes(files.seoLanding, `"${slug}"`, `daily intent related cluster ${slug}`)
 }
 
+const dailyCardReturnSlugs = [
+  "tarot-card-of-the-day",
+  "daily-tarot-card",
+  "love-tarot-card-of-the-day",
+]
+
+for (const slug of dailyCardReturnSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `daily card return SEO page ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en", "es", "pt-br"]', `daily card return regional locale control ${slug}`)
+  assertIncludes(files.site, `href: "/${slug}"`, `daily card return site link ${slug}`)
+  assertIncludes(files.tarotQuestions, `slug: "${slug}"`, `tarot questions daily card return entry ${slug}`)
+  assertIncludes(files.mobileCheck, `/${slug}`, `mobile check daily card return page ${slug}`)
+  assertMatches(
+    files.seoLanding,
+    new RegExp(`"${slug}"\\s*:\\s*\\[`),
+    `daily card return related question cluster for ${slug}`,
+  )
+}
+
+for (const [localizedSlug, label] of [
+  ["carta-tarot-del-dia", "Spanish tarot card of the day localized slug"],
+  ["carta-diaria-tarot", "Spanish daily tarot card localized slug"],
+  ["carta-tarot-amor-del-dia", "Spanish love tarot card of the day localized slug"],
+  ["carta-tarot-do-dia", "Portuguese tarot card of the day localized slug"],
+  ["carta-diaria-tarot", "Portuguese daily tarot card localized slug"],
+  ["carta-tarot-amor-do-dia", "Portuguese love tarot card of the day localized slug"],
+]) {
+  assertIncludes(files.seoPages, `"${localizedSlug}"`, label)
+}
+
+for (const regionalCopy of [
+  "Carta de tarot del día",
+  "Carta diaria de tarot",
+  "Carta de tarot del amor del día",
+  "Carta de tarot do dia",
+  "Carta diária de tarot",
+  "Carta de tarot do amor do dia",
+]) {
+  assertIncludes(files.seoPages, regionalCopy, `daily card regional SEO copy ${regionalCopy}`)
+}
+
+for (const regionalCopy of [
+  "Carta de tarot del dia",
+  "Carta de tarot do dia",
+]) {
+  assertIncludes(files.tarotQuestions, regionalCopy, `daily card regional question copy ${regionalCopy}`)
+}
+
 const weeklyReturnSlugs = [
   "weekly-tarot-reading",
   "weekly-love-tarot",
@@ -1176,7 +1224,16 @@ assertIncludes(files.tarotQuestions, "data-question-quick-start-card", "tarot qu
 assertIncludes(files.tarotQuestions, "data-question-quick-start-slug", "tarot questions quick-start slug hooks")
 assertIncludes(files.tarotQuestions, "data-question-quick-start-spread", "tarot questions quick-start spread hooks")
 assertIncludes(files.tarotQuestions, "data-question-quick-start-group-card", "tarot questions quick-start group card attribution")
-for (const dailySlug of ["daily-love-tarot", "daily-career-tarot", "daily-yes-or-no-tarot", "daily-mood-tarot", "daily-action-tarot"]) {
+for (const dailySlug of [
+  "tarot-card-of-the-day",
+  "daily-tarot-card",
+  "love-tarot-card-of-the-day",
+  "daily-love-tarot",
+  "daily-career-tarot",
+  "daily-yes-or-no-tarot",
+  "daily-mood-tarot",
+  "daily-action-tarot",
+]) {
   assertIncludes(files.tarotQuestions, `slug: "${dailySlug}"`, `tarot questions Daily Tarot entry ${dailySlug}`)
 }
 assertIncludes(files.tarotQuestions, 'group: "daily"', "tarot questions Daily Tarot group")
