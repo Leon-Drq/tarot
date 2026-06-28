@@ -301,14 +301,6 @@
       --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
     }
 
-    [data-home-scroll-content] {
-      margin-top: -5rem !important;
-    }
-
-    [data-home-scroll-cue] {
-      display: none !important;
-    }
-
     [data-home-hero-quick-start] {
       display: none !important;
     }
@@ -330,6 +322,16 @@
     [data-home-question-form] > p {
       display: none !important;
     }
+  }
+}
+
+@media (min-width: 768px) and (max-height: 820px) {
+  [data-home-scroll-content] {
+    margin-top: 0 !important;
+  }
+
+  nav[data-home-secondary-nav="desktop"] {
+    display: none !important;
   }
 }
 

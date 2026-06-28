@@ -133,7 +133,7 @@ try {
       if (pageConfig.path === "/" && initialResult.homeScrollContentTop > result.clientHeight + 260) {
         failures.push(`${label}: scroll content starts too far below the desktop viewport`)
       }
-      if (pageConfig.path === "/" && initialResult.homeScrollContentTop >= result.clientHeight) {
+      if (pageConfig.path === "/" && initialResult.homeScrollContentTop >= result.clientHeight && !hasVisibleScrollCue) {
         failures.push(`${label}: no next-section hint is visible in the desktop viewport`)
       }
       if (

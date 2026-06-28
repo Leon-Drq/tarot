@@ -423,7 +423,7 @@ function HomeSecondaryNav({ placement }: { placement: "hero" | "content" }) {
   const className =
     placement === "hero"
       ? "relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314] px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:hidden"
-      : "mb-8 hidden w-full items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314]/68 px-4 py-2 text-xs text-white/48 shadow-[0_14px_40px_rgba(0,0,0,0.26)] backdrop-blur-md md:flex"
+      : "mb-8 mt-5 hidden w-full items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314]/68 px-4 py-2 text-xs text-white/48 shadow-[0_14px_40px_rgba(0,0,0,0.26)] backdrop-blur-md md:flex"
 
   return (
     <nav
