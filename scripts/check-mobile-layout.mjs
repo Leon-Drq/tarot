@@ -56,6 +56,7 @@ const pages = [
       "[data-daily-return-setup-mailto]",
       "[data-daily-reminder-pending-email-input]",
       "[data-daily-reminder-pending-save]",
+      "[data-daily-reminder-google-calendar-fallback]",
       "[data-daily-pattern-next-action]",
       "[data-daily-question-paths]",
       "[data-daily-question-path]",

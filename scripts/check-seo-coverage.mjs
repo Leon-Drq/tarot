@@ -1024,6 +1024,7 @@ assertIncludes(files.dailyTarotTool, "daily_return_email_opened", "Daily Tarot s
 assertIncludes(files.dailyTarotTool, "daily_return_link_copied", "Daily Tarot copied return link tracking")
 assertIncludes(files.dailyTarotTool, "data-daily-reminder-email-fallback", "Daily Tarot shows email pending fallback state")
 assertIncludes(files.dailyTarotTool, "data-daily-reminder-calendar-fallback", "Daily Tarot calendar fallback CTA")
+assertIncludes(files.dailyTarotTool, "data-daily-reminder-google-calendar-fallback", "Daily Tarot Google Calendar reminder fallback CTA")
 assertIncludes(files.dailyTarotTool, "data-daily-reminder-mailto-fallback", "Daily Tarot self-email reminder fallback CTA")
 assertIncludes(files.dailyTarotTool, "savePendingReminderPreference", "Daily Tarot saves pending reminder preferences locally")
 assertIncludes(files.dailyTarotTool, "data-daily-reminder-pending-email-input", "Daily Tarot pending reminder email input remains usable")

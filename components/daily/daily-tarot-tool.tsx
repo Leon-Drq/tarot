@@ -2486,7 +2486,7 @@ export function DailyTarotTool() {
               />
               {emailDeliveryEnabled ? copy.reminderToggle : copy.emailSetupDisabled}
             </label>
-            <div className="mt-4 grid gap-2 sm:grid-cols-3">
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
               <button
                 onClick={handleSaveReminder}
                 disabled={isSaving || (emailDeliveryEnabled && !reminderEmail && reminderEnabled)}
@@ -2507,6 +2507,14 @@ export function DailyTarotTool() {
               >
                 <CalendarPlus className="h-4 w-4" />
                 {copy.calendarReminder}
+              </button>
+              <button
+                onClick={handleOpenGoogleCalendarReminder}
+                data-daily-reminder-google-calendar-fallback
+                className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-[#bfb6ff]/28 bg-[#bfb6ff]/[0.06] px-5 text-sm text-[#eee9ff] transition hover:bg-[#bfb6ff]/12"
+              >
+                <CalendarPlus className="h-4 w-4" />
+                {copy.googleCalendarReminder}
               </button>
               <button
                 onClick={handleEmailReturnLink}
