@@ -265,11 +265,26 @@ export default async function SharePage({ params }: Params) {
         mainEntity: {
           "@id": `${appUrl}/share/${share.slug}#reading`,
         },
-        potentialAction: {
-          "@type": "Action",
-          name: "Ask this tarot question free",
-          target: `${appUrl}${sameQuestionHref}`,
-        },
+        hasPart: [
+          {
+            "@id": `${appUrl}/share/${share.slug}#daily-return-action`,
+          },
+          {
+            "@id": `${appUrl}/share/${share.slug}#related-question-paths`,
+          },
+        ],
+        potentialAction: [
+          {
+            "@type": "Action",
+            name: "Ask this tarot question free",
+            target: `${appUrl}${sameQuestionHref}`,
+          },
+          {
+            "@type": "Action",
+            name: "Open Daily Tarot for this shared reading",
+            target: `${appUrl}${dailyReturnHref}`,
+          },
+        ],
       },
       {
         "@type": "CreativeWork",
@@ -295,6 +310,31 @@ export default async function SharePage({ params }: Params) {
         },
         mainEntityOfPage: {
           "@id": `${appUrl}/share/${share.slug}#webpage`,
+        },
+      },
+      {
+        "@type": "WebApplication",
+        "@id": `${appUrl}/share/${share.slug}#daily-return-action`,
+        name: "Daily Tarot return path for this shared reading",
+        applicationCategory: "LifestyleApplication",
+        operatingSystem: "Web",
+        url: `${appUrl}${dailyReturnHref}`,
+        isAccessibleForFree: true,
+        about: {
+          "@id": `${appUrl}/share/${share.slug}#reading`,
+        },
+        isPartOf: {
+          "@id": `${appUrl}/#app`,
+        },
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
+        potentialAction: {
+          "@type": "Action",
+          name: "Return tomorrow with Daily Tarot",
+          target: `${appUrl}${dailyReturnHref}`,
         },
       },
       {
