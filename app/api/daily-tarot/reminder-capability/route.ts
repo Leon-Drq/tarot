@@ -3,6 +3,7 @@ import { hasSupabaseServiceKey } from "@/lib/server/supabase"
 import {
   checkDailyReminderDatabaseAccess,
   checkDailyReminderUnsubscribeAccess,
+  configuredReminderDatabaseAccessMode,
   hasReminderCronSecret,
 } from "@/lib/server/daily-reminder-rpc"
 
@@ -11,26 +12,31 @@ export async function GET() {
   const emailProviderConfigured = hasEmailProvider()
   const cronSecretConfigured = hasReminderCronSecret()
   const serverServiceKeyConfigured = hasSupabaseServiceKey()
-  const databaseRpcAccessible = serverServiceKeyConfigured ? await checkDailyReminderDatabaseAccess() : false
-  const unsubscribeRpcAccessible = serverServiceKeyConfigured ? await checkDailyReminderUnsubscribeAccess() : false
-  const scheduledDeliveryEnabled =
-    emailProviderConfigured && serverServiceKeyConfigured && databaseRpcAccessible && cronSecretConfigured && unsubscribeRpcAccessible
+  const configuredDatabaseAccessMode = configuredReminderDatabaseAccessMode()
+  const databaseRpcAccessible = cronSecretConfigured ? await checkDailyReminderDatabaseAccess() : false
+  const unsubscribeRpcAccessible = cronSecretConfigured && databaseRpcAccessible ? await checkDailyReminderUnsubscribeAccess() : false
+  const scheduledDeliveryEnabled = emailProviderConfigured && databaseRpcAccessible && cronSecretConfigured && unsubscribeRpcAccessible
   const missingCapabilities = [
     !emailProviderConfigured ? "email_provider" : null,
-    !serverServiceKeyConfigured ? "service_role_key" : null,
-    serverServiceKeyConfigured && !databaseRpcAccessible ? "service_database" : null,
+    !databaseRpcAccessible
+      ? serverServiceKeyConfigured
+        ? "service_database"
+        : configuredDatabaseAccessMode === "edge_function"
+          ? "edge_function"
+          : "database_access"
+      : null,
     !cronSecretConfigured ? "cron_authorization" : null,
-    serverServiceKeyConfigured && !unsubscribeRpcAccessible ? "unsubscribe_rpc" : null,
+    databaseRpcAccessible && !unsubscribeRpcAccessible ? "unsubscribe_rpc" : null,
   ].filter((item): item is string => Boolean(item))
   const nextSetupStep =
     missingCapabilities.length > 1
       ? `Complete reminder setup: ${missingCapabilities.join(", ")}.`
       : missingCapabilities[0] === "email_provider"
         ? "Add RESEND_API_KEY to the Vercel Production environment, then redeploy."
-        : missingCapabilities[0] === "service_role_key"
-          ? "Add SUPABASE_SERVICE_ROLE_KEY to the Vercel Production environment, then redeploy."
-          : missingCapabilities[0] === "service_database"
-            ? "Deploy the daily reminder Supabase RPC helpers and verify CRON_SECRET matches."
+        : missingCapabilities[0] === "service_database" || missingCapabilities[0] === "edge_function"
+          ? "Deploy the daily reminder Supabase Edge Function/RPC helpers and verify CRON_SECRET matches."
+          : missingCapabilities[0] === "database_access"
+            ? "Configure SUPABASE_FUNCTIONS_URL or SUPABASE_SERVICE_ROLE_KEY for reminder database access."
             : missingCapabilities[0] === "cron_authorization"
               ? "Add CRON_SECRET to the Vercel Production environment."
               : missingCapabilities[0] === "unsubscribe_rpc"
@@ -39,7 +45,7 @@ export async function GET() {
 
   return Response.json(
     {
-      email_delivery_enabled: emailProviderConfigured && serverServiceKeyConfigured && databaseRpcAccessible && unsubscribeRpcAccessible,
+      email_delivery_enabled: emailProviderConfigured && databaseRpcAccessible && unsubscribeRpcAccessible,
       scheduled_delivery_enabled: scheduledDeliveryEnabled,
       can_send_email_reminders: scheduledDeliveryEnabled,
       calendar_reminder_available: true,
@@ -54,11 +60,7 @@ export async function GET() {
       service_database_configured: databaseRpcAccessible,
       unsubscribe_rpc_accessible: unsubscribeRpcAccessible,
       unsubscribe_configured: unsubscribeRpcAccessible,
-      reminder_database_access_mode: !serverServiceKeyConfigured
-        ? "missing_service_role_key"
-        : databaseRpcAccessible
-          ? "service_role_rpc"
-          : "unavailable",
+      reminder_database_access_mode: databaseRpcAccessible ? configuredDatabaseAccessMode : "unavailable",
       cron_authorization_configured: cronSecretConfigured,
       cron_path_configured: true,
       missing_capabilities: missingCapabilities,

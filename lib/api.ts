@@ -367,7 +367,7 @@ export interface DailyReminderCapability {
   service_database_configured?: boolean
   unsubscribe_rpc_accessible?: boolean
   unsubscribe_configured?: boolean
-  reminder_database_access_mode?: "missing_service_role_key" | "service_role_rpc" | "cron_secret_rpc" | "unavailable"
+  reminder_database_access_mode?: "missing_database_access" | "service_role_rpc" | "edge_function" | "unavailable"
   cron_authorization_configured?: boolean
   cron_path_configured?: boolean
   missing_capabilities?: string[]

@@ -29,7 +29,7 @@ OPENAI_MODEL=gpt-5.2
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_publishable_or_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_for_cron_jobs
+SUPABASE_SERVICE_ROLE_KEY=optional_supabase_service_role_or_secret_key_for_direct_server_rpc
 SUPABASE_FUNCTIONS_URL=your_supabase_functions_url
 POPTAROT_FULFILLMENT_SECRET=server_to_edge_function_secret
 CRON_SECRET=shared_secret_for_vercel_cron_authorization
@@ -51,12 +51,12 @@ ZPAY_QUERY_URL=https://zpayz.cn/api.php
 
 Stripe variables are optional until the Stripe payment flow is implemented.
 
-Daily Tarot email reminders require the Vercel cron in `vercel.json`, `SUPABASE_SERVICE_ROLE_KEY`, `CRON_SECRET`, `RESEND_API_KEY`, and `RESEND_FROM_EMAIL` in the Vercel Production environment. `DAILY_TAROT_UNSUBSCRIBE_SECRET` is optional; when omitted, unsubscribe links fall back to `CRON_SECRET` for signing. Without the required variables, users can still save an email/time preference locally, download a calendar reminder, email themselves a return link, and keep daily journal entries, but scheduled reminder emails cannot be delivered.
+Daily Tarot email reminders require the Vercel cron in `vercel.json`, `CRON_SECRET`, `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, and one database access path in the Vercel Production environment. The preferred path is `SUPABASE_FUNCTIONS_URL` plus the deployed `poptarot-daily-reminders` Supabase Edge Function, which keeps Supabase service credentials inside Supabase. `SUPABASE_SERVICE_ROLE_KEY` or `SUPABASE_SECRET_KEY` is only needed if you want the Next.js server to call the reminder RPC helpers directly. `DAILY_TAROT_UNSUBSCRIBE_SECRET` is optional; when omitted, unsubscribe links fall back to `CRON_SECRET` for signing. Without the required variables, users can still save an email/time preference locally, download a calendar reminder, email themselves a return link, and keep daily journal entries, but scheduled reminder emails cannot be delivered.
 
 Production reminder setup:
 
 ```bash
-npx vercel env add SUPABASE_SERVICE_ROLE_KEY production
+npx vercel env add SUPABASE_FUNCTIONS_URL production
 npx vercel env add RESEND_API_KEY production
 npx vercel env add RESEND_FROM_EMAIL production
 npx vercel env add CRON_SECRET production
@@ -71,7 +71,7 @@ REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders
 PWA_CHECK_BASE_URL=https://poptarot.com npm run check:pwa
 ```
 
-`server_service_key_configured`, `database_rpc_accessible`, `unsubscribe_rpc_accessible`, and `can_send_email_reminders` should be `true` before the site promises scheduled email delivery. Use `REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active. The script also accepts `CHECK_REMINDER_APP_URL` for the same target URL.
+`database_rpc_accessible`, `unsubscribe_rpc_accessible`, and `can_send_email_reminders` should be `true` before the site promises scheduled email delivery. `reminder_database_access_mode` should be `edge_function` for the preferred setup or `service_role_rpc` for direct server RPC. Use `REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active. The script also accepts `CHECK_REMINDER_APP_URL` for the same target URL.
 
 After `RESEND_API_KEY` is configured, send one protected test reminder before waiting for the hourly cron:
 
