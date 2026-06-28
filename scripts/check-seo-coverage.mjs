@@ -513,6 +513,9 @@ const highIntentLongTailSlugs = [
   "is-he-my-soulmate-tarot",
   "is-she-my-soulmate-tarot",
   "money-tarot-reading",
+  "will-i-get-money-tarot",
+  "should-i-spend-money-tarot",
+  "financial-future-tarot-reading",
   "what-does-he-think-of-me-tarot",
   "will-he-contact-me-tarot",
   "is-this-relationship-over-tarot",
@@ -721,6 +724,53 @@ for (const regionalCopy of [
 ]) {
   const file = regionalCopy.startsWith("Tarot:") ? files.seoPages : files.tarotQuestions
   assertIncludes(file, regionalCopy, `career-focused regional copy ${regionalCopy}`)
+}
+
+const moneyFocusedRegionalQuestionSlugs = [
+  "will-i-get-money-tarot",
+  "should-i-spend-money-tarot",
+  "financial-future-tarot-reading",
+]
+
+for (const slug of moneyFocusedRegionalQuestionSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `money-focused regional SEO page ${slug}`)
+  assertIncludes(files.seoPages, 'locales: ["en", "es", "pt-br"]', `money-focused regional locale control ${slug}`)
+  assertIncludes(files.tarotQuestions, `slug: "${slug}"`, `regional money question hub entry ${slug}`)
+  assertIncludes(files.mobileCheck, `/${slug}`, `mobile check money-focused page ${slug}`)
+  assertMatches(
+    files.seoLanding,
+    new RegExp(`"${slug}"\\s*:\\s*\\[`),
+    `money-focused related question cluster for ${slug}`,
+  )
+}
+
+for (const [localizedSlug, label] of [
+  ["recibire-dinero-tarot", "Spanish money improvement localized slug"],
+  ["debo-gastar-dinero-tarot", "Spanish spending decision localized slug"],
+  ["lectura-tarot-futuro-financiero", "Spanish financial future localized slug"],
+  ["vou-receber-dinheiro-tarot", "Portuguese money improvement localized slug"],
+  ["devo-gastar-dinheiro-tarot", "Portuguese spending decision localized slug"],
+  ["leitura-tarot-futuro-financeiro", "Portuguese financial future localized slug"],
+]) {
+  assertIncludes(files.seoPages, `"${localizedSlug}"`, label)
+}
+
+for (const regionalCopy of [
+  "Tarot: ¿recibire dinero?",
+  "Tarot: ¿debo gastar dinero?",
+  "Lectura de tarot del futuro financiero",
+  "Tarot: vou receber dinheiro?",
+  "Tarot: devo gastar dinheiro?",
+  "Leitura de tarot do futuro financeiro",
+  "Recibire dinero?",
+  "Debo gastar dinero?",
+  "Futuro financiero tarot",
+  "Vou receber dinheiro?",
+  "Devo gastar dinheiro?",
+  "Futuro financeiro tarot",
+]) {
+  const file = regionalCopy.startsWith("Tarot:") || regionalCopy.startsWith("Lectura") || regionalCopy.startsWith("Leitura") ? files.seoPages : files.tarotQuestions
+  assertIncludes(file, regionalCopy, `money-focused regional copy ${regionalCopy}`)
 }
 
 const dailyIntentSlugs = [
@@ -1536,6 +1586,11 @@ const searchAssetRuntimeCoverage = [
   [files.searchAssetCheck, "\"/one-card-tarot-reading\"", "search asset one-card spread format sitemap check"],
   [files.searchAssetCheck, "\"/three-card-tarot-reading\"", "search asset three-card spread format sitemap check"],
   [files.searchAssetCheck, "\"/past-present-future-tarot\"", "search asset past-present-future spread format sitemap check"],
+  [files.searchAssetCheck, "\"/will-i-get-money-tarot\"", "search asset money improvement sitemap check"],
+  [files.searchAssetCheck, "\"/should-i-spend-money-tarot\"", "search asset spending decision sitemap check"],
+  [files.searchAssetCheck, "\"/financial-future-tarot-reading\"", "search asset financial future sitemap check"],
+  [files.searchAssetCheck, "\"/es/recibire-dinero-tarot\"", "search asset Spanish money improvement sitemap check"],
+  [files.searchAssetCheck, "\"/pt-br/vou-receber-dinheiro-tarot\"", "search asset Portuguese money improvement sitemap check"],
   [files.searchAssetCheck, "\"/will-my-ex-come-back-tarot\"", "search asset long-tail sitemap check"],
   [files.searchAssetCheck, "\"/es/mi-ex-volvera-tarot\"", "search asset Spanish long-tail sitemap check"],
   [files.searchAssetCheck, "\"/pt-br/meu-ex-vai-voltar-tarot\"", "search asset Portuguese long-tail sitemap check"],

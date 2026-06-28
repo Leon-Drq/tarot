@@ -1312,6 +1312,9 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "monthly-tarot-report",
   ],
   "money-tarot-reading": [
+    "will-i-get-money-tarot",
+    "should-i-spend-money-tarot",
+    "financial-future-tarot-reading",
     "career-tarot-reading",
     "will-my-business-succeed-tarot",
     "should-i-start-a-business-tarot",
@@ -1319,6 +1322,27 @@ const relatedQuestionClusters: Record<string, string[]> = {
     "should-i-accept-this-job-offer-tarot",
     "will-i-be-successful-tarot",
     "should-i-quit-my-job-tarot",
+  ],
+  "will-i-get-money-tarot": [
+    "money-tarot-reading",
+    "financial-future-tarot-reading",
+    "will-i-be-successful-tarot",
+    "will-my-business-succeed-tarot",
+    "career-tarot-reading",
+  ],
+  "should-i-spend-money-tarot": [
+    "money-tarot-reading",
+    "financial-future-tarot-reading",
+    "should-i-take-this-job-tarot",
+    "should-i-start-a-business-tarot",
+    "daily-yes-or-no-tarot",
+  ],
+  "financial-future-tarot-reading": [
+    "money-tarot-reading",
+    "will-i-get-money-tarot",
+    "should-i-spend-money-tarot",
+    "monthly-tarot-report",
+    "career-tarot-reading",
   ],
 }
 

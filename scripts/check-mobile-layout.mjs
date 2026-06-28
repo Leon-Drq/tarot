@@ -215,6 +215,21 @@ const pages = [
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {
+    path: "/will-i-get-money-tarot",
+    name: "money improvement long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/should-i-spend-money-tarot",
+    name: "spending decision long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/financial-future-tarot-reading",
+    name: "financial future long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/will-i-get-promoted-tarot",
     name: "promotion long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,
@@ -227,6 +242,16 @@ const pages = [
   {
     path: "/pt-br/meu-ex-vai-voltar-tarot",
     name: "Portuguese long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/es/recibire-dinero-tarot",
+    name: "Spanish money long-tail question",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/pt-br/vou-receber-dinheiro-tarot",
+    name: "Portuguese money long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,
   },
   {

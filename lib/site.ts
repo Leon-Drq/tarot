@@ -351,6 +351,21 @@ export const highIntentQuestionLinks = [
     href: "/money-tarot-reading",
   },
   {
+    title: "Will I get money tarot",
+    description: "A reflective money tarot entry for possible income, pending resources, timing, and one practical next step.",
+    href: "/will-i-get-money-tarot",
+  },
+  {
+    title: "Should I spend money tarot",
+    description: "A spending decision tarot path for pausing before a purchase, checking value, timing, risk, and real need.",
+    href: "/should-i-spend-money-tarot",
+  },
+  {
+    title: "Financial future tarot reading",
+    description: "A financial future tarot path for money patterns, resources, timing, pressure, and the next controllable move.",
+    href: "/financial-future-tarot-reading",
+  },
+  {
     title: "What does he think of me tarot",
     description: "A perception-focused love tarot entry for mixed signals, silence, private thoughts, and possible next actions.",
     href: "/what-does-he-think-of-me-tarot",
