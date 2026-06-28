@@ -82,15 +82,17 @@ const pages = [
   {
     path: "/input?q=Will%20my%20ex%20come%20back%3F&auto=1&spread=breakup_recovery&source=mobile_free_first_check",
     name: "input advanced spread free-first fallback",
-    waitMs: 1800,
+    waitMs: 500,
+    flowCheck: "spread choice before cards",
     allowedWideSelector: "rounded-full pointer-events-none",
-    requiredSelectors: [
-      "[data-input-page]",
-      "[data-input-advanced-spread-prompt]",
+    requiredSelectors: ["[data-input-page]"],
+    flowRequiredSelectors: [
+      "[data-input-spread-choice-dialog]",
       "[data-input-free-first-boundary]",
       "[data-input-free-starter-spread]",
       "[data-input-member-spread-name]",
       "[data-input-member-upgrade-cta]",
+      "[data-input-spread-choice-confirm]",
     ],
   },
   {
@@ -663,6 +665,7 @@ async function checkPage(browser, pageConfig) {
   await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "domcontentloaded", timeout: 45_000 })
   await page.locator("body").waitFor({ state: "attached", timeout: 15_000 })
   await waitForSelectors(page, pageConfig.requiredSelectors)
+  await waitForSelectors(page, pageConfig.flowRequiredSelectors || [])
   if (pageConfig.requiredText?.length) {
     await page
       .waitForFunction((requiredText) => requiredText.every((text) => (document.body.innerText || "").includes(text)), pageConfig.requiredText, {
@@ -694,6 +697,27 @@ async function checkPage(browser, pageConfig) {
       await page.waitForTimeout(300)
     }
     await page.waitForTimeout(350)
+  }
+
+  let flowCheck = null
+  if (pageConfig.flowCheck === "spread choice before cards") {
+    flowCheck = {
+      beforeConfirm: await page.evaluate(() => ({
+        dialogVisible: Boolean(document.querySelector("[data-input-spread-choice-dialog]")),
+        cardSurfaceVisible: Boolean(document.querySelector("[data-input-card-selection-surface]")),
+      })),
+      missingFlowSelectors: await page.evaluate((selectors) => selectors.filter((selector) => !document.querySelector(selector)), pageConfig.flowRequiredSelectors || []),
+      afterConfirm: null,
+    }
+    await page.click("[data-input-spread-choice-confirm]", { force: true })
+    await page.waitForSelector("[data-input-card-selection-surface]", { timeout: 8_000 })
+    await page
+      .waitForFunction(() => !document.querySelector("[data-input-spread-choice-dialog]"), null, { timeout: 8_000 })
+      .catch(() => {})
+    flowCheck.afterConfirm = await page.evaluate(() => ({
+      dialogVisible: Boolean(document.querySelector("[data-input-spread-choice-dialog]")),
+      cardSurfaceVisible: Boolean(document.querySelector("[data-input-card-selection-surface]")),
+    }))
   }
 
   const allRequiredSelectors = [
@@ -792,6 +816,7 @@ async function checkPage(browser, pageConfig) {
   return {
     ...result,
     ...pageConfig,
+    flowCheck,
     unexpectedWideElements,
   }
 }
@@ -821,6 +846,23 @@ try {
     }
     if (result.homeLayout?.violations.length > 0) {
       failures.push(`${result.name}: home layout gaps ${result.homeLayout.violations.join("; ")}`)
+    }
+    if (result.flowCheck) {
+      if (result.flowCheck.missingFlowSelectors.length > 0) {
+        failures.push(`${result.name}: missing flow selectors before confirm ${result.flowCheck.missingFlowSelectors.join(", ")}`)
+      }
+      if (result.flowCheck.beforeConfirm.cardSurfaceVisible) {
+        failures.push(`${result.name}: card selection surface is visible while spread choice dialog is open`)
+      }
+      if (!result.flowCheck.beforeConfirm.dialogVisible) {
+        failures.push(`${result.name}: spread choice dialog was not visible before confirm`)
+      }
+      if (!result.flowCheck.afterConfirm?.cardSurfaceVisible) {
+        failures.push(`${result.name}: card selection surface did not appear after spread confirmation`)
+      }
+      if (result.flowCheck.afterConfirm?.dialogVisible) {
+        failures.push(`${result.name}: spread choice dialog stayed visible after confirm`)
+      }
     }
   }
 } finally {

@@ -14,7 +14,7 @@ import { useAuth } from "@/contexts/auth-context"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isSeoLocale } from "@/lib/locales"
 
-type PageState = "dealing" | "input" | "classifying" | "selecting" | "collecting"
+type PageState = "dealing" | "input" | "classifying" | "shuffling" | "spread_choice" | "selecting" | "collecting"
 
 interface SpreadInfo {
   type: string
@@ -75,6 +75,7 @@ function InputContent() {
     fallbackName: string
   } | null>(null)
   const hasSubmittedQuestion = useRef(false)
+  const spreadChoiceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t, language } = useLanguage()
@@ -195,6 +196,93 @@ function InputContent() {
       button: "View membership",
     }
 
+  const spreadChoiceCopy =
+    {
+      zh: {
+        eyebrow: "确认牌阵",
+        title: "默认免费三牌阵",
+        genericTitle: "确认免费牌阵",
+        body: "先确认牌阵，确认后再进入抽牌，避免选择窗口遮挡卡牌。",
+        freeLabel: "当前免费牌阵",
+        cardCount: "张牌",
+        memberLocked: "会员解锁",
+        confirm: "确认并开始抽牌",
+        shuffling: "正在洗牌",
+        shufflingBody: "先整理能量，再让你确认本次牌阵。",
+      },
+      en: {
+        eyebrow: "Confirm spread",
+        title: "Default free three-card spread",
+        genericTitle: "Confirm free spread",
+        body: "Confirm the spread first. Card selection starts only after this dialog closes.",
+        freeLabel: "Current free spread",
+        cardCount: "cards",
+        memberLocked: "Member unlock",
+        confirm: "Confirm and draw",
+        shuffling: "Shuffling",
+        shufflingBody: "Preparing the deck before you confirm this reading.",
+      },
+      ja: {
+        eyebrow: "スプレッド確認",
+        title: "無料3枚スプレッド",
+        genericTitle: "無料スプレッドを確認",
+        body: "先にスプレッドを確認し、ダイアログを閉じてからカード選択に進みます。",
+        freeLabel: "現在の無料スプレッド",
+        cardCount: "枚",
+        memberLocked: "メンバー限定",
+        confirm: "確認してカードを選ぶ",
+        shuffling: "シャッフル中",
+        shufflingBody: "スプレッド確認の前にデッキを整えています。",
+      },
+      ko: {
+        eyebrow: "스프레드 확인",
+        title: "기본 무료 3카드 스프레드",
+        genericTitle: "무료 스프레드 확인",
+        body: "먼저 스프레드를 확인하고, 창이 닫힌 뒤 카드 선택이 시작됩니다.",
+        freeLabel: "현재 무료 스프레드",
+        cardCount: "장",
+        memberLocked: "멤버십 잠금",
+        confirm: "확인하고 카드 뽑기",
+        shuffling: "셔플 중",
+        shufflingBody: "이번 리딩을 확인하기 전에 덱을 준비하고 있습니다.",
+      },
+      es: {
+        eyebrow: "Confirmar tirada",
+        title: "Tirada gratis de tres cartas",
+        genericTitle: "Confirmar tirada gratis",
+        body: "Primero confirma la tirada. La seleccion de cartas empieza cuando se cierre este dialogo.",
+        freeLabel: "Tirada gratis actual",
+        cardCount: "cartas",
+        memberLocked: "Desbloqueo miembro",
+        confirm: "Confirmar y elegir",
+        shuffling: "Barajando",
+        shufflingBody: "Preparando el mazo antes de confirmar esta lectura.",
+      },
+      "pt-br": {
+        eyebrow: "Confirmar tiragem",
+        title: "Tiragem gratis de tres cartas",
+        genericTitle: "Confirmar tiragem gratis",
+        body: "Confirme a tiragem primeiro. A escolha das cartas comeca so depois que este dialogo fechar.",
+        freeLabel: "Tiragem gratis atual",
+        cardCount: "cartas",
+        memberLocked: "Desbloqueio membro",
+        confirm: "Confirmar e tirar",
+        shuffling: "Embaralhando",
+        shufflingBody: "Preparando o baralho antes de confirmar esta leitura.",
+      },
+    }[readingLocale] || {
+      eyebrow: "Confirm spread",
+      title: "Default free three-card spread",
+      genericTitle: "Confirm free spread",
+      body: "Confirm the spread first. Card selection starts only after this dialog closes.",
+      freeLabel: "Current free spread",
+      cardCount: "cards",
+      memberLocked: "Member unlock",
+      confirm: "Confirm and draw",
+      shuffling: "Shuffling",
+      shufflingBody: "Preparing the deck before you confirm this reading.",
+    }
+
   const resolveSpreadForAccess = (info: SpreadInfo, serverFreeStarter?: SpreadInfo): SpreadInfo => {
     if (!isAdvancedSpreadType(info.type) || hasAdvancedSpreadAccess) {
       setAdvancedSpreadPrompt(null)
@@ -219,6 +307,47 @@ function InputContent() {
     }
   }
 
+  const clearSpreadChoiceTimer = () => {
+    if (spreadChoiceTimer.current) {
+      clearTimeout(spreadChoiceTimer.current)
+      spreadChoiceTimer.current = null
+    }
+  }
+
+  const beginSpreadChoiceFlow = (nextSpreadInfo: SpreadInfo) => {
+    clearSpreadChoiceTimer()
+    setSelectedCardIds([])
+    setSpreadInfo(nextSpreadInfo)
+    setShuffleKey((k) => k + 1)
+    setPageState("shuffling")
+    spreadChoiceTimer.current = setTimeout(() => {
+      setPageState("spread_choice")
+      spreadChoiceTimer.current = null
+    }, 1100)
+  }
+
+  const handleSpreadChoiceConfirm = () => {
+    clearSpreadChoiceTimer()
+    setSelectedCardIds([])
+    setShuffleKey((k) => k + 1)
+    analyticsApi.track("spread_confirmed", {
+      ...getCurrentAttribution(),
+      locale: readingLocale,
+      keyword: question,
+      metadata: {
+        spread_type: spreadInfo?.type || "three_card",
+        card_count: spreadInfo?.config.cardCount || 3,
+        deck_type: spreadInfo?.deckType || "major",
+        had_member_upgrade_prompt: Boolean(advancedSpreadPrompt),
+      },
+    })
+    setPageState("selecting")
+  }
+
+  useEffect(() => {
+    return () => clearSpreadChoiceTimer()
+  }, [])
+
   const handleQuestionSubmit = async (q: string) => {
     setQuestion(q)
     hasSubmittedQuestion.current = true
@@ -235,9 +364,8 @@ function InputContent() {
     })
 
     if (preferredSpreadType) {
-      setSpreadInfo(resolveSpreadForAccess(createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92)))
+      beginSpreadChoiceFlow(resolveSpreadForAccess(createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92)))
       setIsClassifying(false)
-      setPageState("selecting")
       return
     }
 
@@ -259,7 +387,7 @@ function InputContent() {
             }
           : undefined
 
-      setSpreadInfo(resolveSpreadForAccess({
+      beginSpreadChoiceFlow(resolveSpreadForAccess({
         type: result.spread_type,
         config: result.spread_config,
         deckType: result.deck_type || 'major',  // 牌组类型
@@ -270,10 +398,9 @@ function InputContent() {
       console.error("问题分类失败:", error)
       // 使用默认的三牌阵
       setAdvancedSpreadPrompt(null)
-      setSpreadInfo(createLocalSpreadInfo("three_card", "使用默认牌阵", 0.5))
+      beginSpreadChoiceFlow(createLocalSpreadInfo("three_card", "使用默认牌阵", 0.5))
     } finally {
       setIsClassifying(false)
-      setPageState("selecting")
     }
   }
 
@@ -337,11 +464,12 @@ function InputContent() {
     setShuffleKey((k) => k + 1)
   }
 
+  const showCardSpread = pageState === "dealing" || pageState === "shuffling" || pageState === "selecting" || pageState === "collecting"
   const hasEntryQuestionContext = Boolean(
     initialQuestion &&
       autoStart &&
       spreadInfo &&
-      (pageState === "selecting" || pageState === "collecting"),
+      (pageState === "spread_choice" || pageState === "selecting" || pageState === "collecting"),
   )
   const shouldShowIntentHint = Boolean(hasEntryQuestionContext && !advancedSpreadPrompt)
 
@@ -391,18 +519,22 @@ function InputContent() {
         }}
       />
 
-      <CardSpread
-        key={`${shuffleKey}-${spreadInfo?.deckType || 'major'}`}
-        onCardsDealt={handleCardsDealt}
-        selectionMode={pageState === "selecting"}
-        collectingMode={pageState === "collecting"}
-        onCardSelect={handleCardSelect}
-        selectedCardIds={selectedCardIds}
-        onCollectComplete={handleCollectComplete}
-        maxCards={requiredCardCount}
-        deckType={spreadInfo?.deckType || 'major'}
-        locale={readingLocale}
-      />
+      {showCardSpread && (
+        <div data-input-card-selection-surface className="absolute inset-0 z-10">
+          <CardSpread
+            key={`${shuffleKey}-${spreadInfo?.deckType || 'major'}`}
+            onCardsDealt={handleCardsDealt}
+            selectionMode={pageState === "selecting"}
+            collectingMode={pageState === "collecting"}
+            onCardSelect={handleCardSelect}
+            selectedCardIds={selectedCardIds}
+            onCollectComplete={handleCollectComplete}
+            maxCards={requiredCardCount}
+            deckType={spreadInfo?.deckType || 'major'}
+            locale={readingLocale}
+          />
+        </div>
+      )}
 
       <CardSelectionHeader
         visible={pageState === "selecting" || pageState === "collecting"}
@@ -421,6 +553,16 @@ function InputContent() {
         onClick={handleShuffle}
         locale={readingLocale}
       />
+
+      {pageState === "shuffling" && (
+        <div
+          data-input-shuffle-prelude
+          className="absolute bottom-[calc(env(safe-area-inset-bottom)+3rem)] left-1/2 z-40 w-[min(88vw,22rem)] -translate-x-1/2 rounded-2xl border border-[#c9c0ff]/18 bg-[#10081d]/64 px-5 py-4 text-center shadow-[0_18px_46px_rgba(0,0,0,0.36)] backdrop-blur-md sm:bottom-14"
+        >
+          <p className="text-sm font-medium tracking-[0.2em] text-[#f1ecff]">{spreadChoiceCopy.shuffling}</p>
+          <p className="mt-2 text-xs leading-5 text-white/52">{spreadChoiceCopy.shufflingBody}</p>
+        </div>
+      )}
 
       {shouldShowIntentHint && (
         <div
@@ -446,57 +588,99 @@ function InputContent() {
         </div>
       )}
 
-      {advancedSpreadPrompt && (pageState === "selecting" || pageState === "collecting") && (
-        <div
-          data-input-advanced-spread-prompt
-          className="absolute left-1/2 top-[calc(env(safe-area-inset-top)+0.875rem)] z-40 w-[min(92vw,34rem)] -translate-x-1/2 rounded-xl border border-[#c9c0ff]/20 bg-[#11091f]/78 p-3 shadow-[0_18px_45px_rgba(0,0,0,0.38)] backdrop-blur-md sm:top-[calc(env(safe-area-inset-top)+1.25rem)] sm:p-4"
-        >
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <p className="text-sm font-medium text-[#eeeaff]">{advancedSpreadCopy.title}</p>
-              <p className="mt-1 text-xs leading-5 text-white/58 sm:text-sm sm:leading-6">
-                {advancedSpreadCopy.body
-                  .replace("{requested}", advancedSpreadPrompt.requestedName)
-                  .replace("{fallback}", advancedSpreadPrompt.fallbackName)}
-              </p>
-              <div
-                data-input-free-first-boundary
-                className="mt-3 grid gap-2 sm:grid-cols-2"
+      {pageState === "spread_choice" && spreadInfo && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center px-4 py-[calc(env(safe-area-inset-top)+1rem)]">
+          <div className="absolute inset-0 bg-[#07020d]/72 backdrop-blur-sm" />
+          <div
+            role="dialog"
+            aria-modal="true"
+            data-input-spread-choice-dialog
+            className="relative w-[min(92vw,34rem)] rounded-2xl border border-[#c9c0ff]/22 bg-[#11091f]/92 p-4 shadow-[0_28px_80px_rgba(0,0,0,0.52)] backdrop-blur-xl sm:p-5"
+          >
+            <p className="text-[11px] uppercase tracking-[0.2em] text-[#c9c0ff]/66">{spreadChoiceCopy.eyebrow}</p>
+            <h2 className="mt-2 text-xl font-medium leading-tight text-[#f4f0ff] sm:text-2xl">
+              {advancedSpreadPrompt
+                ? advancedSpreadCopy.title
+                : spreadInfo.config.cardCount === 3
+                  ? spreadChoiceCopy.title
+                  : spreadChoiceCopy.genericTitle}
+            </h2>
+            <p className="mt-2 text-sm leading-6 text-white/58">
+              {advancedSpreadPrompt
+                ? advancedSpreadCopy.body
+                    .replace("{requested}", advancedSpreadPrompt.requestedName)
+                    .replace("{fallback}", advancedSpreadPrompt.fallbackName)
+                : spreadChoiceCopy.body}
+            </p>
+
+            <div data-input-free-first-boundary className="mt-5 grid gap-3">
+              <button
+                type="button"
+                data-input-free-starter-spread
+                aria-pressed="true"
+                className="min-w-0 rounded-xl border border-[#c9c0ff]/38 bg-[#c9c0ff]/[0.12] px-4 py-3 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
               >
-                <div
-                  data-input-free-starter-spread
-                  className="min-w-0 rounded-lg border border-[#c9c0ff]/24 bg-[#c9c0ff]/[0.08] px-3 py-2"
-                >
-                  <p className="text-[10px] uppercase tracking-[0.16em] text-[#c9c0ff]/72">{advancedSpreadCopy.freeLabel}</p>
-                  <p className="mt-1 truncate text-xs font-medium text-[#f4f0ff]">{advancedSpreadPrompt.fallbackName}</p>
-                </div>
+                <span className="block text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/72">
+                  {advancedSpreadPrompt ? advancedSpreadCopy.freeLabel : spreadChoiceCopy.freeLabel}
+                </span>
+                <span className="mt-1 block truncate text-sm font-medium text-[#f4f0ff]">
+                  {advancedSpreadPrompt?.fallbackName || getLocalizedSpreadName(spreadInfo.config)}
+                </span>
+                <span className="mt-1 block text-xs text-white/46">
+                  {spreadInfo.config.cardCount} {spreadChoiceCopy.cardCount}
+                </span>
+              </button>
+
+              {advancedSpreadPrompt && (
                 <div
                   data-input-member-spread-name
-                  className="min-w-0 rounded-lg border border-white/10 bg-black/18 px-3 py-2"
+                  className="min-w-0 rounded-xl border border-white/10 bg-black/20 px-4 py-3"
                 >
-                  <p className="text-[10px] uppercase tracking-[0.16em] text-white/38">{advancedSpreadCopy.memberLabel}</p>
-                  <p className="mt-1 truncate text-xs font-medium text-white/64">{advancedSpreadPrompt.requestedName}</p>
-                </div>
-              </div>
-              {hasEntryQuestionContext && (
-                <div
-                  data-input-entry-context
-                  className="mt-3 grid gap-1 rounded-lg border border-white/10 bg-black/18 px-3 py-2 text-xs text-white/54"
-                >
-                  <p className="line-clamp-2 leading-5 text-white/64">{question || initialQuestion}</p>
-                  <p className="truncate text-[#c9c0ff]/70">
-                    {intentHintCopy.source}: {intentSourceLabel}
-                  </p>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/38">{advancedSpreadCopy.memberLabel}</p>
+                      <p className="mt-1 truncate text-sm font-medium text-white/64">{advancedSpreadPrompt.requestedName}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-white/10 px-2 py-1 text-[10px] text-white/44">
+                      {spreadChoiceCopy.memberLocked}
+                    </span>
+                  </div>
                 </div>
               )}
             </div>
-            <button
-              data-input-member-upgrade-cta
-              onClick={() => router.push("/membership")}
-              className="shrink-0 rounded-full border border-[#c9c0ff]/35 px-3 py-2 text-xs font-medium text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10"
-            >
-              {advancedSpreadCopy.button}
-            </button>
+
+            {hasEntryQuestionContext && (
+              <div
+                data-input-entry-context
+                className="mt-4 grid gap-1 rounded-xl border border-white/10 bg-black/18 px-3 py-2 text-xs text-white/54"
+              >
+                <p className="line-clamp-2 leading-5 text-white/64">{question || initialQuestion}</p>
+                <p className="truncate text-[#c9c0ff]/70">
+                  {intentHintCopy.source}: {intentSourceLabel}
+                </p>
+              </div>
+            )}
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-[auto_1fr]">
+              {advancedSpreadPrompt && (
+                <button
+                  data-input-member-upgrade-cta
+                  type="button"
+                  onClick={() => router.push("/membership")}
+                  className="rounded-full border border-[#c9c0ff]/30 px-4 py-3 text-sm font-medium text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10"
+                >
+                  {advancedSpreadCopy.button}
+                </button>
+              )}
+              <button
+                data-input-spread-choice-confirm
+                type="button"
+                onClick={handleSpreadChoiceConfirm}
+                className="rounded-full border border-[#c9c0ff]/36 bg-[#d9d4ff] px-5 py-3 text-sm font-semibold text-[#160d24] shadow-[0_14px_42px_rgba(129,114,232,0.26)] transition hover:bg-[#eeeaff] active:scale-[0.98]"
+              >
+                {spreadChoiceCopy.confirm}
+              </button>
+            </div>
           </div>
         </div>
       )}
