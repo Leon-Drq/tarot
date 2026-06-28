@@ -973,6 +973,10 @@ export function DailyTarotTool() {
   }, [])
 
   useEffect(() => {
+    if (!emailDeliveryEnabled) setReminderEnabled(false)
+  }, [emailDeliveryEnabled])
+
+  useEffect(() => {
     setShowInstallPrompt(!isStandaloneDisplay())
 
     const handleBeforeInstallPrompt = (event: Event) => {
@@ -1051,6 +1055,8 @@ export function DailyTarotTool() {
     const nextReminderEmail = Object.prototype.hasOwnProperty.call(input, "reminderEmail")
       ? input.reminderEmail
       : existing?.reminder_email ?? reminderEmail
+    const requestedReminderEnabled = input.reminderEnabled ?? existing?.reminder_enabled ?? reminderEnabled
+    const nextReminderEnabled = emailDeliveryEnabled ? requestedReminderEnabled : false
 
     return {
       ...existing,
@@ -1063,8 +1069,8 @@ export function DailyTarotTool() {
       journal: input.journal ?? existing?.journal ?? journal,
       mood: input.mood ?? existing?.mood ?? mood,
       streak_count: nextStreak,
-      reminder_enabled: input.reminderEnabled ?? existing?.reminder_enabled ?? reminderEnabled,
-      reminder_email: nextReminderEmail,
+      reminder_enabled: nextReminderEnabled,
+      reminder_email: nextReminderEnabled ? nextReminderEmail : null,
       reminder_time: input.reminderTime ?? existing?.reminder_time ?? reminderTime,
       reminder_timezone: getTimezone(),
     }
@@ -1173,6 +1179,40 @@ export function DailyTarotTool() {
   const handleSaveReminder = async () => {
     if (!dateKey) return
     const normalizedEmail = normalizeReminderEmail(reminderEmail)
+    if (!emailDeliveryEnabled) {
+      setIsSaving(true)
+      setReminderStatus("")
+      try {
+        setReminderEnabled(false)
+        const localEntry = createLocalEntry({
+          reminderEnabled: false,
+          reminderEmail: null,
+          reminderTime,
+        })
+        if (localEntry) saveLocalEntry(localEntry)
+        setStatus(copy.emailSetupPendingAction)
+        setReminderStatus(copy.emailSetupPendingAction)
+        analyticsApi.track("daily_reminder_preference_saved", {
+          ...getCurrentAttribution(),
+          locale: language,
+          keyword: "daily tarot",
+          metadata: {
+            surface: "daily-tarot",
+            reminder_enabled: false,
+            reminder_time: reminderTime,
+            attempted_email: Boolean(normalizedEmail),
+            email_delivery_enabled: false,
+            delivery_status: reminderCapability?.delivery_status || "setup_required",
+            synced_to_cloud: false,
+            missing_capabilities: reminderCapability?.missing_capabilities || [],
+          },
+        })
+      } finally {
+        setIsSaving(false)
+      }
+      return
+    }
+
     if (reminderEnabled && !isValidReminderEmail(normalizedEmail)) {
       setStatus(copy.reminderEmailInvalid)
       setReminderStatus(copy.reminderEmailInvalid)
@@ -2308,7 +2348,10 @@ export function DailyTarotTool() {
           </button>
         </article>
 
-        <article className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6">
+        <article
+          data-daily-reminder-email-fallback={!emailDeliveryEnabled ? "true" : undefined}
+          className="rounded-lg border border-white/10 bg-white/[0.03] p-5 sm:p-6"
+        >
           <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <h2 className="font-serif text-xl text-white">{copy.reminderTitle}</h2>
             <div className="flex flex-wrap gap-2">
@@ -2331,6 +2374,11 @@ export function DailyTarotTool() {
           <div className="mb-4 rounded-lg border border-[#bfb6ff]/16 bg-[#bfb6ff]/[0.045] p-4">
             <p className="text-sm font-medium text-[#f2edff]">{reminderModeTitle}</p>
             <p className="mt-2 text-xs leading-5 text-white/52">{reminderModeBody}</p>
+            {!emailDeliveryEnabled && (
+              <p data-daily-reminder-email-disabled-copy className="mt-3 text-xs leading-5 text-[#c9c0ff]">
+                {copy.emailSetupPendingAction}
+              </p>
+            )}
           </div>
           <div data-daily-reminder-form>
             <div className="grid gap-3 sm:grid-cols-[1fr_132px]">
@@ -2340,10 +2388,12 @@ export function DailyTarotTool() {
                 onChange={(event) => {
                   const nextEmail = event.target.value
                   setReminderEmail(nextEmail)
-                  if (normalizeReminderEmail(nextEmail) && !reminderEnabled) setReminderEnabled(true)
+                  if (emailDeliveryEnabled && normalizeReminderEmail(nextEmail) && !reminderEnabled) setReminderEnabled(true)
                 }}
+                disabled={!emailDeliveryEnabled}
+                aria-disabled={!emailDeliveryEnabled}
                 placeholder={copy.reminderEmail}
-                className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55"
+                className="min-h-11 rounded-lg border border-white/10 bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/30 focus:border-[#bfb6ff]/55 disabled:cursor-not-allowed disabled:opacity-45"
               />
               <input
                 type="time"
@@ -2356,22 +2406,26 @@ export function DailyTarotTool() {
             <label className="mt-4 flex min-h-10 items-center gap-3 text-sm text-white/62">
               <input
                 type="checkbox"
-                checked={reminderEnabled}
+                checked={emailDeliveryEnabled && reminderEnabled}
                 onChange={(event) => setReminderEnabled(event.target.checked)}
-                className="h-4 w-4 accent-[#bfb6ff]"
+                disabled={!emailDeliveryEnabled}
+                aria-disabled={!emailDeliveryEnabled}
+                className="h-4 w-4 accent-[#bfb6ff] disabled:cursor-not-allowed disabled:opacity-45"
               />
-              {copy.reminderToggle}
+              {emailDeliveryEnabled ? copy.reminderToggle : copy.emailSetupDisabled}
             </label>
-            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
               <button
                 onClick={handleSaveReminder}
-                disabled={isSaving || (!reminderEmail && reminderEnabled)}
+                disabled={!emailDeliveryEnabled || isSaving || (!reminderEmail && reminderEnabled)}
+                data-daily-reminder-save-email
                 className="inline-flex min-h-10 w-full items-center justify-center rounded-lg border border-white/14 px-5 text-sm text-white/72 transition hover:bg-white/[0.05] disabled:opacity-45"
               >
-                {emailDeliveryEnabled ? copy.saveReminder : copy.saveEmailPreference}
+                {emailDeliveryEnabled ? copy.saveReminder : copy.emailSetupDisabled}
               </button>
               <button
                 onClick={handleDownloadCalendarReminder}
+                data-daily-reminder-calendar-fallback
                 className={`inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg px-5 text-sm transition ${
                   emailDeliveryEnabled
                     ? "border border-[#bfb6ff]/28 bg-[#bfb6ff]/[0.06] text-[#eee9ff] hover:bg-[#bfb6ff]/12"
@@ -2380,6 +2434,14 @@ export function DailyTarotTool() {
               >
                 <CalendarPlus className="h-4 w-4" />
                 {copy.calendarReminder}
+              </button>
+              <button
+                onClick={handleEmailReturnLink}
+                data-daily-reminder-mailto-fallback
+                className="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-lg border border-white/12 px-5 text-sm text-white/72 transition hover:border-[#bfb6ff]/38 hover:text-white"
+              >
+                <Mail className="h-4 w-4" />
+                {returnCopy.mailLink}
               </button>
             </div>
           </div>

@@ -51,8 +51,10 @@ const files = {
   packageJson: { path: "package.json", source: read("package.json") },
   nextConfig: { path: "next.config.mjs", source: read("next.config.mjs") },
   mobileCheck: { path: "scripts/check-mobile-layout.mjs", source: read("scripts/check-mobile-layout.mjs") },
+  desktopScrollCheck: { path: "scripts/check-desktop-scroll.mjs", source: read("scripts/check-desktop-scroll.mjs") },
   layout: { path: "app/layout.tsx", source: read("app/layout.tsx") },
   homePage: { path: "app/page.tsx", source: read("app/page.tsx") },
+  dailyTarotCopy: { path: "lib/daily-tarot.ts", source: read("lib/daily-tarot.ts") },
   dailyTarotPage: { path: "app/daily-tarot/page.tsx", source: read("app/daily-tarot/page.tsx") },
   dailyTarotTool: {
     path: "components/daily/daily-tarot-tool.tsx",
@@ -758,6 +760,13 @@ assertIncludes(files.dailyTarotTool, "return_action", "Daily Tarot return action
 assertIncludes(files.dailyTarotTool, "[data-daily-return-setup]", "Daily Tarot return action reminder scroll target")
 assertIncludes(files.dailyTarotTool, "daily_return_email_opened", "Daily Tarot self-email return tracking")
 assertIncludes(files.dailyTarotTool, "daily_return_link_copied", "Daily Tarot copied return link tracking")
+assertIncludes(files.dailyTarotTool, "data-daily-reminder-email-fallback", "Daily Tarot shows email pending fallback state")
+assertIncludes(files.dailyTarotTool, "data-daily-reminder-calendar-fallback", "Daily Tarot calendar fallback CTA")
+assertIncludes(files.dailyTarotTool, "data-daily-reminder-mailto-fallback", "Daily Tarot self-email reminder fallback CTA")
+assertIncludes(files.dailyTarotTool, "disabled={!emailDeliveryEnabled}", "Daily Tarot disables scheduled email controls until provider is ready")
+assertIncludes(files.dailyTarotTool, "copy.emailSetupPendingAction", "Daily Tarot explains scheduled email setup state")
+assertIncludes(files.dailyTarotCopy, "emailSetupDisabled", "Daily Tarot email-disabled copy")
+assertIncludes(files.dailyTarotCopy, "emailSetupPendingAction", "Daily Tarot email setup pending copy")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-actions", "Daily Tarot first-screen direct/mail return actions")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-copy", "Daily Tarot first-screen copy return link action")
 assertIncludes(files.dailyTarotTool, "data-daily-direct-return-mailto", "Daily Tarot first-screen mailto return action")
@@ -782,6 +791,9 @@ assertIncludes(files.mobileCheck, "highIntentQuestionRequiredSelectors", "mobile
 assertIncludes(files.mobileCheck, "[data-question-return-loop]", "mobile check long-tail return loop")
 assertIncludes(files.mobileCheck, "[data-question-return-loop-card]", "mobile check long-tail return loop cards")
 assertIncludes(files.mobileCheck, "[data-question-decision-checklist]", "mobile check long-tail decision checklist")
+assertIncludes(files.packageJson, "\"check:desktop-scroll\": \"node scripts/check-desktop-scroll.mjs\"", "desktop scroll package script")
+assertIncludes(files.desktopScrollCheck, "page.mouse.wheel", "desktop scroll mouse wheel assertion")
+assertIncludes(files.desktopScrollCheck, "htmlOverscrollY", "desktop scroll overscroll guard")
 assertIncludes(files.seoLanding, "return_action: \"reminder\"", "long-tail Daily Tarot return action parameter")
 
 assertIncludes(files.freeToolsPage, "highIntentQuestionLinks.map", "free tools high-intent daily links")
@@ -888,6 +900,9 @@ for (const spread of ["breakup_recovery", "their_thoughts", "job_opportunity", "
 assertIncludes(files.homePage, "#homepage-quick-start-free-readings", "homepage quick-start structured data")
 assertIncludes(files.homePage, "homeQuickStartActionTarget", "homepage quick-start structured action target")
 assertIncludes(files.homePage, "InteractAction", "homepage quick-start structured interact action")
+assertIncludes(files.globalStyles, "overscroll-behavior-y: auto", "vertical desktop wheel scrolling remains enabled")
+assertNotIncludes(files.globalStyles, "overscroll-behavior: none", "global vertical scroll lock")
+assertNotIncludes(files.globalStyles, "body:has(.allow-scroll)::-webkit-scrollbar", "desktop scrollbar is not hidden on scroll-enabled pages")
 assertIncludes(files.globalStyles, "--home-hero-browser-offset: min(var(--home-mobile-browser-offset, 0px), 7rem)", "homepage browser chrome offset variable")
 assertIncludes(files.globalStyles, "--home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58svh, 28.5rem))", "homepage mobile focal centering with browser chrome offset")
 assertIncludes(files.globalStyles, "--home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857)", "homepage card size variable")

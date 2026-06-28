@@ -163,22 +163,16 @@
   body {
     @apply bg-background text-foreground;
   }
-  /* Lock scroll on html and body, allow specific pages to enable scroll */
+  /* Keep vertical page scrolling native; only suppress sideways overscroll. */
   html,
   body {
     overflow-x: hidden;
-    overscroll-behavior: none;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: auto;
   }
-  /* Allow scroll only on reading page */
   html:has(.allow-scroll),
   body:has(.allow-scroll) {
     overflow-y: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  html:has(.allow-scroll)::-webkit-scrollbar,
-  body:has(.allow-scroll)::-webkit-scrollbar {
-    display: none;
   }
   /* Reset Next.js portal positioning */
   nextjs-portal {
