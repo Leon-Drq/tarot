@@ -84,6 +84,17 @@ try {
 
   assert(registration?.scope === `${baseUrl}/`, `service worker scope should be ${baseUrl}/`)
   assert(registration.activeScript === absolute("/sw.js"), "service worker active script should be /sw.js")
+
+  await page.goto(absolute("/?utm_source=pwa_check&utm_medium=home_install"), {
+    waitUntil: "networkidle",
+    timeout: 45_000,
+  })
+  const homeInstall = await page.evaluate(() => ({
+    panel: Boolean(document.querySelector("[data-home-daily-return-panel]")),
+    install: Boolean(document.querySelector("[data-home-pwa-install]")),
+  }))
+  assert(homeInstall.panel, "homepage must show Daily Tarot return panel")
+  assert(homeInstall.install, "homepage Daily Tarot return panel must expose PWA install action")
   await context.close()
 } finally {
   await browser.close()

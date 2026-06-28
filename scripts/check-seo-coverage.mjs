@@ -918,6 +918,9 @@ assertIncludes(files.globalStyles, "calc(var(--home-hero-actions-bottom) + var(-
 assertIncludes(files.globalStyles, "max(\n        118svh,", "homepage mobile shell keeps following content below hero actions")
 assertIncludes(files.globalStyles, "calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height))", "homepage hero action fallback reserve")
 assertIncludes(files.homeExperience, "data-home-hero-actions", "homepage hero actions measurement hook")
+assertIncludes(files.homeExperience, "data-home-pwa-install", "homepage PWA install return action")
+assertIncludes(files.homeExperience, "beforeinstallprompt", "homepage PWA install prompt listener")
+assertIncludes(files.homeExperience, "installFallback", "homepage PWA install fallback copy")
 assertIncludes(files.homeExperience, "heroActionsRef", "homepage hero actions ref for mobile overlap measurement")
 assertIncludes(files.homeExperience, "ResizeObserver", "homepage hero action resize observer")
 assertIncludes(files.homeExperience, "stage.style.setProperty(\"--home-hero-actions-bottom\"", "homepage measured action bottom setter")
@@ -1342,6 +1345,7 @@ const identityMetadataCoverage = [
   [files.packageJson, "\"check:pwa\": \"node scripts/check-pwa-installability.mjs\"", "PWA installability check package script"],
   [files.pwaCheck, "navigator.serviceWorker.ready", "PWA runtime registration check"],
   [files.pwaCheck, "manifest.shortcuts", "PWA manifest shortcut runtime check"],
+  [files.pwaCheck, "[data-home-pwa-install]", "PWA runtime homepage install action check"],
   [files.siteManifest, "\"name\": \"POPTarot - Free AI Tarot Reading\"", "site manifest product name"],
   [files.siteManifest, "\"src\": \"/search-favicon.png\"", "site manifest search favicon icon"],
   [files.siteManifest, "\"src\": \"/favicon.png\"", "site manifest search favicon icon"],

@@ -17,6 +17,17 @@ import type { SpreadType } from "@/lib/spread-config"
 const DEFAULT_FRONT = "/images/0.png"
 const DEFAULT_BACK = "/images/back1.jpg"
 
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform?: string }>
+}
+
+function isStandalonePwa() {
+  if (typeof window === "undefined") return false
+  const navigatorWithStandalone = window.navigator as Navigator & { standalone?: boolean }
+  return window.matchMedia("(display-mode: standalone)").matches || navigatorWithStandalone.standalone === true
+}
+
 // 单独提取 searchParams 相关逻辑
 function ReferralCapture() {
   const searchParams = useSearchParams()
@@ -183,6 +194,9 @@ function HomeDailyReturnPanel() {
   const { language } = useLanguage()
   const [hasDailyEntry, setHasDailyEntry] = useState(false)
   const [streak, setStreak] = useState(0)
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
+  const [installStatus, setInstallStatus] = useState("")
+  const [isInstalled, setIsInstalled] = useState(false)
 
   useEffect(() => {
     const today = getLocalDateKey()
@@ -207,6 +221,9 @@ function HomeDailyReturnPanel() {
         bodyDone: "明天回来继续打卡；也可以补一条日记，记录这张牌今天是否应验在情绪或行动上。",
         primary: "打开每日塔罗",
         secondary: "查看牌义",
+        install: "添加到主屏幕",
+        installFallback: "在浏览器菜单中选择添加到主屏幕，明天可以直接回来。",
+        installInstalled: "已可从主屏幕直接打开。",
         streak: "连续",
         days: "天",
       },
@@ -218,6 +235,9 @@ function HomeDailyReturnPanel() {
         bodyDone: "Come back tomorrow to keep the streak, or add a short journal note while today's card is still fresh.",
         primary: "Open Daily Tarot",
         secondary: "Learn card meanings",
+        install: "Add to Home Screen",
+        installFallback: "Use your browser menu to add POPTarot to your home screen for a direct daily return.",
+        installInstalled: "POPTarot can open from your home screen.",
         streak: "Streak",
         days: "days",
       },
@@ -229,6 +249,9 @@ function HomeDailyReturnPanel() {
         bodyDone: "明日また戻って連続記録を続けるか、今日のカードに短いメモを残しましょう。",
         primary: "毎日のタロットへ",
         secondary: "カードの意味",
+        install: "ホーム画面に追加",
+        installFallback: "ブラウザメニューからホーム画面に追加すると、明日すぐ戻れます。",
+        installInstalled: "ホーム画面から開けます。",
         streak: "連続",
         days: "日",
       },
@@ -240,10 +263,60 @@ function HomeDailyReturnPanel() {
         bodyDone: "내일 다시 돌아와 연속 기록을 이어가거나, 오늘 카드에 짧은 저널을 남겨보세요.",
         primary: "데일리 타로 열기",
         secondary: "카드 의미 보기",
+        install: "홈 화면에 추가",
+        installFallback: "브라우저 메뉴에서 홈 화면에 추가하면 내일 바로 돌아올 수 있습니다.",
+        installInstalled: "홈 화면에서 바로 열 수 있습니다.",
         streak: "연속",
         days: "일",
       },
     }[language]
+
+  useEffect(() => {
+    setIsInstalled(isStandalonePwa())
+
+    const handleBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault()
+      setInstallPrompt(event as BeforeInstallPromptEvent)
+    }
+    const handleAppInstalled = () => {
+      setIsInstalled(true)
+      setInstallPrompt(null)
+      setInstallStatus(copy.installInstalled)
+    }
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
+    window.addEventListener("appinstalled", handleAppInstalled)
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt)
+      window.removeEventListener("appinstalled", handleAppInstalled)
+    }
+  }, [copy.installInstalled])
+
+  const handleInstallPwa = async () => {
+    if (isInstalled) {
+      setInstallStatus(copy.installInstalled)
+      return
+    }
+
+    if (!installPrompt) {
+      setInstallStatus(copy.installFallback)
+      return
+    }
+
+    try {
+      await installPrompt.prompt()
+      const choice = await installPrompt.userChoice
+      setInstallPrompt(null)
+      if (choice.outcome === "accepted") {
+        setIsInstalled(true)
+        setInstallStatus(copy.installInstalled)
+        return
+      }
+      setInstallStatus(copy.installFallback)
+    } catch {
+      setInstallStatus(copy.installFallback)
+    }
+  }
 
   return (
     <div
@@ -278,6 +351,21 @@ function HomeDailyReturnPanel() {
           >
             {copy.secondary}
           </a>
+          {!isInstalled && (
+            <button
+              type="button"
+              data-home-pwa-install
+              onClick={handleInstallPwa}
+              className="inline-flex min-h-10 items-center justify-center rounded-lg border border-[#c9c0ff]/22 bg-[#c9c0ff]/[0.07] px-3 text-center text-sm leading-4 text-[#eee9ff] transition hover:bg-[#c9c0ff]/13"
+            >
+              {copy.install}
+            </button>
+          )}
+          {installStatus && (
+            <p data-home-pwa-install-status className="text-xs leading-5 text-white/45">
+              {installStatus}
+            </p>
+          )}
         </div>
       </div>
     </div>
