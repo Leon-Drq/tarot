@@ -23,6 +23,16 @@ try {
       deviceScaleFactor: 1,
     })
     await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "networkidle", timeout: 45_000 })
+
+    const initialResult = await page.evaluate(() => ({
+      homeQuestionFormBottom: document.querySelector("[data-home-question-form]")
+        ? Math.round(document.querySelector("[data-home-question-form]").getBoundingClientRect().bottom)
+        : null,
+      homeScrollContentTop: document.querySelector("[data-home-scroll-content]")
+        ? Math.round(document.querySelector("[data-home-scroll-content]").getBoundingClientRect().top)
+        : null,
+    }))
+
     await page.mouse.move(720, 450)
     await page.mouse.wheel(0, 1200)
     await page.waitForTimeout(250)
@@ -49,7 +59,7 @@ try {
       scrollbarWidth: window.innerWidth - document.documentElement.clientWidth,
     }))
 
-    results.push({ ...pageConfig, ...result })
+    results.push({ ...pageConfig, ...initialResult, ...result })
     if (result.scrollHeight <= result.clientHeight + pageConfig.minScrollY) {
       failures.push(`${pageConfig.name}: page is not tall enough to verify wheel scrolling`)
     }
@@ -67,6 +77,12 @@ try {
     }
     if (pageConfig.path === "/" && result.homeShellOverflowY !== "visible") {
       failures.push(`${pageConfig.name}: home hero shell must not clip vertical page content`)
+    }
+    if (pageConfig.path === "/" && initialResult.homeQuestionFormBottom > result.clientHeight - 24) {
+      failures.push(`${pageConfig.name}: homepage question form is clipped below the desktop viewport`)
+    }
+    if (pageConfig.path === "/" && initialResult.homeScrollContentTop > result.clientHeight + 360) {
+      failures.push(`${pageConfig.name}: scroll content starts too far below the desktop viewport`)
     }
 
     await page.close()
