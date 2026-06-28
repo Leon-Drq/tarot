@@ -15,6 +15,7 @@
     "check:reminders": "node scripts/check-reminder-capability.mjs",
     "check:reminders:strict": "node scripts/check-reminder-capability.mjs --strict",
     "check:reminders:cron": "node scripts/check-reminder-capability.mjs --cron",
+    "check:reminders:test": "node scripts/check-reminder-capability.mjs --send-test",
     "check:reminders:schedule": "node --no-warnings scripts/check-reminder-schedule.mjs"
   },
   "dependencies": {

@@ -1,6 +1,7 @@
 const args = new Set(process.argv.slice(2))
 const strict = args.has("--strict")
 const checkCron = args.has("--cron") || args.has("--cron-dry-run")
+const sendTest = args.has("--send-test")
 const scriptName = "check-reminder-capability"
 const appUrl =
   process.env.CHECK_REMINDER_APP_URL ||
@@ -10,6 +11,7 @@ const appUrl =
 const rootUrl = appUrl.replace(/\/$/, "")
 const url = `${rootUrl}/api/daily-tarot/reminder-capability`
 const cronDryRunUrl = `${rootUrl}/api/cron/daily-tarot-reminders?dry_run=1`
+const testEmailUrl = `${rootUrl}/api/cron/daily-tarot-reminders/test`
 
 function line(label, value) {
   console.log(`${label.padEnd(32)} ${value}`)
@@ -46,6 +48,40 @@ async function checkCronDryRun() {
   line("cron_failed", String(Number(data.failed || 0)))
   line("cron_email_provider_configured", String(Boolean(data.email_provider_configured)))
   line("cron_email_provider", data.email_provider?.provider || data.email_provider || "unknown")
+}
+
+async function sendReminderTestEmail() {
+  const secret = process.env.CHECK_REMINDER_CRON_SECRET || process.env.CRON_SECRET || ""
+  const to = process.env.CHECK_REMINDER_TEST_EMAIL || ""
+  if (!secret) {
+    throw new Error("Missing CHECK_REMINDER_CRON_SECRET for --send-test")
+  }
+  if (!to) {
+    throw new Error("Missing CHECK_REMINDER_TEST_EMAIL for --send-test")
+  }
+
+  const response = await fetch(testEmailUrl, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${secret}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ to }),
+    cache: "no-store",
+  })
+
+  const data = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    throw new Error(data?.error || `Reminder test email failed with HTTP ${response.status}`)
+  }
+
+  console.log("")
+  console.log(`daily-reminder-test-email: ${testEmailUrl}`)
+  line("test_email_sent", String(Boolean(data.ok)))
+  line("test_email_to", data.to || "unknown")
+  line("test_email_provider", data.provider?.provider || data.provider || "unknown")
+  line("test_email_id", data.email_id || "unknown")
 }
 
 try {
@@ -87,6 +123,10 @@ try {
 
   if (checkCron) {
     await checkCronDryRun()
+  }
+
+  if (sendTest) {
+    await sendReminderTestEmail()
   }
 } catch (error) {
   console.error(error instanceof Error ? error.message : error)

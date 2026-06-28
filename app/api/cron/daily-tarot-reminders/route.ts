@@ -1,4 +1,5 @@
 import { jsonError, jsonResponse } from "@/lib/server/supabase"
+import { isCronAuthorized } from "@/lib/server/cron-auth"
 import { dailyReminderUnsubscribeUrl } from "@/lib/server/daily-reminder-unsubscribe"
 import { isDailyReminderDue, localReminderParts, newestReminderPerUser } from "@/lib/server/daily-reminder-schedule"
 import { dailyTarotReminderHtml, dailyTarotReminderText, emailProviderStatus, hasEmailProvider, sendEmail } from "@/lib/server/email"
@@ -9,17 +10,11 @@ import {
   markDailyReminderSent,
 } from "@/lib/server/daily-reminder-rpc"
 
-function isAuthorized(req: Request) {
-  const secret = process.env.CRON_SECRET
-  if (!secret) return false
-  return req.headers.get("authorization") === `Bearer ${secret}`
-}
-
 export async function GET(req: Request) {
   const url = new URL(req.url)
   const dryRun = url.searchParams.get("dry_run") === "1" || url.searchParams.get("dryRun") === "1"
 
-  if (!isAuthorized(req)) return jsonError("Unauthorized", 401)
+  if (!isCronAuthorized(req)) return jsonError("Unauthorized", 401)
   if (!(await checkDailyReminderDatabaseAccess())) return jsonError("Daily reminder database access is not configured", 503)
 
   const data = await listDailyReminderCandidates(2000)

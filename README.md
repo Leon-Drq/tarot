@@ -73,6 +73,15 @@ PWA_CHECK_BASE_URL=https://poptarot.com npm run check:pwa
 
 `can_send_email_reminders` and `unsubscribe_configured` should be `true` before the site promises scheduled email delivery. Use `REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active. The script also accepts `CHECK_REMINDER_APP_URL` for the same target URL.
 
+After `RESEND_API_KEY` is configured, send one protected test reminder before waiting for the hourly cron:
+
+```bash
+CHECK_REMINDER_APP_URL=https://poptarot.com \
+CHECK_REMINDER_CRON_SECRET=the_same_value_as_vercel_cron_secret \
+CHECK_REMINDER_TEST_EMAIL=you@example.com \
+npm run check:reminders:test
+```
+
 Official social profiles are optional but should be configured as full `https://` URLs only after the account is active and links back to poptarot.com. Configured profiles appear on `/official-channels` and in Organization structured data as `sameAs` brand signals.
 
 ## Scripts
