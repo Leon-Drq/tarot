@@ -487,6 +487,11 @@ const pages = [
     requiredSelectors: ["[data-trust-page]", "[data-trust-page-slug=\"what-is-poptarot\"]", "[data-trust-default-free-action]"],
   },
   {
+    path: "/contact",
+    name: "contact trust page",
+    requiredSelectors: ["[data-trust-page]", "[data-trust-page-slug=\"contact\"]", "[data-trust-default-free-action]"],
+  },
+  {
     path: "/reviews",
     name: "reviews trust page",
     requiredSelectors: [

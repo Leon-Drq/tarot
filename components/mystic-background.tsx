@@ -475,6 +475,7 @@ function HomeScrollContent() {
         trustItems: [
           { href: "/about", title: "关于" },
           { href: "/official-channels", title: "官方渠道" },
+          { href: "/contact", title: "联系" },
           { href: "/editorial-policy", title: "编辑说明" },
           { href: "/ai-tarot-disclaimer", title: "AI 声明" },
           { href: "/privacy", title: "隐私" },
@@ -540,6 +541,7 @@ function HomeScrollContent() {
         trustItems: [
           { href: "/about", title: "About" },
           { href: "/official-channels", title: "Official" },
+          { href: "/contact", title: "Contact" },
           { href: "/editorial-policy", title: "Editorial" },
           { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
           { href: "/privacy", title: "Privacy" },
@@ -609,6 +611,7 @@ function HomeScrollContent() {
         trustItems: [
           { href: "/about", title: "About" },
           { href: "/official-channels", title: "Official" },
+          { href: "/contact", title: "Contact" },
           { href: "/editorial-policy", title: "Editorial" },
           { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
           { href: "/privacy", title: "Privacy" },
@@ -674,6 +677,7 @@ function HomeScrollContent() {
         trustItems: [
           { href: "/about", title: "About" },
           { href: "/official-channels", title: "Official" },
+          { href: "/contact", title: "Contact" },
           { href: "/editorial-policy", title: "Editorial" },
           { href: "/ai-tarot-disclaimer", title: "AI Disclaimer" },
           { href: "/privacy", title: "Privacy" },

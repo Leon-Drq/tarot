@@ -31,6 +31,7 @@ const freePaths = [
 const trustPaths = [
   { href: "/reviews", label: "Reader reviews" },
   { href: "/tarot-reading-examples", label: "Reading examples" },
+  { href: "/contact", label: "Contact" },
   { href: "/ai-tarot-disclaimer", label: "AI disclaimer" },
   { href: "/privacy", label: "Privacy" },
 ]

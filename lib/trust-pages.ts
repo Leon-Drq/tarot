@@ -14,7 +14,7 @@ import { representativeTestimonials } from "@/lib/trust-signals"
 
 export type TrustPage = {
   slug: string
-  type: "AboutPage" | "WebPage" | "PrivacyPolicy" | "CollectionPage"
+  type: "AboutPage" | "WebPage" | "PrivacyPolicy" | "CollectionPage" | "ContactPage"
   title: string
   description: string
   eyebrow: string
@@ -170,12 +170,73 @@ export const trustPages: TrustPage[] = [
     sections: [
       { heading: "Primary website", body: "The canonical POPTarot experience is hosted at poptarot.com. Use this domain for free AI tarot readings, daily tarot, card meanings, and official policy pages." },
       { heading: "Social profiles", body: "Official social profiles are listed on this page and in structured data only after they are active and verified. We do not publish placeholder social links." },
-      { heading: "Brand verification", body: "Search engines and users can check the same brand signals across About, Editorial Policy, AI Disclaimer, Privacy, Reviews, Reading Examples, and this official channels page." },
+      { heading: "Brand verification", body: "Search engines and users can check the same brand signals across About, Contact, Editorial Policy, AI Disclaimer, Privacy, Reviews, Reading Examples, and this official channels page." },
       { heading: "Brand search terms", body: "The official brand terms are POPTarot, Pop Tarot AI, and POPTarot AI Tarot. The canonical product category is free AI tarot tool." },
       { heading: "Crawlable sources", body: "The sitemap, brand assets, free tools hub, daily tarot page, question pages, and card meanings give search engines a consistent map of the product." },
       { heading: "Safe link checks", body: "Be careful with copied links, payment requests, or messages that do not point back to poptarot.com. Official product and policy links should resolve under this domain." },
       { heading: "Membership boundary", body: "The free reading flow stays available before payment. Membership belongs to saved history, deeper follow-ups, advanced spreads, and long-form reports." },
       { heading: "How updates appear", body: "When official accounts, support inboxes, or new public channels are launched, they will be added here first and then reflected in site-wide structured data." },
+    ],
+  },
+  {
+    slug: "contact",
+    type: "ContactPage",
+    title: "Contact POPTarot",
+    description: "Official POPTarot contact and support paths for feedback, brand verification, privacy questions, payment issues, and Daily Tarot reminders.",
+    eyebrow: "Contact",
+    intro:
+      "Use this page to find the official POPTarot contact paths. Until public social accounts are active, poptarot.com is the source of truth for support, feedback, brand verification, privacy, and membership information.",
+    sections: [
+      {
+        heading: "Product feedback",
+        body: "Use the reader feedback form on the Reviews page to report confusing readings, unclear copy, layout issues, or product ideas. Submissions are private by default and reviewed before anything is quoted publicly.",
+      },
+      {
+        heading: "Brand verification",
+        body: "For identity checks, use Official Channels and Brand Assets. POPTarot does not publish placeholder social handles; verified accounts appear only after they link back to poptarot.com.",
+      },
+      {
+        heading: "Privacy questions",
+        body: "Read the Privacy Policy for how questions, readings, journals, reminder emails, analytics, account data, and payment status are handled.",
+      },
+      {
+        heading: "Payments and membership",
+        body: "Membership is only for deeper follow-ups, saved history, advanced spreads, and monthly reports. The free reading flow, Daily Tarot, card meanings, question pages, examples, and trust pages remain available before payment.",
+      },
+      {
+        heading: "Daily Tarot reminders",
+        body: "Daily Tarot supports calendar reminders now and stores email preferences safely while scheduled email delivery is waiting on provider setup. Reminder emails include an unsubscribe path when delivery is active.",
+      },
+      {
+        heading: "Safety boundary",
+        body: "POPTarot cannot provide emergency, medical, legal, financial, psychological, or safety advice. For urgent or high-stakes situations, use qualified real-world support first.",
+      },
+    ],
+    actionLinks: [
+      {
+        label: "Send feedback",
+        title: "Reader Feedback Form",
+        body: "Share a product issue, unclear reading, layout problem, or review submission privately for editorial review.",
+        href: "/reviews?surface=contact&utm_source=contact&utm_medium=support_path",
+      },
+      {
+        label: "Verify brand",
+        title: "Official Channels",
+        body: "Check canonical links, verified social policy, brand identity, and safe ways to recognize poptarot.com.",
+        href: "/official-channels",
+      },
+      {
+        label: "Privacy",
+        title: "Privacy Policy",
+        body: "Review how reading data, Daily Tarot reminders, account data, analytics, and payments are handled.",
+        href: "/privacy",
+      },
+      {
+        label: "Start free",
+        title: "Free AI Tarot Reading",
+        body: "Return to the free reading flow after checking the official support and trust paths.",
+        href: "/free-ai-tarot-reading?utm_source=contact&utm_medium=trust_page",
+      },
     ],
   },
   {

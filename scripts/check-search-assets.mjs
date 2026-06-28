@@ -146,6 +146,7 @@ const requiredSitemapPaths = [
   "/about",
   "/what-is-poptarot",
   "/official-channels",
+  "/contact",
   "/brand-assets",
   "/editorial-policy",
   "/ai-tarot-disclaimer",
@@ -167,6 +168,7 @@ const publicRobotsPaths = [
   "/es/combinaciones-cartas-tarot",
   "/pt-br/combinacoes-cartas-tarot",
   "/what-is-poptarot",
+  "/contact",
   "/brand-assets",
   "/reviews",
 ]

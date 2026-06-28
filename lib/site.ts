@@ -35,6 +35,7 @@ export const trustLinks = [
   { label: "About", href: "/about" },
   { label: "What Is POPTarot", href: "/what-is-poptarot" },
   { label: "Official Channels", href: "/official-channels" },
+  { label: "Contact", href: "/contact" },
   { label: "Brand Assets", href: "/brand-assets" },
   { label: "Editorial Policy", href: "/editorial-policy" },
   { label: "AI Disclaimer", href: "/ai-tarot-disclaimer" },
@@ -61,6 +62,12 @@ export const officialVerificationLinks = [
     title: "What Is POPTarot?",
     body: "Official brand identity and disambiguation for POPTarot as the free AI tarot tool at poptarot.com.",
     href: "/what-is-poptarot",
+  },
+  {
+    label: "Contact path",
+    title: "Contact POPTarot",
+    body: "Official support paths for feedback, brand verification, privacy questions, payment issues, and Daily Tarot reminder questions.",
+    href: "/contact",
   },
   {
     label: "Logo source",
@@ -680,7 +687,7 @@ export function organizationJsonLd() {
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "brand verification and product support",
-      url: `${appUrl}/official-channels`,
+      url: `${appUrl}/contact`,
       areaServed: "Worldwide",
       availableLanguage: ["en", "zh", "ja", "ko", "es", "pt-BR"],
     },
@@ -706,6 +713,9 @@ export function organizationJsonLd() {
     subjectOf: [
       {
         "@id": `${appUrl}/official-channels#webpage`,
+      },
+      {
+        "@id": `${appUrl}/contact#webpage`,
       },
       {
         "@id": `${appUrl}/brand-assets#webpage`,
