@@ -6,6 +6,7 @@ import { AuthProvider } from "@/contexts/auth-context"
 import { LanguageProvider } from "@/contexts/language-context"
 import { AudioProvider } from "@/contexts/audio-context"
 import { AnalyticsTracker } from "@/components/analytics/analytics-tracker"
+import { PwaServiceWorker } from "@/components/pwa-service-worker"
 import { appUrl, brandLogoPath, brandSearchFaviconPath, siteDescription, siteName, siteTitle } from "@/lib/site"
 import "./globals.css"
 
@@ -147,6 +148,7 @@ export default function RootLayout({
         <AuthProvider>
         {children}
         <AnalyticsTracker />
+        <PwaServiceWorker />
         </AuthProvider>
         </AudioProvider>
         </LanguageProvider>

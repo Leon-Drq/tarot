@@ -68,6 +68,7 @@ After deployment, check:
 
 ```bash
 REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders
+PWA_CHECK_BASE_URL=https://poptarot.com npm run check:pwa
 ```
 
 `can_send_email_reminders` and `unsubscribe_configured` should be `true` before the site promises scheduled email delivery. Use `REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders:strict` when you want the command to fail until all scheduled email capabilities are active. The script also accepts `CHECK_REMINDER_APP_URL` for the same target URL.
@@ -81,5 +82,6 @@ npm run dev
 npm run build
 npm run start
 npm run check:seo
+PWA_CHECK_BASE_URL=http://localhost:3001 npm run check:pwa
 REMINDER_CHECK_BASE_URL=https://poptarot.com npm run check:reminders
 ```
