@@ -39,6 +39,8 @@ for (const needle of [
   "self.addEventListener(\"install\"",
   "self.addEventListener(\"activate\"",
   "self.addEventListener(\"fetch\"",
+  "NAVIGATION_CACHE_EXCLUDE_PATHS",
+  "shouldBypassNavigationCache",
   "PRIVATE_PATH_PREFIXES",
   "\"/api/\"",
   "\"/daily-tarot\"",
@@ -48,6 +50,10 @@ for (const needle of [
 assert(
   !/FALLBACK_URLS\s*=\s*\[[^\]]*["']\/["'][^\]]*\]/.test(serviceWorkerResult.body),
   "/sw.js should not precache the homepage while the hero layout is changing",
+)
+assert(
+  /NAVIGATION_CACHE_EXCLUDE_PATHS\s*=\s*\[[^\]]*["']\/["'][^\]]*\]/.test(serviceWorkerResult.body),
+  "/sw.js should bypass navigation cache for the homepage",
 )
 
 const browser = await chromium.launch({ headless: true })

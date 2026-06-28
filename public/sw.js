@@ -1,6 +1,7 @@
-const CACHE_VERSION = "poptarot-return-v2"
+const CACHE_VERSION = "poptarot-return-v3"
 const NAVIGATION_CACHE = `${CACHE_VERSION}-navigation`
 const FALLBACK_URLS = ["/daily-tarot"]
+const NAVIGATION_CACHE_EXCLUDE_PATHS = ["/"]
 const PRIVATE_PATH_PREFIXES = [
   "/api/",
   "/auth/",
@@ -14,6 +15,10 @@ const PRIVATE_PATH_PREFIXES = [
 
 function isPrivatePath(pathname) {
   return PRIVATE_PATH_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(prefix))
+}
+
+function shouldBypassNavigationCache(pathname) {
+  return NAVIGATION_CACHE_EXCLUDE_PATHS.includes(pathname)
 }
 
 self.addEventListener("install", (event) => {
@@ -49,6 +54,11 @@ self.addEventListener("fetch", (event) => {
   if (isPrivatePath(url.pathname)) return
 
   if (request.mode === "navigate") {
+    if (shouldBypassNavigationCache(url.pathname)) {
+      event.respondWith(fetch(request))
+      return
+    }
+
     event.respondWith(
       fetch(request)
         .then(async (response) => {
