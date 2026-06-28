@@ -1,4 +1,4 @@
-import { createAnonSupabase } from "@/lib/server/supabase"
+import { createServiceSupabase } from "@/lib/server/supabase"
 
 export type ReminderCandidateRow = {
   id: string
@@ -27,7 +27,7 @@ export async function checkDailyReminderDatabaseAccess() {
   if (!secret) return false
 
   try {
-    const { data, error } = await createAnonSupabase().rpc("daily_tarot_reminder_database_ready", {
+    const { data, error } = await createServiceSupabase().rpc("daily_tarot_reminder_database_ready", {
       p_secret: secret,
     })
 
@@ -43,7 +43,7 @@ export async function checkDailyReminderUnsubscribeAccess() {
   if (!secret) return false
 
   try {
-    const { data, error } = await createAnonSupabase().rpc("disable_daily_tarot_reminders", {
+    const { data, error } = await createServiceSupabase().rpc("disable_daily_tarot_reminders", {
       p_secret: secret,
       p_user_id: "00000000-0000-0000-0000-000000000000",
     })
@@ -59,7 +59,7 @@ export async function listDailyReminderCandidates(limit = 2000) {
   const secret = cronSecret()
   if (!secret) throw new Error("Missing CRON_SECRET")
 
-  const { data, error } = await createAnonSupabase().rpc("daily_tarot_reminder_candidates", {
+  const { data, error } = await createServiceSupabase().rpc("daily_tarot_reminder_candidates", {
     p_secret: secret,
     p_limit: limit,
   })
@@ -72,7 +72,7 @@ export async function markDailyReminderSent(entryId: string, sentOn: string) {
   const secret = cronSecret()
   if (!secret) throw new Error("Missing CRON_SECRET")
 
-  const { data, error } = await createAnonSupabase().rpc("mark_daily_tarot_reminder_sent", {
+  const { data, error } = await createServiceSupabase().rpc("mark_daily_tarot_reminder_sent", {
     p_secret: secret,
     p_entry_id: entryId,
     p_sent_on: sentOn,
@@ -86,7 +86,7 @@ export async function markDailyReminderFailed(entryId: string, errorMessage: str
   const secret = cronSecret()
   if (!secret) throw new Error("Missing CRON_SECRET")
 
-  const { error } = await createAnonSupabase().rpc("mark_daily_tarot_reminder_failed", {
+  const { error } = await createServiceSupabase().rpc("mark_daily_tarot_reminder_failed", {
     p_secret: secret,
     p_entry_id: entryId,
     p_error: errorMessage,
@@ -99,7 +99,7 @@ export async function disableDailyReminders(userId: string) {
   const secret = cronSecret()
   if (!secret) throw new Error("Missing CRON_SECRET")
 
-  const { data, error } = await createAnonSupabase().rpc("disable_daily_tarot_reminders", {
+  const { data, error } = await createServiceSupabase().rpc("disable_daily_tarot_reminders", {
     p_secret: secret,
     p_user_id: userId,
   })
