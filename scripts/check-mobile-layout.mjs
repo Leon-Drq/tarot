@@ -335,6 +335,7 @@ const pages = [
     requiredSelectors: [
       "[data-tarot-card-meaning-page]",
       "[data-card-sticky-cta]",
+      "[data-card-quick-answer]",
       "[data-card-reader-trust]",
       "[data-card-reader-trust-review]",
       "[data-card-reader-trust-feedback]",
@@ -356,6 +357,7 @@ const pages = [
     requiredSelectors: [
       "[data-tarot-card-meaning-page]",
       "[data-card-sticky-cta]",
+      "[data-card-quick-answer]",
       "[data-card-reader-trust]",
       "[data-card-reader-trust-review]",
       "[data-card-reader-trust-feedback]",
@@ -377,6 +379,7 @@ const pages = [
     requiredSelectors: [
       "[data-tarot-card-meaning-page]",
       "[data-card-sticky-cta]",
+      "[data-card-quick-answer]",
       "[data-card-reader-trust]",
       "[data-card-reader-trust-review]",
       "[data-card-reader-trust-feedback]",

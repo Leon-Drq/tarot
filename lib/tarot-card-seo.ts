@@ -1230,8 +1230,12 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
         answer: `Use ${englishName} as a prompt for reflection and action. Notice the pattern it names, then choose one practical next step instead of treating the card as fixed fate.`,
       },
       {
-        question: `What does ${englishName} mean for career and money?`,
-        answer: `For career, ${englishName} asks you to ${guidance.career}. For money, it asks you to ${guidance.money}. Read both through real resources, timing, and what you can control next.`,
+        question: `What does ${englishName} mean for career?`,
+        answer: `For career readings, ${englishName} asks you to ${guidance.career}. Read it through your current role, skills, timing, and the next work move you can actually control.`,
+      },
+      {
+        question: `What does ${englishName} mean for money?`,
+        answer: `For money readings, ${englishName} asks you to ${guidance.money}. Connect the card to real resources, risk, spending, saving, timing, and the next financial choice in front of you.`,
       },
       {
         question: `What is the best advice from ${englishName}?`,
@@ -1285,10 +1289,16 @@ function createCardFaqs(card: TarotCard, locale: SeoLocale) {
           : `Use como um sinal de reflexao e acao. Observe o padrao que a carta nomeia e escolha um proximo passo pratico em vez de trata-la como destino fixo.`,
       },
       {
-        question: isEs ? `Que significa ${name} para carrera y dinero?` : `O que ${name} significa para carreira e dinheiro?`,
+        question: isEs ? `Que significa ${name} para carrera?` : `O que ${name} significa para carreira?`,
         answer: isEs
-          ? `Para carrera y dinero, ${name} conecta ${theme} con recursos reales, ritmo y decisiones que puedes controlar. Normal puede apoyar ${upright}; invertida pide revisar ${reversed} antes de avanzar.`
-          : `Para carreira e dinheiro, ${name} conecta ${theme} com recursos reais, ritmo e decisoes que voce pode controlar. Normal pode apoiar ${upright}; invertida pede revisar ${reversed} antes de avancar.`,
+          ? `Para carrera, ${name} conecta ${theme} con responsabilidad, ritmo de trabajo y decisiones que puedes controlar. Normal puede apoyar ${upright}; invertida pide revisar ${reversed} antes de avanzar.`
+          : `Para carreira, ${name} conecta ${theme} com responsabilidade, ritmo de trabalho e decisoes que voce pode controlar. Normal pode apoiar ${upright}; invertida pede revisar ${reversed} antes de avancar.`,
+      },
+      {
+        question: isEs ? `Que significa ${name} para dinero?` : `O que ${name} significa para dinheiro?`,
+        answer: isEs
+          ? `Para dinero, ${name} debe leerse con recursos reales, riesgo, gastos, ahorro y timing. La carta ayuda a separar impulso, necesidad y un siguiente paso financiero concreto.`
+          : `Para dinheiro, ${name} deve ser lida com recursos reais, risco, gastos, economia e timing. A carta ajuda a separar impulso, necessidade e um proximo passo financeiro concreto.`,
       },
       {
         question: isEs ? `Cual es el mejor consejo de ${name}?` : `Qual e o melhor conselho de ${name}?`,
