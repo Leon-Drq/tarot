@@ -34,7 +34,23 @@ try {
       })
       await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "domcontentloaded", timeout: 45_000 })
       await page.locator("body").waitFor({ state: "visible", timeout: 15_000 })
-      await page.waitForTimeout(250)
+      if (pageConfig.path === "/") {
+        await page
+          .waitForFunction(() => {
+            const cue = document.querySelector("[data-home-scroll-cue]")
+            const content = document.querySelector("[data-home-scroll-content]")
+            const stage = document.querySelector(".home-hero-stage")
+            return Boolean(
+              cue &&
+                content &&
+                stage &&
+                getComputedStyle(cue).display === "none" &&
+                stage.style.getPropertyValue("--home-hero-actions-bottom"),
+            )
+          }, null, { timeout: 5_000 })
+          .catch(() => {})
+      }
+      await page.waitForTimeout(pageConfig.path === "/" ? 750 : 250)
 
       const initialResult = await page.evaluate(() => {
         const rect = (selector) => {
@@ -130,8 +146,21 @@ try {
       if (pageConfig.path === "/" && initialResult.homeDailyPanelTop <= initialResult.homeQuestionFormBottom) {
         failures.push(`${label}: daily return panel should sit below the first-screen question form`)
       }
-      if (pageConfig.path === "/" && initialResult.homeScrollContentTop > result.clientHeight + 260) {
-        failures.push(`${label}: scroll content starts too far below the desktop viewport`)
+      const hasNextSectionHint =
+        Boolean(initialResult.homeScrollContentTop !== null && initialResult.homeScrollContentTop <= result.clientHeight - 8) ||
+        Boolean(initialResult.homeDailyPanelTop !== null && initialResult.homeDailyPanelTop <= result.clientHeight - 8) ||
+        Boolean(
+          initialResult.homeSecondaryNavTop !== null &&
+            initialResult.homeSecondaryNavBottom !== null &&
+            initialResult.homeSecondaryNavBottom > initialResult.homeSecondaryNavTop &&
+            initialResult.homeSecondaryNavTop <= result.clientHeight - 8,
+        )
+
+      if (pageConfig.path === "/" && !hasNextSectionHint) {
+        failures.push(
+          `${label}: homepage next section must be visible enough to make desktop scrolling obvious ` +
+            `(content top ${initialResult.homeScrollContentTop}, daily top ${initialResult.homeDailyPanelTop}, nav top ${initialResult.homeSecondaryNavTop}, viewport ${result.clientHeight})`,
+        )
       }
       if (pageConfig.path === "/" && initialResult.homeScrollContentTop >= result.clientHeight && !hasVisibleScrollCue) {
         failures.push(`${label}: no next-section hint is visible in the desktop viewport`)

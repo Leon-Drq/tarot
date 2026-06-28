@@ -226,7 +226,7 @@
 
   @media (min-width: 768px) {
     [data-home-scroll-cue] {
-      display: flex !important;
+      display: none !important;
     }
   }
 
