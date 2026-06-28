@@ -32,7 +32,9 @@ try {
         viewport: { width: viewport.width, height: viewport.height },
         deviceScaleFactor: 1,
       })
-      await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "networkidle", timeout: 45_000 })
+      await page.goto(absoluteUrl(pageConfig.path), { waitUntil: "domcontentloaded", timeout: 45_000 })
+      await page.locator("body").waitFor({ state: "visible", timeout: 15_000 })
+      await page.waitForTimeout(250)
 
       const initialResult = await page.evaluate(() => {
         const rect = (selector) => {

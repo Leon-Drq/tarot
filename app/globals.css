@@ -289,6 +289,14 @@
       --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
     }
 
+    [data-home-scroll-content] {
+      margin-top: -5rem !important;
+    }
+
+    [data-home-scroll-cue] {
+      display: none !important;
+    }
+
     [data-home-hero-quick-start] {
       display: none !important;
     }
