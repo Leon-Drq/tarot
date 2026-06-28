@@ -1202,9 +1202,10 @@ assertIncludes(files.homeExperience, "data-home-hero-shell", "homepage hero shel
 assertIncludes(files.homeExperience, "home-hero-shell", "homepage hero shell class")
 assertIncludes(files.globalStyles, "overflow-x: clip", "homepage stage clips horizontal overflow without nested vertical scroll")
 assertIncludes(files.globalStyles, "overflow-y: visible", "homepage stage leaves document vertical scrolling native")
+assertIncludes(files.globalStyles, "touch-action: pan-y", "homepage stage explicitly allows vertical gesture scrolling")
 assertIncludes(
   files.globalStyles,
-  ".home-hero-shell {\n    min-height: var(--home-hero-shell-min-height);\n    overflow-x: clip;\n    overflow-y: visible;\n  }",
+  ".home-hero-shell {\n    min-height: var(--home-hero-shell-min-height);\n    overflow-x: clip;\n    overflow-y: visible;\n    touch-action: pan-y;\n  }",
   "homepage hero shell clips horizontal visuals without clipping vertical page content",
 )
 assertIncludes(files.homeExperience, "overflow-x-auto", "homepage mobile quick-start avoids wrapping into hero controls")
@@ -1627,6 +1628,8 @@ const identityMetadataCoverage = [
   [files.serviceWorker, "PRIVATE_PATH_PREFIXES", "PWA private path guard"],
   [files.serviceWorker, "\"/api/\"", "PWA API cache exclusion"],
   [files.serviceWorker, "\"/daily-tarot\"", "PWA Daily Tarot offline return fallback"],
+  [files.serviceWorker, "const CACHE_VERSION = \"poptarot-return-v2\"", "PWA cache version bumps stale homepage shells"],
+  [files.pwaCheck, "should not precache the homepage", "PWA check prevents stale homepage precache"],
   [files.nextConfig, "Service-Worker-Allowed", "service worker scope header"],
   [files.nextConfig, "source: \"/sw.js\"", "service worker cache header route"],
   [files.packageJson, "\"check:pwa\": \"node scripts/check-pwa-installability.mjs\"", "PWA installability check package script"],

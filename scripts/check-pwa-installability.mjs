@@ -45,6 +45,10 @@ for (const needle of [
 ]) {
   assert(serviceWorkerResult.body.includes(needle), `/sw.js missing ${needle}`)
 }
+assert(
+  !/FALLBACK_URLS\s*=\s*\[[^\]]*["']\/["'][^\]]*\]/.test(serviceWorkerResult.body),
+  "/sw.js should not precache the homepage while the hero layout is changing",
+)
 
 const browser = await chromium.launch({ headless: true })
 try {

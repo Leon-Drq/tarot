@@ -1,6 +1,6 @@
-const CACHE_VERSION = "poptarot-return-v1"
+const CACHE_VERSION = "poptarot-return-v2"
 const NAVIGATION_CACHE = `${CACHE_VERSION}-navigation`
-const FALLBACK_URLS = ["/", "/daily-tarot"]
+const FALLBACK_URLS = ["/daily-tarot"]
 const PRIVATE_PATH_PREFIXES = [
   "/api/",
   "/auth/",
@@ -60,7 +60,7 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(async () => {
           const cache = await caches.open(NAVIGATION_CACHE)
-          return (await cache.match(request)) || (await cache.match("/daily-tarot")) || (await cache.match("/")) || Response.error()
+          return (await cache.match(request)) || (await cache.match("/daily-tarot")) || Response.error()
         }),
     )
   }

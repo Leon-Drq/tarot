@@ -208,12 +208,14 @@
     min-height: var(--home-hero-shell-min-height);
     overflow-x: clip;
     overflow-y: visible;
+    touch-action: pan-y;
   }
 
   .home-hero-shell {
     min-height: var(--home-hero-shell-min-height);
     overflow-x: clip;
     overflow-y: visible;
+    touch-action: pan-y;
   }
 
   @supports (height: 100svh) {
