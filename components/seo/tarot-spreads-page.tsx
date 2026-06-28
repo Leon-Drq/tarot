@@ -51,6 +51,7 @@ type SpreadHubCopy = {
 }
 
 const spreadOrder: SpreadType[] = [
+  "single_card",
   "yes_no",
   "three_card",
   "relationship",
@@ -77,6 +78,12 @@ export function getTarotSpreadHubPath(locale: TarotSpreadHubLocale) {
 const localizedSpreads: Record<TarotSpreadHubLocale, Partial<Record<SpreadType, LocalizedSpreadCopy>>> = {
   en: {},
   es: {
+    single_card: {
+      name: "Una carta",
+      description: "Una lectura rapida de una carta para ver el mensaje central y el siguiente paso.",
+      question: "Que necesito saber ahora mismo?",
+      positions: ["Mensaje central"],
+    },
     yes_no: {
       name: "Si o no",
       description: "Una tirada directa de una carta para una pregunta clara de si o no.",
@@ -145,6 +152,12 @@ const localizedSpreads: Record<TarotSpreadHubLocale, Partial<Record<SpreadType, 
     },
   },
   "pt-br": {
+    single_card: {
+      name: "Uma carta",
+      description: "Uma leitura rapida de uma carta para ver a mensagem central e o proximo passo.",
+      question: "O que eu preciso saber agora?",
+      positions: ["Mensagem central"],
+    },
     yes_no: {
       name: "Sim ou nao",
       description: "Uma tiragem direta de uma carta para uma pergunta clara de sim ou nao.",
@@ -236,7 +249,7 @@ const copyByLocale = {
         label: "Fast clarity",
         title: "Quick free tarot spreads",
         body: "Start with one to three cards when the question is clear and you want a practical first answer.",
-        spreads: ["yes_no", "three_card", "binary_choice"],
+        spreads: ["single_card", "yes_no", "three_card", "binary_choice"],
       },
       {
         label: "Love and feelings",
@@ -294,7 +307,7 @@ const copyByLocale = {
         label: "Claridad rapida",
         title: "Tiradas rapidas gratis",
         body: "Empieza con una a tres cartas cuando la pregunta es clara y necesitas una primera respuesta practica.",
-        spreads: ["yes_no", "three_card", "binary_choice"],
+        spreads: ["single_card", "yes_no", "three_card", "binary_choice"],
       },
       {
         label: "Amor y sentimientos",
@@ -352,7 +365,7 @@ const copyByLocale = {
         label: "Clareza rapida",
         title: "Tiragens rapidas gratis",
         body: "Comece com uma a tres cartas quando a pergunta e clara e voce quer uma primeira resposta pratica.",
-        spreads: ["yes_no", "three_card", "binary_choice"],
+        spreads: ["single_card", "yes_no", "three_card", "binary_choice"],
       },
       {
         label: "Amor e sentimentos",
@@ -404,6 +417,7 @@ function getSpreadCopy(type: SpreadType, locale: TarotSpreadHubLocale) {
     question:
       localized?.question ||
       {
+        single_card: "What do I need to know right now?",
         yes_no: "Should I text first?",
         daily_fashion: "What energy should guide my style today?",
         reconciliation_starter: "What remains between us, and what is the healthiest next step?",

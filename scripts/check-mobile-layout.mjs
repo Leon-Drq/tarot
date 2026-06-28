@@ -103,6 +103,21 @@ const pages = [
     ],
   },
   {
+    path: "/one-card-tarot-reading",
+    name: "one-card free spread format",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/three-card-tarot-reading",
+    name: "three-card free spread format",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
+    path: "/past-present-future-tarot",
+    name: "past present future free spread format",
+    requiredSelectors: highIntentQuestionRequiredSelectors,
+  },
+  {
     path: "/will-my-ex-come-back-tarot",
     name: "long-tail question",
     requiredSelectors: highIntentQuestionRequiredSelectors,
@@ -255,7 +270,13 @@ const pages = [
   {
     path: "/free-tarot-tools",
     name: "free tools",
-    requiredSelectors: ["[data-free-tools-quick-start-start]", "[data-free-tools-social-proof]"],
+    requiredSelectors: [
+      "[data-free-tools-quick-start-start]",
+      "[data-free-tools-spread-formats]",
+      "[data-free-tools-spread-format-start]",
+      "[data-free-tools-spread-format-guide]",
+      "[data-free-tools-social-proof]",
+    ],
   },
   {
     path: "/share/missing-public-share-for-mobile-check",

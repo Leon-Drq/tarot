@@ -209,7 +209,8 @@
 
   .home-hero-shell {
     min-height: var(--home-hero-shell-min-height);
-    overflow: clip;
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
   @supports (height: 100svh) {

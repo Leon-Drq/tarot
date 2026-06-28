@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import {
   appUrl,
+  freeSpreadFormatLinks,
   highIntentQuestionLinks,
   siteName,
   trustLinks,
@@ -193,6 +194,28 @@ function quickStartReadingHref(item: (typeof highIntentQuestionLinks)[number]) {
   return `/input?${params.toString()}`
 }
 
+function spreadFormatReadingHref(item: (typeof freeSpreadFormatLinks)[number]) {
+  const slug = questionSlugFromHref(item.href)
+  const page = getSeoPage(slug, "en")
+  if (!page) throw new Error(`Missing free spread format SEO page: ${slug}`)
+
+  const params = new URLSearchParams({
+    q: page.ctaQuestion,
+    auto: "1",
+    source: "free_tools",
+    lang: "en",
+    utm_source: "free_tools",
+    utm_medium: "spread_format",
+    utm_campaign: slug,
+  })
+
+  if (page.recommendedSpread) {
+    params.set("spread", page.recommendedSpread)
+  }
+
+  return `/input?${params.toString()}`
+}
+
 const quickStartIntents = quickStartIntentItems()
 const dailyQuickStart = {
   label: "Daily",
@@ -202,6 +225,11 @@ const dailyQuickStart = {
   guideHref: "/daily-tarot",
 }
 const quickStartTools = [...quickStartIntents, dailyQuickStart]
+const spreadFormatTools = freeSpreadFormatLinks.map((item) => ({
+  ...item,
+  readingHref: spreadFormatReadingHref(item),
+  guideHref: item.href,
+}))
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -254,6 +282,27 @@ const structuredData = {
           potentialAction: {
             "@type": "InteractAction",
             name: "Start free tarot reading",
+            target: `${appUrl}${item.readingHref}`,
+          },
+        },
+      })),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/free-tarot-tools#free-spread-formats`,
+      name: "Free tarot spread formats",
+      itemListElement: spreadFormatTools.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "WebApplication",
+          name: item.title,
+          description: item.description,
+          url: `${appUrl}${item.guideHref}`,
+          isAccessibleForFree: true,
+          potentialAction: {
+            "@type": "InteractAction",
+            name: "Start free tarot spread",
             target: `${appUrl}${item.readingHref}`,
           },
         },
@@ -482,6 +531,50 @@ export default function FreeTarotToolsPage() {
                       Start free
                     </Link>
                     <Link
+                      href={item.guideHref}
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-xs text-white/62 transition hover:border-[#bfb6ff]/40 hover:text-white"
+                    >
+                      View guide
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section data-free-tools-spread-formats className="border-b border-white/10 py-8 sm:py-10">
+          <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">Free spread formats</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+                Match the card count to the moment
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/58">
+                Some visitors search for the spread format before they know the exact question. These pages explain
+                the format and open a free AI reading with the right spread already selected.
+              </p>
+            </div>
+            <div className="grid gap-3 md:grid-cols-3">
+              {spreadFormatTools.map((item) => (
+                <article
+                  key={item.href}
+                  data-free-tools-spread-format-card
+                  className="flex min-h-[14rem] min-w-0 flex-col rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.07]"
+                >
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/72">Free format</p>
+                  <h3 className="mt-3 break-words text-base font-medium leading-snug text-white">{item.title}</h3>
+                  <p className="mt-2 text-xs leading-5 text-white/52">{item.description}</p>
+                  <div className="mt-auto grid gap-2 pt-4">
+                    <Link
+                      data-free-tools-spread-format-start
+                      href={item.readingHref}
+                      className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-3 py-2 text-xs font-medium text-[#120c22] shadow-[0_12px_28px_rgba(146,132,239,0.18)] transition hover:brightness-110"
+                    >
+                      Start free
+                    </Link>
+                    <Link
+                      data-free-tools-spread-format-guide
                       href={item.guideHref}
                       className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-xs text-white/62 transition hover:border-[#bfb6ff]/40 hover:text-white"
                     >

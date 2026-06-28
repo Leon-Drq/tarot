@@ -140,6 +140,9 @@ const coreToolLinks = [
   { label: "Tarot Questions", href: "/tarot-questions", type: "CollectionPage" },
   { label: "Tarot Card Meanings", href: "/tarot-card-meanings", type: "CollectionPage" },
   { label: "Tarot Card Combinations", href: "/tarot-card-combinations", type: "CollectionPage" },
+  { label: "One Card Tarot Reading", href: "/one-card-tarot-reading", type: "WebPage" },
+  { label: "Three Card Tarot Reading", href: "/three-card-tarot-reading", type: "WebPage" },
+  { label: "Past Present Future Tarot", href: "/past-present-future-tarot", type: "WebPage" },
   { label: "Yes or No Tarot", href: "/yes-or-no-tarot", type: "WebPage" },
   { label: "Love Tarot Reading", href: "/love-tarot-reading", type: "WebPage" },
   { label: "Career Tarot Reading", href: "/career-tarot-reading", type: "WebPage" },
@@ -449,6 +452,24 @@ export const highIntentQuestionLinks = [
   },
 ]
 
+export const freeSpreadFormatLinks = [
+  {
+    title: "One card tarot reading",
+    description: "A free one-card AI tarot reading for the core message, present energy, and one grounded next step.",
+    href: "/one-card-tarot-reading",
+  },
+  {
+    title: "Three card tarot reading",
+    description: "A free three-card AI tarot reading for situation, obstacle, advice, timing, or past-present-future context.",
+    href: "/three-card-tarot-reading",
+  },
+  {
+    title: "Past present future tarot",
+    description: "A free past-present-future tarot spread that turns three cards into a clear timeline and next action.",
+    href: "/past-present-future-tarot",
+  },
+] as const
+
 function coreToolJsonLdItems() {
   return coreToolLinks.map((link) => ({
     "@type": link.type,
@@ -471,6 +492,21 @@ function highIntentQuestionJsonLdItems() {
     url: `${appUrl}${link.href}`,
     isAccessibleForFree: true,
     about: ["AI tarot reading", "free tarot question", "tarot spread"],
+    isPartOf: {
+      "@id": `${appUrl}/#website`,
+    },
+  }))
+}
+
+function freeSpreadFormatJsonLdItems() {
+  return freeSpreadFormatLinks.map((link) => ({
+    "@type": "WebPage",
+    "@id": `${appUrl}${link.href}#webpage`,
+    name: link.title,
+    description: link.description,
+    url: `${appUrl}${link.href}`,
+    isAccessibleForFree: true,
+    about: ["AI tarot reading", "free tarot spread", "tarot card draw"],
     isPartOf: {
       "@id": `${appUrl}/#website`,
     },
@@ -675,7 +711,12 @@ export function websiteJsonLd() {
       "@id": `${appUrl}/#organization`,
     },
     inLanguage: ["en", "zh-CN", "ja-JP", "ko-KR", "es", "pt-BR"],
-    hasPart: uniqueBySchemaId([...coreToolJsonLdItems(), ...highIntentQuestionJsonLdItems(), ...trustPageJsonLdItems()]),
+    hasPart: uniqueBySchemaId([
+      ...coreToolJsonLdItems(),
+      ...freeSpreadFormatJsonLdItems(),
+      ...highIntentQuestionJsonLdItems(),
+      ...trustPageJsonLdItems(),
+    ]),
   }
 }
 
@@ -712,6 +753,9 @@ export function softwareApplicationJsonLd() {
       "Free AI tarot reading",
       "Daily tarot card",
       "Free tarot spreads",
+      "One card tarot reading",
+      "Three card tarot reading",
+      "Past present future tarot",
       "Tarot question pages",
       "Tarot card meanings",
       "Tarot card combinations",

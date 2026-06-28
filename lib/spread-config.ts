@@ -5,6 +5,7 @@
 
 export type SpreadType = 
   | 'yes_no'           // Yes or No
+  | 'single_card'      // One card reading
   | 'daily_fashion'    // 每日穿搭提示
   | 'reconciliation_starter' // 免费复合 starter
   | 'love_starter'      // 免费爱情 starter
@@ -42,6 +43,7 @@ export interface SpreadConfig {
 
 export const FREE_SPREAD_TYPES = new Set<SpreadType>([
   'yes_no',
+  'single_card',
   'daily_fashion',
   'reconciliation_starter',
   'love_starter',
@@ -72,6 +74,20 @@ export const SPREAD_CONFIGS: Record<SpreadType, SpreadConfig> = {
       { name: '答案', nameEn: 'Answer', description: '正位代表"是"，逆位代表"否"或"需要等待"' }
     ],
     keywords: ['是否', '会不会', '能不能', '可不可以', '要不要', '行不行', 'yes', 'no', 'yes or no', '是或否']
+  },
+
+  single_card: {
+    type: 'single_card',
+    name: '一张牌解读',
+    nameEn: 'One Card Reading',
+    cardCount: 1,
+    icon: '1',
+    description: '用一张牌抓住当前问题的核心讯息和下一步建议',
+    descriptionEn: 'A focused one-card spread for the core message, present energy, and one useful next step.',
+    positions: [
+      { name: '核心讯息', nameEn: 'Core Message', description: '当前问题里最需要看清的主题、能量或建议' }
+    ],
+    keywords: ['一张牌', '单张牌', '一个牌', 'one card', 'single card', 'quick tarot', 'card of the moment']
   },
 
   daily_fashion: {

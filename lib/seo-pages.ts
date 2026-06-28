@@ -1166,6 +1166,40 @@ function makeQuestionSeoPage(input: {
   }
 }
 
+function makeFreeSpreadFormatSeoPage(input: {
+  slug: string
+  cards: number[]
+  recommendedSpread: SpreadType
+  title: string
+  description: string
+  h1: string
+  ctaQuestion: string
+  intro: string
+  intent: string
+  sections: SeoPageContent["sections"]
+  faqs: SeoPageContent["faqs"]
+}): SeoPageSource {
+  return {
+    slug: input.slug,
+    cards: input.cards,
+    recommendedSpread: input.recommendedSpread,
+    locales: ["en"],
+    content: {
+      en: withSharedCta("en", {
+        title: input.title,
+        description: input.description,
+        eyebrow: "Free Tarot Spread",
+        h1: input.h1,
+        intro: input.intro,
+        intent: input.intent,
+        ctaQuestion: input.ctaQuestion,
+        sections: input.sections,
+        faqs: input.faqs,
+      }),
+    },
+  }
+}
+
 seoPageSources.push(
   makeQuestionSeoPage({
     slug: "will-my-ex-come-back-tarot",
@@ -2222,6 +2256,72 @@ seoPageSources.push(
     faqs: [
       { question: "Can tarot tell if I will be successful?", answer: "Tarot can show momentum, blocks, strengths, and likely direction. It is most useful when it turns the answer into an action you can take." },
       { question: "What cards suggest success?", answer: "The Sun, The World, The Magician, Six of Wands, Ace of Pentacles, and The Chariot often support success when the spread is coherent." },
+    ],
+  }),
+)
+
+seoPageSources.push(
+  makeFreeSpreadFormatSeoPage({
+    slug: "one-card-tarot-reading",
+    cards: [0],
+    recommendedSpread: "single_card",
+    title: "One Card Tarot Reading - Free AI Tarot",
+    description: "Draw one tarot card online for a free AI reading with the core message, present energy, and one grounded next step.",
+    h1: "One Card Tarot Reading",
+    ctaQuestion: "What do I need to know right now?",
+    intro: "A one card tarot reading is the fastest way to pause, name the active energy, and turn a vague feeling into one useful next step.",
+    intent: "Best for quick clarity, daily guidance, a simple emotional check-in, or a first free tarot reading before choosing a deeper spread.",
+    sections: [
+      { heading: "Use one card for focus", body: "One card works when the question is narrow enough to answer with a theme, signal, or next action. It should not pretend to solve every layer of a complex situation." },
+      { heading: "Ask a clean question", body: "Try questions like what do I need to know, what energy is active, or what should I do next. Avoid combining several hidden questions in one draw." },
+      { heading: "Upgrade only if depth is needed", body: "The first one-card reading stays free. Membership is more useful later for saved history, deeper follow-ups, advanced spreads, and monthly patterns." },
+    ],
+    faqs: [
+      { question: "Is one card enough for a tarot reading?", answer: "Yes, when you want a focused signal or a quick first answer. For timing, relationship layers, or a major decision, a three-card spread can add context." },
+      { question: "What should I ask in a one card tarot reading?", answer: "Ask one clean question such as what do I need to know today, what energy is influencing this situation, or what is my next practical step." },
+      { question: "Is this one card tarot reading free?", answer: "Yes. You can draw one card for free. Paid features are reserved for deeper follow-up questions, saved history, advanced spreads, and longer reports." },
+    ],
+  }),
+  makeFreeSpreadFormatSeoPage({
+    slug: "three-card-tarot-reading",
+    cards: [1, 14, 17],
+    recommendedSpread: "three_card",
+    title: "Three Card Tarot Reading - Free AI Tarot Spread",
+    description: "Draw a free three-card AI tarot reading for situation, obstacle, advice, timing, or past-present-future clarity.",
+    h1: "Three Card Tarot Reading",
+    ctaQuestion: "What do I need to understand about this situation?",
+    intro: "A three card tarot reading gives enough structure to see a pattern without turning the first answer into a heavy advanced spread.",
+    intent: "Best for love, career, choices, emotional clarity, daily guidance, and any question that needs more context than one card can provide.",
+    sections: [
+      { heading: "Three cards create a pattern", body: "The value is not just card one, card two, and card three. The reading becomes useful when the cards show how energy, obstacle, and advice connect." },
+      { heading: "Choose the frame that fits", body: "Use three cards as past-present-future, situation-obstacle-advice, mind-body-spirit, or choice-action-outcome depending on the question." },
+      { heading: "Keep it free-first", body: "Start with the free three-card spread. Go deeper only when you need follow-up questions, saved history, an advanced spread, or a monthly report." },
+    ],
+    faqs: [
+      { question: "What does a three card tarot reading mean?", answer: "It means three cards are read together as a small spread. The positions can show timeline, situation and advice, or a simple decision pattern." },
+      { question: "Is three cards better than one card?", answer: "Three cards are better when you need context. One card is better for a quick signal. The right choice depends on how layered the question is." },
+      { question: "Can I use this for love or career?", answer: "Yes. A three-card reading can work for love, career, money, decisions, and daily guidance as long as the question is specific." },
+    ],
+  }),
+  makeFreeSpreadFormatSeoPage({
+    slug: "past-present-future-tarot",
+    cards: [18, 7, 21],
+    recommendedSpread: "three_card",
+    title: "Past Present Future Tarot - Free Three Card Reading",
+    description: "Draw a free past-present-future tarot spread and get an AI reading for what shaped the issue, what is happening now, and what may unfold next.",
+    h1: "Past Present Future Tarot",
+    ctaQuestion: "What does past, present, and future show about my situation?",
+    intro: "Past present future tarot is a classic three-card spread for seeing how an old influence, current energy, and likely direction connect.",
+    intent: "Best for timelines, relationship uncertainty, career decisions, personal transitions, and moments when you need a simple story arc.",
+    sections: [
+      { heading: "Past shows the root", body: "The past card points to an influence, habit, event, or emotional pattern that still affects the question. It is context, not a fixed excuse." },
+      { heading: "Present shows the active signal", body: "The present card names what is strongest right now: pressure, opportunity, avoidance, attraction, fear, or readiness." },
+      { heading: "Future shows direction", body: "The future card describes where the pattern may go if nothing changes. Read it as guidance for action, not as a locked prediction." },
+    ],
+    faqs: [
+      { question: "How do I read past present future tarot?", answer: "Read the past as the root influence, the present as the active energy, and the future as the likely direction or advice if the pattern continues." },
+      { question: "Can past present future tarot predict exactly what will happen?", answer: "No. It is better used as symbolic guidance. The future card points to a likely direction and helps you choose a wiser next step." },
+      { question: "Is this spread free?", answer: "Yes. You can start the past-present-future tarot spread for free. Membership is only for deeper follow-ups, saved history, advanced spreads, and reports." },
     ],
   }),
 )

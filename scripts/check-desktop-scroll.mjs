@@ -40,6 +40,12 @@ try {
       homeShellOverflow: document.querySelector("[data-home-hero-shell]")
         ? getComputedStyle(document.querySelector("[data-home-hero-shell]")).overflow
         : null,
+      homeShellOverflowX: document.querySelector("[data-home-hero-shell]")
+        ? getComputedStyle(document.querySelector("[data-home-hero-shell]")).overflowX
+        : null,
+      homeShellOverflowY: document.querySelector("[data-home-hero-shell]")
+        ? getComputedStyle(document.querySelector("[data-home-hero-shell]")).overflowY
+        : null,
       scrollbarWidth: window.innerWidth - document.documentElement.clientWidth,
     }))
 
@@ -56,8 +62,11 @@ try {
     if (pageConfig.path === "/" && result.homeStageOverflowY !== "visible") {
       failures.push(`${pageConfig.name}: home stage should not create a nested vertical scroll container`)
     }
-    if (pageConfig.path === "/" && !["clip", "visible"].includes(result.homeShellOverflow)) {
-      failures.push(`${pageConfig.name}: home hero shell should clip visuals without becoming a scroll container`)
+    if (pageConfig.path === "/" && !["clip", "visible"].includes(result.homeShellOverflowX)) {
+      failures.push(`${pageConfig.name}: home hero shell should clip horizontal visuals without creating sideways scroll`)
+    }
+    if (pageConfig.path === "/" && result.homeShellOverflowY !== "visible") {
+      failures.push(`${pageConfig.name}: home hero shell must not clip vertical page content`)
     }
 
     await page.close()

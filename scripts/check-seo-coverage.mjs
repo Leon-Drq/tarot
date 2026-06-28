@@ -504,6 +504,34 @@ for (const slug of highIntentLongTailSlugs) {
   )
 }
 
+const freeSpreadFormatSlugs = [
+  "one-card-tarot-reading",
+  "three-card-tarot-reading",
+  "past-present-future-tarot",
+]
+
+for (const slug of freeSpreadFormatSlugs) {
+  assertIncludes(files.seoPages, `slug: "${slug}"`, `free spread format SEO page ${slug}`)
+  assertIncludes(files.site, `href: "/${slug}"`, `free spread format site link ${slug}`)
+  assertIncludes(files.mobileCheck, `/${slug}`, `mobile check spread format page ${slug}`)
+  assertIncludes(files.searchAssetCheck, `"/${slug}"`, `search asset sitemap check for ${slug}`)
+  assertMatches(
+    files.seoLanding,
+    new RegExp(`"${slug}"\\s*:\\s*\\[`),
+    `spread format related cluster for ${slug}`,
+  )
+}
+
+assertIncludes(files.spreadConfig, "| 'single_card'", "single-card free spread type")
+assertIncludes(files.spreadConfig, "single_card: {", "single-card spread config")
+assertIncludes(files.spreadConfig, "'single_card',", "single-card free spread access")
+assertIncludes(files.tarotSpreadsPage, "\"single_card\"", "tarot spreads includes single-card spread")
+assertIncludes(files.site, "freeSpreadFormatLinks", "site graph free spread format links")
+assertIncludes(files.site, "freeSpreadFormatJsonLdItems", "site graph free spread format structured data")
+assertIncludes(files.seoLanding, "freeSpreadFormatLinks", "SEO landing imports free spread format links")
+assertIncludes(files.seoLanding, "seo_spread_format_page", "SEO landing spread format source attribution")
+assertIncludes(files.seoLanding, "actionIntentSlugs", "SEO landing action intent enhancement includes spread formats")
+
 const sheFocusedRegionalQuestionSlugs = [
   "what-does-she-think-of-me-tarot",
   "will-she-contact-me-tarot",
@@ -805,6 +833,14 @@ assertIncludes(files.freeToolsPage, "data-free-tools-quick-start-card", "free to
 assertIncludes(files.freeToolsPage, "data-free-tools-quick-start-start", "free tools quick-start direct CTA")
 assertIncludes(files.freeToolsPage, "utm_medium: \"quick_start\"", "free tools quick-start attribution")
 assertIncludes(files.freeToolsPage, "#quick-start-free-readings", "free tools quick-start structured data")
+assertIncludes(files.freeToolsPage, "freeSpreadFormatLinks", "free tools uses shared spread format links")
+assertIncludes(files.freeToolsPage, "spreadFormatTools", "free tools spread format data")
+assertIncludes(files.freeToolsPage, "data-free-tools-spread-formats", "free tools spread format visible section")
+assertIncludes(files.freeToolsPage, "data-free-tools-spread-format-card", "free tools spread format cards")
+assertIncludes(files.freeToolsPage, "data-free-tools-spread-format-start", "free tools spread format direct CTA")
+assertIncludes(files.freeToolsPage, "data-free-tools-spread-format-guide", "free tools spread format guide CTA")
+assertIncludes(files.freeToolsPage, "utm_medium: \"spread_format\"", "free tools spread format attribution")
+assertIncludes(files.freeToolsPage, "#free-spread-formats", "free tools spread format structured data")
 assertIncludes(files.freeToolsPage, "data-free-tools-question-start", "free tools direct high-intent start CTA")
 assertIncludes(files.freeToolsPage, "data-free-tools-question-guide", "free tools high-intent guide CTA")
 assertIncludes(files.freeToolsPage, "utm_medium: \"question_grid\"", "free tools high-intent question attribution")
@@ -931,7 +967,11 @@ assertIncludes(files.homeExperience, "data-home-hero-shell", "homepage hero shel
 assertIncludes(files.homeExperience, "home-hero-shell", "homepage hero shell class")
 assertIncludes(files.globalStyles, "overflow-x: clip", "homepage stage clips horizontal overflow without nested vertical scroll")
 assertIncludes(files.globalStyles, "overflow-y: visible", "homepage stage leaves document vertical scrolling native")
-assertIncludes(files.globalStyles, "overflow: clip", "homepage hero shell clips accidental overlap without becoming a scroll container")
+assertIncludes(
+  files.globalStyles,
+  ".home-hero-shell {\n    min-height: var(--home-hero-shell-min-height);\n    overflow-x: clip;\n    overflow-y: visible;\n  }",
+  "homepage hero shell clips horizontal visuals without clipping vertical page content",
+)
 assertIncludes(files.homeExperience, "overflow-x-auto", "homepage mobile quick-start avoids wrapping into hero controls")
 assertIncludes(files.homeExperience, "bg-[#0b0314]", "homepage solid mobile panels prevent text bleed-through")
 assertIncludes(files.homeExperience, "data-home-daily-return-panel", "homepage daily return panel measurement hook")
@@ -1399,6 +1439,9 @@ const searchAssetRuntimeCoverage = [
   [files.searchAssetCheck, "\"/free-tarot-tools\"", "search asset free hub sitemap check"],
   [files.searchAssetCheck, "\"/daily-tarot\"", "search asset Daily Tarot sitemap check"],
   [files.searchAssetCheck, "\"/tarot-card-combinations\"", "search asset card combinations sitemap check"],
+  [files.searchAssetCheck, "\"/one-card-tarot-reading\"", "search asset one-card spread format sitemap check"],
+  [files.searchAssetCheck, "\"/three-card-tarot-reading\"", "search asset three-card spread format sitemap check"],
+  [files.searchAssetCheck, "\"/past-present-future-tarot\"", "search asset past-present-future spread format sitemap check"],
   [files.searchAssetCheck, "\"/will-my-ex-come-back-tarot\"", "search asset long-tail sitemap check"],
   [files.searchAssetCheck, "\"/es/mi-ex-volvera-tarot\"", "search asset Spanish long-tail sitemap check"],
   [files.searchAssetCheck, "\"/pt-br/meu-ex-vai-voltar-tarot\"", "search asset Portuguese long-tail sitemap check"],

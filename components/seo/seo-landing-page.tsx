@@ -9,6 +9,7 @@ import { getCardName, TAROT_CARDS } from "@/lib/tarot-cards"
 import {
   appUrl,
   editorialTeamJsonLd,
+  freeSpreadFormatLinks,
   highIntentQuestionLinks,
   organizationJsonLd,
   softwareApplicationJsonLd,
@@ -737,6 +738,24 @@ function relatedPages(page: SeoPage) {
 }
 
 const relatedQuestionClusters: Record<string, string[]> = {
+  "one-card-tarot-reading": [
+    "three-card-tarot-reading",
+    "past-present-future-tarot",
+    "daily-tarot",
+    "daily-yes-or-no-tarot",
+  ],
+  "three-card-tarot-reading": [
+    "one-card-tarot-reading",
+    "past-present-future-tarot",
+    "free-ai-tarot-reading",
+    "tarot-card-meanings",
+  ],
+  "past-present-future-tarot": [
+    "three-card-tarot-reading",
+    "one-card-tarot-reading",
+    "daily-action-tarot",
+    "will-i-be-successful-tarot",
+  ],
   "daily-love-tarot": [
     "daily-mood-tarot",
     "does-he-love-me-tarot",
@@ -1141,9 +1160,13 @@ function questionClusterPages(page: SeoPage) {
 }
 
 const highIntentQuestionSlugs = new Set(highIntentQuestionLinks.map((link) => link.href.replace(/^\//, "")))
+const freeSpreadFormatSlugs = new Set(freeSpreadFormatLinks.map((link) => link.href.replace(/^\//, "")))
+const actionIntentSlugs = new Set([...highIntentQuestionSlugs, ...freeSpreadFormatSlugs])
 
 function seoLandingSource(page: SeoPage) {
-  return highIntentQuestionSlugs.has(page.slug) ? "seo_question_page" : "seo_landing_page"
+  if (highIntentQuestionSlugs.has(page.slug)) return "seo_question_page"
+  if (freeSpreadFormatSlugs.has(page.slug)) return "seo_spread_format_page"
+  return "seo_landing_page"
 }
 
 function readingHref(page: SeoPage) {
@@ -1817,7 +1840,7 @@ function resultSampleForPage(page: SeoPage, toolkit: QuestionToolkit) {
 }
 
 function createResultPreview(page: SeoPage, toolkit: QuestionToolkit | undefined, recommendedSpread: SpreadConfig | undefined): ResultPreview | undefined {
-  if (!toolkit || !recommendedSpread || !highIntentQuestionSlugs.has(page.slug)) return undefined
+  if (!toolkit || !recommendedSpread || !actionIntentSlugs.has(page.slug)) return undefined
 
   const copy = resultPreviewUiCopy[page.locale]
   const sample = resultSampleForPage(page, toolkit)
@@ -1971,7 +1994,7 @@ function spreadSummaryForHero(page: SeoPage, toolkit: QuestionToolkit, recommend
 }
 
 function createFallbackQuestionToolkit(page: SeoPage, recommendedSpread: SpreadConfig | undefined): QuestionToolkit | undefined {
-  if (!recommendedSpread || !highIntentQuestionSlugs.has(page.slug)) return undefined
+  if (!recommendedSpread || !actionIntentSlugs.has(page.slug)) return undefined
 
   const copy = fallbackQuestionToolkitCopy[page.locale]
   const spreadName = spreadNameForLocale(recommendedSpread, page.locale)
@@ -3053,10 +3076,10 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
   const recommendedSpread = page.recommendedSpread ? SPREAD_CONFIGS[page.recommendedSpread] : undefined
   const toolkit = localizedQuestionToolkits[page.locale]?.[page.slug] || createFallbackQuestionToolkit(page, recommendedSpread)
   const resultPreview = createResultPreview(page, toolkit, recommendedSpread)
-  const isHighIntentQuestion = highIntentQuestionSlugs.has(page.slug)
-  const decisionGuide = isHighIntentQuestion ? questionDecisionGuide(page) : null
+  const isActionIntentPage = actionIntentSlugs.has(page.slug)
+  const decisionGuide = isActionIntentPage ? questionDecisionGuide(page) : null
   const returnLoopCopy = questionReturnLoopCopy[page.locale]
-  const returnLoopItems = isHighIntentQuestion ? questionReturnLoopItems(page, primaryHref) : []
+  const returnLoopItems = isActionIntentPage ? questionReturnLoopItems(page, primaryHref) : []
   const questionTrust = questionTrustCopy[page.locale]
   const questionTrustTestimonials = representativeTestimonials.slice(0, 3)
   const questionShareDailyParams = new URLSearchParams({
@@ -3116,7 +3139,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
             name: "Start free AI tarot reading",
             target: `${appUrl}${primaryHref}`,
           },
-          ...(isHighIntentQuestion
+          ...(isActionIntentPage
             ? [
                 {
                   "@type": "ShareAction",
@@ -3362,7 +3385,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
             },
           ]
         : []),
-      ...(isHighIntentQuestion
+      ...(isActionIntentPage
         ? [
             {
               "@type": "ItemList",
@@ -3728,7 +3751,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         </section>
       )}
 
-      {isHighIntentQuestion && (
+      {isActionIntentPage && (
         <SeoQuestionShareActions
           locale={page.locale}
           title={page.title}
@@ -3741,7 +3764,7 @@ export function SeoLandingPageView({ page }: { page: SeoPage }) {
         />
       )}
 
-      {isHighIntentQuestion && (
+      {isActionIntentPage && (
         <section
           id="reader-trust-signals"
           data-seo-reader-trust
