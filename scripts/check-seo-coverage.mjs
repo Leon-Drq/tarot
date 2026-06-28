@@ -95,8 +95,20 @@ const files = {
     source: read("components/seo/tarot-card-meaning-page.tsx"),
   },
   tarotCardCombinationsPage: {
+    path: "components/seo/tarot-card-combinations-page.tsx",
+    source: read("components/seo/tarot-card-combinations-page.tsx"),
+  },
+  tarotCardCombinationsRoute: {
     path: "app/tarot-card-combinations/page.tsx",
     source: read("app/tarot-card-combinations/page.tsx"),
+  },
+  spanishTarotCardCombinationsRoute: {
+    path: "app/es/combinaciones-cartas-tarot/page.tsx",
+    source: read("app/es/combinaciones-cartas-tarot/page.tsx"),
+  },
+  portugueseTarotCardCombinationsRoute: {
+    path: "app/pt-br/combinacoes-cartas-tarot/page.tsx",
+    source: read("app/pt-br/combinacoes-cartas-tarot/page.tsx"),
   },
   seoOgImage: {
     path: "lib/seo-og-image.tsx",
@@ -883,13 +895,32 @@ assertIncludes(files.menuPanel, "/tarot-card-combinations", "menu card combinati
 assertIncludes(files.site, "Tarot Card Combinations", "site graph card combinations core tool")
 assertIncludes(files.site, "Tarot card combinations", "application feature list card combinations")
 assertIncludes(files.sitemap, 'path: "/tarot-card-combinations"', "card combinations sitemap route")
+assertIncludes(files.sitemap, 'path: "/es/combinaciones-cartas-tarot"', "Spanish card combinations sitemap route")
+assertIncludes(files.sitemap, 'path: "/pt-br/combinacoes-cartas-tarot"', "Portuguese card combinations sitemap route")
+assertIncludes(files.sitemap, "combinationHubAlternates", "card combinations sitemap alternates")
+assertIncludes(files.mobileCheck, 'path: "/es/combinaciones-cartas-tarot"', "Spanish card combinations mobile route")
+assertIncludes(files.mobileCheck, 'path: "/pt-br/combinacoes-cartas-tarot"', "Portuguese card combinations mobile route")
+assertIncludes(files.searchAssetCheck, '"/es/combinaciones-cartas-tarot"', "Spanish card combinations search asset sitemap check")
+assertIncludes(files.searchAssetCheck, '"/pt-br/combinacoes-cartas-tarot"', "Portuguese card combinations search asset sitemap check")
+assertIncludes(files.tarotCardCombinationsRoute, 'getTarotCardCombinationHubMetadata("en")', "English card combinations route metadata")
+assertIncludes(files.spanishTarotCardCombinationsRoute, 'getTarotCardCombinationHubMetadata("es")', "Spanish card combinations route metadata")
+assertIncludes(files.portugueseTarotCardCombinationsRoute, 'getTarotCardCombinationHubMetadata("pt-br")', "Portuguese card combinations route metadata")
+assertIncludes(files.spanishTarotCardCombinationsRoute, 'locale="es"', "Spanish card combinations route locale")
+assertIncludes(files.portugueseTarotCardCombinationsRoute, 'locale="pt-br"', "Portuguese card combinations route locale")
 
 for (const [needle, label] of [
   ["data-card-combinations-hub", "card combinations visible page hook"],
   ["Tarot Card Combinations", "card combinations page title"],
+  ["Combinaciones de Cartas de Tarot", "Spanish card combinations page title"],
+  ["Combinacoes de Cartas de Tarot", "Portuguese card combinations page title"],
   ["Common Tarot Card Combination Paths", "card combinations path section"],
-  ["getTarotCardSeoPage(source, \"en\")", "card combinations reuse English card SEO data"],
+  ["Rutas comunes de combinaciones de tarot", "Spanish card combinations path section"],
+  ["Caminhos comuns de combinacoes de tarot", "Portuguese card combinations path section"],
+  ["getTarotCardSeoPage(source, locale)", "card combinations reuse localized card SEO data"],
   ["`${sourcePage.path}#combinations`", "card combinations source page anchor links"],
+  ["getSeoPage(slug, locale)", "card combinations localized context hub links"],
+  ["tarotCardCombinationHubPaths", "card combinations localized hub paths"],
+  ["hubAlternates", "card combinations metadata alternates"],
   ["data-card-combination-hub-link", "card combinations hub internal links"],
   ["data-card-combination-start-free", "card combinations free reading CTA"],
   ["data-card-combination-daily-return", "card combinations Daily Tarot return CTA"],
@@ -1457,6 +1488,8 @@ const searchAssetRuntimeCoverage = [
   [files.searchAssetCheck, "\"/free-tarot-tools\"", "search asset free hub sitemap check"],
   [files.searchAssetCheck, "\"/daily-tarot\"", "search asset Daily Tarot sitemap check"],
   [files.searchAssetCheck, "\"/tarot-card-combinations\"", "search asset card combinations sitemap check"],
+  [files.searchAssetCheck, "\"/es/combinaciones-cartas-tarot\"", "search asset Spanish card combinations sitemap check"],
+  [files.searchAssetCheck, "\"/pt-br/combinacoes-cartas-tarot\"", "search asset Portuguese card combinations sitemap check"],
   [files.searchAssetCheck, "\"/one-card-tarot-reading\"", "search asset one-card spread format sitemap check"],
   [files.searchAssetCheck, "\"/three-card-tarot-reading\"", "search asset three-card spread format sitemap check"],
   [files.searchAssetCheck, "\"/past-present-future-tarot\"", "search asset past-present-future spread format sitemap check"],

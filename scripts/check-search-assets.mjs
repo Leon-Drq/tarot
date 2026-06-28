@@ -47,6 +47,8 @@ const requiredSitemapPaths = [
   "/past-present-future-tarot",
   "/tarot-card-meanings",
   "/tarot-card-combinations",
+  "/es/combinaciones-cartas-tarot",
+  "/pt-br/combinacoes-cartas-tarot",
   "/will-my-ex-come-back-tarot",
   "/does-he-love-me-tarot",
   "/does-she-love-me-tarot",
@@ -115,6 +117,8 @@ const publicRobotsPaths = [
   "/daily-tarot",
   "/tarot-questions",
   "/tarot-card-combinations",
+  "/es/combinaciones-cartas-tarot",
+  "/pt-br/combinacoes-cartas-tarot",
   "/brand-assets",
   "/reviews",
 ]

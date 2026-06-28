@@ -43,6 +43,13 @@ const questionHubAlternates = {
   "x-default": "/tarot-questions",
 }
 
+const combinationHubAlternates = {
+  en: "/tarot-card-combinations",
+  es: "/es/combinaciones-cartas-tarot",
+  "pt-br": "/pt-br/combinacoes-cartas-tarot",
+  "x-default": "/tarot-card-combinations",
+}
+
 function seoPageAlternates(sourceSlug: string) {
   return {
     ...getSeoAlternates(sourceSlug),
@@ -61,7 +68,6 @@ const baseRoutes = [
   { path: "/", priority: 1, images: brandIdentityImages },
   { path: "/free-tarot-tools", priority: 0.91, images: ["/logo.png", "/og-image.jpg"] },
   { path: "/daily-tarot", priority: 0.92, images: ["/logo.png", "/og-image.jpg"] },
-  { path: "/tarot-card-combinations", priority: 0.84 },
   { path: "/membership", priority: 0.4 },
 ] satisfies SitemapRoute[]
 
@@ -75,6 +81,12 @@ const questionHubRoutes = [
   { path: "/tarot-questions", priority: 0.87, alternates: questionHubAlternates },
   { path: "/es/preguntas-tarot", priority: 0.84, alternates: questionHubAlternates },
   { path: "/pt-br/perguntas-tarot", priority: 0.84, alternates: questionHubAlternates },
+] satisfies SitemapRoute[]
+
+const combinationHubRoutes = [
+  { path: "/tarot-card-combinations", priority: 0.84, alternates: combinationHubAlternates },
+  { path: "/es/combinaciones-cartas-tarot", priority: 0.8, alternates: combinationHubAlternates },
+  { path: "/pt-br/combinacoes-cartas-tarot", priority: 0.8, alternates: combinationHubAlternates },
 ] satisfies SitemapRoute[]
 
 const seoRoutes = getAllLocalizedSeoPages().map((page) => ({
@@ -101,10 +113,15 @@ const cardRoutes = TAROT_CARDS.flatMap((card) =>
 
 const routes: SitemapRoute[] = Array.from(
   new Map(
-    [...baseRoutes, ...spreadHubRoutes, ...questionHubRoutes, ...seoRoutes, ...trustRoutes, ...cardRoutes].map((route) => [
-      route.path,
-      route,
-    ]),
+    [
+      ...baseRoutes,
+      ...spreadHubRoutes,
+      ...questionHubRoutes,
+      ...combinationHubRoutes,
+      ...seoRoutes,
+      ...trustRoutes,
+      ...cardRoutes,
+    ].map((route) => [route.path, route]),
   ).values(),
 )
 

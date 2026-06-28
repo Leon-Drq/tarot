@@ -305,6 +305,30 @@ const pages = [
     ],
   },
   {
+    path: "/es/combinaciones-cartas-tarot",
+    name: "Spanish card combinations hub",
+    requiredSelectors: [
+      "[data-card-combinations-hub]",
+      "[data-card-combination-start-free]",
+      "[data-card-combination-hub-link]",
+      "[data-card-combination-method]",
+      "[data-card-combination-daily-return]",
+      "[data-card-combination-faq]",
+    ],
+  },
+  {
+    path: "/pt-br/combinacoes-cartas-tarot",
+    name: "Portuguese card combinations hub",
+    requiredSelectors: [
+      "[data-card-combinations-hub]",
+      "[data-card-combination-start-free]",
+      "[data-card-combination-hub-link]",
+      "[data-card-combination-method]",
+      "[data-card-combination-daily-return]",
+      "[data-card-combination-faq]",
+    ],
+  },
+  {
     path: "/free-tarot-tools",
     name: "free tools",
     requiredSelectors: [
