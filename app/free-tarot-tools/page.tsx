@@ -175,6 +175,27 @@ function highIntentReadingHref(item: (typeof highIntentQuestionLinks)[number]) {
   return `/input?${params.toString()}`
 }
 
+function questionClusterReadingHref(item: (typeof highIntentQuestionLinks)[number], clusterKey: string) {
+  const slug = questionSlugFromHref(item.href)
+  const page = getSeoPage(slug, "en")
+  const params = new URLSearchParams({
+    q: page?.ctaQuestion || item.title,
+    auto: "1",
+    source: "free_tools",
+    lang: "en",
+    utm_source: "free_tools",
+    utm_medium: "question_cluster",
+    utm_campaign: slug,
+    utm_content: clusterKey,
+  })
+
+  if (page?.recommendedSpread) {
+    params.set("spread", page.recommendedSpread)
+  }
+
+  return `/input?${params.toString()}`
+}
+
 function quickStartReadingHref(item: (typeof highIntentQuestionLinks)[number]) {
   const slug = questionSlugFromHref(item.href)
   const page = getSeoPage(slug, "en")
@@ -230,6 +251,86 @@ const spreadFormatTools = freeSpreadFormatLinks.map((item) => ({
   ...item,
   readingHref: spreadFormatReadingHref(item),
   guideHref: item.href,
+}))
+const questionClusterSources = [
+  {
+    key: "love_feelings",
+    title: "Love and feelings",
+    body: "Use these when the reader wants to understand attraction, mixed signals, private feelings, or whether behavior matches words.",
+    hrefs: [
+      "/does-he-love-me-tarot",
+      "/how-does-he-feel-about-me-tarot",
+      "/what-does-he-think-of-me-tarot",
+      "/does-my-crush-like-me-tarot",
+      "/what-are-his-intentions-tarot",
+      "/does-she-love-me-tarot",
+    ],
+  },
+  {
+    key: "ex_no_contact",
+    title: "Ex and no contact",
+    body: "Use these for breakup silence, whether an ex may return, whether waiting helps, and how to keep boundaries while emotions are loud.",
+    hrefs: [
+      "/will-my-ex-come-back-tarot",
+      "/does-my-ex-miss-me-tarot",
+      "/will-my-ex-reach-out-tarot",
+      "/no-contact-tarot-reading",
+      "/does-no-contact-work-tarot",
+      "/should-i-move-on-tarot",
+    ],
+  },
+  {
+    key: "daily_return",
+    title: "Daily and weekly return",
+    body: "Use these for repeat visits: one daily card, a weekly focus, a love check-in, or a quick action prompt that brings people back.",
+    hrefs: [
+      "/tarot-card-of-the-day",
+      "/daily-tarot-card",
+      "/daily-love-tarot",
+      "/daily-career-tarot",
+      "/weekly-tarot-reading",
+      "/weekly-love-tarot",
+    ],
+  },
+  {
+    key: "career_money",
+    title: "Career, job, and money",
+    body: "Use these when the question is practical: interviews, promotions, quitting, accepting an offer, starting a business, or money pressure.",
+    hrefs: [
+      "/career-tarot-reading",
+      "/will-i-get-the-job-tarot",
+      "/should-i-take-this-job-tarot",
+      "/should-i-quit-my-job-tarot",
+      "/what-career-is-right-for-me-tarot",
+      "/will-i-get-money-tarot",
+    ],
+  },
+  {
+    key: "yes_no_decisions",
+    title: "Yes, no, and decisions",
+    body: "Use these when the visitor needs a quick direction but still wants context, timing, risks, and one grounded next step.",
+    hrefs: [
+      "/yes-or-no-tarot-love",
+      "/daily-yes-or-no-tarot",
+      "/should-i-text-him-tarot",
+      "/should-i-text-her-tarot",
+      "/should-i-stay-or-leave-tarot",
+      "/should-i-start-a-business-tarot",
+    ],
+  },
+] as const
+const questionClusters = questionClusterSources.map((cluster) => ({
+  ...cluster,
+  items: cluster.hrefs.map((href) => {
+    const item = highIntentQuestionLinks.find((link) => link.href === href)
+    if (!item) throw new Error(`Missing free tools question cluster link: ${href}`)
+
+    return {
+      ...item,
+      guideHref: item.href,
+      readingHref: questionClusterReadingHref(item, cluster.key),
+    }
+  }),
 }))
 
 const structuredData = {
@@ -363,6 +464,36 @@ const structuredData = {
           },
         }
       }),
+    },
+    {
+      "@type": "ItemList",
+      "@id": `${appUrl}/free-tarot-tools#question-clusters`,
+      name: "Free tarot question clusters",
+      itemListElement: questionClusters.map((cluster, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "ItemList",
+          name: cluster.title,
+          description: cluster.body,
+          itemListElement: cluster.items.map((item, itemIndex) => ({
+            "@type": "ListItem",
+            position: itemIndex + 1,
+            item: {
+              "@type": "WebPage",
+              name: item.title,
+              description: item.description,
+              url: `${appUrl}${item.guideHref}`,
+              isAccessibleForFree: true,
+              potentialAction: {
+                "@type": "InteractAction",
+                name: "Start free tarot question reading",
+                target: `${appUrl}${item.readingHref}`,
+              },
+            },
+          })),
+        },
+      })),
     },
     {
       "@type": "ItemList",
@@ -675,6 +806,76 @@ export default function FreeTarotToolsPage() {
                   <div className="min-w-0 rounded-md border border-white/10 bg-black/20 p-3">
                     <p className="text-[10px] uppercase tracking-[0.18em] text-white/38">Upgrade later</p>
                     <p className="mt-2 text-sm leading-6 text-white/56">{item.upgrade}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section
+          data-free-tools-question-clusters
+          className="mt-12 border-t border-white/10 pt-8"
+        >
+          <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">Question clusters</p>
+              <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">
+                Browse by the situation behind the search
+              </h2>
+              <p className="mt-4 text-sm leading-7 text-white/58">
+                People rarely search tarot as a neutral topic. They arrive through love anxiety, ex silence,
+                daily habits, career pressure, or yes-or-no decisions. These clusters make the free tool easier
+                to scan before the full question list.
+              </p>
+            </div>
+            <div className="grid gap-4">
+              {questionClusters.map((cluster) => (
+                <article
+                  key={cluster.key}
+                  data-free-tools-question-cluster
+                  className="min-w-0 rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4"
+                >
+                  <div className="grid gap-2 border-b border-white/10 pb-4 sm:grid-cols-[0.52fr_1fr] sm:items-end">
+                    <div>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-[#c9c0ff]/72">
+                        {cluster.key.replace(/_/g, " ")}
+                      </p>
+                      <h3 className="mt-2 break-words text-lg font-medium leading-snug text-white">
+                        {cluster.title}
+                      </h3>
+                    </div>
+                    <p className="text-sm leading-6 text-white/56">{cluster.body}</p>
+                  </div>
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {cluster.items.map((item) => (
+                      <div
+                        key={`${cluster.key}-${item.href}`}
+                        data-free-tools-question-cluster-link
+                        className="min-w-0 border-t border-white/8 pt-3 first:border-t-0 first:pt-0 sm:first:border-t sm:first:pt-3"
+                      >
+                        <h4 className="break-words text-sm font-medium leading-snug text-[#f3efff]">
+                          {item.title}
+                        </h4>
+                        <p className="mt-2 line-clamp-3 text-xs leading-5 text-white/48">{item.description}</p>
+                        <div className="mt-3 grid grid-cols-2 gap-2">
+                          <Link
+                            data-free-tools-question-cluster-start
+                            href={item.readingHref}
+                            className="inline-flex min-h-10 items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f4f0ff_0%,#c9c0ff_52%,#9284ef_100%)] px-3 py-2 text-center text-xs font-medium text-[#120c22] shadow-[0_12px_28px_rgba(146,132,239,0.16)] transition hover:brightness-110"
+                          >
+                            Start free
+                          </Link>
+                          <Link
+                            data-free-tools-question-cluster-guide
+                            href={item.guideHref}
+                            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-white/12 px-3 py-2 text-center text-xs text-white/64 transition hover:border-[#bfb6ff]/40 hover:text-white"
+                          >
+                            Guide
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </article>
               ))}

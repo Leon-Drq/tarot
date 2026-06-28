@@ -428,6 +428,8 @@ const pages = [
       "[data-free-tools-spread-formats]",
       "[data-free-tools-spread-format-start]",
       "[data-free-tools-spread-format-guide]",
+      "[data-free-tools-question-clusters]",
+      "[data-free-tools-question-cluster-start]",
       "[data-free-tools-social-proof]",
     ],
   },
