@@ -20,6 +20,7 @@ interface CardSpreadProps {
   maxCards?: number  // 最大可选卡牌数量
   deckType?: DeckType  // 牌组类型: major=大阿尔卡纳22张, full=全部78张
   locale?: SeoLocale
+  dealImmediately?: boolean
 }
 
 export function CardSpread({
@@ -33,8 +34,9 @@ export function CardSpread({
   maxCards = 3,
   deckType = 'major',  // 默认使用大阿尔卡纳
   locale,
+  dealImmediately = false,
 }: CardSpreadProps) {
-  const [cardsDealt, setCardsDealt] = useState(false)
+  const [cardsDealt, setCardsDealt] = useState(dealImmediately)
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const hasNotifiedRef = useRef(false)
   const onCardsDealtRef = useRef(onCardsDealt)
@@ -100,6 +102,11 @@ export function CardSpread({
 
   useEffect(() => {
     if (hasNotifiedRef.current) return
+    if (dealImmediately) {
+      hasNotifiedRef.current = true
+      setCardsDealt(true)
+      return
+    }
 
     const timer = setTimeout(() => {
       setCardsDealt(true)
@@ -115,7 +122,7 @@ export function CardSpread({
       return () => clearTimeout(notifyTimer)
     }, 500)
     return () => clearTimeout(timer)
-  }, [])
+  }, [CARD_COUNT, dealImmediately])
 
   useEffect(() => {
     if (collectingMode) {
@@ -183,6 +190,7 @@ export function CardSpread({
   return (
     <div
       ref={containerRef}
+      data-card-spread-dealt={cardsDealt ? "true" : "false"}
       className="absolute inset-0 w-full h-full pointer-events-none"
       style={{ perspective: "1000px" }}
       onTouchStart={handleTouchStart}

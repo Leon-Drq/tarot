@@ -717,6 +717,7 @@ async function checkPage(browser, pageConfig) {
     flowCheck.afterConfirm = await page.evaluate(() => ({
       dialogVisible: Boolean(document.querySelector("[data-input-spread-choice-dialog]")),
       cardSurfaceVisible: Boolean(document.querySelector("[data-input-card-selection-surface]")),
+      cardSpreadDealt: Boolean(document.querySelector("[data-card-spread-dealt=\"true\"]")),
     }))
   }
 
@@ -859,6 +860,9 @@ try {
       }
       if (!result.flowCheck.afterConfirm?.cardSurfaceVisible) {
         failures.push(`${result.name}: card selection surface did not appear after spread confirmation`)
+      }
+      if (!result.flowCheck.afterConfirm?.cardSpreadDealt) {
+        failures.push(`${result.name}: card spread was not ready immediately after spread confirmation`)
       }
       if (result.flowCheck.afterConfirm?.dialogVisible) {
         failures.push(`${result.name}: spread choice dialog stayed visible after confirm`)

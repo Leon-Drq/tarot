@@ -70,6 +70,7 @@ function InputContent() {
   const [shuffleKey, setShuffleKey] = useState(0)
   const [spreadInfo, setSpreadInfo] = useState<SpreadInfo | null>(null)
   const [isClassifying, setIsClassifying] = useState(false)
+  const [dealImmediatelyAfterChoice, setDealImmediatelyAfterChoice] = useState(false)
   const [advancedSpreadPrompt, setAdvancedSpreadPrompt] = useState<{
     requestedName: string
     fallbackName: string
@@ -317,6 +318,7 @@ function InputContent() {
   const beginSpreadChoiceFlow = (nextSpreadInfo: SpreadInfo) => {
     clearSpreadChoiceTimer()
     setSelectedCardIds([])
+    setDealImmediatelyAfterChoice(false)
     setSpreadInfo(nextSpreadInfo)
     setShuffleKey((k) => k + 1)
     setPageState("shuffling")
@@ -329,7 +331,7 @@ function InputContent() {
   const handleSpreadChoiceConfirm = () => {
     clearSpreadChoiceTimer()
     setSelectedCardIds([])
-    setShuffleKey((k) => k + 1)
+    setDealImmediatelyAfterChoice(true)
     analyticsApi.track("spread_confirmed", {
       ...getCurrentAttribution(),
       locale: readingLocale,
@@ -461,6 +463,7 @@ function InputContent() {
 
   const handleShuffle = () => {
     setSelectedCardIds([])
+    setDealImmediatelyAfterChoice(false)
     setShuffleKey((k) => k + 1)
   }
 
@@ -532,6 +535,7 @@ function InputContent() {
             maxCards={requiredCardCount}
             deckType={spreadInfo?.deckType || 'major'}
             locale={readingLocale}
+            dealImmediately={dealImmediatelyAfterChoice}
           />
         </div>
       )}
