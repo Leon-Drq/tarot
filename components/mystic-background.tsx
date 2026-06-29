@@ -168,7 +168,7 @@ function HomeQuestionForm() {
     <form
       data-home-question-form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto w-[calc(100vw_-_3rem)] max-w-[460px] md:max-w-[520px] lg:max-w-[560px]"
+      className="relative z-30 mx-auto w-[calc(100vw_-_3rem)] max-w-[460px] md:max-w-[600px] xl:max-w-[640px]"
     >
       <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
         {copy.label}
@@ -409,7 +409,7 @@ function HomeScrollCue() {
       data-home-scroll-cue
       href={`#${HOME_SCROLL_TARGET_ID}`}
       onClick={scrollToHomeContent}
-      className="mx-auto mt-3 min-h-9 w-fit items-center gap-2 rounded-full border border-[#c9c0ff]/24 bg-[#10071e]/86 px-4 text-xs text-[#f5f2ff]/76 shadow-[0_14px_36px_rgba(0,0,0,0.32)] backdrop-blur-md transition hover:border-[#c9c0ff]/48 hover:text-white max-md:hidden md:flex"
+      className="hidden"
     >
       <span>{copy}</span>
       <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
@@ -1068,7 +1068,7 @@ function MysticContent() {
       >
         <section
           data-home-hero-copy
-          className="pointer-events-none absolute left-1/2 top-0 z-30 w-[calc(100vw_-_2rem)] max-w-[600px] -translate-x-1/2 pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[7.75rem] lg:pt-[8.1rem]"
+          className="pointer-events-none absolute left-1/2 top-0 z-30 w-[calc(100vw_-_2rem)] max-w-[600px] -translate-x-1/2 pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[6.5rem] lg:pt-[6.75rem]"
         >
           <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
             {heroCopy.eyebrow}

@@ -1062,7 +1062,8 @@ for (const slug of ["does-he-love-me-tarot", "yes-or-no-tarot-love", "career-tar
 assertIncludes(files.mobileCheck, "input advanced spread free-first fallback", "mobile check advanced spread free-first fallback page")
 assertIncludes(files.mobileCheck, "spread=breakup_recovery", "mobile check advanced spread query")
 assertIncludes(files.mobileCheck, "[data-input-free-starter-spread]", "mobile check advanced spread free starter selector")
-assertIncludes(files.mobileCheck, "[data-input-member-spread-name]", "mobile check advanced spread member selector")
+assertIncludes(files.mobileCheck, "[data-input-member-spread-options]", "mobile check advanced spread member options selector")
+assertIncludes(files.mobileCheck, "[data-input-member-spread-option]", "mobile check advanced spread member option selector")
 assertIncludes(files.mobileCheck, "highIntentQuestionRequiredSelectors", "mobile check shared high-intent selector guard")
 assertIncludes(files.mobileCheck, "[data-question-return-loop]", "mobile check long-tail return loop")
 assertIncludes(files.mobileCheck, "[data-question-return-loop-card]", "mobile check long-tail return loop cards")
@@ -1320,7 +1321,7 @@ assertIncludes(files.homeExperience, "data-home-card-anchor", "homepage card anc
 assertIncludes(files.homeExperience, "style={{ transform: \"translate3d(-50%, -50%, 0)\" }}", "homepage card and glow center transform")
 assertIncludes(files.homeExperience, "rotationDuration={16}", "homepage card uses slower continuous rotation")
 assertIncludes(files.globalStyles, "transform: rotateZ(var(--tarot-card-tilt, -15deg)) rotateY(-360deg)", "homepage continuous tarot card rotation keyframe")
-assertIncludes(files.globalStyles, "--home-hero-flow-gap: 2.75rem", "homepage desktop card-form breathing room")
+assertIncludes(files.globalStyles, "--home-hero-flow-gap: clamp(4rem, 7vh, 4.75rem)", "homepage desktop card-form breathing room")
 assertIncludes(files.tarotQuestions, "TarotQuestionSearchResults", "tarot questions public search results import")
 assertIncludes(files.tarotQuestions, "searchEntries(copy)", "tarot questions public search result entries")
 assertIncludes(files.tarotQuestions, "quickStartGroups", "tarot questions grouped quick-start high-intent lists")
@@ -2352,11 +2353,11 @@ const freeFirstReadingCoverage = [
   [files.inputPage, "data-input-spread-choice-confirm", "input spread choice confirm selector"],
   [files.inputPage, "data-input-card-selection-surface", "input card selection surface selector"],
   [files.inputPage, "data-input-shuffle-prelude", "input shuffle prelude selector"],
-  [files.inputPage, "data-input-prep-deck", "input lightweight prep deck animation"],
+  [files.inputPage, "data-input-shuffle-card-stage", "input full shuffle card stage"],
   [files.inputPage, "data-input-free-first-boundary", "input free-first boundary selector"],
   [files.inputPage, "data-input-free-starter-spread", "input visible free starter spread"],
-  [files.inputPage, "data-input-member-spread-name", "input visible member spread name"],
-  [files.inputPage, "data-input-member-upgrade-cta", "input visible member upgrade CTA"],
+  [files.inputPage, "data-input-member-spread-options", "input visible member spread options"],
+  [files.inputPage, "data-input-member-spread-option", "input visible member spread option CTA"],
   [files.inputPage, "\"free love starter\": \"Inicio gratis de amor\"", "input Spanish free love starter localization"],
   [files.inputPage, "\"free career starter\": \"Inicio gratis de carreira\"", "input Portuguese free career starter localization"],
   [files.inputPage, "data-input-intent-hint", "input matched SEO intent hint"],
@@ -2373,7 +2374,8 @@ const freeFirstReadingCoverage = [
   [files.mobileCheck, "requiredText", "mobile check regional visible text assertions"],
   [files.inputPage, "Matched free spread", "input matched free spread copy"],
   [files.inputPage, "searchParams.get(\"source\")", "input source attribution label"],
-  [files.inputPage, "router.push(\"/membership\")", "advanced spread upgrade CTA"],
+  [files.inputPage, "openMembershipForSpread", "advanced spread upgrade CTA"],
+  [files.inputPage, "source: \"spread_choice\"", "advanced spread upgrade attribution"],
   [files.readingPage, "fallback_share", "free reading fallback share URL"],
   [files.readingPage, "fallback: true", "free reading fallback share analytics metadata"],
   [files.readingPage, "share_template_copied", "free reading fallback share compatible analytics event"],
