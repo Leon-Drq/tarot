@@ -16,7 +16,7 @@ import { isSeoLocale } from "@/lib/locales"
 
 type PageState = "input" | "shuffling" | "spread_choice" | "selecting" | "collecting"
 
-const PRE_SPREAD_SHUFFLE_DELAY_MS = 760
+const PRE_SPREAD_SHUFFLE_DELAY_MS = 1800
 
 function wait(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms))
@@ -559,44 +559,21 @@ function InputContent() {
       {pageState === "shuffling" && (
         <div
           data-input-shuffle-prelude
-          className="absolute inset-0 z-40 flex flex-col items-center justify-center px-6 text-center"
+          className="absolute inset-0 z-40 overflow-hidden px-6 text-center"
         >
-          <style>{`
-            @keyframes poptarotPrepCardLeft {
-              0%, 100% { transform: translateX(-0.6rem) rotate(-10deg); }
-              50% { transform: translateX(-2.2rem) translateY(-0.25rem) rotate(-18deg); }
-            }
-
-            @keyframes poptarotPrepCardRight {
-              0%, 100% { transform: translateX(0.6rem) rotate(10deg); }
-              50% { transform: translateX(2.2rem) translateY(0.25rem) rotate(18deg); }
-            }
-
-            @keyframes poptarotPrepCardCenter {
-              0%, 100% { transform: translateY(0) rotate(0deg); }
-              50% { transform: translateY(-0.45rem) rotate(2deg); }
-            }
-          `}</style>
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(153,128,255,0.25),rgba(15,5,24,0.3)_44%,rgba(7,2,13,0.58)_100%)] backdrop-blur-[2px]" />
-          <div data-input-prep-deck className="relative z-10 h-44 w-32" aria-hidden="true">
-            {[
-              ["poptarotPrepCardLeft 1.35s ease-in-out infinite", "0.66", "-0.75rem"],
-              ["poptarotPrepCardRight 1.35s ease-in-out infinite", "0.78", "0.75rem"],
-              ["poptarotPrepCardCenter 1.35s ease-in-out infinite", "1", "0"],
-            ].map(([animation, opacity, top], index) => (
-              <div
-                key={index}
-                className="absolute inset-0 rounded-xl border border-[#e7dcaf]/50 bg-cover bg-center shadow-[0_18px_42px_rgba(0,0,0,0.38)]"
-                style={{
-                  animation,
-                  backgroundImage: 'url("https://klinelife.oss-cn-beijing.aliyuncs.com/tarot/back1.jpg")',
-                  opacity,
-                  top,
-                }}
-              />
-            ))}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(153,128,255,0.22),rgba(15,5,24,0.32)_44%,rgba(7,2,13,0.62)_100%)] backdrop-blur-[1px]" />
+          <div data-input-shuffle-card-stage className="absolute inset-0 z-10" aria-hidden="true">
+            <CardSpread
+              key={`shuffle-${shuffleKey}`}
+              deckType="major"
+              selectionMode={false}
+              collectingMode={false}
+              selectedCardIds={[]}
+              maxCards={3}
+              locale={readingLocale}
+            />
           </div>
-          <div className="relative z-10 mt-7 w-[min(84vw,22rem)] rounded-2xl border border-[#c9c0ff]/18 bg-[#10081d]/72 px-5 py-4 shadow-[0_18px_46px_rgba(0,0,0,0.36)] backdrop-blur-md">
+          <div className="absolute bottom-[calc(env(safe-area-inset-bottom)+3rem)] left-1/2 z-20 w-[min(84vw,22rem)] -translate-x-1/2 rounded-2xl border border-[#c9c0ff]/18 bg-[#10081d]/72 px-5 py-4 shadow-[0_18px_46px_rgba(0,0,0,0.36)] backdrop-blur-md sm:bottom-14">
             <p className="text-sm font-medium tracking-[0.18em] text-[#f1ecff]">{spreadChoiceCopy.shuffling}</p>
             <p className="mt-2 text-xs leading-5 text-white/58">{spreadChoiceCopy.shufflingBody}</p>
           </div>
