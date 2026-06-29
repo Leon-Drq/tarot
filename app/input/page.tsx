@@ -14,9 +14,13 @@ import { useAuth } from "@/contexts/auth-context"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isSeoLocale } from "@/lib/locales"
 
-type PageState = "dealing" | "input" | "shuffling" | "spread_choice" | "selecting" | "collecting"
+type PageState = "input" | "shuffling" | "spread_choice" | "selecting" | "collecting"
 
 const PRE_SPREAD_SHUFFLE_DELAY_MS = 760
+
+function wait(ms: number) {
+  return new Promise<void>((resolve) => setTimeout(resolve, ms))
+}
 
 interface SpreadInfo {
   type: string
@@ -66,7 +70,7 @@ function localizeSpreadFallbackName(value: string | undefined, locale: string) {
 }
 
 function InputContent() {
-  const [pageState, setPageState] = useState<PageState>("dealing")
+  const [pageState, setPageState] = useState<PageState>("input")
   const [selectedCardIds, setSelectedCardIds] = useState<number[]>([])
   const [question, setQuestion] = useState("")
   const [shuffleKey, setShuffleKey] = useState(0)
@@ -77,7 +81,8 @@ function InputContent() {
     fallbackName: string
   } | null>(null)
   const hasSubmittedQuestion = useRef(false)
-  const spreadChoiceTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const flowIdRef = useRef(0)
+  const mountedRef = useRef(true)
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t, language } = useLanguage()
@@ -303,33 +308,14 @@ function InputContent() {
     return fallback
   }
 
-  const handleCardsDealt = () => {
-    if (!hasSubmittedQuestion.current) {
-      setPageState("input")
-    }
-  }
-
-  const clearSpreadChoiceTimer = () => {
-    if (spreadChoiceTimer.current) {
-      clearTimeout(spreadChoiceTimer.current)
-      spreadChoiceTimer.current = null
-    }
-  }
-
-  const beginSpreadChoiceFlow = (nextSpreadInfo: SpreadInfo) => {
-    clearSpreadChoiceTimer()
+  const openSpreadChoice = (nextSpreadInfo: SpreadInfo) => {
     setSelectedCardIds([])
     setDealImmediatelyAfterChoice(false)
     setSpreadInfo(nextSpreadInfo)
-    setPageState("shuffling")
-    spreadChoiceTimer.current = setTimeout(() => {
-      setPageState("spread_choice")
-      spreadChoiceTimer.current = null
-    }, PRE_SPREAD_SHUFFLE_DELAY_MS)
+    setPageState("spread_choice")
   }
 
   const handleSpreadChoiceConfirm = () => {
-    clearSpreadChoiceTimer()
     setSelectedCardIds([])
     setDealImmediatelyAfterChoice(true)
     analyticsApi.track("spread_confirmed", {
@@ -347,10 +333,17 @@ function InputContent() {
   }
 
   useEffect(() => {
-    return () => clearSpreadChoiceTimer()
+    return () => {
+      mountedRef.current = false
+      flowIdRef.current += 1
+    }
   }, [])
 
   const handleQuestionSubmit = async (q: string) => {
+    const flowId = flowIdRef.current + 1
+    flowIdRef.current = flowId
+    const shuffleReady = wait(PRE_SPREAD_SHUFFLE_DELAY_MS)
+
     setQuestion(q)
     hasSubmittedQuestion.current = true
     setSelectedCardIds([])
@@ -367,46 +360,53 @@ function InputContent() {
       },
     })
 
-    if (preferredSpreadType) {
-      beginSpreadChoiceFlow(resolveSpreadForAccess(createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92)))
-      return
-    }
+    let nextSpreadInfo: SpreadInfo
 
     try {
-      // 调用问题分类API
-      const result = await readingApi.classifyQuestion(q, readingLocale)
-      const serverFreeStarter =
-        result.free_starter_spread_type && result.free_starter_spread_config
-          ? {
-              type: result.free_starter_spread_type,
-              config: result.free_starter_spread_config,
-              deckType:
-                result.free_starter_deck_type ||
-                (result.free_starter_spread_config.cardCount <= 3 ? "major" : "full"),
-              reason:
-                result.free_first_message ||
-                "Advanced spread reserved for members; using a free starter spread.",
-              confidence: Math.min(result.confidence, 0.72),
-            }
-          : undefined
+      if (preferredSpreadType) {
+        nextSpreadInfo = resolveSpreadForAccess(
+          createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92),
+        )
+      } else {
+        // 调用问题分类API
+        const result = await readingApi.classifyQuestion(q, readingLocale)
+        const serverFreeStarter =
+          result.free_starter_spread_type && result.free_starter_spread_config
+            ? {
+                type: result.free_starter_spread_type,
+                config: result.free_starter_spread_config,
+                deckType:
+                  result.free_starter_deck_type ||
+                  (result.free_starter_spread_config.cardCount <= 3 ? "major" : "full"),
+                reason:
+                  result.free_first_message ||
+                  "Advanced spread reserved for members; using a free starter spread.",
+                confidence: Math.min(result.confidence, 0.72),
+              }
+            : undefined
 
-      beginSpreadChoiceFlow(resolveSpreadForAccess({
-        type: result.spread_type,
-        config: result.spread_config,
-        deckType: result.deck_type || 'major',  // 牌组类型
-        reason: result.reason,
-        confidence: result.confidence,
-      }, serverFreeStarter))
+        nextSpreadInfo = resolveSpreadForAccess({
+          type: result.spread_type,
+          config: result.spread_config,
+          deckType: result.deck_type || 'major',  // 牌组类型
+          reason: result.reason,
+          confidence: result.confidence,
+        }, serverFreeStarter)
+      }
     } catch (error) {
       console.error("问题分类失败:", error)
       // 使用默认的三牌阵
       setAdvancedSpreadPrompt(null)
-      beginSpreadChoiceFlow(createLocalSpreadInfo("three_card", "使用默认牌阵", 0.5))
+      nextSpreadInfo = createLocalSpreadInfo("three_card", "使用默认牌阵", 0.5)
     }
+
+    await shuffleReady
+    if (!mountedRef.current || flowIdRef.current !== flowId) return
+    openSpreadChoice(nextSpreadInfo)
   }
 
   useEffect(() => {
-    if ((pageState === "input" || pageState === "dealing") && autoStart && initialQuestion && !hasSubmittedQuestion.current) {
+    if (pageState === "input" && autoStart && initialQuestion && !hasSubmittedQuestion.current) {
       void handleQuestionSubmit(initialQuestion)
     }
   }, [pageState, autoStart, initialQuestion])
@@ -466,7 +466,7 @@ function InputContent() {
     setShuffleKey((k) => k + 1)
   }
 
-  const showCardSpread = pageState === "dealing" || pageState === "selecting" || pageState === "collecting"
+  const showCardSpread = pageState === "selecting" || pageState === "collecting"
   const hasEntryQuestionContext = Boolean(
     initialQuestion &&
       autoStart &&
@@ -525,7 +525,6 @@ function InputContent() {
         <div data-input-card-selection-surface className="absolute inset-0 z-10">
           <CardSpread
             key={`${shuffleKey}-${spreadInfo?.deckType || 'major'}`}
-            onCardsDealt={handleCardsDealt}
             selectionMode={pageState === "selecting"}
             collectingMode={pageState === "collecting"}
             onCardSelect={handleCardSelect}
