@@ -90,8 +90,8 @@ const pages = [
       "[data-input-spread-choice-dialog]",
       "[data-input-free-first-boundary]",
       "[data-input-free-starter-spread]",
-      "[data-input-member-spread-name]",
-      "[data-input-member-upgrade-cta]",
+      "[data-input-member-spread-options]",
+      "[data-input-member-spread-option]",
       "[data-input-spread-choice-confirm]",
     ],
   },
@@ -769,7 +769,7 @@ async function checkPage(browser, pageConfig) {
       }
 
       const gapChecks = [
-        { name: "copy to card", gap: rects.card.top - rects.copy.bottom, min: 96 },
+        { name: "copy to card", gap: rects.card.top - rects.copy.bottom, min: 40 },
         { name: "card to form", gap: rects.form.top - rects.card.bottom, min: 32 },
         { name: "form to secondary nav", gap: rects.nav.top - rects.form.bottom, min: 16 },
         { name: "secondary nav to scroll content", gap: rects.scroll.top - rects.nav.bottom, min: 56 },

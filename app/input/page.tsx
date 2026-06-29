@@ -17,6 +17,28 @@ type PageState = "input" | "shuffling" | "spread_choice" | "selecting" | "collec
 
 const PRE_SPREAD_SHUFFLE_DELAY_MS = 2600
 
+const DEFAULT_MEMBER_SPREAD_TYPES: SpreadType[] = [
+  "their_thoughts",
+  "relationship",
+  "breakup_recovery",
+  "job_opportunity",
+  "love_connection",
+  "interpersonal",
+]
+
+const RELATED_MEMBER_SPREAD_TYPES: Partial<Record<SpreadType, SpreadType[]>> = {
+  reconciliation_starter: ["breakup_recovery", "their_thoughts", "relationship"],
+  love_starter: ["their_thoughts", "relationship", "love_connection", "breakup_recovery"],
+  career_starter: ["job_opportunity", "exam_fortune", "interpersonal"],
+  decision_starter: ["interpersonal", "relationship", "job_opportunity"],
+  yes_no: ["their_thoughts", "relationship", "job_opportunity"],
+  single_card: ["their_thoughts", "relationship", "job_opportunity"],
+  three_card: ["their_thoughts", "relationship", "job_opportunity"],
+  binary_choice: ["relationship", "job_opportunity", "interpersonal"],
+  triple_choice: ["relationship", "job_opportunity", "interpersonal"],
+  shopping_decision: ["job_opportunity", "interpersonal", "relationship"],
+}
+
 function wait(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms))
 }
@@ -78,6 +100,7 @@ function InputContent() {
   const [advancedSpreadPrompt, setAdvancedSpreadPrompt] = useState<{
     requestedName: string
     fallbackName: string
+    requestedType?: SpreadType
   } | null>(null)
   const hasSubmittedQuestion = useRef(false)
   const flowIdRef = useRef(0)
@@ -103,6 +126,13 @@ function InputContent() {
     if (readingLocale === "ja") return config.nameJa || config.nameEn || config.name
     if (readingLocale === "ko") return config.nameKo || config.nameEn || config.name
     return localizeSpreadFallbackName(config.nameEn || config.name, readingLocale)
+  }
+
+  const getLocalizedSpreadDescription = (config: SpreadConfig) => {
+    if (readingLocale === "zh") return config.description
+    if (readingLocale === "ja") return config.descriptionJa || config.descriptionEn || config.description
+    if (readingLocale === "ko") return config.descriptionKo || config.descriptionEn || config.description
+    return config.descriptionEn || config.description
   }
 
   const intentHintCopy =
@@ -212,6 +242,9 @@ function InputContent() {
         freeLabel: "当前免费牌阵",
         cardCount: "张牌",
         memberLocked: "会员解锁",
+        memberSection: "会员高级牌阵",
+        memberBody: "想看更完整的牌阵，可以直接选择会员牌阵并进入会员页面。",
+        memberCta: "升级查看",
         confirm: "确认并开始抽牌",
         shuffling: "正在洗牌",
         shufflingBody: "先整理能量，再让你确认本次牌阵。",
@@ -224,6 +257,9 @@ function InputContent() {
         freeLabel: "Current free spread",
         cardCount: "cards",
         memberLocked: "Member unlock",
+        memberSection: "Advanced member spreads",
+        memberBody: "Choose a deeper spread to open membership and unlock the full reading.",
+        memberCta: "Upgrade",
         confirm: "Confirm and draw",
         shuffling: "Shuffling",
         shufflingBody: "Preparing the deck before you confirm this reading.",
@@ -236,6 +272,9 @@ function InputContent() {
         freeLabel: "現在の無料スプレッド",
         cardCount: "枚",
         memberLocked: "メンバー限定",
+        memberSection: "メンバー向け高度なスプレッド",
+        memberBody: "より深いスプレッドを選ぶと、メンバーシップページに進みます。",
+        memberCta: "アップグレード",
         confirm: "確認してカードを選ぶ",
         shuffling: "シャッフル中",
         shufflingBody: "スプレッド確認の前にデッキを整えています。",
@@ -248,6 +287,9 @@ function InputContent() {
         freeLabel: "현재 무료 스프레드",
         cardCount: "장",
         memberLocked: "멤버십 잠금",
+        memberSection: "멤버 고급 스프레드",
+        memberBody: "더 깊은 스프레드를 선택하면 멤버십 페이지로 이동합니다.",
+        memberCta: "업그레이드",
         confirm: "확인하고 카드 뽑기",
         shuffling: "셔플 중",
         shufflingBody: "이번 리딩을 확인하기 전에 덱을 준비하고 있습니다.",
@@ -260,6 +302,9 @@ function InputContent() {
         freeLabel: "Tirada gratis actual",
         cardCount: "cartas",
         memberLocked: "Desbloqueo miembro",
+        memberSection: "Tiradas avanzadas",
+        memberBody: "Elige una tirada mas profunda para abrir la membresia y desbloquearla.",
+        memberCta: "Mejorar",
         confirm: "Confirmar y elegir",
         shuffling: "Barajando",
         shufflingBody: "Preparando el mazo antes de confirmar esta lectura.",
@@ -272,6 +317,9 @@ function InputContent() {
         freeLabel: "Tiragem gratis atual",
         cardCount: "cartas",
         memberLocked: "Desbloqueio membro",
+        memberSection: "Tiragens avancadas",
+        memberBody: "Escolha uma tiragem mais profunda para abrir a assinatura e desbloquear.",
+        memberCta: "Fazer upgrade",
         confirm: "Confirmar e tirar",
         shuffling: "Embaralhando",
         shufflingBody: "Preparando o baralho antes de confirmar esta leitura.",
@@ -284,6 +332,9 @@ function InputContent() {
       freeLabel: "Current free spread",
       cardCount: "cards",
       memberLocked: "Member unlock",
+      memberSection: "Advanced member spreads",
+      memberBody: "Choose a deeper spread to open membership and unlock the full reading.",
+      memberCta: "Upgrade",
       confirm: "Confirm and draw",
       shuffling: "Shuffling",
       shufflingBody: "Preparing the deck before you confirm this reading.",
@@ -303,6 +354,7 @@ function InputContent() {
     setAdvancedSpreadPrompt({
       requestedName: getLocalizedSpreadName(info.config),
       fallbackName: getLocalizedSpreadName(fallback.config),
+      requestedType: info.type,
     })
     return fallback
   }
@@ -479,6 +531,38 @@ function InputContent() {
       .join(" ")
   }, [source])
   const matchedSpreadLabel = spreadInfo ? getLocalizedSpreadName(spreadInfo.config) : ""
+  const memberSpreadOptions = useMemo(() => {
+    const currentSpreadType = spreadInfo && isSpreadType(spreadInfo.type) ? spreadInfo.type : null
+    const orderedTypes: SpreadType[] = [
+      ...(advancedSpreadPrompt?.requestedType ? [advancedSpreadPrompt.requestedType] : []),
+      ...(currentSpreadType ? RELATED_MEMBER_SPREAD_TYPES[currentSpreadType] || [] : []),
+      ...DEFAULT_MEMBER_SPREAD_TYPES,
+    ]
+    const seen = new Set<SpreadType>()
+
+    return orderedTypes
+      .filter((type) => {
+        if (!isAdvancedSpreadType(type) || seen.has(type)) return false
+        seen.add(type)
+        return true
+      })
+      .slice(0, 4)
+      .map((type) => getSpreadConfig(type))
+  }, [advancedSpreadPrompt?.requestedType, spreadInfo?.type])
+
+  const openMembershipForSpread = (config: SpreadConfig) => {
+    const params = new URLSearchParams({
+      source: "spread_choice",
+      lang: readingLocale,
+    })
+    if (config.type) params.set("spread", config.type)
+    const activeQuestion = (question || initialQuestion).trim()
+    if (activeQuestion) {
+      sessionStorage.setItem("tarot_question", activeQuestion)
+      params.set("q", activeQuestion)
+    }
+    router.push(`/membership?${params.toString()}`)
+  }
 
   return (
     <div
@@ -598,7 +682,7 @@ function InputContent() {
             role="dialog"
             aria-modal="true"
             data-input-spread-choice-dialog
-            className="relative max-h-[calc(100dvh-env(safe-area-inset-top)-1rem)] w-full overflow-y-auto rounded-t-[1.75rem] border-t border-[#c9c0ff]/22 bg-[#11091f]/94 p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-[0_-28px_80px_rgba(0,0,0,0.52)] backdrop-blur-xl sm:w-[min(92vw,34rem)] sm:rounded-2xl sm:border sm:p-5 sm:shadow-[0_28px_80px_rgba(0,0,0,0.52)]"
+            className="relative max-h-[calc(100dvh-env(safe-area-inset-top)-1rem)] w-full overflow-y-auto overscroll-contain rounded-t-[1.75rem] border-t border-[#c9c0ff]/22 bg-[#11091f]/94 p-4 pb-[calc(env(safe-area-inset-bottom)+0.75rem)] shadow-[0_-28px_80px_rgba(0,0,0,0.52)] backdrop-blur-xl sm:w-[min(92vw,34rem)] sm:rounded-2xl sm:border sm:p-5 sm:shadow-[0_28px_80px_rgba(0,0,0,0.52)]"
           >
             <p className="text-[11px] uppercase tracking-[0.2em] text-[#c9c0ff]/66">{spreadChoiceCopy.eyebrow}</p>
             <h2 className="mt-2 text-xl font-medium leading-tight text-[#f4f0ff] sm:text-2xl">
@@ -632,23 +716,55 @@ function InputContent() {
                 <span className="mt-1 block text-xs text-white/46">
                   {spreadInfo.config.cardCount} {spreadChoiceCopy.cardCount}
                 </span>
+                <span className="mt-2 line-clamp-2 block text-xs leading-5 text-white/46">
+                  {getLocalizedSpreadDescription(spreadInfo.config)}
+                </span>
               </button>
 
-              {advancedSpreadPrompt && (
-                <div
-                  data-input-member-spread-name
-                  className="min-w-0 rounded-xl border border-white/10 bg-black/20 px-4 py-3"
+              {memberSpreadOptions.length > 0 && (
+                <section
+                  data-input-member-spread-options
+                  className="rounded-xl border border-white/10 bg-black/18 px-3 py-3"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/38">{advancedSpreadCopy.memberLabel}</p>
-                      <p className="mt-1 truncate text-sm font-medium text-white/64">{advancedSpreadPrompt.requestedName}</p>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/42">{advancedSpreadCopy.memberLabel}</p>
+                      <h3 className="mt-1 text-sm font-medium text-[#f4f0ff]">{spreadChoiceCopy.memberSection}</h3>
                     </div>
                     <span className="shrink-0 rounded-full border border-white/10 px-2 py-1 text-[10px] text-white/44">
                       {spreadChoiceCopy.memberLocked}
                     </span>
                   </div>
-                </div>
+                  <p className="mt-2 text-xs leading-5 text-white/48">{spreadChoiceCopy.memberBody}</p>
+                  <div className="mt-3 grid gap-2">
+                    {memberSpreadOptions.map((config) => (
+                      <button
+                        key={config.type}
+                        type="button"
+                        data-input-member-spread-option
+                        onClick={() => openMembershipForSpread(config)}
+                        className="rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2.5 text-left transition hover:border-[#c9c0ff]/35 hover:bg-[#c9c0ff]/[0.08] active:scale-[0.99]"
+                      >
+                        <span className="flex items-start justify-between gap-3">
+                          <span className="min-w-0">
+                            <span className="block truncate text-sm font-medium text-white/74">
+                              {getLocalizedSpreadName(config)}
+                            </span>
+                            <span className="mt-0.5 block text-[11px] text-white/38">
+                              {config.cardCount} {spreadChoiceCopy.cardCount}
+                            </span>
+                          </span>
+                          <span className="shrink-0 rounded-full bg-[#c9c0ff]/12 px-2 py-1 text-[11px] font-medium text-[#dfd9ff]">
+                            {spreadChoiceCopy.memberCta}
+                          </span>
+                        </span>
+                        <span className="mt-1 line-clamp-2 block text-xs leading-5 text-white/42">
+                          {getLocalizedSpreadDescription(config)}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </section>
               )}
             </div>
 
@@ -664,22 +780,12 @@ function InputContent() {
               </div>
             )}
 
-            <div className="mt-5 grid gap-3 sm:grid-cols-[auto_1fr]">
-              {advancedSpreadPrompt && (
-                <button
-                  data-input-member-upgrade-cta
-                  type="button"
-                  onClick={() => router.push("/membership")}
-                  className="min-h-12 rounded-full border border-[#c9c0ff]/30 px-4 py-3 text-sm font-medium text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10"
-                >
-                  {advancedSpreadCopy.button}
-                </button>
-              )}
+            <div className="sticky bottom-0 -mx-4 mt-5 bg-gradient-to-t from-[#11091f] via-[#11091f]/95 to-[#11091f]/0 px-4 pb-[calc(env(safe-area-inset-bottom)+0.25rem)] pt-5 sm:static sm:mx-0 sm:bg-none sm:p-0">
               <button
                 data-input-spread-choice-confirm
                 type="button"
                 onClick={handleSpreadChoiceConfirm}
-                className="min-h-12 rounded-full border border-[#c9c0ff]/36 bg-[#d9d4ff] px-5 py-3 text-sm font-semibold text-[#160d24] shadow-[0_14px_42px_rgba(129,114,232,0.26)] transition hover:bg-[#eeeaff] active:scale-[0.98]"
+                className="min-h-12 w-full rounded-full border border-[#c9c0ff]/36 bg-[#d9d4ff] px-5 py-3 text-sm font-semibold text-[#160d24] shadow-[0_14px_42px_rgba(129,114,232,0.26)] transition hover:bg-[#eeeaff] active:scale-[0.98]"
               >
                 {spreadChoiceCopy.confirm}
               </button>

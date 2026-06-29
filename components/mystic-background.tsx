@@ -30,6 +30,13 @@ function isStandalonePwa() {
   return window.matchMedia("(display-mode: standalone)").matches || navigatorWithStandalone.standalone === true
 }
 
+function isTextInputFocused() {
+  if (typeof document === "undefined") return false
+  const active = document.activeElement
+  if (!(active instanceof HTMLElement)) return false
+  return active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement || active.isContentEditable
+}
+
 function scrollToHomeContent(event: MouseEvent<HTMLAnchorElement>) {
   event.preventDefault()
 
@@ -893,6 +900,14 @@ function MysticContent() {
     const userAgent = navigator.userAgent || ""
     const isGoogleAppBrowser = /\bGSA\//i.test(userAgent)
     const isEmbeddedBrowser = isGoogleAppBrowser || /\b(FBAN|FBAV|FBIOS|Instagram|Line\/|MicroMessenger|Pinterest|TikTok|BytedanceWebview)\b/i.test(userAgent)
+    let stableTopOffset = 0
+    let stableBottomOffset = 0
+    let focusOutTimer = 0
+
+    const applyBrowserOffset = (topValue: number, bottomValue: number) => {
+      root.style.setProperty("--home-mobile-browser-offset", `${topValue}px`)
+      root.style.setProperty("--home-mobile-browser-bottom-offset", `${bottomValue}px`)
+    }
 
     const updateBrowserOffset = () => {
       const offsetTop = viewport?.offsetTop ?? 0
@@ -903,19 +918,36 @@ function MysticContent() {
       const mobileWidth = window.innerWidth < 768
       const embeddedTopOffset = mobileWidth && isEmbeddedBrowser ? (isGoogleAppBrowser ? 112 : 72) : 0
       const embeddedBottomOffset = mobileWidth && isEmbeddedBrowser ? (isGoogleAppBrowser ? 88 : 64) : 0
-      root.style.setProperty("--home-mobile-browser-offset", `${Math.min(topOffset + embeddedTopOffset, 128)}px`)
-      root.style.setProperty("--home-mobile-browser-bottom-offset", `${Math.min(bottomOffset + embeddedBottomOffset, 184)}px`)
+
+      if (mobileWidth && isTextInputFocused()) {
+        applyBrowserOffset(stableTopOffset, stableBottomOffset)
+        return
+      }
+
+      stableTopOffset = Math.min(topOffset + embeddedTopOffset, 128)
+      stableBottomOffset = Math.min(bottomOffset + embeddedBottomOffset, 184)
+      applyBrowserOffset(stableTopOffset, stableBottomOffset)
+    }
+
+    const updateAfterFocusOut = () => {
+      window.clearTimeout(focusOutTimer)
+      focusOutTimer = window.setTimeout(updateBrowserOffset, 180)
     }
 
     updateBrowserOffset()
     viewport?.addEventListener("resize", updateBrowserOffset)
     viewport?.addEventListener("scroll", updateBrowserOffset)
     window.addEventListener("orientationchange", updateBrowserOffset)
+    document.addEventListener("focusin", updateBrowserOffset)
+    document.addEventListener("focusout", updateAfterFocusOut)
 
     return () => {
+      window.clearTimeout(focusOutTimer)
       viewport?.removeEventListener("resize", updateBrowserOffset)
       viewport?.removeEventListener("scroll", updateBrowserOffset)
       window.removeEventListener("orientationchange", updateBrowserOffset)
+      document.removeEventListener("focusin", updateBrowserOffset)
+      document.removeEventListener("focusout", updateAfterFocusOut)
       root.style.removeProperty("--home-mobile-browser-offset")
       root.style.removeProperty("--home-mobile-browser-bottom-offset")
     }
@@ -928,7 +960,9 @@ function MysticContent() {
 
     const viewport = window.visualViewport
     let frame = 0
+    let focusOutTimer = 0
     const measureHeroActions = () => {
+      if (window.innerWidth < 768 && isTextInputFocused()) return
       window.cancelAnimationFrame(frame)
       frame = window.requestAnimationFrame(() => {
         const stageRect = stage.getBoundingClientRect()
@@ -937,6 +971,10 @@ function MysticContent() {
         stage.style.setProperty("--home-hero-actions-bottom", `${Math.ceil(bottom)}px`)
       })
     }
+    const measureAfterFocusOut = () => {
+      window.clearTimeout(focusOutTimer)
+      focusOutTimer = window.setTimeout(measureHeroActions, 180)
+    }
 
     measureHeroActions()
     const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measureHeroActions)
@@ -944,13 +982,16 @@ function MysticContent() {
     window.addEventListener("resize", measureHeroActions)
     viewport?.addEventListener("resize", measureHeroActions)
     viewport?.addEventListener("scroll", measureHeroActions)
+    document.addEventListener("focusout", measureAfterFocusOut)
 
     return () => {
+      window.clearTimeout(focusOutTimer)
       window.cancelAnimationFrame(frame)
       observer?.disconnect()
       window.removeEventListener("resize", measureHeroActions)
       viewport?.removeEventListener("resize", measureHeroActions)
       viewport?.removeEventListener("scroll", measureHeroActions)
+      document.removeEventListener("focusout", measureAfterFocusOut)
       stage.style.removeProperty("--home-hero-actions-bottom")
     }
   }, [])

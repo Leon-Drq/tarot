@@ -223,7 +223,6 @@ export function QuestionInput({ visible = true, onSubmit, initialQuestion = "", 
                     <input
                       type="text"
                       value={question}
-                      autoFocus
                       onChange={(e) => setQuestion(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
                       placeholder={copy.placeholder}
