@@ -1,7 +1,5 @@
 "use client"
 
-import type React from "react"
-
 import { useEffect, useState, useRef, useMemo } from "react"
 import Image from "next/image"
 import { getMajorArcana, getFullDeck, type TarotCard } from "@/lib/tarot-cards"
@@ -38,10 +36,6 @@ export function CardSpread({
   const hasNotifiedRef = useRef(false)
   const onCardsDealtRef = useRef(onCardsDealt)
 
-  const [rotationOffset, setRotationOffset] = useState(0)
-  const touchStartRef = useRef<{ x: number; rotation: number } | null>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-
   const [isMobile, setIsMobile] = useState(false)
   const mobileCardTop = "clamp(13rem, 31dvh, 16rem)"
 
@@ -53,43 +47,12 @@ export function CardSpread({
   }, [deckType])
 
   const CARD_COUNT = deck.length
-  const mobileSwipeHint =
-    {
-      zh: "滑动旋转牌阵",
-      en: "Swipe to rotate the spread",
-      ja: "スワイプでスプレッドを回転",
-      ko: "스와이프로 스프레드 회전",
-      es: "Desliza para girar la tirada",
-      "pt-br": "Deslize para girar a tiragem",
-    }[locale || "en"] || "Swipe to rotate the spread"
-
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640)
     checkMobile()
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (!selectionMode || collectingMode) return
-    touchStartRef.current = {
-      x: e.touches[0].clientX,
-      rotation: rotationOffset,
-    }
-  }
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!touchStartRef.current || !selectionMode || collectingMode) return
-    const deltaX = e.touches[0].clientX - touchStartRef.current.x
-    // 每移动 5px 旋转 1 度
-    const newRotation = touchStartRef.current.rotation + deltaX / 5
-    // 限制旋转范围
-    setRotationOffset(Math.max(-60, Math.min(60, newRotation)))
-  }
-
-  const handleTouchEnd = () => {
-    touchStartRef.current = null
-  }
 
   useEffect(() => {
     onCardsDealtRef.current = onCardsDealt
@@ -130,20 +93,22 @@ export function CardSpread({
 
   const cards = useMemo(() => {
     return deck.map((card, i) => {
-      const maxAngle = 65
+      const maxAngle = isMobile ? 58 : 65
       const step = CARD_COUNT > 1 ? (maxAngle * 2) / (CARD_COUNT - 1) : 0
       const baseRotation = maxAngle - step * i
-      const rotation = (isMobile ? baseRotation : -baseRotation) + rotationOffset
+      const rotation = isMobile ? baseRotation : -baseRotation
+      const centerOffset = i - (CARD_COUNT - 1) / 2
 
       return {
         id: card.id,  // 使用实际的卡牌 id
         rotation,
         baseRotation,
+        xOffset: isMobile ? centerOffset * 6 : 0,
         zIndex: i + 1,
         delay: i * (deckType === 'full' ? 40 : 80),  // 78张牌时加快动画
       }
     })
-  }, [deck, CARD_COUNT, isMobile, rotationOffset, deckType])
+  }, [deck, CARD_COUNT, isMobile, deckType])
 
   const handleCardClick = (cardId: number) => {
     if (!selectionMode || collectingMode) return
@@ -184,20 +149,10 @@ export function CardSpread({
 
   return (
     <div
-      ref={containerRef}
       data-card-spread-dealt={cardsDealt ? "true" : "false"}
       className="absolute inset-0 w-full h-full pointer-events-none"
       style={{ perspective: "1000px" }}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
     >
-      {selectionMode && !collectingMode && cardsDealt && (
-        <div className="pointer-events-none absolute bottom-[calc(env(safe-area-inset-bottom)+9.25rem)] left-1/2 -translate-x-1/2 animate-pulse whitespace-nowrap text-xs text-[#c9c0ff]/56 sm:hidden">
-          {mobileSwipeHint}
-        </div>
-      )}
-
       {cards.map((card, index) => {
         const isSelected = selectedCardIds.includes(card.id)
         const canSelect = selectionMode && !collectingMode && (isSelected || selectedCardIds.length < maxCards)
@@ -235,15 +190,15 @@ export function CardSpread({
             style={{
               width: isMobile ? "90px" : "140px",
               height: isMobile ? "155px" : "240px",
-              left: "50%",
+              left: isMobile ? `calc(50% + ${card.xOffset}px)` : "50%",
               top: isMobile ? mobileCardTop : "auto",
               bottom: isMobile ? "auto" : "25%",
               marginLeft: isMobile ? "-45px" : "-70px",
-              transformOrigin: isMobile ? "50% 280%" : "50% -180%",
+              transformOrigin: isMobile ? "50% 300%" : "50% -180%",
               transform,
               opacity,
-              transitionDuration: touchStartRef.current ? "50ms" : transitionDuration,
-              transitionDelay: touchStartRef.current ? "0ms" : transitionDelay,
+              transitionDuration,
+              transitionDelay,
               zIndex: isSelected
                 ? 1500 + selectedCardIds.indexOf(card.id)
                 : hoveredCard === card.id
