@@ -37,8 +37,10 @@ export function CardSpread({
   const hasNotifiedRef = useRef(false)
   const onCardsDealtRef = useRef(onCardsDealt)
   const [rotationOffset, setRotationOffset] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
   const touchStartRef = useRef<{ x: number; rotation: number } | null>(null)
   const dragDistanceRef = useRef(0)
+  const dragResetTimerRef = useRef<number | null>(null)
 
   const [isMobile, setIsMobile] = useState<boolean | null>(null)
   const isViewportReady = isMobile !== null
@@ -62,11 +64,16 @@ export function CardSpread({
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!mobile || !selectionMode || collectingMode || !cardsDealt) return
+    if (dragResetTimerRef.current !== null) {
+      window.clearTimeout(dragResetTimerRef.current)
+      dragResetTimerRef.current = null
+    }
     touchStartRef.current = {
       x: e.touches[0].clientX,
       rotation: rotationOffset,
     }
     dragDistanceRef.current = 0
+    setIsDragging(true)
   }
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -78,11 +85,22 @@ export function CardSpread({
   }
 
   const handleTouchEnd = () => {
-    window.setTimeout(() => {
-      dragDistanceRef.current = 0
-    }, 0)
+    const shouldSuppressClick = dragDistanceRef.current > 8
     touchStartRef.current = null
+    window.setTimeout(() => setIsDragging(false), 50)
+    dragResetTimerRef.current = window.setTimeout(() => {
+      dragDistanceRef.current = 0
+      dragResetTimerRef.current = null
+    }, shouldSuppressClick ? 180 : 0)
   }
+
+  useEffect(() => {
+    return () => {
+      if (dragResetTimerRef.current !== null) {
+        window.clearTimeout(dragResetTimerRef.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     onCardsDealtRef.current = onCardsDealt
@@ -156,7 +174,7 @@ export function CardSpread({
     }
   }
 
-  const getCollectingTransform = (card: { id: number; rotation: number; baseRotation: number }, index: number) => {
+  const getCollectingTransform = (card: { id: number; rotation: number; baseRotation: number; xOffset: number }, index: number) => {
     const isSelected = selectedCardIds.includes(card.id)
 
     if (isSelected) {
@@ -165,16 +183,25 @@ export function CardSpread({
       // 计算中心偏移：使卡牌居中排列
       const centerOffset = (totalSelected - 1) / 2
       // 根据选中卡牌数量调整间距
-      const spacing = mobile ? Math.min(100, 280 / totalSelected) : Math.min(200, 600 / totalSelected)
-      const xOffset = (selectedIndex - centerOffset) * spacing
+      const spacing = mobile
+        ? totalSelected <= 3
+          ? 88
+          : Math.min(76, 260 / totalSelected)
+        : Math.min(200, 600 / totalSelected)
+      const targetX = (selectedIndex - centerOffset) * spacing
+      const xOffset = mobile ? targetX - card.xOffset : targetX
       // 根据卡牌数量调整缩放
-      const scale = mobile ? Math.min(1, 2.5 / totalSelected) : Math.min(1.1, 3 / totalSelected)
-      return `translate(${xOffset}px, ${mobile ? "50px" : "-50px"}) rotate(0deg) scale(${scale})`
+      const scale = mobile
+        ? totalSelected <= 3
+          ? 0.94
+          : Math.min(0.9, 2.6 / totalSelected)
+        : Math.min(1.1, 3 / totalSelected)
+      return `translate3d(${xOffset}px, ${mobile ? "clamp(1rem, 5dvh, 3rem)" : "-50px"}, 0) rotate(0deg) scale(${scale})`
     } else {
       const exitDirection = card.baseRotation > 0 ? 1 : card.baseRotation < 0 ? -1 : 0
       const exitX = (mobile ? exitDirection : -exitDirection) * 150
       const exitY = mobile ? -300 - Math.abs(card.baseRotation) * 3 : 300 + Math.abs(card.baseRotation) * 3
-      return `rotate(${card.rotation}deg) translate(${exitX}px, ${exitY}px) scale(0.6)`
+      return `rotate(${card.rotation}deg) translate3d(${exitX}px, ${exitY}px, 0) scale(0.6)`
     }
   }
 
@@ -194,7 +221,7 @@ export function CardSpread({
         let transform: string
         let opacity = 1
         let transitionDuration = "800ms"
-        let transitionDelay = cardsDealt ? `${card.delay}ms` : "0ms"
+        let transitionDelay = cardsDealt && !selectionMode && !collectingMode ? `${card.delay}ms` : "0ms"
 
         if (collectingMode) {
           transform = getCollectingTransform(card, index)
@@ -218,6 +245,9 @@ export function CardSpread({
         return (
           <div
             key={card.id}
+            data-tarot-card
+            data-card-id={card.id}
+            data-card-selected={isSelected ? "true" : "false"}
             className={`absolute transition-all ease-[cubic-bezier(0.19,1,0.22,1)] ${
               canSelect ? "pointer-events-auto cursor-pointer" : "pointer-events-none"
             }`}
@@ -231,8 +261,8 @@ export function CardSpread({
               transformOrigin: mobile ? "50% 300%" : "50% -180%",
               transform,
               opacity,
-              transitionDuration,
-              transitionDelay,
+              transitionDuration: isDragging ? "34ms" : transitionDuration,
+              transitionDelay: isDragging ? "0ms" : transitionDelay,
               zIndex: isSelected
                 ? 1500 + selectedCardIds.indexOf(card.id)
                 : hoveredCard === card.id
