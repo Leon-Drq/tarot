@@ -1,5 +1,6 @@
 "use client"
 
+import type React from "react"
 import { useEffect, useState, useRef, useMemo } from "react"
 import Image from "next/image"
 import { getMajorArcana, getFullDeck, type TarotCard } from "@/lib/tarot-cards"
@@ -35,8 +36,13 @@ export function CardSpread({
   const [hoveredCard, setHoveredCard] = useState<number | null>(null)
   const hasNotifiedRef = useRef(false)
   const onCardsDealtRef = useRef(onCardsDealt)
+  const [rotationOffset, setRotationOffset] = useState(0)
+  const touchStartRef = useRef<{ x: number; rotation: number } | null>(null)
+  const dragDistanceRef = useRef(0)
 
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState<boolean | null>(null)
+  const isViewportReady = isMobile !== null
+  const mobile = isMobile === true
   const mobileCardTop = "clamp(13rem, 31dvh, 16rem)"
 
   // 根据牌组类型获取牌，并随机打乱顺序
@@ -53,6 +59,30 @@ export function CardSpread({
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!mobile || !selectionMode || collectingMode || !cardsDealt) return
+    touchStartRef.current = {
+      x: e.touches[0].clientX,
+      rotation: rotationOffset,
+    }
+    dragDistanceRef.current = 0
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStartRef.current || !mobile || !selectionMode || collectingMode) return
+    const deltaX = e.touches[0].clientX - touchStartRef.current.x
+    dragDistanceRef.current = Math.max(dragDistanceRef.current, Math.abs(deltaX))
+    const nextRotation = touchStartRef.current.rotation + deltaX / 4.5
+    setRotationOffset(Math.max(-62, Math.min(62, nextRotation)))
+  }
+
+  const handleTouchEnd = () => {
+    window.setTimeout(() => {
+      dragDistanceRef.current = 0
+    }, 0)
+    touchStartRef.current = null
+  }
 
   useEffect(() => {
     onCardsDealtRef.current = onCardsDealt
@@ -93,25 +123,26 @@ export function CardSpread({
 
   const cards = useMemo(() => {
     return deck.map((card, i) => {
-      const maxAngle = isMobile ? 58 : 65
+      const maxAngle = mobile ? 58 : 65
       const step = CARD_COUNT > 1 ? (maxAngle * 2) / (CARD_COUNT - 1) : 0
       const baseRotation = maxAngle - step * i
-      const rotation = isMobile ? baseRotation : -baseRotation
+      const rotation = (mobile ? baseRotation : -baseRotation) + rotationOffset
       const centerOffset = i - (CARD_COUNT - 1) / 2
 
       return {
         id: card.id,  // 使用实际的卡牌 id
         rotation,
         baseRotation,
-        xOffset: isMobile ? centerOffset * 6 : 0,
+        xOffset: mobile ? centerOffset * 6 : 0,
         zIndex: i + 1,
         delay: i * (deckType === 'full' ? 40 : 80),  // 78张牌时加快动画
       }
     })
-  }, [deck, CARD_COUNT, isMobile, deckType])
+  }, [deck, CARD_COUNT, mobile, rotationOffset, deckType])
 
   const handleCardClick = (cardId: number) => {
     if (!selectionMode || collectingMode) return
+    if (dragDistanceRef.current > 8) return
 
     const isSelected = selectedCardIds.includes(cardId)
 
@@ -134,15 +165,15 @@ export function CardSpread({
       // 计算中心偏移：使卡牌居中排列
       const centerOffset = (totalSelected - 1) / 2
       // 根据选中卡牌数量调整间距
-      const spacing = isMobile ? Math.min(100, 280 / totalSelected) : Math.min(200, 600 / totalSelected)
+      const spacing = mobile ? Math.min(100, 280 / totalSelected) : Math.min(200, 600 / totalSelected)
       const xOffset = (selectedIndex - centerOffset) * spacing
       // 根据卡牌数量调整缩放
-      const scale = isMobile ? Math.min(1, 2.5 / totalSelected) : Math.min(1.1, 3 / totalSelected)
-      return `translate(${xOffset}px, ${isMobile ? "50px" : "-50px"}) rotate(0deg) scale(${scale})`
+      const scale = mobile ? Math.min(1, 2.5 / totalSelected) : Math.min(1.1, 3 / totalSelected)
+      return `translate(${xOffset}px, ${mobile ? "50px" : "-50px"}) rotate(0deg) scale(${scale})`
     } else {
       const exitDirection = card.baseRotation > 0 ? 1 : card.baseRotation < 0 ? -1 : 0
-      const exitX = (isMobile ? exitDirection : -exitDirection) * 150
-      const exitY = isMobile ? -300 - Math.abs(card.baseRotation) * 3 : 300 + Math.abs(card.baseRotation) * 3
+      const exitX = (mobile ? exitDirection : -exitDirection) * 150
+      const exitY = mobile ? -300 - Math.abs(card.baseRotation) * 3 : 300 + Math.abs(card.baseRotation) * 3
       return `rotate(${card.rotation}deg) translate(${exitX}px, ${exitY}px) scale(0.6)`
     }
   }
@@ -150,10 +181,13 @@ export function CardSpread({
   return (
     <div
       data-card-spread-dealt={cardsDealt ? "true" : "false"}
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className={`absolute inset-0 h-full w-full ${mobile && selectionMode && !collectingMode ? "pointer-events-auto touch-none" : "pointer-events-none"}`}
       style={{ perspective: "1000px" }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
-      {cards.map((card, index) => {
+      {isViewportReady && cards.map((card, index) => {
         const isSelected = selectedCardIds.includes(card.id)
         const canSelect = selectionMode && !collectingMode && (isSelected || selectedCardIds.length < maxCards)
 
@@ -169,14 +203,14 @@ export function CardSpread({
           const distanceFromCenter = Math.abs(card.baseRotation)
           transitionDelay = `${distanceFromCenter * 12}ms`
         } else if (!cardsDealt) {
-          transform = isMobile
+          transform = mobile
             ? "translate(60vw, 80vh) rotate(-120deg) scale(0.8)"
             : "translate(-60vw, -80vh) rotate(120deg) scale(0.8)"
           opacity = 0
         } else if (isSelected) {
-          transform = `rotate(${card.rotation}deg) translateY(${isMobile ? "-60px" : "60px"}) scale(1.05)`
+          transform = `rotate(${card.rotation}deg) translateY(${mobile ? "-60px" : "60px"}) scale(1.05)`
         } else if (hoveredCard === card.id && canSelect) {
-          transform = `rotate(${card.rotation}deg) translateY(${isMobile ? "-30px" : "30px"}) scale(1.1)`
+          transform = `rotate(${card.rotation}deg) translateY(${mobile ? "-30px" : "30px"}) scale(1.1)`
         } else {
           transform = `rotate(${card.rotation}deg)`
         }
@@ -188,13 +222,13 @@ export function CardSpread({
               canSelect ? "pointer-events-auto cursor-pointer" : "pointer-events-none"
             }`}
             style={{
-              width: isMobile ? "90px" : "140px",
-              height: isMobile ? "155px" : "240px",
-              left: isMobile ? `calc(50% + ${card.xOffset}px)` : "50%",
-              top: isMobile ? mobileCardTop : "auto",
-              bottom: isMobile ? "auto" : "25%",
-              marginLeft: isMobile ? "-45px" : "-70px",
-              transformOrigin: isMobile ? "50% 300%" : "50% -180%",
+              width: mobile ? "90px" : "140px",
+              height: mobile ? "155px" : "240px",
+              left: mobile ? `calc(50% + ${card.xOffset}px)` : "50%",
+              top: mobile ? mobileCardTop : "auto",
+              bottom: mobile ? "auto" : "25%",
+              marginLeft: mobile ? "-45px" : "-70px",
+              transformOrigin: mobile ? "50% 300%" : "50% -180%",
               transform,
               opacity,
               transitionDuration,
