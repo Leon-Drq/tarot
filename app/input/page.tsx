@@ -16,7 +16,7 @@ import { isSeoLocale } from "@/lib/locales"
 
 type PageState = "input" | "shuffling" | "spread_choice" | "selecting" | "collecting"
 
-const PRE_SPREAD_SHUFFLE_DELAY_MS = 1800
+const PRE_SPREAD_SHUFFLE_DELAY_MS = 2600
 
 function wait(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms))
