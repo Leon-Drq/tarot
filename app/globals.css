@@ -206,8 +206,9 @@
 @layer components {
   .home-hero-stage {
     --home-hero-browser-offset: min(var(--home-mobile-browser-offset, 0px), 7rem);
+    --home-hero-visual-browser-offset: min(var(--home-mobile-browser-offset, 0px), 3.25rem);
     --home-hero-browser-bottom-offset: min(var(--home-mobile-browser-bottom-offset, 0px), 10rem);
-    --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58vh, 28.5rem));
+    --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(24.75rem, 58vh, 28.5rem));
     --home-hero-center-y: var(--home-hero-focal-y);
     --home-hero-visual-center-y: var(--home-hero-center-y);
     --home-hero-light-y: var(--home-hero-center-y);
@@ -240,7 +241,7 @@
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24.75rem, 58svh, 28.5rem));
+      --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(24.75rem, 58svh, 28.5rem));
       --home-hero-flow-gap: clamp(2.75rem, 7svh, 3.5rem);
       --home-hero-after-actions-gap: calc(clamp(4.5rem, 10svh, 6rem) + var(--home-hero-browser-bottom-offset));
       --home-hero-shell-min-height: max(
@@ -252,7 +253,7 @@
 
   @media (min-width: 640px) {
     .home-hero-stage {
-      --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24rem, 52vh, 32rem));
+      --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(24rem, 52vh, 32rem));
       --home-hero-card-width: 12.25rem;
       --home-hero-card-height: 21rem;
       --home-hero-flow-gap: 3.5rem;
@@ -267,7 +268,7 @@
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(24rem, 52svh, 32rem));
+        --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(24rem, 52svh, 32rem));
         --home-hero-shell-min-height: max(
           112svh,
           calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
@@ -278,7 +279,7 @@
 
   @media (min-width: 768px) {
     .home-hero-stage {
-      --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(22rem, 52vh, 24.5rem));
+      --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(22rem, 52vh, 24.5rem));
       --home-hero-card-width: 14rem;
       --home-hero-card-height: 24rem;
       --home-hero-glow-size: 34rem;
@@ -294,7 +295,7 @@
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: calc(var(--home-hero-browser-offset) + clamp(22rem, 52svh, 24.5rem));
+        --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(22rem, 52svh, 24.5rem));
         --home-hero-shell-min-height: max(
           92svh,
           calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))
