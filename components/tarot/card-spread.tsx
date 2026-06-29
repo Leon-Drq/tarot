@@ -48,7 +48,7 @@ export function CardSpread({
   const activeLocale = locale || language
 
   const [isMobile, setIsMobile] = useState(false)
-  const mobileCardTop = "clamp(10rem, 26dvh, 14.5rem)"
+  const mobileCardTop = "clamp(11.25rem, 29dvh, 16rem)"
 
   // 根据牌组类型获取牌，并随机打乱顺序
   const deck = useMemo(() => {

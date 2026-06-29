@@ -4,6 +4,7 @@ import { isSeoLocale } from "@/lib/locales"
 const eventNames = new Set([
   "page_view",
   "question_submitted",
+  "spread_confirmed",
   "cards_selected",
   "reading_completed",
   "share_created",

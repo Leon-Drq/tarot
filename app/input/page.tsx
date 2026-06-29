@@ -14,7 +14,9 @@ import { useAuth } from "@/contexts/auth-context"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isSeoLocale } from "@/lib/locales"
 
-type PageState = "dealing" | "input" | "classifying" | "shuffling" | "spread_choice" | "selecting" | "collecting"
+type PageState = "dealing" | "input" | "shuffling" | "spread_choice" | "selecting" | "collecting"
+
+const PRE_SPREAD_SHUFFLE_DELAY_MS = 760
 
 interface SpreadInfo {
   type: string
@@ -69,7 +71,6 @@ function InputContent() {
   const [question, setQuestion] = useState("")
   const [shuffleKey, setShuffleKey] = useState(0)
   const [spreadInfo, setSpreadInfo] = useState<SpreadInfo | null>(null)
-  const [isClassifying, setIsClassifying] = useState(false)
   const [dealImmediatelyAfterChoice, setDealImmediatelyAfterChoice] = useState(false)
   const [advancedSpreadPrompt, setAdvancedSpreadPrompt] = useState<{
     requestedName: string
@@ -320,12 +321,11 @@ function InputContent() {
     setSelectedCardIds([])
     setDealImmediatelyAfterChoice(false)
     setSpreadInfo(nextSpreadInfo)
-    setShuffleKey((k) => k + 1)
     setPageState("shuffling")
     spreadChoiceTimer.current = setTimeout(() => {
       setPageState("spread_choice")
       spreadChoiceTimer.current = null
-    }, 1100)
+    }, PRE_SPREAD_SHUFFLE_DELAY_MS)
   }
 
   const handleSpreadChoiceConfirm = () => {
@@ -353,8 +353,10 @@ function InputContent() {
   const handleQuestionSubmit = async (q: string) => {
     setQuestion(q)
     hasSubmittedQuestion.current = true
-    setPageState("classifying")
-    setIsClassifying(true)
+    setSelectedCardIds([])
+    setDealImmediatelyAfterChoice(false)
+    setAdvancedSpreadPrompt(null)
+    setPageState("shuffling")
     analyticsApi.track("question_submitted", {
       ...getCurrentAttribution(),
       locale: readingLocale,
@@ -367,7 +369,6 @@ function InputContent() {
 
     if (preferredSpreadType) {
       beginSpreadChoiceFlow(resolveSpreadForAccess(createLocalSpreadInfo(preferredSpreadType, "Matched from the landing page intent", 0.92)))
-      setIsClassifying(false)
       return
     }
 
@@ -401,13 +402,11 @@ function InputContent() {
       // 使用默认的三牌阵
       setAdvancedSpreadPrompt(null)
       beginSpreadChoiceFlow(createLocalSpreadInfo("three_card", "使用默认牌阵", 0.5))
-    } finally {
-      setIsClassifying(false)
     }
   }
 
   useEffect(() => {
-    if (pageState === "input" && autoStart && initialQuestion && !hasSubmittedQuestion.current) {
+    if ((pageState === "input" || pageState === "dealing") && autoStart && initialQuestion && !hasSubmittedQuestion.current) {
       void handleQuestionSubmit(initialQuestion)
     }
   }, [pageState, autoStart, initialQuestion])
@@ -467,7 +466,7 @@ function InputContent() {
     setShuffleKey((k) => k + 1)
   }
 
-  const showCardSpread = pageState === "dealing" || pageState === "shuffling" || pageState === "selecting" || pageState === "collecting"
+  const showCardSpread = pageState === "dealing" || pageState === "selecting" || pageState === "collecting"
   const hasEntryQuestionContext = Boolean(
     initialQuestion &&
       autoStart &&
@@ -561,10 +560,47 @@ function InputContent() {
       {pageState === "shuffling" && (
         <div
           data-input-shuffle-prelude
-          className="absolute bottom-[calc(env(safe-area-inset-bottom)+3rem)] left-1/2 z-40 w-[min(88vw,22rem)] -translate-x-1/2 rounded-2xl border border-[#c9c0ff]/18 bg-[#10081d]/64 px-5 py-4 text-center shadow-[0_18px_46px_rgba(0,0,0,0.36)] backdrop-blur-md sm:bottom-14"
+          className="absolute inset-0 z-40 flex flex-col items-center justify-center px-6 text-center"
         >
-          <p className="text-sm font-medium tracking-[0.2em] text-[#f1ecff]">{spreadChoiceCopy.shuffling}</p>
-          <p className="mt-2 text-xs leading-5 text-white/52">{spreadChoiceCopy.shufflingBody}</p>
+          <style>{`
+            @keyframes poptarotPrepCardLeft {
+              0%, 100% { transform: translateX(-0.6rem) rotate(-10deg); }
+              50% { transform: translateX(-2.2rem) translateY(-0.25rem) rotate(-18deg); }
+            }
+
+            @keyframes poptarotPrepCardRight {
+              0%, 100% { transform: translateX(0.6rem) rotate(10deg); }
+              50% { transform: translateX(2.2rem) translateY(0.25rem) rotate(18deg); }
+            }
+
+            @keyframes poptarotPrepCardCenter {
+              0%, 100% { transform: translateY(0) rotate(0deg); }
+              50% { transform: translateY(-0.45rem) rotate(2deg); }
+            }
+          `}</style>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_38%,rgba(153,128,255,0.25),rgba(15,5,24,0.3)_44%,rgba(7,2,13,0.58)_100%)] backdrop-blur-[2px]" />
+          <div data-input-prep-deck className="relative z-10 h-44 w-32" aria-hidden="true">
+            {[
+              ["poptarotPrepCardLeft 1.35s ease-in-out infinite", "0.66", "-0.75rem"],
+              ["poptarotPrepCardRight 1.35s ease-in-out infinite", "0.78", "0.75rem"],
+              ["poptarotPrepCardCenter 1.35s ease-in-out infinite", "1", "0"],
+            ].map(([animation, opacity, top], index) => (
+              <div
+                key={index}
+                className="absolute inset-0 rounded-xl border border-[#e7dcaf]/50 bg-cover bg-center shadow-[0_18px_42px_rgba(0,0,0,0.38)]"
+                style={{
+                  animation,
+                  backgroundImage: 'url("https://klinelife.oss-cn-beijing.aliyuncs.com/tarot/back1.jpg")',
+                  opacity,
+                  top,
+                }}
+              />
+            ))}
+          </div>
+          <div className="relative z-10 mt-7 w-[min(84vw,22rem)] rounded-2xl border border-[#c9c0ff]/18 bg-[#10081d]/72 px-5 py-4 shadow-[0_18px_46px_rgba(0,0,0,0.36)] backdrop-blur-md">
+            <p className="text-sm font-medium tracking-[0.18em] text-[#f1ecff]">{spreadChoiceCopy.shuffling}</p>
+            <p className="mt-2 text-xs leading-5 text-white/58">{spreadChoiceCopy.shufflingBody}</p>
+          </div>
         </div>
       )}
 
@@ -593,13 +629,13 @@ function InputContent() {
       )}
 
       {pageState === "spread_choice" && spreadInfo && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center px-4 py-[calc(env(safe-area-inset-top)+1rem)]">
+        <div className="absolute inset-0 z-50 flex items-end justify-center px-0 pb-0 pt-[calc(env(safe-area-inset-top)+1rem)] sm:items-center sm:px-4 sm:pb-[calc(env(safe-area-inset-bottom)+1rem)]">
           <div className="absolute inset-0 bg-[#07020d]/72 backdrop-blur-sm" />
           <div
             role="dialog"
             aria-modal="true"
             data-input-spread-choice-dialog
-            className="relative w-[min(92vw,34rem)] rounded-2xl border border-[#c9c0ff]/22 bg-[#11091f]/92 p-4 shadow-[0_28px_80px_rgba(0,0,0,0.52)] backdrop-blur-xl sm:p-5"
+            className="relative max-h-[calc(100dvh-env(safe-area-inset-top)-1rem)] w-full overflow-y-auto rounded-t-[1.75rem] border-t border-[#c9c0ff]/22 bg-[#11091f]/94 p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] shadow-[0_-28px_80px_rgba(0,0,0,0.52)] backdrop-blur-xl sm:w-[min(92vw,34rem)] sm:rounded-2xl sm:border sm:p-5 sm:shadow-[0_28px_80px_rgba(0,0,0,0.52)]"
           >
             <p className="text-[11px] uppercase tracking-[0.2em] text-[#c9c0ff]/66">{spreadChoiceCopy.eyebrow}</p>
             <h2 className="mt-2 text-xl font-medium leading-tight text-[#f4f0ff] sm:text-2xl">
@@ -671,7 +707,7 @@ function InputContent() {
                   data-input-member-upgrade-cta
                   type="button"
                   onClick={() => router.push("/membership")}
-                  className="rounded-full border border-[#c9c0ff]/30 px-4 py-3 text-sm font-medium text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10"
+                  className="min-h-12 rounded-full border border-[#c9c0ff]/30 px-4 py-3 text-sm font-medium text-[#eeeaff] transition hover:border-[#eeeaff] hover:bg-[#c9c0ff]/10"
                 >
                   {advancedSpreadCopy.button}
                 </button>
@@ -680,54 +716,13 @@ function InputContent() {
                 data-input-spread-choice-confirm
                 type="button"
                 onClick={handleSpreadChoiceConfirm}
-                className="rounded-full border border-[#c9c0ff]/36 bg-[#d9d4ff] px-5 py-3 text-sm font-semibold text-[#160d24] shadow-[0_14px_42px_rgba(129,114,232,0.26)] transition hover:bg-[#eeeaff] active:scale-[0.98]"
+                className="min-h-12 rounded-full border border-[#c9c0ff]/36 bg-[#d9d4ff] px-5 py-3 text-sm font-semibold text-[#160d24] shadow-[0_14px_42px_rgba(129,114,232,0.26)] transition hover:bg-[#eeeaff] active:scale-[0.98]"
               >
                 {spreadChoiceCopy.confirm}
               </button>
             </div>
           </div>
         </div>
-      )}
-
-      {/* 问题分类中的加载状态 */}
-      {pageState === "classifying" && (
-        <>
-          <div
-            className="absolute inset-0 z-10 transition-all duration-500 opacity-100"
-            style={{
-              background:
-                "radial-gradient(ellipse at 50% 24%, rgba(101, 80, 176, 0.9) 0%, rgba(31, 18, 53, 0.98) 50%, rgba(8, 3, 16, 1) 100%)",
-              backdropFilter: "blur(12px)",
-            }}
-          />
-          <div className="relative z-20 flex flex-col items-center justify-center gap-6">
-            <div className="animate-pulse">
-              <svg width="60" height="60" viewBox="0 0 60 60" className="animate-spin text-[#c9c0ff]/70">
-                <circle cx="30" cy="30" r="25" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="50 100" />
-              </svg>
-            </div>
-            <p className="text-white/70 text-lg">
-              {{
-                zh: '正在分析你的问题...',
-                en: 'Analyzing your question...',
-                ja: '質問を分析しています...',
-                ko: '질문을 분석 중...',
-                es: 'Analizando tu pregunta...',
-                "pt-br": 'Analisando sua pergunta...',
-              }[readingLocale] || 'Analyzing your question...'}
-            </p>
-            <p className="text-white/40 text-sm">
-              {{
-                zh: '为你匹配最适合的牌阵',
-                en: 'Finding the best spread for you',
-                ja: '最適なスプレッドを見つけています',
-                ko: '최적의 스프레드를 찾는 중',
-                es: 'Buscando la tirada mas adecuada',
-                "pt-br": 'Encontrando a melhor tiragem para voce',
-              }[readingLocale] || 'Finding the best spread for you'}
-            </p>
-          </div>
-        </>
       )}
 
       <QuestionInput

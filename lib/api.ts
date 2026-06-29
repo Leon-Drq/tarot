@@ -268,6 +268,7 @@ export const paymentApi = {
 export type AnalyticsEventName =
   | 'page_view'
   | 'question_submitted'
+  | 'spread_confirmed'
   | 'cards_selected'
   | 'reading_completed'
   | 'share_created'
