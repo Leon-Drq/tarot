@@ -9,7 +9,6 @@ import { type DeckType } from "@/lib/api"
 import type { SeoLocale } from "@/lib/locales"
 
 interface CardSpreadProps {
-  onShuffle?: () => void
   onCardsDealt?: () => void
   selectionMode?: boolean
   collectingMode?: boolean
@@ -23,7 +22,6 @@ interface CardSpreadProps {
 }
 
 export function CardSpread({
-  onShuffle,
   onCardsDealt,
   selectionMode = false,
   collectingMode = false,
@@ -45,7 +43,7 @@ export function CardSpread({
   const containerRef = useRef<HTMLDivElement>(null)
 
   const [isMobile, setIsMobile] = useState(false)
-  const mobileCardTop = "clamp(14.5rem, 34dvh, 18.5rem)"
+  const mobileCardTop = "clamp(13rem, 31dvh, 16rem)"
 
   // 根据牌组类型获取牌，并随机打乱顺序
   const deck = useMemo(() => {
@@ -135,7 +133,7 @@ export function CardSpread({
       const maxAngle = 65
       const step = CARD_COUNT > 1 ? (maxAngle * 2) / (CARD_COUNT - 1) : 0
       const baseRotation = maxAngle - step * i
-      const rotation = (isMobile ? -baseRotation : baseRotation) + rotationOffset
+      const rotation = (isMobile ? baseRotation : -baseRotation) + rotationOffset
 
       return {
         id: card.id,  // 使用实际的卡牌 id
@@ -178,7 +176,7 @@ export function CardSpread({
       return `translate(${xOffset}px, ${isMobile ? "50px" : "-50px"}) rotate(0deg) scale(${scale})`
     } else {
       const exitDirection = card.baseRotation > 0 ? 1 : card.baseRotation < 0 ? -1 : 0
-      const exitX = (isMobile ? -exitDirection : exitDirection) * 150
+      const exitX = (isMobile ? exitDirection : -exitDirection) * 150
       const exitY = isMobile ? -300 - Math.abs(card.baseRotation) * 3 : 300 + Math.abs(card.baseRotation) * 3
       return `rotate(${card.rotation}deg) translate(${exitX}px, ${exitY}px) scale(0.6)`
     }

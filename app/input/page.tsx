@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { QuestionInput } from "@/components/tarot/question-input"
 import { CardSpread } from "@/components/tarot/card-spread"
 import { CardSelectionHeader } from "@/components/tarot/card-selection-header"
-import { ShuffleButton } from "@/components/tarot/shuffle-button"
 import { TAROT_CARDS, type DrawnCard } from "@/lib/tarot-cards"
 import { analyticsApi, readingApi, type SpreadConfig, type DeckType } from "@/lib/api"
 import { getFreeSpreadFallback, getSpreadConfig, isAdvancedSpreadType, SPREAD_CONFIGS, type SpreadType } from "@/lib/spread-config"
@@ -347,6 +346,7 @@ function InputContent() {
     setQuestion(q)
     hasSubmittedQuestion.current = true
     setSelectedCardIds([])
+    setShuffleKey((k) => k + 1)
     setDealImmediatelyAfterChoice(false)
     setAdvancedSpreadPrompt(null)
     setPageState("shuffling")
@@ -460,12 +460,6 @@ function InputContent() {
     router.push("/reveal")
   }
 
-  const handleShuffle = () => {
-    setSelectedCardIds([])
-    setDealImmediatelyAfterChoice(false)
-    setShuffleKey((k) => k + 1)
-  }
-
   const showCardSpread = pageState === "selecting" || pageState === "collecting"
   const hasEntryQuestionContext = Boolean(
     initialQuestion &&
@@ -543,16 +537,9 @@ function InputContent() {
         selectedCount={selectedCardIds.length}
         totalCards={requiredCardCount}
         question={question}
-        onShuffle={handleShuffle}
         showShuffle={false}
         spreadConfig={spreadInfo?.config}
         deckType={spreadInfo?.deckType || 'major'}
-        locale={readingLocale}
-      />
-
-      <ShuffleButton
-        visible={selectedCardIds.length === 0 && pageState === "selecting"}
-        onClick={handleShuffle}
         locale={readingLocale}
       />
 
