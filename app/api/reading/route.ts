@@ -22,8 +22,9 @@ const TAROT_MASTER_SYSTEM = `## Role
 2. 解读要有深度，与用户问题紧密相关
 3. 为用户提供积极向上的建议和指引`
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY || ""
-const MODEL = process.env.OPENAI_MODEL || "gpt-5.2"
+const AI_GATEWAY_API_KEY = process.env.AI_GATEWAY_API_KEY || process.env.VERCEL_OIDC_TOKEN || ""
+const AI_GATEWAY_BASE_URL = process.env.AI_GATEWAY_BASE_URL || "https://ai-gateway.vercel.sh/v1"
+const AI_GATEWAY_MODEL = process.env.AI_GATEWAY_MODEL || "google/gemini-3.1-flash-lite"
 
 type TarotCardInput = {
   name: string
@@ -174,8 +175,8 @@ export async function POST(req: Request) {
     if (!member.ok) return member.response
   }
 
-  if (!OPENAI_API_KEY) {
-    return Response.json({ error: "Missing OPENAI_API_KEY" }, { status: 500 })
+  if (!AI_GATEWAY_API_KEY) {
+    return Response.json({ error: "Missing AI_GATEWAY_API_KEY" }, { status: 500 })
   }
 
   const answerLanguage = getAnswerLanguage(lang)
@@ -243,14 +244,14 @@ ${readingTaskPrompt}
 使用${answerLanguage}回答，控制在400字以内。`
   }
 
-  const response = await fetch("https://api.openai.com/v1/responses", {
+  const response = await fetch(`${AI_GATEWAY_BASE_URL.replace(/\/$/, "")}/responses`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${OPENAI_API_KEY}`,
+      Authorization: `Bearer ${AI_GATEWAY_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: MODEL,
+      model: AI_GATEWAY_MODEL,
       input: [
         { role: "developer", content: TAROT_MASTER_SYSTEM },
         { role: "user", content: userPrompt },
@@ -262,7 +263,7 @@ ${readingTaskPrompt}
 
   if (!response.ok) {
     const error = await response.text()
-    console.error("[Reading API] OpenAI error:", error)
+    console.error("[Reading API] AI Gateway error:", error)
     return new Response(JSON.stringify({ error: "AI 服务暂时不可用" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
