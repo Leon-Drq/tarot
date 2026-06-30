@@ -149,6 +149,32 @@ function getReadingTaskPrompt(lang?: string) {
 3. 具体建议：针对用户问题，给出切实可行、具体明确的下一步建议。`
 }
 
+function getCardCountInstruction(cardCount: number, spreadType?: string, lang?: string) {
+  const normalizedSpread = spreadType || "three_card"
+
+  if (lang === "en") {
+    return `Important boundary: the input contains exactly ${cardCount} card${cardCount === 1 ? "" : "s"} in a ${normalizedSpread} spread. Do not invent missing cards, do not assume a three-card spread unless the spread is actually three_card, and do not mention that cards are missing.`
+  }
+
+  if (lang === "ja") {
+    return `重要な制約：入力されたカードは「${normalizedSpread}」スプレッドの${cardCount}枚だけです。不足カードを作らず、実際に three_card でない限り三枚引きとして扱わず、カードが足りないとは書かないでください。`
+  }
+
+  if (lang === "ko") {
+    return `중요한 제한: 입력된 카드는 ${normalizedSpread} 스프레드의 정확히 ${cardCount}장입니다. 없는 카드를 만들지 말고, 실제 스프레드가 three_card가 아닌 한 3장 스프레드로 가정하지 말고, 카드가 부족하다고 말하지 마세요.`
+  }
+
+  if (lang === "es") {
+    return `Límite importante: la entrada contiene exactamente ${cardCount} carta${cardCount === 1 ? "" : "s"} en la tirada ${normalizedSpread}. No inventes cartas faltantes, no asumas una tirada de tres cartas salvo que sea three_card y no digas que faltan cartas.`
+  }
+
+  if (lang === "pt-br") {
+    return `Limite importante: a entrada contem exatamente ${cardCount} carta${cardCount === 1 ? "" : "s"} na tiragem ${normalizedSpread}. Nao invente cartas ausentes, nao presuma uma tiragem de tres cartas a menos que seja three_card e nao diga que faltam cartas.`
+  }
+
+  return `重要边界：本次输入只有「${normalizedSpread}」牌阵中的 ${cardCount} 张牌。只解读实际给出的牌，不要补造缺失牌，不要在非 three_card 时假设三牌阵，也不要说用户少给了牌。`
+}
+
 function orientationName(isReversed: boolean, lang?: string) {
   if (lang === "zh" || !lang) return isReversed ? "逆位" : "正位"
   return isReversed ? "reversed" : "upright"
@@ -182,6 +208,7 @@ export async function POST(req: Request) {
   const answerLanguage = getAnswerLanguage(lang)
   const spreadInstruction = getSpreadPromptInstruction(spread_type, lang)
   const readingTaskPrompt = getReadingTaskPrompt(lang)
+  const cardCountInstruction = getCardCountInstruction(Array.isArray(cards) ? cards.length : 0, spread_type, lang)
 
   // 构建塔罗解读prompt
   const cardsDescription = (cards as TarotCardInput[])
@@ -212,6 +239,9 @@ ${cardsDescription}
 【牌阵说明】
 ${spreadInstruction}
 
+【牌数边界】
+${cardCountInstruction}
+
 【之前的解读】
 ${previousContext}
 
@@ -232,6 +262,9 @@ ${cardsDescription}
 
 【牌阵说明】
 ${spreadInstruction}
+
+【牌数边界】
+${cardCountInstruction}
 
 ---
 
