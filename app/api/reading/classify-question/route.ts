@@ -7,6 +7,7 @@ import {
   SPREAD_CONFIGS,
   type SpreadConfig,
 } from "@/lib/spread-config"
+import { classifyQuestionIntent } from "@/lib/question-intent"
 import { jsonResponse } from "@/lib/server/supabase"
 
 function serializeSpread(config: SpreadConfig) {
@@ -23,16 +24,20 @@ function serializeSpread(config: SpreadConfig) {
 export async function POST(req: Request) {
   const { question = "" } = await req.json()
   const normalized = String(question).toLowerCase()
+  const intent = classifyQuestionIntent(String(question))
 
-  let best = getSpreadConfig("three_card")
-  let confidence = 0.5
+  let best = getSpreadConfig(intent.recommendedSpreadType)
+  let confidence = intent.confidence
 
   for (const config of Object.values(SPREAD_CONFIGS)) {
     if (config.type === "three_card") continue
     const matched = config.keywords.some((keyword) => normalized.includes(keyword.toLowerCase()))
-    if (matched) {
+    const shouldPreserveDomainIntent =
+      config.type === "yes_no" && ["love", "reconciliation", "career"].includes(intent.type)
+    if (shouldPreserveDomainIntent) continue
+    if (matched && config.type !== best.type) {
       best = config
-      confidence = 0.82
+      confidence = Math.max(confidence, 0.82)
       break
     }
   }
@@ -44,7 +49,14 @@ export async function POST(req: Request) {
     spread_type: best.type,
     deck_type: best.cardCount <= 3 ? "major" : "full",
     confidence,
-    reason: best.type === "three_card" ? "使用默认三牌阵" : `根据问题关键词匹配到「${best.name}」`,
+    reason: best.type === "three_card" ? "使用默认三牌阵" : `根据${intent.reason}匹配到「${best.name}」`,
+    question_type: intent.type,
+    recommended_spread_type: intent.recommendedSpreadType,
+    tone: intent.tone,
+    is_yes_no: intent.isYesNo,
+    is_love: intent.isLove,
+    is_career: intent.isCareer,
+    is_daily: intent.isDaily,
     is_advanced: isAdvanced,
     access_tier: getSpreadAccessTier(best.type),
     upgrade_feature: getSpreadUpgradeFeature(best.type),

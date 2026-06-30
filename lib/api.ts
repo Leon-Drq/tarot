@@ -500,6 +500,13 @@ export interface QuestionClassificationResponse {
   deck_type: DeckType  // AI推荐的牌组类型
   confidence: number
   reason: string
+  question_type?: 'love' | 'reconciliation' | 'career' | 'yes_no' | 'daily' | 'decision' | 'self_growth' | 'general'
+  recommended_spread_type?: string
+  tone?: 'direct' | 'warm' | 'grounded' | 'reflective'
+  is_yes_no?: boolean
+  is_love?: boolean
+  is_career?: boolean
+  is_daily?: boolean
   is_advanced?: boolean
   access_tier?: 'free' | 'member_depth'
   upgrade_feature?: 'advanced_spread' | null

@@ -1,5 +1,6 @@
 import { requireMemberAccess } from "@/lib/server/member-gate"
-import { requireUser } from "@/lib/server/supabase"
+import { createUserSupabase, getBearerToken, requireUser } from "@/lib/server/supabase"
+import { classifyQuestionIntent, getQuestionIntentPrompt } from "@/lib/question-intent"
 import { getSpreadConfig, isAdvancedSpreadType, isKnownSpreadType } from "@/lib/spread-config"
 
 const TAROT_MASTER_SYSTEM = `## Role
@@ -185,6 +186,23 @@ function enqueueSse(controller: ReadableStreamDefaultController<Uint8Array>, pay
   controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`))
 }
 
+async function getOptionalGatewayUserId(req: Request) {
+  const token = getBearerToken(req)
+  if (!token) return "anonymous"
+
+  try {
+    const supabase = createUserSupabase(token)
+    const { data } = await supabase.auth.getUser(token)
+    return data.user?.id || "anonymous"
+  } catch {
+    return "anonymous"
+  }
+}
+
+function compactGatewayTag(value: string | undefined | null, fallback: string) {
+  return (value || fallback).toLowerCase().replace(/[^a-z0-9_-]+/g, "_").slice(0, 48) || fallback
+}
+
 export async function POST(req: Request) {
   const { question, cards, isFollowUp, followUpQuestion, previousMessages, lang, spread_type } = await req.json()
   const usesAdvancedSpread = isAdvancedSpreadType(spread_type) || (Array.isArray(cards) && cards.length > 3)
@@ -209,6 +227,16 @@ export async function POST(req: Request) {
   const spreadInstruction = getSpreadPromptInstruction(spread_type, lang)
   const readingTaskPrompt = getReadingTaskPrompt(lang)
   const cardCountInstruction = getCardCountInstruction(Array.isArray(cards) ? cards.length : 0, spread_type, lang)
+  const questionIntent = classifyQuestionIntent(String(isFollowUp && followUpQuestion ? followUpQuestion : question || ""), spread_type)
+  const intentPrompt = getQuestionIntentPrompt(questionIntent.type, lang)
+  const gatewayUser = await getOptionalGatewayUserId(req)
+  const gatewayTags = [
+    "feature:reading",
+    `locale:${compactGatewayTag(lang, "zh")}`,
+    `spread:${compactGatewayTag(spread_type, "three_card")}`,
+    `type:${questionIntent.type}`,
+    isFollowUp ? "mode:followup" : "mode:initial",
+  ]
 
   // 构建塔罗解读prompt
   const cardsDescription = (cards as TarotCardInput[])
@@ -249,6 +277,9 @@ ${previousContext}
 
 现在用户想进一步了解：${followUpQuestion}
 
+【追问类型结构】
+${intentPrompt}
+
 请基于之前的牌面和解读，针对用户的追问提供更深入、更具体的解读。
 - 结合牌面给出有针对性的回答
 - 语言要有画面感，能引发共鸣
@@ -270,6 +301,9 @@ ${cardCountInstruction}
 
 ${readingTaskPrompt}
 
+【问题类型结构】
+${intentPrompt}
+
 要求：
 - 语言要有画面感和故事性，将牌面与用户的生命经历相连接
 - 回答要有逻辑性，避免模棱两可
@@ -289,6 +323,19 @@ ${readingTaskPrompt}
         { role: "developer", content: TAROT_MASTER_SYSTEM },
         { role: "user", content: userPrompt },
       ],
+      providerOptions: {
+        gateway: {
+          user: gatewayUser,
+          tags: gatewayTags,
+        },
+      },
+      metadata: {
+        feature: "reading",
+        locale: compactGatewayTag(lang, "zh"),
+        spread_type: compactGatewayTag(spread_type, "three_card"),
+        question_type: questionIntent.type,
+        mode: isFollowUp ? "followup" : "initial",
+      },
       stream: true,
       max_output_tokens: 1000,
     }),

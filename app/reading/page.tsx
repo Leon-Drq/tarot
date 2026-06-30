@@ -16,6 +16,7 @@ import { createGoogleCalendarDailyReturnUrl, downloadDailyReturnCalendar } from 
 import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-templates"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isLocale, isSeoLocale, type Locale, type SeoLocale } from "@/lib/locales"
+import { classifyQuestionIntent, getQuestionIntentFollowUps, getQuestionIntentResultStructure } from "@/lib/question-intent"
 import type { SpreadType } from "@/lib/spread-config"
 
 interface Message {
@@ -466,6 +467,53 @@ export default function ReadingPage() {
   const dailyReturnHref = `/daily-tarot?${readingReturnQuery}`
   const meaningsReturnHref = `/tarot-card-meanings?${readingReturnQuery}`
   const toolsReturnHref = `/free-tarot-tools?${readingReturnQuery}`
+  const resultIntent = classifyQuestionIntent(question, spreadType)
+  const resultStructure = getQuestionIntentResultStructure(resultIntent.type, activeReadingLocale)
+  const suggestedFollowUps = getQuestionIntentFollowUps(resultIntent.type, activeReadingLocale)
+  const resultStructureCopy =
+    {
+      zh: {
+        eyebrow: "解读结构",
+        followUpTitle: "继续追问",
+        followUpBody: "点一个高意图追问继续深入；深度追问属于会员功能。",
+        memberGate: "解锁深度追问",
+      },
+      en: {
+        eyebrow: "Reading structure",
+        followUpTitle: "Continue with a follow-up",
+        followUpBody: "Tap a focused follow-up to go deeper. Deep follow-ups are a member feature.",
+        memberGate: "Unlock follow-ups",
+      },
+      ja: {
+        eyebrow: "解釈の構成",
+        followUpTitle: "続けて質問",
+        followUpBody: "焦点を絞った追質問で深く読めます。深い追質問はメンバー機能です。",
+        memberGate: "追質問を解放",
+      },
+      ko: {
+        eyebrow: "리딩 구조",
+        followUpTitle: "후속 질문",
+        followUpBody: "집중 질문으로 더 깊게 이어가세요. 심층 질문은 멤버십 기능입니다.",
+        memberGate: "심층 질문 잠금 해제",
+      },
+      es: {
+        eyebrow: "Estructura",
+        followUpTitle: "Continuar pregunta",
+        followUpBody: "Toca una pregunta enfocada para profundizar. Las preguntas profundas son de membresia.",
+        memberGate: "Desbloquear preguntas",
+      },
+      "pt-br": {
+        eyebrow: "Estrutura",
+        followUpTitle: "Continuar pergunta",
+        followUpBody: "Toque em uma pergunta focada para aprofundar. Perguntas profundas sao recurso de assinatura.",
+        memberGate: "Desbloquear perguntas",
+      },
+    }[activeReadingLocale] || {
+      eyebrow: "Reading structure",
+      followUpTitle: "Continue with a follow-up",
+      followUpBody: "Tap a focused follow-up to go deeper. Deep follow-ups are a member feature.",
+      memberGate: "Unlock follow-ups",
+    }
   const readingFeedbackParams = new URLSearchParams({
     type: "free_reading",
     surface: "reading_result",
@@ -836,9 +884,28 @@ export default function ReadingPage() {
 
   const handleFollowUp = (questionText: string) => {
     if (!questionText.trim() || isReading) return
+    if (!user?.is_member) {
+      openMembershipForFollowUp(questionText)
+      return
+    }
     setFollowUpInput("")
     setCurrentQuestion(questionText)
     startReading(drawnCards, question, true, questionText, spreadType, readingLocale)
+  }
+
+  const openMembershipForFollowUp = (questionText: string) => {
+    const params = new URLSearchParams({
+      source: "reading_followup",
+      lang: activeReadingLocale,
+      spread: spreadType,
+    })
+    const trimmedQuestion = questionText.trim()
+    if (trimmedQuestion) {
+      sessionStorage.setItem("poptarot_followup_question", trimmedQuestion)
+      params.set("followup", trimmedQuestion)
+    }
+    if (question.trim()) params.set("q", question.trim())
+    router.push(`/membership?${params.toString()}`)
   }
 
   const handleNewReading = () => {
@@ -1363,7 +1430,7 @@ export default function ReadingPage() {
 
         {/* 三张卡牌 */}
         <div
-          className="flex items-start justify-center gap-4 sm:gap-6 mb-10 transition-all duration-1000"
+          className="mb-8 flex flex-wrap items-start justify-center gap-3 transition-all duration-1000 sm:mb-10 sm:gap-6"
           style={{
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(20px)",
@@ -1371,12 +1438,10 @@ export default function ReadingPage() {
           }}
         >
           {drawnCards.map((card, index) => (
-            <div key={card.id} className="flex flex-col items-center">
+            <div key={card.id} className="flex w-[4.9rem] flex-col items-center sm:w-24">
               <div
-                className="relative rounded-lg overflow-hidden"
+                className="relative h-[7rem] w-[4.1rem] overflow-hidden rounded-lg sm:h-[136px] sm:w-20"
                 style={{
-                  width: "80px",
-                  height: "136px",
                   border: "2px solid rgba(201, 192, 255, 0.5)",
                   boxShadow: "0 8px 30px rgba(0,0,0,0.4)",
                 }}
@@ -1392,12 +1457,41 @@ export default function ReadingPage() {
                 />
               </div>
               <p className="text-[#c9c0ff]/60 text-xs mt-2">{getPositionLabel(index)}</p>
-              <p className="text-white/80 text-xs mt-1 text-center">
+              <p className="mt-1 text-center text-[0.68rem] leading-tight text-white/80 sm:text-xs">
                 {getCardName(card, activeReadingLocale)}
                 <span className="text-white/50 ml-1">{card.isReversed ? orientationCopy.reversed : orientationCopy.upright}</span>
               </p>
             </div>
           ))}
+        </div>
+
+        <div
+          data-reading-result-structure
+          className="mb-6 rounded-2xl border border-[#c9c0ff]/18 bg-white/[0.045] p-4 backdrop-blur-sm sm:mb-8 sm:p-5"
+        >
+          <div className="grid gap-4 md:grid-cols-[0.95fr_1.05fr] md:items-center">
+            <div className="min-w-0">
+              <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[#c9c0ff]/72">
+                {resultStructureCopy.eyebrow} · {resultStructure.label}
+              </p>
+              <h2 className="mt-2 text-lg font-medium leading-snug text-white/90 sm:text-xl">{resultStructure.title}</h2>
+              <p className="mt-2 text-sm leading-6 text-white/56">{resultStructure.body}</p>
+            </div>
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {resultStructure.stages.map((stage, index) => (
+                <div
+                  key={stage}
+                  data-reading-result-stage
+                  className="min-h-16 rounded-xl border border-white/10 bg-black/18 p-3"
+                >
+                  <p className="text-[0.64rem] uppercase tracking-[0.18em] text-[#c9c0ff]/45">
+                    {String(index + 1).padStart(2, "0")}
+                  </p>
+                  <p className="mt-2 text-sm font-medium leading-tight text-[#f2eeff]">{stage}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* 解读区域 */}
@@ -1495,6 +1589,36 @@ export default function ReadingPage() {
               }}
             >
               <p className="text-center text-white/50 text-sm mb-4 tracking-wide">{t("tarot.followUpQuestion")}</p>
+              <div data-reading-followup-suggestions className="mb-4 rounded-xl border border-white/10 bg-black/14 p-3 sm:p-4">
+                <div className="mb-3 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-white/86">{resultStructureCopy.followUpTitle}</p>
+                    <p className="mt-1 text-xs leading-5 text-white/45">{resultStructureCopy.followUpBody}</p>
+                  </div>
+                  {!user?.is_member && (
+                    <span
+                      data-reading-followup-member-gate
+                      className="inline-flex w-fit rounded-full border border-[#c9c0ff]/24 px-3 py-1 text-[0.68rem] uppercase tracking-[0.16em] text-[#c9c0ff]/70"
+                    >
+                      {resultStructureCopy.memberGate}
+                    </span>
+                  )}
+                </div>
+                <div className="grid gap-2 sm:grid-cols-3">
+                  {suggestedFollowUps.map((suggestion) => (
+                    <button
+                      key={suggestion}
+                      type="button"
+                      data-reading-followup-suggestion
+                      onClick={() => handleFollowUp(suggestion)}
+                      disabled={isReading}
+                      className="min-h-11 rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-left text-xs leading-5 text-white/72 transition hover:border-[#c9c0ff]/45 hover:bg-white/[0.07] hover:text-white disabled:opacity-45"
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               {/* 输入框 */}
               <div
