@@ -295,7 +295,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Ace of Wands",
     nameJa: "ワンドのエース",
     nameKo: "완드 에이스",
-    image: "/images/back1.jpg",
+    image: "/images/22.png",
     meaning: {
       upright: "灵感、行动力、新计划、创造火花、成长机会",
       reversed: "延迟、缺乏动力、创意受阻、方向不明",
@@ -307,7 +307,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Two of Wands",
     nameJa: "ワンドの2",
     nameKo: "완드 2",
-    image: "/images/back1.jpg",
+    image: "/images/23.png",
     meaning: {
       upright: "计划、远见、选择、探索、个人力量",
       reversed: "害怕未知、计划不足、犹豫、视野受限",
@@ -319,7 +319,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Three of Wands",
     nameJa: "ワンドの3",
     nameKo: "완드 3",
-    image: "/images/back1.jpg",
+    image: "/images/24.png",
     meaning: {
       upright: "扩展、远方机会、等待成果、合作、前景开阔",
       reversed: "延误、缺乏远见、合作受阻、机会缩小",
@@ -331,7 +331,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Four of Wands",
     nameJa: "ワンドの4",
     nameKo: "완드 4",
-    image: "/images/back1.jpg",
+    image: "/images/25.png",
     meaning: {
       upright: "庆祝、稳定、归属感、家庭喜悦、阶段完成",
       reversed: "不稳定、归属感不足、庆祝延迟、家庭紧张",
@@ -343,7 +343,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Five of Wands",
     nameJa: "ワンドの5",
     nameKo: "완드 5",
-    image: "/images/back1.jpg",
+    image: "/images/26.png",
     meaning: {
       upright: "竞争、冲突、磨合、观点碰撞、挑战",
       reversed: "避免冲突、内耗、紧张缓和、目标分散",
@@ -355,7 +355,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Six of Wands",
     nameJa: "ワンドの6",
     nameKo: "완드 6",
-    image: "/images/back1.jpg",
+    image: "/images/27.png",
     meaning: {
       upright: "胜利、认可、公开成功、自信、进展",
       reversed: "自我怀疑、缺乏认可、骄傲、暂时失利",
@@ -367,7 +367,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Seven of Wands",
     nameJa: "ワンドの7",
     nameKo: "완드 7",
-    image: "/images/back1.jpg",
+    image: "/images/28.png",
     meaning: {
       upright: "坚持立场、防守、勇气、竞争压力、守护成果",
       reversed: "放弃、防御过度、压力过大、信心动摇",
@@ -379,7 +379,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Eight of Wands",
     nameJa: "ワンドの8",
     nameKo: "완드 8",
-    image: "/images/back1.jpg",
+    image: "/images/29.png",
     meaning: {
       upright: "快速进展、消息、旅行、进展加速、事情推进",
       reversed: "延迟、沟通混乱、急躁、节奏失控",
@@ -391,7 +391,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Nine of Wands",
     nameJa: "ワンドの9",
     nameKo: "완드 9",
-    image: "/images/back1.jpg",
+    image: "/images/30.png",
     meaning: {
       upright: "韧性、边界、坚持、警觉、最后考验",
       reversed: "疲惫、防备过度、旧伤触发、难以坚持",
@@ -403,7 +403,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Ten of Wands",
     nameJa: "ワンドの10",
     nameKo: "완드 10",
-    image: "/images/back1.jpg",
+    image: "/images/31.png",
     meaning: {
       upright: "负担、责任、压力、坚持完成、过度承担",
       reversed: "释放负担、委派、压力过载、放下责任",
@@ -415,7 +415,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Page of Wands",
     nameJa: "ワンドのペイジ",
     nameKo: "완드 페이지",
-    image: "/images/back1.jpg",
+    image: "/images/32.png",
     meaning: {
       upright: "热情、探索、创意消息、冒险精神、新鲜灵感",
       reversed: "冲动、缺乏计划、坏消息、热情不稳",
@@ -427,7 +427,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Knight of Wands",
     nameJa: "ワンドのナイト",
     nameKo: "완드 나이트",
-    image: "/images/back1.jpg",
+    image: "/images/33.png",
     meaning: {
       upright: "行动、热情、冒险、魅力、快速推进",
       reversed: "鲁莽、冲动、焦躁、半途而废",
@@ -439,7 +439,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "Queen of Wands",
     nameJa: "ワンドのクイーン",
     nameKo: "완드 퀸",
-    image: "/images/back1.jpg",
+    image: "/images/34.png",
     meaning: {
       upright: "魅力、自信、独立、热情领导、创造力",
       reversed: "嫉妒、控制欲、自我怀疑、精力分散",
@@ -451,7 +451,7 @@ export const TAROT_CARDS: TarotCard[] = [
     nameEn: "King of Wands",
     nameJa: "ワンドのキング",
     nameKo: "완드 킹",
-    image: "/images/back1.jpg",
+    image: "/images/35.png",
     meaning: {
       upright: "愿景、领导力、创业精神、胆识、长期方向",
       reversed: "专断、冲动决策、野心失衡、缺乏耐心",

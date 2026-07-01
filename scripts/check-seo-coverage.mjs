@@ -93,6 +93,8 @@ const files = {
   logoSvg: { path: "public/logo.svg", source: existsSync(join(root, "public/logo.svg")) ? read("public/logo.svg") : "" },
   robots: { path: "app/robots.ts", source: read("app/robots.ts") },
   vercelConfig: { path: "vercel.json", source: read("vercel.json") },
+  tarotCards: { path: "lib/tarot-cards.ts", source: read("lib/tarot-cards.ts") },
+  tarotImageCheck: { path: "scripts/check-tarot-card-images.mjs", source: read("scripts/check-tarot-card-images.mjs") },
   tarotCardSeo: { path: "lib/tarot-card-seo.ts", source: read("lib/tarot-card-seo.ts") },
   cardMeaningPage: {
     path: "components/seo/tarot-card-meaning-page.tsx",
@@ -395,6 +397,13 @@ const cardCoverage = [
   ["Combination href slugs", "hrefSlug: linkedSlug"],
   ["FAQ", "faqLabel: \"FAQ\""],
 ]
+
+assertIncludes(files.packageJson, "\"check:tarot-images\": \"node scripts/check-tarot-card-images.mjs\"", "tarot image package check")
+assertNotIncludes(files.tarotCards, "image: \"/images/back1.jpg\"", "tarot cards should not use card-back placeholder as front image")
+assertIncludes(files.tarotCards, "image: \"/images/22.png\"", "Ace of Wands front image")
+assertIncludes(files.tarotCards, "image: \"/images/35.png\"", "King of Wands front image")
+assertIncludes(files.tarotImageCheck, "Expected 78 tarot cards", "tarot image check validates card count")
+assertIncludes(files.tarotImageCheck, "placeholder/back images", "tarot image check blocks placeholder images")
 
 for (const [label, needle] of cardCoverage) {
   assertIncludes(files.tarotCardSeo, needle, `card SEO ${label}`)

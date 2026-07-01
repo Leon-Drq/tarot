@@ -11,6 +11,7 @@
     "check:mobile": "node scripts/check-mobile-layout.mjs",
     "check:pwa": "node scripts/check-pwa-installability.mjs",
     "check:seo": "node scripts/check-seo-coverage.mjs",
+    "check:tarot-images": "node scripts/check-tarot-card-images.mjs",
     "check:search-assets": "node scripts/check-search-assets.mjs",
     "check:reminders": "node scripts/check-reminder-capability.mjs",
     "check:reminders:strict": "node scripts/check-reminder-capability.mjs --strict",
