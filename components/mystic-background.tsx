@@ -755,67 +755,75 @@ function HomeScrollContent() {
     <section
       id={HOME_SCROLL_TARGET_ID}
       data-home-scroll-content
-      className="relative z-10 mx-auto w-[min(92vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+8rem)] pt-10 sm:pt-12 md:-mt-10 md:pt-8"
+      className="relative z-10 mx-auto w-[min(94vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+6rem)] pt-8 sm:pt-10 md:-mt-10 md:pt-8"
     >
       <HomeSecondaryNav placement="content" />
       <HomeDailyReturnPanel />
-      <div className="mt-10 max-w-2xl sm:mt-12">
-        <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.eyebrow}</p>
-        <h2 className="mt-3 font-serif text-2xl text-white sm:text-4xl">{copy.title}</h2>
-        <p className="mt-4 text-sm leading-7 text-white/58 sm:text-base">{copy.body}</p>
+      <div className="mt-7 max-w-2xl sm:mt-10">
+        <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">
+          {copy.eyebrow}
+        </p>
+        <h2 className="mt-2 font-serif text-xl leading-tight text-white sm:mt-3 sm:text-4xl">{copy.title}</h2>
+        <p className="mt-3 text-sm leading-6 text-white/58 sm:mt-4 sm:text-base sm:leading-7">{copy.body}</p>
       </div>
-      <div data-home-growth-path className="mt-8 border-y border-white/10 py-8">
-        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+      <div data-home-growth-path className="mt-6 border-y border-white/10 py-6 sm:mt-8 sm:py-8">
+        <div className="grid gap-4 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.growthEyebrow}</p>
-            <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.growthTitle}</h2>
-            <p className="mt-4 text-sm leading-7 text-white/58">{copy.growthBody}</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">
+              {copy.growthEyebrow}
+            </p>
+            <h2 className="mt-2 font-serif text-xl leading-tight text-white sm:mt-3 sm:text-3xl">{copy.growthTitle}</h2>
+            <p className="mt-3 text-sm leading-6 text-white/58 sm:mt-4 sm:leading-7">{copy.growthBody}</p>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-2 sm:grid-cols-2 sm:gap-3">
             {copy.growthItems.map((item, index) => (
               <a
                 key={item.href}
                 href={item.href}
-                className="group rounded-md border border-white/10 bg-black/22 p-4 backdrop-blur-sm transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055]"
+                className="group rounded-md border border-white/10 bg-black/22 p-3 backdrop-blur-sm transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] sm:p-4"
               >
-                <p className="text-[10px] uppercase tracking-[0.18em] text-white/34">
+                <p className="text-[0.62rem] uppercase tracking-[0.16em] text-white/34 sm:text-[10px]">
                   {String(index + 1).padStart(2, "0")}
                 </p>
-                <h3 className="mt-2 break-words text-base font-medium leading-snug text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-white/54">{item.body}</p>
+                <h3 className="mt-1.5 break-words text-sm font-medium leading-snug text-white sm:mt-2 sm:text-base">
+                  {item.title}
+                </h3>
+                <p className="mt-1.5 text-xs leading-5 text-white/54 sm:mt-2 sm:text-sm sm:leading-6">{item.body}</p>
               </a>
             ))}
           </div>
         </div>
       </div>
-      <div data-home-question-paths className="mt-8">
+      <div data-home-question-paths className="mt-6 sm:mt-8">
         <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.questionEyebrow}</p>
-          <h2 className="mt-3 font-serif text-2xl leading-tight text-white sm:text-3xl">{copy.questionTitle}</h2>
-          <p className="mt-4 text-sm leading-7 text-white/58">{copy.questionBody}</p>
+          <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">
+            {copy.questionEyebrow}
+          </p>
+          <h2 className="mt-2 font-serif text-xl leading-tight text-white sm:mt-3 sm:text-3xl">{copy.questionTitle}</h2>
+          <p className="mt-3 text-sm leading-6 text-white/58 sm:mt-4 sm:leading-7">{copy.questionBody}</p>
         </div>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {copy.questionItems.map((item) => (
+        <div className="mt-4 grid gap-2 sm:mt-5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4">
+          {copy.questionItems.slice(0, 8).map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="group min-w-0 rounded-md border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.07]"
+              className="group min-w-0 rounded-md border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-3 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.07] sm:p-4"
             >
               <h3 className="break-words text-sm font-medium leading-snug text-[#f1edff]">{item.title}</h3>
-              <p className="mt-2 text-xs leading-5 text-white/52">{item.body}</p>
+              <p className="mt-1.5 text-xs leading-5 text-white/52 sm:mt-2">{item.body}</p>
             </a>
           ))}
         </div>
       </div>
-      <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-6 grid gap-2 border-t border-white/10 pt-5 sm:mt-8 sm:grid-cols-2 sm:gap-3 sm:pt-6 lg:grid-cols-4">
         {copy.items.map((item) => (
           <a
             key={item.href}
             href={item.href}
-            className="group rounded-lg border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#bfb6ff]/45 hover:bg-white/[0.07]"
+            className="group rounded-md border border-white/10 bg-white/[0.035] p-3 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#bfb6ff]/45 hover:bg-white/[0.07] sm:p-4"
           >
-            <h3 className="text-base font-medium text-white">{item.title}</h3>
-            <p className="mt-3 text-sm leading-6 text-white/52">{item.body}</p>
+            <h3 className="text-sm font-medium leading-snug text-white sm:text-base">{item.title}</h3>
+            <p className="mt-1.5 text-xs leading-5 text-white/52 sm:mt-2 sm:text-sm sm:leading-6">{item.body}</p>
           </a>
         ))}
       </div>
