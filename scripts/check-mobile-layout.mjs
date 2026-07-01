@@ -19,7 +19,7 @@ const pages = [
   {
     path: "/",
     name: "home",
-    requiredSelectors: ["[data-home-card]", "[data-home-question-form]", "[data-home-daily-return-panel]", "[data-home-pwa-install]"],
+    requiredSelectors: ["[data-home-card]", "[data-home-question-form]", "[data-home-hero-primary-cta]", "[data-home-daily-return-panel]", "[data-home-pwa-install]"],
     menuRequiredSelectors: [
       "[data-menu-free-first-primary]",
       "[data-menu-free-path-grid]",
@@ -34,7 +34,7 @@ const pages = [
     name: "home Google app browser",
     userAgent:
       "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) GSA/318.0.650947740 Mobile/15E148 Safari/604.1",
-    requiredSelectors: ["[data-home-header]", "[data-home-card]", "[data-home-question-form]", "[data-home-daily-return-panel]", "[data-home-pwa-install]"],
+    requiredSelectors: ["[data-home-header]", "[data-home-card]", "[data-home-question-form]", "[data-home-hero-primary-cta]", "[data-home-daily-return-panel]", "[data-home-pwa-install]"],
     menuRequiredSelectors: [
       "[data-menu-free-first-primary]",
       "[data-menu-free-path-grid]",

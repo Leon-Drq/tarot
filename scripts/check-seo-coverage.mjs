@@ -1286,8 +1286,8 @@ assertNotIncludes(files.globalStyles, "body:has(.allow-scroll)::-webkit-scrollba
 assertIncludes(files.globalStyles, "scrollbar-color: rgba(201, 192, 255, 0.58) #080310", "desktop native scrollbar affordance stays visible")
 assertIncludes(files.globalStyles, "html::-webkit-scrollbar", "desktop webkit scrollbar affordance")
 assertIncludes(files.globalStyles, "--home-hero-browser-offset: min(var(--home-mobile-browser-offset, 0px), 7rem)", "homepage browser chrome offset variable")
-assertIncludes(files.globalStyles, "--home-hero-visual-browser-offset: min(var(--home-mobile-browser-offset, 0px), 1.75rem)", "homepage visual browser chrome offset cap")
-assertIncludes(files.globalStyles, "--home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(22.75rem, 53svh, 26.5rem))", "homepage mobile focal centering with visual browser chrome offset")
+assertIncludes(files.globalStyles, "--home-hero-visual-browser-offset: min(var(--home-mobile-browser-offset, 0px), 4.5rem)", "homepage visual browser chrome offset cap")
+assertIncludes(files.globalStyles, "--home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(20.5rem, 48svh, 23.25rem))", "homepage mobile focal centering with visual browser chrome offset")
 assertIncludes(files.globalStyles, "--home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857)", "homepage card size variable")
 assertIncludes(files.globalStyles, "--home-hero-card-half-y: calc(var(--home-hero-card-height) / 2)", "homepage card half-height variable")
 assertIncludes(files.globalStyles, "--home-hero-shell-min-height", "homepage hero shell dynamic height reserve")
@@ -1331,7 +1331,7 @@ assertIncludes(files.homeExperience, "data-home-card-anchor", "homepage card anc
 assertIncludes(files.homeExperience, "style={{ transform: \"translate3d(-50%, -50%, 0)\" }}", "homepage card and glow center transform")
 assertIncludes(files.homeExperience, "rotationDuration={16}", "homepage card uses slower continuous rotation")
 assertIncludes(files.globalStyles, "transform: rotateZ(var(--tarot-card-tilt, -15deg)) rotateY(-360deg)", "homepage continuous tarot card rotation keyframe")
-assertIncludes(files.globalStyles, "--home-hero-flow-gap: clamp(4rem, 7vh, 4.75rem)", "homepage desktop card-form breathing room")
+assertIncludes(files.globalStyles, "--home-hero-flow-gap: clamp(3.25rem, 6vh, 4.25rem)", "homepage desktop card-form breathing room")
 assertIncludes(files.tarotQuestions, "TarotQuestionSearchResults", "tarot questions public search results import")
 assertIncludes(files.tarotQuestions, "searchEntries(copy)", "tarot questions public search result entries")
 assertIncludes(files.tarotQuestions, "quickStartGroups", "tarot questions grouped quick-start high-intent lists")
@@ -2428,6 +2428,11 @@ const freeFirstReadingCoverage = [
   [files.readingPage, "activeReadingLocale", "reading result SEO locale UI state"],
   [files.readingPage, "shareTemplateLocale", "regional share template safe fallback"],
   [files.readingPage, "data-reading-return-path", "free reading daily return path"],
+  [files.homeExperience, "AI Love Tarot + Daily Clarity", "homepage narrowed AI love tarot positioning"],
+  [files.homeExperience, "data-home-hero-primary-cta", "homepage primary answer CTA selector"],
+  [files.readingPage, "data-reading-core-answer", "reading result core answer first panel"],
+  [files.readingPage, "data-reading-core-answer-share", "reading result core answer share CTA"],
+  [files.readingPage, "data-reading-share-snapshot", "reading result shareable answer snapshot"],
   [files.readingPage, "data-reading-followup-suggestions", "reading result follow-up suggestion panel"],
   [files.readingPage, "data-reading-followup-member-gate", "reading result follow-up membership boundary"],
   [files.readingPage, "openMembershipForFollowUp", "reading follow-up suggestion upgrade handler"],

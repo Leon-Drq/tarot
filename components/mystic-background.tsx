@@ -79,9 +79,9 @@ function HomeQuestionForm() {
   const copy =
     {
       zh: {
-        label: "从一个真实问题开始",
-        placeholder: "输入你的问题...",
-        action: "抽牌",
+        label: "爱情、前任、事业、是否问题",
+        placeholder: "输入你现在最想弄清楚的问题...",
+        action: "获得答案",
         examples: [
           { label: "前任会回来吗？", question: "前任会回来吗？我该继续等还是放下？", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "他爱我吗？", question: "他爱我吗？这段关系真实的情绪是什么？", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -91,9 +91,9 @@ function HomeQuestionForm() {
         ] satisfies QuickStartExample[],
       },
       en: {
-        label: "Start with one real question",
-        placeholder: "Ask your question...",
-        action: "Draw",
+        label: "Love, ex, career, or yes/no",
+        placeholder: "Ask what you really want to know...",
+        action: "Get my answer",
         examples: [
           { label: "Will my ex come back?", question: "Will my ex come back, and what should I understand before I act?", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "Does he love me?", question: "Does he love me, and what is the real emotional energy between us?", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -103,9 +103,9 @@ function HomeQuestionForm() {
         ] satisfies QuickStartExample[],
       },
       ja: {
-        label: "ひとつの本当の質問から",
-        placeholder: "質問を入力...",
-        action: "引く",
+        label: "恋愛・元恋人・仕事・Yes/No",
+        placeholder: "本当に知りたいことを入力...",
+        action: "答えを見る",
         examples: [
           { label: "元恋人は戻る？", question: "元恋人は戻りますか？行動する前に何を理解すべきですか？", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "彼は私を愛している？", question: "彼は私を愛していますか？二人の本当の感情は何ですか？", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -115,9 +115,9 @@ function HomeQuestionForm() {
         ] satisfies QuickStartExample[],
       },
       ko: {
-        label: "진짜 질문 하나로 시작",
-        placeholder: "질문을 입력하세요...",
-        action: "뽑기",
+        label: "사랑, 전 애인, 커리어, 예/아니오",
+        placeholder: "지금 정말 알고 싶은 질문...",
+        action: "답 보기",
         examples: [
           { label: "전 애인이 돌아올까?", question: "전 애인이 돌아올까요? 행동하기 전에 무엇을 이해해야 하나요?", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "그는 나를 사랑할까?", question: "그는 나를 사랑하나요? 우리 사이의 진짜 감정은 무엇인가요?", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -186,6 +186,7 @@ function HomeQuestionForm() {
       </div>
       <button
         type="submit"
+        data-home-hero-primary-cta
         aria-label={copy.action}
         className="mt-2 inline-flex h-10 w-full items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f5f2ff_0%,#b7adff_42%,#6d63d8_100%)] text-sm font-medium text-[#0c0920] shadow-[0_18px_45px_rgba(109,99,216,0.28)] transition hover:brightness-110 md:h-11"
       >
@@ -999,20 +1000,20 @@ function MysticContent() {
   const heroCopy =
     {
       zh: {
-        eyebrow: "免费 AI 塔罗工具",
-        line: "先免费抽牌解读；深度追问、历史保存和报告再升级。",
+        eyebrow: "AI 感情塔罗 + 每日指引",
+        line: "问爱情、前任、事业或是否问题。60 秒抽牌，先得到清晰答案，再决定要不要深追。",
       },
       en: {
-        eyebrow: "Free AI Tarot Tool",
-        line: "Ask a question, draw cards, and get your first AI tarot reading free.",
+        eyebrow: "AI Love Tarot + Daily Clarity",
+        line: "Ask about love, your ex, career, or a yes/no decision. Draw cards and get a clear AI tarot answer in 60 seconds.",
       },
       ja: {
-        eyebrow: "無料 AI タロット",
-        line: "質問して、まず無料で AI リーディング。",
+        eyebrow: "AI 恋愛タロット + 毎日の指針",
+        line: "恋愛、元恋人、仕事、Yes/No を質問。60 秒でカードを引き、まず明確な答えを受け取れます。",
       },
       ko: {
-        eyebrow: "무료 AI 타로 도구",
-        line: "질문하고 먼저 무료 AI 리딩을 받아보세요.",
+        eyebrow: "AI 연애 타로 + 데일리 안내",
+        line: "사랑, 전 애인, 커리어, 예/아니오를 질문하세요. 60초 안에 카드를 뽑고 명확한 답을 받으세요.",
       },
     }[language]
 

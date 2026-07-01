@@ -2,9 +2,9 @@ import { editorialTeam, representativeTestimonials, trustLastReviewed } from "@/
 
 export const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://poptarot.com"
 export const siteName = "POPTarot"
-export const siteTitle = "POPTarot - Free AI Tarot Reading"
+export const siteTitle = "POPTarot - AI Love Tarot & Daily Clarity"
 export const siteDescription =
-  "Get free AI tarot readings for love, career, daily guidance, and personal decisions. Draw tarot cards online and receive clear, personalized interpretations."
+  "Ask about love, your ex, career, or a yes/no decision. Draw tarot cards online and get a clear free AI tarot answer with daily guidance."
 export const brandLogoPath = "/logo.png"
 export const brandFaviconPath = "/favicon.png"
 export const brandSearchFaviconPath = "/search-favicon.png"

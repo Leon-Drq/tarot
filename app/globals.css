@@ -206,18 +206,18 @@
 @layer components {
   .home-hero-stage {
     --home-hero-browser-offset: min(var(--home-mobile-browser-offset, 0px), 7rem);
-    --home-hero-visual-browser-offset: min(var(--home-mobile-browser-offset, 0px), 1.75rem);
+    --home-hero-visual-browser-offset: min(var(--home-mobile-browser-offset, 0px), 4.5rem);
     --home-hero-browser-bottom-offset: min(var(--home-mobile-browser-bottom-offset, 0px), 10rem);
-    --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(22.75rem, 53vh, 26.5rem));
+    --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(20.5rem, 48vh, 23.25rem));
     --home-hero-center-y: var(--home-hero-focal-y);
     --home-hero-visual-center-y: var(--home-hero-center-y);
     --home-hero-light-y: var(--home-hero-center-y);
     --home-hero-card-y: var(--home-hero-light-y);
-    --home-hero-card-width: clamp(7.5rem, 34vw, 8.25rem);
+    --home-hero-card-width: clamp(7rem, 32vw, 7.85rem);
     --home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857);
     --home-hero-card-half-y: calc(var(--home-hero-card-height) / 2);
     --home-hero-glow-size: min(82vw, 30rem);
-    --home-hero-flow-gap: clamp(2.75rem, 7vh, 3.5rem);
+    --home-hero-flow-gap: clamp(2rem, 5.2vh, 2.8rem);
     --home-hero-content-y: calc(var(--home-hero-card-y) + var(--home-hero-card-half-y) + var(--home-hero-flow-gap));
     --home-hero-actions-fallback-height: 38rem;
     --home-hero-after-actions-gap: calc(clamp(4.5rem, 10vh, 6rem) + var(--home-hero-browser-bottom-offset));
@@ -241,8 +241,8 @@
 
   @supports (height: 100svh) {
     .home-hero-stage {
-      --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(22.75rem, 53svh, 26.5rem));
-      --home-hero-flow-gap: clamp(2.75rem, 7svh, 3.5rem);
+      --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(20.5rem, 48svh, 23.25rem));
+      --home-hero-flow-gap: clamp(2rem, 5.2svh, 2.8rem);
       --home-hero-after-actions-gap: calc(clamp(4.5rem, 10svh, 6rem) + var(--home-hero-browser-bottom-offset));
       --home-hero-shell-min-height: max(
         118svh,
@@ -279,11 +279,11 @@
 
   @media (min-width: 768px) {
     .home-hero-stage {
-      --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(23rem, 48vh, 25.5rem));
+      --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(23.25rem, 48vh, 25.75rem));
       --home-hero-card-width: clamp(14rem, 17vw, 15.25rem);
       --home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857);
       --home-hero-glow-size: clamp(34rem, 42vw, 39rem);
-      --home-hero-flow-gap: clamp(4rem, 7vh, 4.75rem);
+      --home-hero-flow-gap: clamp(3.25rem, 6vh, 4.25rem);
       --home-hero-actions-fallback-height: 15rem;
       --home-hero-after-actions-gap: 1.25rem;
       --home-hero-actions-bottom: calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height));
@@ -295,7 +295,7 @@
 
     @supports (height: 100svh) {
       .home-hero-stage {
-        --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(23rem, 48svh, 25.5rem));
+        --home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(23.25rem, 48svh, 25.75rem));
         --home-hero-shell-min-height: max(
           94svh,
           calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))

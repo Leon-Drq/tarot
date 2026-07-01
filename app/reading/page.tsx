@@ -653,6 +653,47 @@ export default function ReadingPage() {
       meaning: card.meaning,
     }))
 
+  const isRecord = (value: unknown): value is Record<string, unknown> =>
+    typeof value === "object" && value !== null && !Array.isArray(value)
+
+  const collectInterpretationText = (value: unknown): string[] => {
+    if (typeof value === "string") {
+      const trimmed = value.trim()
+      return trimmed ? [trimmed] : []
+    }
+
+    if (Array.isArray(value)) {
+      return value.flatMap(collectInterpretationText)
+    }
+
+    if (isRecord(value)) {
+      return Object.values(value).flatMap(collectInterpretationText)
+    }
+
+    return []
+  }
+
+  const normalizeStoredInterpretation = (interpretation: unknown) => {
+    if (!interpretation) return ""
+    if (typeof interpretation === "string") return interpretation.trim()
+
+    if (isRecord(interpretation)) {
+      const summary = typeof interpretation.summary === "string" ? interpretation.summary.trim() : ""
+      const sections = collectInterpretationText(interpretation.sections).join("\n\n").trim()
+      const rest = collectInterpretationText(
+        Object.fromEntries(
+          Object.entries(interpretation).filter(([key]) => key !== "summary" && key !== "sections")
+        )
+      )
+        .join("\n\n")
+        .trim()
+
+      return [summary, sections, rest].filter(Boolean).join("\n\n")
+    }
+
+    return collectInterpretationText(interpretation).join("\n\n").trim()
+  }
+
   useEffect(() => {
     const count = Number(localStorage.getItem("poptarot_reading_count") || "0")
     setReadingCount(Number.isFinite(count) ? count : 0)
@@ -666,7 +707,10 @@ export default function ReadingPage() {
     }
 
     const parsed = JSON.parse(data)
-    setDrawnCards(parsed.drawnCards || [])
+    const parsedCards = parsed.drawnCards || parsed.cards || []
+    const storedInterpretation = normalizeStoredInterpretation(parsed.interpretation)
+
+    setDrawnCards(parsedCards)
     setQuestion(parsed.question || "")
     const parsedLocale = isSeoLocale(parsed.readingLocale || "") ? parsed.readingLocale : language
     setReadingLocale(parsedLocale)
@@ -674,9 +718,24 @@ export default function ReadingPage() {
     setSpreadConfig(parsed.spreadConfig || null)
     setMounted(true)
 
+    if (storedInterpretation) {
+      setFullInterpretation(storedInterpretation)
+      setMessages([
+        {
+          id: "stored-reading",
+          type: "reading",
+          content: storedInterpretation,
+          question: parsed.question || undefined,
+        },
+      ])
+      setShowFollowUp(true)
+      hasStartedRef.current = true
+      return
+    }
+
     if (!hasStartedRef.current) {
       hasStartedRef.current = true
-      startReading(parsed.drawnCards, parsed.question, false, "", parsed.spreadType || "three_card", parsedLocale, parsed.spreadConfig || null)
+      startReading(parsedCards, parsed.question, false, "", parsed.spreadType || "three_card", parsedLocale, parsed.spreadConfig || null)
     }
   }, [router])
 
@@ -1201,6 +1260,53 @@ export default function ReadingPage() {
     return defaultLabels[index] || `Position ${index + 1}`
   }
 
+  const stripMarkdownInline = (value: string) =>
+    value
+      .replace(/!\[[^\]]*]\([^)]*\)/g, "")
+      .replace(/\[([^\]]+)]\([^)]*\)/g, "$1")
+      .replace(/[*_`>#-]/g, "")
+      .replace(/\s+/g, " ")
+      .trim()
+
+  const truncateSummary = (value: string, maxLength = 220) => {
+    if (value.length <= maxLength) return value
+    return `${value.slice(0, maxLength).trim()}...`
+  }
+
+  const extractCoreAnswerText = (content: string) => {
+    const normalized = content.replace(/\r/g, "").trim()
+    if (!normalized) return ""
+
+    const lines = normalized.split("\n")
+    const coreHeadingPattern =
+      /^(#{1,4}\s*)?(核心结论|核心答案|今日重点|Core answer|Today's focus|Answer first|結論|今日の焦点|핵심 결론|오늘의 초점|Respuesta central|Resposta central)\b/i
+    const anyHeadingPattern = /^#{1,6}\s+/
+
+    for (let index = 0; index < lines.length; index += 1) {
+      const line = stripMarkdownInline(lines[index] || "")
+      if (!coreHeadingPattern.test(line)) continue
+
+      const summaryLines: string[] = []
+      for (let next = index + 1; next < lines.length; next += 1) {
+        const raw = lines[next] || ""
+        if (anyHeadingPattern.test(raw.trim()) && summaryLines.length > 0) break
+        const clean = stripMarkdownInline(raw)
+        if (clean) summaryLines.push(clean.replace(/^[:：]\s*/, ""))
+        if (summaryLines.join(" ").length > 260) break
+      }
+
+      const summary = summaryLines.join(" ").trim()
+      if (summary) return truncateSummary(summary)
+    }
+
+    const firstParagraph = normalized
+      .split(/\n\s*\n/)
+      .map((paragraph) => stripMarkdownInline(paragraph.replace(/^#{1,6}\s+.+$/gm, "")))
+      .find(Boolean)
+
+    return firstParagraph ? truncateSummary(firstParagraph) : ""
+  }
+
   const renderContent = (content: string, isNew: boolean) => {
     if (isNew) {
       return parseParagraphs(content).map((para) => renderParagraph(para, true))
@@ -1321,6 +1427,58 @@ export default function ReadingPage() {
   const shouldShowSavePrompt =
     showFollowUp && readingCount >= 2 && readingCount <= 3 && !user?.is_member
   const shouldShowMemberPrompt = showFollowUp && readingCount >= 4 && !user?.is_member
+  const coreAnswerText = extractCoreAnswerText(getCurrentInterpretation())
+  const coreAnswerCopy =
+    {
+      zh: {
+        eyebrow: "核心答案",
+        loading: "正在整理最关键的结论...",
+        empty: "抽牌后这里会先显示最关键的答案。",
+        share: "分享答案",
+        snapshot: "分享快照",
+      },
+      en: {
+        eyebrow: "Core Answer",
+        loading: "Finding the clearest first answer...",
+        empty: "After the draw, the clearest answer appears here first.",
+        share: "Share answer",
+        snapshot: "Share snapshot",
+      },
+      ja: {
+        eyebrow: "核心の答え",
+        loading: "最初の答えを整理しています...",
+        empty: "カードを引くと、まず一番大切な答えがここに出ます。",
+        share: "答えを共有",
+        snapshot: "共有スナップ",
+      },
+      ko: {
+        eyebrow: "핵심 답변",
+        loading: "가장 중요한 답을 정리하는 중...",
+        empty: "카드를 뽑으면 가장 중요한 답이 먼저 여기에 표시됩니다.",
+        share: "답변 공유",
+        snapshot: "공유 스냅샷",
+      },
+      es: {
+        eyebrow: "Respuesta central",
+        loading: "Buscando la respuesta mas clara...",
+        empty: "Despues de sacar cartas, la respuesta principal aparece primero aqui.",
+        share: "Compartir respuesta",
+        snapshot: "Resumen para compartir",
+      },
+      "pt-br": {
+        eyebrow: "Resposta central",
+        loading: "Encontrando a resposta mais clara...",
+        empty: "Depois de tirar as cartas, a resposta principal aparece primeiro aqui.",
+        share: "Compartilhar resposta",
+        snapshot: "Resumo para compartilhar",
+      },
+    }[activeReadingLocale] || {
+      eyebrow: "Core Answer",
+      loading: "Finding the clearest first answer...",
+      empty: "After the draw, the clearest answer appears here first.",
+      share: "Share answer",
+      snapshot: "Share snapshot",
+    }
 
   return (
     <div
@@ -1419,6 +1577,39 @@ export default function ReadingPage() {
             </p>
           )}
         </div>
+
+        <section
+          data-reading-core-answer
+          className="mb-8 rounded-2xl border border-[#c9c0ff]/20 bg-[#10071f]/72 p-5 shadow-[0_18px_58px_rgba(0,0,0,0.28)] backdrop-blur-md transition-all duration-1000 sm:mb-10 sm:p-6"
+          style={{
+            opacity: mounted ? 1 : 0,
+            transform: mounted ? "translateY(0)" : "translateY(18px)",
+            transitionDelay: "120ms",
+          }}
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[#c9c0ff]/72">
+                {coreAnswerCopy.eyebrow}
+              </p>
+              <p className="mt-3 text-lg leading-8 text-white/90 sm:text-xl sm:leading-9">
+                {coreAnswerText || (isReading ? coreAnswerCopy.loading : coreAnswerCopy.empty)}
+              </p>
+            </div>
+            {showFollowUp && (
+              <button
+                type="button"
+                data-reading-core-answer-share
+                onClick={handleShare}
+                disabled={isCreatingShare || isReading || drawnCards.length === 0}
+                className="inline-flex min-h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-[#c9c0ff]/28 bg-[#c9c0ff]/[0.08] px-4 py-2 text-sm text-[#f4f1ff] transition hover:border-[#dfd9ff]/60 hover:bg-[#c9c0ff]/[0.14] disabled:opacity-45"
+              >
+                <Share2 className="h-4 w-4" aria-hidden="true" />
+                <span>{isCreatingShare ? shareCopy.loading : coreAnswerCopy.share}</span>
+              </button>
+            )}
+          </div>
+        </section>
 
         {/* 三张卡牌 */}
         <div
@@ -1696,6 +1887,37 @@ export default function ReadingPage() {
                   <Share2 className="h-4 w-4" />
                   {isCreatingShare ? shareCopy.loading : shareCopy.button}
                 </button>
+              </div>
+
+              <div
+                data-reading-share-snapshot
+                className="mt-4 rounded-lg border border-[#c9c0ff]/16 bg-[#0b0314]/58 p-4"
+              >
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[#c9c0ff]/70">
+                  {coreAnswerCopy.snapshot}
+                </p>
+                <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/72">{question}</p>
+                <p className="mt-3 text-sm leading-6 text-white/88">
+                  {coreAnswerText || getCurrentInterpretation().replace(/\s+/g, " ").trim().slice(0, 180)}
+                </p>
+                <div className="mt-3 flex gap-2 overflow-hidden">
+                  {drawnCards.slice(0, 3).map((card) => (
+                    <div
+                      key={card.id}
+                      className="relative h-16 w-10 shrink-0 overflow-hidden rounded-md border border-[#c9c0ff]/24 bg-black/20"
+                    >
+                      <Image
+                        src={card.image || "/placeholder.svg"}
+                        alt={getCardName(card, activeReadingLocale)}
+                        fill
+                        className="object-cover"
+                        style={{
+                          transform: card.isReversed ? "rotate(180deg)" : "none",
+                        }}
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div
