@@ -819,51 +819,6 @@ function HomeScrollContent() {
           </a>
         ))}
       </div>
-      <div className="mt-12 border-t border-white/10 pt-8">
-        <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.trustEyebrow}</p>
-        <div className="mt-3 grid gap-5 lg:grid-cols-[1fr_1.25fr] lg:items-end">
-          <div>
-            <h2 className="font-serif text-2xl text-white sm:text-3xl">{copy.trustTitle}</h2>
-            <p className="mt-4 text-sm leading-7 text-white/58">{copy.trustBody}</p>
-          </div>
-          <div className="flex flex-wrap gap-2 lg:justify-end">
-            {copy.trustItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="rounded-lg border border-white/10 bg-white/[0.035] px-3 py-2 text-sm text-white/62 transition hover:border-[#bfb6ff]/45 hover:text-white"
-              >
-                {item.title}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div className="mt-12 border-t border-white/10 pt-8">
-        <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/75">{copy.feedbackEyebrow}</p>
-        <div className="mt-3 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div>
-            <h2 className="font-serif text-2xl text-white sm:text-3xl">{copy.feedbackTitle}</h2>
-            <p className="mt-4 text-sm leading-7 text-white/58">{copy.feedbackBody}</p>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-            {copy.feedbackItems.map((item) => (
-              <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.035] p-4">
-                <h3 className="text-sm font-medium text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-white/58">{item.body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
-          {copy.assuranceItems.map((item) => (
-            <article key={item.title} className="rounded-lg border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-4">
-              <h3 className="text-sm font-medium text-[#eeeaff]">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/56">{item.body}</p>
-            </article>
-          ))}
-        </div>
-      </div>
     </section>
   )
 }
