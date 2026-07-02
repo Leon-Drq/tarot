@@ -18,6 +18,13 @@ import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isLocale, isSeoLocale, type Locale, type SeoLocale } from "@/lib/locales"
 import { classifyQuestionIntent, getQuestionIntentFollowUps } from "@/lib/question-intent"
 import type { SpreadType } from "@/lib/spread-config"
+import {
+  cleanReadingMarkdownForUser,
+  createReadingShareExcerpt,
+  extractReadingSections,
+  stripReadingMarkdownInline,
+  truncateReadingText,
+} from "@/lib/reading-presentation"
 
 interface Message {
   id: string
@@ -991,7 +998,7 @@ export default function ReadingPage() {
         position: getLocalizedPosition(spreadConfig, index, activeReadingLocale),
         isReversed: card.isReversed,
       })),
-      interpretation: getCurrentInterpretation(),
+      interpretation: createReadingShareExcerpt(getCurrentInterpretation(), 900),
       url,
     })
 
@@ -1007,7 +1014,7 @@ export default function ReadingPage() {
           : `${getCardName(card, activeReadingLocale)} (${orientation})`
       })
       .join(" / ")
-    const excerpt = getCurrentInterpretation().replace(/\s+/g, " ").trim().slice(0, 900)
+    const excerpt = createReadingShareExcerpt(getCurrentInterpretation(), 900)
 
     return [
       shareCopy.emailIntro,
@@ -1151,7 +1158,7 @@ export default function ReadingPage() {
       reading_id: readingId || undefined,
       question,
       cards: buildReadingCards(drawnCards, activeReadingLocale, spreadConfig),
-      interpretation: getCurrentInterpretation(),
+      interpretation: createReadingShareExcerpt(getCurrentInterpretation(), 1200),
       spread_type: spreadType,
     })
 
@@ -1260,21 +1267,8 @@ export default function ReadingPage() {
     return defaultLabels[index] || `Position ${index + 1}`
   }
 
-  const stripMarkdownInline = (value: string) =>
-    value
-      .replace(/!\[[^\]]*]\([^)]*\)/g, "")
-      .replace(/\[([^\]]+)]\([^)]*\)/g, "$1")
-      .replace(/[*_`>#-]/g, "")
-      .replace(/\s+/g, " ")
-      .trim()
-
-  const truncateSummary = (value: string, maxLength = 220) => {
-    if (value.length <= maxLength) return value
-    return `${value.slice(0, maxLength).trim()}...`
-  }
-
   const extractCoreAnswerText = (content: string) => {
-    const normalized = content.replace(/\r/g, "").trim()
+    const normalized = cleanReadingMarkdownForUser(content).replace(/\r/g, "").trim()
     if (!normalized) return ""
 
     const lines = normalized.split("\n")
@@ -1283,33 +1277,36 @@ export default function ReadingPage() {
     const anyHeadingPattern = /^#{1,6}\s+/
 
     for (let index = 0; index < lines.length; index += 1) {
-      const line = stripMarkdownInline(lines[index] || "")
+      const line = stripReadingMarkdownInline(lines[index] || "")
       if (!coreHeadingPattern.test(line)) continue
 
       const summaryLines: string[] = []
       for (let next = index + 1; next < lines.length; next += 1) {
         const raw = lines[next] || ""
         if (anyHeadingPattern.test(raw.trim()) && summaryLines.length > 0) break
-        const clean = stripMarkdownInline(raw)
+        const clean = stripReadingMarkdownInline(raw)
         if (clean) summaryLines.push(clean.replace(/^[:：]\s*/, ""))
         if (summaryLines.join(" ").length > 260) break
       }
 
       const summary = summaryLines.join(" ").trim()
-      if (summary) return truncateSummary(summary)
+      if (summary) return truncateReadingText(summary)
     }
 
     const firstParagraph = normalized
       .split(/\n\s*\n/)
-      .map((paragraph) => stripMarkdownInline(paragraph.replace(/^#{1,6}\s+.+$/gm, "")))
+      .map((paragraph) => stripReadingMarkdownInline(paragraph.replace(/^#{1,6}\s+.+$/gm, "")))
       .find(Boolean)
 
-    return firstParagraph ? truncateSummary(firstParagraph) : ""
+    return firstParagraph ? truncateReadingText(firstParagraph) : ""
   }
 
   const renderContent = (content: string, isNew: boolean) => {
+    const userContent = cleanReadingMarkdownForUser(content)
+    if (!userContent) return null
+
     if (isNew) {
-      return parseParagraphs(content).map((para) => renderParagraph(para, true))
+      return parseParagraphs(userContent).map((para) => renderParagraph(para, true))
     }
 
     return (
@@ -1343,7 +1340,7 @@ export default function ReadingPage() {
           ),
         }}
       >
-        {content}
+        {userContent}
       </ReactMarkdown>
     )
   }
@@ -1427,7 +1424,10 @@ export default function ReadingPage() {
   const shouldShowSavePrompt =
     showFollowUp && readingCount >= 2 && readingCount <= 3 && !user?.is_member
   const shouldShowMemberPrompt = showFollowUp && readingCount >= 4 && !user?.is_member
-  const coreAnswerText = extractCoreAnswerText(getCurrentInterpretation())
+  const currentInterpretation = getCurrentInterpretation()
+  const cleanCurrentInterpretation = cleanReadingMarkdownForUser(currentInterpretation)
+  const coreAnswerText = extractCoreAnswerText(cleanCurrentInterpretation)
+  const readingActionSections = extractReadingSections(cleanCurrentInterpretation, 4)
   const coreAnswerCopy =
     {
       zh: {
@@ -1478,6 +1478,43 @@ export default function ReadingPage() {
       empty: "After the draw, the clearest answer appears here first.",
       share: "Share answer",
       snapshot: "Share snapshot",
+    }
+  const actionSummaryCopy =
+    {
+      zh: {
+        eyebrow: "答案摘要",
+        title: "先抓住这几个重点",
+        body: "完整解读在下面，这里先把最值得行动的部分压出来。",
+      },
+      en: {
+        eyebrow: "Answer summary",
+        title: "Start with the useful signals",
+        body: "The full reading is below. These are the parts worth acting on first.",
+      },
+      ja: {
+        eyebrow: "答えの要約",
+        title: "まず大事なサインを見る",
+        body: "全文は下にあります。先に行動につながるポイントだけを整理します。",
+      },
+      ko: {
+        eyebrow: "답변 요약",
+        title: "먼저 중요한 신호 보기",
+        body: "전체 리딩은 아래에 있고, 먼저 행동으로 이어지는 부분만 정리합니다.",
+      },
+      es: {
+        eyebrow: "Resumen",
+        title: "Empieza por las señales utiles",
+        body: "La lectura completa esta abajo. Primero mira lo que puede guiar tu accion.",
+      },
+      "pt-br": {
+        eyebrow: "Resumo",
+        title: "Comece pelos sinais uteis",
+        body: "A leitura completa esta abaixo. Primeiro veja o que ajuda na acao.",
+      },
+    }[activeReadingLocale] || {
+      eyebrow: "Answer summary",
+      title: "Start with the useful signals",
+      body: "The full reading is below. These are the parts worth acting on first.",
     }
 
   return (
@@ -1647,6 +1684,41 @@ export default function ReadingPage() {
             </div>
           ))}
         </div>
+
+        {showFollowUp && readingActionSections.length > 0 && (
+          <section
+            data-reading-action-summary
+            className="mb-8 rounded-2xl border border-[#c9c0ff]/18 bg-[#0b0314]/54 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.22)] backdrop-blur-md transition-all duration-1000 sm:mb-10 sm:p-5"
+            style={{
+              opacity: mounted ? 1 : 0,
+              transform: mounted ? "translateY(0)" : "translateY(18px)",
+              transitionDelay: "280ms",
+            }}
+          >
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-[0.68rem] uppercase tracking-[0.22em] text-[#c9c0ff]/72">
+                  {actionSummaryCopy.eyebrow}
+                </p>
+                <h2 className="mt-2 text-base font-medium leading-snug text-white/90 sm:text-lg">
+                  {actionSummaryCopy.title}
+                </h2>
+              </div>
+              <p className="max-w-sm text-xs leading-5 text-white/46 sm:text-right">{actionSummaryCopy.body}</p>
+            </div>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {readingActionSections.map((section) => (
+                <article
+                  key={`${section.title}-${section.body}`}
+                  className="min-w-0 rounded-lg border border-white/10 bg-white/[0.035] p-3 sm:p-4"
+                >
+                  <h3 className="break-words text-sm font-medium leading-snug text-[#f2eeff]">{section.title}</h3>
+                  <p className="mt-2 text-xs leading-5 text-white/54">{section.body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         {/* 解读区域 */}
         <div
@@ -1898,7 +1970,7 @@ export default function ReadingPage() {
                 </p>
                 <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/72">{question}</p>
                 <p className="mt-3 text-sm leading-6 text-white/88">
-                  {coreAnswerText || getCurrentInterpretation().replace(/\s+/g, " ").trim().slice(0, 180)}
+                  {coreAnswerText || createReadingShareExcerpt(cleanCurrentInterpretation, 180)}
                 </p>
                 <div className="mt-3 flex gap-2 overflow-hidden">
                   {drawnCards.slice(0, 3).map((card) => (

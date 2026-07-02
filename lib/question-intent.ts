@@ -204,42 +204,42 @@ export function getQuestionIntentPrompt(intentType: QuestionIntentType, lang?: s
   if (lang === "en") {
     const prompts: Record<QuestionIntentType, string> = {
       love:
-        "Use this result structure: ### Core answer, ### Current relationship energy, ### Their observable signal, ### What you need to see clearly, ### Next action. Avoid claiming private thoughts as facts; anchor everything in cards and observable behavior.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Core answer, ### Current relationship energy, ### Their observable signal, ### What you need to see clearly, ### Next action. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Avoid claiming private thoughts as facts; anchor everything in cards and observable behavior.",
       reconciliation:
-        "Use this result structure: ### Core answer, ### What still remains, ### The real block, ### Whether waiting helps, ### Healthiest next step. Do not promise reunion; separate possibility from healthy action.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Core answer, ### What still remains, ### The real block, ### Whether waiting helps, ### Healthiest next step. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Do not promise reunion; separate possibility from healthy action.",
       career:
-        "Use this result structure: ### Core answer, ### Work pressure, ### Available opportunity, ### Risk or blind spot, ### Practical next move. Keep the advice grounded and actionable.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Core answer, ### Work pressure, ### Available opportunity, ### Risk or blind spot, ### Practical next move. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Keep the advice grounded and actionable.",
       yes_no:
-        "Use this result structure: ### Core answer, ### Why the card leans this way, ### Condition that could change the answer, ### What to do next. Give a clear leaning instead of hiding behind maybe.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Core answer, ### Why the card leans this way, ### Condition that could change the answer, ### What to do next. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Give a clear leaning instead of hiding behind maybe.",
       daily:
-        "Use this result structure: ### Today's focus, ### Energy to notice, ### One thing to avoid, ### One practical action. Keep it concise and useful for the next 24 hours.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Today's focus, ### Energy to notice, ### One thing to avoid, ### One practical action. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Keep it concise and useful for the next 24 hours.",
       decision:
-        "Use this result structure: ### Core answer, ### Option energy, ### Hidden cost, ### Decision condition, ### Next action. Help the user choose a testable next step.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Core answer, ### Option energy, ### Hidden cost, ### Decision condition, ### Next action. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Help the user choose a testable next step.",
       self_growth:
-        "Use this result structure: ### Core answer, ### Inner pattern, ### What is draining you, ### What restores agency, ### One gentle next step. Keep it reflective but concrete.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Core answer, ### Inner pattern, ### What is draining you, ### What restores agency, ### One gentle next step. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Keep it reflective but concrete.",
       general:
-        "Use this result structure: ### Core answer, ### Card-by-card reading, ### Overall pattern, ### Practical guidance, ### What to watch next. Keep it focused on the user's question.",
+        "Write the final user-facing reading directly with these Markdown headings only: ### Core answer, ### Card-by-card reading, ### Overall pattern, ### Practical guidance, ### What to watch next. Do not add any heading like Reading Structure, Interpretation Structure, or Result Format. Keep it focused on the user's question.",
     }
     return prompts[intentType]
   }
 
   const prompts: Record<QuestionIntentType, string> = {
     love:
-      "请严格用这些 Markdown 小标题输出：### 核心结论、### 当前关系能量、### 对方可观察信号、### 你需要看清的点、### 下一步行动。不要把对方内心当成事实，只能结合牌面和可观察行为给判断。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 核心结论、### 当前关系能量、### 对方可观察信号、### 你需要看清的点、### 下一步行动。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。不要把对方内心当成事实，只能结合牌面和可观察行为给判断。",
     reconciliation:
-      "请严格用这些 Markdown 小标题输出：### 核心结论、### 仍在延续的能量、### 真正的阻碍、### 继续等待是否有帮助、### 健康下一步。不要承诺一定复合，要区分可能性和对用户更健康的行动。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 核心结论、### 仍在延续的能量、### 真正的阻碍、### 继续等待是否有帮助、### 健康下一步。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。不要承诺一定复合，要区分可能性和对用户更健康的行动。",
     career:
-      "请严格用这些 Markdown 小标题输出：### 核心结论、### 当前工作压力、### 可用机会、### 风险或盲点、### 现实下一步。建议必须落到可执行行动。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 核心结论、### 当前工作压力、### 可用机会、### 风险或盲点、### 现实下一步。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。建议必须落到可执行行动。",
     yes_no:
-      "请严格用这些 Markdown 小标题输出：### 核心结论、### 为什么牌面这样倾向、### 会改变答案的条件、### 下一步怎么做。要给清晰倾向，不要用模糊话术逃避。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 核心结论、### 为什么牌面这样倾向、### 会改变答案的条件、### 下一步怎么做。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。要给清晰倾向，不要用模糊话术逃避。",
     daily:
-      "请严格用这些 Markdown 小标题输出：### 今日重点、### 需要注意的能量、### 今天避免什么、### 一个具体行动。控制在未来 24 小时可用。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 今日重点、### 需要注意的能量、### 今天避免什么、### 一个具体行动。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。控制在未来 24 小时可用。",
     decision:
-      "请严格用这些 Markdown 小标题输出：### 核心结论、### 选项能量、### 隐藏代价、### 决策条件、### 下一步行动。帮助用户得到可验证的下一步。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 核心结论、### 选项能量、### 隐藏代价、### 决策条件、### 下一步行动。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。帮助用户得到可验证的下一步。",
     self_growth:
-      "请严格用这些 Markdown 小标题输出：### 核心结论、### 内在模式、### 正在消耗你的部分、### 重新拿回主动权、### 温和下一步。要有共情，但不能空泛。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 核心结论、### 内在模式、### 正在消耗你的部分、### 重新拿回主动权、### 温和下一步。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。要有共情，但不能空泛。",
     general:
-      "请严格用这些 Markdown 小标题输出：### 核心结论、### 逐牌解读、### 整体模式、### 现实建议、### 接下来观察什么。始终贴合用户问题。",
+      "请直接输出给用户看的 Markdown 解读，只使用这些小标题：### 核心结论、### 逐牌解读、### 整体模式、### 现实建议、### 接下来观察什么。不要输出「解读结构」「输出结构」「问题类型结构」等说明，也不要把标题清单展示给用户。始终贴合用户问题。",
   }
   return prompts[intentType]
 }

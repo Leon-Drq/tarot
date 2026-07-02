@@ -816,7 +816,7 @@ function HomeScrollContent() {
         </div>
       </div>
       <div className="mt-6 grid gap-2 border-t border-white/10 pt-5 sm:mt-8 sm:grid-cols-2 sm:gap-3 sm:pt-6 lg:grid-cols-4">
-        {copy.items.map((item) => (
+        {copy.items.slice(0, 4).map((item) => (
           <a
             key={item.href}
             href={item.href}

@@ -16,6 +16,7 @@ import {
   websiteJsonLd,
 } from "@/lib/site"
 import type { ReadingShare, ReadingShareCard } from "@/lib/api"
+import { cleanReadingMarkdownForUser, createReadingShareExcerpt, extractReadingSections } from "@/lib/reading-presentation"
 
 export const dynamic = "force-dynamic"
 
@@ -200,7 +201,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
   const title = `${share.question.slice(0, 72)} | POPTarot`
   const description =
-    share.interpretation_excerpt || "A shared AI tarot reading from POPTarot."
+    createReadingShareExcerpt(share.interpretation_excerpt || "", 220) || "A shared AI tarot reading from POPTarot."
 
   return {
     title,
@@ -235,7 +236,9 @@ export default async function SharePage({ params }: Params) {
   const { slug } = await params
   const share = await getShare(slug)
   if (!share) notFound()
-  const description = share.interpretation_excerpt || "A shared AI tarot reading from POPTarot."
+  const visibleInterpretation = cleanReadingMarkdownForUser(share.interpretation_excerpt || "")
+  const shareSummarySections = extractReadingSections(visibleInterpretation, 3)
+  const description = createReadingShareExcerpt(visibleInterpretation, 260) || "A shared AI tarot reading from POPTarot."
   const sameQuestionHref = sharedReadingHref(share)
   const dailyReturnHref = publicShareDailyReturnHref(share.question)
   const spread = getShareSpreadContext(share.spread_type)
@@ -293,7 +296,7 @@ export default async function SharePage({ params }: Params) {
         url: `${appUrl}/share/${share.slug}`,
         image: `${appUrl}/share/${share.slug}/opengraph-image`,
         datePublished: share.created_at,
-        text: share.interpretation_excerpt,
+        text: visibleInterpretation,
         isAccessibleForFree: true,
         about: ["AI tarot reading", "free tarot reading", "reflective tarot guidance"],
         author: {
@@ -459,11 +462,26 @@ export default async function SharePage({ params }: Params) {
               ))}
             </div>
 
-            {share.interpretation_excerpt && (
-              <article className="mx-auto mt-12 max-w-3xl rounded-lg border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-                <h2 className="font-serif text-2xl text-[#eeeaff]">AI Interpretation</h2>
+            {shareSummarySections.length > 0 && (
+              <section className="mx-auto mt-10 max-w-3xl rounded-lg border border-[#c9c0ff]/18 bg-[#c9c0ff]/[0.055] p-5 sm:p-6">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#c9c0ff]/72">Reading highlights</p>
+                <h2 className="mt-3 font-serif text-2xl leading-tight text-white">Start with the clearest signals</h2>
+                <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                  {shareSummarySections.map((section) => (
+                    <article key={`${section.title}-${section.body}`} className="rounded-lg border border-white/10 bg-black/18 p-3">
+                      <h3 className="break-words text-sm font-medium leading-snug text-white">{section.title}</h3>
+                      <p className="mt-2 text-xs leading-5 text-white/52">{section.body}</p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {visibleInterpretation && (
+              <article className="mx-auto mt-5 max-w-3xl rounded-lg border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+                <h2 className="font-serif text-2xl text-[#eeeaff]">Full reading</h2>
                 <p className="mt-4 whitespace-pre-wrap text-sm leading-8 text-white/72 sm:text-base">
-                  {share.interpretation_excerpt}
+                  {visibleInterpretation}
                 </p>
               </article>
             )}
@@ -596,7 +614,7 @@ export default async function SharePage({ params }: Params) {
             <ShareCopyActions
               question={share.question}
               cards={share.cards}
-              interpretation={share.interpretation_excerpt}
+              interpretation={description}
               url={`${appUrl}/share/${share.slug}`}
               dailyReturnUrl={`${appUrl}${dailyReturnHref}`}
             />

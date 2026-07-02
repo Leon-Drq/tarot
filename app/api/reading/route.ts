@@ -277,7 +277,7 @@ ${previousContext}
 
 现在用户想进一步了解：${followUpQuestion}
 
-【追问类型结构】
+【最终回答格式要求：仅用于指导，不要输出这个标题】
 ${intentPrompt}
 
 请基于之前的牌面和解读，针对用户的追问提供更深入、更具体的解读。
@@ -301,7 +301,7 @@ ${cardCountInstruction}
 
 ${readingTaskPrompt}
 
-【问题类型结构】
+【最终回答格式要求：仅用于指导，不要输出这个标题】
 ${intentPrompt}
 
 要求：

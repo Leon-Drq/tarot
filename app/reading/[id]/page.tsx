@@ -9,6 +9,7 @@ import { getSpreadConfig, isKnownSpreadType } from "@/lib/spread-config"
 import ReactMarkdown from "react-markdown"
 import { useLanguage } from "@/contexts/language-context"
 import { readingApi, type CardData, type ReadingRecord } from "@/lib/api"
+import { cleanReadingMarkdownForUser, extractReadingSections } from "@/lib/reading-presentation"
 
 type ReadingDetailCard = CardData & {
   id?: number
@@ -134,6 +135,8 @@ export default function ReadingDetailPage() {
   }
 
   const cards = reading.cards as ReadingDetailCard[]
+  const visibleInterpretation = cleanReadingMarkdownForUser(reading.interpretation || "")
+  const detailSummarySections = extractReadingSections(visibleInterpretation, 3)
   const returnCopy =
     {
       zh: {
@@ -143,6 +146,8 @@ export default function ReadingDetailPage() {
         daily: "打开每日塔罗",
         free: "再问一个免费问题",
         tools: "免费工具",
+        summaryEyebrow: "答案摘要",
+        summaryTitle: "先看这次历史解读的重点",
       },
       en: {
         eyebrow: "Daily return",
@@ -151,6 +156,8 @@ export default function ReadingDetailPage() {
         daily: "Open Daily Tarot",
         free: "New Free Question",
         tools: "Free Tools",
+        summaryEyebrow: "Answer summary",
+        summaryTitle: "Start with the saved reading highlights",
       },
       ja: {
         eyebrow: "毎日の再訪",
@@ -159,6 +166,8 @@ export default function ReadingDetailPage() {
         daily: "デイリータロット",
         free: "別の無料質問",
         tools: "無料ツール",
+        summaryEyebrow: "答えの要約",
+        summaryTitle: "保存したリーディングの要点",
       },
       ko: {
         eyebrow: "매일 돌아오기",
@@ -167,6 +176,8 @@ export default function ReadingDetailPage() {
         daily: "데일리 타로",
         free: "무료 질문 더 하기",
         tools: "무료 도구",
+        summaryEyebrow: "답변 요약",
+        summaryTitle: "저장한 리딩의 핵심",
       },
     }[language] || {
       eyebrow: "Daily return",
@@ -175,6 +186,8 @@ export default function ReadingDetailPage() {
       daily: "Open Daily Tarot",
       free: "New Free Question",
       tools: "Free Tools",
+      summaryEyebrow: "Answer summary",
+      summaryTitle: "Start with the saved reading highlights",
     }
   const returnParams = new URLSearchParams({
     utm_source: "reading_history",
@@ -276,8 +289,29 @@ export default function ReadingDetailPage() {
           ))}
         </div>
 
+        {detailSummarySections.length > 0 && (
+          <section
+            className="mb-8 rounded-xl border border-[#c9c0ff]/20 bg-[#0c0715]/72 p-5 shadow-[0_20px_60px_rgba(0,0,0,0.28)] backdrop-blur-sm sm:p-6"
+            style={{
+              opacity: mounted ? 1 : 0,
+              transition: "opacity 0.7s ease-out 0.5s",
+            }}
+          >
+            <p className="text-xs uppercase tracking-[0.22em] text-[#c9c0ff]/72">{returnCopy.summaryEyebrow}</p>
+            <h2 className="mt-2 text-lg font-medium leading-snug text-mystic-foreground">{returnCopy.summaryTitle}</h2>
+            <div className="mt-4 grid gap-2 sm:grid-cols-3">
+              {detailSummarySections.map((section) => (
+                <article key={`${section.title}-${section.body}`} className="rounded-lg border border-white/10 bg-white/[0.035] p-3">
+                  <h3 className="break-words text-sm font-medium text-mystic-foreground">{section.title}</h3>
+                  <p className="mt-2 text-xs leading-5 text-mystic-foreground-muted">{section.body}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* 解读内容 */}
-        {reading.interpretation && (
+        {visibleInterpretation && (
           <div
             className="prose prose-invert max-w-none"
             style={{
@@ -319,7 +353,7 @@ export default function ReadingDetailPage() {
                     ),
                   }}
                 >
-                  {reading.interpretation}
+                  {visibleInterpretation}
                 </ReactMarkdown>
               </div>
             </div>

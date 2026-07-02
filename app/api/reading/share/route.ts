@@ -1,5 +1,6 @@
 import { jsonError, jsonResponse, requireUser } from "@/lib/server/supabase"
 import type { SupabaseClient } from "@supabase/supabase-js"
+import { createReadingShareExcerpt } from "@/lib/reading-presentation"
 
 type ShareCardInput = {
   id?: number
@@ -85,7 +86,7 @@ export async function POST(req: Request) {
 
   const question = trimText(sourceReading?.question || body.question || "My tarot reading", 220)
   const cards = cleanCards(body.cards || sourceReading?.cards)
-  const interpretationExcerpt = trimText(sourceReading?.interpretation || body.interpretation || "", 1200)
+  const interpretationExcerpt = createReadingShareExcerpt(sourceReading?.interpretation || body.interpretation || "", 1200)
   const spreadType = trimText(sourceReading?.spread_type || body.spread_type || "three_card", 60)
 
   if (!question || cards.length === 0) return jsonError("分享内容不完整")
