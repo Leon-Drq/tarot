@@ -11,7 +11,7 @@ import {
   trustLinks,
   websiteJsonLd,
 } from "@/lib/site"
-import { representativeTestimonials, trustLastReviewed } from "@/lib/trust-signals"
+import { trustLastReviewed } from "@/lib/trust-signals"
 
 const homeFreePaths = [
   {
@@ -210,28 +210,6 @@ const homeStructuredData = {
         position: index + 1,
         name: item.label,
         url: `${appUrl}${item.href}`,
-      })),
-    },
-    {
-      "@type": "ItemList",
-      "@id": `${appUrl}/#representative-feedback`,
-      name: "Representative POPTarot reader feedback",
-      itemListElement: representativeTestimonials.map((item, index) => ({
-        "@type": "ListItem",
-        position: index + 1,
-        item: {
-          "@type": "Quotation",
-          name: item.title,
-          text: item.quote,
-          about: item.context,
-          datePublished: trustLastReviewed,
-          creator: {
-            "@id": `${appUrl}/#editorial-team`,
-          },
-          isPartOf: {
-            "@id": `${appUrl}/reviews#webpage`,
-          },
-        },
       })),
     },
     {

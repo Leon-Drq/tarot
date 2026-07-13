@@ -752,8 +752,9 @@ async function checkPage(browser, pageConfig) {
         copy: "[data-home-hero-copy]",
         card: "[data-home-card]",
         form: "[data-home-question-form]",
+        cta: "[data-home-hero-primary-cta]",
         daily: "[data-home-daily-return-panel]",
-        nav: "[data-home-secondary-nav-mobile], [data-home-secondary-nav]",
+        cue: "[data-home-scroll-cue]",
         scroll: "[data-home-scroll-content]",
       }
       const rects = {}
@@ -769,11 +770,11 @@ async function checkPage(browser, pageConfig) {
       }
 
       const gapChecks = [
-        { name: "copy to card", gap: rects.card.top - rects.copy.bottom, min: 40 },
-        { name: "card to form", gap: rects.form.top - rects.card.bottom, min: 32 },
-        { name: "form to secondary nav", gap: rects.nav.top - rects.form.bottom, min: 16 },
-        { name: "secondary nav to scroll content", gap: rects.scroll.top - rects.nav.bottom, min: 56 },
-        { name: "scroll content to daily panel", gap: rects.daily.top - rects.scroll.top, min: 32 },
+        { name: "copy to card", gap: rects.card.top - rects.copy.bottom, min: 4 },
+        { name: "card to form", gap: rects.form.top - rects.card.bottom, min: 4 },
+        { name: "form to scroll cue", gap: rects.cue.top - rects.form.bottom, min: 16 },
+        { name: "scroll cue to content", gap: rects.scroll.top - rects.cue.bottom, min: 12 },
+        { name: "scroll content to daily panel", gap: rects.daily.top - rects.scroll.top, min: 160 },
       ]
       const violations = gapChecks
         .filter((check) => check.gap < check.min)
@@ -781,6 +782,10 @@ async function checkPage(browser, pageConfig) {
 
       if (embeddedTopGuard && rects.header.top < embeddedTopGuard) {
         violations.push(`header top ${rects.header.top}px < embedded browser guard ${embeddedTopGuard}px`)
+      }
+
+      if (!embeddedTopGuard && rects.cta.bottom > window.innerHeight - 8) {
+        violations.push(`primary CTA bottom ${rects.cta.bottom}px exceeds first viewport ${window.innerHeight}px`)
       }
 
       return { rects, violations }

@@ -1,6 +1,8 @@
 "use client"
 
-import { useEffect, useRef, useState, Suspense, type FormEvent, type MouseEvent } from "react"
+import { useEffect, useState, Suspense, type FormEvent, type MouseEvent } from "react"
+import Image from "next/image"
+import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { ChevronDown } from "lucide-react"
 import { BackgroundGradient } from "./mystic/background-gradient"
@@ -11,8 +13,10 @@ import { MysticAnimations } from "./mystic/mystic-animations"
 import { MenuButton } from "./menu-button"
 import { MenuPanel } from "./menu-panel"
 import { LanguageSwitcher } from "./language-switcher"
+import { useAuth } from "@/contexts/auth-context"
 import { useLanguage } from "@/contexts/language-context"
 import { getLocalDateKey } from "@/lib/daily-tarot"
+import type { ReaderStyle } from "@/lib/reader-style"
 import type { SpreadType } from "@/lib/spread-config"
 
 const DEFAULT_FRONT = "/images/0.png"
@@ -64,10 +68,139 @@ function ReferralCapture() {
   return null
 }
 
+function HomeHeader({ menuOpen, setMenuOpen }: { menuOpen: boolean; setMenuOpen: (open: boolean) => void }) {
+  const { language } = useLanguage()
+  const { isLoggedIn } = useAuth()
+  const copy =
+    {
+      zh: {
+        nav: [
+          ["免费解读", "/free-ai-tarot-reading"],
+          ["爱情塔罗", "/love-tarot-reading"],
+          ["Yes / No", "/yes-or-no-tarot"],
+          ["每日塔罗", "/daily-tarot"],
+          ["牌义", "/tarot-card-meanings"],
+          ["会员", "/membership"],
+        ],
+        account: isLoggedIn ? "我的账户" : "登录",
+        accountHref: isLoggedIn ? "/profile" : "/auth/login",
+        start: "免费开始",
+      },
+      en: {
+        nav: [
+          ["Free Reading", "/free-ai-tarot-reading"],
+          ["Love Tarot", "/love-tarot-reading"],
+          ["Yes / No", "/yes-or-no-tarot"],
+          ["Daily Tarot", "/daily-tarot"],
+          ["Card Meanings", "/tarot-card-meanings"],
+          ["Membership", "/membership"],
+        ],
+        account: isLoggedIn ? "Account" : "Sign in",
+        accountHref: isLoggedIn ? "/profile" : "/auth/login",
+        start: "Start free",
+      },
+      ja: {
+        nav: [
+          ["無料リーディング", "/free-ai-tarot-reading"],
+          ["恋愛タロット", "/love-tarot-reading"],
+          ["Yes / No", "/yes-or-no-tarot"],
+          ["今日のタロット", "/daily-tarot"],
+          ["カード意味", "/tarot-card-meanings"],
+          ["メンバー", "/membership"],
+        ],
+        account: isLoggedIn ? "アカウント" : "ログイン",
+        accountHref: isLoggedIn ? "/profile" : "/auth/login",
+        start: "無料で開始",
+      },
+      ko: {
+        nav: [
+          ["무료 리딩", "/free-ai-tarot-reading"],
+          ["연애 타로", "/love-tarot-reading"],
+          ["Yes / No", "/yes-or-no-tarot"],
+          ["데일리 타로", "/daily-tarot"],
+          ["카드 의미", "/tarot-card-meanings"],
+          ["멤버십", "/membership"],
+        ],
+        account: isLoggedIn ? "계정" : "로그인",
+        accountHref: isLoggedIn ? "/profile" : "/auth/login",
+        start: "무료로 시작",
+      },
+    }[language]
+
+  const focusQuestion = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    document.getElementById("home-question")?.scrollIntoView({ behavior: "smooth", block: "center" })
+    window.setTimeout(() => document.getElementById("home-question")?.focus({ preventScroll: true }), 350)
+  }
+
+  return (
+    <header
+      data-home-header
+      className="home-site-header fixed inset-x-0 z-50 border-b border-white/10 bg-[#08030f]/82 backdrop-blur-xl"
+    >
+      <div className="mx-auto flex h-[4.25rem] w-[calc(100%-1.5rem)] max-w-[1280px] items-center justify-between gap-3 lg:h-[4.75rem]">
+        <div className="flex min-w-0 items-center gap-3 lg:w-auto">
+          <div className="lg:hidden">
+            <MenuButton isOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
+          </div>
+          <Link
+            href="/"
+            aria-label="POPTarot home"
+            className="flex min-w-0 items-center gap-2.5 text-white"
+          >
+            <Image
+              data-home-brand-logo
+              src="/logo.png"
+              width="36"
+              height="36"
+              alt="POPTarot logo"
+              className="h-8 w-8 shrink-0 rounded-md lg:h-9 lg:w-9"
+              priority
+            />
+            <span className="whitespace-nowrap font-serif text-sm tracking-[0.12em] sm:text-lg sm:tracking-[0.16em] lg:text-xl">
+              POP TAROT
+            </span>
+          </Link>
+        </div>
+
+        <nav aria-label="Primary navigation" className="hidden min-w-0 items-center justify-center gap-1 lg:flex">
+          {copy.nav.map(([label, href]) => (
+            <Link
+              key={href}
+              href={href}
+              className="inline-flex min-h-11 items-center whitespace-nowrap px-2.5 text-[13px] text-white/62 transition hover:text-white xl:px-3"
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex shrink-0 items-center justify-end gap-2">
+          <LanguageSwitcher />
+          <Link
+            href={copy.accountHref}
+            className="hidden min-h-10 items-center px-2 text-sm text-white/62 transition hover:text-white xl:inline-flex"
+          >
+            {copy.account}
+          </Link>
+          <a
+            href="#home-question"
+            onClick={focusQuestion}
+            className="hidden min-h-10 items-center justify-center rounded-md bg-[#b9c7ff] px-4 text-sm font-medium text-[#0b1026] transition hover:bg-[#d2dbff] sm:inline-flex"
+          >
+            {copy.start}
+          </a>
+        </div>
+      </div>
+    </header>
+  )
+}
+
 function HomeQuestionForm() {
   const router = useRouter()
   const { language } = useLanguage()
   const [question, setQuestion] = useState("")
+  const [readerStyle, setReaderStyle] = useState<ReaderStyle>("gentle")
   type QuickStartExample = {
     label: string
     question: string
@@ -79,9 +212,17 @@ function HomeQuestionForm() {
   const copy =
     {
       zh: {
-        label: "爱情、前任、事业、是否问题",
+        styleLabel: "选择解读方式",
+        styles: [
+          { id: "gentle", title: "温柔陪伴", body: "先理解感受" },
+          { id: "direct", title: "清醒直说", body: "直接指出重点" },
+          { id: "relationship", title: "关系洞察", body: "看互动与边界" },
+        ],
+        prompt: "我会先听懂你的问题，再结合牌面给出清晰答案。",
+        label: "写下一个真实、具体的问题",
         placeholder: "输入你现在最想弄清楚的问题...",
-        action: "获得答案",
+        action: "免费抽牌并解读",
+        trust: "无需注册 · 首次完整解读免费 · 内容仅用于本次解读",
         examples: [
           { label: "前任会回来吗？", question: "前任会回来吗？我该继续等还是放下？", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "他爱我吗？", question: "他爱我吗？这段关系真实的情绪是什么？", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -91,9 +232,17 @@ function HomeQuestionForm() {
         ] satisfies QuickStartExample[],
       },
       en: {
-        label: "Love, ex, career, or yes/no",
+        styleLabel: "Choose a reading style",
+        styles: [
+          { id: "gentle", title: "Gentle guide", body: "Start with your feelings" },
+          { id: "direct", title: "Clear truth", body: "Name the real pattern" },
+          { id: "relationship", title: "Relationship lens", body: "Read dynamics and limits" },
+        ],
+        prompt: "I will understand the question first, then read the cards in context.",
+        label: "Ask one real, specific question",
         placeholder: "Ask what you really want to know...",
-        action: "Get my answer",
+        action: "Draw cards free",
+        trust: "No sign-up · First complete reading free · Private by default",
         examples: [
           { label: "Will my ex come back?", question: "Will my ex come back, and what should I understand before I act?", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "Does he love me?", question: "Does he love me, and what is the real emotional energy between us?", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -103,9 +252,17 @@ function HomeQuestionForm() {
         ] satisfies QuickStartExample[],
       },
       ja: {
-        label: "恋愛・元恋人・仕事・Yes/No",
+        styleLabel: "読み方を選ぶ",
+        styles: [
+          { id: "gentle", title: "やさしい伴走", body: "気持ちから理解" },
+          { id: "direct", title: "率直な答え", body: "要点を明確に" },
+          { id: "relationship", title: "関係の洞察", body: "関係性と境界を見る" },
+        ],
+        prompt: "質問を理解してから、カードを文脈に沿って読みます。",
+        label: "具体的な質問をひとつ書く",
         placeholder: "本当に知りたいことを入力...",
-        action: "答えを見る",
+        action: "無料でカードを引く",
+        trust: "登録不要 · 初回の完全リーディング無料 · 非公開",
         examples: [
           { label: "元恋人は戻る？", question: "元恋人は戻りますか？行動する前に何を理解すべきですか？", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "彼は私を愛している？", question: "彼は私を愛していますか？二人の本当の感情は何ですか？", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -115,9 +272,17 @@ function HomeQuestionForm() {
         ] satisfies QuickStartExample[],
       },
       ko: {
-        label: "사랑, 전 애인, 커리어, 예/아니오",
+        styleLabel: "리딩 방식을 선택하세요",
+        styles: [
+          { id: "gentle", title: "부드러운 안내", body: "감정부터 이해" },
+          { id: "direct", title: "명확한 진실", body: "핵심을 직접 설명" },
+          { id: "relationship", title: "관계 통찰", body: "관계와 경계를 분석" },
+        ],
+        prompt: "질문을 먼저 이해한 뒤 카드의 맥락을 읽어드릴게요.",
+        label: "구체적인 질문 하나를 적어보세요",
         placeholder: "지금 정말 알고 싶은 질문...",
-        action: "답 보기",
+        action: "무료로 카드 뽑기",
+        trust: "가입 불필요 · 첫 전체 리딩 무료 · 기본 비공개",
         examples: [
           { label: "전 애인이 돌아올까?", question: "전 애인이 돌아올까요? 행동하기 전에 무엇을 이해해야 하나요?", campaign: "ex_return", spread: "breakup_recovery" },
           { label: "그는 나를 사랑할까?", question: "그는 나를 사랑하나요? 우리 사이의 진짜 감정은 무엇인가요?", campaign: "does_he_love_me", spread: "their_thoughts" },
@@ -140,6 +305,7 @@ function HomeQuestionForm() {
       auto: "1",
       source,
       spread,
+      reader_style: readerStyle,
       lang: language,
       utm_source: "home",
       utm_medium: source === "home_example" ? "hero_quick_start" : "hero_form",
@@ -147,6 +313,7 @@ function HomeQuestionForm() {
 
     if (campaign) params.set("utm_campaign", campaign)
     sessionStorage.setItem("tarot_question", trimmed)
+    sessionStorage.setItem("tarot_reader_style", readerStyle)
     router.push(`/input?${params.toString()}`)
   }
 
@@ -168,33 +335,57 @@ function HomeQuestionForm() {
     <form
       data-home-question-form
       onSubmit={submitQuestion}
-      className="relative z-30 mx-auto w-[calc(100vw_-_3rem)] max-w-[460px] md:max-w-[600px] xl:max-w-[640px]"
+      className="relative z-30 mx-auto w-full max-w-[42rem]"
     >
-      <p className="mb-2 text-center text-[10px] uppercase tracking-[0.2em] text-white/42 md:text-xs">
-        {copy.label}
-      </p>
-      <div className="group relative rounded-lg border border-white/14 bg-[#0d0617]/78 p-1 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-md transition focus-within:border-[#aaa1ff]/65">
-        <div className="pointer-events-none absolute -inset-1 rounded-lg bg-[#aaa1ff]/10 opacity-0 blur-xl transition group-focus-within:opacity-100" />
-        <div className="relative flex items-center">
-          <input
-            value={question}
-            onChange={(event) => setQuestion(event.target.value)}
-            placeholder={copy.placeholder}
-            className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 md:px-5 md:py-4 md:text-base"
-          />
+      <fieldset>
+        <legend className="mb-2 text-[11px] uppercase tracking-[0.18em] text-white/48">{copy.styleLabel}</legend>
+        <div className="grid grid-cols-3 gap-1 rounded-md border border-white/12 bg-black/30 p-1 backdrop-blur-md">
+          {copy.styles.map((style) => {
+            const selected = style.id === readerStyle
+            return (
+              <button
+                key={style.id}
+                type="button"
+                aria-pressed={selected}
+                onClick={() => setReaderStyle(style.id as ReaderStyle)}
+                className={`min-h-[3.5rem] rounded-[4px] px-2 py-2 text-left transition sm:min-h-[3.75rem] sm:px-3 ${
+                  selected ? "bg-[#d8dfff] text-[#11162c]" : "text-white/68 hover:bg-white/[0.06] hover:text-white"
+                }`}
+              >
+                <span className="block text-xs font-medium leading-4 sm:text-sm">{style.title}</span>
+                <span className={`mt-0.5 hidden text-[10px] leading-4 sm:block ${selected ? "text-[#2e3657]/72" : "text-white/38"}`}>
+                  {style.body}
+                </span>
+              </button>
+            )
+          })}
         </div>
+      </fieldset>
+      <p className="mt-2 text-xs leading-5 text-white/54">{copy.prompt}</p>
+      <label htmlFor="home-question" className="mt-4 block text-[11px] uppercase tracking-[0.18em] text-white/48">
+        {copy.label}
+      </label>
+      <div className="group relative mt-2 rounded-md border border-white/16 bg-[#0c0714]/88 shadow-[0_18px_60px_rgba(0,0,0,0.3)] backdrop-blur-md transition focus-within:border-[#b9c7ff]/72">
+        <textarea
+          id="home-question"
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+          placeholder={copy.placeholder}
+          rows={2}
+          className="block min-h-[5.25rem] w-full resize-none bg-transparent px-4 py-3 text-base leading-6 text-white outline-none placeholder:text-white/32 sm:min-h-[5.75rem] sm:px-5 sm:py-4"
+        />
       </div>
       <button
         type="submit"
         data-home-hero-primary-cta
         aria-label={copy.action}
-        className="mt-2 inline-flex h-10 w-full items-center justify-center rounded-lg bg-[linear-gradient(135deg,#f5f2ff_0%,#b7adff_42%,#6d63d8_100%)] text-sm font-medium text-[#0c0920] shadow-[0_18px_45px_rgba(109,99,216,0.28)] transition hover:brightness-110 md:h-11"
+        className="mt-2 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-[#b9c7ff] px-5 text-sm font-semibold text-[#0b1026] shadow-[0_18px_45px_rgba(88,104,175,0.24)] transition hover:bg-[#d2dbff]"
       >
         <span>{copy.action}</span>
       </button>
       <div
         data-home-hero-quick-start
-        className="scrollbar-hide -mx-1 mt-3 flex snap-x flex-nowrap justify-start gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 md:pb-0"
+        className="scrollbar-hide -mx-1 mt-3 flex snap-x flex-nowrap justify-start gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 md:pb-0"
       >
         {copy.examples.map((example) => (
           <button
@@ -203,12 +394,13 @@ function HomeQuestionForm() {
             data-home-example-start
             data-home-hero-quick-start-link
             onClick={() => openExample(example)}
-            className="inline-flex min-h-10 shrink-0 snap-start items-center rounded-full border border-white/10 bg-white/[0.045] px-3 py-1.5 text-center text-[11px] leading-4 text-white/58 transition hover:border-[#aaa1ff]/45 hover:text-white sm:max-w-full"
+            className="inline-flex min-h-9 shrink-0 snap-start items-center rounded-md border border-white/10 bg-white/[0.035] px-3 py-1.5 text-center text-[11px] leading-4 text-white/56 transition hover:border-[#b9c7ff]/45 hover:text-white sm:max-w-full"
           >
             {example.label}
           </button>
         ))}
       </div>
+      <p className="mt-3 text-center text-[11px] leading-5 text-white/38">{copy.trust}</p>
     </form>
   )
 }
@@ -392,88 +584,6 @@ function HomeDailyReturnPanel() {
         </div>
       </div>
     </div>
-  )
-}
-
-function HomeScrollCue() {
-  const { language } = useLanguage()
-  const copy =
-    {
-      zh: "继续向下",
-      en: "Explore below",
-      ja: "下へ進む",
-      ko: "아래로 보기",
-    }[language]
-
-  return (
-    <a
-      data-home-scroll-cue
-      href={`#${HOME_SCROLL_TARGET_ID}`}
-      onClick={scrollToHomeContent}
-      className="hidden"
-    >
-      <span>{copy}</span>
-      <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
-    </a>
-  )
-}
-
-function HomeDesktopScrollAffordance({ visible }: { visible: boolean }) {
-  const { language } = useLanguage()
-  const copy =
-    {
-      zh: "向下滚动",
-      en: "More below",
-      ja: "下へスクロール",
-      ko: "아래로 스크롤",
-    }[language]
-
-  return (
-    <a
-      data-home-scroll-affordance
-      data-home-scroll-affordance-visible={visible ? "true" : "false"}
-      href={`#${HOME_SCROLL_TARGET_ID}`}
-      onClick={scrollToHomeContent}
-      aria-label={copy}
-      className={`fixed bottom-8 right-6 z-40 hidden min-h-12 items-center gap-2 rounded-full border border-[#c9c0ff]/58 bg-[#12091f]/96 px-5 text-sm font-medium text-[#f5f2ff]/94 shadow-[0_18px_54px_rgba(0,0,0,0.46),0_0_34px_rgba(170,161,255,0.2)] backdrop-blur-xl transition duration-300 hover:border-[#dfd9ff]/78 hover:text-white md:inline-flex ${
-        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2 opacity-0"
-      }`}
-    >
-      <span>{copy}</span>
-      <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
-    </a>
-  )
-}
-
-function HomeSecondaryNav({ placement }: { placement: "hero" | "content" }) {
-  const className =
-    placement === "hero"
-      ? "relative z-30 mx-auto mt-7 flex w-[min(92vw,520px)] items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314] px-4 py-2 text-[11px] text-white/58 shadow-[0_10px_30px_rgba(0,0,0,0.28)] backdrop-blur-md md:hidden"
-      : "mb-8 mt-5 hidden w-full items-center justify-center gap-3 rounded-full border border-white/10 bg-[#0b0314]/68 px-4 py-2 text-xs text-white/48 shadow-[0_14px_40px_rgba(0,0,0,0.26)] backdrop-blur-md md:flex"
-
-  return (
-    <nav
-      data-home-secondary-nav={placement === "content" ? "desktop" : undefined}
-      data-home-secondary-nav-mobile={placement === "hero" ? "true" : undefined}
-      className={className}
-      aria-label="Primary tarot paths"
-    >
-      <a href="/daily-tarot" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-        Daily Tarot
-      </a>
-      <span className="h-1 w-1 rounded-full bg-white/24" />
-      <a href="/tarot-spreads" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-        Spreads
-      </a>
-      <span className="h-1 w-1 rounded-full bg-white/24" />
-      <a href="/tarot-card-meanings" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-        Card Meanings
-      </a>
-      <span className="h-1 w-1 rounded-full bg-white/24" />
-      <a href="/about" className="inline-flex min-h-10 items-center px-1 transition hover:text-white">
-        About
-      </a>
-    </nav>
   )
 }
 
@@ -751,81 +861,218 @@ function HomeScrollContent() {
       },
     }[language]
 
+  const layoutCopy =
+    {
+      zh: {
+        pathsEyebrow: "热门入口",
+        pathsTitle: "从你真正想问的问题开始",
+        pathsBody: "不用先学习塔罗。选择一个接近你处境的问题，再把细节改成自己的。",
+        previewEyebrow: "解读示例",
+        previewTitle: "你会得到答案，也会知道下一步怎么做",
+        previewQuestion: "他最近忽冷忽热，我应该继续投入吗？",
+        previewAnswer: "核心答案",
+        previewAnswerBody: "先停止猜测，用对方持续、可观察的行动判断投入是否对等。",
+        previewPattern: "牌面线索",
+        previewPatternBody: "吸引仍在，但节奏不一致；真正的阻碍是承诺和沟通没有落地。",
+        previewNext: "下一步",
+        previewNextBody: "给关系一个清晰边界和时间点，再根据行动而不是承诺做决定。",
+        toolsEyebrow: "继续探索",
+        toolsTitle: "免费工具、每日回访和 78 张牌义",
+        memberEyebrow: "需要更深时再升级",
+        memberTitle: "免费完成第一次解读，会员负责长期价值",
+        memberBody: "Plus 用于深度追问、历史保存、高级牌阵和周期报告，不挡住第一次体验。",
+        memberCta: "查看会员方案",
+        freeLabel: "免费",
+        freeBody: "首次完整解读、每日塔罗、基础牌阵与牌义",
+        plusLabel: "Plus",
+        plusBody: "深度追问、历史、高级牌阵与长期报告",
+        trustTitle: "透明、私密，并清楚说明 AI 的边界",
+      },
+      en: {
+        pathsEyebrow: "Popular paths",
+        pathsTitle: "Start with the question you actually want to ask",
+        pathsBody: "You do not need to study tarot first. Pick the closest question, then make the details your own.",
+        previewEyebrow: "Reading preview",
+        previewTitle: "Get a clear answer and a practical next step",
+        previewQuestion: "They have become hot and cold. Should I keep investing in this relationship?",
+        previewAnswer: "Core answer",
+        previewAnswerBody: "Pause the guessing and judge reciprocity through consistent, observable action.",
+        previewPattern: "Card pattern",
+        previewPatternBody: "Attraction remains, but the rhythm is uneven; commitment and communication have not become action.",
+        previewNext: "Next step",
+        previewNextBody: "Set one clear boundary and timeframe, then decide from behavior rather than promises.",
+        toolsEyebrow: "Keep exploring",
+        toolsTitle: "Free tools, a daily return, and all 78 card meanings",
+        memberEyebrow: "Upgrade only when you need depth",
+        memberTitle: "Complete the first reading free; use Plus for continuity",
+        memberBody: "Plus adds deeper follow-ups, saved history, advanced spreads, and recurring reports without blocking the first experience.",
+        memberCta: "See membership",
+        freeLabel: "Free",
+        freeBody: "First complete reading, Daily Tarot, starter spreads, and meanings",
+        plusLabel: "Plus",
+        plusBody: "Deep follow-ups, history, advanced spreads, and longer reports",
+        trustTitle: "Private by default, transparent about AI, and clear about limits",
+      },
+      ja: {
+        pathsEyebrow: "人気の入口",
+        pathsTitle: "本当に聞きたい質問から始める",
+        pathsBody: "先にタロットを学ぶ必要はありません。近い質問を選び、自分の状況に合わせてください。",
+        previewEyebrow: "リーディング例",
+        previewTitle: "答えと、次にできることを受け取る",
+        previewQuestion: "相手の態度が不安定です。この関係に投資し続けるべきですか？",
+        previewAnswer: "核心の答え",
+        previewAnswerBody: "推測を止め、一貫して観察できる行動で関係の対等さを判断します。",
+        previewPattern: "カードの流れ",
+        previewPatternBody: "魅力は残っていますが、歩調が合わず、約束と対話が行動になっていません。",
+        previewNext: "次の一歩",
+        previewNextBody: "境界線と期限を一つ決め、言葉ではなく行動から判断します。",
+        toolsEyebrow: "さらに探索",
+        toolsTitle: "無料ツール、毎日の一枚、78 枚のカード意味",
+        memberEyebrow: "深さが必要な時だけアップグレード",
+        memberTitle: "初回は無料、継続的な価値は Plus で",
+        memberBody: "Plus では深い追質問、履歴、高度なスプレッド、定期レポートを利用できます。",
+        memberCta: "メンバーを見る",
+        freeLabel: "無料",
+        freeBody: "初回の完全リーディング、毎日の一枚、基本スプレッド、カード意味",
+        plusLabel: "Plus",
+        plusBody: "深い追質問、履歴、高度なスプレッド、長期レポート",
+        trustTitle: "非公開を基本に、AI と解釈の限界を明示",
+      },
+      ko: {
+        pathsEyebrow: "인기 입구",
+        pathsTitle: "정말 묻고 싶은 질문에서 시작하세요",
+        pathsBody: "타로를 먼저 공부할 필요가 없습니다. 가까운 질문을 고르고 자신의 상황을 더하세요.",
+        previewEyebrow: "리딩 예시",
+        previewTitle: "명확한 답과 현실적인 다음 단계를 받으세요",
+        previewQuestion: "상대가 요즘 밀고 당깁니다. 이 관계에 계속 투자해야 할까요?",
+        previewAnswer: "핵심 답변",
+        previewAnswerBody: "추측을 멈추고 지속적이고 관찰 가능한 행동으로 상호성을 판단하세요.",
+        previewPattern: "카드 흐름",
+        previewPatternBody: "끌림은 남아 있지만 리듬이 맞지 않고 약속과 소통이 행동으로 이어지지 않았습니다.",
+        previewNext: "다음 단계",
+        previewNextBody: "명확한 경계와 시점을 정한 뒤 말이 아닌 행동으로 결정하세요.",
+        toolsEyebrow: "계속 탐색",
+        toolsTitle: "무료 도구, 데일리 리딩, 78장 카드 의미",
+        memberEyebrow: "깊이가 필요할 때만 업그레이드",
+        memberTitle: "첫 리딩은 무료, 지속적인 가치는 Plus로",
+        memberBody: "Plus는 심층 질문, 기록, 고급 스프레드, 정기 리포트를 제공합니다.",
+        memberCta: "멤버십 보기",
+        freeLabel: "무료",
+        freeBody: "첫 전체 리딩, 데일리 타로, 기본 스프레드, 카드 의미",
+        plusLabel: "Plus",
+        plusBody: "심층 질문, 기록, 고급 스프레드, 장기 리포트",
+        trustTitle: "기본 비공개, AI 사용과 해석의 한계를 투명하게 안내",
+      },
+    }[language]
+
   return (
     <section
       id={HOME_SCROLL_TARGET_ID}
       data-home-scroll-content
-      className="relative z-10 mx-auto w-[min(94vw,1040px)] px-1 pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+6rem)] pt-8 sm:pt-10 md:-mt-10 md:pt-8"
+      className="relative z-10 mx-auto w-[calc(100%-1.5rem)] max-w-[1120px] pb-[calc(env(safe-area-inset-bottom)+5rem)] pt-12 sm:pt-16 lg:pt-20"
     >
-      <HomeSecondaryNav placement="content" />
-      <HomeDailyReturnPanel />
-      <div className="mt-7 max-w-2xl sm:mt-10">
-        <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">
-          {copy.eyebrow}
+      <div className="max-w-2xl">
+        <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#b9c7ff]/76 sm:text-xs">
+          {layoutCopy.pathsEyebrow}
         </p>
-        <h2 className="mt-2 font-serif text-xl leading-tight text-white sm:mt-3 sm:text-4xl">{copy.title}</h2>
-        <p className="mt-3 text-sm leading-6 text-white/58 sm:mt-4 sm:text-base sm:leading-7">{copy.body}</p>
+        <h2 className="mt-2 font-serif text-2xl leading-tight text-white sm:mt-3 sm:text-4xl">{layoutCopy.pathsTitle}</h2>
+        <p className="mt-3 text-sm leading-6 text-white/58 sm:mt-4 sm:text-base sm:leading-7">{layoutCopy.pathsBody}</p>
       </div>
-      <div data-home-growth-path className="mt-6 border-y border-white/10 py-6 sm:mt-8 sm:py-8">
-        <div className="grid gap-4 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+      <div data-home-question-paths className="mt-6 grid border-y border-white/10 sm:grid-cols-2 lg:mt-8 lg:grid-cols-4">
+        {copy.questionItems.slice(0, 4).map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className="group min-w-0 border-b border-white/10 px-1 py-4 transition hover:bg-white/[0.035] sm:px-4 lg:border-b-0 lg:border-r lg:last:border-r-0"
+          >
+            <h3 className="break-words text-sm font-medium leading-snug text-[#f2f4ff] sm:text-base">{item.title}</h3>
+            <p className="mt-1.5 text-xs leading-5 text-white/50 sm:mt-2 sm:text-sm sm:leading-6">{item.body}</p>
+          </a>
+        ))}
+      </div>
+
+      <div data-home-result-preview className="mt-12 border-y border-[#b9c7ff]/18 py-8 sm:mt-16 sm:py-12">
+        <div className="grid gap-7 lg:grid-cols-[0.78fr_1.22fr] lg:gap-12">
           <div>
-            <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">
-              {copy.growthEyebrow}
+            <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#b9c7ff]/76 sm:text-xs">{layoutCopy.previewEyebrow}</p>
+            <h2 className="mt-2 font-serif text-2xl leading-tight text-white sm:mt-3 sm:text-3xl">{layoutCopy.previewTitle}</h2>
+            <p className="mt-4 border-l-2 border-[#b9c7ff]/55 pl-4 text-sm leading-6 text-white/68 sm:text-base sm:leading-7">
+              {layoutCopy.previewQuestion}
             </p>
-            <h2 className="mt-2 font-serif text-xl leading-tight text-white sm:mt-3 sm:text-3xl">{copy.growthTitle}</h2>
-            <p className="mt-3 text-sm leading-6 text-white/58 sm:mt-4 sm:leading-7">{copy.growthBody}</p>
           </div>
-          <div className="grid gap-2 sm:grid-cols-2 sm:gap-3">
-            {copy.growthItems.map((item, index) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="group rounded-md border border-white/10 bg-black/22 p-3 backdrop-blur-sm transition hover:border-[#bfb6ff]/45 hover:bg-white/[0.055] sm:p-4"
-              >
-                <p className="text-[0.62rem] uppercase tracking-[0.16em] text-white/34 sm:text-[10px]">
-                  {String(index + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-1.5 break-words text-sm font-medium leading-snug text-white sm:mt-2 sm:text-base">
-                  {item.title}
-                </h3>
-                <p className="mt-1.5 text-xs leading-5 text-white/54 sm:mt-2 sm:text-sm sm:leading-6">{item.body}</p>
-              </a>
+          <div className="grid gap-5 sm:grid-cols-3">
+            {[
+              [layoutCopy.previewAnswer, layoutCopy.previewAnswerBody],
+              [layoutCopy.previewPattern, layoutCopy.previewPatternBody],
+              [layoutCopy.previewNext, layoutCopy.previewNextBody],
+            ].map(([title, body]) => (
+              <div key={title} className="border-t border-white/12 pt-3">
+                <h3 className="text-sm font-medium text-white">{title}</h3>
+                <p className="mt-2 text-xs leading-5 text-white/52 sm:text-sm sm:leading-6">{body}</p>
+              </div>
             ))}
           </div>
         </div>
       </div>
-      <div data-home-question-paths className="mt-6 sm:mt-8">
-        <div className="max-w-2xl">
-          <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#c9c0ff]/72 sm:text-xs">
-            {copy.questionEyebrow}
-          </p>
-          <h2 className="mt-2 font-serif text-xl leading-tight text-white sm:mt-3 sm:text-3xl">{copy.questionTitle}</h2>
-          <p className="mt-3 text-sm leading-6 text-white/58 sm:mt-4 sm:leading-7">{copy.questionBody}</p>
-        </div>
-        <div className="mt-4 grid gap-2 sm:mt-5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4">
-          {copy.questionItems.slice(0, 8).map((item) => (
+
+      <div className="mt-12 sm:mt-16">
+        <HomeDailyReturnPanel />
+      </div>
+
+      <div className="mt-12 sm:mt-16">
+        <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#b9c7ff]/76 sm:text-xs">{layoutCopy.toolsEyebrow}</p>
+        <h2 className="mt-2 max-w-2xl font-serif text-2xl leading-tight text-white sm:mt-3 sm:text-3xl">{layoutCopy.toolsTitle}</h2>
+        <div className="mt-5 grid border-y border-white/10 sm:grid-cols-2 lg:grid-cols-3">
+          {copy.items.slice(0, 6).map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="group min-w-0 rounded-md border border-[#bfb6ff]/14 bg-[#bfb6ff]/[0.035] p-3 transition hover:border-[#bfb6ff]/45 hover:bg-[#bfb6ff]/[0.07] sm:p-4"
+              className="group min-w-0 border-b border-white/10 px-1 py-4 transition hover:bg-white/[0.035] sm:px-4 lg:border-r lg:[&:nth-child(3n)]:border-r-0"
             >
-              <h3 className="break-words text-sm font-medium leading-snug text-[#f1edff]">{item.title}</h3>
-              <p className="mt-1.5 text-xs leading-5 text-white/52 sm:mt-2">{item.body}</p>
+              <h3 className="text-sm font-medium leading-snug text-white sm:text-base">{item.title}</h3>
+              <p className="mt-1.5 text-xs leading-5 text-white/50 sm:mt-2 sm:text-sm sm:leading-6">{item.body}</p>
             </a>
           ))}
         </div>
       </div>
-      <div className="mt-6 grid gap-2 border-t border-white/10 pt-5 sm:mt-8 sm:grid-cols-2 sm:gap-3 sm:pt-6 lg:grid-cols-4">
-        {copy.items.slice(0, 4).map((item) => (
-          <a
-            key={item.href}
-            href={item.href}
-            className="group rounded-md border border-white/10 bg-white/[0.035] p-3 backdrop-blur-sm transition hover:-translate-y-0.5 hover:border-[#bfb6ff]/45 hover:bg-white/[0.07] sm:p-4"
-          >
-            <h3 className="text-sm font-medium leading-snug text-white sm:text-base">{item.title}</h3>
-            <p className="mt-1.5 text-xs leading-5 text-white/52 sm:mt-2 sm:text-sm sm:leading-6">{item.body}</p>
-          </a>
-        ))}
+
+      <div data-home-membership className="mt-12 border-y border-white/10 py-8 sm:mt-16 sm:py-12">
+        <div className="grid gap-7 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-12">
+          <div>
+            <p className="text-[0.68rem] uppercase tracking-[0.2em] text-[#b9c7ff]/76 sm:text-xs">{layoutCopy.memberEyebrow}</p>
+            <h2 className="mt-2 font-serif text-2xl leading-tight text-white sm:mt-3 sm:text-3xl">{layoutCopy.memberTitle}</h2>
+            <p className="mt-3 text-sm leading-6 text-white/56 sm:mt-4 sm:text-base sm:leading-7">{layoutCopy.memberBody}</p>
+          </div>
+          <div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="border-t border-white/14 pt-3">
+                <h3 className="text-sm font-medium text-white">{layoutCopy.freeLabel}</h3>
+                <p className="mt-2 text-xs leading-5 text-white/52 sm:text-sm">{layoutCopy.freeBody}</p>
+              </div>
+              <div className="border-t border-[#b9c7ff]/45 pt-3">
+                <h3 className="text-sm font-medium text-[#e8ecff]">{layoutCopy.plusLabel}</h3>
+                <p className="mt-2 text-xs leading-5 text-white/52 sm:text-sm">{layoutCopy.plusBody}</p>
+              </div>
+            </div>
+            <a
+              href="/membership"
+              className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-[#b9c7ff] px-5 text-sm font-semibold text-[#0b1026] transition hover:bg-[#d2dbff]"
+            >
+              {layoutCopy.memberCta}
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-10 sm:mt-12">
+        <h2 className="max-w-xl font-serif text-xl leading-tight text-white sm:text-2xl">{layoutCopy.trustTitle}</h2>
+        <nav aria-label="Trust and transparency" className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-white/10 pt-4">
+          {copy.trustItems.map((item) => (
+            <a key={item.href} href={item.href} className="inline-flex min-h-9 items-center text-xs text-white/48 transition hover:text-white sm:text-sm">
+              {item.title}
+            </a>
+          ))}
+        </nav>
       </div>
     </section>
   )
@@ -833,29 +1080,16 @@ function HomeScrollContent() {
 
 function MysticContent() {
   const { language } = useLanguage()
-  const stageRef = useRef<HTMLDivElement | null>(null)
-  const heroActionsRef = useRef<HTMLDivElement | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [customFront, setCustomFront] = useState<string | null>(null)
   const [customBack, setCustomBack] = useState<string | null>(null)
-  const [showDesktopScrollAffordance, setShowDesktopScrollAffordance] = useState(true)
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener("resize", checkMobile)
     return () => window.removeEventListener("resize", checkMobile)
-  }, [])
-
-  useEffect(() => {
-    const updateScrollAffordance = () => {
-      setShowDesktopScrollAffordance(window.scrollY < 48)
-    }
-
-    updateScrollAffordance()
-    window.addEventListener("scroll", updateScrollAffordance, { passive: true })
-    return () => window.removeEventListener("scroll", updateScrollAffordance)
   }, [])
 
   useEffect(() => {
@@ -917,103 +1151,42 @@ function MysticContent() {
     }
   }, [])
 
-  useEffect(() => {
-    const stage = stageRef.current
-    const actions = heroActionsRef.current
-    if (!stage || !actions) return
-
-    const viewport = window.visualViewport
-    let frame = 0
-    let focusOutTimer = 0
-    const measureHeroActions = () => {
-      if (window.innerWidth < 768 && isTextInputFocused()) return
-      window.cancelAnimationFrame(frame)
-      frame = window.requestAnimationFrame(() => {
-        const stageRect = stage.getBoundingClientRect()
-        const actionsRect = actions.getBoundingClientRect()
-        const bottom = Math.max(0, actionsRect.bottom - stageRect.top)
-        stage.style.setProperty("--home-hero-actions-bottom", `${Math.ceil(bottom)}px`)
-      })
-    }
-    const measureAfterFocusOut = () => {
-      window.clearTimeout(focusOutTimer)
-      focusOutTimer = window.setTimeout(measureHeroActions, 180)
-    }
-
-    measureHeroActions()
-    const observer = typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measureHeroActions)
-    observer?.observe(actions)
-    window.addEventListener("resize", measureHeroActions)
-    viewport?.addEventListener("resize", measureHeroActions)
-    viewport?.addEventListener("scroll", measureHeroActions)
-    document.addEventListener("focusout", measureAfterFocusOut)
-
-    return () => {
-      window.clearTimeout(focusOutTimer)
-      window.cancelAnimationFrame(frame)
-      observer?.disconnect()
-      window.removeEventListener("resize", measureHeroActions)
-      viewport?.removeEventListener("resize", measureHeroActions)
-      viewport?.removeEventListener("scroll", measureHeroActions)
-      document.removeEventListener("focusout", measureAfterFocusOut)
-      stage.style.removeProperty("--home-hero-actions-bottom")
-    }
-  }, [])
-
   const heroCopy =
     {
       zh: {
-        eyebrow: "AI 感情塔罗 + 每日指引",
-        line: "问爱情、前任、事业或是否问题。60 秒抽牌，先得到清晰答案，再决定要不要深追。",
+        eyebrow: "免费 AI 塔罗解读",
+        title: "先问清楚，再抽牌",
+        line: "选择一种解读方式，写下爱情、前任、事业或选择问题。60 秒获得结合牌位与处境的清晰答案。",
+        scroll: "查看热门问题与每日塔罗",
       },
       en: {
-        eyebrow: "AI Love Tarot + Daily Clarity",
-        line: "Ask about love, your ex, career, or a yes/no decision. Draw cards and get a clear AI tarot answer in 60 seconds.",
+        eyebrow: "Free AI tarot reading",
+        title: "Ask clearly. Draw intuitively.",
+        line: "Choose a reading style, ask about love, an ex, career, or a decision, and get a contextual tarot answer in about 60 seconds.",
+        scroll: "Explore popular questions and Daily Tarot",
       },
       ja: {
-        eyebrow: "AI 恋愛タロット + 毎日の指針",
-        line: "恋愛、元恋人、仕事、Yes/No を質問。60 秒でカードを引き、まず明確な答えを受け取れます。",
+        eyebrow: "無料 AI タロット",
+        title: "質問を整え、直感で引く",
+        line: "読み方を選び、恋愛、元恋人、仕事、選択について質問。約 60 秒で文脈に沿った答えを受け取れます。",
+        scroll: "人気の質問と毎日のタロットを見る",
       },
       ko: {
-        eyebrow: "AI 연애 타로 + 데일리 안내",
-        line: "사랑, 전 애인, 커리어, 예/아니오를 질문하세요. 60초 안에 카드를 뽑고 명확한 답을 받으세요.",
+        eyebrow: "무료 AI 타로 리딩",
+        title: "명확히 묻고, 직감으로 뽑으세요",
+        line: "리딩 방식을 선택하고 사랑, 전 애인, 커리어, 선택을 질문하세요. 약 60초 안에 맥락 있는 답을 받습니다.",
+        scroll: "인기 질문과 데일리 타로 보기",
       },
     }[language]
 
   return (
-    <div ref={stageRef} className="allow-scroll home-hero-stage relative bg-mystic-bg">
-      <div className="absolute inset-0 z-0 min-h-full pointer-events-none">
-        {/* 1. Background gradient */}
+    <div className="allow-scroll home-hero-stage relative bg-mystic-bg">
+      <div className="pointer-events-none absolute inset-0 z-0 min-h-full">
         <BackgroundGradient />
-
-        {/* 2. Dynamic twinkling stars */}
         <StarsLayer count={isMobile ? 80 : 150} />
       </div>
 
-      {/* Header Area - 确保所有元素垂直居中对齐 */}
-      <header data-home-header className="absolute left-0 right-0 top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1rem)] z-50 flex items-center justify-between px-4 pointer-events-none sm:top-[calc(env(safe-area-inset-top)+var(--home-hero-browser-offset,0px)+1.35rem)] sm:px-6 md:top-6 md:px-8">
-        <div className="flex-1 flex justify-start pointer-events-auto">
-          <MenuButton isOpen={menuOpen} onClick={() => setMenuOpen(!menuOpen)} />
-        </div>
-        
-        <h1 className="pointer-events-auto flex items-center justify-center gap-2 whitespace-nowrap font-serif text-lg font-semibold tracking-[0.12em] text-mystic-foreground drop-shadow-[0_0_15px_var(--mystic-glow)] sm:gap-3 sm:text-2xl sm:tracking-[0.18em] md:text-[1.7rem] md:tracking-[0.22em] lg:text-3xl">
-          <img
-            data-home-brand-logo
-            src="/logo.png"
-            width="36"
-            height="36"
-            alt="POPTarot logo"
-            className="h-7 w-7 shrink-0 rounded-lg sm:h-9 sm:w-9 md:h-9 md:w-9 lg:h-10 lg:w-10"
-            loading="eager"
-            fetchPriority="high"
-          />
-          <span>POP TAROT</span>
-        </h1>
-
-        <div className="flex-1 flex justify-end pointer-events-auto">
-          <LanguageSwitcher />
-        </div>
-      </header>
+      <HomeHeader menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
 
       {menuOpen && (
         <MenuPanel
@@ -1028,34 +1201,32 @@ function MysticContent() {
 
       <div
         data-home-hero-shell
-        className="home-hero-shell relative pb-[calc(env(safe-area-inset-bottom)+var(--home-mobile-browser-bottom-offset,0px)+7.5rem)] md:pb-0"
+        className="home-hero-shell relative z-10 mx-auto flex w-[calc(100%-1.5rem)] max-w-[1120px] flex-col items-center px-0 pb-10 text-center sm:pb-12"
       >
         <section
           data-home-hero-copy
-          className="pointer-events-none absolute left-1/2 top-0 z-30 w-[calc(100vw_-_2rem)] max-w-[600px] -translate-x-1/2 pt-[calc(var(--home-hero-browser-offset,0px)+6.75rem)] text-center sm:pt-[calc(var(--home-hero-browser-offset,0px)+8.75rem)] md:pt-[6.5rem] lg:pt-[6.75rem]"
+          className="relative z-30 mx-auto max-w-[46rem]"
         >
-          <p className="text-[10px] uppercase tracking-[0.26em] text-[#c9c0ff]/80 sm:text-xs">
+          <p className="text-[10px] uppercase tracking-[0.24em] text-[#b9c7ff]/82 sm:text-xs">
             {heroCopy.eyebrow}
           </p>
-          <p className="mx-auto mt-2 max-w-[20rem] break-words text-xs leading-6 text-white/58 [overflow-wrap:anywhere] sm:max-w-[32rem] sm:text-sm md:text-sm lg:text-base">
+          <h1 className="mt-3 text-balance font-serif text-[2rem] leading-[1.08] text-white sm:text-5xl lg:text-[3.5rem]">
+            {heroCopy.title}
+          </h1>
+          <p className="mx-auto mt-3 max-w-[39rem] break-words text-sm leading-6 text-white/58 [overflow-wrap:anywhere] sm:mt-4 sm:text-base sm:leading-7">
             {heroCopy.line}
           </p>
         </section>
 
-        {/* 4. 3D rotating tarot card - use custom images if available */}
         <div
           data-home-card-scene
-          className="absolute left-0 right-0 z-20 flex h-0 justify-center overflow-visible"
-          style={{ top: "var(--home-hero-card-y)" }}
+          className="relative z-20 mt-2 flex h-36 w-full items-center justify-center overflow-visible sm:mt-3 sm:h-40 lg:h-44"
         >
-          <div
-            data-home-card-focal
-            className="relative h-0 w-0 overflow-visible"
-          >
+          <div data-home-card-focal className="relative h-0 w-0 overflow-visible">
             <div
               data-home-focal-glow
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 top-0 z-0 h-[var(--home-hero-glow-size)] w-[var(--home-hero-glow-size)] rounded-full bg-[radial-gradient(circle,rgba(246,244,255,0.62)_0%,rgba(170,161,255,0.36)_32%,rgba(76,42,120,0.16)_58%,transparent_76%)] blur-2xl mix-blend-screen"
+              className="pointer-events-none absolute left-0 top-0 z-0 h-[var(--home-hero-glow-size)] w-[var(--home-hero-glow-size)] rounded-full bg-[radial-gradient(circle,rgba(246,244,255,0.56)_0%,rgba(155,170,236,0.34)_32%,rgba(76,42,120,0.12)_58%,transparent_76%)] blur-2xl mix-blend-screen"
               style={{ transform: "translate3d(-50%, -50%, 0)" }}
             />
             <CoreLight
@@ -1076,28 +1247,23 @@ function MysticContent() {
           </div>
         </div>
 
-        <div
-          ref={heroActionsRef}
-          data-home-hero-actions
-          className="relative z-30"
-          style={{ paddingTop: "var(--home-hero-content-y)" }}
-        >
+        <div data-home-hero-actions className="relative z-30 mt-3 w-full">
           <HomeQuestionForm />
-
-          <HomeScrollCue />
-
-          <HomeSecondaryNav placement="hero" />
         </div>
+
+        <a
+          data-home-scroll-cue
+          href={`#${HOME_SCROLL_TARGET_ID}`}
+          onClick={scrollToHomeContent}
+          className="mt-7 inline-flex min-h-11 items-center gap-2 text-xs text-white/45 transition hover:text-white sm:mt-8 sm:text-sm"
+        >
+          <span>{heroCopy.scroll}</span>
+          <ChevronDown aria-hidden="true" className="h-4 w-4" strokeWidth={1.8} />
+        </a>
       </div>
 
       <HomeScrollContent />
-
-      <HomeDesktopScrollAffordance visible={showDesktopScrollAffordance} />
-
-      {/* Global animations */}
       <MysticAnimations />
-
-      {/* 捕获邀请码 */}
       <Suspense fallback={null}>
         <ReferralCapture />
       </Suspense>

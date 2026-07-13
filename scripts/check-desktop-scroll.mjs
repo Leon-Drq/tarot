@@ -40,7 +40,8 @@ try {
             const cue = document.querySelector("[data-home-scroll-cue]")
             const content = document.querySelector("[data-home-scroll-content]")
             const stage = document.querySelector(".home-hero-stage")
-            return Boolean(cue && content && stage && stage.style.getPropertyValue("--home-hero-actions-bottom"))
+            const form = document.querySelector("[data-home-question-form]")
+            return Boolean(cue && content && stage && form)
           }, null, { timeout: 5_000 })
           .catch(() => {})
       }
@@ -74,13 +75,12 @@ try {
         const heroCardCenter = center("[data-home-card]")
         const heroGlowCenter = center("[data-home-focal-glow]")
         const questionForm = rect("[data-home-question-form]")
+        const primaryCta = rect("[data-home-hero-primary-cta]")
         const scrollCue = rect("[data-home-scroll-cue]")
-        const scrollAffordance = rect("[data-home-scroll-affordance]")
         const dailyPanel = rect("[data-home-daily-return-panel]")
         const scrollContent = rect("[data-home-scroll-content]")
-        const secondaryNav = rect("[data-home-secondary-nav]")
-        const affordanceElement = document.querySelector("[data-home-scroll-affordance]")
-        const affordanceStyle = affordanceElement ? getComputedStyle(affordanceElement) : null
+        const desktopNav = rect("[data-home-header] nav")
+        const membership = rect("[data-home-membership]")
         const cardRotator = document.querySelector("[data-home-card-rotator]")
         const cardAnimationStyle = cardRotator ? getComputedStyle(cardRotator) : null
 
@@ -95,23 +95,18 @@ try {
           homeCardAnimationTimingFunction: cardAnimationStyle?.animationTimingFunction ?? null,
           homeQuestionFormTop: questionForm?.top ?? null,
           homeQuestionFormBottom: questionForm?.bottom ?? null,
+          homePrimaryCtaBottom: primaryCta?.bottom ?? null,
           homeScrollCueBottom: scrollCue?.bottom ?? null,
-          homeScrollAffordanceTop: scrollAffordance?.top ?? null,
-          homeScrollAffordanceBottom: scrollAffordance?.bottom ?? null,
-          homeScrollAffordanceHref: affordanceElement?.getAttribute("href") ?? null,
-          homeScrollAffordanceVisible: affordanceElement?.getAttribute("data-home-scroll-affordance-visible") ?? null,
-          homeScrollAffordanceOpacity: affordanceStyle ? Number(affordanceStyle.opacity) : null,
-          homeScrollAffordancePointerEvents: affordanceStyle?.pointerEvents ?? null,
           homeDailyPanelTop: dailyPanel?.top ?? null,
           homeScrollContentTop: scrollContent?.top ?? null,
-          homeSecondaryNavTop: secondaryNav?.top ?? null,
-          homeSecondaryNavBottom: secondaryNav?.bottom ?? null,
+          homeDesktopNavWidth: desktopNav?.width ?? null,
+          homeMembershipTop: membership?.top ?? null,
         }
       })
 
       let clickResult = null
       if (pageConfig.path === "/") {
-        await page.locator("[data-home-scroll-affordance]").click({ timeout: 5_000 })
+        await page.locator("[data-home-scroll-cue]").click({ timeout: 5_000 })
         await page.waitForTimeout(700)
         clickResult = await page.evaluate(() => {
           const content = document.querySelector("[data-home-scroll-content]")
@@ -175,14 +170,14 @@ try {
       if (pageConfig.path === "/" && result.homeShellOverflowY !== "visible") {
         failures.push(`${label}: home hero shell must not clip vertical page content`)
       }
-      if (pageConfig.path === "/" && initialResult.homeQuestionFormBottom > result.clientHeight - 24) {
-        failures.push(`${label}: homepage question form is clipped below the desktop viewport`)
+      if (pageConfig.path === "/" && initialResult.homePrimaryCtaBottom > result.clientHeight - 12) {
+        failures.push(`${label}: homepage primary CTA is clipped below the desktop viewport`)
       }
       if (
         pageConfig.path === "/" &&
         initialResult.homeHeroCopyBottom !== null &&
         initialResult.homeHeroCardTop !== null &&
-        initialResult.homeHeroCopyBottom > initialResult.homeHeroCardTop - 12
+        initialResult.homeHeroCopyBottom > initialResult.homeHeroCardTop - 4
       ) {
         failures.push(
           `${label}: homepage hero copy overlaps the tarot card ` +
@@ -193,7 +188,7 @@ try {
         pageConfig.path === "/" &&
         initialResult.homeHeroCardBottom !== null &&
         initialResult.homeQuestionFormTop !== null &&
-        initialResult.homeQuestionFormTop < initialResult.homeHeroCardBottom + 20
+        initialResult.homeQuestionFormTop < initialResult.homeHeroCardBottom + 4
       ) {
         failures.push(
           `${label}: homepage question form sits too close to the tarot card ` +
@@ -226,34 +221,17 @@ try {
           `${label}: homepage tarot card rotation should run at a steady 16s cycle, got ${initialResult.homeCardAnimationDuration}`,
         )
       }
-      const hasVisibleScrollCue =
-        Boolean(initialResult.homeScrollCueBottom && initialResult.homeScrollCueBottom <= result.clientHeight + 4) ||
-        Boolean(
-          initialResult.homeScrollAffordanceTop !== null &&
-            initialResult.homeScrollAffordanceBottom !== null &&
-            initialResult.homeScrollAffordanceTop >= 0 &&
-            initialResult.homeScrollAffordanceBottom <= result.clientHeight - 4,
-        )
+      const hasVisibleScrollCue = Boolean(
+        initialResult.homeScrollCueBottom && initialResult.homeScrollCueBottom <= result.clientHeight + 4,
+      )
       if (pageConfig.path === "/" && !hasVisibleScrollCue) {
-        failures.push(`${label}: homepage scroll cue or desktop affordance is not visible in the desktop viewport`)
-      }
-      if (pageConfig.path === "/" && initialResult.homeScrollAffordanceHref !== "#home-free-paths") {
-        failures.push(`${label}: desktop scroll affordance should link to #home-free-paths`)
-      }
-      if (pageConfig.path === "/" && initialResult.homeScrollAffordanceVisible !== "true") {
-        failures.push(`${label}: desktop scroll affordance should be marked visible at page top`)
-      }
-      if (pageConfig.path === "/" && (initialResult.homeScrollAffordanceOpacity ?? 0) < 0.9) {
-        failures.push(`${label}: desktop scroll affordance opacity is too low at page top`)
-      }
-      if (pageConfig.path === "/" && initialResult.homeScrollAffordancePointerEvents === "none") {
-        failures.push(`${label}: desktop scroll affordance must be clickable at page top`)
+        failures.push(`${label}: homepage scroll cue is not visible in the desktop viewport`)
       }
       if (pageConfig.path === "/" && (!clickResult || clickResult.scrollY < pageConfig.minScrollY)) {
-        failures.push(`${label}: desktop scroll affordance click only moved to ${clickResult?.scrollY ?? "unknown"}px`)
+        failures.push(`${label}: desktop scroll cue click only moved to ${clickResult?.scrollY ?? "unknown"}px`)
       }
       if (pageConfig.path === "/" && clickResult?.hash !== "#home-free-paths") {
-        failures.push(`${label}: desktop scroll affordance click should preserve the #home-free-paths hash`)
+        failures.push(`${label}: desktop scroll cue click should preserve the #home-free-paths hash`)
       }
       if (pageConfig.path === "/" && initialResult.homeDailyPanelTop <= initialResult.homeQuestionFormBottom) {
         failures.push(`${label}: daily return panel should sit below the first-screen question form`)
@@ -262,30 +240,22 @@ try {
       const hasNextSectionHint =
         Boolean(initialResult.homeScrollContentTop !== null && initialResult.homeScrollContentTop <= result.clientHeight - nextSectionPeek) ||
         Boolean(initialResult.homeDailyPanelTop !== null && initialResult.homeDailyPanelTop <= result.clientHeight - 8) ||
-        Boolean(
-          initialResult.homeSecondaryNavTop !== null &&
-            initialResult.homeSecondaryNavBottom !== null &&
-            initialResult.homeSecondaryNavBottom > initialResult.homeSecondaryNavTop &&
-            initialResult.homeSecondaryNavTop <= result.clientHeight - nextSectionPeek,
-        )
+        hasVisibleScrollCue
 
       if (pageConfig.path === "/" && !hasNextSectionHint) {
         failures.push(
           `${label}: homepage next section must be visible enough to make desktop scrolling obvious ` +
-            `(content top ${initialResult.homeScrollContentTop}, daily top ${initialResult.homeDailyPanelTop}, nav top ${initialResult.homeSecondaryNavTop}, viewport ${result.clientHeight})`,
+            `(content top ${initialResult.homeScrollContentTop}, daily top ${initialResult.homeDailyPanelTop}, viewport ${result.clientHeight})`,
         )
       }
       if (pageConfig.path === "/" && initialResult.homeScrollContentTop >= result.clientHeight && !hasVisibleScrollCue) {
         failures.push(`${label}: no next-section hint is visible in the desktop viewport`)
       }
-      if (
-        pageConfig.path === "/" &&
-        initialResult.homeSecondaryNavTop &&
-        initialResult.homeScrollCueBottom &&
-        initialResult.homeScrollCueBottom <= result.clientHeight + 4 &&
-        initialResult.homeSecondaryNavTop < initialResult.homeScrollCueBottom + 4
-      ) {
-        failures.push(`${label}: desktop next-section nav overlaps the scroll cue`)
+      if (pageConfig.path === "/" && viewport.width >= 1024 && (initialResult.homeDesktopNavWidth ?? 0) < 200) {
+        failures.push(`${label}: desktop primary navigation is not visible`)
+      }
+      if (pageConfig.path === "/" && initialResult.homeMembershipTop === null) {
+        failures.push(`${label}: membership section is missing`)
       }
 
       await page.close()

@@ -12,6 +12,7 @@ import { useLanguage } from "@/contexts/language-context"
 import { useAuth } from "@/contexts/auth-context"
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isSeoLocale } from "@/lib/locales"
+import { normalizeReaderStyle } from "@/lib/reader-style"
 
 type PageState = "input" | "shuffling" | "spread_choice" | "selecting" | "collecting"
 
@@ -113,6 +114,7 @@ function InputContent() {
   const autoStart = searchParams.get("auto") === "1"
   const requestedSpread = searchParams.get("spread")
   const requestedLocale = searchParams.get("lang") || ""
+  const readerStyle = normalizeReaderStyle(searchParams.get("reader_style"))
   const source = searchParams.get("source") || searchParams.get("utm_source") || ""
   const readingLocale = isSeoLocale(requestedLocale) ? requestedLocale : language
   const preferredSpreadType = isSpreadType(requestedSpread) ? requestedSpread : null
@@ -384,6 +386,7 @@ function InputContent() {
   }
 
   useEffect(() => {
+    mountedRef.current = true
     return () => {
       mountedRef.current = false
       flowIdRef.current += 1
@@ -507,6 +510,7 @@ function InputContent() {
         spreadConfig: spreadInfo?.config,
         deckType: spreadInfo?.deckType || "major",
         readingLocale,
+        readerStyle,
       }),
     )
     router.push("/reveal")
@@ -554,6 +558,7 @@ function InputContent() {
     const params = new URLSearchParams({
       source: "spread_choice",
       lang: readingLocale,
+      reader_style: readerStyle,
     })
     if (config.type) params.set("spread", config.type)
     const activeQuestion = (question || initialQuestion).trim()

@@ -1,6 +1,7 @@
 import { requireMemberAccess } from "@/lib/server/member-gate"
 import { createUserSupabase, getBearerToken, requireUser } from "@/lib/server/supabase"
 import { classifyQuestionIntent, getQuestionIntentPrompt } from "@/lib/question-intent"
+import { getReaderStylePrompt, normalizeReaderStyle } from "@/lib/reader-style"
 import { getSpreadConfig, isAdvancedSpreadType, isKnownSpreadType } from "@/lib/spread-config"
 
 const TAROT_MASTER_SYSTEM = `## Role
@@ -204,7 +205,7 @@ function compactGatewayTag(value: string | undefined | null, fallback: string) {
 }
 
 export async function POST(req: Request) {
-  const { question, cards, isFollowUp, followUpQuestion, previousMessages, lang, spread_type } = await req.json()
+  const { question, cards, isFollowUp, followUpQuestion, previousMessages, lang, spread_type, reader_style } = await req.json()
   const usesAdvancedSpread = isAdvancedSpreadType(spread_type) || (Array.isArray(cards) && cards.length > 3)
 
   if (isFollowUp) {
@@ -226,6 +227,8 @@ export async function POST(req: Request) {
   const answerLanguage = getAnswerLanguage(lang)
   const spreadInstruction = getSpreadPromptInstruction(spread_type, lang)
   const readingTaskPrompt = getReadingTaskPrompt(lang)
+  const readerStyle = normalizeReaderStyle(reader_style)
+  const readerStylePrompt = getReaderStylePrompt(readerStyle, lang)
   const cardCountInstruction = getCardCountInstruction(Array.isArray(cards) ? cards.length : 0, spread_type, lang)
   const questionIntent = classifyQuestionIntent(String(isFollowUp && followUpQuestion ? followUpQuestion : question || ""), spread_type)
   const intentPrompt = getQuestionIntentPrompt(questionIntent.type, lang)
@@ -234,6 +237,7 @@ export async function POST(req: Request) {
     "feature:reading",
     `locale:${compactGatewayTag(lang, "zh")}`,
     `spread:${compactGatewayTag(spread_type, "three_card")}`,
+    `reader:${readerStyle}`,
     `type:${questionIntent.type}`,
     isFollowUp ? "mode:followup" : "mode:initial",
   ]
@@ -320,7 +324,7 @@ ${intentPrompt}
     body: JSON.stringify({
       model: AI_GATEWAY_MODEL,
       input: [
-        { role: "developer", content: TAROT_MASTER_SYSTEM },
+        { role: "developer", content: `${TAROT_MASTER_SYSTEM}\n\n${readerStylePrompt}` },
         { role: "user", content: userPrompt },
       ],
       providerOptions: {
@@ -333,6 +337,7 @@ ${intentPrompt}
         feature: "reading",
         locale: compactGatewayTag(lang, "zh"),
         spread_type: compactGatewayTag(spread_type, "three_card"),
+        reader_style: readerStyle,
         question_type: questionIntent.type,
         mode: isFollowUp ? "followup" : "initial",
       },

@@ -613,7 +613,8 @@ export const readingApi = {
     followUpQuestion?: string,
     previousMessages?: string[],
     lang?: string,
-    spreadType?: string
+    spreadType?: string,
+    readerStyle?: string
   ): Promise<Response> => {
     const token = getAccessToken()
     const headers: HeadersInit = {
@@ -634,6 +635,7 @@ export const readingApi = {
         previousMessages,
         lang: lang || 'zh',
         spread_type: spreadType || 'three_card',
+        reader_style: readerStyle || 'gentle',
       }),
     })
   },

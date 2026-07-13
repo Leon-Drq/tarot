@@ -17,6 +17,7 @@ import { createShareTemplate, type ShareTemplatePlatform } from "@/lib/share-tem
 import { getCurrentAttribution } from "@/lib/client-analytics"
 import { isLocale, isSeoLocale, type Locale, type SeoLocale } from "@/lib/locales"
 import { classifyQuestionIntent, getQuestionIntentFollowUps } from "@/lib/question-intent"
+import { normalizeReaderStyle, type ReaderStyle } from "@/lib/reader-style"
 import type { SpreadType } from "@/lib/spread-config"
 import {
   cleanReadingMarkdownForUser,
@@ -51,6 +52,7 @@ export default function ReadingPage() {
   const [readingLocale, setReadingLocale] = useState(language)
   const [spreadType, setSpreadType] = useState("three_card")
   const [spreadConfig, setSpreadConfig] = useState<SpreadConfig | null>(null)
+  const [readerStyle, setReaderStyle] = useState<ReaderStyle>("gentle")
   const [messages, setMessages] = useState<Message[]>([])
   const [currentStreaming, setCurrentStreaming] = useState("")
   const [isReading, setIsReading] = useState(false)
@@ -720,9 +722,11 @@ export default function ReadingPage() {
     setDrawnCards(parsedCards)
     setQuestion(parsed.question || "")
     const parsedLocale = isSeoLocale(parsed.readingLocale || "") ? parsed.readingLocale : language
+    const parsedReaderStyle = normalizeReaderStyle(parsed.readerStyle)
     setReadingLocale(parsedLocale)
     setSpreadType(parsed.spreadType || "three_card")
     setSpreadConfig(parsed.spreadConfig || null)
+    setReaderStyle(parsedReaderStyle)
     setMounted(true)
 
     if (storedInterpretation) {
@@ -742,7 +746,16 @@ export default function ReadingPage() {
 
     if (!hasStartedRef.current) {
       hasStartedRef.current = true
-      startReading(parsedCards, parsed.question, false, "", parsed.spreadType || "three_card", parsedLocale, parsed.spreadConfig || null)
+      startReading(
+        parsedCards,
+        parsed.question,
+        false,
+        "",
+        parsed.spreadType || "three_card",
+        parsedLocale,
+        parsed.spreadConfig || null,
+        parsedReaderStyle,
+      )
     }
   }, [router])
 
@@ -811,6 +824,7 @@ export default function ReadingPage() {
     currentSpreadType = "three_card",
     currentReadingLocale = readingLocale,
     currentSpreadConfig: SpreadConfig | null = spreadConfig,
+    currentReaderStyle: ReaderStyle = readerStyle,
   ) => {
     if (isReading || cards.length === 0) return
 
@@ -850,7 +864,8 @@ export default function ReadingPage() {
         followUpQuestion,
         messages.map((m) => m.content),
         currentReadingLocale,
-        currentSpreadType || spreadType
+        currentSpreadType || spreadType,
+        currentReaderStyle,
       )
 
       if (!response.ok) {

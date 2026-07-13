@@ -1085,10 +1085,11 @@ assertIncludes(files.mobileCheck, "attempt < 3", "mobile check retries mobile me
 assertIncludes(files.packageJson, "\"check:desktop-scroll\": \"node scripts/check-desktop-scroll.mjs\"", "desktop scroll package script")
 assertIncludes(files.desktopScrollCheck, "page.mouse.wheel", "desktop scroll mouse wheel assertion")
 assertIncludes(files.desktopScrollCheck, "htmlOverscrollY", "desktop scroll overscroll guard")
-assertIncludes(files.desktopScrollCheck, "page.locator(\"[data-home-scroll-affordance]\").click", "desktop scroll affordance click assertion")
-assertIncludes(files.desktopScrollCheck, "clickResult.scrollY < pageConfig.minScrollY", "desktop scroll affordance click must move page")
-assertIncludes(files.desktopScrollCheck, "homeHeroCopyBottom > initialResult.homeHeroCardTop - 12", "desktop homepage copy-card overlap guard")
-assertIncludes(files.desktopScrollCheck, "homeQuestionFormTop < initialResult.homeHeroCardBottom + 20", "desktop homepage card-form spacing guard")
+assertIncludes(files.desktopScrollCheck, "page.locator(\"[data-home-scroll-cue]\").click", "desktop scroll cue click assertion")
+assertIncludes(files.desktopScrollCheck, "clickResult.scrollY < pageConfig.minScrollY", "desktop scroll cue click must move page")
+assertIncludes(files.desktopScrollCheck, "homeHeroCopyBottom > initialResult.homeHeroCardTop - 4", "desktop homepage copy-card overlap guard")
+assertIncludes(files.desktopScrollCheck, "homeQuestionFormTop < initialResult.homeHeroCardBottom + 4", "desktop homepage card-form spacing guard")
+assertIncludes(files.desktopScrollCheck, "homeDesktopNavWidth", "desktop homepage primary navigation guard")
 assertIncludes(files.desktopScrollCheck, "homeHeroCardCenter", "desktop homepage card/glow center guard")
 assertIncludes(files.desktopScrollCheck, "homeCardAnimationTimingFunction !== \"linear\"", "desktop homepage linear card rotation guard")
 assertIncludes(files.desktopScrollCheck, "homeCardAnimationDuration !== \"16s\"", "desktop homepage card rotation duration guard")
@@ -1285,53 +1286,39 @@ assertNotIncludes(files.globalStyles, "overscroll-behavior: none", "global verti
 assertNotIncludes(files.globalStyles, "body:has(.allow-scroll)::-webkit-scrollbar", "desktop scrollbar is not hidden on scroll-enabled pages")
 assertIncludes(files.globalStyles, "scrollbar-color: rgba(201, 192, 255, 0.58) #080310", "desktop native scrollbar affordance stays visible")
 assertIncludes(files.globalStyles, "html::-webkit-scrollbar", "desktop webkit scrollbar affordance")
-assertIncludes(files.globalStyles, "--home-hero-browser-offset: min(var(--home-mobile-browser-offset, 0px), 7rem)", "homepage browser chrome offset variable")
-assertIncludes(files.globalStyles, "--home-hero-visual-browser-offset: min(var(--home-mobile-browser-offset, 0px), 4.5rem)", "homepage visual browser chrome offset cap")
-assertIncludes(files.globalStyles, "--home-hero-focal-y: calc(var(--home-hero-visual-browser-offset) + clamp(20.5rem, 48svh, 23.25rem))", "homepage mobile focal centering with visual browser chrome offset")
+assertIncludes(files.globalStyles, "top: calc(env(safe-area-inset-top) + var(--home-mobile-browser-offset, 0px))", "homepage header respects embedded browser chrome")
+assertIncludes(files.globalStyles, "padding-top: calc(env(safe-area-inset-top) + var(--home-mobile-browser-offset, 0px) + 5.75rem)", "homepage mobile hero respects browser chrome")
 assertIncludes(files.globalStyles, "--home-hero-card-height: calc(var(--home-hero-card-width) * 1.7142857)", "homepage card size variable")
-assertIncludes(files.globalStyles, "--home-hero-card-half-y: calc(var(--home-hero-card-height) / 2)", "homepage card half-height variable")
-assertIncludes(files.globalStyles, "--home-hero-shell-min-height", "homepage hero shell dynamic height reserve")
-assertIncludes(files.globalStyles, "--home-hero-browser-bottom-offset: min(var(--home-mobile-browser-bottom-offset, 0px), 10rem)", "homepage browser bottom chrome offset variable")
-assertIncludes(files.globalStyles, "--home-hero-actions-fallback-height: 38rem", "homepage mobile action fallback prevents overlap before measurement")
-assertIncludes(files.globalStyles, "--home-hero-after-actions-gap", "homepage measured action bottom spacing")
-assertIncludes(files.globalStyles, "--home-hero-actions-bottom", "homepage measured action bottom variable")
-assertIncludes(files.globalStyles, "calc(var(--home-hero-actions-bottom) + var(--home-hero-after-actions-gap))", "homepage shell follows measured hero action bottom")
-assertIncludes(files.globalStyles, "max(\n        118svh,", "homepage mobile shell keeps following content below hero actions")
-assertIncludes(files.globalStyles, "calc(var(--home-hero-content-y) + var(--home-hero-actions-fallback-height))", "homepage hero action fallback reserve")
-assertIncludes(files.homeExperience, "data-home-hero-actions", "homepage hero actions measurement hook")
+assertIncludes(files.globalStyles, "min-height: max(45rem, calc(100svh - 1.5rem))", "homepage mobile hero keeps the primary flow stable")
+assertIncludes(files.homeExperience, "data-home-hero-actions", "homepage hero actions layout hook")
 assertIncludes(files.homeExperience, "data-home-pwa-install", "homepage PWA install return action")
 assertIncludes(files.homeExperience, "beforeinstallprompt", "homepage PWA install prompt listener")
 assertIncludes(files.homeExperience, "installFallback", "homepage PWA install fallback copy")
-assertIncludes(files.homeExperience, "heroActionsRef", "homepage hero actions ref for mobile overlap measurement")
-assertIncludes(files.homeExperience, "ResizeObserver", "homepage hero action resize observer")
-assertIncludes(files.homeExperience, "stage.style.setProperty(\"--home-hero-actions-bottom\"", "homepage measured action bottom setter")
 assertIncludes(files.homeExperience, "--home-mobile-browser-offset", "homepage visual viewport browser chrome offset")
 assertIncludes(files.homeExperience, "--home-mobile-browser-bottom-offset", "homepage visual viewport browser bottom chrome offset")
 assertIncludes(files.homeExperience, "layoutHeight - topOffset - viewportHeight", "homepage browser bottom offset calculation")
-assertIncludes(files.homeExperience, "data-home-hero-shell", "homepage hero shell measurement hook")
+assertIncludes(files.homeExperience, "data-home-hero-shell", "homepage hero shell layout hook")
 assertIncludes(files.homeExperience, "home-hero-shell", "homepage hero shell class")
 assertIncludes(files.globalStyles, "overflow-x: clip", "homepage stage clips horizontal overflow without nested vertical scroll")
 assertIncludes(files.globalStyles, "overflow-y: visible", "homepage stage leaves document vertical scrolling native")
 assertIncludes(files.globalStyles, "touch-action: pan-y", "homepage stage explicitly allows vertical gesture scrolling")
-assertIncludes(
-  files.globalStyles,
-  ".home-hero-shell {\n    min-height: var(--home-hero-shell-min-height);\n    overflow-x: clip;\n    overflow-y: visible;\n    touch-action: pan-y;\n  }",
-  "homepage hero shell clips horizontal visuals without clipping vertical page content",
-)
 assertIncludes(files.homeExperience, "overflow-x-auto", "homepage mobile quick-start avoids wrapping into hero controls")
 assertIncludes(files.homeExperience, "bg-[#0b0314]", "homepage solid mobile panels prevent text bleed-through")
 assertIncludes(files.homeExperience, "data-home-daily-return-panel", "homepage daily return panel measurement hook")
-assertIncludes(files.homeExperience, "data-home-secondary-nav", "homepage secondary nav measurement hook")
 assertIncludes(files.homeExperience, "data-home-scroll-cue", "homepage desktop scroll affordance hook")
-assertIncludes(files.homeExperience, "data-home-scroll-affordance-visible", "homepage desktop scroll affordance visible state hook")
 assertIncludes(files.homeExperience, "scrollIntoView({ behavior: \"smooth\", block: \"start\" })", "homepage desktop scroll affordance click fallback")
 assertIncludes(files.homeExperience, "data-home-scroll-content", "homepage scroll content measurement hook")
+assertIncludes(files.homeExperience, "data-home-result-preview", "homepage reading result preview")
+assertIncludes(files.homeExperience, "data-home-membership", "homepage membership boundary")
+assertIncludes(files.homeExperience, "reader_style", "homepage reading style attribution")
+assertIncludes(files.homeExperience, "href=\"/membership\"", "homepage crawlable membership link")
+assertIncludes(files.homeExperience, "\"/love-tarot-reading\"", "homepage crawlable love tarot navigation")
+assertIncludes(files.homeExperience, "<h1", "homepage keyword-focused H1")
 assertIncludes(files.homeExperience, "data-home-focal-glow", "homepage focal glow hook")
 assertIncludes(files.homeExperience, "data-home-card-anchor", "homepage card anchor hook")
 assertIncludes(files.homeExperience, "style={{ transform: \"translate3d(-50%, -50%, 0)\" }}", "homepage card and glow center transform")
 assertIncludes(files.homeExperience, "rotationDuration={16}", "homepage card uses slower continuous rotation")
 assertIncludes(files.globalStyles, "transform: rotateZ(var(--tarot-card-tilt, -15deg)) rotateY(-360deg)", "homepage continuous tarot card rotation keyframe")
-assertIncludes(files.globalStyles, "--home-hero-flow-gap: clamp(3.25rem, 6vh, 4.25rem)", "homepage desktop card-form breathing room")
 assertIncludes(files.tarotQuestions, "TarotQuestionSearchResults", "tarot questions public search results import")
 assertIncludes(files.tarotQuestions, "searchEntries(copy)", "tarot questions public search result entries")
 assertIncludes(files.tarotQuestions, "quickStartGroups", "tarot questions grouped quick-start high-intent lists")
@@ -1741,7 +1728,6 @@ const structuredDataCoverage = [
   [files.homePage, "#free-tarot-paths", "homepage free path ItemList"],
   [files.homePage, "#high-intent-tarot-questions", "homepage high-intent question ItemList"],
   [files.homePage, "#trust-paths", "homepage trust path ItemList"],
-  [files.homePage, "#representative-feedback", "homepage representative feedback ItemList"],
   [files.dailyTarotPage, "\"@type\": \"SoftwareApplication\"", "daily tarot SoftwareApplication schema"],
   [files.dailyTarotPage, "\"@type\": \"HowTo\"", "daily tarot HowTo schema"],
   [files.dailyTarotPage, "\"@type\": \"FAQPage\"", "daily tarot FAQ schema"],
@@ -2428,7 +2414,7 @@ const freeFirstReadingCoverage = [
   [files.readingPage, "activeReadingLocale", "reading result SEO locale UI state"],
   [files.readingPage, "shareTemplateLocale", "regional share template safe fallback"],
   [files.readingPage, "data-reading-return-path", "free reading daily return path"],
-  [files.homeExperience, "AI Love Tarot + Daily Clarity", "homepage narrowed AI love tarot positioning"],
+  [files.homeExperience, "Free AI tarot reading", "homepage free AI tarot positioning"],
   [files.homeExperience, "data-home-hero-primary-cta", "homepage primary answer CTA selector"],
   [files.readingPage, "data-reading-core-answer", "reading result core answer first panel"],
   [files.readingPage, "data-reading-core-answer-share", "reading result core answer share CTA"],
